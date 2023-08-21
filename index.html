@@ -46,7 +46,9 @@
         li {
             list-style-type: none;
         }
-
+        main>section {
+            flex-grow: 1;
+        }
         section {
             display: flex;
             flex-direction: column;
@@ -58,6 +60,11 @@
             padding: 2rem;
             background: tan;
             color: white;
+        }
+        @media screen and (min-width: 1200px) {
+            main {
+                display: flex;flex-direction: row;flex-basis: auto;
+            }
         }
     </style>
 </head>
@@ -91,6 +98,8 @@
             <li><a href="https://www.paypal.com/paypalme/sasban9">Paypal.me</a></li>
         </ul>
     </section>
+    <main>
+
     <section style="background: lightskyblue;">
         <!-- <h1><a href="https://resume.sasban.online">My Resume</a></h1> -->
         <h1><a href="https://github.com/sasban9">sasban9@github</a></h1>
@@ -116,9 +125,10 @@
             <li><a href="https://blog.sasban.online/2023/08">2023 AUG</a></li>
         </ul>
     </section>
-    <footer>
-        I post videos on <a href="https://github.com/sasban9"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png" height="30" alt=""></a> and code on <a href="https://www.youtube.com/@sasban"><img src="https://www.seekpng.com/png/full/77-772362_youtube-logo-youtube-logo-png.png" height="30" alt=""></a><br>sasban9 &copy; 1984 — 2023 <br><br>
-        <a href="/terms">terms</a>  &middot; <a href="/privacy">privacy</a>
+    </main>
+    <footer style="font-size: 0.8rem;">
+        I post videos on <a href="https://github.com/sasban9"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png" height="30" alt=""></a> and code on <a href="https://www.youtube.com/@sasban"><img src="https://www.seekpng.com/png/full/77-772362_youtube-logo-youtube-logo-png.png" height="30" alt=""></a><br>&copy; 1984 — 2023 <br><br>
+        <p style="font-size: 0.5rem;"> <a style="font-size: 0.5rem;" href="/terms">terms</a>  &middot; <a style="font-size: 0.5rem;" href="/privacy">privacy</a></p>
     </footer>
 </body>
 
