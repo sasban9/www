@@ -1,0 +1,333 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Tax Invoice</title>
+    <style>
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+            font-size: 13px;
+            line-height: 25px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+        }
+
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+        }
+
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+            padding-bottom: 5px;
+        }
+
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
+
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box h1 {
+            font-size: 30px;
+            color: #b7b7b7;
+            font-weight: normal;
+            margin-bottom: 0px;
+            margin-top: 10px;
+        }
+
+        .invoice-box p.images {
+            text-align: left;
+            margin-top: 0px;
+        }
+
+        .invoice-box p.infoleft {
+            font-size: 18px;
+            text-align: left;
+            margin-bottom: 0px;
+        }
+
+        .invoice-box p.inforight {
+            font-size: 18px;
+            text-align: right;
+            margin-bottom: 0px;
+        }
+
+        .invoice-box p.innum {
+            font-size: 10px;
+            text-align: right;
+            color: #b7b7b7;
+            line-height: 18px;
+        }
+
+        .invoice-box p.innumright {
+            font-size: 10px;
+            text-align: right;
+            color: #b7b7b7;
+            margin-top: 0px;
+            line-height: 18px;
+        }
+
+        .invoice-box p.innumleft {
+            font-size: 10px;
+            text-align: left;
+            color: #b7b7b7;
+            margin-top: 0px;
+            line-height: 18px;
+        }
+
+        .invoice-box p.thanks {
+            font-size: 14px;
+            text-align: center;
+            color: #b7b7b7;
+            margin: 5px 5px 5px 5px;
+
+            line-height: normal;
+        }
+
+        .invoice-box table tr.information table td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.heading td {
+            background: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .invoice-box table tr.heading p {
+            font-size: 10px;
+            line-height: 11px;
+        }
+
+        .invoice-box table tr.details td {
+            padding-bottom: 10px;
+        }
+
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+
+        .bb {
+            border-bottom: 1px solid #ddd;
+        }
+
+
+
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+
+            .invoice-box table tr.information table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+
+            .invoice-box p.images {
+                text-align: center;
+                margin-top: 0px;
+            }
+
+            .invoice-box p.infoleft {
+                font-size: 15px;
+                text-align: center;
+            }
+
+            .invoice-box p.inforight {
+                font-size: 15px;
+                text-align: center;
+            }
+
+            .invoice-box p.innum {
+                font-size: 10px;
+                text-align: center;
+                color: #b7b7b7;
+            }
+
+            .invoice-box p.innumright {
+                font-size: 10px;
+                text-align: center;
+                color: #b7b7b7;
+                margin-top: 0px;
+            }
+
+            .invoice-box p.innumleft {
+                font-size: 10px;
+                text-align: center;
+                color: #b7b7b7;
+                margin-top: 0px;
+            }
+        }
+
+        .invoice-box table td.sig-container {
+            padding-top: 50px;
+            padding-bottom: 50px;
+            position: relative;
+        }
+
+        .sig-image {
+            width: 186px;
+            height: 83px;
+            position: absolute;
+            top: 0px;
+            right: 40px;
+        }
+
+        .sig {
+            font-size: 12px;
+            color: #b7b7b7;
+            border-top: thin solid grey;
+            padding: 5px 80px 30px 80px;
+            margin: 100px 20px 100px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+
+                <td colspan="8">
+                    <table>
+                        <tr>
+                            <td class="bb">
+                                <p class="images">
+                                    <img class="logo"
+                                        src="https://s3-eu-west-1.amazonaws.com/img.assure.taxamo.com/18151/invoicing_logo.png"
+                                        style="max-height: 120px; width: auto; max-width: 100%" />
+                                </p>
+                            </td>
+                            <td class="bb">
+                                <p class="innum">
+                                    <strong>ORIGINAL FOR RECIPIENT</strong>
+                                </p>
+                                <H1>TAX INVOICE</H1>
+                                <p class="innum">
+                                    <strong>Invoice #:</strong> IN2023-2629068<br />
+                                    <strong>Invoice date:</strong> 07/09/2023<br />
+                                </p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td width="50%">
+                                <p class="infoleft"><strong>Supplier details:</strong></p>
+                                <p class="innumleft">
+                                    Udemy India LLP<br />
+                                    10th Floor, ResCowork 07, Tower B,<br />
+                                    Unitech Cyber Park, Sector 39,<br />
+                                    Gurgaon, Haryana, India, 122003<br />
+                                    GSTIN: 06AAFFU9763M1ZE<br />
+                                    PAN no. AAFFU9763M
+                                </p>
+                            </td>
+
+                            <td width="50%">
+                                <p class="inforight"><strong>Recipient details:</strong></p>
+                                <p class="innumright">
+                                    Er. Saswata Banerjee<br />
+                                    azure.saswata@gmail.com<br />
+                                    Karnataka, 29, KA, India<br />
+                                    <br />
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="heading">
+                <td style="max-width: 180px">Description</td>
+                <td style="text-align:right">HSN Code</td>
+                <td style="text-align:right">Quantity</td>
+                <td style="text-align:right">Taxable Value</td>
+                <td style="text-align:right">
+                    CGST
+                    (0%)
+                </td>
+                <td style="text-align:right">
+                    SGST/UGST
+                    (0%)
+                </td>
+                <td style="text-align:right">
+                    IGST
+                    (18%)
+                </td>
+                <td style="text-align:right">Total Amount</td>
+            </tr>
+            <tr class="item">
+                <td style="max-width: 180px">Personal Plan</td>
+                <td style="text-align:right">9984 33</td>
+                <td style="text-align:right">1.0</td>
+                <td style="text-align:right">702.54</td>
+                <td style="text-align:right">
+                </td>
+                <td style="text-align:right">
+                </td>
+                <td style="text-align:right">
+                    126.46
+                </td>
+                <td style="text-align:right">
+                    829.00
+                </td>
+            </tr>
+
+            <tr class="heading">
+                <td style="max-width: 180px">Total</td>
+                <td style="text-align:right"></td>
+                <td style="text-align:right">
+                <td style="text-align:right">
+                    702.54
+                </td>
+                <td style="text-align:right">
+                </td>
+                <td style="text-align:right">
+                </td>
+                <td style="text-align:right">
+                    126.46
+                </td>
+                <td style="text-align:right">
+                    INR
+                    829.00</td>
+            </tr>
+
+
+            <tr>
+                <td colspan="8" align="right" class="sig-container">
+                    <p style="text-align:left">
+                        <em>This is a system generated invoice and does not require a signature or a digital
+                            signature</em>
+                    </p>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</body>
+
+</html>
