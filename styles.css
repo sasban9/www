@@ -23,3 +23,5 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-button {
     display:none;
 }
+
+td { padding: 1rem }
