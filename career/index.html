@@ -9,12 +9,23 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
         <link rel="stylesheet" href="../styles.css">
     <style>
+        tr {
+            border-bottom: solid 1px;
+        }
         tr td:first-child {
             background: #ccc8;
             font-style: italic;
         }
         tr td:nth-of-type(3) {
             background: #eff8;
+        }
+        .btn {
+            margin-bottom:8px;
+        }
+        #mobile-view{display: none;}
+        @media screen and (max-width:800px) {
+            #mobile-view {display: block;}
+            #desktop-view {display: none;}
         }
     </style>
 </head>
@@ -26,7 +37,71 @@
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <h2 class="mt-4 text-center text-white">@sasban CODEOGRAPHY</h2>
-                <table class="table" style="background: #fffc;">
+                <table class="table" id="mobile-view" style="background: #fffc;">
+                    <tr>
+                        <td>THIS</td>
+                        <td>
+                        <a href="/career/2023-pixfirst.html" class="btn btn-sm btn-primary">PIXFIRST &raquo;</a> &middot; <a href="/career/2023-pixfirst.html" class="btn btn-sm btn-info">PIXLABS &raquo;</a><br>
+                        
+                            <a href="https://www.udemy.com/user/saswata-banerjee-3/">UDEMY INSTRUCTOR</a> | 
+                            <a href="/odin-projects.html">The ODIN Projects - 2023</a> |
+                            <a href="https://photos.app.goo.gl/3SDXJZXtpuspF2Mu7">100xDevs BLR Meetup</a><br>
+                        <br>
+                        AWS Certified Cloud Practitioner</td>
+                    </tr>
+                    <tr>
+                        <td>2022</td>
+                        <td>
+                            STYCHED <a href="#" class="btn btn-sm btn-primary">ERM</a> &middot; <a href="#" class="btn btn-sm btn-outline-dark">SHOPIFY</a> &middot; <a href="#" class="btn btn-sm btn-outline-dark">MOBILE APP</a><br>
+                            📍 <a href="#" class="btn btn-sm btn-warning">DEVJAM JAKARTA</a><br><a href="https://photos.app.goo.gl/wDTFTznUWfnFWnUA9">IIT KGP GOA MEETUP</a><br>
+                            AWS Certified Solutions Architect - Professional
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2021</td>
+                        <td>STYCHED <a href="#" class="btn btn-sm btn-outline-dark">SHOPIFY</a> &middot; <a href="#" class="btn btn-sm btn-outline-dark">ERM</a> <br>
+                        STYCHED HACKATHON /BENGALURU <br>
+                        GCP Professional Cloud Architect</td>
+                    </tr>
+                    <tr>
+                        <td>2020</td>
+                        <td><a href="/career/2020-styched.html" class="btn btn-sm btn-outline-dark">STYCHED ERM &raquo;</a><br> 📍 DUBAI CODERS MEET</td>
+                    </tr>
+                    <tr>
+                        <td>2019</td>
+                        <td><a href="#" class="btn btn-sm btn-outline-dark">STYCHED ERM</a> <a href="/career/2019-yapnaa.html" class="btn btn-sm btn-outline-dark">YAPNAA</a> <br>
+                        📍 <a href="#" class="btn btn-sm btn-info">DEVJAM KIEV</a> <br>
+                        AWS Certified Developer - Associate</td>
+                    </tr>
+                    <tr>
+                        <td>2018</td>
+                        <td><a href="/career/2018-yapnaa.html" class="btn btn-sm btn-warning">YAPNAA &raquo;</a> <br>
+                        IOT ON BLOCKCHAIN WHITEPAPER 📝 <br>
+                        GCP Professional Cloud Developer</td>
+                    </tr>
+                    <tr>
+                        <td>2017</td>
+                        <td><a href="https://blog.pixfirst.com/" class="btn btn-sm btn-info">PIXDOCS &raquo;</a> - XELPMOC - TALASECURE <br>📍 TECHMEET RIO DE JANEIRO</td>
+                    </tr>
+                    <tr>
+                        <td>2016</td>
+                        <td><a href="https://jdomni.com" class="btn btn-sm btn-primary">JUSTDIAL OMNI</a> - <a href="#">DIGITAL HORIZONS</a> <br>📍 DEVJAM AMSTERDAM<br>TECHMEET MUMBAI</td>
+                    </tr>
+                    <tr>
+                        <td>2015</td>
+                        <td><a href="#">DIGITAL HORIZONS</a><br><a href="#">MOBILE WORLD CONGRESS / BARCELONA</a></td>
+                    </tr>
+                    <tr>
+                        <td>2014</td>
+                        <td><a href="#">DIGITAL HORIZONS</a></td>
+                    </tr>
+                    <tr style="background: #fff8dc88;">
+                        <td>2012<br> - 2014</td>
+                        <td>MS INFORMATION SYSTEMS <br/><a href="https://www.ua.pt">UNIVERSITY OF AVEIRO, PT 🇵🇹</a><br>📍 DEV MEETUP LISBON<br>MS THESIS 📝</td>
+                    </tr>
+                </table>
+
+                <table class="table" id="desktop-view" style="background: #fffc;">
                     <tr>
                         <th>YEAR</th>
                         <th>PROJECTS /<br> COMPANY</th>
