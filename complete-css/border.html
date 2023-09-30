@@ -7,8 +7,17 @@
     <title>Border CSS</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        body>div {
-            margin: 2rem 0;
+        table {
+            width: 100%;
+        }
+
+        td>div {
+            /* margin: 2rem 0; */
+            background-color: lightgoldenrodyellow;
+        }
+
+        td>div {
+            padding: 2rem;
         }
 
         #border {
@@ -28,19 +37,67 @@
         }
 
         #border-left {
-            border-left: dashed 5px
+            border-left: dashed 5px pink
         }
     </style>
 </head>
 
 <body>
-    <div id="border"><a href="#border">border</a> <br> Specifies a border for an element</div>
-    <div id="border-top"><a href="#border-top">border-top</a> <br> Specifies a top border for an element <br>
-        <div style="display: flex;justify-content: space-between;"><a href="#border-top-width">border-top-width</a> <a href="#border-top-style">border-top-style</a> <a href="#border-top-color">border-top-color</a></div> </div>
-    <div id="border-right"><a href="#border-right">border-right</a> <br> Specifies a right border for an element</div>
-    <div id="border-bottom"><a href="#border-bottom">border-bottom</a> <br> Specifies a bottom border for an element
-    </div>
-    <div id="border-left"><a href="#border-left">border-left</a> <br> Specifies a left border for an element</div>
+    <table>
+        <tr>
+            <td></td>
+            <td>
+                <div id="border-bottom"><a href="#border-bottom">border-bottom</a> <br> Specifies a bottom border for an
+                    element
+                    <div style="display: flex;justify-content: space-between;width: 100%;"><a
+                            href="#border-bottom-width">border-bottom-width</a> <a
+                            href="#border-bottom-style">border-bottom-style</a> <a
+                            href="#border-bottom-color">border-bottom-color</a></div>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <div id="border-right"><a href="#border-right">border-right</a> <br> Specifies a right border for an
+                    element
+                    <div style="display: flex;justify-content: space-between;width: 100%;"><a
+                            href="#border-right-width">border-right-width</a> <a
+                            href="#border-right-style">border-right-style</a> <a
+                            href="#border-right-color">border-right-color</a></div>
+                </div>
+
+            </td>
+            <td>
+                <div id="border"><a href="#border">border</a> <br> Specifies a border for an element</div>
+
+            </td>
+            <td>
+                <div id="border-left"><a href="#border-left">border-left</a> <br> Specifies a left border for an element
+                    <div style="display: flex;justify-content: space-between;width: 100%;"><a
+                            href="#border-left-width">border-left-width</a> <a
+                            href="#border-left-style">border-left-style</a> <a
+                            href="#border-left-color">border-left-color</a></div>
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div id="border-top"><a href="#border-top">border-top</a> <br> Specifies a top border for an element
+                    <br>
+                    <div style="display: flex;justify-content: space-between;width: 100%;"><a
+                            href="#border-top-width">border-top-width</a> <a
+                            href="#border-top-style">border-top-style</a> <a
+                            href="#border-top-color">border-top-color</a></div>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+
+
 </body>
 
 </html>
