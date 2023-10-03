@@ -1,5 +1,8 @@
 /* Customize website's scrollbar like Mac OS
 Not supports in Firefox and IE */
+html {
+    /* overflow-x: hidden; */
+}
 
 /* total width */
 body::-webkit-scrollbar {
@@ -25,3 +28,7 @@ body::-webkit-scrollbar-button {
 }
 
 td { padding: 1rem }
+
+body {
+    filter: sepia(0.25);
+}
