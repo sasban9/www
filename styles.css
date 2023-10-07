@@ -29,6 +29,6 @@ body::-webkit-scrollbar-button {
 
 td { padding: 1rem }
 
-img {
+img.default {
     filter: sepia(0.85);
 }
