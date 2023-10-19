@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>img</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        *{margin: 0;padding: 0;box-sizing: border-box;}
+        img{height: 18vh;cursor: pointer;display: inline-block;}
+    </style>
+</head>
+<body>
+    <img src="29---HOW-MUCH-UDEMY-INSTRUCTORS-MAKE.png" alt="">
+    <!-- <img src="beach+bitch.jpg" alt=""> -->
+    <img src="career_stages.jpg" alt="">
+    <img src="mohawk.jpg" alt="">
+    <img src="salary-growth.jpg" alt="">
+    <img src="sasban.jpg" alt="">
+    <img src="udemy-07oct.jpg" alt="">
+    <img src="udemy-14oct.jpg" alt="">
+    <img src="udemy-30sep.jpg" alt="">
+    <img src="yt2023.png" alt="">
+    <script>
+        $(function(){
+            $('img').on('click', function(){
+                $('img').css({'height':'220px','box-shadow':'none'})
+                $(this).css({'height':'80vh','box-shadow':'0 0 10px black','border-bottom':'4px solid red'})
+            })
+        })
+    </script>
+</body>
+</html>
