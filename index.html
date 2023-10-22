@@ -19,6 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="styles.css">
     <style>
         * {
@@ -81,8 +82,14 @@
             height: 360px;
         }
 
+        div.socials {
+            height: 40px; width: 40px; display: inline-block;
+            background: url('/img/social-icons.jpg');
+            background-size: 400%;
+        }
+
         footer {
-            padding: 2rem;
+            padding: 2rem 0;
             background: tan;
             color: white;
         }
@@ -104,7 +111,7 @@
         @media screen and (max-width: 600px) {
             img {
                 max-width: min(90vw, 100%);
-                height: auto;
+                /* height: auto; */
             }
             div.iframe {
                 display: none;
@@ -285,11 +292,17 @@
             
             So, let's start learning today!</p>
     </div>
-    <footer style="color:#000;background: #fff; display: none;">
-        <!-- <img class="default" src="yt2023.png" alt="" style="max-height: 400px;"> -->
-        <p style="font-family: monospace;"><a href="https://www.youtube.com/@sasban">Please consider subscribing <img
-                    src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c545.png" style="height: 30px;"
-                    alt=""></a></p>
+    <footer style="color:#000;background: #333;display: flex;justify-content: space-evenly;">
+        <!-- <img class="default" src="img/yt2023.png" alt="" style="max-height: 400px;"> -->
+        <!-- <p style="font-family: monospace;"><a href="https://www.youtube.com/@sasban">Please consider subscribing <img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c545.png" style="height: 30px;" alt=""></a>
+        </p> -->
+        <a href="https://github.com/sasban9"><i class="fa-brands fa-github"></i></a>  
+        <a href="https://www.youtube.com/@sasban"><i class="fa-brands fa-youtube"></i></a>  
+        <a href="https://www.linkedin.com/in/saswata-banerjee-98322984/"><i class="fa-brands fa-linkedin"></i></a>  
+        <a href="https://wa.me/917019492748"><i class="fa-brands fa-whatsapp"></i> </a>  
+        <a href="https://www.facebook.com/saswata.banerjee"><i class="fa-brands fa-facebook"></i></a>  
+        <a href="https://x.com/sasban9"><i class="fa-brands fa-x-twitter"></i></a>  
+        <a href="https://instagram.com/sas_ban"><i class="fa-brands fa-instagram"></i></a> 
     </footer>
     <footer style="font-size: 0.8rem;">
         <h3>I post videos on <a href="https://github.com/sasban9"><img
