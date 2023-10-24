@@ -25,7 +25,7 @@
             padding: 0;
             box-sizing: border-box;
             font-size: 1.2rem;
-            text-align: center;
+            /* text-align: center; */
         }
 
         li {
@@ -68,17 +68,22 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 90vh;
+            min-height: 90vh; 
         }
         #fam-pics img{
             height: 360px;
         }
 
-        footer {
+        header,footer {
             padding: 2rem;
             background: tan;
-            color: white;
+            color: white;text-align: center;
         }
+        .row>.col-lg-3:nth-child(8n+2),
+        .row>.col-lg-3:nth-child(8n+4),
+        .row>.col-lg-3:nth-child(8n+5),
+        .row>.col-lg-3:nth-child(8n+7)
+        {background: cornsilk;}
 
         @media screen and (min-width: 1200px) {
             main {
@@ -107,11 +112,70 @@
 </head>
 
 <body>
-    <h5 style="font-size: calc(12px + 1vw);padding: 1.5rem;background: #eee;"><a href='/' title="'Coffee!"><img src="../sasban.jpg" alt=""
+    <header>
+    <h5 style="font-size: calc(12px + 1vw);"><a href='/' title="'Coffee!"><img src="../sasban.jpg" alt=""
         style="height:100px"></a> Reach 1M+ students: <a href="https://www.udemy.com/user/joseportilla/">JOSE(3M+) </a> | <a href="https://www.udemy.com/user/maximilian-schwarzmuller/">Maximilian (2M+)</a> | <a href="https://www.udemy.com/user/4b4368a3-b5c8-4529-aa65-2056ec31f37e/">Dr. Angela (2M+) </a> | <a href="https://www.udemy.com/user/jonasschmedtmann/">Jonas S</a> | <a href="https://www.udemy.com/user/coltsteele/">Colt S</a> | <a href="https://www.udemy.com/user/andrei-neagoie/">Andrei N</a></h5>
-
+    </header>
    
     <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="row" style="text-align: left;">
+                    <div class="col-2">
+                      <div id="list-example" class="list-group">
+                        <a class="list-group-item list-group-item-action" href="#list-item-1">CSS Animations</a>
+                        <a class="list-group-item list-group-item-action" href="#list-item-2">CSS Flexbox</a>
+                        <a class="list-group-item list-group-item-action" href="#list-item-3">PROJECT: Company Website</a>
+                        <a class="list-group-item list-group-item-action" href="#list-item-4">Async JS</a>
+                        <a class="list-group-item list-group-item-action" href="#list-item-5">AJAX w/fetch, xhr, axios</a>
+                        <a class="list-group-item list-group-item-action" href="#list-item-6">Testing with Jasmine</a>
+                        <a class="list-group-item list-group-item-action" href="#list-item-7">Advanced Array Methods</a>
+                      </div>
+                    </div>
+                    <div class="col-10">
+                      <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <h4 id="list-item-1">CSS Animations</h4>
+                        <p>CSS Transforms <br>Transitions and pseudo Selectors <br>PROJECT: Animated Gallery <br>Keyframe Animations <br>PROJECT: Loading Icons</p>
+                            </div>
+                            <div class="col-lg-3">
+                                <h4 id="list-item-2">CSS Flexbox</h4>
+                                <p>CSS Layout with Flexbox <br>tons of Flexbox properties <br>PROJECT: Responsive Navbar <br>PROJECT: Ad Widget <br>PROJECT: The Holy Grail Layout w/Flexbox</p>
+                            </div>
+                            <div class="col-lg-3">
+                                <h4 id="list-item-3">PROJECT: Company Website</h4>
+                                <p>Build a complete BUSINESS website</p>
+                            </div>
+                            <div class="col-lg-3">
+                                <h4 id="list-item-4">Async JS</h4>
+                                <p>Quirks of async JS <br>Work with Promises <br>Discover the event loop and queue <br>Learn stack and heap</p>
+                            </div>
+                            <div class="col-lg-3">
+                                <h4 id="list-item-5">AJAX w/fetch, xhr, axios</h4>
+                                <p>...</p>
+
+                            </div>
+                            <div class="col-lg-3">
+                                <h4 id="list-item-6">Testing with Jasmine</h4>
+                                <p>...</p>
+
+                            </div>
+                            <div class="col-lg-3">
+                                <h4 id="list-item-7">Advanced Array Methods</h4>
+                                <p>...</p>
+
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
         <div class="row">
             <!-- <div class="col-md-6 col-xl-4">
                 <h3>NOV 2023</h3>
