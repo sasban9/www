@@ -7,10 +7,19 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <style>
         *{margin: 0;padding: 0;box-sizing: border-box;}
-        img{height: 220px;cursor: pointer;display: inline-block;}
+        img{height: 120px;cursor: pointer;display: inline-block;vertical-align: text-bottom;}
+        img#big-img{max-width: 100%;max-height:100%;width: auto;height: auto;padding: 20px;box-shadow: 0 0 10px #000;background-color: white;}
+        /* body{font-size: 7rem;} */
+        .mmyy{height: 120px;line-height: 80px;display: inline-block;vertical-align: text-bottom;font-size: 40px;background: darkolivegreen;color: wheat;padding: 20px;}
     </style>
 </head>
 <body>
+    <div style="position: fixed;width:50vw;background: #ddd;height: 100vh;display: flex;justify-content: center;align-items: center;">
+        <img id="big-img" src="../sasban.jpg" alt="">
+    </div>
+    <div style="position: fixed;width:50vw;height: 100vh;right:0;overflow-y: scroll;">
+    <div class="mmyy">2023OCT</div>
+    <img src="../sasban.jpg" height="40" alt="">
     <img src="29---HOW-MUCH-UDEMY-INSTRUCTORS-MAKE.png" alt="">
     <!-- <img src="beach+bitch.jpg" alt=""> -->
     <img src="career_stages.jpg" alt="">
@@ -19,26 +28,32 @@
     <img src="sasban.jpg" alt="">
     <img src="udemy-30sep.jpg" alt="">
     <img src="udemy-07oct.jpg" alt="">
+    <div class="mmyy">2023SEP</div>
     <img src="udemy-14oct.jpg" alt="">
     <img src="yt2023.png" alt="">
     <img src="udemy-21oct.jpg" alt="">
     <img src="berlin-60k.jpg" alt="">
     <img src="babysitter.jpg" alt="">
+    <div class="mmyy">2023AUG</div>
     <hr>
     <h3>/family</h3>
     <img src="family/pic1.jpg" alt="">
     <img src="family/pic2.jpg" alt="">
     <img src="family/pic3.jpg" alt="">
+    <div class="mmyy">2023JUL</div>
     <img src="family/pic4.jpg" alt="">
     <img src="family/pic5.jpg" alt="">
     <img src="family/pic8.jpg" alt="">
     <img src="family/pic9.jpg" alt="">
     <img src="family/sas-bas-sab.jpg" alt="">
+</div>
     <script>
         $(function(){
             $('img').on('click', function(){
-                $('img').css({'height':'220px','box-shadow':'none'})
-                $(this).css({'height':'auto','box-shadow':'0 0 10px black','border-bottom':'4px solid red'})
+                // $('img').css({'height':'120px','box-shadow':'none'})
+                // $(this).css({'height':'auto','box-shadow':'0 0 10px black','border-bottom':'4px solid red'})
+                var src = $(this).attr('src')
+                $('img#big-img').attr('src', src)
             })
         })
     </script>
