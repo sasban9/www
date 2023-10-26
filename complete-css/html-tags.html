@@ -10,9 +10,14 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
 <link rel="stylesheet" type="text/css" href="//sms.styched.in/includes/css/cosmo.bootstrap.min.css">
     <style>
-        *{font-size: 1.3rem;}
-        table{max-width: 1600px;margin: 0 auto;}
-        table tr:nth-child(5n) {background: wheat;}
+        *{font-size: 1.1rem;}
+        table{max-width: 60%;margin: 0 auto;}
+        tbody tr:nth-child(5n+1):not(.th1) {background: rgb(252, 242, 182);}
+        tbody tr:nth-child(5n+2):not(.th1) {background: rgb(250, 234, 139);}
+        tbody tr:nth-child(5n+3):not(.th1) {background: rgb(254, 230, 96);}
+        tbody tr:nth-child(5n+4):not(.th1) {background: rgb(251, 222, 55);}
+        tbody tr:nth-child(5n):not(.th1) {background: gold;}
+        a{font-weight: bold;color: crimson;}
     </style>
 </head>
 <body>
@@ -20,15 +25,15 @@
         <table>
         <thead>
         <tr>
-        <th width="220">Tags</th>
+        <th>Tags</th>
         <th>Description</th>
         <th>Syntax</th>
         <th>Example</th>
         </tr>
         </thead>
         <tbody>
-            <tr>
-                <td colspan="4"><h2>The most used tags</h2></td>
+            <tr class="th1">
+                <th colspan="4"><h2>Most common tags </h2></th>
             </tr>
             <tr>
                 <td><a href="https://www.geeksforgeeks.org/html-paragraph/">paragraphs</a></td>
@@ -42,14 +47,15 @@
                 </td>
             </tr>
             <tr>
-            <td><a href="https://www.geeksforgeeks.org/html-hr-tag/">hr</a></td>
-            <td>The hr tag in HTML stands for horizontal rule and is used to insert a horizontal rule.</td>
-            <td>&lt;hr&gt;</td>
-            <td>
-            <div class="practiceLinkDiv-banner">
-            <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/aff72766-3d13-43ed-8f2b-42fcd96537e6">Try</a></div>
-            </div>
-            </td>
+                <td><a href="https://www.geeksforgeeks.org/html-a-tag/">anchor</a></td>
+                <td>The anchor tag in HTML is used to create a hyperlink on the webpage.</td>
+                <td><a href="#">This is an anchor</a></td>
+                <td>
+                    <div class="practiceLinkDiv-banner">
+                        <div class="redirect"><a
+                                href="https://ide.geeksforgeeks.org/tryit.php/76255ee4-7e25-4adb-8179-54089bcddad0">Try</a></div>
+                    </div>
+                </td>
             </tr>
             <tr>
             <td><a href="https://www.geeksforgeeks.org/div-tag-html/">div</a></td>
@@ -64,7 +70,7 @@
             <tr>
             <td><a href="https://www.geeksforgeeks.org/span-tag-html/">span</a></td>
             <td>The HTML span element is a generic inline container for inline elements and content.</td>
-            <td>&lt;span class=""&gt;Some Text&lt;/span&gt;</td>
+            <td>&lt;span class=""&gt;text content of span&lt;/span&gt;</td>
             <td>
             <div class="practiceLinkDiv-banner">
             <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/b52a2a8d-ac9a-4ffa-8dfc-740cee344f4c">Try</a></div>
@@ -73,21 +79,10 @@
             </tr>
             
         <tr>
-            <td><a href="https://www.geeksforgeeks.org/html-a-tag/">anchor</a></td>
-            <td>The anchor tag in HTML is used to create a hyperlink on the webpage.</td>
-            <td><a href="#">This is an anchor</a></td>
-            <td>
-                <div class="practiceLinkDiv-banner">
-                    <div class="redirect"><a
-                            href="https://ide.geeksforgeeks.org/tryit.php/76255ee4-7e25-4adb-8179-54089bcddad0">Try</a></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
             <td><a href="https://www.geeksforgeeks.org/html-heading/">heading</a></td>
             <td>An HTML heading tag is used to define the headings of a page. These 6 heading elements are h1, h2, h3, h4, h5,
                 and h6; with h1 being the highest level and h6 being the least.</td>
-            <td><h1>Heading 1</h1><h2>Heading 2</h2><h6>Heading 6</h6></td>
+            <td><h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5><h6>Heading 6</h6></td>
             <td>
                 <div class="practiceLinkDiv-banner">
                     <div class="redirect"><a
@@ -128,7 +123,27 @@
         </td>
         </tr>
         <tr>
-            <td colspan="4"><h2>Text formatting</h2></td>
+        <td><a href="https://www.geeksforgeeks.org/html-hr-tag/">hr</a></td>
+        <td>The hr tag in HTML stands for horizontal rule and is used to insert a horizontal rule.</td>
+        <td>&lt;hr&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/aff72766-3d13-43ed-8f2b-42fcd96537e6">Try</a></div>
+        </div>
+        </td>
+        </tr>
+        <tr class="th1">
+            <th colspan="4"><h2>Text formatting</h2></th>
+        </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-font-tag/">font</a></td>
+        <td>The font tag in HTML plays an important role in the web page to create an attractive and readable web page.</td>
+        <td>&lt;font attribute = “value"&gt; Content &lt;/font&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/988c87fd-00a8-4c05-9889-c4d2ac5ee772">Try</a></div>
+        </div>
+        </td>
         </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-b-tag/">bold</a></td>
@@ -191,6 +206,16 @@
         </td>
         </tr>
         <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-ins-tag/">ins</a></td>
+        <td>The ins tag is typically used to mark a range of text that has been added to the document.</td>
+        <td>&lt;ins&gt; Contents… &lt;/ins&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/787de785-5956-40ae-98fb-9c0c038c5828">Try</a></div>
+        </div>
+        </td>
+        </tr>
+        <tr>
         <td><a href="https://www.geeksforgeeks.org/html-del-tag/">delete</a></td>
         <td>Delete tag is used to mark a portion of text which has been deleted from the document.</td>
         <td><del>text content of delete tag</del></td>
@@ -200,33 +225,23 @@
         </div>
         </td>
         </tr>
-        <tr style="color:red">
-        <td><a href="https://www.geeksforgeeks.org/html-strike-tag/">strike</a></td>
-        <td>HTML strike tag, along with understanding its implementation through the example. The &lt;strike&gt; tag defines a strike or line through Text. Will be phased out.</td>
-        <td><strike>text content of strike tag</strike></td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/69287866-5f92-4f9f-b72e-86b6b1327859">Try</a></div>
-        </div>
-        </td>
-        </tr>
         <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-subscript-superscript-tags/">sub and sup Tags</a></td>
+        <td><a href="https://www.geeksforgeeks.org/html-subscript-superscript-tags/">sub and sup</a></td>
         <td>
         <ul>
         <li>The sub-tag is used to add a subscript text to the HTML document.</li>
         <li>The &lt;sup&gt; tag is used to add superscript text to the HTML document.</li>
         </ul>
         </td>
-        <td>&lt;sub&gt;subscript text&lt;/sub&gt;&lt;sup&gt;superscript text&lt;/sup&gt;</td>
+        <td>Normal text <sup>superscript text</sup><br> Normal text <sub>subscript text</sub></td>
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/0ce61fab-6cf4-492a-b68f-bb208d3988d3">Try</a></div>
         </div>
         </td>
         </tr>
-        <tr>
-            <td colspan="4"><h2>Document Structure</h2></td>
+        <tr class="th1">
+            <th colspan="4"><h2>HTML Structure</h2></th>
         </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-html-tag/">html</a></td>
@@ -249,6 +264,26 @@
         </td>
         </tr>
         <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-title-tag/">title</a></td>
+        <td>The title tag in HTML is used to define the title of HTML document. It sets the title in the browser toolbar.</td>
+        <td>&lt;title&gt; Title name &lt;/title&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/78bd6104-c40d-4235-9d71-a5c9ae3364c1">Try</a></div>
+        </div>
+        </td>
+        </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-meta-tag/">meta</a></td>
+        <td>The meta tag is regularly used to give watchwords, portrayals, author data, and other metadata that might be utilized by the program to deliver the document accurately or in simple words, it provides important information about a document.</td>
+        <td>&lt;meta attribute-name="value"&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/0d4d528e-2aca-40aa-b6b8-ddb84f504c2a">Try</a></div>
+        </div>
+        </td>
+        </tr>
+        <tr>
         <td><a href="https://www.geeksforgeeks.org/html-body-tag/">body</a></td>
         <td>The body tag in HTML is used to define the main content present inside an HTML page.</td>
         <td>&lt;body&gt; Contents… &lt;/body&gt;</td>
@@ -258,10 +293,23 @@
         </div>
         </td>
         </tr>
+        <tr class="th1">
+            <th colspan="4"><h2>Document Structure</h2></th>
+        </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-nav-tag/">nav</a></td>
+        <td>The nav tag is used for declaring the navigational section in HTML documents. Websites typically have sections dedicated to navigational links, which enables users to navigate the site.</td>
+        <td>&lt;nav&gt; Links… &lt;/nav&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/0fcec69a-4f9b-4f78-b298-7cb0d0582213">Try</a></div>
+        </div>
+        </td>
+        </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-main-tag/">main</a></td>
         <td>The main tag is used to give the main information of a document. The content inside the &lt;main&gt; element should be unique for the document.</td>
-        <td>&lt;main&gt;Coontents&lt;/main&gt;</td>
+        <td>&lt;main&gt;Contents&lt;/main&gt;</td>
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/47713a7a-0f01-43a0-9c2f-4feded9b8c93">Try</a></div>
@@ -318,8 +366,8 @@
         </div>
         </td>
         </tr>
-        <tr>
-            <td colspan="4"><h2>Table formatting</h2></td>
+        <tr class="th1">
+            <th colspan="4"><h2>Table formatting</h2></th>
         </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-tables/">table</a></td>
@@ -391,8 +439,8 @@
         </div>
         </td>
         </tr>
-        <tr>
-            <td colspan="4"><h2>Form elements</h2></td>
+        <tr class="th1">
+            <th colspan="4"><h2>Form elements</h2></th>
         </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-form-tag/">form</a></td>
@@ -418,19 +466,63 @@
             <td>select</td>
             <td>The select tag is used inside form element to create dropdown</td>
             <td><select name="" id=""><option value="1">Option 1</option><option value="2">Option 2</option></select></td>
+            <td></td>
+        </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-optgroup-tag/">optgroup</a></td>
+        <td>This tag is used to create a group of the same category options in a drop-down list.</td>
+        <td>&lt;optgroup&gt;…&lt;/optgroup&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/25c7c7d6-5ced-47a1-8488-74c666a54179">Try</a></div>
+        </div>
+        </td>
+        </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-option-tag/">option</a></td>
+        <td>The option tag in HTML is used to choose an option from a Drop-Down menu.</td>
+        <td>&lt;option&gt; Contents… &lt;/option&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/d7e289a1-a7b0-4925-949c-d0525fb6426b">Try</a></div>
+        </div>
+        </td>
         </tr>
         <tr>
             <td>textarea</td>
             <td>The textarea tag is used inside form element to create dropdown</td>
             <td><textarea name="" id="" cols="30" rows="4" placeholder="Enter long paragraphs here"></textarea></td>
+            <td></td>
+        </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-label-tag/">label</a></td>
+        <td>The label tag in HTML is used to provide a usability improvement for mouse users.</td>
+        <td>&lt;label&gt; form content… &lt;/label&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/8aec82cc-1582-45f3-bdc3-5c55588d5342">Try</a></div>
+        </div>
+        </td>
         </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-5-progress-tag/">progress</a></td>
         <td>It is used to represent the progress of a task. It is also defined how much work is done and how much is left to download a thing.</td>
-        <td><progress attributes…></progress> </td>
+        <td><progress attributes…></progress><progress value="75" max="100"></progress> </td>
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/0e3a00dd-58fd-4824-80da-d99e4e07d051">Try</a></div>
+        </div>
+        </td>
+        </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html5-meter-tag/">meter</a></td>
+        <td>It is used to define the scale for measurement in a well-defined range and also supports a fractional value.</td>
+        <td><meter value="5" min="0" max="20">
+            5 out of 10
+        </meter> 5 out of 20</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/40df23f7-4da4-45b0-9bd5-7787e465d519">Try</a></div>
         </div>
         </td>
         </tr>
@@ -444,8 +536,8 @@
         </div>
         </td>
         </tr>
-        <tr>
-            <td colspan="4"><h2>Embedding content</h2></td>
+        <tr class="th1">
+            <th colspan="4"><h2>Embedding content</h2></th>
         </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-iframes/">Iframes</a></td>
@@ -454,6 +546,16 @@
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/2ec908b1-af76-4d23-b99e-07830f7cd340">Try</a></div>
+        </div>
+        </td>
+        </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-embed-tag/">embed</a></td>
+        <td>It is used as a container for embedding plug-ins such as flash animations.</td>
+        <td>&lt;embed attributes&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/fc66bf22-dbb9-4919-b332-ac25c9ea9c27">Try</a></div>
         </div>
         </td>
         </tr>
@@ -488,6 +590,19 @@
         </td>
         </tr>
         <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-track-tag/">track</a></td>
+        <td>The tracking tag specifies text tracks for media components audio and video.</td>
+        <td>&lt;track attribute&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/f0604f54-8e19-4531-92c1-d78820f589ca">Try</a></div>
+        </div>
+        </td>
+        </tr>
+        <tr class="th1">
+            <th colspan="4"><h2>Tags that relate to code</h2></th>
+        </tr>
+        <tr>
         <td><a href="https://www.geeksforgeeks.org/html-style-tag/">style</a></td>
         <td>The style tag in HTML helps us to design the web page.</td>
         <td>&lt;style&gt;CSS rules &lt;/style&gt;<br> &lt;tagname style="property:value;"&gt;</td>
@@ -517,6 +632,26 @@
         </div>
         </td>
         </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-pre-tag/">pre</a></td>
+        <td>The pre tag in HTML is used to define the block of preformatted text which preserves the text spaces.</td>
+        <td>&lt;pre&gt; Contents… &lt;/pre&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/8a82b6f3-1a74-411a-8349-c09d8fef290b">Try</a></div>
+        </div>
+        </td>
+        </tr>
+        <tr>
+        <td><a href="https://www.geeksforgeeks.org/html-code-tag/">code</a></td>
+        <td>The code tag in HTML is used to define the piece of computer code.</td>
+        <td>&lt;code&gt;Contents&lt;/code&gt;</td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/d02a0558-5a22-4aa7-ba0d-360d00e2dca1">Try</a></div>
+        </div>
+        </td>
+        </tr>
 
 
 
@@ -536,8 +671,31 @@
             </div>
             </td>
             </tr>
+            <tr>
+            <td><a href="https://www.geeksforgeeks.org/html-comments/">comment</a></td>
+            <td>The comment tag is used to insert comments in the HTML code.</td>
+            <td>&lt;!–…–&gt;</td>
+            <td>
+            <div class="practiceLinkDiv-banner">
+            <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/cca7d706-a84d-4564-90d6-43ee41658ce0">Try</a></div>
+            </div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table style="margin-top: 10rem;">
+        <thead>
         <tr>
-            <td colspan="4">.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br><h3>Lesser used tags are listed below</h3></td>
+        <th>Tags</th>
+        <th>Description</th>
+        <th>Syntax</th>
+        <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="th1">
+            <th colspan="4"><h3>Lesser used tags are listed below (A - Z)</h3></td>
         </tr>
 
 
@@ -684,7 +842,7 @@
         </div>
         </td>
         </tr>
-        <tr style="color: red;">
+        <tr style="color: red;text-decoration: line-through;">
         <td><a href="https://www.geeksforgeeks.org/html-center-tag/">center</a></td>
         <td>The center tag in HTML is used to set the alignment of text in the center. Not supported in HTML5.</td>
         <td>&lt;center&gt; Contents.&lt;/center&gt;</td>
@@ -705,16 +863,6 @@
         </td>
         </tr>
         <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-code-tag/">code</a></td>
-        <td>The code tag in HTML is used to define the piece of computer code.</td>
-        <td>&lt;code&gt;Contents&lt;/code&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/d02a0558-5a22-4aa7-ba0d-360d00e2dca1">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
         <td><a href="https://www.geeksforgeeks.org/html-colgroup-tag/">colgroup</a></td>
         <td>It is useful for applying styles to entire columns, instead of repeating the styles for each column, and for each row</td>
         <td>&lt;colgroup&gt; Column lists &lt;/colgroup&gt;</td>
@@ -731,16 +879,6 @@
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/84a095ca-a8f0-486b-b7e8-09f01f7702b5">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-comments/">comment</a></td>
-        <td>The comment tag is used to insert comments in the HTML code.</td>
-        <td>&lt;!–…–&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/cca7d706-a84d-4564-90d6-43ee41658ce0">Try</a></div>
         </div>
         </td>
         </tr>
@@ -796,15 +934,15 @@
         </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html5-dialog-tag/">dialog</a></td>
-        <td>This tag is used to create a popup dialog and models on a web page. This tag is new in HTML5.</td>
-        <td>&lt;dialog open&gt; Contents… &lt;/dialog&gt;</td>
+        <td>This tag is used to create a popup dialog and models on a web page. This tag is new in HTML5. <br><br><br></td>
+        <td>    <dialog open>This tag is used to create a popup dialog and models on a web page. <br> This tag is new in HTML5.</dialog>        </td>
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/7b8a656c-151e-470d-bf55-d30545f661f7">Try</a></div>
         </div>
         </td>
         </tr>
-        <tr>
+        <tr style="color:red;text-decoration:line-through">
         <td><a href="https://www.geeksforgeeks.org/html-dir-tag/">dir</a></td>
         <td>The dir tag is used to make a list of directory titles. It is not supported in HTML 5 &lt;ul&gt; or CSS are used instead of &lt;dir&gt; tag.</td>
         <td>&lt;dir&gt; Lists… &lt;/dir&gt;</td>
@@ -828,16 +966,6 @@
         <td><a href="https://www.geeksforgeeks.org/html-dt-tag/">dt</a></td>
         <td>The dt tag in HTML is used to specify the description list. It is used inside the &lt;dl&gt; element. It is usually followed by a &lt;dd&gt; tag.</td>
         <td>&lt;dt&gt; Content… &lt;/dt&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/fc66bf22-dbb9-4919-b332-ac25c9ea9c27">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-embed-tag/">embed</a></td>
-        <td>It is used as a container for embedding plug-ins such as flash animations.</td>
-        <td>&lt;embed attributes&gt;</td>
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/fc66bf22-dbb9-4919-b332-ac25c9ea9c27">Try</a></div>
@@ -874,17 +1002,7 @@
         </div>
         </td>
         </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-font-tag/">font</a></td>
-        <td>The font tag in HTML plays an important role in the web page to create an attractive and readable web page.</td>
-        <td>&lt;font attribute = “value"&gt; Content &lt;/font&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/988c87fd-00a8-4c05-9889-c4d2ac5ee772">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr style="color: red;">
+        <tr style="color: red;text-decoration: line-through;">
         <td><a href="https://www.geeksforgeeks.org/html-frame-tag/">frame</a></td>
         <td>HTML Frames are used to divide the web browser window into multiple sections. Not supported in HTML5.</td>
         <td>&lt;frame/&gt;</td>
@@ -915,16 +1033,6 @@
         </td>
         </tr>
         <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-ins-tag/">ins</a></td>
-        <td>The ins tag is typically used to mark a range of text that has been added to the document.</td>
-        <td>&lt;ins&gt; Contents… &lt;/ins&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/787de785-5956-40ae-98fb-9c0c038c5828">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
         <td><a href="https://www.geeksforgeeks.org/html-isindex-tag/">isindex</a></td>
         <td>The index tag is used to query any document through a text field.</td>
         <td>&lt;isindex prompt="search"&gt;</td>
@@ -937,7 +1045,7 @@
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-kbd-tag/">kbd</a></td>
         <td>The text enclosed within kbd tag is typically displayed in the browser’s default monospace font.</td>
-        <td>&lt;kbd&gt; text content … &lt;/kbd&gt;</td>
+        <td><kbd>text content of kbd tag</kbd></td>
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/fd6d3fb5-7024-45d9-b6fd-624df448dd0e">Try</a></div>
@@ -951,16 +1059,6 @@
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/ee647689-73fd-46db-bb29-7473f0f6ac00">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-label-tag/">label</a></td>
-        <td>The label tag in HTML is used to provide a usability improvement for mouse users.</td>
-        <td>&lt;label&gt; form content… &lt;/label&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/8aec82cc-1582-45f3-bdc3-5c55588d5342">Try</a></div>
         </div>
         </td>
         </tr>
@@ -987,50 +1085,20 @@
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-marquee-tag/">marquee</a></td>
         <td>The marquee tag in HTML is used to create scrolling text or images on a webpage. It scrolls either horizontally or vertically.</td>
-        <td>&lt;marquee&gt;Contents&lt;/marquee&gt;</td>
+        <td><marquee behavior="" direction="">The marquee tag in HTML is used to create scrolling text or images on a webpage. It scrolls either horizontally or vertically.</marquee></td>
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/c3ce613f-99de-43ee-b8d2-f2ff5d34c592">Try</a></div>
         </div>
         </td>
         </tr>
-        <tr>
+        <tr style="text-decoration: line-through;color: red;text-decoration: line-through;">
         <td><a href="https://www.geeksforgeeks.org/html-menuitem-tag/">menuitem</a></td>
         <td>The menuitem tag is used to define a command or menu that the user can utilize from the popup item. Not supported in HTML5.</td>
         <td>&lt;menuitem label="" icon="" type&gt; &lt;/menuitem&gt;</td>
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/e557bf2b-d58c-414c-92ed-c08f0d309602">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-meta-tag/">meta</a></td>
-        <td>The meta tag is regularly used to give watchwords, portrayals, author data, and other metadata that might be utilized by the program to deliver the document accurately or in simple words, it provides important information about a document.</td>
-        <td>&lt;meta attribute-name="value"&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/0d4d528e-2aca-40aa-b6b8-ddb84f504c2a">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html5-meter-tag/">meter</a></td>
-        <td>It is used to define the scale for measurement in a well-defined range and also supports a fractional value.</td>
-        <td>&lt;meter attributes…&gt; &lt;/meter&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/40df23f7-4da4-45b0-9bd5-7787e465d519">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-nav-tag/">nav</a></td>
-        <td>The nav tag is used for declaring the navigational section in HTML documents. Websites typically have sections dedicated to navigational links, which enables users to navigate the site.</td>
-        <td>&lt;nav&gt; Links… &lt;/nav&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/0fcec69a-4f9b-4f78-b298-7cb0d0582213">Try</a></div>
         </div>
         </td>
         </tr>
@@ -1046,31 +1114,11 @@
         </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-noembed-tag/">noembed</a></td>
-        <td>The noembed tag is used to show that the browser is not supported by &lt;embed&gt; tag.</td>
+        <td>The noembed tag is used to show that the browser does not support &lt;embed&gt; tag.</td>
         <td>&lt;noembed&gt; Element &lt;/noembed&gt;</td>
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/b7d7d48c-3e55-4d53-9647-bfccef591b12">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-optgroup-tag/">optgroup</a></td>
-        <td>This tag is used to create a group of the same category options in a drop-down list.</td>
-        <td>&lt;optgroup&gt;…&lt;/optgroup&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/25c7c7d6-5ced-47a1-8488-74c666a54179">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-option-tag/">option</a></td>
-        <td>The option tag in HTML is used to choose an option from a Drop-Down menu.</td>
-        <td>&lt;option&gt; Contents… &lt;/option&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/d7e289a1-a7b0-4925-949c-d0525fb6426b">Try</a></div>
         </div>
         </td>
         </tr>
@@ -1091,16 +1139,6 @@
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/9ec2e81f-f82c-46f3-a8fc-fab89dd824a0">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-pre-tag/">pre</a></td>
-        <td>The pre tag in HTML is used to define the block of preformatted text which preserves the text spaces.</td>
-        <td>&lt;pre&gt; Contents… &lt;/pre&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/8a82b6f3-1a74-411a-8349-c09d8fef290b">Try</a></div>
         </div>
         </td>
         </tr>
@@ -1194,6 +1232,16 @@
         </div>
         </td>
         </tr>
+        <tr style="color:red;text-decoration: line-through;">
+        <td><a href="https://www.geeksforgeeks.org/html-strike-tag/">strike</a></td>
+        <td>This tag creates a cut line in the text. This tag is depreciated from HTML 5. Now, the &lt;del&gt; tag is used instead of this tag.</td>
+        <td><strike>text content of strike tag</strike></td>
+        <td>
+        <div class="practiceLinkDiv-banner">
+        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/69287866-5f92-4f9f-b72e-86b6b1327859">Try</a></div>
+        </div>
+        </td>
+        </tr>
         <tr>
         <td><a href="https://www.geeksforgeeks.org/html-5-summary-tag/">summary</a></td>
         <td>The &lt;summary&gt; tag in HTML is used to define a summary for the &lt;details&gt; element.</td>
@@ -1221,26 +1269,6 @@
         <td>
         <div class="practiceLinkDiv-banner">
         <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/d7dd20f2-232f-4b3e-86bf-70d55c36d401">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-title-tag/">title</a></td>
-        <td>The title tag in HTML is used to define the title of HTML document. It sets the title in the browser toolbar.</td>
-        <td>&lt;title&gt; Title name &lt;/title&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/78bd6104-c40d-4235-9d71-a5c9ae3364c1">Try</a></div>
-        </div>
-        </td>
-        </tr>
-        <tr>
-        <td><a href="https://www.geeksforgeeks.org/html-track-tag/">track</a></td>
-        <td>The tracking tag specifies text tracks for media components audio and video.</td>
-        <td>&lt;track attribute&gt;</td>
-        <td>
-        <div class="practiceLinkDiv-banner">
-        <div class="redirect"><a href="https://ide.geeksforgeeks.org/tryit.php/f0604f54-8e19-4531-92c1-d78820f589ca">Try</a></div>
         </div>
         </td>
         </tr>
