@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://www.sasban.online/sasban.jpg" type="image/x-icon">
+
+    <meta property="og:title" content="Everything Sasban!" />
+    <meta property="og:description" content="Come join my course on Udemy for $9.99" />
+    <meta property="og:image" content="https://www.sasban.online/sasban.jpg" />
+    <meta property="og:image:width" content="480" />
+    <meta property="og:image:height" content="480" />
+
+    <title>Everything Sasban!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        html{
+            /* scroll-snap-type: y mandatory; */
+            overflow-x: hidden;
+        }
+
+        li {
+            text-align: left;
+        }
+        h5 a {font-size: calc(12px + 1vw);}
+        a {
+            color: tomato;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: dotted;
+        }
+
+        a:visited {
+            border-bottom: 2px solid red;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        main>section {
+            flex-grow: 1;
+        }
+
+        section>div {
+            /* min-height: 760px; */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1 1 0px;
+            padding: 1rem;
+            align-items: center;width: 100vw;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            /* scroll-snap-align: top; */
+        }
+        #fam-pics img{
+            height: 360px;
+        }
+
+        div.socials {
+            height: 40px; width: 40px; display: inline-block;
+            background: url('/img/social-icons.jpg');
+            background-size: 400%;
+        }
+
+        footer {
+            /* padding: 2rem 0; */
+            display: flex;flex-wrap: wrap;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background: tan;
+            color: white;
+        }
+        .fa-brands {font-size: 5rem;padding: 0 8rem;}
+        @media screen and (min-width: 1200px) {
+            main {
+                display: flex;
+                flex-direction: row;
+                flex-basis: auto;
+                width: 100%;
+                justify-content: space-evenly;
+            }
+            #iframe-yt{transform: perspective(300px) rotateY(-8deg)}
+            section {
+                flex-direction: row;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            img {
+                max-width: min(90vw, 100%);
+                /* height: auto; */
+            }
+            div.iframe {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    
+    <footer style="color:#000;background: #333;display: flex;justify-content: space-evenly;">
+        <!-- <img class="default" src="img/yt2023.png" alt="" style="max-height: 400px;"> -->
+        <!-- <p style="font-family: monospace;"><a href="https://www.youtube.com/@sasban">Please consider subscribing <img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c545.png" style="height: 30px;" alt=""></a>
+        </p> -->
+        <a href="https://github.com/sasban9"><i class="fa-brands fa-github"></i></a>  
+        <a href="https://www.youtube.com/@sasban"><i class="fa-brands fa-youtube"></i></a>  
+        <a href="https://www.linkedin.com/in/saswata-banerjee-98322984/"><i class="fa-brands fa-linkedin"></i></a>  
+        <a href="https://wa.me/917019492748"><i class="fa-brands fa-whatsapp"></i> </a>  
+        <a href="https://www.facebook.com/saswata.banerjee"><i class="fa-brands fa-facebook"></i></a>  
+        <a href="https://x.com/sasban9"><i class="fa-brands fa-x-twitter"></i></a>  
+        <a href="https://instagram.com/sas_ban"><i class="fa-brands fa-instagram"></i></a> 
+    </footer>
+
+    <a href='/' title="'Coffee!"><img src="sasban.jpg" alt=""
+        style="position:fixed;height:100px;bottom:20px;right:20px;z-index: 99999;"></a>
+</body>
+
+</html>
