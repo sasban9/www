@@ -12,9 +12,11 @@
         body{padding-bottom: 30vh;}
         h2{margin-top: 8rem;}
         .text-right{text-align: right;}
+        #decade-1 tr td:nth-of-type(3), #decade-1 tr td:nth-of-type(5){background-color: papayawhip;}
         #decade-2 tr td:nth-of-type(3){background-color: palegreen;}
-        #decade-2 tr td:nth-of-type(5){background-color: lightpink;}
+        #decade-2 tr td:nth-of-type(5){background-color: papayawhip;}
         #decade-3 tr td:nth-of-type(3){background-color: palegreen;}
+        #decade-3 tr td:nth-of-type(5){background-color: papayawhip;}
         @media (min-width:768px){
             *{font-size: 1.2rem;}
         }
@@ -25,7 +27,7 @@
         <div class="row">
             <div class="col-12">
                 <h2 class="text-center">1ST DECADE</h2>
-                <table class="table table-bordered text-right">
+                <table id="decade-1" class="table table-bordered text-right">
                     <tr>
                         <th>age</th><th>income</th><th>bills</th><th>emergency</th><th>life</th><th></th>
                     </tr>
@@ -155,14 +157,14 @@
                     <tr class="alert alert-info">
                         <th>travel</th><td>270 <span class="badge bg-dark">(100%)</span></td><td colspan="3"></td>
                     </tr>
-                    <tr>
+                    <tr style="background: #0f36;">
                         <th>emergency</th><td>80 <span class="badge bg-secondary">(20%)</span></td><td>125 <span class="badge bg-secondary">(32%)</span></td><td>186 <span class="badge bg-secondary">(48%)</span></td><th>+391</th>
                     </tr>
-                    <tr>
+                    <tr style="background: #0f36;">
                         <th>save</th><td></td><td>688 <span class="badge bg-secondary">(40%)</span></td><td>1025 <span class="badge bg-secondary">(60%)</span></td><th>+1713</th>
                     </tr>
-                    <tr>
-                        <th>bills <br>-1926</th><td>525 <span class="badge bg-secondary">(27%)</span></td><td>562 <span class="badge bg-secondary">(29%)</span></td><td>839 <span class="badge bg-secondary">(44%)</span></td>
+                    <tr style="background: papayawhip;">
+                        <th>bills <br>-1926</th><td>525 <span class="badge bg-secondary">(27%)</span></td><td>562 <span class="badge bg-secondary">(29%)</span></td><td>839 <span class="badge bg-secondary">(44%)</span></td><td></td>
                     </tr>
                     <tr>
                         <td colspan="4"></td><th>2104 / 4300 <br><span class="badge bg-dark">(49%)</span></th>
