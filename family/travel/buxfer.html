@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buxfer :: 2016 - 2023</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <style>
+    .table tr td:nth-of-type(2) {text-align: right;background: #ecff9f;}
+    th,td{padding: 0 10px;}
+  </style>
+</head>
+
+<body style="padding-bottom: 6rem;">
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="row p-2" style="background: palegreen;">
+                    <div class="col">
+                      <input type="date" class="form-control" placeholder="First name" aria-label="First name">
+                    </div>
+                    <div class="col">
+                      <input type="date" class="form-control" placeholder="Last name" aria-label="Last name">
+                    </div>
+                    <div class="col">
+                        <select name="" id="select-tags" class="form-control"><option value="tags">Tags</option></select>
+                    </div>
+                    <div class="col">
+                        <select name="" id="select-account" class="form-control"><option value="tags">Accounts</option></select>
+                    </div>
+                  </div>
+               
+                <h3> Finances with Buxfer </h3>
+                <div id="container"></div>
+                <script>
+                
+                   // Function to convert JSON data to HTML table
+                   function init() {
+                      
+                      // Sample JSON data
+                      let jsonData = [
+                         {
+                            date: "2023-06-02",
+                            amount: 2500.00,
+                            description: "Maid",
+                            tags: "LIVING/Rent&Home",
+                            account: "InHand"
+                         },
+                         {
+                            date: "2023-06-01",
+                            amount: 41000,
+                            description: "to Mithun - balance 2.2L",
+                            tags: "LOANS/MITHUN",
+                            account: "AXISBANK"
+                         },
+                         {
+                            date: "2023-06-01",
+                            amount: 3000.00,
+                            description: "Cash ATM",
+                            tags: "Transfer",
+                            account: "YESBANK >> InHand"
+                         }
+                      ];
+                      
+                      // Get the container element where the table will be inserted
+                      let container = document.getElementById("container");
+                      
+                      // Create the table element
+                      let table = document.createElement("table");
+                      
+                      // Get the keys (column names) of the first object in the JSON data
+                      let cols = Object.keys(jsonData[0]);
+                      
+                      // Create the header element
+                      let thead = document.createElement("thead");
+                      let tr = document.createElement("tr");
+                      
+                      // Loop through the column names and create header cells
+                      cols.forEach((item) => {
+                         let th = document.createElement("th")
+                         th.innerText = item.toUpperCase()
+                         tr.appendChild(th)
+                      });
+                      thead.appendChild(tr); // Append the header row to the header
+                      table.append(tr) // Append the header to the table
+                      table.classList.add('table')
+                      table.classList.add('table-bordered')
+                      
+                      // Loop through the JSON data and create table rows
+                      jsonData.forEach((item) => {
+                         let tr = document.createElement("tr");
+                         
+                         // Get the values of the current object in the JSON data
+                         let vals = Object.values(item);
+                        var option = document.createElement("option");
+                        option.text = vals[4];
+                        option.value = vals[4];
+                        var select = document.getElementById("select-account");
+                        select.appendChild(option);
+                        var option = document.createElement("option");
+                        option.text = vals[3];
+                        option.value = vals[3];
+                        var select = document.getElementById("select-tags");
+                        select.appendChild(option);
+                         
+                         // Loop through the values and create table cells
+                         vals.forEach((elem) => {
+                            let td = document.createElement("td");
+                            td.innerText = elem; // Set the value as the text of the table cell
+                            tr.appendChild(td); // Append the table cell to the table row
+                         });
+                         table.appendChild(tr); // Append the table row to the table
+                      });
+                      container.appendChild(table) // Append the table to the container element
+                   }
+                   init();
+                </script>
+            </div>
+        </div>
+
+    </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+  <!-- <script src="js/mainmenu.js"></script> -->
+</body>
+
+</html>

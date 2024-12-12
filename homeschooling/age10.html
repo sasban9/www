@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homeschooling 2024</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -16,6 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+        integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         div img {
             max-width: 100%;
@@ -23,6 +24,7 @@
 
         img {
             box-shadow: 0 10px 4px greenyellow;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -44,8 +46,108 @@
             </div>
             <div class="col-md-4 col-lg-3"><img
                     src="https://i0.wp.com/orgwide.com/wp-content/uploads/2022/01/happy-dog-dug.gif?fit=498%2C280&ssl=1"
-                    alt="">
+                    data-bs-toggle="modal" data-bs-target="#exampleModal" alt="">
                 <h5>The Talking Animals</h5>If animals could talk, what do you think they’d say to us?
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Thought Experiment: Talking Animals</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+
+                                <p>Imagine waking up one day and realizing that all animals could talk, just like
+                                    humans. Let&#39;s break this thought experiment down:</p>
+                                <img src="https://i0.wp.com/orgwide.com/wp-content/uploads/2022/01/happy-dog-dug.gif?fit=498%2C280&ssl=1"
+                                    alt="">
+                                <h4 id="-step-1-observing-the-change-"><strong>Step 1: Observing the Change</strong>
+                                </h4>
+                                <ul>
+                                    <li>Animals everywhere—your pet, birds in the sky, even the ants on the ground—can
+                                        now speak to you in your language.</li>
+                                    <li>How do they sound? Does a dog&#39;s bark turn into a deep voice, or does a cat
+                                        have a soft, melodic tone? </li>
+                                    <li>What’s the first thing your pet says to you?</li>
+                                </ul>
+                                <hr>
+                                <h4 id="-step-2-exploring-daily-life-"><strong>Step 2: Exploring Daily Life</strong>
+                                </h4>
+                                <ul>
+                                    <li>
+                                        <p><strong>At Home</strong>:<br>Your dog tells you how much they love belly rubs
+                                            and why they dislike baths. Maybe your cat complains about the food or
+                                            insists on sleeping in your bed. </p>
+                                        <ul>
+                                            <li>How do you feel knowing what they think? </li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li>
+                                        <p><strong>In Nature</strong>:<br>Birds might share gossip about people
+                                            they&#39;ve seen. Bees could explain why they’re so busy. Ants could tell
+                                            you all about their teamwork. </p>
+                                        <ul>
+                                            <li>Would you start treating animals differently now that you know what they
+                                                think? </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <p><strong>At the Zoo</strong>:<br>What would a lion say? Maybe they’d talk
+                                            about the savannah or how they feel about being in an enclosure. </p>
+                                        <ul>
+                                            <li>How would this affect how we treat animals in zoos? </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <hr>
+                                <h4 id="-step-3-ethical-questions-"><strong>Step 3: Ethical Questions</strong></h4>
+                                <ul>
+                                    <li>Would it still be okay to eat animals if they could tell you how they feel?
+                                    </li>
+                                    <li>What would happen to pets? Would they start asking for salaries like humans?
+                                    </li>
+                                    <li>Would humans become more responsible for how they treat the environment and
+                                        animals? </li>
+                                </ul>
+
+
+
+                                <h4 id="-step-4-the-impact-on-the-world-"><strong>Step 4: The Impact on the
+                                        World</strong></h4>
+                                <ul>
+                                    <li>Animals might help solve mysteries! Birds could tell us where they’ve seen
+                                        missing things or people. </li>
+                                    <li>Animals could become guides or teachers. For example, a dolphin could teach
+                                        humans about the ocean. </li>
+                                    <li>Would animals demand equal rights, like voting or owning land? </li>
+                                </ul>
+                                <hr>
+                                <h4 id="-step-5-your-choices-"><strong>Step 5: Your Choices</strong></h4>
+                                <ul>
+                                    <li>How would you talk to animals? Would you have a best animal friend? </li>
+                                    <li>What rules would you create to make sure humans and talking animals live
+                                        together peacefully? </li>
+                                    <li>Would you enjoy living in this world, or would it become too noisy and
+                                        complicated?</li>
+                                </ul>
+                                <hr>
+                                <p>This experiment helps us think about empathy, communication, and our relationship
+                                    with the natural world. What did you learn from imagining it?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4 col-lg-3"><img
                     src="https://i0.wp.com/hope4hurtingkids.com/wp-content/uploads/2016/12/superpower-game.jpg?fit=1755%2C801&ssl=1"
@@ -92,7 +194,7 @@
                     src="https://cdn.shopifycdn.net/s/files/1/0601/5349/5720/files/2-1.png?v=1661140053" alt="">
                 <h5>The Kind Robot</h5>Should a robot always tell the truth, even if it hurts someone’s feelings?
             </div>
-            <div class="col-md-4 col-lg-2"><img
+            <div class="col-md-4 col-lg-3"><img
                     src="https://media.licdn.com/dms/image/v2/C4D12AQFhyxAclY_hYg/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1522504925396?e=2147483647&v=beta&t=nIoxqlVvQXVwpg72xD3y9p-A7Aw69sLMP1SEkJ9d_P0"
                     alt="">
                 <h5>Sharing a Superpower</h5>If you got a superpower but could only share it with one person, who would
@@ -103,7 +205,7 @@
                     alt="">
                 <h5>The Hungry Stranger</h5>If you had only one sandwich and a stranger was hungry, would you share?
             </div>
-            <div class="col-md-4 col-lg-3"><img
+            <div class="col-md-4 col-lg-2"><img
                     src="https://cdn.vox-cdn.com/thumbor/ElDq6yUokXDq4sJXnMbaG2aCqVQ=/0x0:4500x3004/1200x800/filters:focal(1890x1142:2610x1862)/cdn.vox-cdn.com/uploads/chorus_image/image/67742562/halloween_candy_fun_size.14.jpg"
                     alt="">
                 <h5>The Last Candy</h5>Should you keep the last piece of candy for yourself or share it?
@@ -175,8 +277,7 @@
                     src="https://curiousmatrix.com/wp-content/uploads/2024/01/wing-human.jpg" alt="">
                 <h5>Growing Wings</h5> What if humans grew wings at age 10? How would life change?
             </div>
-            <div class="col-lg-3 col-md-4"><img
-                    src="https://37.media.tumblr.com/tumblr_m99yi6quQO1qedb29o1_500.gif"
+            <div class="col-lg-3 col-md-4"><img src="https://37.media.tumblr.com/tumblr_m99yi6quQO1qedb29o1_500.gif"
                     alt="">
                 <h5>The Time Machine</h5> Would you go to the past or the future, and why?
             </div>
@@ -230,14 +331,43 @@
             </div>
 
             <!-- ### **Fantasy and Adventure**   -->
-            <div class="col-lg-2 col-md-4"><img src="https://as1.ftcdn.net/v2/jpg/05/53/95/74/1000_F_553957454_66IjWoxvF4Jp8I3WbNg4NuxBTy2hkSie.jpg" alt=""><h5>The Magic Book</h5>If you had a book that let you travel into stories, which story would you pick?  </div>
-            <div class="col-lg-2 col-md-4"><img src="https://w0.peakpx.com/wallpaper/352/728/HD-wallpaper-the-hidden-door-pagan-magical-magic-lunasrealm-hidden-door-wiccan.jpg" alt=""><h5>The Hidden Door</h5>If you found a door to another world, what would it look like?  </div>
-            <div class="col-lg-2 col-md-4"><img src="https://i.ytimg.com/vi/_GusvMszd5g/maxresdefault.jpg" alt=""><h5>The Treasure Map</h5>Imagine you found a treasure map. Where would it lead?  </div>
-            <div class="col-lg-3 col-md-4"><img src="https://www.spiritanimal.info/wp-content/uploads/spirit-animal-by-birthday-3.jpg" alt=""><h5>The Animal Guide</h5>If an animal could guide you on an adventure, which animal would you pick?  </div>
-            <div class="col-lg-3 col-md-4"><img src="https://media4.giphy.com/media/G2roCt69Lnc2Y/giphy.gif?cid=6c09b952zh8xobrenkz4ews1gij7zaw4c0gsh6zcw6l3cz6d&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g" alt=""><h5>The Wish-Giving Genie</h5>If a genie gave you three wishes, what would you wish for?  </div>
-            <div class="col-lg-3 col-md-4"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7pPfEa4NqF7l8UAZbAewIG2JIGUTyuL3RHA&s" alt=""><h5>The Endless Library</h5>Imagine a library with every book in the world. What book would you read first?  </div>
-            <div class="col-lg-2 col-md-4"><img src="https://i.pinimg.com/originals/63/b1/3f/63b13f7da17aff7f255a4c789f2136ad.gif" alt=""><h5>The Pirate Ship</h5>If you lived on a pirate ship, what role would you have?  </div>
-            <div class="col-lg-3 col-md-4"><img src="https://i.ytimg.com/vi/ywDby90jp-Q/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDTT8RbRfxhii3RZmAA_O7LzLEDvg" alt=""><h5>The Secret Zoo</h5>What if there was a zoo with magical creatures? What animals would you find?  </div>
+            <div class="col-lg-2 col-md-4"><img
+                    src="https://as1.ftcdn.net/v2/jpg/05/53/95/74/1000_F_553957454_66IjWoxvF4Jp8I3WbNg4NuxBTy2hkSie.jpg"
+                    alt="">
+                <h5>The Magic Book</h5>If you had a book that let you travel into stories, which story would you pick?
+            </div>
+            <div class="col-lg-2 col-md-4"><img
+                    src="https://w0.peakpx.com/wallpaper/352/728/HD-wallpaper-the-hidden-door-pagan-magical-magic-lunasrealm-hidden-door-wiccan.jpg"
+                    alt="">
+                <h5>The Hidden Door</h5>If you found a door to another world, what would it look like?
+            </div>
+            <div class="col-lg-2 col-md-4"><img src="https://i.ytimg.com/vi/_GusvMszd5g/maxresdefault.jpg" alt="">
+                <h5>The Treasure Map</h5>Imagine you found a treasure map. Where would it lead?
+            </div>
+            <div class="col-lg-3 col-md-4"><img
+                    src="https://www.spiritanimal.info/wp-content/uploads/spirit-animal-by-birthday-3.jpg" alt="">
+                <h5>The Animal Guide</h5>If an animal could guide you on an adventure, which animal would you pick?
+            </div>
+            <div class="col-lg-3 col-md-4"><img
+                    src="https://media4.giphy.com/media/G2roCt69Lnc2Y/giphy.gif?cid=6c09b952zh8xobrenkz4ews1gij7zaw4c0gsh6zcw6l3cz6d&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g"
+                    alt="">
+                <h5>The Wish-Giving Genie</h5>If a genie gave you three wishes, what would you wish for?
+            </div>
+            <div class="col-lg-3 col-md-4"><img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7pPfEa4NqF7l8UAZbAewIG2JIGUTyuL3RHA&s"
+                    alt="">
+                <h5>The Endless Library</h5>Imagine a library with every book in the world. What book would you read
+                first?
+            </div>
+            <div class="col-lg-2 col-md-4"><img
+                    src="https://i.pinimg.com/originals/63/b1/3f/63b13f7da17aff7f255a4c789f2136ad.gif" alt="">
+                <h5>The Pirate Ship</h5>If you lived on a pirate ship, what role would you have?
+            </div>
+            <div class="col-lg-3 col-md-4"><img
+                    src="https://i.ytimg.com/vi/ywDby90jp-Q/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDTT8RbRfxhii3RZmAA_O7LzLEDvg"
+                    alt="">
+                <h5>The Secret Zoo</h5>What if there was a zoo with magical creatures? What animals would you find?
+            </div>
             <div class="col-lg-3"></div>
             <div class="col-lg-3 col-md-6"><img src="/sas-upi.jpg" alt=""></div>
             <div class="col-lg-3 col-md-6"><img src="/bb-upi.jpg" alt=""></div>
