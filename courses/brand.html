@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Personal Website</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        div {border: solid 1px gold;}
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #faf3e0;
+            color: #333;
+            transition: background 0.3s, color 0.3s;
+            padding: 20px;
+        }
+
+        div img {max-width: 90%;max-height: 80vh;}
+
+        /* Dark Mode */
+        body.dark-mode {
+            background: #222;
+            color: #f4f4f4;
+        }
+
+        header {
+            background: #d4af37;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            clear: both;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .section {
+            padding: 50px;
+            background: #fff8dc;
+            text-align: center;
+            margin: 30px 0;
+            border-radius: 10px;
+            overflow: auto;
+        }
+
+        .section::after {
+            clear: both;
+        }
+        .service-item, .blog-post {
+            float: left; width: 28%;
+        }
+
+        body.dark-mode .section {
+            background: #333;
+            color: #f4f4f4;
+        }
+
+        .blog-post, .service-item, .portfolio-item {
+            background: #e6e6fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+
+        .blog-post img, .service-item img, .portfolio-item img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        body.dark-mode .blog-post, body.dark-mode .service-item, body.dark-mode .portfolio-item {
+            background: #555;
+        }
+        .toggle-dark-mode {
+            position: fixed; bottom: 10px;
+        }
+
+        @media (max-width:960px) {
+            .service-item, .blog-post {
+                float: left; width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-dark-mode" onclick="toggleDarkMode()" style="margin-bottom: 20px;">Toggle Dark Mode</button>
+
+    <header>
+        <div class="container">
+            <h1>Your Name</h1>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About Me</h2>
+            <img src="https://images.unsplash.com/photo-1740654227692-a00a3dd36e4d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="About Me">
+            <p>Hello! I'm [Your Name], a web developer specializing in modern, responsive websites. Let's build something amazing together!</p>
+        </div>
+    </section>
+
+    <section id="portfolio" class="section">
+        <div class="container">
+            <h2>My Portfolio</h2>
+            <div class="portfolio-item">
+                <img src="https://plus.unsplash.com/premium_photo-1740708549031-fd00d8821c5b?q=80&w=2043&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 1">
+                Project 1
+            </div>
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1740676378809-cb2a24feecdb?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 2">
+                Project 2
+            </div>
+            <div class="portfolio-item">
+                <img src="https://plus.unsplash.com/premium_photo-1661581878893-85d50b8514be?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Project 3">
+                Project 3
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section">
+        <div class="container">
+            <h2>My Services</h2>
+            <div class="service-item">
+                <img src="https://images.unsplash.com/photo-1519644473771-e45d361c9bb8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Web Development">
+                Web Development
+            </div>
+            <div class="service-item">
+                <img src="https://images.unsplash.com/photo-1740514531864-ea9cec02fbac?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="SEO Optimization">
+                SEO Optimization
+            </div>
+            <div class="service-item">
+                <img src="https://images.unsplash.com/photo-1568819317551-31051b37f69f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="UI/UX Design">
+                UI/UX Design
+            </div>
+        </div>
+    </section>
+
+    <section id="blog" class="section">
+        <div class="container">
+            <h2>Blog</h2>
+            <div class="blog-post">
+                <img src="https://images.unsplash.com/photo-1576503895435-eb0730485d72?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Responsive Design">
+                Post 1: The Importance of Responsive Design
+            </div>
+            <div class="blog-post">
+                <img src="https://images.unsplash.com/flagged/photo-1557873924-3a046517e6dc?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="SEO Optimization">
+                Post 2: How to Optimize Your Website for SEO
+            </div>
+            <div class="blog-post">
+                <img src="https://images.unsplash.com/photo-1650491393148-0c12f44095df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Future of Web Development">
+                Post 3: The Future of Web Development
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <p>Feel free to reach out via email at <a href="mailto:yourname@example.com">yourname@example.com</a></p>
+        </div>
+    </section>
+
+    <footer style="padding: 20px; margin-top: 30px;">
+        <p>© 2025 Your Name. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
+</body>
+</html>

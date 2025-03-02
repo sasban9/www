@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <style>
+        :root {
+            --bg-color: #b0e57c;
+            --container-bg: #a7f3d0;
+            --text-color: #333;
+            --heading-color: #2d6a4f;
+            --nav-bg: #2d6a4f;
+            --footer-bg: #1b4d3e;
+            --card-bg: #d8f3dc;
+            --border-color: #27ae60;
+        }
+        .dark-mode {
+            --bg-color: #1e1e2e;
+            --container-bg: #282a36;
+            --text-color: #f8f8f2;
+            --heading-color: #ff79c6;
+            --nav-bg: #1e1e2e;
+            --footer-bg: #282a36;
+            --card-bg: #44475a;
+            --border-color: #50fa7b;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        .navbar {
+            background: var(--nav-bg);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--border-color);
+        }
+        h1, h2 {
+            color: var(--heading-color);
+            text-align: center;
+        }
+        .blog-post {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .footer {
+            background: var(--footer-bg);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .toggle-button {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            background: var(--heading-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .toggle-button:hover {
+            background: var(--border-color);
+        }
+        #search-bar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        #pagination button {
+            margin: 5px;
+            padding: 8px;
+            border: none;
+            cursor: pointer;
+            background: var(--heading-color);
+            color: white;
+            border-radius: 5px;
+        }
+        #pagination button:hover {
+            background: var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        Blog
+        <button class="toggle-button" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="contact.html">Contact</a>
+        <a href="blog.html">Blog</a>
+        <a href="product.html">Products</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="resume.html">Resume</a>
+    </div>
+    <div class="container">
+        <h1>Latest Blog Posts</h1>
+        <input type="text" id="search-bar" placeholder="Search blog posts..." onkeyup="searchBlogs()">
+        <div id="blog-list">
+            <div class="blog-post">
+                <h2>Understanding Web Development</h2>
+                <p><strong>Published on:</strong> March 1, 2025</p>
+                <p>A guide to front-end and back-end web development, tools, and frameworks.</p>
+            </div>
+            <div class="blog-post">
+                <h2>How to Optimize Website Performance</h2>
+                <p><strong>Published on:</strong> February 25, 2025</p>
+                <p>Tips and tricks for making your website faster and more efficient.</p>
+            </div>
+            <div class="blog-post">
+                <h2>Top JavaScript Frameworks in 2025</h2>
+                <p><strong>Published on:</strong> February 20, 2025</p>
+                <p>An overview of the best JavaScript frameworks for building web applications.</p>
+            </div>
+        </div>
+        <div id="pagination"></div>
+    </div>
+    <div class="footer">
+        &copy; 2025 My Website | All Rights Reserved
+    </div>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            if (localStorage.getItem("dark-mode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        });
+        function searchBlogs() {
+            let input = document.getElementById("search-bar").value.toLowerCase();
+            let posts = document.getElementsByClassName("blog-post");
+            for (let i = 0; i < posts.length; i++) {
+                let title = posts[i].getElementsByTagName("h2")[0].innerText.toLowerCase();
+                posts[i].style.display = title.includes(input) ? "block" : "none";
+            }
+        }
+    </script>
+</body>
+</html>

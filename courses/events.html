@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events</title>
+    <style>
+        :root {
+            --bg-color: #b0e57c;
+            --container-bg: #a7f3d0;
+            --text-color: #333;
+            --heading-color: #2d6a4f;
+            --nav-bg: #2d6a4f;
+            --footer-bg: #1b4d3e;
+            --card-bg: #d8f3dc;
+            --border-color: #27ae60;
+        }
+        .dark-mode {
+            --bg-color: #1e1e2e;
+            --container-bg: #282a36;
+            --text-color: #f8f8f2;
+            --heading-color: #ff79c6;
+            --nav-bg: #1e1e2e;
+            --footer-bg: #282a36;
+            --card-bg: #44475a;
+            --border-color: #50fa7b;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        .navbar {
+            background: var(--nav-bg);
+            color: white;
+            padding: 15px;
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            padding: 10px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--border-color);
+        }
+        h1, h2 {
+            color: var(--heading-color);
+            text-align: center;
+        }
+        .event {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 10px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .day {
+            padding: 10px;
+            border-radius: 5px;
+            background: var(--container-bg);
+            cursor: pointer;
+        }
+        .day:hover {
+            background: var(--border-color);
+            color: white;
+        }
+        .event-details {
+            display: none;
+            padding: 10px;
+            margin-top: 10px;
+            background: var(--card-bg);
+            border-radius: 5px;
+        }
+        .footer {
+            background: var(--footer-bg);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .toggle-button {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            background: var(--heading-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .toggle-button:hover {
+            background: var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        Events
+        <button class="toggle-button" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="contact.html">Contact</a>
+        <a href="blog.html">Blog</a>
+        <a href="product.html">Products</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="resume.html">Resume</a>
+    </div>
+    <div class="container">
+        <h1>Upcoming Events</h1>
+        <div class="calendar" id="calendar"></div>
+        <div class="event-details" id="event-details"></div>
+    </div>
+    <div class="footer">
+        &copy; 2025 My Website | All Rights Reserved
+    </div>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            if (localStorage.getItem("dark-mode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+        });
+
+        const events = {
+            "10": "Web Development Workshop (Online)",
+            "5": "AI & Machine Learning Conference (San Francisco)",
+            "20": "JavaScript Bootcamp (New York)"
+        };
+
+        function generateCalendar() {
+            const calendar = document.getElementById("calendar");
+            calendar.innerHTML = "";
+            for (let i = 1; i <= 30; i++) {
+                let day = document.createElement("div");
+                day.classList.add("day");
+                day.innerText = i;
+                if (events[i]) {
+                    day.style.fontWeight = "bold";
+                    day.style.background = "#ffcc00";
+                }
+                day.addEventListener("click", function () {
+                    showEventDetails(i);
+                });
+                calendar.appendChild(day);
+            }
+        }
+
+        function showEventDetails(day) {
+            const eventDetails = document.getElementById("event-details");
+            eventDetails.innerHTML = events[day] ? `<h3>Event on ${day}th</h3><p>${events[day]}</p>` : `<p>No events on this day.</p>`;
+            eventDetails.style.display = "block";
+        }
+
+        generateCalendar();
+    </script>
+</body>
+</html>

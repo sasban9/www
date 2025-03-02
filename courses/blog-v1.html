@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e2e;
+            color: #f8f8f2;
+            display: flex;
+            justify-content: center;
+        }
+        .main-content {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #282a36;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+            flex: 3;
+        }
+        .sidebar {
+            flex: 1;
+            margin-left: 20px;
+            padding: 20px;
+            background: #44475a;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #ff79c6;
+            text-align: center;
+        }
+        .blog-post {
+            background: #6272a4;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .blog-post img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .blog-meta {
+            color: #8be9fd;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .ad-space {
+            background: #bd93f9;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #1e1e2e;
+        }
+        .sidebar .ad-space {
+            margin: 10px 0;
+        }
+        .sidebar .links {
+            margin-top: 20px;
+        }
+        .sidebar .links a {
+            display: block;
+            color: #50fa7b;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .sidebar {
+                margin-left: 0;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="content">
+            <h1>Recent Blog Posts</h1>
+            
+            <div class="ad-space">Advertisement Space</div>
+            
+            <div class="blog-post">
+                <img src="https://via.placeholder.com/800x400?text=Blog+Post+1" alt="Blog Post 1">
+                <p class="blog-meta">Published on March 3, 2025 | By Author Name</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel ligula id odio interdum malesuada.</p>
+            <

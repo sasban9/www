@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <style>
+        :root {
+            --bg-color: #b0e57c;
+            --container-bg: #a7f3d0;
+            --text-color: #333;
+            --heading-color: #2d6a4f;
+            --nav-bg: #2d6a4f;
+            --footer-bg: #1b4d3e;
+        }
+        .dark-mode {
+            --bg-color: #1e1e2e;
+            --container-bg: #282a36;
+            --text-color: #f8f8f2;
+            --heading-color: #ff79c6;
+            --nav-bg: #1e1e2e;
+            --footer-bg: #282a36;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        .navbar {
+            background: var(--nav-bg);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .footer {
+            background: var(--footer-bg);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .toggle-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: var(--heading-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .toggle-button:hover {
+            background: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        My Website
+        <button class="toggle-button" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="events.html">Events</a>
+        <a href="product.html">Products</a>
+        <a href="resume.html">Resume</a>
+    </div>
+    <div class="container">
+        <h1>Welcome to My Website</h1>
+        <p>This is the main homepage linking to all sections.</p>
+    </div>
+    
+    <div class="footer">
+        &copy; 2025 My Website | All Rights Reserved
+    </div>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>

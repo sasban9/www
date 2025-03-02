@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <style>
+        :root {
+            --bg-color: #b0e57c;
+            --container-bg: #a7f3d0;
+            --text-color: #333;
+            --heading-color: #2d6a4f;
+            --button-bg: #27ae60;
+            --button-hover: #219150;
+            --reviews-bg: #d8f3dc;
+            --related-bg: #e0e0e0;
+        }
+        .dark-mode {
+            --bg-color: #1e1e2e;
+            --container-bg: #282a36;
+            --text-color: #f8f8f2;
+            --heading-color: #ff79c6;
+            --button-bg: #50fa7b;
+            --button-hover: #45d68d;
+            --reviews-bg: #44475a;
+            --related-bg: #6272a4;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background: var(--container-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product-section {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .product-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        .product-image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .product-details {
+            flex: 2;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1, h2 {
+            color: var(--heading-color);
+            text-align: center;
+        }
+        .price {
+            font-size: 24px;
+            color: var(--heading-color);
+            margin: 10px 0;
+        }
+        .buy-button {
+            background: var(--button-bg);
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .buy-button:hover {
+            background: var(--button-hover);
+        }
+        .reviews, .related-products {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--reviews-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+        }
+        .related-products ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .related-products ul li {
+            background: var(--related-bg);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--heading-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .toggle-button:hover {
+            background: var(--button-hover);
+        }
+        @media (max-width: 768px) {
+            .product-section {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-button" onclick="toggleTheme()">Toggle Theme</button>
+    <div class="container">
+        <h2>Featured Product</h2>
+        <div class="product-section">
+            <div class="product-image">
+                <img src="https://images-cdn.ubuy.co.in/65264c5e66567725b96c7809-women-s-double-layer-micro-inlaid-zircon.jpg" alt="Product Image">
+            </div>
+            <div class="product-details">
+                <h1>Product Name</h1>
+                <p class="price">$99.99</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <button class="buy-button">Buy Now</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container reviews">
+        <h2>Customer Reviews</h2>
+        <p>⭐⭐⭐⭐⭐ - "Absolutely love this product! Highly recommend."</p>
+        <p>⭐⭐⭐⭐ - "Great quality, but could be a bit cheaper."</p>
+        <p>⭐⭐⭐⭐⭐ - "Perfect for my needs! Will buy again."</p>
+    </div>
+    
+    <div class="container related-products">
+        <h2>Related Products</h2>
+        <ul>
+            <li><img src="https://images-cdn.ubuy.co.in/65264c5e66567725b96c7809-women-s-double-layer-micro-inlaid-zircon.jpg" width="100%" alt=""> Product A - $89.99</li>
+            <li><img src="https://www.giva.co/cdn/shop/files/BR044_2.jpg?v=1739884341&width=1946" width="100%" alt=""> Product B - $79.99</li>
+            <li><img src="https://queenofheartsjewelry.us/wp-content/uploads/2022/08/Queen-of-Hearts-081-600x600.jpg" width="100%" alt=""> Product C - $69.99</li>
+        </ul>
+    </div>
+    
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>
