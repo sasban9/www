@@ -23,7 +23,7 @@
 
         img#big-img {
             max-width: 100%;
-            max-height: 100%;
+            max-height: 90vh;
             width: auto;
             height: auto;
             padding: 20px;
@@ -42,15 +42,26 @@
             color: wheat;
             padding: 20px;
         }
+
+        #big-show{
+            position: fixed;width:50%;background: #ddd;height: 100vh;display: flex;justify-content: center;align-items: center;
+        }
+        #img-list{
+            position: fixed;width:50%;height: 100vh;right:0;overflow-y: scroll;
+        }
+
+        @media (max-width:600px) {
+            #big-show{position: relative;width:100%;max-height: 100vh;height: auto;margin-bottom: 6rem;}
+            #img-list{position: absolute;width:100%;height: auto;overflow: auto;}
+        }
     </style>
 </head>
 
 <body>
-    <div
-        style="position: fixed;width:50vw;background: #ddd;height: 100vh;display: flex;justify-content: center;align-items: center;">
+    <div id="big-show">
         <img id="big-img" src="../sasban.jpg" alt="">
     </div>
-    <div style="position: fixed;width:50vw;height: 100vh;right:0;overflow-y: scroll;">
+    <div id="img-list">
         <img src="sasban/20241228.jpg" alt="">
         <div class="mmyy">2024OCT</div>
         <img src="sasban/20241010.jpg" alt="">
