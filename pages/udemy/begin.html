@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        /* Reset some default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        
+        /* Container for all content */
+        .container {
+            width: 80%;
+            max-width: 1100px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        /* Header styling */
+        header {
+            background-color: #35424a;
+            color: white;
+            padding: 20px 0;
+            border-bottom: 3px solid #e8491d;
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        header h1 {
+            margin: 0;
+        }
+        
+        header span {
+            color: #e8491d;
+        }
+        
+        /* Navigation menu */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            padding: 0 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        
+        nav a:hover {
+            color: #e8491d;
+            font-weight: bold;
+        }
+        
+        /* Hero section */
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://picsum.photos/1500/500');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #e8491d;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #333;
+        }
+        
+        /* About section */
+        .about {
+            padding: 50px 0;
+            background-color: white;
+        }
+        
+        .about-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .about-text {
+            flex: 4;
+            padding-right: 30px;
+        }
+        
+        .about-image {
+            flex: 1;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        
+        /* Projects section */
+        .projects {
+            padding: 50px 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        
+        .projects h2 {
+            margin-bottom: 30px;
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .project-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .project-info {
+            padding: 20px;
+        }
+        
+        /* Contact section */
+        .contact {
+            padding: 50px 0;
+            background-color: white;
+        }
+        
+        .contact h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        textarea {
+            height: 120px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #35424a;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-text {
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container">
+            <h1>My<span>Portfolio</span></h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h2>Welcome to My Portfolio</h2>
+        <p>Hi! I'm a web developer passionate about creating beautiful and functional websites.</p>
+        <a href="#projects" class="btn">View My Work</a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Hello! I'm a web developer with a passion for creating engaging digital experiences. I specialize in HTML, CSS, and JavaScript to build responsive and user-friendly websites.</p>
+                    <p>My journey in web development started when I realized the power of turning ideas into interactive applications that people can use. Since then, I've been continuously learning and improving my skills to create better web solutions.</p>
+                    <p>When I'm not coding, you can find me exploring new technologies, reading tech blogs, or enjoying nature walks to get fresh inspiration.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://sasban.online/basab.jpg" alt="My Photo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2>My Projects</h2>
+            <p>Here are some of the projects I've worked on. Each represents a unique challenge and solution.</p>
+            
+            <div class="project-grid">
+                <div class="project-card">
+                    <img src="https://picsum.photos/300/600" alt="Project 1">
+                    <div class="project-info">
+                        <h3>Project One</h3>
+                        <p>A responsive website for a local business. Built with HTML, CSS, and JavaScript.</p>
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="https://picsum.photos/600/500" alt="Project 2">
+                    <div class="project-info">
+                        <h3>Project Two</h3>
+                        <p>An interactive dashboard that visualizes data. Created using HTML, CSS, and JavaScript.</p>
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="https://picsum.photos/900/300" alt="Project 3">
+                    <div class="project-info">
+                        <h3>Project Three</h3>
+                        <p>A personal blog template with a clean, minimal design. Built with HTML and CSS.</p>
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <form>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Your Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Your Email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" placeholder="Your Message"></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 My Portfolio. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
