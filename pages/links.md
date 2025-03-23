@@ -31,11 +31,7 @@ https://www.udemy.com/course/chatgpt-4/?couponCode=ST11MT170325G3#instructor-1
 25,453 11h18m
 https://www.udemy.com/course/chatgpt-simply-explained/?couponCode=ST11MT170325G3#instructor-1
 
-https://www.udemy.com/user/aditya-mandal-43/
-https://www.udemy.com/user/rajeev-sakhuja-2/
-https://www.udemy.com/user/rahul-trisal-2/
-https://www.udemy.com/user/aahana-singh-15/
-https://www.udemy.com/user/sharath-raju-3/
+
 
 https://www.udemy.com/user/ref-n-write/
 https://www.udemy.com/user/ff0e5c8c-dd71-443e-be0a-e73ba821f7d7/
@@ -43,6 +39,8 @@ https://www.udemy.com/user/code-commanders/
 https://www.udemy.com/user/michael-pogrebinsky/
 https://www.udemy.com/user/diogo-resende-2/
 https://www.udemy.com/user/alexsandro-souza/
+https://www.udemy.com/user/alexhorea/
+https://www.udemy.com/user/zoltan-toth-74/
 
 
 https://www.udemy.com/course/prompt-engineering-skills-for-legal-professionals/?couponCode=KEEPLEARNING

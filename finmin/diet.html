@@ -9,13 +9,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         .table{min-width: 1200px;}
-        tr:nth-of-type(2n) td:nth-of-type(2n){background: lightskyblue;}
-        tr:nth-of-type(2n+1) td:nth-of-type(2n+1){background: lightgrey;}
-        td,th{width: 12%;}
+        .table tr:nth-of-type(2n) td:nth-of-type(2n){background: linear-gradient(lightskyblue, #fff);}
+        .table tr th:nth-of-type(1){background: linear-gradient(-120deg,#fff,skyblue);}
+        tr:nth-of-type(2n+1) td:nth-of-type(2n+1){background: bisque;}
+        td,th{height: 20px;min-width: 20px;}
         th{text-align: left;}
         td i{background-color: gold;}
         h5{background-color: darkmagenta;color: white;}
-        .bg-green{background-color: palegreen !important;}
+        .bg-green{background: linear-gradient(-120deg, #fff, palegreen) !important;}
         .br-red{border-left: solid 12px darkorchid;}
         .bg-pink{background: pink;}
 
@@ -66,6 +67,92 @@
                 <th><a href="/pages/udemy/2025d.html">/2025D</a></th> -->
             </tr>
         </table>
+                <h3>Commit History</h3>
+                <table style="float: left;" class="table-sm">
+                    <tr><td></td><td class="bg-warning">23</td><td class="bg-info">30</td><td class="bg-info">06</td><td></td><td></td></tr>
+                    <tr>
+                        <td class="bg-info">17</td><td></td><td></td><td></td><td class="bg-warning">14</td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="bg-info">18</td><td></td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td class="bg-warning">26</td><td class="bg-warning">02</td><td class="bg-warning">09</td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td></td><td></td><td></td><td></td><td class="bg-warning">17</td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="bg-info">21</td><td></td><td></td><td></td><td class="bg-warning">18</td>
+                    </tr>
+                    <tr>
+                        <td></td><td class="bg-info">29</td><td class="bg-info">05</td><td class="bg-info">12</td><td></td><td></td>
+                    </tr>
+                </table>
+                <table class="table-sm" style="float: left;">
+                    <tr><td></td><td class="bg-warning">04</td><td class="bg-warning">11</td><td class="bg-warning">18</td><td></td><td></td></tr>
+                    <tr><td></td><td class="bg-warning">05</td><td></td><td class="bg-warning">19</td><td></td><td></td></tr>
+                    <tr><td class="bg-warning">29</td><td></td><td></td><td></td><td class="bg-warning">27</td><td></td></tr>
+                    <tr><td class="bg-info">30</td><td class="bg-info">07</td><td class="bg-info">14</td><td class="bg-warning">21</td><td class="bg-warning">28</td><td></td></tr>
+                    <tr><td class="bg-info">01</td><td></td><td></td><td></td><td class="bg-info">29</td><td></td></tr>
+                    <tr><td class="bg-info">02</td><td></td><td></td><td></td><td class="bg-info">30</td><td></td></tr>
+                    <tr><td class="bg-info">03</td><td></td><td></td><td></td><td class="bg-info">31</td><td></td></tr>
+                </table>
+                <table class="table-sm" style="float: left;">
+                    <tr><td></td><td class="bg-info">15</td><td class="bg-info">22</td><td class="bg-info">29</td><td></td><td></td></tr>
+                    <tr><td class="bg-info">09</td><td></td><td></td><td></td><td class="bg-info">07</td><td></td></tr>
+                    <tr><td class="bg-warning">10</td><td></td><td></td><td></td><td></td><td></td></tr>
+                    <tr><td></td><td class="bg-warning">18</td><td class="bg-warning">25</td><td class="bg-warning">02</td><td></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td><td class="bg-warning">10</td><td></td></tr>
+                    <tr><td class="bg-info">13</td><td></td><td></td><td></td><td class="bg-warning">11</tr>
+                    <tr><td></td><td class="bg-info">21</td><td class="bg-info">28</td><td class="bg-info">05</td><td></td><td></td></tr>
+                </table>
+                <!-- <table style="float: left;" title="B">
+                    <tr><td class="bg-danger"></td><td class="bg-danger"></td><td class="bg-danger"></td><td class="bg-danger"></td><td></td><td></td></tr>
+                    <tr><td class="bg-warning"></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td class="bg-dark"></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td class="bg-dark"></td><td class="bg-dark"></td><td class="bg-dark"></td><td class="bg-dark"></td><td></td><td></td></tr>
+                    <tr><td class="bg-dark"></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td class="bg-dark"></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td class="bg-dark"></td><td class="bg-dark"></td><td class="bg-dark"></td><td class="bg-dark"></td><td></td><td></td></tr>
+                </table> -->
+                <!-- <table style="float: left;" title="A">
+                    <tr><td></td><td class="bg-warning"></td><td class="bg-warning"></td><td class="bg-warning"></td><td></td><td></td></tr>
+                    <tr><td></td><td class="bg-warning"></td><td></td><td class="bg-warning"></td><td></td><td></td></tr>
+                    <tr><td class="bg-warning"></td><td></td><td></td><td></td><td class="bg-warning"></td><td></td></tr>
+                    <tr><td class="bg-success"></td><td class="bg-success"></td><td class="bg-success"></td><td class="bg-dark"></td><td class="bg-dark"></td><td></td></tr>
+                    <tr><td class="bg-success"></td><td></td><td></td><td></td><td class="bg-dark"></td><td></td></tr>
+                    <tr><td class="bg-success"></td><td></td><td></td><td></td><td class="bg-dark"></td><td></td></tr>
+                    <tr><td class="bg-success"></td><td></td><td></td><td></td><td class="bg-dark"></td><td></td></tr>
+                </table> -->
+                <!-- <table style="float: left;" title="1">
+                    <tr><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td class="bg-danger"></td><td class="bg-dark"></td><td></td></tr>
+                    <tr><td></td><td class="bg-dark"></td><td></td></tr>
+                    <tr><td></td><td class="bg-dark"></td><td></td></tr>
+                    <tr><td></td><td class="bg-dark"></td><td></td></tr>
+                    <tr><td></td><td class="bg-dark"></td><td></td></tr>
+                    <tr><td class="bg-dark"></td><td class="bg-dark"></td><td class="bg-dark"></td><td></td></tr>
+                </table> -->
+                <!-- <table style="float: left;" title="3">
+                    <tr><td></td><td class="bg-danger"></td><td class="bg-danger"></td><td class="bg-danger"></td><td></td><td></td></tr>
+                    <tr><td class="bg-danger"></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td></td><td></td><td class="bg-dark"></td><td class="bg-dark"></td><td></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td class="bg-dark"></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td></td><td class="bg-dark"></td><td class="bg-dark"></td><td class="bg-dark"></td><td></td><td></td></tr>
+                </table> -->
+                <!-- <table style="float: left;" title="3">
+                    <tr><td></td><td class="bg-danger"></td><td class="bg-danger"></td><td class="bg-danger"></td><td></td><td></td></tr>
+                    <tr><td class="bg-danger"></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td></td><td></td><td class="bg-dark"></td><td class="bg-dark"></td><td></td><td></td></tr>
+                    <tr><td></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td class="bg-dark"></td><td></td><td></td><td></td><td class="bg-danger"></td><td></td></tr>
+                    <tr><td></td><td class="bg-dark"></td><td class="bg-dark"></td><td class="bg-dark"></td><td></td><td></td></tr>
+                </table> -->
+                <div style="clear: both;"></div>
                 <h3>2025 Mindful Eating <a href="https://sasban.online/finmin/diet"><i class="fa fa-link"></i></a></h3>
                 <table class="table">
                     <!-- <tr>
@@ -75,22 +162,23 @@
                         <td colspan="8"><h3>MAR</h3>*means eating out <br>+ is leftover</td><!-- <td><b>TUE 01APR</b><br>-<br>-</td><td><b>WED 02</b></td><td><b>THU 03</b></td><td><b>FRI 04</b></td><td><b>SAT 05</b></td><th></th> -->
                     </tr>
                     <!-- <tr>
-                        <td class="text-danger"><b>30MAR SUN</b><br>-<br>-</td><td><b>MON 31</b></td>
+                        <td class="text-danger"><b>30MAR SUN</b><br>-<br>-</td><td><b>MON 31</b></td><td></td>
                     </tr>
                     <tr>
                         <td class="text-danger"><b>23MAR SUN</b><br>-<br>-</td><td><b>MON 24</b></td>
                     </tr> -->
                     <tr>
-                        <td><b class="text-danger">16MAR SUN</b><br>french toast<br>fish meal<br>...</td>
-                        <td><b>MON 17</b><br>veg pasta</td>
-                        <td><b>TUE 18</b><br>luchi</td>
+                        <th>🐔 fried<br>🐔 meal</th>
+                        <td><b class="text-danger">16MAR SUN</b><br>french toast<br>fish meal<br>...rains</td>
+                        <td><b>MON 17</b><br>veg roll<br>fish meal</td>
+                        <td class=""><b>TUE 18</b><br>luchi 60<br>veg meal</td>
                         <td><b>WED 19</b></td>
                         <td><b>THU 20</b><br>-<br>-<br>-</td>
                         <td><b>FRI 21</b></td>
                         <td><b>SAT 22</b></td>
-                        <th></th>
                     </tr>
                     <tr>
+                        <th>Dadubhaat<br>🐔 meal</th>
                         <td class="text-danger" style="background: palegoldenrod;" title="Dadu Bhaat"><b>09MAR SUN</b><br>Chirey pulao<br>Dadubhaat Invit</td>
                         <td><b>MON 10</b><br>roti sabji<br>fish meal</td>
                         <td class="bg-green"><b>TUE 11</b><br>roti sabji<br>veg meal</td>
@@ -98,9 +186,9 @@
                         <td><b>THU 13</b><br>scrambled eggs<br>egg meal</td>
                         <td style="border: solid 4px;"><b>FRI 14 HOLI</b><br>french toast<br>🐔 meal* 180</td>
                         <td class="bg-green"><b>SAT 15</b><br><i>SP Omlette</i><br>fish meal</td>
-                        <th class="bg-dark text-white">Dadubhaat<br>🐔 meal</th>
                     </tr>
                     <tr>
+                        <th>🐔 shawarma BBB<br>🐔 party</th>
                         <td class="text-danger"><b>02MAR SUN</b><br>french toast<br><i>prawn biryani</i><br><i>fuchka @home</i></td>
                         <td><b>MON 03</b><br>Luchi Torkari 60<br>+biryani +payesh<br> 🐔 shawarma BBB</td>
                         <td style="background: pink;"><b>TUE 04</b><br>Roti Sabji<br>egg meal<br>-mela</td>
@@ -108,10 +196,11 @@
                         <td><b>THU 06</b><br><i>alu paratha</i><br>fish meal</td>
                         <td><b>FRI 07</b><br>Luchi T 60<br>veg meal<br><i>🐔 party</i></td>
                         <td title="Annual Day" style="background: palegoldenrod;"><b>SAT 08</b><br>Luchi +chicken<br>+chicken<br>snacks @school</td>
-                        <th>🐔 shawarma BBB<br>🐔 party</th>
                     </tr>
                     <tr style="border-bottom: solid 2px darkgrey;">
-                        <td colspan="6"><h3>FEB</h3> *means eating out <br>+ is leftover</td><td class="bg-green"><b>SAT 01MAR</b><br>french toast<br>veg meal<br>mini singaras</td><th class="bg-dark text-white"></th>
+                        <th></th>
+                        <td colspan="6"><h3>FEB</h3> *means eating out <br>+ is leftover</td>
+                        <td class="bg-green"><b>SAT 01MAR</b><br>french toast<br>veg meal<br>mini singaras</td>
                     </tr>
                     <tr>
                         <td class="text-danger"><b>23FEB SUN</b><br><i>ghugni parota</i><br>fish rice<br>parota ghugni</td>
@@ -131,7 +220,7 @@
                         <td><b>THU 20</b><br>Roti sabji<br>veg meal</td>
                         <td class="br-red" style="background: palegoldenrod;"><b>FRI 21</b><br>scrambled eggs<br>egg meal<br>burger&amp;pizza*</td>
                         <td><b>SAT 22</b><br><i>alu paratha</i><br>--fish meal--</td>
-                        <th class="bg-dark text-white">fuchka<br>burger&pizza</td>
+                        <th>fuchka<br>burger&pizza</th>
                     </tr>
                     <tr>
                         <td class="text-danger"><b>09FEB SUN</b><br>Roti Sabji<br>Fish rice<br>...</td>
@@ -141,7 +230,7 @@
                         <td><b>THU 13</b><br>maggi<br>fish meal</td>
                         <td style="background: violet;" title="Valentine's Day"><b>FRI 14</b><br>bread butter <br>fish meal</td>
                         <td class="bg-green br-red"><b>SAT 15</b><br>scrambled eggs<br>veg meal<br>...</td>
-                        <th>🐔  chowmein<br>BBB</td>
+                        <th>🐔  chowmein<br>BBB</th>
                     </tr>
                     <tr>
                         <td class="text-danger" style="background: palegoldenrod;"  title="Saraswati Puja"><b>02FEB SUN ⚫</b><br>Roti Sabji<br>Khichuri Bhog<br>-</td>
@@ -151,7 +240,7 @@
                         <td><b>THU 06</b><br>Roti Bhaji<br>Fish meal</td>
                         <td><b>FRI 07</b><br>Roti Sabji <br>Dal rice<br><i>Paneer&Paratha</i></td>
                         <td><b>SAT 08</b><br>Roti Sabji<br>Khichuri<br>Nescafe*</td>
-                        <th class="bg-dark text-white">🐔 Lolly<br>Nescafe</td>
+                        <th>🐔 Lolly<br>Nescafe</td>
                     </tr>
                     <tr style="border-bottom: solid 4px darkgrey;">
                         <td colspan="6"><h3>JAN</h3> * means eating out</td>
@@ -159,7 +248,7 @@
                         <th></th>
                     </tr>
                     <tr>
-                        <td style="background: palegoldenrod;border: solid 4px;"><b class="text-danger" title="75th Republic Day">26JAN SUN</b><br><br><br>Ch Noodles</td><td><b>MON 27</b><br>Maggi<br>Fish Meal</td><td class="bg-green br-red"><b>TUE 28</b><br>veg sandwich<br>🥕 Veg Meal<br>Momos* 50</td><td class="br-red"><b>WED 29</b><br>Veg Pasta<br><i>Fried Rice &Rajma</i><br>Pizza Hut 526</td><td><b>THU 30</b><br>Roti Rajma<br>🐟 Fish Meal<br>M.Dosa* 220</td><td><b>FRI 31</b><br>Upma<br>🐬 Ilish meal<br><i>MOMOS</i></td><td></td><th class="bg-dark text-white">🐔 Noodles<br>Momos<br>Pizza Hut<br>M. Dosa</td>
+                        <td style="background: palegoldenrod;border: solid 4px;"><b class="text-danger" title="75th Republic Day">26JAN SUN</b><br><br><br>Ch Noodles</td><td><b>MON 27</b><br>Maggi<br>Fish Meal</td><td class="bg-green br-red"><b>TUE 28</b><br>veg sandwich<br>🥕 Veg Meal<br>Momos* 50</td><td class="br-red"><b>WED 29</b><br>Veg Pasta<br><i>Fried Rice &Rajma</i><br>Pizza Hut 526</td><td><b>THU 30</b><br>Roti Rajma<br>🐟 Fish Meal<br>M.Dosa* 220</td><td><b>FRI 31</b><br>Upma<br>🐬 Ilish meal<br><i>MOMOS</i></td><td></td><th>🐔 Noodles<br>Momos<br>Pizza Hut<br>M. Dosa</td>
                     </tr>
                     <tr style="border-bottom: solid 4px darkgrey;">
                         <td><b class="text-danger">19JAN SUN</b><br>- <br>-</td><td><b>MON 20</b></td><td><b>TUE 21</b></td><td><b>WED 22</b></td><td><b>THU 23</b></td><td><b>FRI 24</b></td><td><b>SAT 25</b></td>

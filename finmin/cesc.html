@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CESC Units consumed by Month/Year</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            /* width: 100%; */
+            font-family: Arial, sans-serif;
+            margin: auto;
+        }
+        
+        th, td {
+            border: 1px solid #999;
+            text-align: right;
+            padding: 8px;
+        }
+        
+        th {
+            background-color: #ffff00; /* Yellow header */
+            font-weight: bold;
+        }
+        
+        tr:first-child th:first-child {
+            background-color: #ffff00;
+        }
+        .text-center{text-align: center;}
+        .month-label {
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        /* We'll apply these classes dynamically */
+        .pink-light {
+            background-color: #ffcccc;
+        }
+        
+        .pink-medium {
+            background-color: #ff9999;
+        }
+        
+        .pink-dark {
+            background-color: #ff6666;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="text-center">CESC Units consumed by Month/Year</h2>
+    <h4 class="text-center">16 HP Dutta Lane, PAS Rd. Kol 700033</h4>
+    <div id="table-container"></div>
+
+    <script>
+        // JSON data for the table
+        const tableData = {
+            "totals": {
+                "2018": 0,
+                "2019": 0,
+                "2020": 174,
+                "2021": 1098,
+                "2022": 640,
+                "2023": 938,
+                "2024": 871,
+                "2025": 0,
+                "2026": 0,
+                "2027": 0,
+            },
+            "months": [
+                {"month": "JAN", "2020": 14, "2021": 15, "2022": 1, "2023": 9, "2024": 18, "2025": 0},
+                {"month": "FEB", "2020": 15, "2021": 15, "2022": 0, "2023": 95, "2024": 21, "2025": 0},
+                {"month": "MAR", "2020": 15, "2021": 15, "2022": 185, "2023": 75, "2024": 27, "2025": 0},
+                {"month": "APR", "2020": 15, "2021": 169, "2022": 129, "2023": 3, "2024": 156, "2025": 10},
+                {"month": "MAY", "2020": 11, "2021": 41, "2022": 18, "2023": 34, "2024": 124, "2025": null},
+                {"month": "JUN", "2020": 14, "2021": 429, "2022": 0, "2023": 199, "2024": 141, "2025": null},
+                {"month": "JUL", "2020": 15, "2021": 194, "2022": 0, "2023": 120, "2024": 143, "2025": null},
+                {"month": "AUG", "2020": 14, "2021": 111, "2022": 44, "2023": 206, "2024": 41, "2025": null},
+                {"month": "SEP", "2020": 16, "2021": 108, "2022": 200, "2023": 101, "2024": 33, "2025": null},
+                {"month": "OCT", "2020": 15, "2021": 1, "2022": 32, "2023": 42, "2024": 49, "2025": null},
+                {"month": "NOV", "2020": 15, "2021": 0, "2022": 24, "2023": 28, "2024": 70, "2025": null},
+                {"month": "DEC", "2020": 15, "2021": 0, "2022": 7, "2023": 26, "2024": 48, "2025": null}
+            ],
+            "highlighting": {
+                "2021": {"169": "pink-medium", "194": "pink-medium", "108": "pink-light", "111": "pink-light", "429": "pink-dark"},
+                "2022": {"129": "pink-light", "185": "pink-medium", "200": "pink-medium"},
+                "2023": {"120": "pink-light", "101": "pink-light", "199": "pink-medium", "206": "pink-medium"},
+                "2024": {"124": "pink-light", "141": "pink-light", "143": "pink-light", "156": "pink-medium"}
+            }
+        };
+
+        // Function to determine cell color based on value and year
+        function getCellClass(year, value) {
+            if (year in tableData.highlighting) {
+                if (value in tableData.highlighting[year]) {
+                    return tableData.highlighting[year][value];
+                }
+            }
+            return "";
+        }
+
+        // Function to create the table
+        function createTable() {
+            const container = document.getElementById('table-container');
+            const table = document.createElement('table');
+            const years = Object.keys(tableData.totals);
+            
+            // Create header row with UNITS and year totals
+            const headerRow1 = document.createElement('tr');
+            const unitsHeader = document.createElement('th');
+            unitsHeader.textContent = "UNITS";
+            headerRow1.appendChild(unitsHeader);
+            
+            years.forEach(year => {
+                const th = document.createElement('th');
+                th.textContent = tableData.totals[year];
+                headerRow1.appendChild(th);
+            });
+            table.appendChild(headerRow1);
+            
+            // Create second header row with years
+            const headerRow2 = document.createElement('tr');
+            const emptyHeader = document.createElement('th');
+            headerRow2.appendChild(emptyHeader);
+            
+            years.forEach(year => {
+                const th = document.createElement('th');
+                th.textContent = year;
+                headerRow2.appendChild(th);
+            });
+            table.appendChild(headerRow2);
+            
+            // Create data rows for each month
+            tableData.months.forEach(monthData => {
+                const row = document.createElement('tr');
+                
+                // Add month label
+                const monthCell = document.createElement('td');
+                monthCell.textContent = monthData.month;
+                monthCell.className = 'month-label';
+                row.appendChild(monthCell);
+                
+                // Add data for each year
+                years.forEach(year => {
+                    const cell = document.createElement('td');
+                    const value = monthData[year];
+                    
+                    // Only display value if it's not null
+                    if (value !== null) {
+                        cell.textContent = value;
+                    }
+                    
+                    // Apply highlighting class if applicable
+                    const cellClass = getCellClass(year, value);
+                    if (cellClass) {
+                        cell.className = cellClass;
+                    }
+                    
+                    row.appendChild(cell);
+                });
+                
+                table.appendChild(row);
+            });
+            
+            container.appendChild(table);
+        }
+        
+        // Create the table when the page loads
+        document.addEventListener('DOMContentLoaded', createTable);
+        
+        // Create the table immediately if the DOM is already loaded
+        if (document.readyState === 'interactive' || document.readyState === 'complete') {
+            createTable();
+        }
+    </script>
+</body>
+</html>
