@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Truth Seeker Flashcards</title>
+  <style>
+    *{
+        box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+      margin: 0;
+    }
+    .flashcard {
+      background: white;
+      width: 100%;
+      max-width: 800px;
+      margin: 1rem auto;
+      padding: 1.5rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .flashcard:hover {
+      transform: scale(1.01);
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .answer {
+      color: #333;
+      display: none;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+    .flashcard.revealed .answer {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌟 Truth Seeker Flashcards 🎯</h1>
+  <div id="flashcards"></div>
+
+  <script>
+    const flashcards = [
+      {
+        question: "🍉 Your group project looks perfect on the slides, but no one’s actually rehearsed the presentation. What’s going on?",
+        answer: "Use the Watermelon Technique! Green outside, red inside. Do a quick run-through to uncover hidden issues."
+      },
+      {
+        question: "🦆 Your classmate always copies homework and skips tests, but says they’re just ‘having a bad week.’",
+        answer: "Apply the Duck Test. If it walks, quacks, and swims like a duck — it’s probably a duck."
+      },
+      {
+        question: "🧊 Your friend is distant and snapping at everyone. You feel hurt. What now?",
+        answer: "Use the Iceberg Principle. There’s probably a deeper issue. Gently check in with them."
+      },
+      {
+        question: "⛏️ Your team leader seems tired and another member is absent. Ignore or act?",
+        answer: "Remember the Canary in the Coal Mine. These are warning signs. Speak up before it’s too late."
+      },
+      {
+        question: "🐸 You’ve been staying up later each night. You’re tired but not stopping.",
+        answer: "Boiling Frog alert! Small slips build up. Change course before you burn out."
+      },
+      {
+        question: "🚩 Your friend keeps making mean jokes about you in public. They say, 'Don’t be sensitive.'",
+        answer: "Red Flag! Disrespect disguised as humor is still disrespect. Trust your gut."
+      },
+      {
+        question: "🪟 Your desk is a mess and you’re falling behind in small tasks.",
+        answer: "Broken Windows Theory. One ignored mess invites more. Tidy up and reset your flow."
+      },
+      {
+        question: "☀️ You want to post a joke online but would be embarrassed if everyone saw it.",
+        answer: "Sunshine Test! If it can’t handle daylight, maybe skip the post."
+      },
+      {
+        question: "😇 Everyone assumes the popular senior is kind and smart — no proof though.",
+        answer: "Watch out for the Halo Effect. Coolness in one area doesn’t mean goodness in all."
+      },
+      {
+        question: "🍬 You keep watching fun videos but feel bored afterwards.",
+        answer: "Empty Calories for the Mind. Fun isn’t always fulfilling. Try something creative too."
+      },
+      {
+        question: "📉 You got one bad grade and feel like everything is crashing.",
+        answer: "Separate Signal from Noise. One test doesn’t define your ability. Zoom out."
+      },
+      {
+        question: "🧱 A rule at school seems silly, and you want to ignore it.",
+        answer: "Chesterton’s Fence. Understand *why* it exists before tearing it down."
+      },
+      {
+        question: "🫢 Your group agrees silently on a bad plan to avoid conflict.",
+        answer: "False Harmony alert. Silence isn’t real peace. Speak up with care."
+      },
+      {
+        question: "👞 Your friend gives great advice to everyone but is stressed themselves.",
+        answer: "Cobbler’s Children Problem. Helpers often neglect their own needs. Support them."
+      },
+      {
+        question: "💸 You hate a course but keep at it because you’ve already spent months on it.",
+        answer: "Sunk Cost Fallacy! Time spent is gone. Only continue if it’s worth it now."
+      },
+      {
+        question: "🔦 You made a mistake in class and feel like everyone noticed.",
+        answer: "Spotlight Effect! Most people didn’t even notice. Everyone’s focused on themselves."
+      }
+    ];
+
+    const container = document.getElementById('flashcards');
+
+    flashcards.forEach((card, index) => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'flashcard';
+
+      const q = document.createElement('div');
+      q.className = 'question';
+      q.textContent = card.question;
+
+      const a = document.createElement('div');
+      a.className = 'answer';
+      a.textContent = card.answer;
+
+      cardEl.appendChild(q);
+      cardEl.appendChild(a);
+
+      cardEl.addEventListener('click', () => {
+        document.querySelectorAll('.flashcard').forEach(fc => {
+          if (fc !== cardEl) fc.classList.remove('revealed');
+        });
+        cardEl.classList.toggle('revealed');
+      });
+
+      container.appendChild(cardEl);
+    });
+  </script>
+</body>
+</html>

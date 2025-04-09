@@ -7,9 +7,8 @@
     <style>
         table {
             border-collapse: collapse;
-            /* width: 100%; */
-            font-family: Arial, sans-serif;
             margin: auto;
+            font-family: Arial, sans-serif;
         }
         
         th, td {
@@ -26,7 +25,7 @@
         tr:first-child th:first-child {
             background-color: #ffff00;
         }
-        .text-center{text-align: center;}
+        
         .month-label {
             text-align: left;
             font-weight: bold;
@@ -47,30 +46,25 @@
     </style>
 </head>
 <body>
-    <h2 class="text-center">CESC Units consumed by Month/Year</h2>
-    <h4 class="text-center">16 HP Dutta Lane, PAS Rd. Kol 700033</h4>
     <div id="table-container"></div>
 
     <script>
         // JSON data for the table
         const tableData = {
             "totals": {
-                "2018": 0,
                 "2019": 0,
                 "2020": 174,
                 "2021": 1098,
                 "2022": 640,
                 "2023": 938,
                 "2024": 871,
-                "2025": 0,
-                "2026": 0,
-                "2027": 0,
+                "2025": 0
             },
             "months": [
                 {"month": "JAN", "2020": 14, "2021": 15, "2022": 1, "2023": 9, "2024": 18, "2025": 0},
                 {"month": "FEB", "2020": 15, "2021": 15, "2022": 0, "2023": 95, "2024": 21, "2025": 0},
-                {"month": "MAR", "2020": 15, "2021": 15, "2022": 185, "2023": 75, "2024": 27, "2025": 0},
-                {"month": "APR", "2020": 15, "2021": 169, "2022": 129, "2023": 3, "2024": 156, "2025": 10},
+                {"month": "MAR", "2020": 15, "2021": 15, "2022": 185, "2023": 75, "2024": 27, "2025": null},
+                {"month": "APR", "2020": 15, "2021": 169, "2022": 129, "2023": 3, "2024": 156, "2025": null},
                 {"month": "MAY", "2020": 11, "2021": 41, "2022": 18, "2023": 34, "2024": 124, "2025": null},
                 {"month": "JUN", "2020": 14, "2021": 429, "2022": 0, "2023": 199, "2024": 141, "2025": null},
                 {"month": "JUL", "2020": 15, "2021": 194, "2022": 0, "2023": 120, "2024": 143, "2025": null},
@@ -87,6 +81,20 @@
                 "2024": {"124": "pink-light", "141": "pink-light", "143": "pink-light", "156": "pink-medium"}
             }
         };
+
+        // Function to generate random values for title attributes
+        function getRandomTitle() {
+            const types = ["Forecast", "Actual", "Projected", "Estimated", "Target"];
+            const statuses = ["Completed", "In Progress", "Pending", "Verified", "Revised"];
+            const regions = ["North", "South", "East", "West", "Central"];
+            
+            const randomType = types[Math.floor(Math.random() * types.length)];
+            const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+            const randomRegion = regions[Math.floor(Math.random() * regions.length)];
+            const randomPercent = Math.floor(Math.random() * 100);
+            
+            return `${randomType} - ${randomStatus} - ${randomRegion} Region - ${randomPercent}% Complete`;
+        }
 
         // Function to determine cell color based on value and year
         function getCellClass(year, value) {
@@ -108,11 +116,13 @@
             const headerRow1 = document.createElement('tr');
             const unitsHeader = document.createElement('th');
             unitsHeader.textContent = "UNITS";
+            // No title on th elements as requested
             headerRow1.appendChild(unitsHeader);
             
             years.forEach(year => {
                 const th = document.createElement('th');
                 th.textContent = tableData.totals[year];
+                // No title on th elements as requested
                 headerRow1.appendChild(th);
             });
             table.appendChild(headerRow1);
@@ -120,11 +130,13 @@
             // Create second header row with years
             const headerRow2 = document.createElement('tr');
             const emptyHeader = document.createElement('th');
+            // No title on th elements as requested
             headerRow2.appendChild(emptyHeader);
             
             years.forEach(year => {
                 const th = document.createElement('th');
                 th.textContent = year;
+                // No title on th elements as requested
                 headerRow2.appendChild(th);
             });
             table.appendChild(headerRow2);
@@ -137,6 +149,7 @@
                 const monthCell = document.createElement('td');
                 monthCell.textContent = monthData.month;
                 monthCell.className = 'month-label';
+                // monthCell.title = getRandomTitle(); // Add random title to td element
                 row.appendChild(monthCell);
                 
                 // Add data for each year
@@ -154,6 +167,9 @@
                     if (cellClass) {
                         cell.className = cellClass;
                     }
+                    
+                    // Add random title attribute to td elements only
+                    cell.title = value;
                     
                     row.appendChild(cell);
                 });

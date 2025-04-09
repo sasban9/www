@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mental Wellness Flashcards</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card-container {
+      perspective: 1000px;
+      margin-bottom: 20px;
+    }
+    .card {
+      width: 300px;
+      height: 200px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 18px;
+      padding: 20px;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      cursor: pointer;
+      position: relative;
+    }
+    .card.is-flipped {
+      transform: rotateY(180deg);
+    }
+    .card .side {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card .back {
+      transform: rotateY(180deg);
+      background-color: #e0f7fa;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mental Wellness Flashcards</h2>
+  <div class="card-container">
+    <div class="card" id="flashcard">
+      <div class="side front" id="card-front"></div>
+      <div class="side back" id="card-back"></div>
+    </div>
+  </div>
+  <div>
+    <button onclick="nextCard()">Next Card</button>
+    <button onclick="shuffleCards()">Shuffle</button>
+  </div>
+  <audio id="flipSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+  <script>
+    const cards = [
+      {
+        front: "I feel down today—something must be wrong with me.",
+        back: "Emotional Weather: Moods come and go like clouds. Don’t make long-term judgments from short-term feelings."
+      },
+      {
+        front: "If I talk about my anxiety, people will think I’m weak.",
+        back: "Spotlight Effect: Most people are busy thinking about themselves, not judging you."
+      },
+      {
+        front: "Everyone else seems happy. Why not me?",
+        back: "Comparison Trap: Social media is a highlight reel, not real life."
+      },
+      {
+        front: "I’m feeling anxious—must avoid everything scary.",
+        back: "Exposure Therapy: Facing fears shrinks them. Start with small steps."
+      },
+      {
+        front: "I always overthink everything. I must be broken.",
+        back: "Cognitive Reframing: Overthinking means you care. Focus your energy step by step."
+      },
+      {
+        front: "If I take a break, I’m being lazy.",
+        back: "Rest is Recovery: Rest isn’t a reward, it’s a requirement."
+      },
+      {
+        front: "I’m not productive = I’m not valuable.",
+        back: "Identity vs Output: You are more than your achievements."
+      },
+      {
+        front: "I’m overwhelmed. I need to fix everything now!",
+        back: "One Brick at a Time: Lay one small brick. That’s enough for today."
+      }
+    ];
+
+    let currentIndex = 0;
+    const card = document.getElementById("flashcard");
+    const front = document.getElementById("card-front");
+    const back = document.getElementById("card-back");
+    const flipSound = document.getElementById("flipSound");
+
+    function showCard(index) {
+      front.textContent = cards[index].front;
+      back.textContent = cards[index].back;
+      card.classList.remove("is-flipped");
+    }
+
+    card.addEventListener("click", () => {
+      card.classList.toggle("is-flipped");
+      flipSound.play();
+    });
+
+    function nextCard() {
+      currentIndex = (currentIndex + 1) % cards.length;
+      showCard(currentIndex);
+    }
+
+    function shuffleCards() {
+      for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
+      }
+      currentIndex = 0;
+      showCard(currentIndex);
+    }
+
+    showCard(currentIndex);
+  </script>
+</body>
+</html>

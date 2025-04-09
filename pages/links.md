@@ -32,13 +32,6 @@ https://www.udemy.com/course/chatgpt-4/?couponCode=ST11MT170325G3#instructor-1
 https://www.udemy.com/course/chatgpt-simply-explained/?couponCode=ST11MT170325G3#instructor-1
 
 
-
-https://www.udemy.com/user/ref-n-write/
-https://www.udemy.com/user/ff0e5c8c-dd71-443e-be0a-e73ba821f7d7/
-https://www.udemy.com/user/code-commanders/
-https://www.udemy.com/user/michael-pogrebinsky/
-https://www.udemy.com/user/diogo-resende-2/
-https://www.udemy.com/user/alexsandro-souza/
 https://www.udemy.com/user/alexhorea/
 https://www.udemy.com/user/zoltan-toth-74/
 
