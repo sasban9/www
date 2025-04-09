@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maslow's Needs for Teens</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .accordion {
+      background-color: #fff;
+      color: #444;
+      cursor: pointer;
+      padding: 16px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 10px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    .accordion:hover {
+      background-color: #e0f7fa;
+    }
+    .panel {
+      padding: 0 16px;
+      background-color: white;
+      display: none;
+      overflow: hidden;
+      border-radius: 0 0 10px 10px;
+      margin-top: -10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>Maslow's Needs for Teens 🌈</h1>
+
+  <div id="accordion-container">
+    <!-- JavaScript will insert accordion items here -->
+  </div>
+
+  <script>
+    const situations = [
+      {
+        title: "🍞 Physiological: Skipping breakfast before school",
+        content: "You rushed out the door again! 🏃‍♀️ A banana or a granola bar can keep your brain fueled."
+      },
+      {
+        title: "😴 Physiological: Not getting enough sleep",
+        content: "Binge-watching until 2AM? 📱⏰ Try logging off early—your brain needs rest to slay the day!"
+      },
+      {
+        title: "🚨 Safety: Bullying at school",
+        content: "If someone’s hurting you physically or emotionally, it’s *not* okay. Speak up to a teacher or adult you trust. 💬👊"
+      },
+      {
+        title: "🏠 Safety: Parents fighting at home",
+        content: "Home isn’t always peaceful. 😔 Try journaling, drawing, or finding a calm space. You're not alone."
+      },
+      {
+        title: "💸 Safety: Worried about money",
+        content: "When you hear parents talking stressfully about money 💰, it can feel scary. Talk it out with someone."
+      },
+      {
+        title: "👥 Love & Belonging: Feeling left out at school",
+        content: "Lunchtime loneliness hurts 🥺. Join a club, art group, or even say hi to someone new today!"
+      },
+      {
+        title: "🗣️ Love & Belonging: No one to talk to",
+        content: "Sometimes it feels like no one gets it. Try texting a helpline, chatting with a counselor, or journaling your feelings."
+      },
+      {
+        title: "🤝 Love & Belonging: Trouble making friends",
+        content: "New school? New vibe? 🎒Start small—ask someone about their favorite show or join a game during recess."
+      },
+      {
+        title: "💔 Esteem: Feeling like you're not good enough",
+        content: "Failed a quiz or missed a goal? 📝⚽ Remind yourself of what *you* do well. Tiny wins count too!"
+      },
+      {
+        title: "📱 Esteem: Comparing yourself to others on social media",
+        content: "Remember: you see their highlight reel, not the behind-the-scenes. 🌟 Focus on your real journey."
+      },
+      {
+        title: "🧪 Esteem: Failing a test",
+        content: "You studied, but it didn’t go well. 😓 It happens. Review, ask for help, and bounce back stronger!"
+      },
+      {
+        title: "🙇‍♂️ Esteem: Not being recognized for hard work",
+        content: "You gave it your all—and no one clapped? 👏 Clap for yourself. Your effort matters."
+      },
+      {
+        title: "🎨 Self-Actualization: Unsure of your passion",
+        content: "Not sure what excites you? Try writing, coding, baking, filming—play with the possibilities. 🌟"
+      },
+      {
+        title: "🌍 Self-Actualization: Wanting to make a difference",
+        content: "Care about climate change? Inequality? 📣 Start a petition, make art, or volunteer—start somewhere small."
+      },
+      {
+        title: "🌀 Self-Actualization: Feeling stuck in routine",
+        content: "School. Homework. Sleep. Repeat. 😵‍💫 Break the loop—try learning a new dance, sketching, or building something."
+      },
+      {
+        title: "🌠 Self-Actualization: Doubting your dreams",
+        content: "Big dreams feel scary. 🎯 Start tiny: research, journal, or share your idea with a friend."
+      },
+      {
+        title: "📵 Physiological: Too much screen time",
+        content: "Endless scrolling? 😬 Give your brain a breather. Go for a walk, play with a pet, or just chill offline."
+      },
+      {
+        title: "🤒 Physiological: Feeling sick but hiding it",
+        content: "Coughing through class isn’t bravery. 🧑‍⚕️ Tell someone. You deserve care."
+      },
+      {
+        title: "🌐 Safety: Unsafe online interactions",
+        content: "Someone online giving you the creeps? 🚫 Block, report, and never share personal info. You’ve got the power."
+      },
+      {
+        title: "💔 Love & Belonging: Heartbreak",
+        content: "Breakups hurt. 😢 Cry. Vent. Write angry poems. You’ll heal and grow stronger."
+      },
+      {
+        title: "🎤 Esteem: Public speaking anxiety",
+        content: "Heart racing? Palms sweaty? 🎤 Practice in front of your mirror, your pet, or a friend. You'll get there."
+      },
+      {
+        title: "⚽ Esteem: Not making the team",
+        content: "Didn’t get picked? 🥲 It's okay. Try again or explore other talents waiting to shine."
+      },
+      {
+        title: "🎬 Self-Actualization: Wanting to start a creative project",
+        content: "Got an idea for a comic, short film, or blog? 🎨✨ Start messy. Done is better than perfect."
+      },
+      {
+        title: "📢 Self-Actualization: Feeling like your voice doesn’t matter",
+        content: "Your ideas are worth sharing. Start a podcast, write a post, speak in class. Your voice matters. 💬"
+      }
+    ];
+
+    const container = document.getElementById('accordion-container');
+
+    situations.forEach(({ title, content }) => {
+      const btn = document.createElement('button');
+      btn.className = 'accordion';
+      btn.textContent = title;
+
+      const panel = document.createElement('div');
+      panel.className = 'panel';
+      panel.innerHTML = `<p>${content}</p>`;
+
+      btn.onclick = () => {
+        document.querySelectorAll('.panel').forEach(p => {
+          if (p !== panel) p.style.display = 'none';
+        });
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+      };
+
+      container.appendChild(btn);
+      container.appendChild(panel);
+    });
+  </script>
+</body>
+</html>

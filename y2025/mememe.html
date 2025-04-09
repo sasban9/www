@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>"I" Statements Flashcard Accordion</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    .accordion-item {
+      background: #fff;
+      border-radius: 8px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .accordion-header {
+      background: #e0f7fa;
+      padding: 15px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .accordion-content {
+      padding: 15px;
+      display: none;
+      border-top: 1px solid #ddd;
+    }
+    .term {
+      font-weight: bold;
+      color: #00796b;
+    }
+    .learn-link {
+      margin-top: 10px;
+      display: inline-block;
+      text-decoration: none;
+      color: #0288d1;
+      font-weight: bold;
+    }
+    .icon {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🗣️ Using "I" Statements</h2>
+  <div id="accordion-container"></div>
+
+  <script>
+    const flashcards = [
+      {
+        "id": 1,
+        "front": "Your friend cancels plans last minute. You feel hurt.",
+        "back": "I felt disappointed when you canceled. I was really looking forward to spending time together.",
+        "term": "Assertive Communication",
+        "icon": "😔",
+        "learnMore": "https://kidshelpline.com.au/teens/issues/assertive-communication"
+      },
+      {
+        "id": 2,
+        "front": "Your sibling keeps interrupting you while you're talking.",
+        "back": "I feel frustrated when I’m interrupted because I want to share my thoughts too.",
+        "term": "Boundary Setting with “I” Statements",
+        "icon": "😤",
+        "learnMore": "https://www.verywellmind.com/how-to-set-boundaries-5206005"
+      },
+      {
+        "id": 3,
+        "front": "You feel ignored in group chats with your classmates.",
+        "back": "I feel left out when my messages don’t get replies. I want to feel included in the group.",
+        "term": "Social Needs Expression",
+        "icon": "📱",
+        "learnMore": "https://www.psychologytoday.com/us/blog/the-moment-youth/202109/helping-teens-feel-included"
+      },
+      {
+        "id": 4,
+        "front": "Your teacher gives you feedback that felt unfair.",
+        "back": "I felt confused and a little upset after your feedback. Can we talk about it so I can improve?",
+        "term": "Respectful Feedback Response",
+        "icon": "🧑‍🏫",
+        "learnMore": "https://positivepsychology.com/assertive-communication/"
+      },
+      {
+        "id": 5,
+        "front": "Your parent tells you to stop gaming and study.",
+        "back": "I understand studying is important. I feel stressed when I’m not given a break after school.",
+        "term": "Conflict De-escalation",
+        "icon": "🎮",
+        "learnMore": "https://www.childmind.org/article/teaching-kids-to-resolve-conflict/"
+      },
+      {
+        "id": 6,
+        "front": "Your friend talks about you behind your back.",
+        "back": "I felt hurt when I heard what was said about me. I’d rather we talk openly if there’s an issue.",
+        "term": "Handling Betrayal with “I” Statements",
+        "icon": "🗣️",
+        "learnMore": "https://www.psychologytoday.com/us/blog/resolution-not-conflict/201905/using-i-statements-in-conflict-conversations"
+      },
+      {
+        "id": 7,
+        "front": "Your group project partner isn’t contributing.",
+        "back": "I feel overwhelmed when I do most of the work alone. I need your help to balance things.",
+        "term": "Collaborative Problem Solving",
+        "icon": "🤝",
+        "learnMore": "https://kidshelpline.com.au/teens/issues/teamwork"
+      },
+      {
+        "id": 8,
+        "front": "Your coach criticizes your performance harshly.",
+        "back": "I felt discouraged after the feedback. I want to grow, but I also need support and respect.",
+        "term": "Self-Advocacy",
+        "icon": "🏀",
+        "learnMore": "https://www.understood.org/en/articles/how-to-teach-kids-self-advocacy"
+      },
+      {
+        "id": 9,
+        "front": "You feel uncomfortable with how your friend jokes about you.",
+        "back": "I feel uncomfortable when jokes are made about me in front of others. I’d appreciate it if that stopped.",
+        "term": "Personal Boundaries",
+        "icon": "🙅",
+        "learnMore": "https://www.psychologytoday.com/us/blog/your-emotional-meter/202011/setting-personal-boundaries"
+      },
+      {
+        "id": 10,
+        "front": "You’re being rushed in a decision you’re not ready to make.",
+        "back": "I feel anxious when I have to decide quickly. I need some time to think things through.",
+        "term": "Pacing & Self-Awareness",
+        "icon": "⏳",
+        "learnMore": "https://www.mindful.org/how-to-practice-self-awareness/"
+      }
+    ];
+
+    const container = document.getElementById("accordion-container");
+
+    flashcards.forEach(card => {
+      const item = document.createElement("div");
+      item.className = "accordion-item";
+
+      item.innerHTML = `
+        <div class="accordion-header">
+          <span>${card.icon} ${card.front}</span>
+          <span>➕</span>
+        </div>
+        <div class="accordion-content">
+          <p><strong>"I" Statement:</strong> ${card.back}</p>
+          <p class="term">Topic: ${card.term}</p>
+          <a class="learn-link" href="${card.learnMore}" target="_blank">🔗 Learn more</a>
+        </div>
+      `;
+
+      const header = item.querySelector(".accordion-header");
+      const content = item.querySelector(".accordion-content");
+
+      header.addEventListener("click", () => {
+        const expanded = content.style.display === "block";
+        document.querySelectorAll(".accordion-content").forEach(el => el.style.display = "none");
+        content.style.display = expanded ? "none" : "block";
+      });
+
+      container.appendChild(item);
+    });
+  </script>
+
+</body>
+</html>
