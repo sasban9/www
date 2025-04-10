@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teen Mental Health App</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f7f9fc;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark {
+      background-color: #1e1e1e;
+      color: #f0f0f0;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 10px 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+    body.dark .card {
+      background: #2b2b2b;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .card-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+    }
+    .modal-content textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .close-btn {
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .dark-toggle {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 10px 15px;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Teen Mental Health App</h1>
+    <button class="dark-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    <input type="text" id="search" placeholder="Search activities..." />
+    <div id="activities"></div>
+  </div>
+
+  <div id="modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div id="modal-title"></div>
+      <textarea placeholder="Write your journal entry here..."></textarea>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const activities = [
+      { title: "1. 'Stop!' Challenge", activity: "Say 'STOP!' firmly out loud or in your mind when a negative thought arises. Reflect on 3 times you did this today." },
+      { title: "2. Snap and Switch", activity: "Wear a rubber band on your wrist. Snap it gently when you catch a negative thought. Replace it with a more helpful one." },
+      { title: "3. Clap Break", activity: "In a group, share a negative thought. Everyone claps loudly after each one to break the thought loop." },
+      { title: "4. Stop Sign Drawing", activity: "Draw a STOP sign and write a thought you want to stop inside it. Keep it as a visual reminder." },
+      { title: "5. Breathing Reset", activity: "Take 3 deep breaths when you feel overwhelmed. Focus only on your breathing. Journal how you felt after." },
+      { title: "6. Affirmation Flip", activity: "Write a negative thought, then write 3 affirmations to replace it. Example: 'I'm not good enough' ➝ 'I'm learning,' 'I'm growing.'" },
+      { title: "7. Mental Olympics", activity: "Distract your mind with a quick challenge: count backwards from 100 by 3s or list 10 countries starting with 'S'." },
+      { title: "8. Move Your Mood", activity: "Get up, stretch, walk or dance when stuck in a negative loop. Write how you felt before and after." },
+      { title: "9. Mantra Mission", activity: "Choose a calming phrase and repeat it 10 times. Example: 'I am calm and capable.' Use it daily." },
+      { title: "10. 5-4-3-2-1 Grounding Hunt", activity: "Find 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you taste to ground yourself." },
+      { title: "11. Hum It Out", activity: "Hum or sing a favorite song when anxious. Make a playlist of 'mood reset' songs." },
+      { title: "12. Cross It Out!", activity: "Write down a negative thought and cross it out boldly. Underneath, write a more helpful replacement." }
+    ];
+
+    const searchInput = document.getElementById('search');
+    const activitiesContainer = document.getElementById('activities');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+
+    function displayActivities(list) {
+      activitiesContainer.innerHTML = '';
+      list.forEach(({ title, activity }) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<div class="card-title">${title}</div><div>${activity}</div>`;
+        card.addEventListener('click', () => openModal(title));
+        activitiesContainer.appendChild(card);
+      });
+    }
+
+    function openModal(title) {
+      modalTitle.innerText = title;
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+
+    searchInput.addEventListener('input', () => {
+      const searchTerm = searchInput.value.toLowerCase();
+      const filtered = activities.filter(item =>
+        item.title.toLowerCase().includes(searchTerm) ||
+        item.activity.toLowerCase().includes(searchTerm)
+      );
+      displayActivities(filtered);
+    });
+
+    displayActivities(activities);
+  </script>
+</body>
+</html>
