@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Window of Tolerance Flashcards</title>
+  <style>
+    *{box-sizing: border-box;}
+    body {
+      font-family: "Georgia", serif;
+      background-color: #fdf6e3;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 700px;
+      width: 100%;
+      border: 1px solid #f3eac0;
+      transition: all 0.3s ease;
+    }
+
+    h3 {
+      margin-bottom: 0.25rem;
+      font-size: 1.25rem;
+    }
+
+    .situation h3 {
+      color: #444;
+    }
+
+    .response h3 {
+      color: #e17c34;
+    }
+
+    .solution h3 {
+      color: #3a8557;
+    }
+
+    .response p {
+      font-style: italic;
+    }
+
+    button {
+      background-color: #222;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #000;
+    }
+
+    .fade {
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card fade" id="flashcard">
+    <div class="situation">
+      <h3>🧠 Situation</h3>
+      <p id="situationText"></p>
+    </div>
+    <div class="response">
+      <h3>⚡ Response</h3>
+      <p id="responseText"></p>
+    </div>
+    <div class="solution">
+      <h3>✅ Optimal Solution</h3>
+      <p id="solutionText"></p>
+    </div>
+  </div>
+
+  <button onclick="nextCard()">Next Flashcard</button>
+
+  <script>
+    const flashcards = [
+      {
+        situation: "You’re giving a presentation and someone asks a tough question.",
+        response: "You stay calm, think clearly, and respond thoughtfully.",
+        solution: "Pause, breathe, and say, ‘That’s a great question. Let me think for a moment.’ Confidence through composure."
+      },
+      {
+        situation: "Your friend cancels plans last minute.",
+        response: "You feel disappointed but don’t overreact.",
+        solution: "Reframe the moment. ‘No problem—I’ll use this time for something else meaningful.’"
+      },
+      {
+        situation: "You make a mistake at work.",
+        response: "You acknowledge the error and stay engaged.",
+        solution: "Say, ‘Thanks for the feedback—I’ll correct it and learn from this experience.’"
+      },
+      {
+        situation: "Your sibling snaps at you unexpectedly.",
+        response: "You instantly shout back and escalate the tension.",
+        solution: "Take a step back. Say, ‘I need a minute to calm down—let’s talk in a bit.’"
+      },
+      {
+        situation: "You get an urgent email from your boss.",
+        response: "You start panicking and thinking the worst.",
+        solution: "Pause and breathe deeply. Read the email again, break the task into smaller steps."
+      },
+      {
+        situation: "A loud noise startles you while working.",
+        response: "You get anxious and can’t focus.",
+        solution: "Ground yourself: Name 5 things you see, 4 you can touch, 3 you hear—remind yourself you’re safe."
+      },
+      {
+        situation: "You feel overwhelmed by schoolwork.",
+        response: "You freeze and avoid starting anything.",
+        solution: "Choose just one small task. Set a timer for 10 minutes—progress, not perfection."
+      },
+      {
+        situation: "Someone is talking to you but your mind feels foggy.",
+        response: "You can’t concentrate and feel numb.",
+        solution: "Ask for a short break or movement: ‘Can I walk a little and come back to this?’"
+      },
+      {
+        situation: "In a group chat, no one listens when you speak.",
+        response: "You shut down and stop participating.",
+        solution: "Gently assert: ‘I’d like to add something when there’s a moment.’"
+      },
+      {
+        situation: "You're panicking before an exam.",
+        response: "You feel dizzy and can’t focus.",
+        solution: "Breathe deeply, remind yourself: ‘I’ve studied. I can only do my best.’ Use body grounding if needed."
+      },
+      {
+        situation: "You feel emotionally numb after a hard day.",
+        response: "You zone out and feel disconnected from yourself.",
+        solution: "Do gentle movement like a walk or stretching. Add soft music and hydrate to activate presence."
+      },
+      {
+        situation: "You had a conflict and now feel scattered.",
+        response: "You call a friend, but still feel unsettled.",
+        solution: "Talk it through: ‘Here’s what happened. Here’s how I felt. What do you think could help me process this better?’"
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function renderCard(index) {
+      document.getElementById("situationText").textContent = flashcards[index].situation;
+      document.getElementById("responseText").textContent = flashcards[index].response;
+      document.getElementById("solutionText").textContent = flashcards[index].solution;
+    }
+
+    function nextCard() {
+      currentIndex = (currentIndex + 1) % flashcards.length;
+      const card = document.getElementById("flashcard");
+      card.classList.remove("fade");
+      void card.offsetWidth; // trick to restart animation
+      card.classList.add("fade");
+      renderCard(currentIndex);
+    }
+
+    // Initial render
+    renderCard(currentIndex);
+  </script>
+</body>
+</html>
