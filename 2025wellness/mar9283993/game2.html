@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emotion Terminology Match Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      padding: 2rem;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem auto;
+      max-width: 600px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .option {
+      display: block;
+      margin: 0.5rem auto;
+      padding: 0.75rem 1rem;
+      background: #e0e7ff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      width: 90%;
+    }
+    .option:hover {
+      background: #c7d2fe;
+    }
+    .feedback {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    .next-btn {
+      display: none;
+      margin-top: 1rem;
+      background: #10b981;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .next-btn:hover {
+      background: #059669;
+    }
+    .score {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="score" id="score">Score: 0</div>
+    <h2 id="question"></h2>
+    <p id="answer"></p>
+    <div id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="nextBtn">Next</button>
+  </div>
+
+  <audio id="correctSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+  <audio id="wrongSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+
+  <script>
+    const explanationMap = {
+      "Emotional Suppression": "Suppressing emotions can lead to stress and health issues.",
+      "Emotional Regulation": "Regulating emotions means expressing them in a healthy, constructive way.",
+      "Projection": "Projection is attributing your own feelings to someone else.",
+      "Avoidance": "Avoiding emotions or situations often delays healing and learning.",
+      "Empathy": "Empathy means understanding and sharing another person's feelings.",
+      "Compassion Fatigue": "This is emotional exhaustion from caring too much for others over time.",
+      "Gaslighting": "Manipulating someone into questioning their reality or feelings.",
+      "Rationalization": "Using logic to justify uncomfortable feelings or behaviors.",
+      "Mindfulness": "Being fully present and aware of your emotions without judgment.",
+      "Impulse Control": "Managing your urges and delaying reactions thoughtfully.",
+      "Emotional Outburst": "Uncontrolled expression of intense emotions, often in destructive ways.",
+      "Grounding": "Techniques to bring your attention to the present moment.",
+      "Denial": "Refusing to acknowledge a painful reality or emotion.",
+      "Repression": "Blocking out distressing thoughts unconsciously.",
+      "Displacement": "Shifting emotions from the real source to a safer target.",
+      "Minimization": "Downplaying the seriousness of a situation or emotion.",
+      "Self-Compassion": "Being kind to yourself in moments of suffering or failure.",
+      "Rumination": "Repetitively thinking about the causes and consequences of your distress.",
+      "Assertiveness": "Expressing thoughts and feelings in a respectful, confident way.",
+      "Catastrophizing": "Expecting the worst possible outcome in a situation."
+    };
+
+    const cards = [
+      {
+        question: "You had a bad day at school and decided to write in your journal about your feelings.",
+        answer: "This is an example of healthy emotional expression.",
+        options: ["Emotional Suppression", "Emotional Regulation", "Projection", "Avoidance"],
+        correct: "Emotional Regulation"
+      },
+      {
+        question: "You feel like your friend is upset, and you start to feel anxious and uncomfortable.",
+        answer: "You are picking up on your friend's emotions and feeling them yourself.",
+        options: ["Empathy", "Compassion Fatigue", "Gaslighting", "Rationalization"],
+        correct: "Empathy"
+      },
+      {
+        question: "You got angry during a game and threw your phone on the ground.",
+        answer: "This is an example of uncontrolled emotional reaction.",
+        options: ["Mindfulness", "Impulse Control", "Emotional Outburst", "Grounding"],
+        correct: "Emotional Outburst"
+      },
+      {
+        question: "Instead of admitting that you are scared about a test, you act like it's not important.",
+        answer: "This is a defense mechanism.",
+        options: ["Denial", "Repression", "Displacement", "Minimization"],
+        correct: "Minimization"
+      },
+      {
+        question: "You constantly think about a fight you had with a friend, even though it's over.",
+        answer: "This is a negative thinking pattern.",
+        options: ["Self-Compassion", "Rumination", "Assertiveness", "Catastrophizing"],
+        correct: "Rumination"
+      },
+      {
+        question: "You speak up calmly and clearly when someone crosses your boundary.",
+        answer: "This is a healthy way to express yourself.",
+        options: ["Aggression", "Avoidance", "Assertiveness", "Repression"],
+        correct: "Assertiveness"
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    const questionEl = document.getElementById("question");
+    const answerEl = document.getElementById("answer");
+    const optionsEl = document.getElementById("options");
+    const feedbackEl = document.getElementById("feedback");
+    const nextBtn = document.getElementById("nextBtn");
+    const scoreEl = document.getElementById("score");
+    const correctSound = document.getElementById("correctSound");
+    const wrongSound = document.getElementById("wrongSound");
+
+    function loadCard(index) {
+      const card = cards[index];
+      questionEl.textContent = card.question;
+      answerEl.textContent = card.answer;
+      optionsEl.innerHTML = "";
+      feedbackEl.textContent = "";
+      nextBtn.style.display = "none";
+
+      card.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = opt;
+        btn.onclick = () => handleAnswer(opt, opt === card.correct);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedOption, isCorrect) {
+      const explanation = explanationMap[selectedOption] || "";
+      feedbackEl.textContent = isCorrect
+        ? `✅ Correct! ${explanation}`
+        : `❌ ${explanation}`;
+      if (isCorrect) {
+        score++;
+        correctSound.play();
+      } else {
+        wrongSound.play();
+      }
+      scoreEl.textContent = `Score: ${score}`;
+      nextBtn.style.display = "block";
+    }
+
+    nextBtn.onclick = () => {
+      current = (current + 1) % cards.length;
+      loadCard(current);
+    };
+
+    loadCard(current);
+  </script>
+</body>
+</html>

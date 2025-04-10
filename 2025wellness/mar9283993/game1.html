@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Quest</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #b5d8fe;
+            color: #5e4c5a;
+            margin: 0;
+            padding: 0;
+            background-image: url("https://c4.wallpaperflare.com/wallpaper/656/417/87/best-landscape-hd-background-ocean-best-landscape-wallpaper-preview.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .scroll {
+            background-color: rgba(255, 249, 242, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(128, 93, 149, 0.4);
+            border: 3px solid #c7a0d2;
+            position: relative;
+            margin-top: 50px;
+        }
+        .scroll::before, .scroll::after {
+            content: "";
+            position: absolute;
+            height: 30px;
+            width: 100%;
+            left: 0;
+            background-image: url("/api/placeholder/800/30");
+            background-size: contain;
+        }
+        .scroll::before {
+            top: -15px;
+        }
+        .scroll::after {
+            bottom: -15px;
+        }
+        h1 {
+            color: #ffc;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(109, 104, 117, 0.3);
+        }
+        .situation {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #c7a0d2;
+            padding-bottom: 15px;
+            color: #5e4c5a;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .option {
+            background-color: #e2d7f0;
+            border: 2px solid #c7a0d2;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #5e4c5a;
+            text-align: left;
+            font-size: 1.1em;
+            position: relative;
+        }
+        .option:hover {
+            background-color: #f0e6ff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(128, 93, 149, 0.3);
+        }
+        .option.correct {
+            background-color: #b8e6cf;
+            border-color: #6bc589;
+        }
+        .option.incorrect {
+            background-color: #ffcadb;
+            border-color: #ff96b4;
+        }
+        .feedback {
+            background-color: rgba(250, 239, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(128, 93, 149, 0.2);
+            border-left: 4px solid #b58fd8;
+            display: none;
+            color: #5e4c5a;
+        }
+        .feedback h3 {
+            color: #8a6fb3;
+            margin-top: 0;
+        }
+        .next-btn {
+            background-color: #b58fd8;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: none;
+        }
+        .next-btn:hover {
+            background-color: #9e7bc0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(128, 93, 149, 0.4);
+        }
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background-color: #e2d7f0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(128, 93, 149, 0.2);
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #b58fd8 0%, #9e7bc0 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .stat {
+            background-color: rgba(255, 249, 242, 0.9);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #c7a0d2;
+            color: #8a6fb3;
+            font-weight: bold;
+        }
+        .dice-icon {
+            display: inline-block;
+            margin-right: 5px;
+            color: #b58fd8;
+        }
+        .hidden {
+            display: none;
+        }
+        .game-over {
+            text-align: center;
+            padding: 30px;
+        }
+        .restart-btn {
+            background-color: #b58fd8;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+        .restart-btn:hover {
+            background-color: #9e7bc0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(128, 93, 149, 0.4);
+        }
+        .mental-health-term {
+            font-weight: bold;
+            color: #9e7bc0;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .scroll {
+                padding: 20px 15px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mental Health Quest</h1>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="dice-icon">🎲</span> Quest: <span id="current-question">1</span>/<span id="total-questions">5</span>
+            </div>
+            <div class="stat">
+                <span class="dice-icon">⚔️</span> Mental Health Points: <span id="score">0</span>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        
+        <div class="scroll" id="quest-container">
+            <div class="situation" id="situation">Loading your quest...</div>
+            <div class="options" id="options"></div>
+            <div class="feedback" id="feedback"></div>
+            <button class="next-btn" id="next-btn">Continue Quest</button>
+        </div>
+        
+        <div class="scroll hidden" id="game-over">
+            <div class="game-over">
+                <h2>Quest Complete!</h2>
+                <p>You've completed your mental health adventure.</p>
+                <p>Final score: <span id="final-score">0</span> / <span id="max-score">0</span></p>
+                <p id="final-feedback"></p>
+                <button class="restart-btn" id="restart-btn">Begin New Quest</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game data
+        const quests = [
+            {
+                situation: "Your best friend didn't invite you to their birthday party, and you found out from social media. You feel hurt and excluded.",
+                options: [
+                    {
+                        text: "Think: 'They must hate me. Nobody wants me around. I'm just a loser.'",
+                        term: "Catastrophizing",
+                        correct: false,
+                        feedback: "This is <span class='mental-health-term'>Catastrophizing</span>, which means jumping to the worst possible conclusion. There could be many reasons why you weren't invited - maybe it was a small gathering, or even an oversight. Assuming the worst interpretation can increase anxiety and sadness."
+                    },
+                    {
+                        text: "Decide they're a terrible friend and immediately cut them out of your life without talking about it.",
+                        term: "Black-and-white thinking",
+                        correct: false,
+                        feedback: "This demonstrates <span class='mental-health-term'>Black-and-white thinking</span> (also called all-or-nothing thinking), where you view situations in extreme, absolute terms with no middle ground. One mistake doesn't make someone a terrible friend - relationships have nuance and require communication to navigate conflicts."
+                    },
+                    {
+                        text: "Send an angry text accusing them of being fake and posting about how horrible they are.",
+                        term: "Emotional dysregulation",
+                        correct: false,
+                        feedback: "This shows <span class='mental-health-term'>Emotional dysregulation</span>, which is responding to emotions with intense, immediate reactions without processing them first. While feeling hurt is valid, acting impulsively on strong emotions often makes situations worse and damages relationships."
+                    },
+                    {
+                        text: "Feel hurt, but then decide to talk to your friend directly about how you feel, asking if there was a reason you weren't included.",
+                        term: "Emotional intelligence",
+                        correct: true,
+                        feedback: "This demonstrates <span class='mental-health-term'>Emotional intelligence</span> - recognizing your feelings while responding in a balanced, constructive way. Direct communication allows you to express yourself while giving your friend a chance to explain, potentially strengthening your relationship instead of damaging it."
+                    }
+                ]
+            },
+            {
+                situation: "You got a lower grade than expected on an important test, despite studying hard.",
+                options: [
+                    {
+                        text: "Think: 'I'm just not smart enough. I'll never be good at this subject.'",
+                        term: "Fixed mindset",
+                        correct: false,
+                        feedback: "This is a <span class='mental-health-term'>Fixed mindset</span>, the belief that your abilities are static and unchangeable. Intelligence and skills can be developed through dedication and hard work. One test doesn't define your potential or future performance in a subject."
+                    },
+                    {
+                        text: "Look at where you made mistakes, ask the teacher for feedback, and make a plan to improve your understanding of those topics.",
+                        term: "Growth mindset",
+                        correct: true,
+                        feedback: "This shows a <span class='mental-health-term'>Growth mindset</span> - viewing challenges as opportunities to learn and improve rather than as failures. By analyzing mistakes and seeking feedback, you're using the experience constructively to enhance your learning and future performance."
+                    },
+                    {
+                        text: "Blame the teacher for making an unfair test and refuse to look at what you got wrong.",
+                        term: "External locus of control",
+                        correct: false,
+                        feedback: "This demonstrates an <span class='mental-health-term'>External locus of control</span>, attributing outcomes solely to outside forces rather than acknowledging your own role. While test design can be a factor, refusing to examine your mistakes prevents learning and improvement."
+                    },
+                    {
+                        text: "Decide there's no point in studying next time since it didn't help anyway.",
+                        term: "Learned helplessness",
+                        correct: false,
+                        feedback: "This represents <span class='mental-health-term'>Learned helplessness</span>, giving up because you believe your actions won't affect outcomes. One disappointing result doesn't mean studying is ineffective - it might mean adjusting your study approach, not abandoning effort entirely."
+                    }
+                ]
+            },
+            {
+                situation: "You notice a classmate sitting alone at lunch looking sad. You don't know them very well.",
+                options: [
+                    {
+                        text: "Think they probably want to be alone and ignore it.",
+                        term: "Mind reading",
+                        correct: false,
+                        feedback: "This is <span class='mental-health-term'>Mind reading</span>, assuming you know what someone else is thinking without evidence. While some people do prefer solitude when upset, others might welcome connection but struggle to initiate it. Making assumptions prevents potential positive interactions."
+                    },
+                    {
+                        text: "Ask if they'd like company and if there's anything they'd like to talk about.",
+                        term: "Empathy",
+                        correct: true,
+                        feedback: "This demonstrates <span class='mental-health-term'>Empathy</span>, recognizing another person's emotional state and responding with understanding and compassion. By offering companionship without pressure, you show respect for their feelings while providing an opportunity for connection if they want it."
+                    },
+                    {
+                        text: "Tell your friends they look weird sitting alone and to stay away from them.",
+                        term: "Social aggression",
+                        correct: false,
+                        feedback: "This represents <span class='mental-health-term'>Social aggression</span>, behaviors that harm others' social standing or relationships. Mocking someone who's already isolated can significantly worsen their emotional distress and contribute to a negative school environment."
+                    },
+                    {
+                        text: "Think about saying something but worry they'll reject you, so you don't approach them.",
+                        term: "Social anxiety",
+                        correct: false,
+                        feedback: "This shows <span class='mental-health-term'>Social anxiety</span>, excessive fear about social interactions and potential judgment or rejection. While these feelings are common, letting them prevent kind actions limits positive connections for both yourself and others."
+                    }
+                ]
+            },
+            {
+                situation: "Your parent criticized the way you handled a chore, and you feel defensive and upset.",
+                options: [
+                    {
+                        text: "Yell back that they never appreciate anything you do and storm off.",
+                        term: "Emotional reactivity",
+                        correct: false,
+                        feedback: "This shows <span class='mental-health-term'>Emotional reactivity</span>, responding to triggering situations with immediate, intense emotions that overwhelm rational thought. While feeling defensive is natural, explosive reactions typically escalate conflicts rather than resolving them."
+                    },
+                    {
+                        text: "Say nothing, but silently decide you'll never help around the house again since nothing you do is good enough.",
+                        term: "Passive aggression",
+                        correct: false,
+                        feedback: "This demonstrates <span class='mental-health-term'>Passive aggression</span>, expressing negative feelings indirectly rather than addressing them openly. This approach avoids immediate conflict but creates resentment and doesn't allow for understanding or resolution."
+                    },
+                    {
+                        text: "Take a deep breath and say, 'I feel frustrated when my efforts aren't recognized. Could you show me how you'd prefer it done?'",
+                        term: "Emotional regulation",
+                        correct: true,
+                        feedback: "This exemplifies <span class='mental-health-term'>Emotional regulation</span>, managing your emotional responses in a healthy way. By acknowledging your feelings while responding constructively, you create an opportunity for understanding and learning rather than conflict."
+                    },
+                    {
+                        text: "Think: 'I'm such a failure. I can't even do basic chores right. I always mess everything up.'",
+                        term: "Negative self-talk",
+                        correct: false,
+                        feedback: "This is <span class='mental-health-term'>Negative self-talk</span>, a pattern of self-critical thoughts that undermine self-esteem and well-being. Criticism about one specific task doesn't reflect your overall worth or competence, and this harsh internal dialogue can contribute to anxiety and depression."
+                    }
+                ]
+            },
+            {
+                situation: "You've been feeling overwhelmed with schoolwork, extracurriculars, and family responsibilities for several weeks.",
+                options: [
+                    {
+                        text: "Push through it - use energy drinks to stay up later and get everything done, no matter what.",
+                        term: "Self-neglect",
+                        correct: false,
+                        feedback: "This demonstrates <span class='mental-health-term'>Self-neglect</span>, prioritizing external demands over basic health needs. While dedication is admirable, ignoring your body's need for rest and recovery leads to burnout, decreased performance, and potential physical and mental health problems."
+                    },
+                    {
+                        text: "Look at your calendar and responsibilities, identify what's most important, and talk to teachers or family about adjusting some deadlines or commitments.",
+                        term: "Boundary setting",
+                        correct: true,
+                        feedback: "This shows healthy <span class='mental-health-term'>Boundary setting</span>, recognizing your limits and communicating them respectfully. Setting boundaries isn't selfish - it's necessary for sustainable wellbeing and allows you to meet your most important commitments effectively rather than burning out."
+                    },
+                    {
+                        text: "Decide it's all too much and just stop doing any work or attending activities.",
+                        term: "Avoidance coping",
+                        correct: false,
+                        feedback: "This is <span class='mental-health-term'>Avoidance coping</span>, dealing with stress by withdrawing from responsibilities rather than addressing them. While temporarily relieving anxiety, avoidance typically creates bigger problems and additional stress over time."
+                    },
+                    {
+                        text: "Keep your stress to yourself because everyone else seems to be handling their responsibilities fine.",
+                        term: "Unhealthy comparison",
+                        correct: false,
+                        feedback: "This involves <span class='mental-health-term'>Unhealthy comparison</span> and isolation. Most people experience stress they don't openly show, and assuming others are 'handling it fine' creates unrealistic standards. Seeking support is a strength, not a weakness, and can provide both practical help and emotional relief."
+                    }
+                ]
+            }
+        ];
+
+        // Game state
+        let currentQuest = 0;
+        let score = 0;
+        let answered = false;
+        
+        // DOM elements
+        const situationElement = document.getElementById('situation');
+        const optionsElement = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const currentQuestionElement = document.getElementById('current-question');
+        const totalQuestionsElement = document.getElementById('total-questions');
+        const scoreElement = document.getElementById('score');
+        const progressBar = document.getElementById('progress');
+        const questContainer = document.getElementById('quest-container');
+        const gameOverContainer = document.getElementById('game-over');
+        const finalScoreElement = document.getElementById('final-score');
+        const maxScoreElement = document.getElementById('max-score');
+        const finalFeedbackElement = document.getElementById('final-feedback');
+        const restartButton = document.getElementById('restart-btn');
+        
+        // Initialize the game
+        function initGame() {
+            currentQuest = 0;
+            score = 0;
+            answered = false;
+            
+            totalQuestionsElement.textContent = quests.length;
+            scoreElement.textContent = score;
+            
+            questContainer.classList.remove('hidden');
+            gameOverContainer.classList.add('hidden');
+            
+            loadQuest();
+        }
+        
+        // Load current quest
+        function loadQuest() {
+            const quest = quests[currentQuest];
+            
+            // Update UI
+            currentQuestionElement.textContent = currentQuest + 1;
+            situationElement.textContent = quest.situation;
+            optionsElement.innerHTML = '';
+            feedbackElement.style.display = 'none';
+            nextButton.style.display = 'none';
+            
+            // Update progress bar
+            progressBar.style.width = `${((currentQuest) / quests.length) * 100}%`;
+            
+            // Create option buttons
+            quest.options.forEach((option, index) => {
+                const optionButton = document.createElement('button');
+                optionButton.className = 'option';
+                optionButton.innerHTML = `<strong>${option.term}:</strong> ${option.text}`;
+                
+                optionButton.addEventListener('click', () => {
+                    if (!answered) {
+                        answered = true;
+                        selectOption(index, option.correct);
+                    }
+                });
+                
+                optionsElement.appendChild(optionButton);
+            });
+        }
+        
+        // Handle option selection
+        function selectOption(index, correct) {
+            const options = document.querySelectorAll('.option');
+            const quest = quests[currentQuest];
+            
+            // Highlight options
+            options.forEach((opt, i) => {
+                if (i === index) {
+                    opt.classList.add(correct ? 'correct' : 'incorrect');
+                }
+                if (quest.options[i].correct) {
+                    opt.classList.add('correct');
+                }
+            });
+            
+            // Show feedback
+            feedbackElement.innerHTML = quest.options[index].feedback;
+            feedbackElement.style.display = 'block';
+            
+            // Update score if correct
+            if (correct) {
+                score++;
+                scoreElement.textContent = score;
+            }
+            
+            // Show next button
+            nextButton.style.display = 'block';
+        }
+        
+        // Handle next button click
+        nextButton.addEventListener('click', () => {
+            answered = false;
+            currentQuest++;
+            
+            if (currentQuest < quests.length) {
+                loadQuest();
+            } else {
+                endGame();
+            }
+        });
+        
+        // End game and show results
+        function endGame() {
+            questContainer.classList.add('hidden');
+            gameOverContainer.classList.remove('hidden');
+            
+            finalScoreElement.textContent = score;
+            maxScoreElement.textContent = quests.length;
+            
+            // Provide final feedback based on score
+            const scorePercentage = (score / quests.length) * 100;
+            let feedback = '';
+            
+            if (scorePercentage >= 80) {
+                feedback = "Legendary! You have exceptional mental health awareness and emotional intelligence. Your choices reflect a deep understanding of healthy coping strategies and interpersonal skills.";
+            } else if (scorePercentage >= 60) {
+                feedback = "Well done! You have good mental health awareness. With continued practice of these concepts, you'll develop even stronger emotional intelligence and coping skills.";
+            } else if (scorePercentage >= 40) {
+                feedback = "Good effort! You're developing your mental health awareness. Consider reflecting on the explanations to better understand healthy coping strategies and emotional responses.";
+            } else {
+                feedback = "Thanks for playing! Mental health concepts can be challenging. Reviewing the explanations will help you recognize healthy responses to difficult situations in the future.";
+            }
+            
+            finalFeedbackElement.textContent = feedback;
+        }
+        
+        // Restart game
+        restartButton.addEventListener('click', initGame);
+        
+        // Start the game
+        initGame();
+    </script>
+</body>
+</html>
