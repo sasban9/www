@@ -10,3 +10,14 @@ https://www.etsy.com/in-en/shop/MyLifePlans
 14.4k 161k
 https://www.etsy.com/in-en/shop/phenixprintable
 13.2k 155k
+
+
+career: https://www.sasban.online/career/
+portfolio: https://portfolio.sasban.online/NiftyGranmaster
+diet: https://www.sasban.online/finmin/diet
+amazon: https://www.sasban.online/finmin/amazon
+emi: https://www.sasban.online/finmin/loans
+yearbook: https://www.sasban.online/yearbook/
+pixfirst: https://www.sasban.online/career/2023-pixfirst
+styched: https://www.sasban.online/career/2020-styched
+linktree: https://linktr.ee/sasban9
