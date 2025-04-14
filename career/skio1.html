@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cover Letter – Skio</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background: #f9fafb;
+      color: #333;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 800px;
+      margin: 4rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1.2s ease-out forwards;
+    }
+    h1, h2 {
+      color: #2d3748;
+    }
+    a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .collapsible {
+      background-color: #edf2f7;
+      color: #2d3748;
+      cursor: pointer;
+      padding: 1rem;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+    .collapsible:hover {
+      background-color: #e2e8f0;
+    }
+    .content {
+      padding: 0 1.2rem;
+      display: none;
+      overflow: hidden;
+      background-color: #f7fafc;
+      border-left: 4px solid #3182ce;
+      margin-top: 0.5rem;
+      border-radius: 6px;
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hi Skio Team,</h1>
+
+    <p>
+      I’m <strong>Saswata Banerjee</strong>—a builder, systems thinker, and former CTO who genuinely enjoys helping people use technology better. I'm excited to apply for the <strong>Technical Support Specialist</strong> role at Skio.
+    </p>
+
+    <p>
+      I've built, scaled, and supported products from the ground up—most recently as <a href="https://www.sasban.online/career/2020-styched" target="_blank">CTO at Styched</a>, where I helped lead the company to a successful exit. Throughout my journey, I’ve always found myself jumping into the support inbox or Slack threads, decoding what users are trying to say, and turning it into calm, confident solutions.
+    </p>
+
+    <p>
+      What you’re building at Skio—frictionless Shopify subscriptions—is right in my wheelhouse. I’ve worked on product tools like <a href="https://portfolio.sasban.online/NiftyGranmaster" target="_blank">Nifty Granmaster</a> and <a href="https://www.sasban.online/career/2023-pixfirst" target="_blank">Pixfirst</a>, and created user-facing finance utilities like <a href="https://www.sasban.online/finmin/amazon" target="_blank">Amazon Spend Analyzer</a> and <a href="https://www.sasban.online/finmin/loans" target="_blank">EMI Planner</a>. Each one sharpened my skills in documentation, communication, and fast, technical problem-solving.
+    </p>
+
+    <button class="collapsible">What I Bring to the Table</button>
+    <div class="content active">
+      <ul>
+        <li><strong>Hands-on technical troubleshooting</strong> – From backend bugs to UI issues, I love diving deep and fixing fast.</li>
+        <li><strong>Clear, user-centered communication</strong> – I’m known for translating tech into human, and users love that.</li>
+        <li><strong>Love for documentation</strong> – I document obsessively (see my <a href="https://www.sasban.online/yearbook/" target="_blank">yearbook</a>), and I make complex systems approachable.</li>
+        <li><strong>Cross-functional collaboration</strong> – Having led engineering, product, and support, I know how to speak everyone’s language.</li>
+      </ul>
+    </div>
+
+    <p>
+      I’d love to be a calm, reliable, technically-savvy presence on your support team—and help Skio continue to deliver delightful, dependable experiences.
+    </p>
+
+    <p>Thanks so much for reading. I’d be thrilled to connect and learn more about how I can contribute to your team!</p>
+
+    <p>Warm regards,<br><strong>Saswata Banerjee</strong></p>
+
+    <div class="footer">
+      📧 saswata.banerjee@email.com | 📞 +91-XXXXXXXXXX <br>
+      🌐 <a href="https://www.linkedin.com/in/saswata-banerjee-98322984/" target="_blank">LinkedIn</a> • 
+      <a href="https://linktr.ee/sasban9" target="_blank">Portfolio & Links</a>
+    </div>
+  </div>
+
+  <script>
+    const collapsibles = document.querySelectorAll(".collapsible");
+    collapsibles.forEach(btn => {
+      btn.addEventListener("click", function () {
+        this.classList.toggle("active");
+        const content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
