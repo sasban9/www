@@ -21,3 +21,22 @@ yearbook: https://www.sasban.online/yearbook/
 pixfirst: https://www.sasban.online/career/2023-pixfirst
 styched: https://www.sasban.online/career/2020-styched
 linktree: https://linktr.ee/sasban9
+
+
+40k to 69k
+70k to 99k
+100k to 399k
+400k to 699k
+700k to 999k
+1.00M to 3.99M
+4.00M to 6.99M
+7.00M to 9.99M
+10M and above
+
+1L to 3.99L
+4L to 6.99L
+7L to 9.99L
+10L to 39.9L
+40L to 69.9L
+70L to 99.9L
+1Cr and above
