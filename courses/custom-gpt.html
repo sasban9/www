@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Custom GPT Creator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f4f4f4;
+    }
+    form {
+      max-width: 800px;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 1rem;
+      display: block;
+    }
+    input[type="text"],
+    input[type="url"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    textarea {
+      height: 100px;
+    }
+    button {
+      padding: 0.75rem 2rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <form>
+    <h1>Create Your Custom GPT</h1>
+
+    <label for="name">GPT Name</label>
+    <input type="text" id="name" placeholder="e.g., LegalGPT, TutorBot, Interview Coach"/>
+
+    <label for="description">Short Description</label>
+    <textarea id="description" placeholder="A one-line description of what this GPT does."></textarea>
+
+    <label for="instructions">Instructions for the GPT</label>
+    <textarea id="instructions" placeholder="Tell the GPT how to behave, its tone, what to prioritize, what to avoid, etc."></textarea>
+
+    <label for="conversation-style">Conversation Style</label>
+    <select id="conversation-style">
+      <option>Balanced</option>
+      <option>Creative</option>
+      <option>Precise</option>
+    </select>
+
+    <label for="example-prompts">Example Prompts</label>
+    <textarea id="example-prompts" placeholder="Add 2-3 sample prompts users might ask this GPT. One per line."></textarea>
+
+    <label for="files">Upload Reference Files (PDF, CSV, etc.)</label>
+    <input type="file" id="files" multiple/>
+
+    <label for="knowledge">Custom Knowledge Instructions</label>
+    <textarea id="knowledge" placeholder="Describe how uploaded files should be used. e.g., 'Refer to the HR policy PDF when answering company leave policy questions.'"></textarea>
+
+    <label for="tools">Enable Tools</label>
+    <select id="tools" multiple>
+      <option value="web-browsing">Web Browsing</option>
+      <option value="code-interpreter">Python (Code Interpreter)</option>
+      <option value="image-generation">Image Generation</option>
+      <option value="dalle-editor">Image Editing (Inpainting)</option>
+    </select>
+
+    <label for="profile-pic">Custom GPT Avatar (optional)</label>
+    <input type="file" id="profile-pic" accept="image/*"/>
+
+    <label for="theme-color">Theme Color (Hex Code)</label>
+    <input type="text" id="theme-color" placeholder="#007bff"/>
+
+    <button type="submit">Generate Custom GPT</button>
+  </form>
+</body>
+</html>

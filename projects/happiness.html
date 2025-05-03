@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happiness & Mindfulness Calendar</title>
+  <style>
+    :root {
+      --bg: #fdfcf9;
+      --card-bg: #ffffff;
+      --pillars-bg: #e8f5e9;
+      --highlight: #4caf50;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: var(--bg);
+      color: #333;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #444;
+    }
+
+    .pillars {
+      background-color: var(--pillars-bg);
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    .pillars ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .pillars li {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f1f8e9;
+      border-left: 5px solid var(--highlight);
+      border-radius: 6px;
+    }
+
+    .calendar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .day {
+      background: var(--card-bg);
+      box-shadow: 0 2px 6px var(--shadow);
+      border-radius: 10px;
+      padding: 12px;
+      flex: 1 1 120px;
+      max-width: 160px;
+      min-width: 120px;
+    }
+
+    .day span {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .activity {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      /* margin-bottom: 8px; */
+    }
+
+    .activity input {
+      margin-right: 8px;
+    }
+
+    /* Color codes for categories */
+    .simple-joy { background-color: #ff9800; color: white;padding: 10px;}
+    .mindfulness { background-color: #3f51b5; color: white;padding: 10px;}
+    .adventure { background-color: #009688; color: white;padding: 10px;}
+    .connection { background-color: #e91e63; color: white;padding: 10px;}
+    .growth { background-color: #4caf50; color: white;padding: 10px;}
+    .contribution { background-color: #9c27b0; color: white;padding: 10px;}
+
+    img{max-width: 100%;max-height: 200px;}
+
+    @media (max-width: 768px) {
+      .day {
+        flex: 1 1 45%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .day {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌟 My Happiness & Mindfulness Calendar 🌟</h1>
+
+  <section class="pillars">
+    <h2>My Pillars of Joy</h2>
+    <ul>
+      <li>🌱 Simple Joys — Savor small rituals</li>
+      <li>🧘 Mindfulness — Breathe, pause, reflect</li>
+      <li>🛤️ Adventure — Try something new</li>
+      <li>🌍 Connection — Heartfelt social time</li>
+      <li>🔥 Growth — Learn and improve</li>
+      <li>🌟 Contribution — Give & uplift</li>
+    </ul>
+  </section>
+
+  <section class="calendar">
+    <div class="day"><span>Mon</span>
+      <div class="activity simple-joy"><input type="checkbox"> Morning coffee ritual</div>
+      <div class="activity mindfulness"><input type="checkbox"> Gratitude journaling</div>
+    </div>
+    <div class="day"><span>Tue</span>
+      <div class="activity mindfulness"><input type="checkbox"> 10-min meditation</div>
+      <div class="activity connection"><input type="checkbox"> Compliment someone</div>
+    </div>
+    <div class="day"><span>Wed</span>
+      <div class="activity growth"><input type="checkbox"> Watch a TED Talk</div>
+      <div class="activity simple-joy"><input type="checkbox"> Listen to favorite song</div>
+    </div>
+    <div class="day"><span>Thu</span>
+      <div class="activity connection"><input type="checkbox"> Call an old friend</div>
+      <div class="activity mindfulness"><input type="checkbox"> Mindful breathing</div>
+    </div>
+    <div class="day"><span>Fri</span>
+      <div class="activity growth"><input type="checkbox"> Read 5 pages</div>
+      <div class="activity simple-joy"><input type="checkbox"> Treat yourself 🍫</div>
+    </div>
+    <div class="day"><span>Sat</span>
+      <div class="activity adventure"><input type="checkbox"> Try a new place</div>
+      <div class="activity mindfulness"><input type="checkbox"> Watch the sunset</div>
+    </div>
+    <div class="day"><span>Sun</span>
+      <div class="activity contribution"><input type="checkbox"> Donate or help someone</div>
+      <div class="activity connection"><input type="checkbox"> Family meal together</div>
+    </div>
+  </section>
+  <img src="" alt="">
+  <h3>🌱 Simple Pleasures</h3>
+  Watching a sunrise or sunset
+  <img src="https://media.istockphoto.com/id/1381637603/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=w64j3fW8C96CfYo3kbi386rs_sHH_6BGe8lAAAFS-y4=" alt="">
+  Eating your favorite meal mindfully
+  <img src="https://www.nescafe.com/gb/sites/default/files/2023-08/Coffee%20Cup%20Guide%20Banner%20Desktop.jpg" alt="">
+  Receiving a heartfelt compliment
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFW6MwPDtPfs43vFGHMe106gjJZIIRLKXtVg&s" alt="">
+  Going for a walk in nature
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEAS0XvkaAb2D72vf9fj05YOD5kuROdvjcZQ&s" alt="">
+  Listening to your favorite music on a quiet night
+  <img src="https://i.ytimg.com/vi/ESN-lbr9Ff4/maxresdefault.jpg" alt="">
+<h3>  🛤️ Personal Adventures</h3>
+  Learning a new skill or hobby (e.g., painting, chess)
+  <img src="https://afewfavouritethings.com/wp-content/uploads/2024/04/Depositphotos_107786864_S.jpg" alt="">
+  Taking a solo day trip to a nearby town
+  <img src="https://images.moneycontrol.com/static-mcnews/2025/02/20250219052915_solo-travel.png?impolicy=website&width=770&height=431" alt="">
+Camping under the stars
+<img src="https://thumbs.dreamstime.com/b/camping-mountains-under-stars-tent-pitched-up-glowing-milky-way-photo-composite-161774254.jpg" alt="">
+Completing a physical challenge (e.g., 5K run, hiking a mountain)
+<img src="https://images.prismic.io/marathon/72fd7e19-00cd-4095-969a-107513132a68_IMG_20230819_113150.jpg?auto=compress,format" alt="">
+Building something with your hands (e.g., a table, a garden)
+<img src="https://i.ytimg.com/vi/3LcK_qjnLmk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCc9TOXys8oLjAdNsCxre_ESM9GjA" alt="">
+<h3>🌍 Connection to Others</h3>
+Sharing deep conversation with a friend
+<img src="https://www.theodysseyonline.com/media-library/image.jpg?id=18234848&width=980&quality=85" alt="">
+Falling in love
+<img src="https://www.verywellmind.com/thmb/Avj2Erzx1AXgNbDrQI_n1dBrPzI=/2121x0/filters:no_upscale():max_bytes(150000):strip_icc()/kupicoo-7a738597e12a40b7b951c20ff37b9fb9.jpg" alt="">
+Forgiving someone genuinely
+<img src="https://www.thegoodbook.co.uk/downloads/hugging-best-friend.jpg" alt="">
+Mentoring or helping someone grow
+<img src="https://miro.medium.com/v2/resize:fit:1150/1*mDR-tMz-ZKGg88aPI8ylbg.png" alt="">
+Being part of a vibrant community (e.g., team, club, movement)
+<img src="https://cdn.hswstatic.com/gif/community-events-ideas.jpg" alt="">
+<h3>✈️ Broader Horizons</h3>
+Traveling to a country vastly different from your own
+<img src="https://btw-crm-production.s3.amazonaws.com/uploads/bootsy/image/590/most-visited-countries-by-indians.jpg" alt="">
+Experiencing a different culture through a homestay
+<img src="https://q-xx.bstatic.com/xdata/images/hotel/max500/547220272.jpg?k=5dfd2188ae395eca066156066ddd84baf5b620565e84286d2de19b87a17051a7&o=" alt="">
+Speaking a foreign language with native speakers
+<img src="https://www.learnspanish.com.mx/wp-content/uploads/Learning-a-ForeignL-e1612995536548.jpg" alt="">
+Attending a world-class concert, festival, or conference
+<img src="https://www.appypie.com/wp-content/uploads/2023/02/Top-Festivals-around-the-World-for-your-Bucket-List.jpg" alt="">
+Living abroad for a few months or more
+<img src="https://media.licdn.com/dms/image/v2/C4D12AQFaTbia_5lkeg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1614013949416?e=2147483647&v=beta&t=_OVhVy_dAKmaOBkEedzWJEGsWUJavmqU9DBojHY7GbU" alt="">
+<h3>🔥 Inner Transformation</h3>
+Facing a major fear and overcoming it
+
+Starting a business, project, or artistic endeavor from scratch
+
+Healing from a heartbreak or major loss
+
+Deep meditation or silent retreat
+
+Finding a cause bigger than yourself to devote your energy to
+
+🌟 Legacy & Self-Actualization
+Creating art, writing, or innovation that touches others
+
+Raising a child or mentoring a generation
+
+Giving generously without expecting anything back
+
+Making peace with your mortality
+
+Living a life aligned fully with your core values, regardless of external rewards
+</body>
+</html>

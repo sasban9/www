@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="HTML Tag Reference">
+  <meta name="viewport" content="width=device-width initial-scale=1.0">
+  <title>HTML5 Tag Reference</title>
+  <style>
+    *{min-width: 50%;box-sizing: border-box;background: radial-gradient(white,paleturquoise)}
+    body { font-family: sans-serif; line-height: 1.6; margin: 2em;}
+    section { margin-bottom: 2em; padding: 1em; border: 1px solid #ccc; border-radius: 0; box-shadow: 0 0 10px green;}
+    h1, h2 {  padding: 0em; border-radius: 0; margin: 0; }
+    code { background: khaki; color: red; padding: 2px 4px; border-radius: 0; }
+    .deprecated { color: crimson; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <code>header h1 nav</code>
+    <h1>HTML5 Tag Reference (with Examples)</h1>
+    <nav><a href="#head">Head</a> | <a href="#structure">Structure</a> | <a href="#text">Text</a> | <a href="#lists">Lists</a> | <a href="#media">Media</a> | <a href="#tables">Tables</a> | <a href="#forms">Forms</a> | <a href="#interactive">Interactive</a> | <a href="#deprecated">Deprecated</a></nav>
+  </header>
+
+  <main>
+    <section id="head">
+      <h2>Head Tags</h2>
+      <code>meta title style script noscript</code>
+    </section>
+
+    <section id="structure">
+        <h2>Document Structure</h2>
+        <code>h2 h3 h4 p main article section aside footer</code>
+      <p>This is a paragraph inside the <code>&lt;body&gt;</code>.</p>
+      <article>
+        <h3>Article Title</h3>
+        <p>This is an article element.</p>
+      </article>
+      <section>
+        <h4>Section Title</h4>
+        <p>This is a nested section.</p>
+      </section>
+      <aside>
+        <p>This is aside content.</p>
+      </aside>
+      <footer>
+        <p>Footer content</p>
+      </footer>
+    </section>
+
+    <section id="text">
+        <h2>Text Formatting & Inline Elements</h2>
+        <code>strong b em i mark small s del abbr cite code pre sub sup kbd a br </code>
+      <p><strong>Bold</strong> <em>Italic</em> <mark>Marked</mark> <small>Small</small> <s>strikethrough</s> <del>deleted</del></p>
+      <p><abbr title="World Health Organization">WHO</abbr> <cite>The Great Gatsby</cite> <code>console.log()</code></p>
+      <p><sub>Subscript</sub> and <sup>Superscript</sup> <kbd>Ctrl</kbd> + <kbd>C</kbd></p>
+      <p><a href="#">This is a link</a> and <br> this is a line break</p>
+    </section>
+
+    <section id="lists">
+        <h2>Lists</h2>
+        <code>ul ol li dl dt dd</code>
+      <ul><li>Unordered list item</li></ul>
+      <ol><li>Ordered list item</li></ol>
+      <dl><dt>HTML</dt><dd>HyperText Markup Language</dd></dl>
+    </section>
+
+    <section id="media">
+        <h2>Media & Embeds</h2>
+        <code>img figure figcaption audio video canvas svg</code><br>
+      <img src="https://images.livemint.com/img/2022/08/01/600x338/Cat-andriyko-podilnyk-RCfi7vgJjUY-unsplash_1659328989095_1659328998370_1659328998370.jpg" width="400" alt="kitten">
+      <figure>
+        <img src="https://photographylife.com/cdn-cgi/imagedelivery/GrQZt6ZFhE4jsKqjDEtqRA/photographylife.com/2023/05/nikon-z8-00017.jpg/w=300,h=200" alt="Figure image">
+        <figcaption>Figure caption</figcaption>
+      </figure>
+      <audio controls><source src="https://samplelib.com/lib/preview/mp3/sample-3s.mp3" type="audio/mpeg"></audio>
+      <video controls width="250"><source src="https://samplelib.com/lib/preview/mp4/sample-5s.mp4" type="video/mp4"></video>
+      <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000;"></canvas>
+      <svg width="100" height="100"><circle cx="50" cy="50" r="40" stroke="green" fill="yellow"/></svg><br>
+    </section>
+
+    <section id="tables">
+      <h2>Tables</h2>
+      <code>table caption thead tbody tfoot tr th td</code>
+      <table border="1">
+        <caption>Sample Table</caption>
+        <thead><tr><th>Header 1</th><th>Header 2</th></tr></thead>
+        <tbody><tr><td>Data</td><td>Data</td></tr></tbody>
+        <tfoot><tr><td>Footer</td><td>Footer 2</td></tr></tfoot>
+      </table>
+    </section>
+
+    <section id="forms">
+      <h2>Forms & Inputs</h2>
+      <code>form label input textarea select optgroup option datalist output progress meter button</code>
+      <form>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name">
+        <textarea placeholder="Comments"></textarea>
+        <select>
+            <optgroup label="Group 1">
+              <option>Option 1</option>
+              <option>Option 2</option>
+            </optgroup>
+            <optgroup label="Group 2">
+              <option>Option 1</option>
+              <option>Option 2</option>
+            </optgroup>
+        </select>
+        <input list="browsers" name="browser">
+        <datalist id="browsers">
+          <option value="Chrome">
+          <option value="Firefox">
+        </datalist>
+        <output name="result">42</output>
+        <progress value="70" max="100"></progress>
+        <meter value="0.6">60%</meter>
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <section id="interactive">
+      <h2>Interactive Elements</h2>
+      <details>
+        <summary>Click to expand</summary>
+        <p>This is hidden content inside details.</p>
+      </details>
+      <dialog open>This is a dialog box.</dialog>
+    </section>
+
+    <section id="deprecated" style="display: non;">
+      <h2 class="deprecated">Deprecated Tags (Do Not Use)</h2>
+      <code>acronym applet basefront big center font frame frameset noframes isindex marquee strike tt xmp</code>
+      <!--
+        <acronym>Deprecated. Use <abbr></abbr> instead.</acronym>
+        <applet>Deprecated. Use <object> or <embed>.</applet>
+        <basefont>Deprecated. Use CSS.</basefont>
+        <big>Deprecated. Use CSS.</big>
+        <center>Deprecated. Use CSS.</center>
+        <font>Deprecated. Use CSS.</font>
+        <frame> <frameset> <noframes> — Replaced by <iframe> and modern layout.
+        <isindex>Replaced by search inputs.</isindex>
+        <marquee>Non-standard. Use CSS animations.</marquee>
+        <strike>Use <s> or <del>.</strike>
+        <tt>Use <code> or CSS.</tt>
+        <xmp>Obsolete. Use <pre> or <code>.</xmp>
+      -->
+      <p class="deprecated">These tags are commented out to prevent rendering. Refer to comments in the HTML source.</p>
+    </section>
+
+  </main>
+
+</body>
+</html>
