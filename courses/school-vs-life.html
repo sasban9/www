@@ -20,9 +20,11 @@
 
         th img:hover,
         td img:hover,
+        .grid-container>div:hover,
         p:hover {
             transform: rotate(0);
             cursor: pointer;
+            opacity: 1;
         }
 
         body {
@@ -83,6 +85,28 @@
             line-height: 0.5;
         }
 
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin: 0 auto;
+        }
+        .grid-container.grp3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .grid-container.grp4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        .grid-container.grp5 {
+            grid-template-columns: repeat(5, 1fr);
+        }
+        .grid-container>div {
+            background-color: #333;
+            padding: 1rem;
+            opacity: 0.2;
+            transform: rotate(3deg);
+        }
+
         i {
             border-bottom: solid 3px;
         }
@@ -113,11 +137,66 @@
         }
 
         td:nth-of-type(2n),
-        td:nth-of-type(2n) {
+        td:nth-of-type(2n), .grid-container>div:nth-of-type(2n) {
             transform: rotate(-2deg);
         }
 
         img+h2{margin-top: 10vh;}
+
+        @media screen and (max-width: 600px) {
+            
+            .grid-container.grp5, .grid-container.grp4,
+            .grid-container.grp3 {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            h1,
+            h2,
+            h3,
+            p {
+                margin: 1rem auto;
+                width: 90%;
+            }
+
+            th,
+            td {
+                width: 100%;
+                padding: 0.5rem;
+                transform: rotate(0deg);
+            }
+
+            img {
+                max-height: 200px;
+            }
+        }
+
+        @media screen and (min-width:601px) and (max-width: 900px) {
+            .grid-container.grp5, .grid-container.grp4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .grid-container.grp3 {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            h1,
+            h2,
+            h3,
+            p {
+                margin: 1rem auto;
+                width: 90%;
+            }
+
+            th,
+            td {
+                width: 100%;
+                padding: 0.5rem;
+                transform: rotate(0deg);
+            }
+
+            img {
+                max-height: 200px;
+            }
+        }
 
         @media print {
 
@@ -256,33 +335,32 @@ But in the real world of business, <br> <i>these habits can actually hold you ba
 
 
             <h2>Examples from the Real 🌐</h2>
-            <table>
-                <tr>
-                    <th style="background-color: khaki;"></th>
-                    <td><img src="https://cdn-eahjn.nitrocdn.com/ChEvwayTHZmZJUAdsUNMLXuXZdBprFoQ/assets/images/optimized/rev-cbc6e70/www.spinxdigital.com/app/uploads/2022/11/image-airbnb.jpg"
-                            alt=""><br> <b>Airbnb</b> was rejected by investors over 100 times.</td>
-                    <td><img src="https://image.cnbcfm.com/api/v1/image/104504783-GettyImages-494548555.jpg?v=1729184153&w=1920&h=1080"
-                            alt=""> <br><b>Elon Musk’s SpaceX</b> had multiple failed rocket launches before its first
-                        successful flight.</td>
-                    <td><img src="https://media.licdn.com/dms/image/v2/D4E12AQGwheN2a1exdA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721980284807?e=2147483647&v=beta&t=jU1QxdKRUOJk_ggaV_-GoDRHWBcfuGD9h-Pt6P4PsXQ"
-                            alt=""><br> <b>James Dyson</b> created <b>5,126 failed prototypes</b> before building the
-                        vacuum that made him a billionaire.</td>
-                </tr>
-            </table>
+            <div class="grid-container grp5">
+                <div style="background-color: khaki;"></div>
+                <div><img src="https://cdn-eahjn.nitrocdn.com/ChEvwayTHZmZJUAdsUNMLXuXZdBprFoQ/assets/images/optimized/rev-cbc6e70/www.spinxdigital.com/app/uploads/2022/11/image-airbnb.jpg"
+                        alt=""><br> <b>Airbnb</b> was rejected by investors over 100 times.</div>
+                <div><img src="https://image.cnbcfm.com/api/v1/image/104504783-GettyImages-494548555.jpg?v=1729184153&w=1920&h=1080"
+                        alt=""> <br><b>Elon Musk’s SpaceX</b> had multiple failed rocket launches before its first
+                    successful flight.</div>
+                <div><img src="https://media.licdn.com/dms/image/v2/D4E12AQGwheN2a1exdA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721980284807?e=2147483647&v=beta&t=jU1QxdKRUOJk_ggaV_-GoDRHWBcfuGD9h-Pt6P4PsXQ"
+                        alt=""><br> <b>James Dyson</b> created <b>5,126 failed prototypes</b> before building the
+                    vacuum that made him a billionaire.</div>
+                <div></div>                
+            </div>
 
             <p>These weren't failures in the school sense — they were <b>iterations</b>.</p>
 
 
             <h2>✅ Entrepreneurial Mindset</h2>
-            <table>
-                <tr>
-                    <th><img src="https://imageio.forbes.com/specials-images/imageserve/671e5970cf4cf7ed4985b3b8/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds"
-                            alt=""></th>
-                    <td>Treat failure as <b>part of the process</b>, not the end of it.</td>
-                    <td>Replace the question <b>“What if I fail?”</b> with <b>“What can I learn?”</b></td>
-                    <td>Create a “safe-to-fail” environment in your own projects or startup experiments.</td>
-                </tr>
-            </table>
+            <div class="grid-container grp4">
+                
+                    <div><img src="https://imageio.forbes.com/specials-images/imageserve/671e5970cf4cf7ed4985b3b8/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds"
+                            alt=""></div>
+                    <div>Treat failure as <b>part of the process</b>, not the end of it.</div>
+                    <div>Replace the question <b>“What if I fail?”</b> with <b>“What can I learn?”</b></div>
+                    <div>Create a “safe-to-fail” environment in your own projects or startup experiments.</div>
+                
+            </div>
 
             <!-- <h2>💬 Final Thought</h2> -->
             <p style="box-shadow: 0 0 20px #333;">🧭 Final Takeaway: In business, failure is not a detour — <b> it is
@@ -320,114 +398,97 @@ But in the real world of business, <br> <i>these habits can actually hold you ba
             <!-- <h2>🎓 What School Teaches</h2> -->
             <!-- <h4>about Ideation vs. Execution</h4> -->
             In school settings
-            <table>
-                <tr>
-                    <td>You’re rewarded for <b>having the right answer</b> or a <b>smart idea</b>.</td>
-                    <th>Assignments are often about <b>coming up with a concept</b>, not bringing it to life.</th>
-                    <td>Group projects may emphasize planning over actual <b>doing</b>.</td>
-                    <th>The belief is: if you come up with a <b>great idea</b>, people will notice and success will
-                        follow.</th>
-                </tr>
-            </table>
+            <div class="grid-container grp4">
+                
+                <div>You’re rewarded for <b>having the right answer</b> or a <b>smart idea</b>.</div>
+                <div>Assignments are often about <b>coming up with a concept</b>, not bringing it to life.</div>
+                <div>Group projects may emphasize planning over actual <b>doing</b>.</div>
+                <div>The belief is: if you come up with a <b>great idea</b>, people will notice and success will
+                    follow.</div>
+                
+                </div>
 
             <p>This trains students to overvalue ideation and undervalue implementation.</p>
 
             <h3>🚀 What Business Teaches</h3>
             <!-- In the real world: -->
-            <table>
-                <tr>
-                    <th style="background-color: khaki;"></th>
-                    <td>A great idea means nothing if it’s not <b>executed</b> well.</td>
-                    <td>Many successful businesses weren’t the first to come up with the idea — they were the first to
+            <div class="grid-container grp4">
+                
+                    <div style="background-color: khaki;"></div>
+                    <div>A great idea means nothing if it’s not <b>executed</b> well.</div>
+                    <div>Many successful businesses weren’t the first to come up with the idea — they were the first to
                         <b>deliver it effectively</b>.
-                    </td>
-                    <td><b>Speed, consistency, user feedback, marketing</b>, and operations often matter more than
-                        novelty.</td>
-                </tr>
-            </table>
+                    </div>
+                    <div><b>Speed, consistency, user feedback, marketing</b>, and operations often matter more than
+                        novelty.</div>
+                
+            </div>
 
             <!-- <blockquote><h3>💬 “Ideas are easy. Execution is everything.”</h3> <br> – John Doerr, venture capitalist</blockquote> -->
             <p><img src="https://www.azquotes.com/picture-quotes/quote-ideas-are-easy-execution-is-everything-it-takes-a-team-to-win-john-doerr-92-71-88.jpg"
                     alt=""></p>
 
             <h2>Why Execution Wins</h2>
-            <table>
-                <tr>
-                    <th><b>Ideas are cheap.</b></th>
-                    <td>Once you start building, you uncover problems, user needs, and market truths.</td>
-                    <th><b>The market rewards value, not intention.</b></th>
-                </tr>
-                <tr>
-                    <td>Everyone has them. It’s the person who takes the idea and turns it into a working product that
-                        wins.</td>
-                    <th><b>Execution reveals reality.</b></th>
-                    <td>You get traction when customers experience results, not when you explain potential.</td>
-                </tr>
-            </table>
+            <div class="grid-container grp3">
+                <div><b>Ideas are cheap.</b><br>Everyone has them. It’s the person who takes the idea and turns it into a working product that
+                    wins.</div>
+                    <div><b>Execution reveals reality.</b><br> Once you start building, you uncover problems, user needs, and market truths.</div>
+                    <div><b>The market rewards value, not intention.</b><br>You get traction when customers experience results, not when you explain potential.</div>
+            </div>
 
 
 
 
             <h2>⚔️ Examples of Execution Over Ideas</h2>
-            <table>
-                <tr>
-                    <td><img src="https://www.investopedia.com/thmb/S_3LAIIGGBDs1kY8m_e26N14Nu4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/google-logo-56a6faf15f9b58b7d0e5d200.PNG"
+            <div class="grid-container grp3">
+                    <div><img src="https://www.investopedia.com/thmb/S_3LAIIGGBDs1kY8m_e26N14Nu4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/google-logo-56a6faf15f9b58b7d0e5d200.PNG"
                             height="200" alt=""><br> Wasn’t the first search engine. It just made it <i>better</i> and
                         <i>faster</i> than others.
-                    </td>
-                    <td>Wasn’t the first social network. It executed social design and user onboarding <b>better</b>
+                    </div>
+                    <div>Wasn’t the first social network. It executed social design and user onboarding <b>better</b>
                         than MySpace or Friendster. <br><img
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwn_yaeUUWyGw6jv8s1YwbN8cwkWyDQwDQaw&s"
-                            alt=""> </td>
-                    <td><img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/640px-Starbucks_Corporation_Logo_2011.svg.png"
+                            alt=""> </div>
+                    <div><img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/640px-Starbucks_Corporation_Logo_2011.svg.png"
                             height="200" alt=""><br>Didn’t invent coffee. It just scaled a well-crafted, consistent
-                        brand and experience worldwide.</td>
-                </tr>
-            </table>
+                        brand and experience worldwide.</div>
+            </div>
 
             <h2>🛠️ What Execution Involves</h2>
-            <table>
-                <tr>
-                    <td></td>
-                    <th style="text-align: left;">
-                        ✅Building a <b title="Minimum Viable Product">MVP</b><br>
-                        ✅Talking to real users early<br>
-                        ✅Iterating based on feedback<br>
-                        ✅Building a reliable team<br>
-                    </th>
-                    <th style="text-align: left;">
+            <div class="grid-container grp3">
+                <div></div>
+                <div style="text-align: left;">
+                    ✅Building a <b title="Minimum Viable Product">MVP</b><br>
+                    ✅Talking to real users early<br>
+                    ✅Iterating based on feedback<br>
+                    ✅Building a reliable team<br>
+                </div>
+                <div style="text-align: left;">
 
-                        ✅Delivering consistently<br>
-                        ✅Fixing problems quickly<br>
-                        ✅<i>Shipping over perfection</i><br>
-                    </th>
-                </tr>
-            </table>
+                    ✅Delivering consistently<br>
+                    ✅Fixing problems quickly<br>
+                    ✅<i>Shipping over perfection</i><br>
+                </div>
+            </div>
 
             <h2>💡 Real-World Comparison</h2>
-            <table>
-                <tr>
-                    <th>Imagine two entrepreneurs</th>
-                    <td><b>A</b> has a groundbreaking AI idea but never builds it.</td>
-                    <td><b>B</b> has a simple chatbot idea, ships a prototype in 2 weeks, gets users, and improves it
-                        weekly.</td>
-                </tr>
-                <tr>
-                    <td>In 6 months</td>
-                    <th colspan="2"><b>B</b> has customers, funding, and traction.<br><b>A</b> is still “refining” their
-                        concept.</th>
-                </tr>
-            </table>
+            <div class="grid-container grp3">
+                    <div>Imagine two entrepreneurs</div>
+                    <div><b>A</b> has a groundbreaking AI idea but never builds it. </div>
+                    <div><b>B</b> has a simple chatbot idea, ships a prototype in 2 weeks, gets users, and improves it
+                        weekly.</div>
+                    <div>In 6 months</div>
+                    <div><b>B</b> has customers, funding, and traction.</div>
+                    <div><b>A</b> is still “refining” their concept.</div>
+            </div>
 
             <h2>Entrepreneurial Mindset</h2>
-            <table>
-                <tr>
-                    <td>Action creates clarity.</td>
-                    <th>Speed beats perfection.</th>
-                    <td style="width:50%">Execution is a <b>muscle</b>. Build things, test ideas, and ship imperfect
-                        versions.</td>
-                </tr>
-            </table>
+            <div class="grid-container grp3">
+                <div>Action creates clarity.</div>
+                <div>Speed beats perfection.</div>
+                <div>Execution is a <b>muscle</b>. Build things, test ideas, and ship imperfect
+                    versions.</div>
+            </div>
 
             <p> 🧭 Final Takeaway: The world doesn’t reward ideas in your head — it rewards <b>ideas that are brought to
                     life</b>.</p>
@@ -463,17 +524,12 @@ But in the real world of business, <br> <i>these habits can actually hold you ba
 
 
             <!-- ### 🎓 What School Teaches: -->
-            <table>
-                <tr>
-                    <th style="background-color: khaki;"></th>
-                    <td>School often rewards <b>individual knowledge and independence</b>.</td>
-                    <td>Exams and assignments focus on how well <i>you</i> understand and perform.</td>
-                </tr>
-                <tr>
-                    <td>Collaboration is sometimes discouraged or considered “cheating”.</td>
-                    <td>The message is: <br><b>“Know everything yourself to succeed.”</b></td>
-                </tr>
-            </table>
+            <div class="grid-container grp4">
+                    <div>School often rewards <b>individual knowledge and independence</b>.</div>
+                    <div>Exams and assignments focus on how well <i>you</i> understand and perform.</div>
+                    <div>Collaboration is sometimes discouraged or considered “cheating”.</div>
+                    <div>The message is: <br><b>“Know everything yourself to succeed.”</b></div>
+            </div>
 
             <p>This leads to the belief that success is based on being a <b>solo expert</b>.</p>
 
