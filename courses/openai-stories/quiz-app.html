@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .question {
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .question h3 {
+      margin-top: 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      padding: 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .correct {
+      background-color: #d4edda;
+    }
+    .incorrect {
+      background-color: #f8d7da;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #3498db;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    .result {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>General Knowledge Quiz</h1>
+
+  <form id="quizForm">
+    <div class="question" id="q1Box">
+      <h3>1. What is the capital of France?</h3>
+      <label><input type="radio" name="q1" value="A"> A. Berlin</label>
+      <label><input type="radio" name="q1" value="B"> B. Madrid</label>
+      <label><input type="radio" name="q1" value="C"> C. Paris</label>
+      <label><input type="radio" name="q1" value="D"> D. Rome</label>
+    </div>
+
+    <div class="question" id="q2Box">
+      <h3>2. Which planet is known as the Red Planet?</h3>
+      <label><input type="radio" name="q2" value="A"> A. Mars</label>
+      <label><input type="radio" name="q2" value="B"> B. Venus</label>
+      <label><input type="radio" name="q2" value="C"> C. Jupiter</label>
+      <label><input type="radio" name="q2" value="D"> D. Saturn</label>
+    </div>
+
+    <div class="question" id="q3Box">
+      <h3>3. Who wrote 'Romeo and Juliet'?</h3>
+      <label><input type="radio" name="q3" value="A"> A. Charles Dickens</label>
+      <label><input type="radio" name="q3" value="B"> B. William Shakespeare</label>
+      <label><input type="radio" name="q3" value="C"> C. Jane Austen</label>
+      <label><input type="radio" name="q3" value="D"> D. Mark Twain</label>
+    </div>
+
+    <button type="button" onclick="submitQuiz()">Submit Answers</button>
+  </form>
+
+  <div class="result" id="resultBox"></div>
+
+  <script>
+    function submitQuiz() {
+      const answers = {
+        q1: "C",
+        q2: "A",
+        q3: "B"
+      };
+
+      let score = 0;
+
+      for (let i = 1; i <= 3; i++) {
+        const questionBox = document.getElementById(`q${i}Box`);
+        const inputs = document.getElementsByName(`q${i}`);
+        let selected = null;
+
+        inputs.forEach(input => {
+          input.disabled = true; // Disable further selection
+          if (input.checked) selected = input.value;
+        });
+
+        inputs.forEach(input => {
+          if (input.value === answers[`q${i}`]) {
+            input.parentElement.classList.add('correct');
+          } else if (input.checked && input.value !== answers[`q${i}`]) {
+            input.parentElement.classList.add('incorrect');
+          }
+        });
+
+        if (selected === answers[`q${i}`]) {
+          score++;
+        }
+      }
+
+      const resultBox = document.getElementById("resultBox");
+      resultBox.innerHTML = `🎉 You scored <strong>${score}</strong> out of <strong>3</strong>.`;
+    }
+  </script>
+
+</body>
+</html>

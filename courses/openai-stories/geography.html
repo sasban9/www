@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geography Fun Facts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e3f2fd;
+            color: #333;
+            line-height: 2;
+        }
+
+        header {
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            background-color: #1565c0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 16px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #0d47a1;
+        }
+
+        section {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .fact-box {
+            background-color: white;width: 30%;float: left;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .fact-box h3 {
+            margin-top: 0;
+        }
+
+        footer {
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer a {
+            color: #ffcc80;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .map-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .map-container iframe {
+            width: 80%;
+            height: 500px;
+            border: 2px solid #1976d2;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Explore the World of Geography</h1>
+        <p>Learn fascinating facts about our planet</p>
+    </header>
+
+    <nav>
+        <a href="#continents">Continents</a>
+        <a href="#countries">Countries</a>
+        <a href="#world-map">World Map</a>
+        <a href="#about">About Geography</a>
+    </nav>
+
+    <section id="continents">
+        <h2>Continents</h2>
+        <div class="fact-box">
+            <h3>Asia</h3>
+            <p>Asia is the largest continent, covering about 30% of the Earth's land area. It is home to over 4.5 billion people, more than 60% of the world's population.</p>
+        </div>
+        <div class="fact-box">
+            <h3>Africa</h3>
+            <p>Africa is known for its vast deserts, rainforests, and diverse wildlife. It is the second-largest continent and the birthplace of humanity.</p>
+        </div>
+        <div class="fact-box">
+            <h3>North America</h3>
+            <p>North America consists of three large countries: Canada, the United States, and Mexico. The continent features diverse landscapes, from the Arctic to the tropics.</p>
+        </div>
+    </section>
+
+    <section id="countries">
+        <h2>Countries and Their Facts</h2>
+        <div class="fact-box">
+            <h3>Brazil</h3>
+            <p>Brazil is the largest country in South America, known for the Amazon Rainforest, the world's largest tropical rainforest.</p>
+        </div>
+        <div class="fact-box">
+            <h3>Australia</h3>
+            <p>Australia is both a country and a continent. It is the only continent that is also a country, known for its unique wildlife like kangaroos and koalas.</p>
+        </div>
+        <div class="fact-box">
+            <h3>India</h3>
+            <p>India is the seventh-largest country by land area and the second-most populous country. It has a rich cultural and historical heritage.</p>
+        </div>
+    </section>
+
+    <section id="world-map" class="map-container">
+        <h2>Explore the World</h2>
+        <p>Click on the map to explore more about the continents and countries.</p>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14486.57906773117!2d92.77180525443025!3d24.807614697417822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x374e4a74b3de02c9%3A0x3ad4ced1f4444f4b!2sAmbicapur%20Pt%20XI%2C%20Assam!5e0!3m2!1sen!2sin!4v1747108564436!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <!-- <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1zFqf3NqlQenFYt8ApxtK5H2XAfjCpOaT" allowfullscreen></iframe> -->
+    </section>
+
+    <section id="about">
+        <h2>About Geography</h2>
+        <p>Geography is the study of places and the relationships between people and their environments. It helps us understand the world's physical features, human societies, and how they interact with the environment.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Geography Fun Facts | <a href="https://www.geography.com">Learn More</a></p>
+    </footer>
+
+</body>
+</html>

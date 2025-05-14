@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Cheatsheet</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            font-size: 1.6rem;
+            padding: 20px;
+        }
+        pre {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: khaki;
+            /* overflow-x: auto; */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        td, th {
+            /* border: 1px solid #333; */
+            padding: 0 18px;
+            text-align: left;
+            /* width: 10%; */
+        }
+        tr:nth-child(odd) {
+            background-color: lightblue;
+        }
+        ul, ol {
+            /* margin: 20px 0; */
+            padding-left: 60px;
+        }
+        input {
+            width: 70%;
+            padding: 5px;height: 4rem;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1.6rem;
+        }
+    </style>
+</head>
+<body>
+<h3>HTML </h3>
+
+    <table>
+
+        <tr><th>html</th><td>represents the root (top-level element) of an HTML document, so it is also referred to as the root element. All other elements must be descendants of this element. There can be only one <html> element in a document.</td></tr>
+        <tr><th>head</th><td>The &lt;head> HTML element contains machine-readable information (metadata) about the document, like its title, scripts, and style sheets. There can be only one <head> element in an HTML document.</td></tr>
+        <tr>
+            <th>title</th><td>The &lt;title> HTML element defines the document's title that is shown in a browser's title bar or a page's tab. It only contains text; tags within the element are ignored.</td>
+        </tr>
+        <tr>
+            <th>base|singleton</th><td>specifies the base URL to use for all relative URLs in a document. There can be only one &lt;base> element in a document.</td>
+        </tr>
+        <tr>
+            <th>meta|singleton</th><td>The &lt;meta> HTML element represents metadata that cannot be represented by other HTML meta-related elements, like &lt;base>, &lt;link>, &lt;script>, &lt;style> or &lt;title>. </td>
+        </tr>
+        <tr>
+            <th>link:singleton</th>
+        </tr>
+        <tr><th>style</th></tr>
+        <tr><th>script</th></tr>
+        <tr>
+            <th>body</th><td>represents the content of an HTML document. There can be only one <body> element in a document.</td>
+        </tr>
+        <tr>
+            <th>noscript</th><td>defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser.</td>
+        </tr>
+    </table>
+
+<table style="display: none;">
+    <tr>
+        <th></th><th>RED</th><th>GREEN</th><th>BLUE</th><th>YELLOW</th><th>BLACK</th>
+    </tr>
+    <tr>
+        <th>WHITE</th>
+        <td style="background: linear-gradient(-90deg, white,red);"></td>
+        <td style="background: linear-gradient(-90deg, white,green);"></td>
+        <td style="background: linear-gradient(-90deg, white,blue);"></td>
+        <td style="background: linear-gradient(-90deg, white,yellow);"></td>
+        <td style="background: linear-gradient(-90deg, white,black);"></td>
+    </tr>
+    <tr>
+        <th>RED</th>
+        <td style="background: linear-gradient(-90deg, red,red);">COCA COLA</td>
+        <td style="background: linear-gradient(-90deg, red,green);">PORTUGAL</td>
+        <td style="background: linear-gradient(-90deg, red,blue);">UK</td>
+        <td style="background: linear-gradient(-90deg, red,yellow);"></td>
+        <td style="background: linear-gradient(-90deg, red,black);"></td>
+    </tr>
+    <tr>
+        <th>GREEN</th>
+        <td style="background: linear-gradient(-90deg, green,red);"></td>
+        <td style="background: linear-gradient(-90deg, green,green);">IRISH</td>
+        <td style="background: linear-gradient(-90deg, green,blue);"></td>
+        <td style="background: linear-gradient(-90deg, green,yellow);"></td>
+        <td style="background: linear-gradient(-90deg, green,black);"></td>
+    </tr>
+    <tr>
+        <th>BLUE</th>
+        <td style="background: linear-gradient(-90deg, blue,red);"></td>
+        <td style="background: linear-gradient(-90deg, blue,green);"></td>
+        <td style="background: linear-gradient(-90deg, blue,blue);"></td>
+        <td style="background: linear-gradient(-90deg, blue,yellow);">UKRAINE</td>
+        <td style="background: linear-gradient(-90deg, blue,black);"></td>
+    </tr>
+    <tr>
+        <th>YELLOW</th>
+        <td style="background: linear-gradient(-90deg, yellow,red);"></td>
+        <td style="background: linear-gradient(-90deg, yellow,green);"></td>
+        <td style="background: linear-gradient(-90deg, yellow,blue);"></td>
+        <td style="background: linear-gradient(-90deg, yellow,yellow);"></td>
+        <td style="background: linear-gradient(-90deg, yellow,black);"></td>
+    </tr>
+    <tr>
+        <th>BLACK</th>
+        <td style="background: linear-gradient(-90deg, black,red);"></td>
+        <td style="background: linear-gradient(-90deg, black,green);"></td>
+        <td style="background: linear-gradient(-90deg, black,blue);"></td>
+        <td style="background: linear-gradient(-90deg, black,yellow);"></td>
+        <td style="background: linear-gradient(-90deg, black,black);"></td>
+    </tr>
+</table>
+<h3>TEXT</h3>
+<table>
+    <tr><th width="40%">p</th><td><p>It is often confusing to new developers why there are so many ways to express the same thing on a rendered website.</p></td></tr>
+    <tr><th>hr *singleton*</th><td><hr></td></tr>
+    <tr>
+        <th>a *IMP* </th><td><a href="#">Click Here</a> for this</td>
+    </tr>
+    <tr><th>abbr</th><td>This is <abbr title="Hypertext Markup Language">HTML</abbr></td></tr>
+    <tr><th>address<br>time *HTML5*</th><td><address> 1600 Pennsylvania Avenue, Washington, DC</address> <time datetime="2025-05-05">Jan 01, 2025</time></td></tr>
+    <tr><th>b, strong</th><td><b>This is bold tag</b>, <strong>This is strong tag</strong></td></tr>
+    <tr><th>bdi | bdo *HTML5*</th><td><bdi>This is bdi tag</bdi> | <bdo dir="rtl">This is bdo tag</bdo></td></tr>
+    <tr><th>blockquote</th><td><blockquote>This is a blockquote</blockquote></td></tr>
+    <tr><th>del, s</th><td><del>This is del tag</del> <s>This is s tag</s></td></tr>
+    <tr><th>ins, u</th><td><ins>This is ins tag</ins> <u>This is u tag</u></td></tr>
+    <tr><td><h1>This is h1 tag</h1> <h2>This is h2 tag</h2><h3>This is a h3 tag</h3></td><td><p>This is a paragraph for comparison</p><h4>This is h4 tag</h4><h5>This is h5 tag</h5><h6>This is a h6 tag</h6></td></tr>
+    <tr><th>i<br>em</th><td><i>This is em tag</i><br><em>This is i tag</em></td></tr>
+    <tr><th>cite</th><td><cite>This is a cite tag</cite></td></tr>
+    <tr><th>dfn</th><td><dfn>This is a dfn</dfn></td></tr>
+    <tr><th>var</th><td><var>flag = 1</var></td></tr>
+    <tr><th>sub | sup</th><td>H<sub>2</sub>O, 1<sup>st</sup>, 30<sup>o</sup>C, x<sup>3</sup>+2x<sup>2</sup>y+3xy<sup>2</sup>+7y<sup>3</sup></td></tr>
+    <tr><td>represents an unordered list of items, typically rendered as a bulleted list. ul, li<ul><li>This is list item 1</li><li>This is list item 2</li><li>This is list item 3</li></ul></td><td>ol, li<ol><li>This is list item 1</li><li>This is list item 2</li><li>This is list item 3</li></ol></td></tr>
+    <tr><th>q</th><td> <q>This is quote tag</q></td></tr>
+    <tr><th>small</th><td>represents side-comments and small print, like copyright and legal text, independent of its styled presentation. By default, it renders text within it one font-size smaller, such as from small to x-small. <br><span>This is span</span> <small>This is small tag</small></td></tr>
+    <tr><th>mark </th><td>represents text which is marked or highlighted for reference or notation purposes due to the marked passage's relevance in the enclosing context. <mark>This is mark tag</mark></td></tr>
+    <tr><th>kbd</th><td><kbd>This is kbd tag</kbd></td></tr>
+    <!-- <tr><th>marquee</th><td><marquee
+        direction="down"
+        width="650"
+        height="200"
+        behavior="alternate"
+        style="border:solid">
+        <marquee behavior="alternate">This text will bounce</marquee>
+      </marquee></td></tr> -->
+</table>
+<p>
+br | wbr *IMP* *singleton* 
+dd | dl | dt
+span *IMP* <span>This is span tag</span>
+
+</p>
+<h3>MEDIA</h3>
+<pre>
+audio | video | picture | source *HTML5*
+img *IMP* *singleton*
+map | area *singleton*
+figure | img | figcaption *HTML5*
+canvas *HTML5*
+iframe *IMP*
+ruby | rp | rt *HTML5*
+video | audio | track *HTML5*
+
+</pre>
+<h3>LAYOUT</h3>
+<pre>
+article *HTML5*
+aside *HTML5*
+div *IMP*
+footer *HTML5*
+header *HTML5*
+main *HTML5*
+nav *HTML5*
+section *HTML5*
+</pre>
+<h3>FORM</h3>
+<table>
+    <tr>
+        <th>input</th>
+        <td>
+            <input type="text" name="" id="" placeholder="First Name">
+            <input type="password" name="" id="" placeholder="Password">
+            <input type="date" name="" id="" placeholder="Date">
+            <input type="color" name="" id="" height="50px" placeholder="Color">
+        </td>
+    </tr>
+</table>
+<pre>
+button
+form *IMP*
+fieldset
+input *IMP* *singleton*
+textarea *IMP*
+label
+legend
+meter *HTML5*
+optgroup
+option *IMP*
+output *HTML5*
+progress *HTML5*
+select *IMP* datalist *HTML5*
+
+</pre>
+<h3>TABLE</h3>
+<pre>
+caption
+col *singleton*
+colgroup
+table *IMP*
+tr | th | td *IMP*
+thead | tbody | tfoot
+</pre>
+<h3></h3>
+<pre>
+code | samp | pre
+&lt;!--comment-->
+</pre>
+
+
+<h3>AVOID :</h3>
+<pre>
+- acronym   - applet   - basefont   - big   - center   
+- details,summary   - dialog   - dir   - embed   
+- font   - frame   - frameset   - keygen   
+- marquee   - menu   - menuitem   - noframes   
+- object   - param   - strike   - tt
+
+</pre>
+</body>
+</html>

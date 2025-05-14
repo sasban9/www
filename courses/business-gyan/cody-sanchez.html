@@ -238,5 +238,17 @@
             
         </main>
     </div>
+    <script>
+        const myElement = document.getElementByTagName('p');
+
+myElement.addEventListener('click', function() {
+  // Method 1: Set inline styles
+  myElement.style.backgroundColor = 'lightblue';
+  myElement.style.color = 'black';
+
+  // Method 2: Add a CSS class
+  myElement.classList.add('clicked');
+});
+    </script>
 </body>
 </html>
