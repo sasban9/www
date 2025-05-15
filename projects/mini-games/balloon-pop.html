@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Balloon Pop Party!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #e0f7fa;
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+    }
+
+    h1 {
+      color: #00796b;
+      margin-top: 20px;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 100%;
+      height: 70vh;
+      background: #b2ebf2;
+      overflow: hidden;
+      border-top: 5px solid #00796b;
+      border-bottom: 5px solid #00796b;
+    }
+
+    .balloon {
+      position: absolute;
+      width: 60px;
+      height: 80px;
+      background-image: url('https://cdn-icons-png.flaticon.com/512/595/595632.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      animation: float 5s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); }
+      100% { transform: translateY(-100%); }
+    }
+
+    #scoreBoard {
+      font-size: 20px;
+      margin: 10px;
+      color: #004d40;
+    }
+
+    #startBtn {
+      padding: 10px 20px;
+      font-size: 18px;
+      background: #00796b;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    #modalContent {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      font-size: 24px;
+      color: #00796b;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+
+<h1>🎈 Balloon Pop Party! 🎈</h1>
+<div id="scoreBoard">Score: 0 | Time Left: 30s</div>
+<button id="startBtn">Start Game</button>
+<div id="gameArea"></div>
+
+<div id="modal">
+  <div id="modalContent"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+  const gameArea = document.getElementById('gameArea');
+  const scoreBoard = document.getElementById('scoreBoard');
+  const startBtn = document.getElementById('startBtn');
+  const modal = document.getElementById('modal');
+  const modalContent = document.getElementById('modalContent');
+
+  let score = 0;
+  let timeLeft = 30;
+  let gameTimer;
+  let balloonInterval;
+
+  function randomX() {
+    return Math.random() * (gameArea.clientWidth - 60);
+  }
+
+  function createBalloon() {
+    const balloon = document.createElement('div');
+    balloon.className = 'balloon';
+    balloon.style.left = randomX() + 'px';
+
+    balloon.addEventListener('click', () => {
+      score++;
+      updateScore();
+      balloon.remove();
+    });
+
+    gameArea.appendChild(balloon);
+
+    setTimeout(() => {
+      balloon.remove();
+    }, 5000);
+  }
+
+  function updateScore() {
+    scoreBoard.textContent = `Score: ${score} | Time Left: ${timeLeft}s`;
+  }
+
+  function startGame() {
+    score = 0;
+    timeLeft = 30;
+    updateScore();
+    modal.style.display = 'none';
+    gameArea.innerHTML = '';
+
+    balloonInterval = setInterval(createBalloon, 800);
+    gameTimer = setInterval(() => {
+      timeLeft--;
+      updateScore();
+      if (timeLeft <= 0) {
+        endGame();
+      }
+    }, 1000);
+  }
+
+  function endGame() {
+    clearInterval(balloonInterval);
+    clearInterval(gameTimer);
+    modalContent.innerHTML = `🎉 Awesome! You popped <strong>${score}</strong> balloons! 🎉`;
+    modal.style.display = 'flex';
+    confetti({
+      particleCount: 150,
+      spread: 90,
+      origin: { y: 0.6 }
+    });
+  }
+
+  startBtn.addEventListener('click', startGame);
+</script>
+
+</body>
+</html>

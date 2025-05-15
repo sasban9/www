@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Maze Explorer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #e0f7fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    canvas {
+      background: #fff;
+      border: 2px solid #00796b;
+    }
+    h1 {
+      color: #00796b;
+    }
+    #info {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧭 Maze Explorer</h1>
+  <canvas id="maze" width="400" height="400"></canvas>
+  <div id="info">Use arrow keys to move your explorer to the green goal!</div>
+
+  <script>
+    const canvas = document.getElementById("maze");
+    const ctx = canvas.getContext("2d");
+
+    const tileSize = 40;
+    const rows = 10;
+    const cols = 10;
+
+    const maze = [
+      [1,1,0,0,0,0,0,1,1,2],
+      [0,1,1,1,0,1,1,1,0,0],
+      [0,0,0,1,0,1,0,1,1,0],
+      [0,1,0,1,0,1,0,0,1,0],
+      [0,1,0,1,1,1,1,0,1,0],
+      [0,1,0,0,0,0,1,0,1,0],
+      [0,1,1,1,1,0,1,0,1,0],
+      [0,0,0,0,1,0,1,0,1,0],
+      [0,1,1,0,1,1,1,0,1,0],
+      [0,0,1,0,0,0,0,0,1,0]
+    ];
+
+    const player = { x: 0, y: 0 };
+
+    function drawMaze() {
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          if (maze[y][x] === 1) {
+            ctx.fillStyle = "#b2dfdb"; // path
+          } else if (maze[y][x] === 2) {
+            ctx.fillStyle = "#a5d6a7"; // goal
+          } else {
+            ctx.fillStyle = "#eeeeee"; // wall
+          }
+          ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+        }
+      }
+    }
+
+    function drawPlayer() {
+      ctx.fillStyle = "#ff5722";
+      ctx.fillRect(player.x * tileSize + 10, player.y * tileSize + 10, tileSize - 20, tileSize - 20);
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawMaze();
+      drawPlayer();
+    }
+
+    function movePlayer(dx, dy) {
+      const newX = player.x + dx;
+      const newY = player.y + dy;
+      if (
+        newX >= 0 && newX < cols &&
+        newY >= 0 && newY < rows &&
+        maze[newY][newX] !== 0
+      ) {
+        player.x = newX;
+        player.y = newY;
+        render();
+
+        if (maze[newY][newX] === 2) {
+          setTimeout(() => {
+            alert("🎉 You reached the goal! Well done, explorer!");
+          }, 100);
+        }
+      }
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowUp") movePlayer(0, -1);
+      if (e.key === "ArrowDown") movePlayer(0, 1);
+      if (e.key === "ArrowLeft") movePlayer(-1, 0);
+      if (e.key === "ArrowRight") movePlayer(1, 0);
+    });
+
+    render();
+  </script>
+</body>
+</html>

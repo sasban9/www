@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Language Match Adventure</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #fff8e1, #ffe082);
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #ef6c00;
+      margin-top: 30px;
+    }
+    #gameBox {
+      background: white;
+      border-radius: 20px;
+      margin: 30px auto;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    #englishWord {
+      font-size: 28px;
+      color: #ef6c00;
+      margin-bottom: 20px;
+    }
+    .optionBtn {
+      display: block;
+      margin: 10px auto;
+      padding: 12px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #ffb74d;
+      color: white;
+      cursor: pointer;
+      width: 80%;
+    }
+    #feedback {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    #scoreBoard {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🌍 Language Match Adventure</h1>
+<div id="gameBox">
+  <div id="englishWord">--</div>
+  <button class="optionBtn"></button>
+  <button class="optionBtn"></button>
+  <button class="optionBtn"></button>
+  <div id="feedback"></div>
+  <div id="scoreBoard">Score: 0 | Time Left: 60s</div>
+</div>
+
+<script>
+  const wordPairs = [
+    { en: "apple", fr: "pomme" },
+    { en: "dog", fr: "chien" },
+    { en: "cat", fr: "chat" },
+    { en: "sun", fr: "soleil" },
+    { en: "water", fr: "eau" },
+    { en: "car", fr: "voiture" },
+    { en: "house", fr: "maison" },
+    { en: "book", fr: "livre" },
+    { en: "tree", fr: "arbre" },
+    { en: "milk", fr: "lait" }
+  ];
+
+  let score = 0;
+  let timeLeft = 60;
+  let timer;
+
+  const englishWordEl = document.getElementById("englishWord");
+  const optionButtons = document.querySelectorAll(".optionBtn");
+  const feedbackEl = document.getElementById("feedback");
+  const scoreBoardEl = document.getElementById("scoreBoard");
+
+  let correctAnswer = "";
+
+  function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  function nextQuestion() {
+    const selectedPair = wordPairs[Math.floor(Math.random() * wordPairs.length)];
+    englishWordEl.textContent = selectedPair.en;
+    correctAnswer = selectedPair.fr;
+
+    let options = [correctAnswer];
+    while (options.length < 3) {
+      const random = wordPairs[Math.floor(Math.random() * wordPairs.length)].fr;
+      if (!options.includes(random)) {
+        options.push(random);
+      }
+    }
+    options = shuffle(options);
+    optionButtons.forEach((btn, i) => {
+      btn.textContent = options[i];
+    });
+  }
+
+  function updateScoreboard() {
+    scoreBoardEl.textContent = `Score: ${score} | Time Left: ${timeLeft}s`;
+  }
+
+  function startTimer() {
+    timer = setInterval(() => {
+      timeLeft--;
+      updateScoreboard();
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        englishWordEl.textContent = "Time's Up!";
+        feedbackEl.textContent = `🎉 Final Score: ${score}`;
+        optionButtons.forEach(btn => btn.disabled = true);
+      }
+    }, 1000);
+  }
+
+  optionButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (btn.textContent === correctAnswer) {
+        score++;
+        feedbackEl.textContent = "✅ Correct!";
+      } else {
+        feedbackEl.textContent = `❌ Oops! It was '${correctAnswer}'`;
+      }
+      nextQuestion();
+      updateScoreboard();
+    });
+  });
+
+  // Start Game
+  nextQuestion();
+  updateScoreboard();
+  startTimer();
+</script>
+
+</body>
+</html>

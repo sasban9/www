@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini Wordle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121213;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    #board {
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: repeat(5, 50px);
+      gap: 5px;
+      max-width: 270px;
+    }
+    .tile {
+      width: 50px;
+      height: 50px;
+      border: 2px solid #3a3a3c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-transform: uppercase;
+      user-select: none;
+    }
+    .correct {
+      background-color: #538d4e; /* green */
+      border-color: #538d4e;
+      color: white;
+    }
+    .present {
+      background-color: #b59f3b; /* yellow */
+      border-color: #b59f3b;
+      color: white;
+    }
+    .absent {
+      background-color: #3a3a3c; /* gray */
+      border-color: #3a3a3c;
+      color: white;
+    }
+    #inputRow {
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      font-size: 1.2em;
+      width: 150px;
+      text-transform: uppercase;
+      padding: 5px;
+    }
+    button {
+      font-size: 1.1em;
+      padding: 6px 12px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 15px;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mini Wordle</h1>
+  <p>Guess the 5-letter word! You get 6 tries.</p>
+
+  <div id="board"></div>
+
+  <div id="inputRow">
+    <input type="text" id="guessInput" maxlength="5" />
+    <button onclick="submitGuess()">Guess</button>
+  </div>
+
+  <div id="message"></div>
+
+  <script>
+    // Expanded word list (100+ words)
+    const words = [
+      "ABIDE", "ACORN", "ADORE", "AGILE", "ALBUM", "ANGEL", "APART", "APPLE", "ARGUE", "ARMOR",
+      "BATCH", "BEACH", "BEGAN", "BLAME", "BLEND", "BLOCK", "BOARD", "BRAVE", "BRING", "BRUSH",
+      "CABLE", "CANDY", "CARES", "CARRY", "CHESS", "CIVIL", "CLAIM", "CLASS", "CLEAN", "CRANE",
+      "DAILY", "DAIRY", "DANCE", "DEPTH", "DOING", "DREAM", "DRIVE", "DRUMS", "DUTCH", "DWELL",
+      "EAGER", "EAGLE", "EARTH", "ELDER", "ELITE", "EMPTY", "ENJOY", "ENTRY", "ERROR", "EVENT",
+      "FAITH", "FALSE", "FAULT", "FAVOR", "FEAST", "FIELD", "FINAL", "FLOOD", "FLOUR", "FROST",
+      "GAMER", "GIANT", "GLASS", "GLOOM", "GRACE", "GRANT", "GREAT", "GREEN", "GROUP", "GUARD",
+      "HAPPY", "HEART", "HONEY", "HORSE", "HUMAN", "HUMOR", "HURRY", "HUSKY", "HYDRA", "HYMNS",
+      "IMAGE", "INPUT", "ISSUE", "IVORY", "JELLY", "JUICE", "JUMPY", "JUROR", "KNACK", "KNEEL", "KNOCK"
+    ];
+
+    const maxTries = 6;
+    let currentTry = 0;
+    let secret = words[Math.floor(Math.random() * words.length)];
+    const board = document.getElementById('board');
+    const message = document.getElementById('message');
+    const guessInput = document.getElementById('guessInput');
+
+    // Create empty board grid (6 rows, 5 cols)
+    for(let i=0; i<maxTries * 5; i++) {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
+      board.appendChild(tile);
+    }
+
+    function submitGuess() {
+      const guess = guessInput.value.toUpperCase();
+      if (guess.length !== 5) {
+        message.textContent = "Please enter a 5-letter word.";
+        return;
+      }
+      if (!words.includes(guess)) {
+        message.textContent = "Word not in list.";
+        return;
+      }
+      if (currentTry >= maxTries) {
+        message.textContent = "No tries left! The word was " + secret;
+        return;
+      }
+
+      message.textContent = '';
+      const startIndex = currentTry * 5;
+      const secretArr = secret.split('');
+      const guessArr = guess.split('');
+      const tileEls = board.children;
+
+      let secretLetterCount = {};
+      secretArr.forEach(letter => {
+        secretLetterCount[letter] = (secretLetterCount[letter] || 0) + 1;
+      });
+
+      let result = Array(5).fill('absent');
+      for(let i=0; i<5; i++) {
+        if (guessArr[i] === secretArr[i]) {
+          result[i] = 'correct';
+          secretLetterCount[guessArr[i]]--;
+        }
+      }
+      for(let i=0; i<5; i++) {
+        if (result[i] === 'absent' && secretLetterCount[guessArr[i]] > 0) {
+          result[i] = 'present';
+          secretLetterCount[guessArr[i]]--;
+        }
+      }
+
+      for(let i=0; i<5; i++) {
+        const tile = tileEls[startIndex + i];
+        tile.textContent = guessArr[i];
+        tile.className = 'tile ' + result[i];
+      }
+
+      if (guess === secret) {
+        message.textContent = "🎉 Congratulations! You guessed it!";
+        guessInput.disabled = true;
+        return;
+      }
+
+      currentTry++;
+      guessInput.value = '';
+      guessInput.focus();
+
+      if (currentTry === maxTries) {
+        message.textContent = "Game Over! The word was " + secret;
+        guessInput.disabled = true;
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Code Breaker</title>
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #0ff;
+      font-family: monospace;
+      padding: 20px;
+      text-align: center;
+    }
+    #gameArea {
+      margin-top: 30px;
+    }
+    input {
+      font-size: 1.2em;
+      padding: 10px;
+      margin-top: 10px;
+      background: #000;
+      color: #0f0;
+      border: 1px solid #0f0;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background: #0f0;
+      color: #000;
+      border: none;
+      cursor: pointer;
+    }
+    #feedback {
+      margin-top: 20px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔐 Cyber Code Breaker</h1>
+  <p>Crack the secret code in limited attempts!</p>
+
+  <div id="gameArea">
+    <div id="codeHint"></div>
+    <input type="text" id="guessInput" placeholder="Enter 4-digit code" maxlength="4" />
+    <br>
+    <button onclick="submitGuess()">Submit</button>
+    <div id="feedback"></div>
+  </div>
+
+  <script>
+    let secretCode = generateCode();
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    function generateCode() {
+      return Math.floor(1000 + Math.random() * 9000).toString();
+    }
+
+    function submitGuess() {
+      const guess = document.getElementById('guessInput').value;
+      if (guess.length !== 4 || isNaN(guess)) {
+        document.getElementById('feedback').innerText = "Please enter a valid 4-digit number.";
+        return;
+      }
+      attempts++;
+
+      if (guess === secretCode) {
+        document.getElementById('feedback').innerHTML = `✅ Correct! You cracked the code in ${attempts} attempt(s)!`;
+        return;
+      }
+
+      if (attempts >= maxAttempts) {
+        document.getElementById('feedback').innerHTML = `❌ Game Over! The correct code was ${secretCode}.`;
+        return;
+      }
+
+      // Give feedback
+      let hint = '';
+      for (let i = 0; i < 4; i++) {
+        if (guess[i] === secretCode[i]) {
+          hint += '🟩';
+        } else if (secretCode.includes(guess[i])) {
+          hint += '🟨';
+        } else {
+          hint += '⬜';
+        }
+      }
+
+      document.getElementById('feedback').innerHTML = `Attempt ${attempts}/${maxAttempts}: ${hint}`;
+    }
+  </script>
+</body>
+</html>

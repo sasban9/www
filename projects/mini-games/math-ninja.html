@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Math Ninja Challenge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #fffde7, #fff9c4);
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #f57f17;
+      margin-top: 30px;
+    }
+
+    #gameArea {
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border: 4px solid #fbc02d;
+      border-radius: 20px;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    #question {
+      font-size: 28px;
+      margin: 20px 0;
+      color: #f57f17;
+    }
+
+    #inputAnswer {
+      font-size: 24px;
+      padding: 10px;
+      width: 100px;
+      text-align: center;
+    }
+
+    #submitBtn {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-left: 10px;
+      background: #fbc02d;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    #scoreBoard {
+      font-size: 20px;
+      margin-top: 15px;
+    }
+
+    #startBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 20px;
+      background: #f57f17;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    #modalContent {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      font-size: 24px;
+      color: #f57f17;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+
+<h1>🧠 Math Ninja Challenge 🧠</h1>
+<div id="gameArea">
+  <div id="scoreBoard">Score: 0 | Time Left: 30s</div>
+  <div id="question">Press "Start Game" to begin</div>
+  <input type="number" id="inputAnswer" disabled />
+  <button id="submitBtn" disabled>Submit</button>
+  <br />
+  <button id="startBtn">Start Game</button>
+</div>
+
+<div id="modal">
+  <div id="modalContent"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+  const questionEl = document.getElementById('question');
+  const inputEl = document.getElementById('inputAnswer');
+  const submitBtn = document.getElementById('submitBtn');
+  const scoreBoard = document.getElementById('scoreBoard');
+  const startBtn = document.getElementById('startBtn');
+  const modal = document.getElementById('modal');
+  const modalContent = document.getElementById('modalContent');
+
+  let currentAnswer = 0;
+  let score = 0;
+  let timeLeft = 30;
+  let timer;
+
+  function generateQuestion() {
+    const a = Math.floor(Math.random() * 20) + 1;
+    const b = Math.floor(Math.random() * 20) + 1;
+    const operators = ['+', '-', '*'];
+    const operator = operators[Math.floor(Math.random() * operators.length)];
+    questionEl.textContent = `${a} ${operator} ${b}`;
+    currentAnswer = eval(`${a}${operator}${b}`);
+    inputEl.value = '';
+    inputEl.focus();
+  }
+
+  function updateScoreboard() {
+    scoreBoard.textContent = `Score: ${score} | Time Left: ${timeLeft}s`;
+  }
+
+  function startGame() {
+    score = 0;
+    timeLeft = 30;
+    updateScoreboard();
+    modal.style.display = 'none';
+
+    inputEl.disabled = false;
+    submitBtn.disabled = false;
+    generateQuestion();
+
+    timer = setInterval(() => {
+      timeLeft--;
+      updateScoreboard();
+      if (timeLeft <= 0) {
+        endGame();
+      }
+    }, 1000);
+  }
+
+  function endGame() {
+    clearInterval(timer);
+    inputEl.disabled = true;
+    submitBtn.disabled = true;
+    modalContent.innerHTML = `🎉 Ninja! You scored <strong>${score}</strong> points! 🎉`;
+    modal.style.display = 'flex';
+    confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+  }
+
+  submitBtn.addEventListener('click', () => {
+    if (parseInt(inputEl.value) === currentAnswer) {
+      score++;
+    }
+    generateQuestion();
+    updateScoreboard();
+  });
+
+  startBtn.addEventListener('click', startGame);
+</script>
+
+</body>
+</html>

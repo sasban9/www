@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jungle Explorer Quest</title>
+  <style>
+    body {
+      background: #114422;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    #game {
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: repeat(10, 40px);
+      grid-gap: 2px;
+      width: fit-content;
+    }
+    .cell {
+      width: 40px;
+      height: 40px;
+      background: #338855;
+      border: 1px solid #222;
+      box-sizing: border-box;
+    }
+    .explorer { background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') center/cover no-repeat; }
+    .treasure { background: gold; }
+    .animal { background: brown; }
+  </style>
+</head>
+<body>
+  <h1>🌍 Jungle Explorer Quest</h1>
+  <p>Use arrow keys to move. Collect all treasures 💰 and avoid animals 🐾!</p>
+  <div id="game"></div>
+  <p id="status"></p>
+
+  <audio id="coinSound" src="https://freesound.org/data/previews/341/341695_3248244-lq.mp3"></audio>
+  <audio id="failSound" src="https://freesound.org/data/previews/335/335908_3248244-lq.mp3"></audio>
+
+  <script>
+    const game = document.getElementById('game');
+    const status = document.getElementById('status');
+    const coinSound = document.getElementById('coinSound');
+    const failSound = document.getElementById('failSound');
+    const size = 10;
+    let explorerPos = 0;
+    let treasures = [];
+    let animals = [];
+
+    function createGrid() {
+      game.innerHTML = '';
+      for (let i = 0; i < size * size; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.setAttribute('id', 'cell-' + i);
+        game.appendChild(cell);
+      }
+    }
+
+    function placeItems() {
+      explorerPos = 0;
+      treasures = [];
+      animals = [];
+
+      document.getElementById('cell-' + explorerPos).classList.add('explorer');
+
+      while (treasures.length < 5) {
+        let t = Math.floor(Math.random() * 100);
+        if (t !== explorerPos && !treasures.includes(t)) {
+          treasures.push(t);
+          document.getElementById('cell-' + t).classList.add('treasure');
+        }
+      }
+
+      while (animals.length < 5) {
+        let a = Math.floor(Math.random() * 100);
+        if (a !== explorerPos && !treasures.includes(a) && !animals.includes(a)) {
+          animals.push(a);
+          document.getElementById('cell-' + a).classList.add('animal');
+        }
+      }
+    }
+
+    function moveExplorer(dir) {
+      let nextPos = explorerPos;
+      if (dir === 'left' && explorerPos % size !== 0) nextPos--;
+      if (dir === 'right' && explorerPos % size !== size - 1) nextPos++;
+      if (dir === 'up' && explorerPos >= size) nextPos -= size;
+      if (dir === 'down' && explorerPos < size * (size - 1)) nextPos += size;
+
+      document.getElementById('cell-' + explorerPos).classList.remove('explorer');
+      explorerPos = nextPos;
+      document.getElementById('cell-' + explorerPos).classList.add('explorer');
+
+      if (treasures.includes(explorerPos)) {
+        document.getElementById('cell-' + explorerPos).classList.remove('treasure');
+        treasures = treasures.filter(t => t !== explorerPos);
+        coinSound.play();
+      }
+
+      if (animals.includes(explorerPos)) {
+        status.innerText = '❌ You were caught by a wild animal! Game Over.';
+        failSound.play();
+        document.removeEventListener('keydown', handleKey);
+        return;
+      }
+
+      if (treasures.length === 0) {
+        status.innerText = '🎉 You collected all treasures! You win!';
+        document.removeEventListener('keydown', handleKey);
+      }
+    }
+
+    function handleKey(e) {
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+        moveExplorer(e.key.replace('Arrow', '').toLowerCase());
+      }
+    }
+
+    createGrid();
+    placeItems();
+    document.addEventListener('keydown', handleKey);
+  </script>
+</body>
+</html>

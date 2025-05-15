@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hindi Puzzle Match</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #e3f2fd, #90caf9);
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #0d47a1;
+      margin-top: 30px;
+    }
+    #gameBox {
+      background: white;
+      border-radius: 20px;
+      margin: 30px auto;
+      padding: 30px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .dropZone {
+      border: 2px dashed #2196f3;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 10px;
+      min-height: 50px;
+      font-size: 24px;
+      color: #0d47a1;
+    }
+    .dragItem {
+      display: inline-block;
+      background: #64b5f6;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 8px;
+      font-size: 20px;
+      color: white;
+      cursor: move;
+    }
+    #scoreBoard {
+      font-size: 18px;
+      margin-top: 15px;
+    }
+    #feedback {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🧩 Hindi Puzzle Match</h1>
+<div id="gameBox">
+  <div id="dropArea"></div>
+  <div id="dragArea"></div>
+  <div id="feedback"></div>
+  <div id="scoreBoard">Score: 0 | Time Left: 60s</div>
+</div>
+
+<script>
+  const wordPairs = [
+    { en: "apple", hi: "सेब" },
+    { en: "dog", hi: "कुत्ता" },
+    { en: "sun", hi: "सूरज" },
+    { en: "water", hi: "पानी" },
+    { en: "car", hi: "गाड़ी" },
+    { en: "house", hi: "घर" },
+    { en: "book", hi: "किताब" },
+    { en: "tree", hi: "पेड़" },
+    { en: "milk", hi: "दूध" }
+  ];
+
+  let score = 0;
+  let timeLeft = 60;
+  let timer;
+
+  const dropArea = document.getElementById("dropArea");
+  const dragArea = document.getElementById("dragArea");
+  const feedbackEl = document.getElementById("feedback");
+  const scoreBoardEl = document.getElementById("scoreBoard");
+
+  let currentSet = [];
+
+  function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  function updateScoreboard() {
+    scoreBoardEl.textContent = `Score: ${score} | Time Left: ${timeLeft}s`;
+  }
+
+  function startTimer() {
+    timer = setInterval(() => {
+      timeLeft--;
+      updateScoreboard();
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        feedbackEl.textContent = `⏰ Time's up! Final Score: ${score}`;
+        dragArea.innerHTML = "";
+      }
+    }, 1000);
+  }
+
+  function renderNewSet() {
+    currentSet = shuffle(wordPairs).slice(0, 3);
+    dropArea.innerHTML = "";
+    dragArea.innerHTML = "";
+
+    currentSet.forEach((pair, i) => {
+      const drop = document.createElement("div");
+      drop.className = "dropZone";
+      drop.dataset.correct = pair.en;
+      drop.textContent = pair.hi;
+      drop.ondragover = e => e.preventDefault();
+      drop.ondrop = handleDrop;
+      dropArea.appendChild(drop);
+    });
+
+    shuffle([...currentSet]).forEach(pair => {
+      const drag = document.createElement("div");
+      drag.className = "dragItem";
+      drag.textContent = pair.en;
+      drag.draggable = true;
+      drag.ondragstart = e => {
+        e.dataTransfer.setData("text/plain", pair.en);
+      };
+      dragArea.appendChild(drag);
+    });
+  }
+
+  function handleDrop(e) {
+    const draggedWord = e.dataTransfer.getData("text/plain");
+    if (draggedWord === e.target.dataset.correct) {
+      e.target.style.background = "#c8e6c9";
+      e.target.textContent += ` - ${draggedWord}`;
+      score++;
+      feedbackEl.textContent = "✅ सही मिलान!";
+      updateScoreboard();
+
+      setTimeout(() => {
+        renderNewSet();
+      }, 1000);
+    } else {
+      e.target.style.background = "#ffcdd2";
+      feedbackEl.textContent = `❌ गलत! सही उत्तर नहीं है '${draggedWord}'`;
+    }
+  }
+
+  // Start Game
+  renderNewSet();
+  updateScoreboard();
+  startTimer();
+</script>
+
+</body>
+</html>

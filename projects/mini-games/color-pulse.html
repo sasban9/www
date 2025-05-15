@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Pulse Challenge</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: #212121;
+      color: white;
+      padding: 20px;
+    }
+    #gameArea {
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      gap: 15px;
+      width: 330px;
+    }
+    .colorBox {
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .colorBox:hover {
+      transform: scale(1.1);
+    }
+    #status, #timer, #level {
+      margin-top: 15px;
+      font-size: 1.2em;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 Color Pulse Challenge</h1>
+  <p>Click the box with the <b>target color</b> as fast as you can!</p>
+  <div id="targetColor"></div>
+  <div id="timer"></div>
+  <div id="level"></div>
+  <div id="gameArea"></div>
+  <div id="status"></div>
+  <button onclick="startGame()">Start Game</button>
+
+  <!-- Sound effects -->
+  <audio id="correctSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="wrongSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+
+  <script>
+    const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'cyan'];
+    let target = '';
+    let score = 0;
+    let rounds = 0;
+    let maxRounds = 10;
+    let level = 1;
+    let streak = 0;
+    let timeLeft;
+    let timerInterval;
+
+    const correctSound = document.getElementById("correctSound");
+    const wrongSound = document.getElementById("wrongSound");
+
+    function startGame() {
+      score = 0;
+      rounds = 0;
+      level = 1;
+      streak = 0;
+      document.getElementById("status").textContent = '';
+      nextRound();
+    }
+
+    function updateTimerDisplay() {
+      document.getElementById("timer").textContent = `⏱️ Time Left: ${timeLeft}s`;
+    }
+
+    function startTimer(callback) {
+      timeLeft = 5 - level * 0.3;
+      updateTimerDisplay();
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft -= 1;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          wrongSound.play();
+          document.getElementById("status").textContent = "⏰ Time's up!";
+          streak = 0;
+          setTimeout(nextRound, 800);
+        }
+      }, 1000);
+    }
+
+    function nextRound() {
+      rounds++;
+      if (rounds > maxRounds) {
+        document.getElementById("status").textContent = `🏁 Game Over! Your score: ${score}`;
+        document.getElementById("level").textContent = '';
+        document.getElementById("timer").textContent = '';
+        return;
+      }
+
+      if (rounds % 3 === 0) level++;
+      document.getElementById("level").textContent = `📈 Level: ${level}`;
+
+      const gameArea = document.getElementById("gameArea");
+      gameArea.innerHTML = '';
+      const availableColors = [...colors].slice(0, 4 + level);
+      const shuffled = [...availableColors].sort(() => 0.5 - Math.random());
+      target = shuffled[Math.floor(Math.random() * shuffled.length)];
+
+      document.getElementById("targetColor").innerHTML = `🔍 Click this color: <b style="color:${target}">${target.toUpperCase()}</b>`;
+
+      for (let i = 0; i < 6 + level; i++) {
+        const box = document.createElement("div");
+        box.className = "colorBox";
+        const color = shuffled[i % shuffled.length];
+        box.style.background = color;
+        box.onclick = () => checkAnswer(color);
+        gameArea.appendChild(box);
+      }
+
+      // Shuffle boxes after a short delay (distraction)
+      setTimeout(() => {
+        const boxes = Array.from(document.querySelectorAll('.colorBox'));
+        boxes.forEach(box => box.style.order = Math.floor(Math.random() * 100));
+      }, 800);
+
+      startTimer();
+    }
+
+    function checkAnswer(color) {
+      clearInterval(timerInterval);
+      if (color === target) {
+        correctSound.play();
+        streak++;
+        let bonus = streak >= 3 ? 2 : 1;
+        score += bonus;
+        document.getElementById("status").textContent = `✅ Correct! (+${bonus})`;
+      } else {
+        wrongSound.play();
+        document.getElementById("status").textContent = "❌ Wrong!";
+        streak = 0;
+      }
+      setTimeout(nextRound, 800);
+    }
+  </script>
+</body>
+</html>
