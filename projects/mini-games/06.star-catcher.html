@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Catcher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #87CEEB; /* Sky Blue */
+            color: #333;
+            overflow: hidden; 
+        }
+        .game-container {
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+        canvas {
+            background-color: #000080; /* Dark Blue Night Sky */
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+            max-width: 100%;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column; /* Stack difficulty buttons vertically */
+            align-items: center;
+            gap: 10px;
+        }
+        .difficulty-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Space between difficulty buttons */
+            margin-bottom: 15px; /* Space below difficulty buttons */
+        }
+        button, .difficulty-button { /* Shared styles for all buttons */
+            font-family: 'Fredoka One', cursive;
+            border: none;
+            padding: 12px 25px; /* Adjusted default padding */
+            font-size: 1.1em;   /* Adjusted default font size */
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .difficulty-button.easy { background-color: #90EE90; color: #2E8B57; } /* LightGreen, SeaGreen text */
+        .difficulty-button.medium { background-color: #FFD700; color: #8B4513; } /* Gold, SaddleBrown text */
+        .difficulty-button.hard { background-color: #FF6347; color: #FFFFFF; } /* Tomato, White text */
+        
+        .difficulty-button:hover { filter: brightness(1.1); }
+        .difficulty-button:active { transform: scale(0.95); }
+
+        .score-board {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #4A4A4A;
+            margin-bottom: 15px;
+        }
+        .lives-display span {
+            color: red; 
+            font-size: 1.2em; 
+        }
+        .message-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.95); 
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 100;
+            font-size: 1.8em;
+            color: #333;
+            font-family: 'Fredoka One', cursive;
+        }
+        .message-box button { /* Play Again button */
+            margin-top: 20px;
+            font-size: 1em;
+            padding: 12px 25px; 
+            background-color: #FFD700; /* Gold */
+            color: #8B4513; /* SaddleBrown */
+        }
+         .message-box button:hover {
+            background-color: #FFA500; /* Orange */
+        }
+        .hidden {
+            display: none;
+        }
+        .instructions {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px; /* Reduced margin slightly */
+        }
+    </style>
+</head>
+<body class="bg-sky-200">
+
+    <div class="game-container">
+        <h1 class="text-4xl font-bold text-orange-500 mb-4" style="font-family: 'Fredoka One', cursive;">Star Catcher! ✨</h1>
+        <div class="instructions">
+            Move your mouse or finger to catch the falling stars with the basket!
+            <br> Select a difficulty to start:
+        </div>
+        <div id="difficultySelection" class="difficulty-buttons">
+            <button id="easyButton" class="difficulty-button easy">Easy</button>
+            <button id="mediumButton" class="difficulty-button medium">Medium</button>
+            <button id="hardButton" class="difficulty-button hard">Hard</button>
+        </div>
+        <div class="score-board">
+            Score: <span id="score">0</span> | Lives: <span id="livesDisplay" class="lives-display"></span>
+        </div>
+        
+        <canvas id="gameCanvas"></canvas>
+        
+        <div class="controls hidden" id="gameControls"> 
+             </div>
+    </div>
+
+    <div id="messageBox" class="message-box hidden">
+        <p id="messageText"></p>
+        <button id="playAgainButton">Play Again</button>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score');
+        const livesDisplayElement = document.getElementById('livesDisplay');
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
+        const playAgainButton = document.getElementById('playAgainButton');
+        const difficultySelectionDiv = document.getElementById('difficultySelection');
+        const easyButton = document.getElementById('easyButton');
+        const mediumButton = document.getElementById('mediumButton');
+        const hardButton = document.getElementById('hardButton');
+        const gameControlsDiv = document.getElementById('gameControls');
+
+
+        // Game variables
+        let score = 0;
+        let lives = 3; // Default, will be overridden by difficulty
+        let maxLives = 3; // Default, will be overridden
+        const heartEmoji = '❤️';
+        let gameRunning = false;
+        let basket;
+        let stars = [];
+        let starSpeed = 2; 
+        let starSpawnInterval = 1500; 
+        let animationFrameId;
+        let confettiParticles = [];
+        let currentDifficulty = 'medium'; // Default
+
+        // Difficulty settings
+        const difficultySettings = {
+            easy: { speed: 1.5, interval: 2200, lives: 5, speedIncrement: 0.1, intervalDecrement: 50 },
+            medium: { speed: 2.5, interval: 1700, lives: 3, speedIncrement: 0.2, intervalDecrement: 75 },
+            hard: { speed: 3.5, interval: 1200, lives: 3, speedIncrement: 0.3, intervalDecrement: 100 }
+        };
+
+        // Emojis for game elements
+        const basketEmoji = '🧺'; 
+        const starEmoji = '⭐'; 
+        const starSize = 30; 
+        const basketWidth = 60; 
+        const basketHeight = 40;
+
+        // --- Confetti Code (remains the same) ---
+        const confettiCount = 100;
+        const confettiColors = ['#f94144', '#f3722c', '#f8961e', '#f9c74f', '#90be6d', '#43aa8b', '#577590'];
+
+        function createConfettiParticle() {
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                size: Math.random() * 5 + 5, 
+                speedX: Math.random() * 6 - 3, 
+                speedY: Math.random() * 5 + 2, 
+                color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+                rotation: Math.random() * 360,
+                rotationSpeed: Math.random() * 20 - 10 
+            };
+        }
+
+        function launchConfetti() {
+            confettiParticles = [];
+            for (let i = 0; i < confettiCount; i++) {
+                confettiParticles.push(createConfettiParticle());
+            }
+        }
+
+        function drawConfetti() {
+            confettiParticles.forEach(p => {
+                ctx.save();
+                ctx.translate(p.x + p.size / 2, p.y + p.size / 2);
+                ctx.rotate(p.rotation * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+            });
+        }
+
+        function updateConfetti() {
+            confettiParticles.forEach(p => {
+                p.y += p.speedY;
+                p.x += p.speedX;
+                p.rotation += p.rotationSpeed;
+                if (p.speedY < 10) p.speedY += 0.1; 
+            });
+            confettiParticles = confettiParticles.filter(p => p.y < canvas.height + 100);
+        }
+        // --- End Confetti Code ---
+
+        function updateLivesDisplay() {
+            livesDisplayElement.innerHTML = ''; 
+            for (let i = 0; i < lives; i++) {
+                const heartSpan = document.createElement('span');
+                heartSpan.textContent = heartEmoji;
+                livesDisplayElement.appendChild(heartSpan);
+            }
+             for (let i = lives; i < maxLives; i++) { // Show empty hearts or placeholders if needed
+                const emptyHeartSpan = document.createElement('span');
+                emptyHeartSpan.textContent = ' '; // Could use a different emoji like 🖤 or just space
+                livesDisplayElement.appendChild(emptyHeartSpan);
+            }
+        }
+
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = Math.min(480, container.clientWidth - 20); 
+            canvas.height = 400; 
+            
+            if (basket) {
+                 basket.x = canvas.width / 2 - basket.width / 2;
+                 basket.y = canvas.height - basket.height - 10;
+            }
+        }
+
+        function createBasket() {
+            return {
+                x: canvas.width / 2 - basketWidth / 2,
+                y: canvas.height - basketHeight - 10, 
+                width: basketWidth,
+                height: basketHeight,
+                draw: function() {
+                    ctx.font = `${this.height}px Arial`; 
+                    ctx.textAlign = 'center';
+                    ctx.fillText(basketEmoji, this.x + this.width / 2, this.y + this.height * 0.85); 
+                }
+            };
+        }
+
+        function createStar() {
+            return {
+                x: Math.random() * (canvas.width - starSize),
+                y: -starSize, 
+                size: starSize,
+                // Speed will be set from starSpeed (base for current difficulty)
+                speed: starSpeed + (Math.random() * 1 - 0.5), // Add a little variance to base speed
+                draw: function() {
+                    ctx.font = `${this.size}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(starEmoji, this.x + this.size / 2, this.y + this.size * 0.85);
+                },
+                update: function() {
+                    this.y += this.speed;
+                }
+            };
+        }
+
+        function spawnStar() {
+            if (gameRunning) {
+                stars.push(createStar());
+                setTimeout(spawnStar, starSpawnInterval);
+            }
+        }
+
+        function gameLoop() {
+            if (!gameRunning && confettiParticles.length === 0) { 
+                 if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                 return;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (gameRunning) {
+                basket.draw();
+                for (let i = stars.length - 1; i >= 0; i--) {
+                    const star = stars[i];
+                    star.update();
+                    star.draw();
+
+                    if (
+                        star.y + star.size > basket.y &&
+                        star.y < basket.y + basket.height &&
+                        star.x + star.size > basket.x &&
+                        star.x < basket.x + basket.width
+                    ) {
+                        stars.splice(i, 1); 
+                        score++;
+                        scoreDisplay.textContent = score;
+                        // Difficulty-based progression
+                        const settings = difficultySettings[currentDifficulty];
+                        if (score % 5 === 0 && score > 0) { // Every 5 points
+                            starSpeed += settings.speedIncrement;
+                            if (starSpawnInterval > 500) { 
+                               starSpawnInterval -= settings.intervalDecrement;
+                            }
+                        }
+                    } 
+                    else if (star.y > canvas.height) {
+                        stars.splice(i, 1); 
+                        lives--;
+                        updateLivesDisplay(); 
+                        if (lives <= 0) {
+                            gameOver();
+                        }
+                    }
+                }
+            }
+
+            if (!gameRunning && confettiParticles.length > 0) {
+                updateConfetti();
+                drawConfetti();
+                if (confettiParticles.length === 0) { 
+                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                    return;
+                }
+            }
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        // Start game function - now accepts difficulty
+        function startGame(difficulty) {
+            currentDifficulty = difficulty;
+            const settings = difficultySettings[difficulty];
+
+            score = 0;
+            lives = settings.lives;
+            maxLives = settings.lives; // Set maxLives based on difficulty
+            starSpeed = settings.speed;
+            starSpawnInterval = settings.interval;
+
+            scoreDisplay.textContent = score;
+            updateLivesDisplay(); 
+            stars = [];
+            confettiParticles = []; 
+            
+            if (!basket) { // Create basket only if it doesn't exist or canvas resized
+                basket = createBasket();
+            } else { // Ensure basket is correctly positioned if canvas was resized before start
+                basket.x = canvas.width / 2 - basketWidth / 2;
+                basket.y = canvas.height - basketHeight - 10;
+            }
+
+
+            gameRunning = true;
+            difficultySelectionDiv.classList.add('hidden'); // Hide difficulty buttons
+            gameControlsDiv.classList.remove('hidden'); // Show game controls (if any)
+            messageBox.classList.add('hidden');
+            
+            spawnStar(); 
+            if (animationFrameId) cancelAnimationFrame(animationFrameId); 
+            gameLoop(); 
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            messageText.textContent = `Game Over! Score: ${score}`;
+            messageBox.classList.remove('hidden');
+            difficultySelectionDiv.classList.remove('hidden'); // Show difficulty buttons again
+            gameControlsDiv.classList.add('hidden');
+            playAgainButton.focus();
+            launchConfetti(); 
+        }
+
+        // Event listeners for difficulty buttons
+        easyButton.addEventListener('click', () => {
+            resizeCanvas(); // Ensure canvas is sized
+            startGame('easy');
+        });
+        mediumButton.addEventListener('click', () => {
+            resizeCanvas();
+            startGame('medium');
+        });
+        hardButton.addEventListener('click', () => {
+            resizeCanvas();
+            startGame('hard');
+        });
+
+        playAgainButton.addEventListener('click', () => {
+            messageBox.classList.add('hidden');
+            // Don't call startGame directly, let user pick difficulty again
+            // Or, we could store last difficulty and restart with that:
+            // startGame(currentDifficulty); 
+            // For now, showing difficulty selection is better.
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!gameRunning || !basket) return;
+            const rect = canvas.getBoundingClientRect();
+            let mouseX = e.clientX - rect.left;
+            basket.x = mouseX - basket.width / 2;
+            if (basket.x < 0) basket.x = 0;
+            if (basket.x + basket.width > canvas.width) basket.x = canvas.width - basket.width;
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            if (!gameRunning || !basket) return;
+            e.preventDefault(); 
+            const rect = canvas.getBoundingClientRect();
+            let touchX = e.touches[0].clientX - rect.left;
+            basket.x = touchX - basket.width / 2;
+            if (basket.x < 0) basket.x = 0;
+            if (basket.x + basket.width > canvas.width) basket.x = canvas.width - basket.width;
+        }, { passive: false }); 
+
+        window.addEventListener('resize', () => {
+            const wasRunning = gameRunning;
+            if (gameRunning) { 
+                gameRunning = false;
+                cancelAnimationFrame(animationFrameId);
+            }
+            resizeCanvas();
+            // Re-draw basket if it exists, or create if on initial screen
+            if (basket) {
+                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+                basket.draw();
+            } else if (difficultySelectionDiv.classList.contains('hidden') === false) {
+                // If game hasn't started (difficulty buttons visible), create and draw basket
+                basket = createBasket();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                basket.draw();
+            }
+
+
+            if (wasRunning) { 
+                gameRunning = true;
+                gameLoop();
+            }
+        });
+        
+        window.onload = () => {
+            resizeCanvas();
+            basket = createBasket(); // Create basket for initial view
+            basket.draw(); // Draw it
+            updateLivesDisplay(); // Show initial hearts (will be based on default or first selection)
+            // Set initial lives display based on a default difficulty (e.g. medium) or just 0 until selected
+            lives = difficultySettings.medium.lives; // Default to medium for initial display
+            maxLives = difficultySettings.medium.lives;
+            updateLivesDisplay();
+        };
+
+    </script>
+</body>
+</html>

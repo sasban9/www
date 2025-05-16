@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Code Challenge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Fredoka One', cursive;
+      background: #fdf6e3;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-family: 'Press Start 2P', cursive;
+    }
+    .color-box {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+      margin: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 2px solid #999;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .color-box:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    .flash {
+      animation: flashAnim 0.4s ease-in-out;
+    }
+    @keyframes flashAnim {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    #sequence-display {
+      font-size: 24px;
+      margin: 20px 0;
+      animation: fadeIn 1s ease;
+    }
+    #timer, #lives {
+      font-size: 18px;
+      margin: 10px;
+      color: #444;
+    }
+    #result {
+      font-size: 20px;
+      margin: 20px 0;
+      color: green;
+      animation: fadeIn 0.6s ease;
+    }
+    #restart-btn {
+      display: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #restart-btn:hover {
+      background-color: #45a049;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 Color Code Challenge</h1>
+  <p>Watch the sequence, then click the colors in the same order!</p>
+  <div id="sequence-display"></div>
+  <div id="timer"></div>
+  <div id="lives"></div>
+  <div id="game-area"></div>
+  <div id="result"></div>
+  <button id="restart-btn" onclick="startGame()">Play Again</button>
+
+  <script>
+    const colors = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'];
+    let sequence = [];
+    let playerInput = [];
+    let stage = 1;
+    let maxStage = 8;
+    let lives = 3;
+    let timer;
+    const gameArea = document.getElementById('game-area');
+    const display = document.getElementById('sequence-display');
+    const result = document.getElementById('result');
+    const restartBtn = document.getElementById('restart-btn');
+    const timerDisplay = document.getElementById('timer');
+    const livesDisplay = document.getElementById('lives');
+
+    function startGame() {
+      stage = 1;
+      lives = 3;
+      result.textContent = '';
+      restartBtn.style.display = 'none';
+      updateLives();
+      nextStage();
+    }
+
+    function updateLives() {
+      livesDisplay.textContent = 'Lives: ' + lives;
+    }
+
+    function startTimer(duration, callback) {
+      let timeLeft = duration;
+      timerDisplay.textContent = 'Time left: ' + timeLeft + 's';
+      clearInterval(timer);
+      timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = 'Time left: ' + timeLeft + 's';
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          callback();
+        }
+      }, 1000);
+    }
+
+    function nextStage() {
+      if (lives <= 0) {
+        result.style.color = 'red';
+        result.textContent = 'Game Over!';
+        restartBtn.style.display = 'inline-block';
+        return;
+      }
+      playerInput = [];
+      sequence = [];
+      display.textContent = 'Stage ' + stage + ' of ' + maxStage;
+      const count = Math.min(2 + stage, 6);
+      for (let i = 0; i < count; i++) {
+        sequence.push(colors[Math.floor(Math.random() * colors.length)]);
+      }
+      showSequence();
+    }
+
+    function showSequence() {
+      gameArea.innerHTML = '';
+      let i = 0;
+      const flash = setInterval(() => {
+        if (i >= sequence.length) {
+          clearInterval(flash);
+          setTimeout(showOptions, 500);
+          return;
+        }
+        display.textContent = 'Remember: ' + sequence[i];
+        flashColor(sequence[i]);
+        i++;
+      }, 800);
+    }
+
+    function flashColor(color) {
+      const flashDiv = document.createElement('div');
+      flashDiv.className = 'color-box flash';
+      flashDiv.style.backgroundColor = color;
+      flashDiv.style.margin = '5px auto';
+      gameArea.innerHTML = '';
+      gameArea.appendChild(flashDiv);
+      setTimeout(() => {
+        flashDiv.classList.remove('flash');
+      }, 400);
+    }
+
+    function showOptions() {
+      display.textContent = 'Repeat the sequence!';
+      const shuffled = [...sequence].sort(() => 0.5 - Math.random());
+      gameArea.innerHTML = '';
+      shuffled.forEach(color => {
+        const box = document.createElement('div');
+        box.className = 'color-box';
+        box.style.backgroundColor = color;
+        box.onclick = () => handlePlayerInput(color, box);
+        gameArea.appendChild(box);
+      });
+      startTimer(10, () => {
+        lives--;
+        updateLives();
+        result.style.color = 'red';
+        result.textContent = "Time's up! You lost a life.";
+        restartBtn.style.display = 'inline-block';
+      });
+    }
+
+    function handlePlayerInput(color, box) {
+      box.classList.add('flash');
+      setTimeout(() => box.classList.remove('flash'), 300);
+      playerInput.push(color);
+      if (playerInput.length === sequence.length) {
+        clearInterval(timer);
+        checkSequence();
+      }
+    }
+
+    function checkSequence() {
+      const correct = sequence.every((val, i) => val === playerInput[i]);
+      if (correct) {
+        result.style.color = 'green';
+        result.textContent = 'Correct!';
+        if (stage < maxStage) {
+          stage++;
+          setTimeout(nextStage, 1000);
+        } else {
+          result.textContent = 'You completed all stages!';
+          restartBtn.style.display = 'inline-block';
+        }
+      } else {
+        lives--;
+        updateLives();
+        result.style.color = 'red';
+        result.textContent = 'Oops! That was not the right order.';
+        if (lives > 0) {
+          restartBtn.style.display = 'inline-block';
+        } else {
+          result.textContent = 'Game Over!';
+          restartBtn.style.display = 'inline-block';
+        }
+      }
+    }
+
+    startGame();
+  </script>
+</body>
+</html>

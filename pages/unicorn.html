@@ -1,0 +1,112 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unicorn Catcher</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(to top, #fbeaff, #fff0f5);
+      font-family: Comic Sans MS, cursive;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff69b4;
+      font-size: 2.5em;
+    }
+
+    #scoreBoard {
+      text-align: center;
+      font-size: 1.5em;
+      color: #8a2be2;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 100vw;
+      height: 80vh;
+      background: url('https://i.imgur.com/2aIdTGO.jpg') center/cover;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .unicorn {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: url('https://i.gifer.com/ig4.gif') center/contain no-repeat;
+      pointer-events: auto;
+    }
+
+    #startBtn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 1.5em;
+      background-color: #ffb6c1;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #startBtn:hover {
+      background-color: #ff69b4;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🦄 Unicorn Catcher!</h1>
+<div id="scoreBoard">Score: <span id="score">0</span></div>
+<button id="startBtn">Start Game</button>
+<div id="gameArea"></div>
+
+<script>
+  const gameArea = document.getElementById("gameArea");
+  const scoreEl = document.getElementById("score");
+  const startBtn = document.getElementById("startBtn");
+
+  let score = 0;
+  let gameInterval;
+  let gameDuration = 30; // seconds
+
+  function spawnUnicorn() {
+    const unicorn = document.createElement("div");
+    unicorn.classList.add("unicorn");
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight * 0.8 - 100);
+    unicorn.style.left = x + "px";
+    unicorn.style.top = y + "px";
+
+    unicorn.onclick = () => {
+      score++;
+      scoreEl.textContent = score;
+      unicorn.remove();
+    };
+
+    gameArea.appendChild(unicorn);
+    setTimeout(() => unicorn.remove(), 2000);
+  }
+
+  function startGame() {
+    score = 0;
+    scoreEl.textContent = score;
+    startBtn.disabled = true;
+    gameInterval = setInterval(spawnUnicorn, 800);
+
+    setTimeout(() => {
+      clearInterval(gameInterval);
+      alert("⏰ Time's up! You caught " + score + " unicorns!");
+      startBtn.disabled = false;
+    }, gameDuration * 1000);
+  }
+
+  startBtn.addEventListener("click", startGame);
+</script>
+
+</body>
+</html>

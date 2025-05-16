@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: 'Press Start 2P', cursive;
+        }
+        #game-container {
+            width: 95%;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #ff6f61;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        #card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.25rem;
+            padding: 0.25rem;
+            border-radius: 10px;
+            background-color: #fff;
+            perspective: 1000px;
+        }
+        @media (max-width: 600px) {
+            #card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .card {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            font-size: 4rem;
+            padding-bottom: 50%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        .card.matched {
+            animation: pulse 0.5s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: rotateY(180deg) scale(1);
+            }
+            50% {
+                transform: rotateY(180deg) scale(1.1);
+            }
+            100% {
+                transform: rotateY(180deg) scale(1);
+            }
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            font-size: 5rem;
+            box-sizing: border-box;
+        }
+        .card-front {
+            background-color: #f5f5f5;
+            transform: rotateY(180deg);
+        }
+        .card-back {
+            background-color: #81c784;
+            color: white;
+        }
+        .card-back i {
+            font-size: 4rem;
+        }
+        #message-box {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        #reset-button {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            background-color: #ffb74d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Press Start 2P', cursive;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        #reset-button:hover {
+            background-color: #fb8c00;
+        }
+        .hidden {
+            display: none;
+        }
+        #moves-counter {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: #3b82f6;
+        }
+        #timer {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: #3b82f6;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="game-container">
+        <h1>Memory Match</h1>
+        <div id="moves-counter">Moves: <span id="moves-count">0</span></div>
+        <div id="timer">Time: <span id="timer-display">00:00</span></div>
+        <div id="card-grid">
+        </div>
+        <div id="message-box">Pick a card!</div>
+        <button id="reset-button">Reset</button>
+    </div>
+    <script>
+        // --- Game Variables ---
+        let deck = [];
+        let flippedCards = [];
+        let moves = 0;
+        let isPaused = false;
+        let timerInterval;
+        let seconds = 0;
+        let gameStarted = false;
+        const gameContainer = document.getElementById('game-container');
+        const cardGrid = document.getElementById('card-grid');
+        const messageBox = document.getElementById('message-box');
+        const resetButton = document.getElementById('reset-button');
+        const movesCountDisplay = document.getElementById('moves-count');
+        const timerDisplay = document.getElementById('timer-display');
+        const movesCounter = document.getElementById('moves-counter');
+        const timerElement = document.getElementById('timer');
+        const emojis = [
+            '🐶', '🐱', '🦁', '🐯', '🐻', '🐼', '🦊', '🐷',
+            '🐶', '🐱', '🦁', '🐯', '🐻', '🐼', '🦊', '🐷'
+        ];
+        // --- Helper Functions ---
+        /**
+         * Displays a message to the player.
+         * @param {string} message - The message to display.
+         */
+        function showMessage(message) {
+            messageBox.textContent = message;
+        }
+        /**
+         * Creates a card element.
+         * @param {string} value - The value (emoji) of the card.
+         * @returns {HTMLDivElement} - The card element.
+         */
+        function createCard(value) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.dataset.value = value;
+            const frontFace = document.createElement('div');
+            frontFace.classList.add('card-face', 'card-front');
+            const icon = document.createElement('i');
+            icon.textContent = value;
+            frontFace.appendChild(icon);
+            const backFace = document.createElement('div');
+            backFace.classList.add('card-face', 'card-back');
+            card.appendChild(backFace);
+            card.appendChild(frontFace);
+            card.addEventListener('click', flipCard);
+            return card;
+        }
+        /**
+         * Shuffles the deck of cards using the Fisher-Yates algorithm.
+         */
+        function shuffleDeck() {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+        /**
+         * Initializes the game board.
+         */
+        function initializeGame() {
+            cardGrid.innerHTML = '';
+            deck = [];
+            flippedCards = [];
+            moves = 0;
+            seconds = 0;
+            movesCountDisplay.textContent = moves;
+            timerDisplay.textContent = '00:00';
+            gameStarted = false;
+            clearInterval(timerInterval);
+            emojis.forEach(emoji => {
+                deck.push(createCard(emoji));
+            });
+            shuffleDeck();
+            deck.forEach(card => {
+                cardGrid.appendChild(card);
+            });
+            isPaused = false;
+            showMessage('Pick a card!');
+        }
+        /**
+         * Handles a card flip.
+         * @param {Event} event - The click event.
+         */
+        function flipCard(event) {
+            if (isPaused)
+                return;
+            const card = event.currentTarget;
+            if (card.classList.contains('flipped') || flippedCards.length >= 2)
+                return;
+            card.classList.add('flipped');
+            flippedCards.push(card);
+            if (!gameStarted) {
+                gameStarted = true;
+                startTimer();
+            }
+            if (flippedCards.length === 2) {
+                moves++;
+                movesCountDisplay.textContent = moves;
+                isPaused = true;
+                const [card1, card2] = flippedCards;
+                if (card1.dataset.value === card2.dataset.value) {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    flippedCards = [];
+                    isPaused = false;
+                    showMessage('You found a match!');
+                    checkForWin();
+                }
+                else {
+                    showMessage('Not a match!');
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        flippedCards = [];
+                        isPaused = false;
+                        showMessage('Pick a card!');
+                    }, 1000);
+                }
+            }
+        }
+        /**
+         * Checks if the game has been won.
+         */
+        function checkForWin() {
+            const matchedCards = document.querySelectorAll('.card.matched');
+            if (matchedCards.length === deck.length) {
+                clearInterval(timerInterval);
+                showMessage(`You Win! in ${moves} moves and ${timerDisplay.textContent}!`);
+            }
+        }
+        // --- Timer Functions
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                const formattedTime = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+                timerDisplay.textContent = formattedTime;
+            }, 1000);
+        }
+        function resetTimer() {
+            clearInterval(timerInterval);
+            seconds = 0;
+            timerDisplay.textContent = '00:00';
+        }
+        // --- Event Listeners ---
+        // Event listener for the reset button
+        resetButton.addEventListener('click', initializeGame);
+        // --- Initialization ---
+        initializeGame();
+    </script>
+</body>
+</html>

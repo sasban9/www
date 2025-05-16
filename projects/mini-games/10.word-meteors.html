@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellar Type: Space Adventure</title>
+    <style>
+        :root {
+            --space-blue: #0a1128;
+            --star-white: #f8f9fa;
+            --accent-purple: #7b2cbf;
+            --accent-teal: #00b4d8;
+            --correct-green: #06d6a0;
+            --wrong-red: #ef476f;
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--space-blue);
+            color: var(--star-white);
+            overflow: hidden;
+        }
+        
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: var(--star-white);
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        
+        .start-screen, .level-complete, .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            background-color: rgba(10, 17, 40, 0.9);
+            text-align: center;
+        }
+        
+        .game-title {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--accent-teal);
+            letter-spacing: 3px;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-teal));
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: var(--star-white);
+            cursor: pointer;
+            margin: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(123, 44, 191, 0.5);
+        }
+        
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(123, 44, 191, 0.8);
+        }
+        
+        .button:active {
+            transform: scale(0.98);
+        }
+        
+        .dashboard {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+        
+        .score-display, .level-display, .lives-display {
+            background-color: rgba(10, 17, 40, 0.7);
+            border: 2px solid var(--accent-purple);
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .game-area {
+            width: 80%;
+            height: 70%;
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .spaceship {
+            width: 100px;
+            height: 60px;
+            position: absolute;
+            bottom: 20px;
+            left: calc(50% - 50px);
+            transition: left 0.3s ease;
+        }
+        
+        .word-meteor {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fall linear;
+        }
+        
+        @keyframes fall {
+            0% { top: -50px; }
+            100% { top: 100%; }
+        }
+        
+        .meteor-word {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--star-white);
+            text-shadow: 0 0 5px var(--accent-teal);
+            margin-bottom: 5px;
+        }
+        
+        .meteor {
+            width: 60px;
+            height: 60px;
+            background-color: #555;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 180, 216, 0.7);
+        }
+        
+        .typing-area {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .typing-box {
+            width: 50%;
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: 3px solid var(--accent-purple);
+            border-radius: 50px;
+            background-color: rgba(10, 17, 40, 0.7);
+            color: var(--star-white);
+            text-align: center;
+            outline: none;
+        }
+        
+        .typing-box.correct {
+            border-color: var(--correct-green);
+            box-shadow: 0 0 15px var(--correct-green);
+        }
+        
+        .typing-box.wrong {
+            border-color: var(--wrong-red);
+            box-shadow: 0 0 15px var(--wrong-red);
+        }
+        
+        .explosion {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff9e00, #ef476f);
+            animation: explode 0.5s ease-out forwards;
+            z-index: 8;
+        }
+        
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        
+        .shield {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid var(--accent-teal);
+            box-shadow: 0 0 20px var(--accent-teal);
+            animation: shield-pulse 2s infinite;
+            z-index: 7;
+        }
+        
+        @keyframes shield-pulse {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 0.7; transform: scale(1); }
+            100% { opacity: 0.3; transform: scale(0.8); }
+        }
+        
+        .progress-container {
+            width: 80%;
+            height: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-teal));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        .correct-word, .wrong-word {
+            position: absolute;
+            font-size: 1.2rem;
+            font-weight: bold;
+            animation: float-up 1.5s forwards;
+            z-index: 11;
+        }
+        
+        .correct-word {
+            color: var(--correct-green);
+        }
+        
+        .wrong-word {
+            color: var(--wrong-red);
+        }
+        
+        @keyframes float-up {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+        
+        .instructions {
+            color: var(--star-white);
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+        }
+        
+        .level-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-teal);
+        }
+        
+        .level-message {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .game-over-title {
+            font-size: 3rem;
+            color: var(--wrong-red);
+            margin-bottom: 1rem;
+        }
+        
+        .final-stats {
+            font-size: 1.5rem;
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="stars" id="starsBackground"></div>
+        
+        <div class="start-screen" id="startScreen">
+            <h1 class="game-title">STELLAR TYPE</h1>
+            <p class="instructions">
+                Defend your spaceship from incoming word meteors! Type the words correctly 
+                before they hit your ship. With each level, the words get longer and 
+                the meteors fall faster! How far can you journey into deep space?
+            </p>
+            <button class="button" id="startButton">Start Mission</button>
+            <div class="progress-container">
+                <div class="progress-bar" id="loadingBar" style="width: 0%"></div>
+            </div>
+        </div>
+        
+        <div class="level-complete" id="levelComplete" style="display: none;">
+            <h2 class="level-title">Level Complete!</h2>
+            <p class="level-message" id="levelMessage">You've successfully defended against the meteor shower!</p>
+            <button class="button" id="nextLevelButton">Continue Journey →</button>
+        </div>
+        
+        <div class="game-over" id="gameOver" style="display: none;">
+            <h2 class="game-over-title">Mission Failed</h2>
+            <p class="level-message">Your ship has been damaged beyond repair!</p>
+            <div class="final-stats" id="finalStats">
+                Highest Level: 1<br>
+                Words Destroyed: 0<br>
+                Final Score: 0
+            </div>
+            <button class="button" id="restartButton">New Mission</button>
+        </div>
+        
+        <div class="dashboard">
+            <div class="score-display">Score: <span id="scoreDisplay">0</span></div>
+            <div class="level-display">Level: <span id="levelDisplay">1</span></div>
+            <div class="lives-display">Ships: <span id="livesDisplay">3</span></div>
+        </div>
+        
+        <div class="game-area" id="gameArea">
+            <div class="spaceship" id="spaceship">
+                <svg viewBox="0 0 100 60" width="100" height="60">
+                    <path d="M50,0 L30,40 L70,40 Z" fill="#7b2cbf" />
+                    <path d="M30,40 L20,60 L40,50 Z" fill="#5a189a" />
+                    <path d="M70,40 L80,60 L60,50 Z" fill="#5a189a" />
+                    <circle cx="50" cy="25" r="8" fill="#00b4d8" />
+                </svg>
+            </div>
+        </div>
+        
+        <div class="typing-area">
+            <input type="text" class="typing-box" id="typingBox" placeholder="Type here..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        let score = 0;
+        let level = 1;
+        let lives = 3;
+        let gameRunning = false;
+        let currentWords = [];
+        let wordsDestroyed = 0;
+        let meteorsAvoidedThisLevel = 0;
+        let meteorsDestroyedThisLevel = 0;
+        let meteorsNeededForLevel = 5; // Meteors to destroy to complete level
+        
+        // Word lists by difficulty
+        const wordLists = {
+            1: ["star", "moon", "sun", "mars", "ship", "fly", "zoom", "fast", "race", "jump", "run", "dash"],
+            2: ["planet", "rocket", "cosmos", "astro", "orbit", "space", "comet", "speed", "laser", "solar", "lunar"],
+            3: ["universe", "galaxy", "asteroid", "jupiter", "saturn", "neptune", "mission", "voyage", "journey"],
+            4: ["telescope", "satellite", "spaceship", "starlight", "discovery", "launching", "explorer"],
+            5: ["astronaut", "atmosphere", "cosmonaut", "nebulae", "interstellar", "constellation"],
+            6: ["gravitation", "exploration", "spacecraft", "astronomy", "trajectory", "celestial"],
+            7: ["extraterrestrial", "astrophysics", "cosmological", "intergalactic", "supernova"]
+        };
+        
+        // DOM Elements
+        const gameArea = document.getElementById('gameArea');
+        const starsBackground = document.getElementById('starsBackground');
+        const spaceship = document.getElementById('spaceship');
+        const typingBox = document.getElementById('typingBox');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const livesDisplay = document.getElementById('livesDisplay');
+        const startScreen = document.getElementById('startScreen');
+        const startButton = document.getElementById('startButton');
+        const loadingBar = document.getElementById('loadingBar');
+        const levelComplete = document.getElementById('levelComplete');
+        const levelMessage = document.getElementById('levelMessage');
+        const nextLevelButton = document.getElementById('nextLevelButton');
+        const gameOver = document.getElementById('gameOver');
+        const finalStats = document.getElementById('finalStats');
+        const restartButton = document.getElementById('restartButton');
+        
+        // Initialize stars background
+        function createStars() {
+            starsBackground.innerHTML = '';
+            const numStars = 150;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random position
+                const x = Math.floor(Math.random() * window.innerWidth);
+                const y = Math.floor(Math.random() * window.innerHeight);
+                
+                // Random size
+                const size = Math.floor(Math.random() * 3) + 1;
+                
+                // Random animation delay
+                const delay = Math.random() * 3;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsBackground.appendChild(star);
+            }
+        }
+        
+        // Event listeners
+        startButton.addEventListener('click', startGame);
+        nextLevelButton.addEventListener('click', startNextLevel);
+        restartButton.addEventListener('click', restartGame);
+        typingBox.addEventListener('input', checkTyping);
+        
+        // Create simulated loading effect
+        function simulateLoading() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                loadingBar.style.width = `${progress}%`;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    startButton.disabled = false;
+                    startButton.textContent = 'Launch Mission';
+                }
+            }, 100);
+        }
+        
+        // Initialize game
+        function init() {
+            createStars();
+            startButton.disabled = true;
+            simulateLoading();
+        }
+        
+        // Start game
+        function startGame() {
+            resetGame();
+            startLevel();
+            startScreen.style.display = 'none';
+            typingBox.disabled = false;
+            typingBox.focus();
+            gameRunning = true;
+        }
+        
+        // Reset game
+        function resetGame() {
+            score = 0;
+            level = 1;
+            lives = 3;
+            wordsDestroyed = 0;
+            
+            scoreDisplay.textContent = score;
+            levelDisplay.textContent = level;
+            livesDisplay.textContent = lives;
+            
+            // Clear any existing word meteors
+            const meteors = document.querySelectorAll('.word-meteor');
+            meteors.forEach(meteor => meteor.remove());
+            
+            currentWords = [];
+        }
+        
+        // Start level
+        function startLevel() {
+            meteorsAvoidedThisLevel = 0;
+            meteorsDestroyedThisLevel = 0;
+            meteorsNeededForLevel = 5 + level * 2; // Increase required meteors per level
+            
+            // Update display
+            levelDisplay.textContent = level;
+            
+            // Start spawning word meteors
+            spawnWordMeteor();
+        }
+        
+        // Start next level
+        function startNextLevel() {
+            level++;
+            levelComplete.style.display = 'none';
+            startLevel();
+            typingBox.focus();
+        }
+        
+        // Restart game after game over
+        function restartGame() {
+            gameOver.style.display = 'none';
+            startGame();
+        }
+        
+        // Spawn a word meteor
+        function spawnWordMeteor() {
+            if (!gameRunning) return;
+            
+            // Get a word appropriate for the current level
+            const wordListLevel = Math.min(level, Object.keys(wordLists).length);
+            const wordList = wordLists[wordListLevel];
+            let word = wordList[Math.floor(Math.random() * wordList.length)];
+            
+            // Ensure we don't have duplicate active words
+            while (currentWords.some(w => w.word === word)) {
+                word = wordList[Math.floor(Math.random() * wordList.length)];
+            }
+            
+            // Create word meteor element
+            const wordMeteor = document.createElement('div');
+            wordMeteor.className = 'word-meteor';
+            
+            // Calculate random position - ensure it's not too close to the edge
+            const minX = 50;
+            const maxX = gameArea.offsetWidth - 50;
+            const xPos = Math.floor(Math.random() * (maxX - minX)) + minX;
+            
+            // Calculate fall speed based on level
+            const baseSpeed = 8; // seconds
+            const speedReduction = 0.5 * (level - 1);
+            const fallSpeed = Math.max(3, baseSpeed - speedReduction); // Minimum 3 seconds
+            
+            wordMeteor.style.left = `${xPos}px`;
+            wordMeteor.style.animationDuration = `${fallSpeed}s`;
+            
+            // Create word and meteor elements
+            wordMeteor.innerHTML = `
+                <div class="meteor-word">${word}</div>
+                <div class="meteor"></div>
+            `;
+            
+            // Add to game area
+            gameArea.appendChild(wordMeteor);
+            
+            // Add to current words array
+            const wordData = {
+                element: wordMeteor,
+                word: word,
+                position: { x: xPos }
+            };
+            currentWords.push(wordData);
+            
+            // Set timeout for when meteor hits bottom
+            const fallTimeout = setTimeout(() => {
+                if (gameRunning && wordMeteor.parentElement) {
+                    meteorHit(wordData);
+                }
+            }, fallSpeed * 1000);
+            
+            // Store the timeout ID with the word data for cleanup
+            wordData.fallTimeout = fallTimeout;
+            
+            // Spawn another word meteor after a delay
+            const minDelay = 1500 - (level * 100);
+            const maxDelay = 3000 - (level * 200);
+            const spawnDelay = Math.max(800, Math.floor(Math.random() * (maxDelay - minDelay)) + minDelay);
+            
+            setTimeout(() => {
+                if (gameRunning) {
+                    spawnWordMeteor();
+                }
+            }, spawnDelay);
+        }
+        
+        // Check typing
+        function checkTyping() {
+            const typedText = typingBox.value.toLowerCase().trim();
+            
+            // Check if the typed text matches any current word
+            const matchIndex = currentWords.findIndex(wordData => wordData.word === typedText);
+            
+            if (matchIndex !== -1) {
+                // Word matched!
+                const wordData = currentWords[matchIndex];
+                
+                // Remove the word meteor
+                clearTimeout(wordData.fallTimeout);
+                destroyMeteor(wordData);
+                
+                // Clear the typing box
+                typingBox.value = '';
+                typingBox.classList.add('correct');
+                
+                // Update score based on word length and level
+                const pointsPerChar = 10;
+                const levelMultiplier = level;
+                const wordPoints = wordData.word.length * pointsPerChar * levelMultiplier;
+                
+                score += wordPoints;
+                scoreDisplay.textContent = score;
+                wordsDestroyed++;
+                meteorsDestroyedThisLevel++;
+                
+                // Show correct word feedback
+                showWordFeedback(true, `+${wordPoints}`, wordData.position.x);
+                
+                // Reset the typing box class after a short delay
+                setTimeout(() => {
+                    typingBox.classList.remove('correct');
+                }, 500);
+                
+                // Check if level complete
+                checkLevelProgress();
+            } else if (typedText.length > 3 && currentWords.every(wordData => !wordData.word.startsWith(typedText))) {
+                // Wrong word typed (only show error if typed more than 3 chars and doesn't match start of any word)
+                typingBox.classList.add('wrong');
+                
+                // Reset the typing box class after a short delay
+                setTimeout(() => {
+                    typingBox.classList.remove('wrong');
+                }, 500);
+            }
+        }
+        
+        // Destroy meteor with animation
+        function destroyMeteor(wordData) {
+            const meteorElement = wordData.element;
+            const meteorPosition = {
+                x: parseInt(meteorElement.style.left) + 30,
+                y: meteorElement.getBoundingClientRect().top + 30
+            };
+            
+            // Create explosion effect
+            const explosion = document.createElement('div');
+            explosion.className = 'explosion';
+            explosion.style.left = `${meteorPosition.x - 50}px`;
+            explosion.style.top = `${meteorPosition.y - 50}px`;
+            gameArea.appendChild(explosion);
+            
+            // Remove the word meteor
+            meteorElement.remove();
+            
+            // Remove from current words array
+            currentWords = currentWords.filter(w => w !== wordData);
+            
+            // Remove explosion after animation completes
+            setTimeout(() => {
+                explosion.remove();
+            }, 500);
+        }
+        
+        // Meteor hit spaceship
+        function meteorHit(wordData) {
+            // Reduce lives
+            lives--;
+            livesDisplay.textContent = lives;
+            
+            // Remove the word meteor with explosion
+            destroyMeteor(wordData);
+            
+            // Show damage feedback
+            showWordFeedback(false, wordData.word, wordData.position.x);
+            
+            // Check if game over
+            if (lives <= 0) {
+                endGame();
+                return;
+            }
+            
+            // Create shield effect around spaceship
+            const shield = document.createElement('div');
+            shield.className = 'shield';
+            shield.style.left = `${spaceship.offsetLeft - 25}px`;
+            shield.style.top = `${spaceship.offsetTop - 45}px`;
+            gameArea.appendChild(shield);
+            
+            // Remove shield after animation
+            setTimeout(() => {
+                shield.remove();
+            }, 2000);
+            
+            // Track avoided meteor for level progress
+            meteorsAvoidedThisLevel++;
+            
+            // Still check level progress for avoided meteors
+            checkLevelProgress();
+        }
+        
+        // Show word feedback
+        function showWordFeedback(isCorrect, text, xPos) {
+            const feedback = document.createElement('div');
+            feedback.className = isCorrect ? 'correct-word' : 'wrong-word';
+            feedback.textContent = text;
+            feedback.style.left = `${xPos}px`;
+            feedback.style.top = `${gameArea.offsetHeight / 2}px`;
+            
+            gameArea.appendChild(feedback);
+            
+            // Remove feedback after animation
+            setTimeout(() => {
+                feedback.remove();
+            }, 1500);
+        }
+        
+        // Check level progress
+        function checkLevelProgress() {
+            if (meteorsDestroyedThisLevel >= meteorsNeededForLevel) {
+                completeLevel();
+            }
+        }
+        
+        // Complete level
+        function completeLevel() {
+            gameRunning = false;
+            
+            // Clear any remaining word meteors
+            currentWords.forEach(wordData => {
+                clearTimeout(wordData.fallTimeout);
+                wordData.element.remove();
+            });
+            currentWords = [];
+            
+            // Show level complete screen
+            levelMessage.textContent = `Level ${level} complete! You destroyed ${meteorsDestroyedThisLevel} meteors!`;
+            levelComplete.style.display = 'flex';
+            
+            // Add bonus points for completing level
+            const levelBonus = level * 100;
+            score += levelBonus;
+            scoreDisplay.textContent = score;
+        }
+        
+        // End game
+        function endGame() {
+            gameRunning = false;
+            
+            // Clear any remaining word meteors
+            currentWords.forEach(wordData => {
+                clearTimeout(wordData.fallTimeout);
+                wordData.element.remove();
+            });
+            currentWords = [];
+            
+            // Update final stats
+            finalStats.innerHTML = `
+                Highest Level: ${level}<br>
+                Words Destroyed: ${wordsDestroyed}<br>
+                Final Score: ${score}
+            `;
+            
+            // Show game over screen
+            gameOver.style.display = 'flex';
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            createStars();
+        });
+        
+        // Initialize game
+        init();
+    </script>
+</body>
+</html>
