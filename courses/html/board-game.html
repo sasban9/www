@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1PROCESS: .0">
+    <title>Race to the Finish</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 10px;
+        }
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(10, 50px);
+            gap: 2px;
+            background-color: #ddd;
+            padding: 10px;
+            border: 2px solid #333;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        .square {
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+        .special-forward { background-color: #ccffcc; }
+        .special-back { background-color: #ffcccc; }
+        .special-skip { background-color: #ccccff; }
+        .player {
+            width: 12px; /* Smaller to fit multiple tokens */
+            height: 12px;
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.5s ease;
+        }
+        #player1 { background-color: red; }
+        #player2 { background-color: blue; }
+        #player3 { background-color: green; }
+        #player4 { background-color: purple; }
+        /* Offset positions for up to 4 players in a square */
+        .offset-0 { transform: translate(-12px, -12px); }
+        .offset-1 { transform: translate(12px, -12px); }
+        .offset-2 { transform: translate(-12px, 12px); }
+        .offset-3 { transform: translate(12px, 12px); }
+        #controls {
+            margin: 20px;
+            text-align: center;
+        }
+        #status {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        #die {
+            font-size: 24px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border: 2px solid #333;
+            border-radius: 5px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .die-roll { animation: flash 0.2s 5; }
+        @keyframes flash {
+            50% { background-color: #ffeb3b; }
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        button:hover { background-color: #45a049; }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        @media (max-width: 600px) {
+            #game-board { grid-template-columns: repeat(10, 30px); }
+            .square { width: 30px; height: 30px; font-size: 10px; }
+            .player { width: 8px; height: 8px; }
+            .offset-0 { transform: translate(-8px, -8px); }
+            .offset-1 { transform: translate(8px, -8px); }
+            .offset-2 { transform: translate(-8px, 8px); }
+            .offset-3 { transform: translate(8px, 8px); }
+            #die { width: 30px; height: 30px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Race to the Finish</h1>
+    <div id="game-board"></div>
+    <div id="controls">
+        <div id="status">Player 1's Turn</div>
+        <div id="die">?</div>
+        <button id="roll-btn">Roll Die</button>
+        <button id="reset-btn">Reset Game</button>
+    </div>
+
+    <audio id="roll-sound" src="https://www.soundjay.com/buttons/button-09.mp3"></audio>
+    <audio id="win-sound" src="https://www.soundjay.com/human/cheer-01.mp3"></audio>
+
+    <script>
+        // Game state
+        const boardSize = 20;
+        const maxPlayers = 4;
+        let players = [
+            { id: 1, pos: 0, color: 'red', skip: false },
+            { id: 2, pos: 0, color: 'blue', skip: false },
+            { id: 3, pos: 0, color: 'green', skip: false },
+            { id: 4, pos: 0, color: 'purple', skip: false }
+        ];
+        let currentPlayer = 0;
+        let gameOver = false;
+        const specialSquares = {
+            5: { type: 'forward', value: 2 },
+            10: { type: 'back', value: 2 },
+            15: { type: 'skip', value: 1 }
+        };
+
+        // DOM elements
+        const board = document.getElementById('game-board');
+        const status = document.getElementById('status');
+        const die = document.getElementById('die');
+        const rollBtn = document.getElementById('roll-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const rollSound = document.getElementById('roll-sound');
+        const winSound = document.getElementById('win-sound');
+
+        // Initialize the board
+        function initBoard() {
+            board.innerHTML = '';
+            for (let i = 1; i <= boardSize; i++) {
+                const square = document.createElement('div');
+                square.classList.add('square');
+                square.id = `square-${i}`;
+                square.textContent = i;
+                if (specialSquares[i]) {
+                    square.classList.add(`special-${specialSquares[i].type}`);
+                    square.title = specialSquares[i].type === 'forward' ? 'Move forward 2' :
+                                  specialSquares[i].type === 'back' ? 'Move back 2' : 'Skip a turn';
+                }
+                if (i === 1) {
+                    players.forEach((player, index) => {
+                        const p = document.createElement('div');
+                        p.id = `player${player.id}`;
+                        p.classList.add('player');
+                        p.style.backgroundColor = player.color;
+                        p.classList.add(`offset-${index}`);
+                        square.appendChild(p);
+                    });
+                }
+                board.appendChild(square);
+            }
+        }
+
+        // Roll a die
+        function rollDie() {
+            return Math.floor(Math.random() * 6) + 1;
+        }
+
+        // Animate die roll
+        function animateDie(callback) {
+            rollBtn.disabled = true;
+            die.classList.add('die-roll');
+            let count = 0;
+            const interval = setInterval(() => {
+                die.textContent = Math.floor(Math.random() * 6) + 1;
+                count++;
+                if (count >= 10) {
+                    clearInterval(interval);
+                    die.classList.remove('die-roll');
+                    callback();
+                }
+            }, 100);
+        }
+
+        // Move player
+        function movePlayer(player, currentPos, steps) {
+            let newPos = Math.min(currentPos + steps, boardSize);
+            newPos = Math.max(newPos, 0);
+            const playerElement = document.getElementById(`player${player.id}`);
+            const newSquare = document.getElementById(`square-${newPos}`);
+            newSquare.appendChild(playerElement);
+
+            // Calculate players in the same square and assign offsets
+            const playersInSquare = players.filter(p => p.pos === newPos);
+            playersInSquare.forEach((p, index) => {
+                const pElement = document.getElementById(`player${p.id}`);
+                pElement.className = 'player'; // Reset classes
+                pElement.classList.add(`offset-${index}`);
+            });
+
+            return newPos;
+        }
+
+        // Handle special squares
+        function handleSpecialSquare(player, pos) {
+            if (specialSquares[pos]) {
+                const special = specialSquares[pos];
+                if (special.type === 'forward') {
+                    status.textContent += ` Move forward ${special.value}!`;
+                    player.pos = movePlayer(player, player.pos, special.value);
+                } else if (special.type === 'back') {
+                    status.textContent += ` Move back ${special.value}!`;
+                    player.pos = movePlayer(player, player.pos, -special.value);
+                } else if (special.type === 'skip') {
+                    player.skip = true;
+                    status.textContent += ` Skip next turn!`;
+                }
+            }
+        }
+
+        // Check for winner
+        function checkWinner(player) {
+            if (player.pos >= boardSize) {
+                gameOver = true;
+                rollBtn.disabled = true;
+                status.textContent = `Player ${player.id} Wins!`;
+                winSound.play().catch(() => {});
+                return true;
+            }
+            return false;
+        }
+
+        // Handle die roll
+        function handleRoll() {
+            if (gameOver) return;
+            const player = players[currentPlayer];
+            if (player.skip) {
+                status.textContent = `Player ${player.id} skips this turn.`;
+                player.skip = false;
+                nextPlayer();
+                return;
+            }
+            animateDie(() => {
+                const roll = rollDie();
+                die.textContent = roll;
+                rollSound.play().catch(() => {});
+                status.textContent = `Player ${player.id} rolled a ${roll}`;
+                player.pos = movePlayer(player, player.pos, roll);
+                handleSpecialSquare(player, player.pos);
+                if (!checkWinner(player)) {
+                    nextPlayer();
+                }
+                rollBtn.disabled = false;
+            });
+        }
+
+        // Next player
+        function nextPlayer() {
+            currentPlayer = (currentPlayer + 1) % maxPlayers;
+            while (players[currentPlayer].pos === -1) {
+                currentPlayer = (currentPlayer + 1) % maxPlayers;
+            }
+            status.textContent = `Player ${players[currentPlayer].id}'s Turn`;
+        }
+
+        // Reset game
+        function resetGame() {
+            players.forEach(player => {
+                player.pos = 0;
+                player.skip = false;
+            });
+            currentPlayer = 0;
+            gameOver = false;
+            rollBtn.disabled = false;
+            die.textContent = '?';
+            status.textContent = `Player 1's Turn`;
+            initBoard();
+        }
+
+        // Event listeners
+        rollBtn.addEventListener('click', handleRoll);
+        resetBtn.addEventListener('click', resetGame);
+
+        // Initialize
+        initBoard();
+    </script>
+</body>
+</html>
