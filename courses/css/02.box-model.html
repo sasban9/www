@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common CSS Box Model Properties Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #dc3545;
+            padding-bottom: 5px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .example {
+            background-color: #f0f0f0;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 3px;
+        }
+        .box {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Common CSS Box Model Properties Showcase</h1>
+    <p>This template demonstrates the most commonly used CSS box model properties with examples. Each section covers a key property, its possible values, and a visual example.</p>
+
+    <!-- Box Model Properties -->
+    <div class="section">
+        <h2>Box Model Properties</h2>
+
+        <!-- width -->
+        <div>
+            <h3><code>width</code></h3>
+            <p>Sets the width of an element's content area, e.g., <code>200px</code>, <code>50%</code>, <code>auto</code>.</p>
+            <div class="example">
+                <div class="box" style="width: 200px; padding: 10px;">Width: 200px</div>
+            </div>
+        </div>
+
+        <!-- height -->
+        <div>
+            <h3><code>height</code></h3>
+            <p>Sets the height of an element's content area, e.g., <code>100px</code>, <code>50vh</code>, <code>auto</code>.</p>
+            <div class="example">
+                <div class="box" style="height: 100px; padding: 10px;">Height: 100px</div>
+            </div>
+        </div>
+
+        <!-- margin -->
+        <div>
+            <h3><code>margin</code></h3>
+            <p>Sets the outer spacing around an element, e.g., <code>20px</code>, <code>10px 20px</code>, <code>auto</code>.</p>
+            <div class="example" style="background-color: #ddd;">
+                <div class="box" style="margin: 20px; padding: 10px;">Margin: 20px</div>
+            </div>
+        </div>
+
+        <!-- padding -->
+        <div>
+            <h3><code>padding</code></h3>
+            <p>Sets the inner spacing within an element, e.g., <code>15px</code>, <code>10px 20px</code>.</p>
+            <div class="example">
+                <div class="box" style="padding: 20px;">Padding: 20px</div>
+            </div>
+        </div>
+
+        <!-- border -->
+        <div>
+            <h3><code>border</code></h3>
+            <p>Sets the border around an element, e.g., <code>1px solid black</code>, <code>2px dashed red</code>.</p>
+            <div class="example">
+                <div class="box" style="border: 2px solid #dc3545; padding: 10px;">Border: 2px solid red</div>
+            </div>
+        </div>
+
+        <!-- border-width -->
+        <div>
+            <h3><code>border-width</code></h3>
+            <p>Sets the thickness of the border, e.g., <code>1px</code>, <code>medium</code>, <code>2px 4px</code>.</p>
+            <div class="example">
+                <div class="box" style="border-style: solid; border-width: 4px; padding: 10px;">Border-width: 4px</div>
+            </div>
+        </div>
+
+        <!-- border-style -->
+        <div>
+            <h3><code>border-style</code></h3>
+            <p>Sets the style of the border, e.g., <code>solid</code>, <code>dashed</code>, <code>dotted</code>.</p>
+            <div class="example">
+                <div class="box" style="border-style: dashed; border-width: 2px; padding: 10px;">Border-style: dashed</div>
+            </div>
+        </div>
+
+        <!-- border-color -->
+        <div>
+            <h3><code>border-color</code></h3>
+            <p>Sets the color of the border, e.g., <code>red</code>, <code>#000</code>, <code>rgb(0, 255, 0)</code>.</p>
+            <div class="example">
+                <div class="box" style="border-style: solid; border-width: 2px; border-color: #28a745; padding: 10px;">Border-color: green</div>
+            </div>
+        </div>
+
+        <!-- border-radius -->
+        <div>
+            <h3><code>border-radius</code></h3>
+            <p>Rounds the corners of an element, e.g., <code>5px</code>, <code>10px 20px</code>, <code>50%</code>.</p>
+            <div class="example">
+                <div class="box" style="border: 2px solid #007bff; border-radius: 10px; padding: 10px;">Border-radius: 10px</div>
+            </div>
+        </div>
+
+        <!-- box-sizing -->
+        <div>
+            <h3><code>box-sizing</code></h3>
+            <p>Defines how width and height are calculated, e.g., <code>content-box</code>, <code>border-box</code>.</p>
+            <div class="example">
+                <div class="box" style="width: 200px; padding: 20px; border: 2px solid #dc3545; box-sizing: border-box;">Box-sizing: border-box</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created to showcase the most commonly used CSS box model properties. Experiment with the code to explore different combinations!</p>
+    </footer>
+</body>
+</html>

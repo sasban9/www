@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common CSS Text and Font Properties Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #dc3545;
+            padding-bottom: 5px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .example {
+            background-color: #f0f0f0;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 3px;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Common CSS Text and Font Properties Showcase</h1>
+    <p>This template demonstrates the most commonly used CSS text and font properties with examples. Each section covers a key property, its possible values, and a visual example.</p>
+
+    <!-- Font Properties -->
+    <div class="section">
+        <h2>Font Properties</h2>
+
+        <!-- font-family -->
+        <div>
+            <h3><code>font-family</code></h3>
+            <p>Specifies the font for text, e.g., <code>"Arial", sans-serif</code>, <code>"Times New Roman", serif</code>.</p>
+            <div class="example" style="font-family: 'Helvetica', sans-serif;">
+                This text is in Helvetica, sans-serif.
+            </div>
+        </div>
+
+        <!-- font-size -->
+        <div>
+            <h3><code>font-size</code></h3>
+            <p>Sets the size of the font, e.g., <code>16px</code>, <code>1.2em</code>, <code>2rem</code>.</p>
+            <div class="example" style="font-size: 20px;">
+                This text is 20px.
+            </div>
+        </div>
+
+        <!-- font-weight -->
+        <div>
+            <h3><code>font-weight</code></h3>
+            <p>Controls the thickness of the font, e.g., <code>normal</code>, <code>bold</code>, <code>700</code>.</p>
+            <div class="example" style="font-weight: bold;">
+                This text is bold.
+            </div>
+        </div>
+
+        <!-- font-style -->
+        <div>
+            <h3><code>font-style</code></h3>
+            <p>Sets the style of the font, e.g., <code>normal</code>, <code>italic</code>.</p>
+            <div class="example" style="font-style: italic;">
+                This text is italic.
+            </div>
+        </div>
+
+        <!-- font -->
+        <div>
+            <h3><code>font</code></h3>
+            <p>Shorthand for <code>font-style</code>, <code>font-weight</code>, <code>font-size</code>, <code>line-height</code>, <code>font-family</code>, e.g., <code>italic bold 16px/1.5 Arial</code>.</p>
+            <div class="example" style="font: italic bold 16px/1.5 'Arial', sans-serif;">
+                This text uses shorthand font properties.
+            </div>
+        </div>
+    </div>
+
+    <!-- Text Properties -->
+    <div class="section">
+        <h2>Text Properties</h2>
+
+        <!-- color -->
+        <div>
+            <h3><code>color</code></h3>
+            <p>Sets the text color, e.g., <code>#ff0000</code>, <code>red</code>, <code>rgb(0, 255, 0)</code>.</p>
+            <div class="example" style="color: #dc3545;">
+                This text is red.
+            </div>
+        </div>
+
+        <!-- text-align -->
+        <div>
+            <h3><code>text-align</code></h3>
+            <p>Aligns text horizontally, e.g., <code>left</code>, <code>right</code>, <code>center</code>, <code>justify</code>.</p>
+            <div class="example" style="text-align: center;">
+                This text is centered.
+            </div>
+        </div>
+
+        <!-- text-decoration -->
+        <div>
+            <h3><code>text-decoration</code></h3>
+            <p>Sets text decoration, e.g., <code>none</code>, <code>underline</code>, <code>line-through</code>.</p>
+            <div class="example" style="text-decoration: underline;">
+                This text is underlined.
+            </div>
+        </div>
+
+        <!-- text-transform -->
+        <div>
+            <h3><code>text-transform</code></h3>
+            <p>Transforms text case, e.g., <code>none</code>, <code>uppercase</code>, <code>lowercase</code>, <code>capitalize</code>.</p>
+            <div class="example" style="text-transform: uppercase;">
+                This text is uppercase.
+            </div>
+        </div>
+
+        <!-- line-height -->
+        <div>
+            <h3><code>line-height</code></h3>
+            <p>Sets the height of a line box, e.g., <code>normal</code>, <code>1.5</code>, <code>20px</code>.</p>
+            <div class="example" style="line-height: 1.8;">
+                This text has a line height of 1.8. Lorem ipsum dolor sit amet.
+            </div>
+        </div>
+
+        <!-- letter-spacing -->
+        <div>
+            <h3><code>letter-spacing</code></h3>
+            <p>Sets spacing between characters, e.g., <code>normal</code>, <code>2px</code>, <code>-1px</code>.</p>
+            <div class="example" style="letter-spacing: 2px;">
+                This text has increased letter spacing.
+            </div>
+        </div>
+
+        <!-- word-spacing -->
+        <div>
+            <h3><code>word-spacing</code></h3>
+            <p>Sets spacing between words, e.g., <code>normal</code>, <code>5px</code>, <code>-2px</code>.</p>
+            <div class="example" style="word-spacing: 8px;">
+                This text has increased word spacing.
+            </div>
+        </div>
+
+        <!-- text-shadow -->
+        <div>
+            <h3><code>text-shadow</code></h3>
+            <p>Adds shadow to text, e.g., <code>2px 2px 4px rgba(0,0,0,0.5)</code>.</p>
+            <div class="example" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                This text has a shadow.
+            </div>
+        </div>
+
+        <!-- white-space -->
+        <div>
+            <h3><code>white-space</code></h3>
+            <p>Controls white-space handling, e.g., <code>normal</code>, <code>nowrap</code>, <code>pre</code>.</p>
+            <div class="example" style="white-space: nowrap;">
+                This text does not wrap to a new line.
+            </div>
+        </div>
+
+        <!-- text-overflow -->
+        <div>
+            <h3><code>text-overflow</code></h3>
+            <p>Handles overflowed text, e.g., <code>clip</code>, <code>ellipsis</code>.</p>
+            <div class="example" style="width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                This text is clipped with an ellipsis if too long.
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created to showcase the most commonly used CSS text and font properties. Experiment with the code to explore different combinations!</p>
+    </footer>
+    <hr>
+    <a href=".">CSS</a> | <a href="01.text.html">Text</a> | <a href="02.box-model.html">Box Model</a> | <a href="03.background.html">Background</a> | <a href="#">Position</a> | <a href="#">Display</a> | <a href="flex.html">Flexbox</a> | <a href="grid.html">Grid</a> | <a href="#">Colors</a> | <a href="#">Transforms</a> | <a href="#">Animations</a> | <a href="#">Pseudo</a> | <a href="#">Advanced</a>
+</body>
+</html>

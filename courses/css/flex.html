@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox Properties Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .flex-container {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+            min-height: 100px;
+        }
+        .flex-item {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+            border-radius: 3px;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Flexbox Properties Showcase</h1>
+    <p>This template demonstrates all CSS Flexbox properties with examples. Each section covers a specific property, its possible values, and a visual example.</p>
+
+    <!-- Flex Container Properties -->
+    <div class="section">
+        <h2>Flex Container Properties</h2>
+
+        <!-- display: flex -->
+        <div>
+            <h3><code>display: flex</code></h3>
+            <p>Establishes a flex container, enabling flexbox layout for its children.</p>
+            <div class="flex-container" style="display: flex;">
+                <div class="flex-item">Item 1</div>
+                <div class="flex-item">Item 2</div>
+                <div class="flex-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- flex-direction -->
+        <div>
+            <h3><code>flex-direction</code></h3>
+            <p>Defines the main axis direction: <code>row</code>, <code>row-reverse</code>, <code>column</code>, <code>column-reverse</code>.</p>
+            <div class="flex-container" style="display: flex; flex-direction: row-reverse;">
+                <div class="flex-item">Item 1</div>
+                <div class="flex-item">Item 2</div>
+                <div class="flex-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- flex-wrap -->
+        <div>
+            <h3><code>flex-wrap</code></h3>
+            <p>Controls whether items wrap to new lines: <code>nowrap</code>, <code>wrap</code>, <code>wrap-reverse</code>.</p>
+            <div class="flex-container" style="display: flex; flex-wrap: wrap;">
+                <div class="flex-item" style="width: 40%;">Item 1</div>
+                <div class="flex-item" style="width: 40%;">Item 2</div>
+                <div class="flex-item" style="width: 40%;">Item 3</div>
+                <div class="flex-item" style="width: 40%;">Item 4</div>
+            </div>
+        </div>
+
+        <!-- flex-flow -->
+        <div>
+            <h3><code>flex-flow</code></h3>
+            <p>Shorthand for <code>flex-direction</code> and <code>flex-wrap</code>, e.g., <code>row wrap</code>.</p>
+            <div class="flex-container" style="display: flex; flex-flow: column wrap; max-height: 150px;">
+                <div class="flex-item">Item 1</div>
+                <div class="flex-item">Item 2</div>
+                <div class="flex-item">Item 3</div>
+                <div class="flex-item">Item 4</div>
+            </div>
+        </div>
+
+        <!-- justify-content -->
+        <div>
+            <h3><code>justify-content</code></h3>
+            <p>Aligns items along the main axis: <code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code>.</p>
+            <div class="flex-container" style="display: flex; justify-content: space-between;">
+                <div class="flex-item">Item 1</div>
+                <div class="flex-item">Item 2</div>
+                <div class="flex-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- align-items -->
+        <div>
+            <h3><code>align-items</code></h3>
+            <p>Aligns items along the cross axis: <code>stretch</code>, <code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>baseline</code>.</p>
+            <div class="flex-container" style="display: flex; align-items: center; min-height: 150px;">
+                <div class="flex-item">Item 1</div>
+                <div class="flex-item" style="font-size: 24px;">Item 2</div>
+                <div class="flex-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- align-content -->
+        <div>
+            <h3><code>align-content</code></h3>
+            <p>Aligns flex lines when there’s extra space on the cross axis: <code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code>, <code>stretch</code>.</p>
+            <div class="flex-container" style="display: flex; flex-wrap: wrap; align-content: space-between; min-height: 200px;">
+                <div class="flex-item" style="width: 30%;">Item 1</div>
+                <div class="flex-item" style="width: 30%;">Item 2</div>
+                <div class="flex-item" style="width: 30%;">Item 3</div>
+                <div class="flex-item" style="width: 30%;">Item 4</div>
+            </div>
+        </div>
+
+        <!-- gap -->
+        <div>
+            <h3><code>gap</code></h3>
+            <p>Sets spacing between flex items: single value for all gaps or <code>row-gap column-gap</code>.</p>
+            <div class="flex-container" style="display: flex; gap: 20px;">
+                <div class="flex-item">Item 1</div>
+                <div class="flex-item">Item 2</div>
+                <div class="flex-item">Item 3</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flex Item Properties -->
+    <div class="section">
+        <h2>Flex Item Properties</h2>
+
+        <!-- order -->
+        <div>
+            <h3><code>order</code></h3>
+            <p>Controls the order of flex items (default is 0; negative or positive integers reorder items).</p>
+            <div class="flex-container" style="display: flex;">
+                <div class="flex-item" style="order: 2;">Item 1</div>
+                <div class="flex-item" style="order: 1;">Item 2</div>
+                <div class="flex-item" style="order: 3;">Item 3</div>
+            </div>
+        </div>
+
+        <!-- flex-grow -->
+        <div>
+            <h3><code>flex-grow</code></h3>
+            <p>Defines how much an item grows relative to others (default is 0).</p>
+            <div class="flex-container" style="display: flex;">
+                <div class="flex-item" style="flex-grow: 1;">Item 1</div>
+                <div class="flex-item" style="flex-grow: 2;">Item 2</div>
+                <div class="flex-item" style="flex-grow: 1;">Item 3</div>
+            </div>
+        </div>
+
+        <!-- flex-shrink -->
+        <div>
+            <h3><code>flex-shrink</code></h3>
+            <p>Defines how much an item shrinks relative to others (default is 1).</p>
+            <div class="flex-container" style="display: flex; width: 300px;">
+                <div class="flex-item" style="flex-shrink: 1; width: 150px;">Item 1</div>
+                <div class="flex-item" style="flex-shrink: 2; width: 150px;">Item 2</div>
+                <div class="flex-item" style="flex-shrink: 1; width: 150px;">Item 3</div>
+            </div>
+        </div>
+
+        <!-- flex-basis -->
+        <div>
+            <h3><code>flex-basis</code></h3>
+            <p>Sets the initial size of a flex item before growing/shrinking (e.g., <code>auto</code>, <code>100px</code>, <code>50%</code>).</p>
+            <div class="flex-container" style="display: flex;">
+                <div class="flex-item" style="flex-basis: 100px;">Item 1</div>
+                <div class="flex-item" style="flex-basis: 200px;">Item 2</div>
+                <div class="flex-item" style="flex-basis: 100px;">Item 3</div>
+            </div>
+        </div>
+
+        <!-- flex -->
+        <div>
+            <h3><code>flex</code></h3>
+            <p>Shorthand for <code>flex-grow</code>, <code>flex-shrink</code>, and <code>flex-basis</code>, e.g., <code>flex: 1 1 auto</code>.</p>
+            <div class="flex-container" style="display: flex;">
+                <div class="flex-item" style="flex: 1;">Item 1</div>
+                <div class="flex-item" style="flex: 2;">Item 2</div>
+                <div class="flex-item" style="flex: 1;">Item 3</div>
+            </div>
+        </div>
+
+        <!-- align-self -->
+        <div>
+            <h3><code>align-self</code></h3>
+            <p>Overrides <code>align-items</code> for a specific item: <code>auto</code>, <code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>baseline</code>, <code>stretch</code>.</p>
+            <div class="flex-container" style="display: flex; align-items: flex-start; min-height: 150px;">
+                <div class="flex-item">Item 1</div>
+                <div class="flex-item" style="align-self: center;">Item 2</div>
+                <div class="flex-item" style="align-self: flex-end;">Item 3</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created to showcase all CSS Flexbox properties. Experiment with the code to explore different combinations!</p>
+    </footer>
+    <a href=".">CSS Index</a> | <a href="grid.html">CSS Grid</a>
+</body>
+</html>

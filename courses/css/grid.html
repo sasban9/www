@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Properties Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 5px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .grid-container {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+            min-height: 100px;
+        }
+        .grid-item {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+            border-radius: 3px;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Grid Properties Showcase</h1>
+    <p>This template demonstrates all CSS Grid properties with examples. Each section covers a specific property, its possible values, and a visual example.</p>
+
+    <!-- Grid Container Properties -->
+    <div class="section">
+        <h2>Grid Container Properties</h2>
+
+        <!-- display: grid -->
+        <div>
+            <h3><code>display: grid</code></h3>
+            <p>Establishes a grid container, enabling grid layout for its children.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- grid-template-columns -->
+        <div>
+            <h3><code>grid-template-columns</code></h3>
+            <p>Defines the columns of the grid: e.g., <code>100px 1fr 2fr</code>, <code>repeat(3, 1fr)</code>, <code>auto</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: 100px 1fr 2fr;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- grid-template-rows -->
+        <div>
+            <h3><code>grid-template-rows</code></h3>
+            <p>Defines the rows of the grid: e.g., <code>100px 1fr</code>, <code>auto</code>, <code>minmax(100px, 1fr)</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-rows: 100px 150px; grid-template-columns: 1fr 1fr;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+                <div class="grid-item">Item 4</div>
+            </div>
+        </div>
+
+        <!-- grid-template-areas -->
+        <div>
+            <h3><code>grid-template-areas</code></h3>
+            <p>Defines a grid layout using named areas, e.g., <code>"header header" "main sidebar"</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-areas: 'header header' 'main sidebar'; grid-template-columns: 2fr 1fr; grid-template-rows: 100px 100px;">
+                <div class="grid-item" style="grid-area: header;">Header</div>
+                <div class="grid-item" style="grid-area: main;">Main</div>
+                <div class="grid-item" style="grid-area: sidebar;">Sidebar</div>
+            </div>
+        </div>
+
+        <!-- grid-template -->
+        <div>
+            <h3><code>grid-template</code></h3>
+            <p>Shorthand for <code>grid-template-rows</code>, <code>grid-template-columns</code>, and <code>grid-template-areas</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template: 'header header' 100px 'main sidebar' 150px / 2fr 1fr;">
+                <div class="grid-item" style="grid-area: header;">Header</div>
+                <div class="grid-item" style="grid-area: main;">Main</div>
+                <div class="grid-item" style="grid-area: sidebar;">Sidebar</div>
+            </div>
+        </div>
+
+        <!-- grid-auto-columns -->
+        <div>
+            <h3><code>grid-auto-columns</code></h3>
+            <p>Sets the size of implicitly created columns, e.g., <code>100px</code>, <code>1fr</code>.</p>
+            <div class="grid-container" style="display: grid; grid-auto-columns: 100px;">
+                <div class="grid-item" style="grid-column: 1;">Item 1</div>
+                <div class="grid-item" style="grid-column: 2;">Item 2</div>
+                <div class="grid-item" style="grid-column: 3;">Item 3</div>
+            </div>
+        </div>
+
+        <!-- grid-auto-rows -->
+        <div>
+            <h3><code>grid-auto-rows</code></h3>
+            <p>Sets the size of implicitly created rows, e.g., <code>100px</code>, <code>minmax(100px, auto)</code>.</p>
+            <div class="grid-container" style="display: grid; grid-auto-rows: 100px; grid-template-columns: 1fr 1fr;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+                <div class="grid-item">Item 4</div>
+                <div class="grid-item">Item 5</div>
+            </div>
+        </div>
+
+        <!-- grid-auto-flow -->
+        <div>
+            <h3><code>grid-auto-flow</code></h3>
+            <p>Controls how auto-placed items are arranged: <code>row</code>, <code>column</code>, <code>dense</code>.</p>
+            <div class="grid-container" style="display: grid; grid-auto-flow: column; grid-template-rows: 100px;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- gap -->
+        <div>
+            <h3><code>gap</code></h3>
+            <p>Sets spacing between grid items: single value or <code>row-gap column-gap</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- justify-items -->
+        <div>
+            <h3><code>justify-items</code></h3>
+            <p>Aligns items along the inline (row) axis: <code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 150px); justify-items: center;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- align-items -->
+        <div>
+            <h3><code>align-items</code></h3>
+            <p>Aligns items along the block (column) axis: <code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-rows: 150px; grid-template-columns: 1fr 1fr; align-items: center;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+            </div>
+        </div>
+
+        <!-- place-items -->
+        <div>
+            <h3><code>place-items</code></h3>
+            <p>Shorthand for <code>align-items</code> and <code>justify-items</code>, e.g., <code>center center</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 150px); place-items: center;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- justify-content -->
+        <div>
+            <h3><code>justify-content</code></h3>
+            <p>Aligns the grid along the inline axis: <code>start</code>, <code>end</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code>, <code>stretch</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: 100px 100px; justify-content: space-between;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+            </div>
+        </div>
+
+        <!-- align-content -->
+        <div>
+            <h3><code>align-content</code></h3>
+            <p>Aligns the grid along the block axis: <code>start</code>, <code>end</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code>, <code>stretch</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-rows: 100px 100px; min-height: 300px; align-content: space-between;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+            </div>
+        </div>
+
+        <!-- place-content -->
+        <div>
+            <h3><code>place-content</code></h3>
+            <p>Shorthand for <code>align-content</code> and <code>justify-content</code>, e.g., <code>center center</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: 100px 100px; min-height: 200px; place-content: center;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+            </div>
+        </div>
+
+        <!-- grid-column-gap (Deprecated) -->
+        <div>
+            <h3><code>grid-column-gap</code> (Deprecated)</h3>
+            <p>Sets spacing between columns (use <code>column-gap</code> or <code>gap</code> instead).</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 20px;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+            </div>
+        </div>
+
+        <!-- grid-row-gap (Deprecated) -->
+        <div>
+            <h3><code>grid-row-gap</code> (Deprecated)</h3>
+            <p>Sets spacing between rows (use <code>row-gap</code> or <code>gap</code> instead).</p>
+            <div class="grid-container" style="display: grid; grid-template-rows: 100px 100px; grid-row-gap: 20px;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+            </div>
+        </div>
+
+        <!-- grid-gap (Deprecated) -->
+        <div>
+            <h3><code>grid-gap</code> (Deprecated)</h3>
+            <p>Shorthand for <code>grid-row-gap</code> and <code>grid-column-gap</code> (use <code>gap</code> instead).</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px;">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid Item Properties -->
+    <div class="section">
+        <h2>Grid Item Properties</h2>
+
+        <!-- grid-column-start -->
+        <div>
+            <h3><code>grid-column-start</code></h3>
+            <p>Specifies the starting column line for an item, e.g., <code>1</code>, <code>span 2</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 1fr);">
+                <div class="grid-item" style="grid-column-start: 2;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- grid-column-end -->
+        <div>
+            <h3><code>grid-column-end</code></h3>
+            <p>Specifies the ending column line for an item, e.g., <code>3</code>, <code>span 2</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 1fr);">
+                <div class="grid-item" style="grid-column-end: 3;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- grid-row-start -->
+        <div>
+            <h3><code>grid-row-start</code></h3>
+            <p>Specifies the starting row line for an item, e.g., <code>1</code>, <code>span 2</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-rows: repeat(3, 100px);">
+                <div class="grid-item" style="grid-row-start: 2;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- grid-row-end -->
+        <div>
+            <h3><code>grid-row-end</code></h3>
+            <p>Specifies the ending row line for an item, e.g., <code>3</code>, <code>span 2</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-rows: repeat(3, 100px);">
+                <div class="grid-item" style="grid-row-end: 3;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- grid-column -->
+        <div>
+            <h3><code>grid-column</code></h3>
+            <p>Shorthand for <code>grid-column-start</code> and <code>grid-column-end</code>, e.g., <code>1 / 3</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 1fr);">
+                <div class="grid-item" style="grid-column: 1 / 3;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- grid-row -->
+        <div>
+            <h3><code>grid-row</code></h3>
+            <p>Shorthand for <code>grid-row-start</code> and <code>grid-row-end</code>, e.g., <code>1 / 3</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-rows: repeat(3, 100px);">
+                <div class="grid-item" style="grid-row: 1 / 3;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- grid-area -->
+        <div>
+            <h3><code>grid-area</code></h3>
+            <p>Shorthand for <code>grid-row-start</code>, <code>grid-column-start</code>, <code>grid-row-end</code>, <code>grid-column-end</code>, or a named area, e.g., <code>1 / 1 / 3 / 3</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 100px);">
+                <div class="grid-item" style="grid-area: 1 / 1 / 3 / 3;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- justify-self -->
+        <div>
+            <h3><code>justify-self</code></h3>
+            <p>Aligns an item along the inline axis: <code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 150px);">
+                <div class="grid-item" style="justify-self: center;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+
+        <!-- align-self -->
+        <div>
+            <h3><code>align-self</code></h3>
+            <p>Aligns an item along the block axis: <code>start</code>, <code>end</code>, <code>center</code>, <code>stretch</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-rows: 150px; grid-template-columns: 1fr 1fr;">
+                <div class="grid-item" style="align-self: center;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+            </div>
+        </div>
+
+        <!-- place-self -->
+        <div>
+            <h3><code>place-self</code></h3>
+            <p>Shorthand for <code>align-self</code> and <code>justify-self</code>, e.g., <code>center center</code>.</p>
+            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 150px); grid-template-rows: 150px;">
+                <div class="grid-item" style="place-self: center;">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created to showcase all CSS Grid properties. Experiment with the code to explore different combinations!</p>
+    </footer>
+    <hr>
+    <a href=".">CSS Index</a>
+</body>
+</html>

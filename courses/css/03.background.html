@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common CSS Background Properties Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #dc3545;
+            padding-bottom: 5px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .example {
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 3px;
+            min-height: 100px;
+            color: white;
+            text-align: center;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Common CSS Background Properties Showcase</h1>
+    <p>This template demonstrates the most commonly used CSS background properties with examples. Each section covers a key property, its possible values, and a visual example.</p>
+
+    <!-- Background Properties -->
+    <div class="section">
+        <h2>Background Properties</h2>
+
+        <!-- background-color -->
+        <div>
+            <h3><code>background-color</code></h3>
+            <p>Sets the background color of an element, e.g., <code>red</code>, <code>#ff0000</code>, <code>rgba(0, 255, 0, 0.5)</code>.</p>
+            <div class="example" style="background-color: #007bff;">
+                Background-color: #007bff (blue)
+            </div>
+        </div>
+
+        <!-- background-image -->
+        <div>
+            <h3><code>background-image</code></h3>
+            <p>Sets a background image, e.g., <code>url('image.jpg')</code>, <code>linear-gradient(...)</code>.</p>
+            <div class="example" style="background-image: linear-gradient(to right, #dc3545, #007bff);">
+                Background-image: linear-gradient(to right, red, blue)
+            </div>
+        </div>
+
+        <!-- background-repeat -->
+        <div>
+            <h3><code>background-repeat</code></h3>
+            <p>Controls how a background image repeats, e.g., <code>repeat</code>, <code>no-repeat</code>, <code>repeat-x</code>, <code>repeat-y</code>.</p>
+            <div class="example" style="background-image: url('https://img.freepik.com/free-photo/3d-rendering-abstract-background-futuristic-circle-tunnel-with-glowing-neon-blue-lights_181624-61521.jpg'); background-repeat: no-repeat;">
+                Background-repeat: no-repeat
+            </div>
+        </div>
+
+        <!-- background-position -->
+        <div>
+            <h3><code>background-position</code></h3>
+            <p>Sets the position of a background image, e.g., <code>center</code>, <code>top left</code>, <code>50% 50%</code>.</p>
+            <div class="example" style="background-image: url('https://img.freepik.com/free-photo/3d-rendering-abstract-background-futuristic-circle-tunnel-with-glowing-neon-blue-lights_181624-61521.jpg'); background-repeat: no-repeat; background-position: center;">
+                Background-position: center
+            </div>
+        </div>
+
+        <!-- background-size -->
+        <div>
+            <h3><code>background-size</code></h3>
+            <p>Sets the size of a background image, e.g., <code>auto</code>, <code>cover</code>, <code>contain</code>, <code>100px 100px</code>.</p>
+            <div class="example" style="background-image: url('https://via.placeholder.com/150'); background-repeat: no-repeat; background-size: cover;">
+                Background-size: cover
+            </div>
+        </div>
+
+        <!-- background-attachment -->
+        <div>
+            <h3><code>background-attachment</code></h3>
+            <p>Controls whether a background image scrolls or is fixed, e.g., <code>scroll</code>, <code>fixed</code>, <code>local</code>.</p>
+            <div class="example" style="background-image: url('https://via.placeholder.com/150'); background-attachment: fixed; background-size: cover;">
+                Background-attachment: fixed (scroll to see effect)
+            </div>
+        </div>
+
+        <!-- background-clip -->
+        <div>
+            <h3><code>background-clip</code></h3>
+            <p>Defines how far the background extends, e.g., <code>border-box</code>, <code>padding-box</code>, <code>content-box</code>.</p>
+            <div class="example" style="background-color: #28a745; border: 10px dashed #dc3545; padding: 20px; background-clip: content-box;">
+                Background-clip: content-box
+            </div>
+        </div>
+
+        <!-- background -->
+        <div>
+            <h3><code>background</code></h3>
+            <p>Shorthand for all background properties, e.g., <code>#fff url('image.jpg') no-repeat center/cover</code>.</p>
+            <div class="example" style="background: #007bff url('https://img.freepik.com/free-photo/3d-rendering-abstract-background-futuristic-circle-tunnel-with-glowing-neon-blue-lights_181624-61521.jpg') no-repeat center/100px;">
+                Background: shorthand with color, image, position, and size
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created to showcase the most commonly used CSS background properties. Experiment with the code to explore different combinations!</p>
+    </footer>
+</body>
+</html>
