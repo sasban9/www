@@ -7,10 +7,10 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            line-height: 1.6;
+            line-height: 1.6;zoom: 1.6;
         }
         h1 {
             color: #333;
@@ -45,6 +45,7 @@
         p {
             margin: 10px 0;
         }
+        div>a{padding:0 1rem;}
     </style>
 </head>
 <body>
@@ -149,5 +150,8 @@
     <footer>
         <p>Created to showcase the most commonly used CSS box model properties. Experiment with the code to explore different combinations!</p>
     </footer>
+    <div style="background: khaki;position: fixed;left: 0;top:0;height: 100vh;display: flex;flex-direction: column;">
+        <a href=".">CSS</a><br><a href="01.text.html">Text</a><b style="background: white;padding: 0 1rem;">Box Model</b><a href="03.background.html">Background</a><a href="#">Position</a><a href="#">Display</a><a href="flex.html">Flexbox</a><a href="grid.html">Grid</a><a href="#">Colors</a><a href="#">Transforms</a><a href="#">Animations</a><a href="#">Pseudo</a><a href="#">Advanced</a>
+    </div>
 </body>
 </html>

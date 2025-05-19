@@ -6,117 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How to learn HTML CSS</title>
     <style>
-        * {
-            box-sizing: border-box;
-            color: #ccc;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            /* background-color: #022; */
-            background: linear-gradient(-60deg, crimson, orange, black, green, darkblue, purple);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-            font-size: 2.2rem;
-        }
-
-        p {
-            padding-left: 6rem;
-        }
-
-        p,
-        h3,
-        ul,
-        hr {
-            transform: rotate(-2deg);
-            /* margin: 20px 0; */
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            color: #111;
-            background-color: #ddd;
-            margin-top: 50vh;
-        }
-
-        pre {
-            background-color: #303;
-            padding: 20px;
-            overflow-x: auto;
-            font-size: 2rem;
-        }
-
-        code {
-            background-color: #0008;
-            padding: 2px 4px;
-            border-radius: 4px;
-            color: #ffcc00;
-        }
-
-        .container {
-            max-width: 60vw;
-            margin: auto;
-            padding: 20px;
-            /* background-color: #101010; */
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        ol,
-        ul {
-            padding-left: 40px;
-            margin-bottom: 30vh;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        td,
-        th {
-            padding: 10px;
-            border: 1px solid #444;
-            text-align: left;
-        }
-
-        div {
-            margin: 120px 0;
-            padding: 0 40px;
-            background-color: #0003;
-            border-radius: 5px;
-        }
-        img#bg{
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            z-index: -1;
-        }
-        /* img {height: 28vh;} */
+        *{box-sizing:border-box;padding:0;}body{color:#ccc;font-family:Arial,sans-serif;background:linear-gradient(-60deg,#dc143c,orange,#000,green,#00008b,purple);margin:0;padding:20px;line-height:1.6;font-size:2.2rem}p{padding-left:6rem}a{color:#dc143c;font-family:fantasy}h3,hr,p,ul{transform:rotate(-2deg)}h1,h2,h3,h4,h5,h6{color:#111;background-color:#ddd;margin-top:50vh}pre{background-color:#303;padding:20px;overflow-x:auto;font-size:2rem}code{background-color:#0008;padding:2px 4px;border-radius:4px;color:#fc0}.container{max-width:60vw;margin:auto;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.5)}ol,ul{padding-left:40px;margin-bottom:30vh}table{width:100%;border-collapse:collapse;margin:20px 0}td,th{padding:10px;border:1px solid #444;text-align:left}div{margin:120px 0;padding:0 40px;background-color:#0003;border-radius:5px}img#bg{position:fixed;top:0;left:0;width:100%;height:100vh;object-fit:cover;z-index:-1}
     </style>
 </head>
 
 <body>
 
-    <img id="bg" src="https://images.unsplash.com/photo-1556767223-80843e91e7d1?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9yZXN0JTIwcm9hZCUyMGF0JTIwbmlnaHR8ZW58MHx8MHx8fDA%3D" alt="">
-    <!-- <img id="bg" src="https://4kwallpapers.com/images/wallpapers/dark-background-abstract-background-network-3d-background-6016x3384-8324.png" alt=""> -->
+    <img id="bg" src="https://wallpapers.com/images/hd/3d-polygon-black-planet-gt2nxmgqfy6qdah5.jpg" alt="">
     <div class="container">
         <section>
-            <div>/</div>
+          <div><a href="..">Courses</a> > <a href="/courses/html/"> HTML</a></div>
 
             <p>CSS properties can be grouped into categories for teaching in individual lessons, progressing from foundational to advanced concepts. Each category focuses on related properties and their practical applications, making it easier for learners to grasp and apply them. <br>Below is a breakdown of CSS properties organized into categories, each suitable for a single lesson, with a brief description of the focus and key properties.</p>
+            
+            <h3>Teaching Notes</h3>
+            <p><b>Progression</b>: Start with simple, visible properties (text, box model) and move to complex systems (Flexbox, Grid, animations). </p>
+            <ul>
+                <li><b>Practical Exercises</b>: Each lesson should include hands-on tasks, like styling a paragraph, building a card component, or creating a responsive grid. </li>
+                <li><b>Prerequisites</b>: Ensure students understand HTML and basic CSS syntax before diving into these lessons.</li>
+                <li><b>Tools</b>: Use browser developer tools to inspect and tweak properties live, reinforcing learning.</li>
+                <li><b>Resources</b>: Provide references to <u>MDN Web Docs</u> or <u>CSS-Tricks</u> for detailed property documentation.</li>
+            </ul>
+            
+            <div>This structure breaks CSS into manageable, logical chunks, allowing students to build skills incrementally while seeing immediate results.</div>
 
-            <h3>Lesson 1: Text and Font Styling</h3>
+            <h3>Lesson 1: <a href="01.text.html">Text + Font</a></h3>
             <b>Focus</b>: Styling text appearance and typography. <br>
             <b>Properties</b>: <br>
               <code>font-family</code>: Specifies the font typeface (e.g., Arial, Times New Roman). <br>
@@ -129,7 +43,7 @@
               <code>color</code>: Sets the text color (e.g., #000, rgb(255, 0, 0)). <br>
             These properties are fundamental for text styling, often used together to define typography, and are easy to understand for beginners.
             
-            <h3>Lesson 2: Box Model</h3>
+            <h3>Lesson 2: <a href="02.box-model.html">Box Model</a></h3>
             <b>Focus</b>: Understanding the structure of elements (content, padding, border, margin). <br>
               <code>width</code>: Sets the width of an element (e.g., 200px, 50%). <br>
               <code>height</code>: Sets the height of an element (e.g., 100px, auto). <br>
@@ -139,7 +53,7 @@
               <code>box-sizing</code>: Controls how width/height are calculated (e.g., content-box, border-box). <br>
             <p>The box model is a core concept in CSS, and these properties work together to control an element’s size and spacing.</p>
             
-            <h3>Lesson 3: Backgrounds</h3>
+            <h3>Lesson 3: <a href="03.background.html">Background</a></h3>
             <b>Focus</b>: Styling element backgrounds with colors, images, and gradients. <br>
             <!-- <b>Properties</b>: <br> -->
               <code>background-color</code><br> Sets the background color (e.g., #fff, rgba(0, 0, 0, 0.5)). <br>
@@ -150,32 +64,32 @@
               <code>background</code><br> Shorthand for combining background properties.
             <p>Background properties are visually engaging and often used together to create cohesive designs.</p>
             
-            <h3>Lesson 4: Positioning</h3>
+            <h3>Lesson 4: <a href="03.background.html">Positioning</a></h3>
             <b>Focus</b>: Controlling element placement on the page. <br>
               <code>position</code> Sets positioning method (e.g., static, relative, absolute, fixed, sticky). <br>
-              <code>top`, `right`, `bottom`, `left</code> Defines offsets for positioned elements (e.g., 10px, 50%). <br>
+              <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code> Defines offsets for positioned elements (e.g., 10px, 50%). <br>
               <code>z-index</code> Controls stacking order (e.g., -1, 0, 100). <br>
             <p>Positioning is a distinct concept that requires understanding how elements interact with their parent and sibling elements.</p>
             
-            <h3>Lesson 5: Display and Visibility</h3>
+            <h3>Lesson 5: <a href="#">Display and Visibility</a></h3>
             <b>Focus</b>: Managing how elements are displayed or hidden. <br>
               <code>display</code> Controls rendering behavior (e.g., block, inline, inline-block, none, flex, grid). <br>
               <code>visibility</code> Toggles visibility (e.g., visible, hidden). <br>
               <code>opacity</code> Sets transparency (e.g., 0.5, 1).
             <p>These properties govern element rendering and visibility, foundational for layout and interaction.</p>
             
-            <h3>Lesson 6: Flexbox</h3>
+            <h3>Lesson 6: <a href="flex.html">Flexbox</a></h3>
             <b>Focus</b>: Creating flexible layouts with Flexbox. <br>
               <code>display: flex</code> Enables Flexbox. <br>
               <code>flex-direction</code> Sets the axis of flex items (e.g., row, column). <br>
               <code>flex-wrap</code> Controls wrapping (e.g., nowrap, wrap). <br>
               <code>justify-content</code> Aligns items along the main axis (e.g., space-between, center). <br>
               <code>align-items</code> Aligns items along the cross axis (e.g., stretch, baseline). <br>
-              <code>flex-grow`, `flex-shrink`, `flex-basis</code> Controls item sizing. <br>
+              <code>flex-grow</code>, <code>flex-shrink</code>, <code>flex-basis</code> Controls item sizing. <br>
               <code>align-content</code> Aligns flex lines (e.g., space-around). <br>
             <p>Flexbox is a cohesive system for one-dimensional layouts, best taught as a single unit.</p>
             
-            <h3>Lesson 7: Grid</h3>
+            <h3>Lesson 7: <a href="grid.html">Grid</a></h3>
             <b>Focus</b>: Building two-dimensional layouts with CSS Grid.
               <code>display: grid</code> Enables Grid.<br>
               <code>grid-template-columns</code>, <code>grid-template-rows</code> Defines grid tracks (e.g., 1fr 2fr, 100px auto).<br>
@@ -201,7 +115,7 @@
               <code>perspective</code> Sets 3D perspective (e.g., 1000px).<br>
             <p>Transformations are a distinct visual effect category, often used together for animations or interactive designs.</p>
             
-            <h3>Lesson 10: Transitions and Animations</h3>
+            <h3>Lesson 10: <a href="10.transitions-animations.html">Transitions and Animations</a></h3>
             <b>Focus</b>: Adding motion and interactivity.
               <code>transition</code> Defines smooth property changes (e.g., transition: all 0.3s ease).<br>
               <code>transition-property</code>, <code>transition-duration</code>, <code>transition-timing-function</code>, <code>transition-delay</code> Fine-tune transitions. <br>
@@ -210,36 +124,26 @@
               <code>@keyframes</code> Defines animation sequences.<br>
             <p>Transitions and animations are related concepts for adding interactivity, best taught as a cohesive unit.</p>
             
-            <h3>Lesson 11: Pseudo-Classes and Pseudo-Elements</h3>
+            <h3>Lesson 11: <a href="11.pseudo.html">Pseudo-Classes</a> and <a href="11.pseudo.html">Pseudo-Elements</a></h3>
             <b>Focus</b>: Styling specific states or parts of elements. <br>
               <b>Pseudo-classes:</b> <code>:hover</code>, <code>:focus</code>, <code>:nth-child()</code>, <code>:first-child</code>, etc. <br>
               <b>Pseudo-elements:</b> <code>::before</code>, <code>::after</code>, <code>::first-line</code>, <code>::first-letter</code>. <br>
             <p>These are advanced selectors that enhance styling precision, often used together in interactive designs.</p>
             
-            <h3>Lesson 12: Advanced Layout Techniques</h3>
+            <h3>Lesson 12: <a href="12.advanced.html">Advanced</a> Layout Techniques</h3>
             <b>Focus</b>: Combining layouts and responsive design. <br>
               <code>float</code> Positions elements (e.g., left, right) (for legacy understanding).<br>
               <code>clear</code> Clears floats (e.g., both).<br>
               <code>overflow</code> Manages content overflow (e.g., auto, hidden, scroll).<br>
               <code>clip-path</code> Creates custom shapes (e.g., polygon(0 0, 100% 0, 100% 100%)).<br>
               <b>Media queries</b> (<code>@media</code>): Responsive design adjustments.
-            <p>These properties address advanced layout challenges and responsiveness, building on prior layout knowledge.</p>
+            <p>These properties address advanced layout challenges and responsiveness, building on prior layout knowledge. - <a href="/pages/udemy/">Udemy</a></p>
             
-            <h3>Teaching Notes</h3>
-            <p><b>Progression</b>: Start with simple, visible properties (text, box model) and move to complex systems (Flexbox, Grid, animations). </p>
-            <ul>
-                <li><b>Practical Exercises</b>: Each lesson should include hands-on tasks, like styling a paragraph, building a card component, or creating a responsive grid. </li>
-                <li><b>Prerequisites</b>: Ensure students understand HTML and basic CSS syntax before diving into these lessons.</li>
-                <li><b>Tools</b>: Use browser developer tools to inspect and tweak properties live, reinforcing learning.</li>
-                <li><b>Resources</b>: Provide references to MDN Web Docs or CSS-Tricks for detailed property documentation.</li>
-            </ul>
-            
-            <div>This structure breaks CSS into manageable, logical chunks, allowing students to build skills incrementally while seeing immediate results.</div>
 
         </section>
-        <p style="text-align: right;"><a href="../html/">HTML Index</a> | <code><a href="01.text.html">CSS Text &raquo;</a></code></p>
+        <!-- <p style="text-align: right;"><code><a href="../html/">HTML Index</a></code> | <code><a href="01.text.html">CSS Text &raquo;</a></code></p> --> 
     </div>
-    <a href='https://linktr.ee/sasban9' style="position:fixed;bottom:20px;left:20px;transform: rotate(-90deg);" title="'Coffee!">@sasban9<br><img src="/sasban.jpg" style="height:100px;transform: rotate(90deg);" alt=""></a>
+    <a href='https://linktr.ee/sasban9' style="position:fixed;bottom:20px;left:20px;transform: rotate(-90deg);" title="'Coffee!"><code>@sasban9</code><br><img src="/sasban.jpg" style="height:100px;transform: rotate(90deg);" alt=""></a>
 </body>
 
 </html>

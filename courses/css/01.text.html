@@ -7,10 +7,10 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            line-height: 1.6;
+            line-height: 1.6;zoom:1.6;
         }
         h2 {
             color: #333;
@@ -36,6 +36,13 @@
         }
         p {
             margin: 10px 0;
+        }
+        a{
+            text-decoration: none;
+        }
+        a:visited{
+            text-decoration: underline dashed white;
+            color: #dc3545
         }
     </style>
 </head>
@@ -191,7 +198,8 @@
     <footer>
         <p>Created to showcase the most commonly used CSS text and font properties. Experiment with the code to explore different combinations!</p>
     </footer>
-    <hr>
-    <a href=".">CSS</a> | <a href="01.text.html">Text</a> | <a href="02.box-model.html">Box Model</a> | <a href="03.background.html">Background</a> | <a href="#">Position</a> | <a href="#">Display</a> | <a href="flex.html">Flexbox</a> | <a href="grid.html">Grid</a> | <a href="#">Colors</a> | <a href="#">Transforms</a> | <a href="#">Animations</a> | <a href="#">Pseudo</a> | <a href="#">Advanced</a>
+    <div style="background: khaki;position: fixed;left: 0;top:0;padding: 1rem;height: 100vh;display: flex;flex-direction: column;">
+        <a href=".">CSS</a><br><b>Text & Font</b><a href="02.box-model.html">Box Model</a><a href="03.background.html">Background</a><a href="#">Position</a><a href="#">Display</a><a href="flex.html">Flexbox</a><a href="grid.html">Grid</a><a href="#">Colors</a><a href="#">Transforms</a><a href="#">Animations</a><a href="#">Pseudo</a><a href="#">Advanced</a>
+    </div>
 </body>
 </html>
