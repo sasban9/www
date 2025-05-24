@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caesar+Dressing&family=Frijole&display=swap" rel="stylesheet">
+    <style>
+        *{box-sizing: border-box;margin: 0;padding: 0;text-align: left;}
+        html{scrollbar-width: none}
+        center{text-align: center;}
+        body{background: linear-gradient(30deg,#111,#200);color: #ccc;font-family: sans-serif;font-size: 1.7rem;line-height: 2.5;}
+        tr{padding: 20vh 0;}
+        td{padding: 3rem 1rem;filter: blur(4px);transform: rotate(-3deg);background: url('https://images.unsplash.com/photo-1566410824233-a8011929225c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGRhcmslMjBhYnN0cmFjdHxlbnwwfHwwfHx8MA%3D%3D') 50% 50%;}
+        th{padding: 3rem 0;}
+        td:hover{filter: blur(0);transform: rotate(0);text-shadow: 0 0 10px black;background-size: cover;}
+        img{max-width: 100%;transform: rotate(3deg);box-shadow: 0 10px 10px black;}
+        .container{width: 90%;margin: 0 auto;}
+        i{font-size: 1.6rem;}
+        a{height: 50px;width: 50px;border-radius: 50px;background: #000;color: white;text-decoration: none;padding: 0 15px;box-shadow: inset 0 0 10px #fff;}
+        ul,ol{padding-left:40px;text-align: left;}
+        h1{padding: 5rem 0;font-family:"Frijole", system-ui;text-align: center;background: #000;color: khaki;}
+        blockquote{padding-left: 2rem;border-left: solid 10px grey;}
+        hr{margin-bottom: 2rem;}
+        code{background-color: crimson;color: khaki;}
+        video{max-width: 100%;}
+        .d-flex{display: flex;flex-direction: column;}
+        .d-flex>div{padding: 3rem 1rem;filter: blur(4px);transform: rotate(-3deg);}
+        .d-flex>div:hover{filter: blur(0);transform: rotate(0);background: #ddd;color: #000;}
+        @media (min-width:900px){
+            .d-flex{flex-direction: row;}
+        }
+    </style>
+</head>
+<body>
+    <a href="httpS://linktr.ee/sasban9" style="position: fixed;top: 140px;left: 0;transform: rotate(-90deg);">@sasban9</a>
+    <div style="width: 5%;position: fixed;left: 0;background: #300;height: 100vh;">
+        <a href="#com1">1</a><br>
+        <a href="#com2">2</a><br>
+        <a href="#com3">3</a><br>
+        <a href="#com4">4</a><br>
+        <a href="#com5">5</a><br>
+        <a href="#com6">6</a><br>
+    </div>
+    <div class="container">
+        <section>
+            <h1 style="font-size: 40px;background-color: darkorange;">TEN COMMANDMENTS FOR EFFECTIVE PROMPTS</h1>
+        
+            
+            <!-- <div class="d-flex">
+                <div>Being vague leads to unpredictable results. </div>
+                <div>AI (and even humans) thrive on clarity. </div>
+                <div>But if you say<br> "Give me a brief overview of the causes of World War I,"<br> the scope is crystal clear — and so is the response.</div>
+                <div>If you say<br> "Tell me about history," you could get a response about anything from ancient Egypt to World War II. </div>
+            </div> -->
+            <table class="table">
+                <tr>
+                    <th colspan="4"><center><a href="#com4">4</a> <a href="#com5">5</a> <a href="#com6">6</a> <a href="#com7">7</a> <a href="#com8">8</a> </center><h1 id="com1">"Thou Shalt Be Clear and Specific"</h1></th>
+                </tr>
+                <tr>
+                    <th colspan="5"><h2>🧭 Why It Matters</h2></th>
+                </tr>
+                <tr>
+                    <td>Being vague leads to unpredictable results. </td>
+                    <td>AI (and even humans) thrive on clarity. </td>
+                    <td>If you say<br> "Tell me about history," you could get a response about anything from ancient Egypt to World War II. </td>
+                    <td>But if you say<br> "Give me a brief overview of the causes of World War I,"<br> the scope is crystal clear — and so is the response.</td>
+                </tr>
+                <tr>
+                    <th colspan="5"><h2>🎯 How to Be Clear and Specific </h2></th>
+                </tr>
+                <tr>
+                    <th colspan="2">✅ State Your Intent Directly</th>
+                    <td>Instead of:<br> "Tell me about climate change." <img src="https://www.amu.apus.edu/images/site/amu/effects-of-climate-change-on-environment.jpg" alt=""></td>
+                    <td>Try:<br>"Summarize the main causes of climate change in under 100 words, suitable for a 12-year-old student."</td>
+                </tr>
+                <tr>
+                    <th colspan="2">✅ Avoid Broad or Open-Ended Terms <br>(Unless You Want Exploration)</th>
+                    <td>If you're looking for something focused, define the boundaries</td>
+                    <td><ul>
+                        <li>Timeframes <br><small>(e.g., “in the last 10 years”)</small></li>
+                        <li>Locations <br><small>(e.g., “in sub-Saharan Africa”)</small></li>                                
+                        <li>Audiences <br><small>(e.g., “for business executives”)</small></li>
+                    </ul> </td>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        ✅ Use Precise Language 
+
+                    </th>
+                    <td>
+                        Vague words like “stuff,” “things,” or “cool” mean different things to different people (and machines). <br><br> Use descriptive, specific vocabulary.</td>
+                    <td>
+                        Instead of: <br>
+                        
+                        “Make it sound better.”
+                        <br><br>
+                        Try: <br>
+                        
+                        “Rewrite this in a persuasive tone suitable for a college admissions essay.”</td>
+                </tr>
+                <tr>
+                    <th colspan="2">✅ Be Explicit with Expectations</th>
+                    <td>
+                        Spell out the format or content you expect: <br>        
+                        The more of these you clarify up front, the less guessing is needed.</td>
+                    <td>
+                        <ul>
+                            <li>Numbered list?</li>
+                            <li>Formal tone?</li>
+                            <li>200-word limit?</li>
+                            <li>Include a quote or example?</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="4"><h2>✍️ Example Comparison</h2></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><img src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-180680638-676f621f720bc.jpg?crop=1xw:0.84375xh;0,0.118xh&resize=1200:*" alt=""></th>
+                    <td>Vague Prompt: <blockquote>"Write something about dogs."</blockquote></td>
+                    <td>Clear Prompt: <blockquote>"Write a 3-paragraph informative article about the top 3 most intelligent dog breeds, explaining what makes each one smart. Use a friendly tone."</blockquote></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><img src="https://feardamhan.com/wp-content/uploads/2019/02/protip-2-e1587134583591.png?w=379" alt=""></th>
+                    <td>If you're not sure how specific to be, imagine you're asking a stranger who knows nothing about your needs. If they’d be confused, the AI probably will be too.</td>
+                </tr>
+                <tr>
+                    <th colspan="5"><h1 id="com2">Thou Shalt Know Thy Goal</h1></th>
+                </tr>
+                <tr>
+                    <th colspan="4">🎯 Why It Matters</th>
+                </tr>
+                <tr>
+                    <td colspan="2">Before you write a prompt, you must know what outcome you want. </td>
+                    <td colspan="2" rowspan="2">A clear objective helps:
+                        <ul>
+                            <li>Shape the structure of your prompt</li>
+                            <li>Influence the tone or style of the response</li>
+                            <li>Ensure relevance and usefulness</li>
+                            <li>Save time by reducing back-and-forth clarification</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><i>If your goal is fuzzy, your prompt will be fuzzy—and so will the response.<br>AI is great at pattern-matching, not mind-reading.</i></td>
+                </tr>
+                <tr>
+                    <th colspan="5">Good Goal Setting: Questions to Ask Yourself</th>
+                </tr>
+                <tr>
+                    <td>Do I want depth or speed? <hr>
+
+                        Is this a quick brainstorm or a deep dive?</td>
+                    <td>Who is the audience (if any)? <hr>
+
+                        Is the output for children? Experts? A general audience?</td>
+                    <td>What am I really trying to get? <hr>
+
+                        A factual answer?
+                        
+                        A creative idea?
+                        
+                        A code snippet?
+                        
+                        A plan, list, or outline?</td>
+                    <td>What will I do with the response? <hr>
+
+                        Present it to others?
+                        
+                        Use it in a report?
+                        
+                        Feed it into another tool or process?</td>
+                </tr>
+                <tr>
+                    <th colspan="2">🆚 Example: <br>Vague vs Goal-Oriented Prompts</th>
+                    <td>❌ Vague:
+                        Tell me about climate change.
+                        <hr>
+                        ✅ Goal-Oriented:
+                        Give me a 3-paragraph summary of climate change for a high school science textbook, focusing on causes, effects, and solutions, in simple language.
+                        
+                    </td>
+                    <td>
+                        ❌ Vague:
+                        Help me write a story.
+                        <hr>
+                        ✅ Goal-Oriented:
+                        I want a short story (500 words) for 8-year-olds about a talking squirrel who solves a mystery in the forest. Make it funny and adventurous.
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>🛠️<img src="https://feardamhan.com/wp-content/uploads/2019/02/protip-2-e1587134583591.png?w=379" alt=""></th>
+                    <td>
+                        Add this phrase to the end of your prompt if you're unsure how to begin:
+                        <hr>
+                        “The goal of this prompt is to <code>[insert your goal]</code>. Please tailor the response accordingly.”
+                    </td>
+                    <td>
+                        
+                        Example:
+                        <hr>
+                        The goal of this prompt is to generate ideas for a YouTube video script that explains how electric cars work to 12-year-olds.
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="4"><h1 id="com3">Thou Shalt Give Context Generously</h1></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>A prompt without context is like asking for directions without saying where you're starting.</td>
+                    <td>Why It Matters: <hr>
+                        AI (or even humans) rely heavily on context to produce relevant, accurate, and useful results. </td>
+                    <td>When you omit crucial background details—like who the audience is, what the topic relates to, or what you’ve already tried—you risk receiving generic, confusing, or off-target answers.</td>
+                </tr>
+                <tr>
+                    <th colspan="2">✅ Good Context vs <br>❌ Bad Context</th>
+                    <td>❌ Vague Prompt: <hr>
+                        <blockquote>Write a story.</blockquote>
+                        </td>
+                    <td>
+                        ✅ Context-Rich Prompt: <hr>
+                        
+                        <blockquote>Write a 500-word bedtime story for a 4-year-old about a shy turtle who learns to make friends. Use simple language and a happy ending.</blockquote></td>
+                </tr>
+                <tr>
+                    
+                </tr>
+                <tr>
+                    <th colspan="2">🔍 Types of Context That Help</th>
+                    <td>Audience Information: <hr>
+
+                        Who is the result for? (kids, professionals, students, developers?) <br>
+                        
+                        Example: "Make this explanation easy for a 10-year-old."</td>
+                    <td>Use Case or Goal: <hr>
+
+                        What are you planning to do with the result? <br>
+                        
+                        Example: "I'm using this as an intro slide for a pitch deck."</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Prior Attempts or Inputs: <hr>
+
+                        What have you already done or considered? <br>
+                        
+                        Example: "I already tried using a bullet list, but it felt too dry."</td>
+                    <td>Tone and Style Preferences: <hr>
+
+                        Formal? Playful? Persuasive? Academic? <br>
+                        
+                        Example: "Write this in the style of a motivational speech."</td>
+                    <td>Medium or Format Requirements: <hr>
+
+                        Is it for a webpage? A tweet? An email? A script? <br>
+                        
+                        Example: "Summarize this in 280 characters for social media."</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>🛠️<img src="https://feardamhan.com/wp-content/uploads/2019/02/protip-2-e1587134583591.png?w=379" alt="">	</th>
+                    <td>If in doubt, answer these 3 questions in your prompt:</td>
+                    <td>                    
+                        <ul>
+                            <li>What am I trying to achieve?</li>
+                            <li>Who is it for?</li>
+                            <li>What are the important details or constraints?</li>
+                        </ul></td>
+                    </td>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th colspan="4"><h1 id="com4">Thou Shalt Structure Complex Prompts</h1></th>
+                </tr>
+                <tr>
+                    <td colspan="2">When your prompt includes multiple tasks, ideas, or layers of nuance, it’s crucial to organize it clearly.</td>
+                    <td>Just like you wouldn’t hand someone a jumbled recipe and expect a perfect soufflé, </td>
+                    <td>...you shouldn’t expect a perfect response from a tangled prompt.</td>
+                </tr>
+                <tr>
+                    <th colspan="4">🔍 Why It Matters</th>
+                </tr>
+                <tr>
+                    <td colspan="2"><code>Reduces confusion:</code><br> A long, unbroken paragraph can bury key details.</td>
+                    <td><code>Improves comprehension:</code><br> Structured prompts are easier to scan and understand.</td>
+                    <td><code>Boosts accuracy:</code><br> The clearer your structure, the more precise and relevant the output.</td>
+                </tr>
+                <tr>
+                    <th colspan="4"><h2>🛠️ How to Structure a Complex Prompt</h2></th>
+                </tr>
+                <tr>
+                    <th colspan="2">1. Use lists or bullet points for multiple questions or tasks:</th>
+                    <td>Help me design a landing page. I need:</td>
+                    <td>
+                        - A headline that appeals to young professionals <br>
+                        - A short paragraph that describes the service <br>
+                        - 3 bullet points listing key features <br></td>
+                </tr>
+                <tr>
+                    <th colspan="2">2. Use numbered steps for sequences:</th>
+                    <td>Explain how to bake a cake in five steps.</td>
+                    <td>1. Preheat the oven...<br>2. Mix the ingredients...</td>
+                </tr>
+                <tr>
+                    <th colspan="2">3. Use sections for distinct parts of the task:</th>
+                    <td colspan="2">
+                        Write a blog post with the following: <hr>
+                        <b>Title:</b> Eye-catching and SEO-friendly <br>
+                        <b>Introduction:</b> Hook the reader in 2–3 sentences <br>
+                        <b>Body:</b> Explain the benefits of remote work in 3 paragraphs <br>
+                        <b>Conclusion:</b> Summarize and include a call to action
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">4. Use clear labels when asking for different content types:</th>
+                    <td colspan="2">
+                        Create a product description: <hr>
+                        - <b>Target audience:</b> Tech-savvy millennials <br>
+                        - <b>Tone:</b> Casual and witty <br>
+                        - <b>Length:</b> 100 words max 
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">5. Use separators for multi-part conversations:</th>
+                    <td colspan="2">
+                        Topic 1: What are common coding interview questions? <hr>Topic 2: How should I study for system design rounds?</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><img src="https://feardamhan.com/wp-content/uploads/2019/02/protip-2-e1587134583591.png?w=379" alt=""></th>
+                    <td>    
+                        Always ask yourself:
+                        <blockquote>"If I were reading this prompt with no background knowledge, would I know exactly what’s being asked—and in what order?"</blockquote><code>If not, restructure!</code>
+                    </td>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th colspan="4"><h1 id="com5">Thou Shalt Specify Format and Style</h1></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><img src="https://i0.wp.com/www.kouya.net/wp-content/uploads/2020/09/Why-it-matters-banner-1.jpg?fit=615%2C400&ssl=1" alt=""></th>
+                    <td>When you leave the format or style open-ended, you hand over creative control—but the output might not align with your expectations.</td>
+                    <td>By specifying the format and tone, you guide the response to look and feel the way you want it.</td>
+                </tr>
+                <tr>
+                    <th colspan="4"><h2></h2></th>
+                </tr>
+                <tr>
+                    <th colspan="2">✅ What You Should Specify</th>
+                    <td>Output Format Examples: <hr>
+                        <ul>
+                            <i>"List the items in bullet points."</i><br>
+                            <i>"Give me a table with three columns: Task, Priority, Deadline."</i><br>
+                            <i>"Respond with code only — no explanation."</i><br>
+                            <i>"Wrap the result in JSON."</i>
+                        </ul>
+                    </td>
+                    <td>
+                        Tone or Voice Examples: <hr>
+                        <ul>
+                            <i>"Write in a professional business tone."</i><br>
+                            <i>"Make it sound like a pirate."</i><br>
+                            <i>"Keep it playful and simple—suitable for kids."</i><br>
+                            <i>"Use a persuasive and energetic marketing voice."</i>    
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2"></th>
+                    <td>
+                        Length Examples: <hr>
+                        <ul>
+                            <i>"Summarize in one sentence."</i><br>
+                            <i>"Keep it under 100 words."</i><br>
+                            <i>"Give me 3–5 short bullet points."</i><br>
+                        </ul>
+                    </td>
+                    <td>
+                        Medium or Context Examples: <hr>
+                        <ul>
+                            <i>"Make it suitable for a tweet (under 280 characters)."</i><br>
+                            <i>"Format it for a blog introduction."</i><br>
+                            <i>"Write it as if it were a Slack message to a team."</i>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">🎯 Prompt Examples: <br> Before vs. After</th>
+                    <td>❌ Vague Prompt:
+                        <blockquote>"Explain blockchain." </blockquote><hr>
+                        
+                        ✅ Refined Prompt:
+                        <blockquote>"Explain blockchain in under 150 words, using simple language suitable for a 12-year-old. Format it as a bulleted list."</blockquote></td>
+                    <td>❌ Vague Prompt:
+                        <blockquote>"Write a story about a robot."</blockquote><hr>
+                        
+                        ✅ Refined Prompt:
+                        <blockquote>"Write a 3-paragraph story about a robot who discovers music. Keep the tone whimsical and use short, simple sentences."</blockquote>
+                    </td>
+                </tr>
+                <tr>
+                    <th><img src="https://www.shutterstock.com/image-vector/modern-tooltip-text-extra-bonus-600nw-2206991649.jpg" alt=""></th>
+                    <td colspan="2">
+                        <b>Use templates:</b><br> Like "Give me a <code>[format]</code> about <code>[topic]</code>, using <code>[style]</code> and <code>[length]</code>."</td>
+                    <td><b>Refer to known styles:</b> “Write this like a Wikipedia article” or “Use the format of a press release.”</td>
+                </tr>
+                <tr>
+                    <th colspan="2"></th>
+                    <td><b>TL;DR:</b> The more you shape the <i>container</i> , the better the <i>content</i> will fit. Telling the AI <code>how</code> to speak is just as important as <code>what</code> to say.</td>
+                </tr>
+                <tr>
+                    <th colspan="4"><center><a href="#com1">1</a> <a href="#com2">2</a> <a href="#com3">3</a> <a href="#com4">4</a> <a href="#com5">5</a> <b>6</b></center><h1 id="com6">Thou Shalt Use Examples</h1></th>
+                </tr>
+                <tr>
+                    <th colspan="4">✨ Why It Matters:</th>
+                </tr>
+                <tr>
+                    <td colspan="2">Examples turn vague requests into actionable ones. </td>
+                    <td>They anchor your intent, clarify your expectations, and reduce misinterpretation — </td>
+                    <td>...especially when the prompt has room for creative or technical variation.</td>
+                </tr>
+                <tr>
+                    <th colspan="2">🧠 The Psychology Behind It:</th>
+                    <td>Humans and AIs alike interpret language in shades of meaning. An example gives a concrete reference point. It answers:</td>
+                    <td>
+                        <ul>
+                            <i>What does “friendly tone” really mean to you?</i> <br>
+                            <i>How formal is "semi-formal"?</i> <br>
+                            <i>What kind of story structure or visual layout are you imagining?</i>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="4"><h3>🛠️ How to Use Examples Effectively:</h3></th>
+                </tr>
+                <tr>
+                    <th colspan="2">1. Show, Don’t Just Tell</th>
+                    <td>Instead of: <hr>
+                    <blockquote>"Write a product description."</blockquote></td>
+                    <td>Try: <hr>
+                    <blockquote>"Write a product description like this: <br>
+                        'Our ultra-soft fleece hoodie blends comfort and style, perfect for chilly nights or lazy Sundays.'"</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="2">2. Use Contrasts to Define Boundaries</th>
+                    <td>
+                        Example:
+                        
+                        <blockquote>"Avoid vague language. Don’t say: ‘It’s pretty good.’ <br>
+                            Say: ‘It increased our page speed by 45%.’"</blockquote></td>
+                    <td>
+                        
+                        This clarifies what not to do, which is just as helpful as showing what to do.</td>
+                </tr>
+                <tr>
+                    <th colspan="2">3. Demonstrate Format</th>
+                    <td>
+                        Instead of: <hr>
+                        
+                        <blockquote>"Give me a lesson plan for 4th graders."</blockquote></td>
+                    <td>
+                        
+                        Try: <hr>
+                        
+                        <blockquote>"Give me a lesson plan like this: <br><small>/Title /Objective /Materials Needed <br>/Step-by-Step Activities <br>/Wrap-Up <br>/Assessment Criteria</small> "</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="2">4. Use Templates</th>
+                    <td>
+                        If you want repeatable results, use a template. For example:
+                        
+                        </td>
+                    <td>"Please summarize this article using the format below: <hr>
+                        
+                        <small>📌 Main Point: <br>                        
+                            🧠 Key Insights: <br>                            
+                            🔎 Supporting Details: <br>                            
+                            📝 Summary in 2 sentences:"</small></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrZWzNJLSdZW1dkWdPGinMtytxEyIUzFvMCA&s" alt=""></th>
+                    <td> 
+                        <blockquote><b>A good example is a shortcut to clarity.</b> </blockquote>
+                    </td>
+                    <td><blockquote>It helps your collaborator (human or AI) understand not just what you're asking, but how you want it delivered.</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="4"><center><a href="#com1">1</a> <a href="#com2">2</a> <a href="#com3">3</a> <a href="#com4">4</a> <a href="#com5">5</a> <a href="#com6">6</a> <b>7</b></center><h1 id="com7">Thou Shalt Define Limits</h1></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td colspan="2"><blockquote>“Freedom is the friend of expression. Constraints are the masters of precision.”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="4">💡 Why It Matters</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>AI (and even people) can interpret open-ended requests in countless ways.</td>
+                    <td>Without clear boundaries, responses can be too long, too short, too broad, or off-topic. </td>
+                    <td>Defining limits helps guide the creative process and ensures relevance, focus, and usefulness.</td>
+                </tr>
+                <tr>
+                    <th colspan="4">✅ Types of Limits You Can Set</th>
+                </tr>
+                <tr>
+                    <th colspan="2">1. Length Constraints</th>
+                    <td>Specify how long you want the response to be.</td>
+                    <td>
+                        
+                        <i>“Summarize this in 3 bullet points.”</i><br>
+                        <i>“Give a 100-word overview.”</i><br>
+                        <i>“Write a tweet (max 280 characters).”</i></td>
+                </tr>
+                <tr>
+                    <th colspan="2">2. Tone & Style</th>
+                    <td>Choose a tone: formal, casual, humorous, academic, etc. </td>
+                    <td><i>“Explain this like I’m five.”</i> <br>                        
+                        <i>“Use a professional tone, suitable for a business email.”</i></td>
+                </tr>
+                <tr>
+                    <th colspan="2">3. Format</th>
+                    <td>Request a specific structure.</td>
+                    <td><i>“Answer in table format.”</i><br><i>“Provide the code and then explain it in comments.”</i></td>
+                </tr>
+                <tr>
+                    <!-- <td colspan="2"><b>1. Length Constraints</b><br>
+                        Specify how long you want the response to be. <hr>
+                        
+                        <i>“Summarize this in 3 bullet points.”</i><br>
+                        <i>“Give a 100-word overview.”</i><br>
+                        <i>“Write a tweet (max 280 characters).”</i>
+                    </td> -->
+                    <!-- <td><b>2. Tone & Style</b><br>
+                        Choose a tone: formal, casual, humorous, academic, etc. <hr>
+                        
+                        <i>“Explain this like I’m five.”</i> <br>                        
+                        <i>“Use a professional tone, suitable for a business email.”</i>
+                    </td> -->
+                    <!-- <td colspan="2"><b>3. Format</b><br>
+                        Request a specific structure. <hr>
+                        <i>“Answer in table format.”</i><br><i>“Provide the code and then explain it in comments.”</i>
+                    </td> -->
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <b>4. Perspective & Roleplay</b><br>Define who or what the AI should "be." <hr><i>“Act as a career coach.”</i><br><i>“Write from the perspective of a pirate.”</i>
+                    </td>
+                    <td>
+                        <b>5. Domain or Subject Boundaries</b><br>Narrow the subject area. <hr><i>“Only refer to examples in classical literature.”</i><br><i>“Focus on biology, not chemistry.”</i>
+                    </td>
+                    <td><b>6. Time Frame or Historical Boundaries</b><br>Specify a time or era. <hr><i>“Give trends from 2020–2024 only.”</i><br><i>“Imagine you are in the year 2100.”</i></td>
+                </tr>
+                <tr>
+                    <th colspan="4">🧠 <img src="https://feardamhan.com/wp-content/uploads/2019/02/protip-2-e1587134583591.png?w=379" alt="" height="100"> Combine Constraints for Power Prompts</th>
+                </tr>
+                <tr>
+                    <!-- <th></th> -->
+                    <td colspan="2">
+                        You can stack constraints for maximum precision:</td>
+                    <td colspan="2"><blockquote>
+                        
+                        “Explain the causes of the French Revolution <br> in under 150 words, using simple language <br> suitable for a high school student, <br> and end with a one-sentence summary.”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="4">🔁 Without vs. With Limits Example</th>
+                </tr>
+                <tr>
+                    <!-- <th colspan="2"></th> -->
+                    <td colspan="2"><blockquote>❌ “Tell me about climate change.”</blockquote></td>
+                    <td colspan="2"><blockquote>✅ “Give me a 3-sentence explanation of climate change suitable for a 10-year-old, using only real-world examples.”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="4"><center><a href="#com1">1</a> <a href="#com2">2</a> <a href="#com3">3</a> <a href="#com4">4</a> <a href="#com5">5</a> <a href="#com6">6</a> <a href="#com7">7</a> <b>8</b> </center><h1 id="com8">Thou Shalt Iterate and Refine</h1></th>
+                </tr>
+                <tr>
+                    <th colspan="4">🎯 Why It Matters:</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>Prompting is an interactive process, not a one-shot deal. </td>
+                    <td>Even expert prompt engineers rarely get the perfect result on the first try. </td>
+                    <td>Think of it like sculpting: your first prompt shapes the rough form, and each revision sharpens the detail until the result matches your vision.</td>
+                </tr>
+                <tr>
+                    <th colspan="4">🛠️ How to Refine a Prompt Effectively:</th>
+                </tr>
+                <tr>
+                    <th colspan="2">1. Start with a Draft Prompt</th>
+                    <td>
+                        Write your initial request as clearly as you can. Don’t worry about perfection — just get it out.
+                        </td>
+                    <td><blockquote>Example: <br>“Write a summary of the French Revolution.”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="2">2. Analyze the Output</th>
+                    <td>
+                        Review what you got: <hr>
+                        
+                        <i>Did it miss key information? </i><br>
+                        <i>Was the tone wrong (too casual, too academic)? </i><br>
+                        <i>Was it too long, too short, too vague?</i>
+                    </td>
+                    <td><blockquote>Example Problem: <br>
+                        The summary skips the Reign of Terror and is too broad.</blockquote></td>
+                </tr>
+                <tr>
+                    <th>3. Refine the Prompt</th>
+                    <td>
+                        Clarify or focus your request. Add new instructions or constraints.</td>
+                    <td colspan="2"><blockquote>Refined Prompt: <br>
+                        “Give me a concise (under 200 words) summary of the French Revolution, including causes, key events (especially the Reign of Terror), and outcomes. Use an academic tone.”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="2">4. Repeat as Needed</th>
+                    <td colspan="2">
+                        Fine-tune again if needed — <br> change the tone, <br> simplify the language, <br> ask for a specific perspective <br>(e.g. from a historian, journalist, or student).</td>
+                </tr>
+                <tr>
+                    <th colspan="4">💡 Pro Tips for Iterating:</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td><b>Keep a record</b> of what works and what doesn’t.</td>
+                    <td><b>Use a feedback loop:</b> Compare multiple outputs side by side.</td>
+                    <td><b>Experiment</b> with extreme variations (e.g. “Explain it like I’m 5” vs. “Use graduate-level vocabulary”).</td>
+                </tr>
+                <tr>
+                    <th colspan="4">🧠 Think of Prompting Like Programming</th>
+                </tr>
+                <tr>
+                    <th colspan="2"></th>
+                    <td>In programming, your first draft usually has bugs. You test, debug, and refactor. </td>
+                    <td>Prompting is no different: test the input, observe the output, and revise accordingly.</td>
+                </tr>
+                <tr>
+                    <th colspan="4"><center><a href="#com1">1</a> <a href="#com2">2</a> <a href="#com3">3</a> <a href="#com4">4</a> <a href="#com5">5</a> <a href="#com6">6</a> <a href="#com7">7</a> <a href="#com8">8</a> <b>9</b> </center><h1 id="com9">Thou Shalt Avoid Overloading</h1></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><blockquote>“A prompt should be a doorway, not a labyrinth.”</blockquote></th>
+                </tr>
+                <tr>
+                    <th>When crafting prompts, it’s tempting...</th>
+                    <td>...to pour every thought, question, and requirement into one mega-paragraph or wall of text. </td>
+                    <td>But overloaded prompts are hard to parse—for both AI and humans. </td>
+                    <td>The more you cram in, the higher the risk of misinterpretation, overlooked details, or generic responses.</td>
+                </tr>
+                <tr>
+                    <th colspan="4">🔥 Why Overloading Fails:</th>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Cognitive Overwhelm:</b> Too many directions at once cause the reader (or AI) to lose track of your main request.</td>
+                    <td><b>Diluted Focus:</b> Mixing unrelated questions in one prompt makes it harder to respond well to any of them.</td>
+                    <td><b>Conflicting Instructions:</b> Without clear structure, your instructions may contradict or confuse.</td>
+                </tr>
+                <tr>
+                    <th colspan="4">✅ Best Practices:</th>
+                </tr>
+                <tr>
+                    <th colspan="2">Break it down: </th>
+                    <td rowspan="2">
+                        
+                        ❌ Bad: <hr><i>“Write a summary of this book, compare it to another, explain why it’s better, and then give a quote analysis in 200 words.”</i></td>
+                    <td rowspan="2">                        
+                        ✅ Good: <hr>
+                        
+                        <i>Summarize the book in 3 sentences.</i><br>
+                        
+                        <i>Compare it to [book B] in terms of theme.</i><br><i>Give a quote analysis of one powerful line.</i></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Divide complex prompts into multiple, smaller prompts. For example:</td>
+                </tr>
+                <tr>
+                    <th>Use numbered lists or bullet points: </th>
+                    <th></th>
+                    <th>Group related ideas: </th>
+                    <th>Use follow-ups: </th>
+                </tr>
+                <tr>
+                    <td colspan="2">This gives structure and clarity. It helps both you and the respondent stay on track.</td>
+                    <td>If you're asking multiple things, group similar ones together to maintain logical flow.</td>
+                    <td>Start with a general prompt, then refine or drill down in follow-up questions rather than frontloading everything.</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><img src="https://t3.ftcdn.net/jpg/00/34/73/20/360_F_34732040_N5yCmGbNSAr7eVuBPj0IJVZHelYM6PGJ.jpg" alt=""></th>
+                    <td>Overloaded prompts are like trying to order your entire week’s meals at a drive-thru window. </td>
+                    <td><b>Keep it simple. Keep it clear.</b><hr> One great question at a time gets you farther than one confusing mega-question.</td>
+                </tr>
+                <tr>
+                    <th colspan="4"><center><a href="#com1">1</a> <a href="#com2">2</a> <a href="#com3">3</a> <a href="#com4">4</a> <a href="#com5">5</a> <a href="#com6">6</a> <a href="#com7">7</a> <a href="#com8">8</a> <a href="#com9">9</a> <b>10</b> </center><h1 id="com10">Thou Shalt Be Kind to Thy Promptee</h1></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><blockquote>Kindness and clarity go hand in hand. How you speak to the one you're prompting affects the quality of the response.</blockquote></th>
+                    <td>Whether you're talking to a person, an AI, or even prompting yourself for journaling or creative thinking,</td>
+                    <td>...kindness creates clarity, engagement, and better results. Here's what that looks like in practice:</td>
+                </tr>
+                <tr>
+                    <th colspan="4">💬 Use Polite Language</th>
+                </tr>
+                <tr>
+                    <td>A simple “please,” “thank you,” or “can you…” sets the tone. </td>
+                    <td>AI may not "feel," but polite phrasing often leads to more helpful, human-like results.</td>
+                    <td> It also builds habits that translate well into human interactions.</td>
+                    <td><blockquote>❌ “Write summary of article.” <hr>
+                        ✅ “Could you please write a summary of this article?”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="4">🧠 Respect Cognitive Limits</th>
+                </tr>
+                <tr>
+                    <td>
+                        Don’t overload your prompt with a wall of text and twenty tasks.</td>
+                    <td> Break it down and be considerate of how information is processed.</td>
+                    <td><blockquote>❌ “Explain this book, compare it to two others, summarize it in five styles, and write a poem.” <hr></blockquote></td>
+                    <td><blockquote>✅ “First, give me a brief summary of this book. Then I’ll ask for comparisons.”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="4">🤝 Give the Benefit of the Doubt</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>If the result isn't what you hoped for, don't blame the system.</td>
+                    <td>Instead, revise the prompt. Clear prompting is a shared responsibility.</td>
+                    <td><blockquote>❌ “You didn’t get it.” <hr>
+                            ✅ “That’s close, but let me clarify what I meant…”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="4">🪞 Be Kind to Yourself Too</th>
+                </tr>
+                <tr>
+                    <td>When you're the one crafting prompts, self-compassion matters. </td>
+                    <td>If your first draft isn't great, that’s normal. </td>
+                    <td>Prompting is a skill — treat yourself like someone who’s learning, not failing.</td>
+                    <td><blockquote>✅ “I’m still refining this idea. Let me try again with a clearer structure.”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="4">🗣️ In Human Collaboration</th>
+                </tr>
+                <tr>
+                    <th>Prompting isn’t just for AI. </th>
+                    <td>If you’re leading a team or guiding a conversation, </td>
+                    <td>...framing requests with clarity, respect, and kindness creates trust, openness, and better ideas.</td>
+                    <td><blockquote>“I’d love your insight on this. Could you help me brainstorm some alternatives?”</blockquote></td>
+                </tr>
+                <tr>
+                    <th colspan="2">In Short: <hr><blockquote>Clarity + Respect = Better Responses</blockquote></th>
+                    <td>Being kind isn’t about being soft — it’s about being intentional, respectful, and aware...</td>
+                    <td>...that behind every prompt, there's a processor — biological or digital — working hard to understand you.</td>
+                </tr>
+                <!-- <tr>
+                    <th></th>
+                    <td>Prompt: A snow-covered plain of iridescent moon-dust under twilight skies. Thirty-foot crystalline flowers bloom, refracting light into slow-moving rainbows. A fur-cloaked figure walks between these colossal blossoms, leaving the only footprints in untouched dust.</td>
+                    <th colspan="2"><video src="https://deepmind.google/api/blob/website/media/veo__veo-3__us_wm_veo_3_a-snow-covered-plain-of-iridescent-moon-dust-under-twilight-skie.mp4" controls></video></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <td>Prompt: A keyboard whose keys are made of different types of candy. Typing makes sweet, crunchy sounds. Audio: Crunchy, sugary typing sounds, delighted giggles.</td>
+                    <th><video src="https://deepmind.google/api/blob/website/media/veo__veo-3__us_wm_a-keyboard-whose-keys-are-made-of-different-types-of-candy-typin_1.mp4" controls></video></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th colspan="2"><video src="https://deepmind.google/api/blob/website/media/veo__veo-3__us_wm_a-african-american-classical-violinist-with-intense-focus-plays-_1.mp4" controls></video></th>
+                    <td>Prompt: A woman, classical violinist with intense focus plays a complex, rapid passage from a Vivaldi concerto in an ornate, sunlit baroque hall during a rehearsal. Their bow dances across the strings with virtuosic speed and precision. Audio: Bright, virtuosic violin playing, resonant acoustics of the hall, distant footsteps of crew, conductor's occasional soft count-in (muffled), rustling sheet music.</td>
+                </tr> -->
+                <tr>
+                    <th colspan="4"><h2>✨ Conclusion: The Prompter's Creed</h2></th>
+                </tr>
+                <tr>
+                    <td colspan="2"><p>In the age of information, the quality of your questions determines the quality of your answers. </p></td>
+                    <td colspan="2">Whether you're guiding an AI, mentoring a student, leading a team, or reflecting in your own journal, prompting is more than a technical act — it is a creative, thoughtful dialogue. </td>
+                </tr>
+                <tr>
+                    <td colspan="2">These 10 Commandments aren’t just rules — they are principles of clarity, intention, and respect.</td>
+                    <td>They remind us that prompting is a craft, one that blends logic with language, precision with imagination.</td>
+                    <td><blockquote><i>Just as a well-tuned instrument sings when touched with care, <br>
+                        so too does a good prompt unlock knowledge, insight, and innovation.</i></blockquote></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td colspan="2">
+                        <p>So go forth, prompt wisely, and remember: </p>
+                        <ul>
+                            <li><i>When you're clear, the world becomes clearer.</i> </li>           
+                            <li><i>When you're kind, your prompts connect deeper.</i></li>            
+                            <li><em>When you refine, your results improve.</em></li>
+                        </ul>
+                    </td>
+                    <td>May your words be sharp, your goals be clear, and your outcomes be extraordinary. ✍️✨</td>
+                </tr>
+            </table>
+        </section>
+        <img src="https://images.ctfassets.net/kftzwdyauwt9/3eXbOI3iv4B0MY7UTtAKFp/47ef598f2939bbb8e84cd69df551dd10/Students.jpg?w=1920&q=90&fm=webp" alt="">
+        <img src="https://images.ctfassets.net/kftzwdyauwt9/1QzaPi9PJLik8vOQ2MzDal/c35782c73586af2e70378f8b66cf02fc/Faculty.jpg?w=1920&q=90&fm=webp" alt="">
+        <img src="https://images.ctfassets.net/kftzwdyauwt9/7LC51hji0FRi4tBFmBFZe6/e436288429bd80f1db3a570376b16e85/Research.jpg?w=1920&q=90&fm=webp" alt="">
+        <img src="https://images.ctfassets.net/kftzwdyauwt9/3Ev7mI7j96QoNZzv230oh8/2651691cb1a822b1a8e2c395b1815470/Campus.jpg?w=1920&q=90&fm=webp" alt="">
+    </div>
+</body>
+</html>
+

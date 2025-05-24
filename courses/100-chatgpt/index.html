@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Applications in Industry</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        body {
+            background: #222;
+            color: white;font-family: sans-serif;
+            zoom: 2.2;
+            
+        }
+        /* section{display: flex;flex-direction: row;height: 50vh;} */
+        h1,h2,h3,h4,h5,h6{font-family: 'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;}
+        img {
+            max-width: 100%;object-fit: contain;
+        }
+        h5{color: goldenrod;}
+        table{width:98%;margin: auto;}
+        th{width: 5%;padding:0;vertical-align: bottom;min-height: 20vh;line-height: 17px;}
+        td{width:10%;padding:0;filter: blur(0);transform: rotate();}
+        td:hover{filter: blur(0);transform: rotate(2deg);}
+        tr{height: 8vh;}
+        tr:nth-of-type(odd){text-align: left;}
+        tr:nth-of-type(even){text-align: right;}
+        span{background: #000a;font-size: 8px;line-height: 4px;padding:4px}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <section>
+            <table>
+                <tr style="height: 0;">
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <th style="background: url(https://www.aviationbusinessme.com/cloud/2021/08/05/VGawwSWn-TS&S-technicians-work-on-V2500-engine-at-the-MROs-Abu-Dhabi-facilities-1200x800.jpg) 50% 50%;background-size: cover;"><span>Aerospace Engineering</span></th>
+                    <th style="background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNFxCx-x80RS5Sp3U1ueVn-AK9MRyocI0fLQ&s) 50% 50%;background-size: cover;"><span>Agriculture</span></th>
+                    <th style="background: url(https://img.freepik.com/premium-photo/elevating-farm-productivity-with-aipowered-systems_153608-59640.jpg) 50% 50%;background-size: cover;"><span>Animal Husbandry</span></th>
+                    <th style="background: url(https://www.bloopanimation.com/wp-content/uploads/2022/10/storyboard_template_bloopanimation.jpg) 50% 50%;background-size: cover;"><span>Animation</span></th>
+                    <th style="background: url(https://media.licdn.com/dms/image/v2/D4D12AQFiimb__ArHqQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1676809674743?e=2147483647&v=beta&t=RyMqPNnyG4jH7mgTxtCutr4Olan_6lwrM3r0Zo_q9gg) 50% 50%;background-size: cover;"><span>Anthropology</span></th>
+                    <td colspan="5" rowspan="5" width="50%">
+                        <div style="background: linear-gradient(45deg,#000c,#222b),url(https://go.tiffin.edu/wp-content/uploads/bs-cybersecurity-1024x614.jpeg) 50% 50%;background-size: cover;padding:130px 30px">
+                            <h3>Brewing</h3>
+                            <h5>Deliverable: Recipe Optimization Plan</h5>
+                            <p>LLM suggests ingredient ratios for a new craft beer based on flavor profiles.</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>                    
+                    <th style="background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSdp1DGxswhyEdWG2sHjeUHG7daIsIOQiUWg&s) 50% 50%;background-size: cover;"><span>Archaelogy</span></th>
+                    <th style="background: url(https://foxylabny.com/wp-content/uploads/2024/08/modern-architecture-building-bosjes-chapel-coetzee-steyn.jpg.webp) 50% 50%;background-size: cover;"><span>Architecture</span></th>
+                    <th style="background: url(https://bigthink.com/wp-content/uploads/2022/01/https___specials-images.forbesimg.com_imageserve_5f483264ece228f0ea198666_Star-trails-as-photographed-above-the-ALMA-telescope-array-_960x0.jpg) 50% 50%;background-size: cover;"><span>Astronomy</span></th>
+                    <th style="background: url(https://www.gousa.study/images/masters-in-automotive-engineering-usa.jpg) 50% 50%;background-size: cover;"><span>Automobile Manufacturing</span></th>
+                    <th style="background: url(https://files.worldwildlife.org/wwfcmsprod/images/cutting_aviation_pollution_airplane_at_sunset_shutterstock/story_full_width/2act785jsq_cutting_aviation_pollution_airplane_at_sunset_shutterstock.jpg) 50% 50%;background-size: cover;"><span>Aviation</span></th>
+                </tr>
+                <tr>
+                    <th style="background: url(https://www.idfcfirstbank.com/content/dam/idfcfirstbank/images/blog/mobile-banking/how-new-age-banking-is-transforming-the-banking-industry-717x404.jpg) 50% 50%;background-size: cover;"><span>Banking</span></th>
+                    <th style="background: url(https://prod-discovery.edx-cdn.org/media/course/image/f89afe05-5ab1-42c3-be32-bc35a471d17d-5aa8d620b486.png) 50% 50%;background-size: cover;"><span>Biomedical Engineering</span></th>
+                    <th style="background: url(https://cache.careers360.mobi/media/article_images/2024/7/24/Biotechnology-courses-after-12th.jpg) 50% 50%;background-size: cover;"><span>Biotechnology</span></th>
+                    <th style="background: url(https://vinepair.com/wp-content/uploads/2015/08/what-is-brewing-social.jpg) 50% 50%;background-size: cover;"><span>Brewing</span></th>
+                    <th style="background: url(https://cdn.prod.website-files.com/6390e14cc734a931f8327343/679c741cfd2f81997c15fb20_Featured-image.jpg) 50% 50%;background-size: cover;"><span>Carpentry</span></th>
+                </tr>
+                <tr>
+                    <th style="background: url(https://ccs-map.eu/wp-content/uploads/2024/02/pasted-image-0-25-1024x683.jpg) 50% 50%;background-size: cover;"><span>Climate Science</span></th>
+                    <th style="background: url(https://columbiaassociation.org/wp-content/uploads/coEmptyBowlsBClr-e1731980420940.jpg) 50% 50%;background-size: cover;"><span>Ceramics</span></th>
+                    <th style="background: url(https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1039704750ChemicalEngineer.jpg=ws1280x960) 50% 50%;background-size: cover;"><span>Chemical Engineering</span></th>
+                    <th style="background: url(https://childcare.gov/sites/default/files/inline-images/Picture6.jpg) 50% 50%;background-size: cover;"><span>Childcare</span></th>
+                    <th style="background: url(https://em6sqi3i3t5.exactdn.com/wp-content/uploads/2023/11/civil-eng-undergrad-banner.jpg) 50% 50%;background-size: cover;"><span>Civil Engineering</span></th>
+                </tr>
+                <tr>
+                    <th style="background: url(https://www.universityofcalifornia.edu/sites/default/files/styles/article_default_banner/public/climate-map-merced.jpg?h=1052097b&itok=awCIS887) 50% 50%;background-size: cover;"><span>Cartography</span></th>
+                    <th style="background: url(https://www.infra.ratepersqft.com/wp-content/uploads/2025/01/types-of-construction-workers%E2%80%8B.webp) 50% 50%;background-size: cover;"><span>Construction</span></th>
+                    <th style="background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1PsVznEU_1niE8GZk1g9R6Uqi5IWmg9BWyA&s) 50% 50%;background-size: cover;"><span>Cosmetology</span></th>
+                    <th style="background: url(https://www.ecoleducasse.com/application/files/9516/5340/5679/culinary_skills.jpg) 50% 50%;background-size: cover;"><span>CulinaryArts</span></th>
+                    <th style="background: url(https://go.tiffin.edu/wp-content/uploads/bs-cybersecurity-1024x614.jpeg) 50% 50%;background-size: cover;" title="Cybersecurity"><span>Cybersecurity</span></th>
+                </tr>
+                <!-- <tr>
+                    <th colspan="5" rowspan="5"></th>
+                    <th style="background: url(https://ccs-map.eu/wp-content/uploads/2024/02/pasted-image-0-25-1024x683.jpg) 50% 50%;background-size: cover;"></th>
+                    <th style="background: url(https://columbiaassociation.org/wp-content/uploads/coEmptyBowlsBClr-e1731980420940.jpg) 50% 50%;background-size: cover;">.</th>`
+                    <th style="background: url(https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1039704750ChemicalEngineer.jpg=ws1280x960) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url() 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url() 50% 50%;background-size: cover;">.</th>
+                </tr>
+                <tr>
+                    <th style="background: url(https://www.idfcfirstbank.com/content/dam/idfcfirstbank/images/blog/mobile-banking/how-new-age-banking-is-transforming-the-banking-industry-717x404.jpg) 50% 50%;background-size: cover;"></th>
+                    <th style="background: url(https://prod-discovery.edx-cdn.org/media/course/image/f89afe05-5ab1-42c3-be32-bc35a471d17d-5aa8d620b486.png) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url(https://cache.careers360.mobi/media/article_images/2024/7/24/Biotechnology-courses-after-12th.jpg) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url(https://vinepair.com/wp-content/uploads/2015/08/what-is-brewing-social.jpg) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url(https://cdn.prod.website-files.com/6390e14cc734a931f8327343/679c741cfd2f81997c15fb20_Featured-image.jpg) 50% 50%;background-size: cover;">.</th>
+                </tr><tr>
+                    <th style="background: url(https://ccs-map.eu/wp-content/uploads/2024/02/pasted-image-0-25-1024x683.jpg) 50% 50%;background-size: cover;"><br><br><br></th>
+                    <th style="background: url(https://columbiaassociation.org/wp-content/uploads/coEmptyBowlsBClr-e1731980420940.jpg) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url(https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1039704750ChemicalEngineer.jpg=ws1280x960) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url() 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url() 50% 50%;background-size: cover;">.</th>
+                </tr>
+                <tr>
+                    <th style="background: url(https://www.idfcfirstbank.com/content/dam/idfcfirstbank/images/blog/mobile-banking/how-new-age-banking-is-transforming-the-banking-industry-717x404.jpg) 50% 50%;background-size: cover;"><br><br><br></th>
+                    <th style="background: url(https://prod-discovery.edx-cdn.org/media/course/image/f89afe05-5ab1-42c3-be32-bc35a471d17d-5aa8d620b486.png) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url(https://cache.careers360.mobi/media/article_images/2024/7/24/Biotechnology-courses-after-12th.jpg) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url(https://vinepair.com/wp-content/uploads/2015/08/what-is-brewing-social.jpg) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url(https://cdn.prod.website-files.com/6390e14cc734a931f8327343/679c741cfd2f81997c15fb20_Featured-image.jpg) 50% 50%;background-size: cover;">.</th>
+                </tr><tr>
+                    <th style="background: url(https://ccs-map.eu/wp-content/uploads/2024/02/pasted-image-0-25-1024x683.jpg) 50% 50%;background-size: cover;"><br><br><br></th>
+                    <th style="background: url(https://columbiaassociation.org/wp-content/uploads/coEmptyBowlsBClr-e1731980420940.jpg) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url(https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1039704750ChemicalEngineer.jpg=ws1280x960) 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url() 50% 50%;background-size: cover;">.</th>
+                    <th style="background: url() 50% 50%;background-size: cover;">.</th>
+                </tr> -->
+            </table>
+            <!-- <table>
+                <tr>
+                    <th></th><th></th><th></th><th></th><th></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><h3>1. Aerospace Engineering</h3><img src="https://www.aviationbusinessme.com/cloud/2021/08/05/VGawwSWn-TS&S-technicians-work-on-V2500-engine-at-the-MROs-Abu-Dhabi-facilities-1200x800.jpg" alt=""></th>
+                    <th></th>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Technical Report on Satellite Design</h5>
+                        <p>LLM drafts a report summarizing satellite component specifications and performance metrics, using provided technical data.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Crop Yield Analysis Report</h5>
+                        <p>LLM analyzes soil and weather data to generate a report forecasting crop yields and recommending planting strategies.</p>
+                    </td>
+                    <th></th>
+                    <th colspan="2"><h3>Agriculture</h3><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNFxCx-x80RS5Sp3U1ueVn-AK9MRyocI0fLQ&s" alt=""></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><h3>Animal Husbandry</h3><img src="https://img.freepik.com/premium-photo/elevating-farm-productivity-with-aipowered-systems_153608-59640.jpg" alt=""></th>
+                    <th></th>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Livestock Health Plan</h5>
+                        <p>LLM creates a schedule for vaccinations and feed optimization based on animal health data.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Storyboard Script</h5>
+                        <p>LLM generates a script for an animated short, including character dialogue and scene descriptions.</p>
+                    </td>
+                    <th></th>
+                    <th colspan="2"><h3>Animation</h3><img src="https://www.bloopanimation.com/wp-content/uploads/2022/10/storyboard_template_bloopanimation.jpg" alt=""></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><h3>Anthropology</h3><img src="https://media.licdn.com/dms/image/v2/D4D12AQFiimb__ArHqQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1676809674743?e=2147483647&v=beta&t=RyMqPNnyG4jH7mgTxtCutr4Olan_6lwrM3r0Zo_q9gg" alt=""></th>
+                    <th></th>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Cultural Study Summary</h5>
+                        <p>LLM summarizes field notes from an ethnographic study, highlighting key cultural practices.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="5"></th>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Excavation Report</h5>
+                        <p>LLM compiles a report detailing artifacts found, site conditions, and historical significance.</p>
+                    </td>
+                    <th></th>
+                    <th colspan="2"><h3>6. Archaeology</h3><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSdp1DGxswhyEdWG2sHjeUHG7daIsIOQiUWg&s" alt=""></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><h3>Architecture</h3><img src="https://foxylabny.com/wp-content/uploads/2024/08/modern-architecture-building-bosjes-chapel-coetzee-steyn.jpg.webp" alt=""></th>
+                    <th></th>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Project Proposal</h5>
+                        <p>LLM drafts a proposal for a sustainable building design, including cost estimates and eco-friendly features.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Python Script for Star Data Analysis</h5>
+                        <p>LLM writes a script to analyze stellar spectra and classify stars by type.</p>
+                    </td>
+                    <th></th>
+                    <th colspan="2"><h3>Astrophysics</h3><img src="https://bigthink.com/wp-content/uploads/2022/01/https___specials-images.forbesimg.com_imageserve_5f483264ece228f0ea198666_Star-trails-as-photographed-above-the-ALMA-telescope-array-_960x0.jpg" alt=""></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><h3>Automotive Manufacturing</h3><img src="https://www.gousa.study/images/masters-in-automotive-engineering-usa.jpg" alt=""></th>
+                    <th></th>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Quality Control Report</h5>
+                        <p>LLM summarizes vehicle defect data and suggests manufacturing process improvements.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Flight Safety Checklist</h5>
+                        <p>LLM creates a standardized checklist for pre-flight inspections based on regulatory guidelines.</p>
+                    </td>
+                    <th></th>
+                    <th colspan="2"><h3>Aviation</h3><img src="https://files.worldwildlife.org/wwfcmsprod/images/cutting_aviation_pollution_airplane_at_sunset_shutterstock/story_full_width/2act785jsq_cutting_aviation_pollution_airplane_at_sunset_shutterstock.jpg" alt=""></th>
+                </tr>
+                <tr><th colspan="5"></th></tr>
+                <tr>
+                    <th colspan="2"><h3>11. Banking</h3><img src="https://www.idfcfirstbank.com/content/dam/idfcfirstbank/images/blog/mobile-banking/how-new-age-banking-is-transforming-the-banking-industry-717x404.jpg" alt=""></th>
+                    <th></th>
+                    <td colspan="2">
+                        
+                        <h5>Deliverable: Risk Assessment Report</h5>
+                        <p>LLM evaluates loan portfolio risks and generates a report with mitigation strategies.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h5>Deliverable: Prosthetic Design Specification</h5>
+                        <p>LLM drafts a technical spec for a prosthetic limb, incorporating biomechanical data.</p>
+                    </td>
+                    <th></th>
+                    <th colspan="2"><h3>Biomedical Engineering</h3><img src="https://prod-discovery.edx-cdn.org/media/course/image/f89afe05-5ab1-42c3-be32-bc35a471d17d-5aa8d620b486.png" alt=""></th>
+                </tr>
+                <tr>
+                    <th colspan="2"><h3>Biotechnology</h3><img src="https://cache.careers360.mobi/media/article_images/2024/7/24/Biotechnology-courses-after-12th.jpg" alt=""></th>
+                    <th></th>
+                    <td colspan="2">
+                        <h5>Deliverable: Lab Experiment Protocol</h5>
+                        <p>LLM outlines steps for a gene-editing experiment, ensuring compliance with safety standards.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h5>Deliverable: Recipe Optimization Plan</h5>
+                        <p>LLM suggests ingredient ratios for a new craft beer based on flavor profiles.</p>
+                    </td>
+                    <th></th>
+                    <th colspan="2"><h3>Brewing</h3><img src="https://vinepair.com/wp-content/uploads/2015/08/what-is-brewing-social.jpg" alt=""></th>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h5></h5>
+                        <p></p>
+                    </td>
+                    <th>
+                    <th colspan="2"><h3>Carpentry</h3><img src="https://cdn.prod.website-files.com/6390e14cc734a931f8327343/679c741cfd2f81997c15fb20_Featured-image.jpg" alt=""></th></th>
+                </tr>
+                <tr>
+                    <th><h3>Cartgography</h3><img src="https://ccs-map.eu/wp-content/uploads/2024/02/pasted-image-0-25-1024x683.jpg" alt=""></th>
+                    <td colspan="2">
+                        <h5></h5>
+                        <p></p>
+                    </td>
+                    <th colspan="2"></th>
+                </tr>
+                <tr>
+                    <th><h3>Ceramics</h3><img src="https://columbiaassociation.org/wp-content/uploads/coEmptyBowlsBClr-e1731980420940.jpg" alt=""></th>
+                </tr>
+                <tr>
+                    <th><h3>Chemical Engineering</h3><img src="https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/1039704750ChemicalEngineer.jpg=ws1280x960" alt=""></th>
+                </tr>
+                <tr>
+                    <th><h3>Childcare</h3><img src="https://childcare.gov/sites/default/files/inline-images/Picture6.jpg" alt=""></th>
+                </tr>
+                <tr>
+                    <th><h3>Civil Engineering</h3><img src="https://em6sqi3i3t5.exactdn.com/wp-content/uploads/2023/11/civil-eng-undergrad-banner.jpg" alt=""></th>
+                </tr>
+                <tr>
+                    <th><h3>Climate Science</h3><img src="https://www.universityofcalifornia.edu/sites/default/files/styles/article_default_banner/public/climate-map-merced.jpg?h=1052097b&itok=awCIS887" alt=""></th>
+                </tr>
+            </table> -->
+        </section>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ultimate ChatGPT Cheat Sheet</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f4f8;
+      color: #333;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      color: #4b2dab;
+    }
+    .section {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+    .section:hover {
+      transform: scale(1.01);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    ul, ol {
+      padding-left: 20px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.95em;
+      color: #666;
+    }
+    a {
+      color: #4b2dab;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    canvas {
+      max-width: 100%;
+    }
+    img.icon {
+      width: 40px;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><img class="icon" src="https://img.icons8.com/color/48/chatgpt.png" alt="ChatGPT Icon"> Ultimate ChatGPT Cheat Sheet</h1>
+
+    <div class="section">
+      <h2>Perfect Prompt Structure</h2>
+      <canvas id="promptChart" width="300" height="300"></canvas>
+      <p>
+        <strong>10%</strong> Warnings to follow<br>
+        <strong>20%</strong> Goal<br>
+        <strong>30%</strong> Result format<br>
+        <strong>40%</strong> Context Dump
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>Prompt Structure Breakdown</h2>
+      <ol>
+        <li><strong>Goal:</strong> The main objective or purpose of the prompt.</li>
+        <li><strong>Result Format:</strong> Output formatting like code blocks, tables, lists.</li>
+        <li><strong>Warnings/Cautions:</strong> Constraints to ensure accuracy, tone, bias, ethics, or factual reliability.</li>
+        <li><strong>Context Dump:</strong> Background info to make the prompt clear and useful.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h2>Features</h2>
+      <ol>
+        <li>GPTs: Create custom versions of ChatGPT that combine instructions, extra knowledge, and any combination of skills.</li>
+        <li>Custom Instructions: Customize ChatGPT’s output settings as per your preferences.</li>
+        <li>Real-Time Research: Deep research mode for verified, cited answers.</li>
+        <li>Canva: Enables interactive document and code editing in real-time.</li>
+        <li>Smart AI model that generates realistic voices from text prompts.</li>
+        <li>DALL-E 3: Generates high-quality AI images from text prompts.</li>
+        <li>Projects: Group files and chats for personal use.</li>
+        <li>Voice: You can converse via voice output.</li>
+        <li>Tasks: Run automated prompts & proactively reach out to you on scheduled basis.</li>
+        <li>Multi-Format Output: Generate tables, code blocks, and structured articles.</li>
+        <li>API Integration: Deploy models like 03-mini in custom applications.</li>
+        <li>Multi-format Input: You can use text, files & images in your prompts.</li>
+        <li>Role-Based Inputs: Simulate experts (e.g. marketers, teachers).</li>
+        <li>Analysis: Analyze data, documents, trends, etc.</li>
+        <li>Search: Enhance response with real time data.</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h2>Prompting Techniques</h2>
+      <ol>
+        <li><strong>Be Specific and Clear:</strong> Provide detailed instructions. Instead of "Tell me about dogs," say "Give me a summary of the 5 most popular dog breeds in the US in 2023, including their sizes and temperaments."</li>
+        <li><strong>Use Role or Context:</strong> Frame the situation. E.g., "I'm the social media strategist for a startup. What are trending ideas for our campaign?"</li>
+        <li><strong>Ask for Step-by-Step Explanations:</strong> E.g., "Explain how to bake a sourdough loaf step by step for a beginner."</li>
+        <li><strong>Summarize:</strong> Ask it to condense long text: "Summarize this article in 3 points."</li>
+        <li><strong>Break Complex Questions into Parts:</strong> Use "First, Second, Third" structure.</li>
+        <li><strong>Use Examples or Analogies:</strong> E.g., "Act as a teacher and explain climate change using a simple analogy."</li>
+        <li><strong>Ask for Lists or Tables:</strong> E.g., "Give me a table of pros and cons for electric vs gas cars."</li>
+        <li><strong>Compare Multiple Options:</strong> E.g., "Compare the environmental impact of three types of reusable water bottles."</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h2>Prompting Frameworks</h2>
+      <ul>
+        <li><strong>ERA</strong> (Expectation, Role, Action)</li>
+        <li><strong>APEX</strong> (Action, Purpose, Expectation)</li>
+        <li><strong>RAISE</strong> (Role, Action, Information, Style, Expectation)</li>
+        <li><strong>CRAFT</strong> (Context, Role, Action, Format, Tone)</li>
+        <li><strong>SOFT</strong> (Structure, Objective, Format, Tone)</li>
+        <li><strong>CRISP</strong> (Context, Role, Intent, Specifics, Persona)</li>
+        <li><strong>FIRE</strong> (Format, Instruction, Role, Example)</li>
+        <li><strong>DARE</strong> (Describe, Action, Role, Example)</li>
+        <li><strong>RISE</strong> (Role, Input, Steps, Example)</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Key Terms</h2>
+      <ul>
+        <li><strong>Deliberate Alignment:</strong> Step-by-step chain-of-thought prompting to reduce hallucinated output.</li>
+        <li><strong>Top-p (Nucleus Sampling):</strong> Limits taken selection to a probability threshold.</li>
+        <li><strong>Temperature:</strong> Controls output randomness. 0 = more consistent & repeatable, 1 = more creative.</li>
+        <li><strong>Chain-of-Thought:</strong> Explicit step-by-step reasoning.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      Subscribe to Mindstream to learn AI for free → <a href="https://www.mindstream.news" target="_blank">mindstream.news</a>
+    </div>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('promptChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Warnings', 'Goal', 'Result Format', 'Context Dump'],
+        datasets: [{
+          data: [10, 20, 30, 40],
+          backgroundColor: [
+            '#f94144',
+            '#f3722c',
+            '#43aa8b',
+            '#577590'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          title: {
+            display: true,
+            text: 'Perfect Prompt Structure'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

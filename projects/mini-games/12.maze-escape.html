@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maze Escape Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+    }
+
+    .game-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    canvas {
+      background: #222;
+      border: 4px solid #4a90e2;
+      margin-top: 20px;
+    }
+
+    #startBtn {
+      padding: 10px 20px;
+      font-size: 18px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #startBtn:hover {
+      background: #388e3c;
+    }
+
+    #hud {
+      margin: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧩 Maze Escape Game</h1>
+  <div class="game-wrapper">
+    <div id="hud">Time: <span id="timer">0</span> seconds | Moves: <span id="moves">0</span></div>
+    <button id="startBtn">Start Game</button>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+  </div>
+  <audio id="winSound" src="https://cdn.pixabay.com/audio/2021/08/04/audio_b5e23eb4e5.mp3"></audio>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const startBtn = document.getElementById("startBtn");
+    const timerEl = document.getElementById("timer");
+    const movesEl = document.getElementById("moves");
+    const winSound = document.getElementById("winSound");
+
+    let cols = 10;
+    let rows = 10;
+    let level = 1;
+    let cellSize;
+    let maze = [];
+    let stack = [];
+
+    let player = null;
+    let end = null;
+    let gameStarted = false;
+    let moves = 0;
+    let timer = 0;
+    let timerInterval;
+    let needsRedraw = true;
+
+    class Cell {
+      constructor(i, j) {
+        this.i = i;
+        this.j = j;
+        this.walls = [true, true, true, true];
+        this.visited = false;
+      }
+
+      show() {
+        const x = this.i * cellSize;
+        const y = this.j * cellSize;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        if (this.walls[0]) drawLine(x, y, x + cellSize, y);
+        if (this.walls[1]) drawLine(x + cellSize, y, x + cellSize, y + cellSize);
+        if (this.walls[2]) drawLine(x + cellSize, y + cellSize, x, y + cellSize);
+        if (this.walls[3]) drawLine(x, y + cellSize, x, y);
+      }
+
+      checkNeighbors() {
+        const neighbors = [];
+        const top = maze[index(this.i, this.j - 1)];
+        const right = maze[index(this.i + 1, this.j)];
+        const bottom = maze[index(this.i, this.j + 1)];
+        const left = maze[index(this.i - 1, this.j)];
+
+        if (top && !top.visited) neighbors.push(top);
+        if (right && !right.visited) neighbors.push(right);
+        if (bottom && !bottom.visited) neighbors.push(bottom);
+        if (left && !left.visited) neighbors.push(left);
+
+        if (neighbors.length > 0) {
+          return neighbors[Math.floor(Math.random() * neighbors.length)];
+        } else {
+          return undefined;
+        }
+      }
+    }
+
+    function index(i, j) {
+      if (i < 0 || j < 0 || i >= cols || j >= rows) return -1;
+      return i + j * cols;
+    }
+
+    function drawLine(x1, y1, x2, y2) {
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+    }
+
+    function removeWalls(a, b) {
+      const x = a.i - b.i;
+      const y = a.j - b.j;
+
+      if (x === 1) { a.walls[3] = false; b.walls[1] = false; }
+      else if (x === -1) { a.walls[1] = false; b.walls[3] = false; }
+      if (y === 1) { a.walls[0] = false; b.walls[2] = false; }
+      else if (y === -1) { a.walls[2] = false; b.walls[0] = false; }
+    }
+
+    function generateMaze() {
+      cellSize = canvas.width / cols;
+      maze = [];
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          maze.push(new Cell(i, j));
+        }
+      }
+      let current = maze[0];
+      current.visited = true;
+      stack = [current];
+
+      while (stack.length > 0) {
+        const next = current.checkNeighbors();
+        if (next) {
+          next.visited = true;
+          stack.push(current);
+          removeWalls(current, next);
+          current = next;
+        } else {
+          current = stack.pop();
+        }
+      }
+    }
+
+    function drawMaze() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      maze.forEach(cell => cell.show());
+      if (player && end) {
+        ctx.fillStyle = "lime";
+        ctx.fillRect(player.x * cellSize + 5, player.y * cellSize + 5, cellSize - 10, cellSize - 10);
+        ctx.fillStyle = "gold";
+        ctx.fillRect(end.x * cellSize + 5, end.y * cellSize + 5, cellSize - 10, cellSize - 10);
+      }
+    }
+
+    function gameLoop() {
+      if (needsRedraw) {
+        drawMaze();
+        needsRedraw = false;
+      }
+      requestAnimationFrame(gameLoop);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (!gameStarted || !player || !end) return;
+      const i = player.x;
+      const j = player.y;
+      const cell = maze[index(i, j)];
+      let moved = false;
+
+      if (e.key === "ArrowUp" && !cell.walls[0] && player.y > 0) { player.y--; moved = true; }
+      if (e.key === "ArrowRight" && !cell.walls[1] && player.x < cols - 1) { player.x++; moved = true; }
+      if (e.key === "ArrowDown" && !cell.walls[2] && player.y < rows - 1) { player.y++; moved = true; }
+      if (e.key === "ArrowLeft" && !cell.walls[3] && player.x > 0) { player.x--; moved = true; }
+
+      if (moved) {
+        moves++;
+        movesEl.textContent = moves;
+        needsRedraw = true;
+      }
+
+      if (player.x === end.x && player.y === end.y) {
+        clearInterval(timerInterval);
+        winSound.play();
+        setTimeout(() => {
+          alert(`🎉 Level ${level} complete in ${timer} seconds and ${moves} moves!`);
+          level++;
+          rows += 2;
+          cols += 2;
+          player = { x: 0, y: 0 };
+          end = { x: cols - 1, y: rows - 1 };
+          moves = 0;
+          timer = 0;
+          movesEl.textContent = moves;
+          timerEl.textContent = timer;
+          generateMaze();
+          needsRedraw = true;
+          clearInterval(timerInterval);
+          timerInterval = setInterval(() => {
+            timer++;
+            timerEl.textContent = timer;
+          }, 1000);
+        }, 10);
+      }
+    });
+
+    startBtn.addEventListener("click", () => {
+      level = 1;
+      cols = 10;
+      rows = 10;
+      player = { x: 0, y: 0 };
+      end = { x: cols - 1, y: rows - 1 };
+      moves = 0;
+      timer = 0;
+      timerEl.textContent = timer;
+      movesEl.textContent = moves;
+      gameStarted = true;
+      generateMaze();
+      needsRedraw = true;
+      startBtn.style.display = "none";
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timer++;
+        timerEl.textContent = timer;
+      }, 1000);
+    });
+
+    gameLoop();
+  </script>
+</body>
+</html>
