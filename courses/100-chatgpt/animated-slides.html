@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>20 Animated Slides</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #111;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 6px;
+      background: #00ffcc;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .slide {
+      display: none;
+      font-size: 2em;
+      padding: 40px;
+      text-align: center;
+      width: 80%;
+      max-width: 800px;
+      background: #222;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    .show {
+      display: block;
+    }
+
+    /* Animations */
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    @keyframes slideInLeft { from {transform: translateX(-100%);} to {transform: translateX(0);} }
+    @keyframes slideInRight { from {transform: translateX(100%);} to {transform: translateX(0);} }
+    @keyframes zoomIn { from {transform: scale(0);} to {transform: scale(1);} }
+    @keyframes rotateIn { from {transform: rotate(-180deg); opacity: 0;} to {transform: rotate(0); opacity: 1;} }
+    @keyframes bounceIn { 0% {transform: scale(0.3);} 50% {transform: scale(1.05);} 70% {transform: scale(0.9);} 100% {transform: scale(1);} }
+    @keyframes flipIn { from {transform: rotateY(180deg); opacity: 0;} to {transform: rotateY(0); opacity: 1;} }
+    @keyframes dropIn { from {transform: translateY(-200%);} to {transform: translateY(0);} }
+    @keyframes swingIn { 0% {transform: rotate(15deg);} 50% {transform: rotate(-15deg);} 100% {transform: rotate(0);} }
+    @keyframes growIn { from {transform: scaleY(0);} to {transform: scaleY(1);} }
+
+    .fadeIn { animation: fadeIn 1s ease; }
+    .slideLeft { animation: slideInLeft 1s ease; }
+    .slideRight { animation: slideInRight 1s ease; }
+    .zoomIn { animation: zoomIn 1s ease; }
+    .rotateIn { animation: rotateIn 1s ease; }
+    .bounceIn { animation: bounceIn 1s ease; }
+    .flipIn { animation: flipIn 1s ease; }
+    .dropIn { animation: dropIn 1s ease; }
+    .swingIn { animation: swingIn 1s ease; }
+    .growIn { animation: growIn 1s ease; }
+  </style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div id="slides-container">
+  <!-- 20 slides -->
+  <div class="slide"><h1 id="com1">Thou Shalt Be Clear and Specific</h1></div>
+  <div class="slide">
+    <h2>🧭 Why It Matters</h2><p>Being vague leads to unpredictable results.</p>
+  </div>
+  <div class="slide">
+    <td>AI (and even humans) thrive on clarity. </td>
+  </div>
+  <div class="slide">
+    <td>If you say "Tell me about history," <hr> you could get a response about anything from ancient Egypt to World War II. </td>
+  </div>
+  <div class="slide">
+    <p>But if you say<br> "Give me a brief overview <br>of the causes of World War I,"<br> the scope is crystal clear — 
+                <br>and so is the response.</p>
+  </div>
+  <div class="slide">Slide 3: Each slide is unique.</div>
+  <div class="slide">Slide 4: HTML, CSS, and JS powered.</div>
+  <div class="slide">Slide 5: Fast and light animations.</div>
+  <div class="slide">Slide 6: Responsive and elegant.</div>
+  <!-- <div class="slide">Slide 7: Make your story engaging.</div>
+  <div class="slide">Slide 8: Add custom styles easily.</div>
+  <div class="slide">Slide 9: Tweak transitions as you like.</div>
+  <div class="slide">Slide 10: Hook users with visuals.</div>
+  <div class="slide">Slide 11: This is pure frontend fun.</div>
+  <div class="slide">Slide 12: No libraries needed.</div>
+  <div class="slide">Slide 13: Customize for your project.</div>
+  <div class="slide">Slide 14: Slide animations rule!</div> -->
+  <div class="slide">Slide 15: Keep it interactive.</div>
+  <!-- <div class="slide">Slide 16: Guide the user experience.</div>
+  <div class="slide">Slide 17: Easy to expand.</div>
+  <div class="slide">Slide 18: Fun to build!</div>
+  <div class="slide">Slide 19: Reuse components.</div>
+  <div class="slide">Slide 20: The end. Thank you!</div> -->
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const progressBar = document.getElementById('progress');
+  const animations = [
+    'fadeIn', 'slideLeft', 'slideRight', 'zoomIn', 'rotateIn',
+    'bounceIn', 'flipIn', 'dropIn', 'swingIn', 'growIn',
+    'fadeIn', 'slideLeft', 'slideRight', 'zoomIn', 'rotateIn',
+    'bounceIn', 'flipIn', 'dropIn', 'swingIn', 'growIn'
+  ];
+
+  let currentSlide = 0;
+
+  function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove('show'));
+    const slide = slides[index];
+    slide.className = 'slide show';
+    void slide.offsetWidth; // restart animation
+    slide.classList.add(animations[index % animations.length]);
+    updateProgress(index);
+  }
+
+  function updateProgress(index) {
+    const percent = ((index + 1) / slides.length) * 100;
+    progressBar.style.width = percent + '%';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    } else if (e.key === 'ArrowLeft') {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+  });
+
+  // Initialize first slide
+  showSlide(currentSlide);
+</script>
+
+</body>
+</html>
