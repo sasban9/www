@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hourly Alarm Clock</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #222;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    h1 {
+      font-size: 4rem;
+      margin: 0;
+    }
+    p {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="clock">--:--:--</h1>
+  <p>Rings loudly every hour</p>
+
+  <audio id="alarm" src="https://www.soundjay.com/buttons/sounds/button-10.mp3" preload="auto"></audio>
+
+  <script>
+    const clockEl = document.getElementById('clock');
+    const alarmAudio = document.getElementById('alarm');
+
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      clockEl.textContent = `${h}:${m}:${s}`;
+
+      if (m === '00' && s === '00') {
+        alarmAudio.currentTime = 0;
+        alarmAudio.play().catch(err => {
+          console.error('Playback error:', err);
+        });
+      }
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // Initial call
+  </script>
+</body>
+</html>

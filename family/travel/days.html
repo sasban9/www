@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Days spent</title>
     <style>
-        table{width: 100%;text-align: center;}
-        th{font-family: monospace;}
+        *{margin: 0;padding: 0;box-sizing: border-box;font-family: sans-serif;}
+        table{height: 80vw;text-align: center;}
+        th{font-family: monospace;transform: rotate(45deg);word-break: keep-all;}
+        td{background-color: #ddd;width: 4%;}
+        td h1{font-style: italic;}
         td>div{background-color: green;height: 10px;}
-        tr td:nth-of-type(2){background-color: skyblue;}
-        tr td:nth-of-type(3){background-color: hotpink;}
+        tr th:last-child{display: none;}
+        /* tr td:nth-of-type(2){background-color: skyblue;}
+        tr td:nth-of-type(3){background-color: hotpink;} */
     </style>
 </head>
 <body>
-    <table>
+    <table style="transform: rotate(-90deg) translateY(30vh);width: 100vh;">
         <!-- <tr>
             <th>2017-02-24</th><th>2017-03-02</th><td><div style="width: 30px;"></div>CCU</td><td>6 days</td>
         </tr>
@@ -21,32 +25,136 @@
             <th>2017-06-14</th><th>2017-12-10</th><td><div style="width: 900px;"></div>BLR</td><td>179days</td>
         </tr> -->
         <tr>
-            <th></th><td></td><td><img src="/sasban.jpg" height="100" alt=""></td><td><img src="/basab.jpg" height="100" alt=""></td>
+            <th>2025-05-30</th><th>-</th><td>Kolkata</td>
+            <td colspan="2" style="background-color: skyblue;">14 days</td><td></td><td></td><td>5</td>
+            <td></td><td></td><td></td><td></td><td>10</td>
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td>20</td><th>Kolkata</th>
         </tr>
         <tr>
-            <th>2017-02-24</th><td>CCU</td><td>3d</td>
+            <th></th>
         </tr>
         <tr>
-            <th>2017-02-27</th><td>IXS</td><td>3d</td>
+            <th>2024-12-25</th><th>2025-05-29</th><td>Silchar</td><td colspan="20" style="background-color: hotpink;"><h1>HNY 2025</h1>155 days</td><th>Silchar</th>
         </tr>
         <tr>
-            <th>2017-03-02</th><td>CCU</td><td>90d</td><td>6d</td><td>CCU</td><th>2017-03-02</th>
+            <th>2024-10-16</th><th>2024-12-25</th><td>BLR</td><td colspan="10" style="background-color: yellowgreen;">70 <br>days</td><td></td><td></td><td></td><td></td><td>15</td><td></td><td></td><td></td><td></td><td></td><th>BLR</th>
         </tr>
         <tr>
-            <th>2017-05-31</th><td>IXS</td><td>6d</td><td>90d</td><td>IXS</td><th>2017-05-31</th>
+            <th>2024-10-07</th><th>2024-10-16</th><td>Delhi</td><td colspan="2" style="background-color: yellow;">9 days</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><th>Delhi</th>
         </tr>
         <tr>
-            <th>2017-06-06</th><td>CCU</td><td>8d</td><td></td><td></td><th></th>
+            <th>2024-09-28</th><th>2024-10-07</th><td>LEH</td><td colspan="2" style="background-color: yellow;"><h2>LEH</h2> 9 days</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><th>LEH</th>
         </tr>
         <tr>
-            <th>2017-06-14</th><td>BLR</td><td>179d</td><td></td><td></td><th></th>
+            <th>2024-09-22</th><th>2024-09-28</th><td>BLR</td>
+            <td style="background-color: yellowgreen;">6 days</td><td></td><td></td><td></td><td>5</td>
+            <td></td><td></td><td></td><td></td><td>10</td>
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td>20</td><th>BLR</th>
         </tr>
         <tr>
-            <th></th><td></td><td></td><td>60d</td><td>IXS</td><th>2017-12-10</th>
+            <th>2024-09-17</th><th>2024-09-22</th><td>GOA</td>
+            <td style="background-color: yellow;"><h2>GOA</h2> 5 days</td><td></td><td></td><td></td><td>5</td>
+            <td></td><td></td><td></td><td></td><td>10</td>
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td>20</td><th>GOA</th>
         </tr>
         <tr>
-            <th></th><td></td><td></td><td>60d</td><td>BLR</td><th>2018-02-08</th>
+            <th>2024-08-07</th><th>2024-09-17</th><td>BLR</td><td colspan="6" style="background-color: yellowgreen;">41 days<br>[Kitu visit 03SEP - 08SEP]</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><th>BLR</th>
+        </tr>
+        <tr>
+            <th>2024-07-21</th><th>2024-08-07</th><td>Kolkata</td>
+            <td style="background-color: skyblue;" colspan="3">17 days</td><td></td><td>5</td>
+            <td></td><td></td><td></td><td></td><td>10</td>
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td></td><th>Kolkata</th>
+        </tr>
+        <tr>
+            <th>2024-05-13</th><th>2024-07-21</th><td>BLR</td><td colspan="10" style="background-color: yellowgreen;">69<br> days</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><th>BLR</th>
+        </tr>
+        <tr>
+            <th>2024-05-02</th><th>2024-05-13</th><td>Kolkata</td>
+            <td style="background-color: skyblue;" colspan="2">11 days</td><td></td><td></td><td>5</td>
+            <td></td><td></td><td></td><td></td><td>10</td>
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td>20</td><th>Kolkata</th>
+        </tr>
+        <tr>
+            <th>2024-04-02</th><th>2024-05-02</th><td>BLR</td><td colspan="5" style="background-color: yellowgreen;">30 days</td><td colspan="5"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><th>BLR</th>
+        </tr>
+        <tr>
+            <th>2024-03-23</th><th>2024-04-02</th><td>Dubai</td>
+            <td style="background-color: goldenrod;" colspan="2"><h2>DUBAI</h2> 10 days</td><td></td><td></td><td>5</td>
+            <td></td><td></td><td></td><td></td><td>10</td>
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td></td><th>Dubai</th>
+        </tr>
+        <tr>
+            <th>2023-12-29</th><th>2024-03-23</th><td>BLR</td><td colspan="12" style="background-color: yellowgreen;"> 85 days</td><td colspan="8"><h1>HNY 2024</h1></td><th>BLR</th>
+        </tr>
+        <tr>
+            <th>2023-12-25</th><th>2023-12-29</th><td>Delhi</td><td style="background-color: yellow;">4 days</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>20</td><th>Delhi</th>
+        </tr>
+        <tr>
+            <th>2023-12-02</th><th>2023-12-25</th><td>BLR</td><td colspan="4" style="background-color: yellowgreen;">23 days</td><td colspan="6"></td><td></td><td></td><td></td><td></td><td>15</td><td></td><td></td><td></td><td></td><td></td><th>BLR</th>
+        </tr>
+        <tr>
+            <th>2023-11-25</th><th>2023-12-02</th><td>Goa</td><td style="background-color: yellow;"><h2>GOA</h2>7 days</td><td colspan="9"></td><td></td><td></td><td></td><td></td><td>15</td><td></td><td></td><td></td><td></td><td></td><th>Goa</th>
+        </tr>
+        <tr>
+            <th>2023-11-06</th><th>2023-11-25</th><td>BLR</td><td colspan="3" style="background-color: yellowgreen;">19 days</td><td colspan="7"></td><td></td><td></td><td></td><td></td><td>15</td><td></td><td></td><td></td><td></td><td></td><th>BLR</th>
+        </tr>
+        <tr>
+            <th>2023-10-27</th><th>2023-11-06</th><td>Delhi</td><td colspan="2" style="background-color: yellow;">10 days</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><th>Delhi</th>
+        </tr>
+        <tr>
+            <th></th><th></th><td></td><td colspan="20" style="background-color: #000;color: #fff;"><b>WEEKS</b></td><th></th>
+        </tr>
+        <tr>
+            <th>2023-05-01</th><th>2023-10-27</th><td>BLR</td><td colspan="20" style="background-color: yellowgreen;">179 days<br>[MIL visit 17MAY - 28MAY]<br>[Kitu left 18AUG]</td><th>Silchar</th>
+        </tr>
+        <tr>
+            <th>2023-04-24</th><th>2023-05-01</th><td>JGM</td><td style="background-color: skyblue;">7 days</td><td colspan="9"></td><td></td><td></td><td></td><td></td><td>15</td><td></td><td></td><td></td><td></td><td></td><th>JGM</th>
+        </tr>
+        <tr>
+            <th>2023-01-09</th><th>2023-04-24</th><td>BLR</td><td colspan="15" style="background-color: yellowgreen;">105 days</td><td></td><td></td><td></td><td></td><td></td><th>BLR</th>
+        </tr>
+        <tr>
+            <th>2022-12-30</th><th>2023-01-09</th><td>Kolkata</td>
+            <td style="background-color: skyblue;" colspan="2">10 days</td><td colspan="8"><h1>HNY 2023</h1></td>
+            <!-- <td></td><td></td><td></td><td></td><td>10</td> -->
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td>20</td><th>Kolkata</th>
+        </tr>
+        <tr>
+            <th>2022-12-09</th><th>2022-12-30</th><td>BLR</td><td colspan="3" style="background-color: yellowgreen;">21 days<br>Sabya 3rd BDAY</td><td colspan="7"></td>
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td>20</td><th>BLR</th>
+        </tr>
+        <tr>
+            <th>2022-11-30</th><th>2022-12-09</th><td>Silchar</td><td colspan="2" style="background-color: hotpink;">9 days</td><td colspan="8">All return to BLR</td>
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td>20</td><th>Silchar</th>
+        </tr>
+        <tr>
+            <th>2022-09-13</th><th>2022-11-30</th><td>Kolkata</td>
+            <td style="background-color: skyblue;" colspan="11">78 days <br>[Kitu&Sabya 19SEP BLR-IXS]</td>
+            <!-- <td></td><td></td><td></td><td></td><td>10</td> -->
+            <td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td>20</td><th>Kolkata</th>
+        </tr>
+        <tr>
+            <th>2022-08-31</th><th>2022-09-13</th><td>BLR</td><td colspan="2" style="background-color: yellowgreen;">13 days</td><td colspan="7"></td><td>10</td><td></td><td></td><td></td><td></td><td>15</td><td></td><td></td><td></td><td></td><td></td><th>BLR</th>
+        </tr>
+        <tr>
+            <th>2022-08-24</th><th>2022-08-31</th><td>SGP</td>
+            <td style="background-color: goldenrod;"><h2>SGP</h2> 7 days</td><td></td><td></td><td></td><td>5</td>
+            <td></td><td></td><td></td><td></td><td>10</td>
+            <td></td><td></td><td></td><td></td><td>15</td>
+            <td></td><td></td><td></td><td></td><td>20</td><th>SGP</th>
         </tr>
     </table>
+    <!-- <div style="height: 200px;"></div> -->
 </body>
 </html>

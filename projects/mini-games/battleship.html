@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Battleship Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #83a4d4, #b6fbff);
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 2.5em;
+      color: #2b2d42;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .boards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+      padding: 20px;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(10, 32px);
+      grid-template-rows: repeat(10, 32px);
+      gap: 3px;
+      background-color: #dee2e6;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .cell {
+      width: 32px;
+      height: 32px;
+      background-color: #74c0fc;
+      border-radius: 4px;
+      transition: transform 0.2s, background-color 0.3s;
+      cursor: pointer;
+    }
+
+    .cell:hover {
+      transform: scale(1.1);
+    }
+
+    .cell.hit {
+      background-color: #fa5252;
+      animation: pop 0.3s;
+    }
+
+    .cell.miss {
+      background-color: #f1f3f5;
+      animation: pop 0.3s;
+    }
+
+    .cell.ship {
+      background-color: #495057;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #212529;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    #ships-left {
+      margin-top: 10px;
+      font-size: 1em;
+      color: #495057;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Battleship Game</h1>
+<div class="boards">
+  <div>
+    <h3>Your Board</h3>
+    <div id="player-board" class="board"></div>
+  </div>
+  <div>
+    <h3>Enemy Board</h3>
+    <div id="computer-board" class="board"></div>
+  </div>
+</div>
+<div id="status">Click the enemy board to fire!</div>
+<div id="ships-left"></div>
+
+<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1000;"></canvas>
+<script>
+const playerBoard = document.getElementById("player-board");
+const computerBoard = document.getElementById("computer-board");
+const statusText = document.getElementById("status");
+const shipsLeftText = document.getElementById("ships-left");
+
+const SIZE = 10;
+const SHIPS = [
+  { name: "Carrier", size: 5 },
+  { name: "Battleship", size: 4 },
+  { name: "Cruiser", size: 3 },
+  { name: "Submarine", size: 3 },
+  { name: "Destroyer", size: 2 }
+];
+
+function createBoard(container) {
+  const cells = [];
+  for (let i = 0; i < SIZE * SIZE; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    container.appendChild(cell);
+    cells.push(cell);
+  }
+  return cells;
+}
+
+function placeShipsRandomly(cells) {
+  const ships = JSON.parse(JSON.stringify(SHIPS));
+  const shipData = [];
+
+  for (let ship of ships) {
+    let placed = false;
+    while (!placed) {
+      const dir = Math.random() < 0.5 ? [1, 0] : [0, 1];
+      const start = Math.floor(Math.random() * SIZE * SIZE);
+      const coords = [];
+      let valid = true;
+
+      for (let i = 0; i < ship.size; i++) {
+        const x = start % SIZE + dir[0] * i;
+        const y = Math.floor(start / SIZE) + dir[1] * i;
+        const idx = y * SIZE + x;
+
+        if (
+          x < 0 || x >= SIZE || y < 0 || y >= SIZE ||
+          cells[idx]?.dataset.ship
+        ) {
+          valid = false;
+          break;
+        }
+        coords.push(idx);
+      }
+
+      if (valid) {
+        for (let idx of coords) {
+          cells[idx].dataset.ship = ship.name;
+        }
+        shipData.push({ name: ship.name, positions: new Set(coords), sunk: false });
+        placed = true;
+      }
+    }
+  }
+
+  return shipData;
+}
+
+function updateShipsLeft(ships) {
+  const remaining = ships.filter(s => !s.sunk).map(s => s.name);
+  shipsLeftText.textContent = "Enemy ships remaining: " + remaining.join(", ");
+}
+
+const playerCells = createBoard(playerBoard);
+const computerCells = createBoard(computerBoard);
+
+const playerShips = placeShipsRandomly(playerCells);
+const computerShips = placeShipsRandomly(computerCells);
+
+// Show player's ships
+playerShips.forEach(ship => {
+  ship.positions.forEach(i => playerCells[i].classList.add("ship"));
+});
+
+let gameOver = false;
+
+function checkSunk(shipList, index, cells) {
+  for (let ship of shipList) {
+    if (ship.positions.has(index)) {
+      ship.positions.delete(index);
+      if (ship.positions.size === 0 && !ship.sunk) {
+        ship.sunk = true;
+        statusText.textContent = `You sunk the enemy's ${ship.name}!`;
+        updateShipsLeft(computerShips);
+      }
+      break;
+    }
+  }
+}
+
+function computerTurn() {
+  if (gameOver) return;
+  let index;
+  do {
+    index = Math.floor(Math.random() * SIZE * SIZE);
+  } while (
+    playerCells[index].classList.contains("hit") ||
+    playerCells[index].classList.contains("miss")
+  );
+
+  if (playerCells[index].dataset.ship) {
+    playerCells[index].classList.add("hit");
+    checkSunk(playerShips, index, playerCells);
+    if (playerShips.every(s => s.sunk)) {
+      statusText.textContent = "Computer wins!";
+      gameOver = true;
+    }
+  } else {
+    playerCells[index].classList.add("miss");
+    statusText.textContent = "Computer missed.";
+  }
+}
+
+computerCells.forEach((cell, index) => {
+  cell.addEventListener("click", () => {
+    if (gameOver || cell.classList.contains("hit") || cell.classList.contains("miss")) return;
+
+    if (cell.dataset.ship) {
+      cell.classList.add("hit");
+      checkSunk(computerShips, index, computerCells);
+      if (computerShips.every(s => s.sunk)) {
+        statusText.textContent = "You win!";
+        gameOver = true;
+        launchConfetti();
+      }
+    } else {
+      cell.classList.add("miss");
+      statusText.textContent = "Miss.";
+      setTimeout(computerTurn, 1000);
+    }
+  });
+});
+
+updateShipsLeft(computerShips);
+
+function launchConfetti() {
+  const canvas = document.getElementById("confetti-canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = Array.from({ length: 100 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 10 + 5,
+    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+    speed: Math.random() * 3 + 2
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let p of pieces) {
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x, p.y, p.size, p.size);
+      p.y += p.speed;
+      if (p.y > canvas.height) p.y = -p.size;
+    }
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+}
+</script>
+</body>
+</html>
