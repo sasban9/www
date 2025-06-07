@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Prices: 2025</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <style>
+        tbody {
+            text-align: right;
+        }
+
+        * {
+            font-size: 0.9rem;
+        }
+        .new-info{ border-bottom: solid 1px; border-right: solid 12px aqua;}
+        .new-success{ border-bottom: solid 1px; border-right: solid 12px greenyellow;}
+        .new-warning{ border-bottom: solid 1px; border-right: solid 12px coral;}
+        .new-danger{ border-bottom: solid 1px; border-right: solid 12px fuchsia;}
+        .new-secondary{ border-bottom: solid 1px; border-right: solid 12px grey;}
+        h5{margin:0}
+        p{margin: 0;padding-right:4px;border-bottom: solid 1px;}
+        .flext{display: flex; justify-content: space-between;border-bottom: 1px solid #ccc;}
+        .flext div{flex-basis: 0;flex-grow:1;text-align: right;padding-bottom:16px}
+        #table-networth:not(.transpose) tr:nth-child(2) {background-color: gold;}
+        #table-networth:not(.transpose) tr:nth-child(3) {background-color: gold;}
+        #table-networth.transpose tr td:nth-child(2),#table-networth.transpose tr th:nth-child(2){background-color: gold;}
+        #table-networth.transpose tr td:nth-child(3),#table-networth.transpose tr th:nth-child(3){background-color: gold;}
+        .table-sm tr{border-bottom:solid 1px #ccc}
+        td.jk{background: #888;}
+        td{min-width: 64px;}
+        /* .text-success{color: palegreen !important;} */
+        .bg-gray{background: lightsalmon;}
+        td:nth-of-type(odd){background: khaki;}
+    </style>
+</head>
+<body>
+    <table class="table table-bordered">
+        <tr>
+            <th>2025</th><th>train</th><th></th><th>travel</th><th></th><th>food</th><th></th><th>grocery</th><th></th><th>snacks</th><th></th><th>sweets</th><th></th><th>ent</th>
+        </tr>
+        <tr>
+            <th>SILCHAR</th>
+        </tr>
+        <tr>
+            <th>KOLKATA</th>
+            <td>fish meal<br>bread omlette<br>roti sabji</td>
+            <td>110<br>50<br>40</td>
+            <td>metro<br>bus<br>auto</td>
+            <td>100<br>10/15<br>12/15</td>
+            <td>roti tadka<br>water 20L/2L/500ml</td>
+            <td>60<br>60/30/10</td>
+            <td>cola 600ml<br>soap<br>milk 1L</td>
+            <td>50<br>50<br>62</td>
+            <td>fish fry<br>m.spcl roll<br>ch.pakora<br>singara/kochuri<br>fuchka x6</td>
+            <td>90<br>130<br>15<br>8<br>20</td>
+            <td>curd 1kg<br>bodey 1kg</td>
+            <td>270<br>150</td>
+            <td>movie<br>lunch</td>
+            <td>100<br>100</td>
+        </tr>
+        <tr class="bg-gray">
+            <th>WEEK22</th><td><h3>2260</h3></td><td>26-May</td><td></td><td>27-May</td><td></td><td>28-May</td><td></td><td>29-May</td><td></td><td>30-May</td><td></td><td>31-May</td><td></td><td class="text-white">01-Jun</td><td></td>
+        </tr>
+        <tr>
+            <th>food</th><td>-775</td><td></td><td></td><td></td><td></td><td></td><td></td><td>f.meal</td><td>110</td><td>chakli<br>aamsotto</td><td>90</td><td>ch.cutlet<br>ch.pakora</td><td>gpay 95</td><td>dinner</td><td>85</td>
+        </tr>
+        <tr>
+            <th>travel</th><td>-135</td><td></td><td></td><td></td><td></td><td></td><td></td><td>dinner</td><td>90</td><td>metro</td><td>100</td><td>curd 270/2<br>bodey 150/5</td><td>165</td><td>fuchka</td><td>20</td>
+        </tr>
+        <tr>
+            <th>grocery</th><td>-765</td><td></td><td></td><td></td><td></td><td></td><td></td><td>water 2L</td><td>30</td><td>auto</td><td>35</td><td>breakfast</td><td>35</td><td>cola<br>soaps<br>grocery</td><td>50<br>100<br>simpl 665</td>
+        </tr>
+        <!-- <tr class="bg-gray">
+            <th>WEEK23</th><td><h3>1500</h3></td><td>02-Jun</td><td></td><td>03-Jun</td><td></td><td>04-Jun</td><td></td><td>05-Jun</td><td></td><td>06-Jun</td><td></td><td>07-Jun</td><td></td><td class="text-white">08-Jun</td><td></td>
+        </tr>
+        <tr>
+            <th>food</th><td></td><td>auto+bus</td><td>45</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <th>travel</th><td></td><td>fish fry</td><td>90</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <th>movie</th><td></td><td>m.spcl roll</td><td>130</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        </tr> -->
+    </table>
+</body>
+</html>
