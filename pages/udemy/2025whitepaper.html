@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Udemy Ecosystem: An Interactive Business Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The SPA is designed as a single-page, scrollable dashboard with a fixed navigation header. The structure is thematic and user-centric, guiding the user through a logical discovery path: 1) High-level overview, 2) Core business model, 3) Revenue mechanics, 4) Market opportunities for instructors, 5) Instructor success stories, and 6) Competitive positioning. This structure was chosen over a linear report format to make the complex information more digestible and engaging. Interactivity (clickable elements, charts) allows users to explore data points that interest them, promoting active learning and better synthesis of the key business drivers. -->
+    <!-- Visualization & Content Choices: 
+        - Key Metrics: (Goal: Inform) -> Static Cards -> (Method: HTML/Tailwind) -> Justification: Immediate sense of scale.
+        - Business Model: (Goal: Organize) -> Interactive two-column layout -> (Method: HTML/JS) -> Justification: Clarifies the dual B2C/B2B engines.
+        - Revenue Sharing: (Goal: Compare) -> Interactive buttons updating a visual split -> (Method: HTML/JS) -> Justification: Simplifies the complex revenue share table.
+        - B2B Growth: (Goal: Change) -> Line Chart -> (Method: Chart.js) -> Justification: Visually powerful representation of the strategic pivot over time.
+        - Category Earnings: (Goal: Compare) -> Horizontal Bar Chart -> (Method: Chart.js) -> Justification: Starkly visualizes the earnings disparity between professional and hobbyist topics.
+        - Instructor Earnings Pyramid: (Goal: Compare) -> Custom HTML/CSS diagram -> (Method: HTML/Tailwind) -> Justification: A strong visual metaphor for the "winner-take-all" dynamic.
+        - Instructor Spotlights: (Goal: Organize) -> Interactive cards with modals -> (Method: HTML/JS) -> Justification: Condenses detailed text into a compact, engaging, user-driven format.
+        - Competitor Matrix: (Goal: Compare) -> Simple Table -> (Method: HTML/Tailwind) -> Justification: Clear, direct comparison of features.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7;
+            color: #1f2937;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d9488;
+            border-bottom-color: #0d9488;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .kpi-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .modal-backdrop {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-content {
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 lg:px-6">
+            <div class="flex justify-between items-center py-4">
+                <h1 class="text-xl md:text-2xl font-bold text-teal-700">Udemy Business Insights</h1>
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm font-medium">
+                    <a href="whitepaper.pdf" class="block py-2 text-center nav-link">Whitepaper</a>
+                    <a href="#overview" class="nav-link pb-1">Overview</a>
+                    <a href="#model" class="nav-link pb-1">Business Model</a>
+                    <a href="#revenue" class="nav-link pb-1">Revenue</a>
+                    <a href="#market" class="nav-link pb-1">What Sells</a>
+                    <a href="#success" class="nav-link pb-1">Instructor Success</a>
+                    <a href="#competition" class="nav-link pb-1">Competition</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <span class="text-2xl">☰</span>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="whitepaper.pdf" class="block py-2 text-center nav-link">Whitepaper</a>
+                <a href="#overview" class="block py-2 text-center nav-link">Overview</a>
+                <a href="#model" class="block py-2 text-center nav-link">Business Model</a>
+                <a href="#revenue" class="block py-2 text-center nav-link">Revenue</a>
+                <a href="#market" class="block py-2 text-center nav-link">What Sells</a>
+                <a href="#success" class="block py-2 text-center nav-link">Instructor Success</a>
+                <a href="#competition" class="block py-2 text-center nav-link">Competition</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 lg:px-6 py-8 md:py-12">
+        <!-- Section: Overview -->
+        <section id="overview" class="text-center scroll-mt-24">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">The Global Scale of <a href="whitepaper.pdf">Udemy</a></h2>
+            <p class="max-w-3xl mx-auto text-gray-600 mb-10">Udemy is a global leader in online learning, operating a massive marketplace that connects millions of learners with tens of thousands of instructors. These key metrics from early 2025 illustrate the platform's vast reach and the powerful network effect that drives its growth.</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <div class="kpi-card p-4 rounded-lg text-center">
+                    <p class="text-3xl md:text-4xl font-bold text-teal-600">79M</p>
+                    <p class="text-sm font-medium text-gray-500 mt-2">Global Learners</p>
+                </div>
+                <div class="kpi-card p-4 rounded-lg text-center">
+                    <p class="text-3xl md:text-4xl font-bold text-teal-600">85K</p>
+                    <p class="text-sm font-medium text-gray-500 mt-2">Instructors</p>
+                </div>
+                <div class="kpi-card p-4 rounded-lg text-center">
+                    <p class="text-3xl md:text-4xl font-bold text-teal-600">250K</p>
+                    <p class="text-sm font-medium text-gray-500 mt-2">Courses Available</p>
+                </div>
+                <div class="kpi-card p-4 rounded-lg text-center">
+                    <p class="text-3xl md:text-4xl font-bold text-teal-600">$787M</p>
+                    <p class="text-sm font-medium text-gray-500 mt-2">Total 2024 Revenue</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Business Model -->
+        <section id="model" class="mt-16 md:mt-24 scroll-mt-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">A Dual-Engine Business Model</h2>
+            <p class="max-w-3xl mx-auto text-gray-600 text-center mb-10">Udemy's success is powered by two distinct but interconnected engines. The B2C Marketplace provides massive scale and content diversity, while the B2B Udemy Business segment drives stable, high-value recurring revenue. This dual approach gives Udemy a unique and resilient position in the market.</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-2xl font-bold mb-3">🛒 B2C Marketplace</h3>
+                    <p class="text-gray-600 mb-4">The open marketplace allows any expert to create and sell courses to a global audience of individual learners. Revenue is generated per course sale through a variable revenue-sharing model.</p>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start"><span class="text-teal-500 mr-2 mt-1">✓</span><span>Vast content library driven by user-generated courses.</span></li>
+                        <li class="flex items-start"><span class="text-teal-500 mr-2 mt-1">✓</span><span>Accessible pricing with frequent deep discounts.</span></li>
+                        <li class="flex items-start"><span class="text-teal-500 mr-2 mt-1">✓</span><span>Attracts a broad demographic seeking personal and professional skills.</span></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-2xl font-bold mb-3">🏢 Udemy Business (B2B)</h3>
+                    <p class="text-gray-600 mb-4">A curated, subscription-based service for companies to upskill their employees. This segment is Udemy's primary growth driver and key to its future profitability.</p>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start"><span class="text-orange-500 mr-2 mt-1">✓</span><span>Stable, recurring revenue from corporate subscriptions.</span></li>
+                        <li class="flex items-start"><span class="text-orange-500 mr-2 mt-1">✓</span><span>Curated library of top-rated, professionally relevant courses.</span></li>
+                        <li class="flex items-start"><span class="text-orange-500 mr-2 mt-1">✓</span><span>Addresses critical workforce development and reskilling needs.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Revenue -->
+        <section id="revenue" class="mt-16 md:mt-24 scroll-mt-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-10">Revenue Deep Dive: How Udemy Makes Money</h2>
+            <div class="grid lg:grid-cols-5 gap-8">
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-bold mb-4">B2C Revenue Sharing Model</h3>
+                     <p class="text-gray-600 mb-6 text-sm">In the marketplace, an instructor's earnings depend entirely on how a student finds their course. Click a channel below to see the split. This model incentivizes instructors to build their own audience while also benefiting from Udemy's marketing muscle.</p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <button class="revenue-btn flex-grow px-3 py-2 text-xs font-medium rounded-md" data-channel="instructor">Instructor Promotion</button>
+                        <button class="revenue-btn flex-grow px-3 py-2 text-xs font-medium rounded-md" data-channel="organic">Udemy Organic</button>
+                        <button class="revenue-btn flex-grow px-3 py-2 text-xs font-medium rounded-md" data-channel="ads">Udemy Ads</button>
+                    </div>
+                    <div id="revenue-display" class="text-center">
+                        <p class="text-lg font-semibold mb-2" id="revenue-channel-name">Select a Channel</p>
+                        <div class="w-full bg-gray-200 rounded-full h-8 flex overflow-hidden border">
+                            <div id="instructor-share-bar" class="flex items-center justify-center text-white font-bold transition-all duration-500" style="background-color: #14b8a6;"></div>
+                            <div id="udemy-share-bar" class="flex items-center justify-center text-white font-bold transition-all duration-500" style="background-color: #f97316;"></div>
+                        </div>
+                        <div class="flex justify-between mt-2 text-xs font-medium">
+                            <p>Instructor Share: <span id="instructor-share-text" class="font-bold">-%</span></p>
+                            <p>Udemy Share: <span id="udemy-share-text" class="font-bold">-%</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-3 bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-bold mb-2">The Strategic Pivot to B2B</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Udemy Business has grown from a side project to the company's dominant revenue source, signaling a clear strategic shift towards the more stable and lucrative enterprise market.</p>
+                    <div class="chart-container">
+                        <canvas id="b2bRevenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: What Sells -->
+        <section id="market" class="mt-16 md:mt-24 scroll-mt-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">What Sells Best on Udemy?</h2>
+            <p class="max-w-3xl mx-auto text-gray-600 text-center mb-10">For instructors, understanding market demand is key to success. The data reveals a stark contrast in earnings between courses that teach high-demand professional skills and those focused on hobbies or general interest topics. This disparity highlights where learners and businesses see the most value.</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-bold mb-4">Average Annual Instructor Earnings by Category</h3>
+                    <div class="chart-container h-96">
+                        <canvas id="categoryEarningsChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-bold mb-4">The Power of Niche Specialization</h3>
+                    <p class="text-gray-600 mb-6">While popular categories are crowded, significant opportunities exist in low-competition niches. Successful instructors often find a "niche within a niche" to stand out, attract a dedicated audience, and build a profitable business. Here are some examples of identified high-opportunity niches:</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center p-3 bg-teal-50 rounded-md"><span class="text-lg mr-3">💡</span><span class="font-medium text-teal-800">Research Paper Writing</span></li>
+                        <li class="flex items-center p-3 bg-orange-50 rounded-md"><span class="text-lg mr-3">💡</span><span class="font-medium text-orange-800">Etsy & eBay Dropshipping</span></li>
+                        <li class="flex items-center p-3 bg-teal-50 rounded-md"><span class="text-lg mr-3">💡</span><span class="font-medium text-teal-800">Unreal Engine Blueprints</span></li>
+                        <li class="flex items-center p-3 bg-orange-50 rounded-md"><span class="text-lg mr-3">💡</span><span class="font-medium text-orange-800">Tax Preparation</span></li>
+                         <li class="flex items-center p-3 bg-teal-50 rounded-md"><span class="text-lg mr-3">💡</span><span class="font-medium text-teal-800">Night Photography</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Instructor Success -->
+        <section id="success" class="mt-16 md:mt-24 scroll-mt-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Pathways to Instructor Success</h2>
+            <p class="max-w-3xl mx-auto text-gray-600 text-center mb-10">While Udemy offers a platform for anyone to teach, financial success is concentrated at the top. Understanding this "winner-take-all" dynamic and the strategies of elite instructors is crucial for aspiring course creators.</p>
+            
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-lg border border-gray-200 flex flex-col items-center justify-center">
+                    <h3 class="text-xl font-bold mb-4 text-center">The Instructor Earnings Pyramid</h3>
+                    <div class="w-full max-w-sm space-y-1">
+                        <div class="bg-teal-600 text-white p-3 rounded-t-lg text-center">
+                            <p class="font-bold">Top 1%</p>
+                            <p class="text-sm">Earn >$50k/year (Capture 50% of all earnings)</p>
+                        </div>
+                        <div class="bg-teal-500 text-white p-2 text-center">
+                            <p class="font-bold">Top 4%</p>
+                            <p class="text-sm">Earn >$14.5k/year</p>
+                        </div>
+                        <div class="bg-orange-400 text-white p-2 text-center">
+                            <p class="font-bold">~21%</p>
+                            <p class="text-sm">Earn $1k - $14.5k/year</p>
+                        </div>
+                        <div class="bg-gray-400 text-white p-3 rounded-b-lg text-center">
+                            <p class="font-bold">Bottom 75%</p>
+                            <p class="text-sm">Earn &lt;$1k/year</p>
+                        </div>
+                    </div>
+                     <p class="text-xs text-gray-500 mt-4 text-center">A key differentiator: Courses in the invite-only Udemy Business catalog earn an average of **$2,795/year**, versus just **$963/year** for those not included.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-bold mb-4 text-center">Instructor Spotlight: Success Strategies</h3>
+                    <p class="text-center text-gray-600 mb-6 text-sm">Explore the strategies of top-earning instructors. Click on a card to learn more.</p>
+                    <div class="space-y-4" id="instructor-cards">
+                        <!-- Instructor cards will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- Section: Competition -->
+        <section id="competition" class="mt-16 md:mt-24 scroll-mt-24">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Competitive Positioning</h2>
+            <p class="max-w-3xl mx-auto text-gray-600 text-center mb-10">Udemy differentiates itself in a crowded market through its unique model. While competitors like Coursera focus on academic partnerships and accreditation, Udemy excels in agility, content diversity, and practical, on-demand skill-building, particularly for the corporate world.</p>
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[600px] bg-white border border-gray-200 rounded-lg text-left">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="p-4 font-semibold">Feature</th>
+                            <th class="p-4 font-semibold text-teal-700">Udemy</th>
+                            <th class="p-4 font-semibold text-gray-600">Coursera</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="p-4 font-medium">Instructor Model</td>
+                            <td class="p-4">Open Marketplace (Anyone can teach)</td>
+                            <td class="p-4">University & Company Partnerships</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium">Content Focus</td>
+                            <td class="p-4">Practical, professional & hobbyist skills</td>
+                            <td class="p-4">Academic courses, degrees, specializations</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium">Course Volume</td>
+                            <td class="p-4">~250,000+</td>
+                            <td class="p-4">~10,000+</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium">Accreditation</td>
+                            <td class="p-4">No formal degrees (some trade certs)</td>
+                            <td class="p-4">Offers accredited degrees & certificates</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium">Key Advantage</td>
+                            <td class="p-4">Agility, speed to market, content breadth</td>
+                            <td class="p-4">Academic rigor and recognized credentials</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Instructor Modal -->
+    <div id="instructor-modal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95">
+            <div class="p-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 id="modal-instructor-name" class="text-2xl font-bold"></h3>
+                        <p id="modal-instructor-metric" class="text-sm text-gray-500"></p>
+                    </div>
+                    <button id="close-modal-button" class="text-3xl text-gray-500 hover:text-gray-800">&times;</button>
+                </div>
+                <div class="mt-4 border-t pt-4">
+                    <h4 class="font-semibold mb-2">Primary Course Topics:</h4>
+                    <p id="modal-instructor-topics" class="text-gray-600 mb-4"></p>
+                    <h4 class="font-semibold mb-2">Key Success Strategies:</h4>
+                    <ul id="modal-instructor-strategies" class="space-y-2 list-disc list-inside text-gray-600"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Navigation Active State on Scroll
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            window.onscroll = () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 120) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+            // B2B Revenue Chart
+            const b2bCtx = document.getElementById('b2bRevenueChart').getContext('2d');
+            new Chart(b2bCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2019', '2024', 'Future Projection'],
+                    datasets: [{
+                        label: 'B2B Share of Total Revenue',
+                        data: [18, 60, 75],
+                        borderColor: '#0d9488',
+                        backgroundColor: 'rgba(20, 184, 166, 0.1)',
+                        fill: true,
+                        tension: 0.1,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#0d9488'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Share of Revenue (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Category Earnings Chart
+            const categoryCtx = document.getElementById('categoryEarningsChart').getContext('2d');
+            new Chart(categoryCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Development', 'IT & Software', 'Music', 'Health & Fitness', 'Lifestyle'],
+                    datasets: [{
+                        label: 'Average Annual Instructor Earnings',
+                        data: [2339, 1494, 350, 350, 350],
+                        backgroundColor: ['#14b8a6', '#2dd4bf', '#f97316', '#fb923c', '#fdba74'],
+                        borderWidth: 1,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'USD ($)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` $${context.raw.toLocaleString()}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue Share Interactive Component
+            const revenueBtns = document.querySelectorAll('.revenue-btn');
+            const instructorShareBar = document.getElementById('instructor-share-bar');
+            const udemyShareBar = document.getElementById('udemy-share-bar');
+            const instructorShareText = document.getElementById('instructor-share-text');
+            const udemyShareText = document.getElementById('udemy-share-text');
+            const channelName = document.getElementById('revenue-channel-name');
+
+            const revenueData = {
+                instructor: { name: 'Instructor Promotion', instructor: 97, udemy: 3 },
+                organic: { name: 'Udemy Organic', instructor: 37, udemy: 63 },
+                ads: { name: "Udemy's Paid Ads", instructor: 25, udemy: 75 }
+            };
+
+            function updateRevenueDisplay(channel) {
+                const data = revenueData[channel];
+                channelName.textContent = data.name;
+                
+                instructorShareBar.style.width = `${data.instructor}%`;
+                instructorShareBar.textContent = `${data.instructor}%`;
+                udemyShareBar.style.width = `${data.udemy}%`;
+                udemyShareBar.textContent = `${data.udemy}%`;
+
+                instructorShareText.textContent = `${data.instructor}%`;
+                udemyShareText.textContent = `${data.udemy}%`;
+
+                revenueBtns.forEach(btn => {
+                    btn.classList.remove('bg-teal-600', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                    if (btn.dataset.channel === channel) {
+                        btn.classList.add('bg-teal-600', 'text-white');
+                        btn.classList.remove('bg-gray-200', 'text-gray-700');
+                    }
+                });
+            }
+            
+            revenueBtns.forEach(btn => {
+                btn.addEventListener('click', () => updateRevenueDisplay(btn.dataset.channel));
+            });
+
+            // Initialize with one channel selected
+            updateRevenueDisplay('instructor');
+
+            // Instructor Spotlight Modal Logic
+            const instructorData = [
+                {
+                    name: 'Phil Ebiner',
+                    metric: '3M+ students | $500k+/year',
+                    topics: 'Video Production, Photography, AI, ChatGPT, Adobe Software, AWS, Docker.',
+                    strategies: [
+                        '<b>Volume & Consistency:</b> Continuously releases new, high-quality courses.',
+                        '<b>Quality Focus:</b> Teaches practical skills for students to "stand out".',
+                        '<b>Student Support:</b> Prioritizes helping students succeed.',
+                        '<b>Global Reach:</b> Translates courses into multiple languages.'
+                    ]
+                },
+                {
+                    name: 'Joe Parys',
+                    metric: '950k+ students | Top 1% Earner',
+                    topics: 'Personal Development, Public Speaking, Coaching, Web Development.',
+                    strategies: [
+                        '<b>Leveraging External Audience:</b> Drives traffic from his large YouTube channel.',
+                        '<b>High Course Volume:</b> Has published over 90 courses, increasing reach.',
+                        '<b>Collaboration:</b> Works with other experts to create courses on in-demand topics.',
+                        '<b>Purpose-Driven Teaching:</b> Focuses on helping students achieve real results.'
+                    ]
+                },
+                {
+                    name: 'Louise Croft',
+                    metric: 'Significant passive income | 40+ courses',
+                    topics: 'Strategic topic selection, initially fashion & lifestyle.',
+                    strategies: [
+                        '<b>Market Gap Identification:</b> Researches underserved niches before creating a course.',
+                        '<b>Keyword Research:</b> Targets keywords with manageable competition to rank higher.',
+                        '<b>Passive Income Goal:</b> Designs courses for mass-market appeal and affordability.',
+                        '<b>Differentiation:</b> Creates courses with a unique angle or target audience.'
+                    ]
+                },
+                {
+                    name: 'Maggie',
+                    metric: '39k+ learners | Successful Entrepreneur',
+                    topics: 'Adobe After Effects, Computer Science, Marketing.',
+                    strategies: [
+                        '<b>Persistence & Hard Work:</b> Overcame initial setbacks with relentless effort.',
+                        '<b>Community Engagement:</b> Actively sought advice from other successful instructors.',
+                        '<b>Proactive Marketing:</b> Built a YouTube channel to cross-promote courses.',
+                        '<b>Continuous Learning:</b> Studied SEO to optimize course visibility.'
+                    ]
+                }
+            ];
+
+            const instructorCardsContainer = document.getElementById('instructor-cards');
+            const modal = document.getElementById('instructor-modal');
+            const closeModalButton = document.getElementById('close-modal-button');
+            const modalName = document.getElementById('modal-instructor-name');
+            const modalMetric = document.getElementById('modal-instructor-metric');
+            const modalTopics = document.getElementById('modal-instructor-topics');
+            const modalStrategies = document.getElementById('modal-instructor-strategies');
+
+            instructorData.forEach(instructor => {
+                const card = document.createElement('div');
+                card.className = 'instructor-card p-4 border rounded-lg cursor-pointer hover:bg-teal-50 hover:border-teal-300 transition-colors';
+                card.innerHTML = `<h4 class="font-bold">${instructor.name}</h4><p class="text-sm text-gray-500">${instructor.metric}</p>`;
+                card.addEventListener('click', () => openModal(instructor));
+                instructorCardsContainer.appendChild(card);
+            });
+
+            function openModal(instructor) {
+                modalName.textContent = instructor.name;
+                modalMetric.textContent = instructor.metric;
+                modalTopics.textContent = instructor.topics;
+                modalStrategies.innerHTML = instructor.strategies.map(s => `<li>${s}</li>`).join('');
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.querySelector('.modal-content').classList.remove('scale-95');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modal.querySelector('.modal-content').classList.add('scale-95');
+            }
+
+            closeModalButton.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
