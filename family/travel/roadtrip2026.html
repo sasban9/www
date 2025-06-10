@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India City Connections Map</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .map-container {
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 1 / 1; /* Keep it square, adjust as needed */
+            border: 2px solid #e0e7ee;
+            border-radius: 8px;
+            background-color: #f9fafb;
+            overflow: hidden; /* Ensure nothing draws outside the container */
+            position: relative;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .city-point {
+            fill: #3498db;
+            stroke: #2980b9;
+            stroke-width: 1px;
+            cursor: pointer;
+            transition: r 0.2s, fill 0.2s;
+        }
+
+        .city-point:hover {
+            fill: #e74c3c;
+            r: 7px;
+        }
+
+        .connection-line {
+            stroke: #a0aec0;
+            stroke-width: 0.5px;
+            opacity: 0.6;
+            transition: stroke 0.2s, stroke-width 0.2s;
+        }
+
+        .connection-line.highlight {
+            stroke: #2ecc71;
+            stroke-width: 1.5px;
+            opacity: 1;
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+            font-size: 0.9em;
+            z-index: 1000;
+        }
+
+        .tooltip.active {
+            opacity: 1;
+        }
+
+        .controls {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
+            padding: 16px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .control-group input[type="range"] {
+            width: 80%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-group input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .message-box {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2ecc71;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 10000;
+        }
+
+        .message-box.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Indian Cities & Connections Map</h1>
+        <iframe src="https://www.google.com/maps/d/embed?mid=1YUVPw5APpL8lkpWgT-OtdQNrjXTifa4&hl=en&ehbc=2E312F" width="1280" height="780"></iframe>
+        <div class="map-container">
+            <svg id="cityMap"></svg>
+            <div id="loadingSpinner" class="loading-spinner hidden"></div>
+        </div>
+        <div class="controls">
+            <div class="control-group">
+                <label for="cityCount">Number of Cities: <span id="currentCityCount"></span></label>
+            </div>
+            <div class="control-group">
+                <label>Showing 5 nearest connections for each city</label>
+            </div>
+        </div>
+    </div>
+    <div id="messageBox" class="message-box"></div>
+    <a href='/pages/' title="'Coffee!"><img src="/sasban.jpg" alt="" style="position:fixed;height:100px;bottom:20px;right:20px"></a>
+
+    <script>
+        // Use a self-executing anonymous function to encapsulate the script
+        (function() {
+            // Hardcoded data for 100 largest Indian cities with population, latitude, and longitude
+            // Data sourced and curated from Simplemaps.com and Wikipedia population lists.
+            const citiesData = [
+                { "name": "Mumbai", "lat": 19.0761, "lng": 72.8775, "population": 24973000 },
+                { "name": "Delhi", "lat": 28.6100, "lng": 77.2300, "population": 32226000 },
+                { "name": "Bengaluru", "lat": 12.9789, "lng": 77.5917, "population": 15386000 },
+                { "name": "Hyderabad", "lat": 17.3617, "lng": 78.4747, "population": 10494000 },
+                { "name": "Ahmedabad", "lat": 23.0225, "lng": 72.5714, "population": 8009000 },
+                { "name": "Chennai", "lat": 13.0825, "lng": 80.2750, "population": 12395000 },
+                { "name": "Kolkata", "lat": 22.5675, "lng": 88.3700, "population": 18502000 },
+                { "name": "Surat", "lat": 21.1702, "lng": 72.8311, "population": 6538000 },
+                { "name": "Pune", "lat": 18.5203, "lng": 73.8567, "population": 8231000 },
+                { "name": "Jaipur", "lat": 26.9000, "lng": 75.8000, "population": 3073350 },
+                { "name": "Lucknow", "lat": 26.8500, "lng": 80.9500, "population": 3382000 },
+                { "name": "Kanpur", "lat": 26.4499, "lng": 80.3319, "population": 2701324 },
+                { "name": "Nagpur", "lat": 21.1497, "lng": 79.0806, "population": 2405665 },
+                { "name": "Indore", "lat": 22.7167, "lng": 75.8472, "population": 1994397 },
+                { "name": "Thane", "lat": 19.1972, "lng": 72.9722, "population": 1886941 },
+                { "name": "Bhopal", "lat": 23.2599, "lng": 77.4126, "population": 1798218 },
+                { "name": "Visakhapatnam", "lat": 17.7042, "lng": 83.2978, "population": 2035922 },
+                { "name": "Pimpri-Chinchwad", "lat": 18.6186, "lng": 73.8037, "population": 1727692 },
+                { "name": "Patna", "lat": 25.5940, "lng": 85.1376, "population": 1684222 },
+                { "name": "Vadodara", "lat": 22.3000, "lng": 73.2000, "population": 2065771 },
+                { "name": "Ghaziabad", "lat": 28.6700, "lng": 77.4200, "population": 2375820 },
+                { "name": "Ludhiana", "lat": 30.9100, "lng": 75.8500, "population": 1618879 },
+                { "name": "Agra", "lat": 27.1800, "lng": 78.0200, "population": 1585704 },
+                { "name": "Nashik", "lat": 19.9975, "lng": 73.7898, "population": 1486053 },
+                { "name": "Faridabad", "lat": 28.4211, "lng": 77.3078, "population": 1414050 },
+                { "name": "Meerut", "lat": 28.9800, "lng": 77.7100, "population": 1305429 },
+                { "name": "Rajkot", "lat": 22.3000, "lng": 70.7833, "population": 2043000 },
+                { "name": "Kalyan", "lat": 19.2502, "lng": 73.1602, "population": 1246381 },
+                { "name": "Vasai-Virar", "lat": 19.3607, "lng": 72.7956, "population": 1221233 },
+                { "name": "Varanasi", "lat": 25.3189, "lng": 83.0128, "population": 1198491 },
+                { "name": "Srinagar", "lat": 34.0900, "lng": 74.7900, "population": 1180570 },
+                { "name": "Aurangabad", "lat": 19.8800, "lng": 75.3200, "population": 1175116 },
+                { "name": "Dhanbad", "lat": 23.7998, "lng": 86.4305, "population": 1162472 },
+                { "name": "Amritsar", "lat": 31.6400, "lng": 74.8600, "population": 1132383 },
+                { "name": "Aligarh", "lat": 27.8800, "lng": 78.0800, "population": 1131160 },
+                { "name": "Guwahati", "lat": 26.1722, "lng": 91.7458, "population": 1116267 },
+                { "name": "Howrah", "lat": 22.5800, "lng": 88.3294, "population": 1077075 },
+                { "name": "Ranchi", "lat": 23.3600, "lng": 85.3300, "population": 1073440 },
+                { "name": "Gwalior", "lat": 26.2124, "lng": 78.1772, "population": 1069276 },
+                { "name": "Chandigarh", "lat": 30.7500, "lng": 76.7800, "population": 1055450 },
+                { "name": "Vijayawada", "lat": 16.5193, "lng": 80.6305, "population": 1048240 },
+                { "name": "Jodhpur", "lat": 26.2800, "lng": 73.0200, "population": 1033918 },
+                { "name": "Raipur", "lat": 21.2444, "lng": 81.6306, "population": 1010087 },
+                { "name": "Kota", "lat": 25.1800, "lng": 75.8300, "population": 1001694 },
+                { "name": "Jabalpur", "lat": 23.1667, "lng": 79.9333, "population": 1267564 },
+                { "name": "Madurai", "lat": 9.9252, "lng": 78.1198, "population": 1561129 },
+                { "name": "Prayagraj", "lat": 25.4358, "lng": 81.8464, "population": 1536218 },
+                { "name": "Bareilly", "lat": 28.3670, "lng": 79.4167, "population": 877778 },
+                { "name": "Moradabad", "lat": 28.8389, "lng": 78.7758, "population": 889810 },
+                { "name": "Mysore", "lat": 12.2958, "lng": 76.6558, "population": 887446 },
+                { "name": "Jalandhar", "lat": 31.3256, "lng": 75.5792, "population": 862196 },
+                { "name": "Bhubaneswar", "lat": 20.2961, "lng": 85.8245, "population": 837737 },
+                { "name": "Salem", "lat": 11.6643, "lng": 78.1481, "population": 831038 },
+                { "name": "Warangal", "lat": 17.9739, "lng": 79.5941, "population": 811844 },
+                { "name": "Thiruvananthapuram", "lat": 8.5241, "lng": 76.9366, "population": 752490 },
+                { "name": "Guntur", "lat": 16.3000, "lng": 80.4500, "population": 743354 },
+                { "name": "Bhiwandi", "lat": 19.3000, "lng": 73.0667, "population": 711329 },
+                { "name": "Saharanpur", "lat": 29.9667, "lng": 77.1833, "population": 703345 },
+                { "name": "Gorakhpur", "lat": 26.7600, "lng": 83.3700, "population": 671048 },
+                { "name": "Bikaner", "lat": 28.0180, "lng": 73.3160, "population": 647804 },
+                { "name": "Amravati", "lat": 20.9333, "lng": 77.7500, "population": 646801 },
+                { "name": "Noida", "lat": 28.5700, "lng": 77.3200, "population": 642381 },
+                { "name": "Bhilai", "lat": 21.2000, "lng": 81.4333, "population": 625697 },
+                { "name": "Cuttack", "lat": 20.4600, "lng": 85.8800, "population": 606007 },
+                { "name": "Firozabad", "lat": 27.1500, "lng": 78.4100, "population": 603797 },
+                { "name": "Kochi", "lat": 9.9816, "lng": 76.2999, "population": 601574 },
+                { "name": "Durgapur", "lat": 23.4833, "lng": 87.3200, "population": 493405 },
+                { "name": "Asansol", "lat": 23.6833, "lng": 86.9833, "population": 475439 },
+                { "name": "Ulhasnagar", "lat": 19.2248, "lng": 73.1610, "population": 473731 },
+                { "name": "Siliguri", "lat": 26.7271, "lng": 88.4324, "population": 472374 },
+                { "name": "Jalgaon", "lat": 21.0076, "lng": 75.5663, "population": 460468 },
+                { "name": "Kurnool", "lat": 15.8239, "lng": 78.0353, "population": 457633 },
+                { "name": "Jammu", "lat": 32.7266, "lng": 74.8570, "population": 502197 },
+                { "name": "Ujjain", "lat": 23.1765, "lng": 75.7885, "population": 515215 },
+                { "name": "Mangaluru", "lat": 12.9142, "lng": 74.8559, "population": 623841 },
+                { "name": "Kolhapur", "lat": 16.7050, "lng": 74.2433, "population": 549232 },
+                { "name": "Ajmer", "lat": 26.4683, "lng": 74.6399, "population": 542321 },
+                { "name": "Gaya", "lat": 24.7885, "lng": 85.0097, "population": 470876 },
+                { "name": "Jhansi", "lat": 25.4484, "lng": 78.5684, "population": 507000 },
+                { "name": "Tiruchirappalli", "lat": 10.7905, "lng": 78.7047, "population": 916674 },
+                { "name": "Tiruppur", "lat": 11.1085, "lng": 77.3411, "population": 898167 },
+                { "name": "Bhilwara", "lat": 25.3500, "lng": 74.6333, "population": 401865 },
+                { "name": "Secunderabad", "lat": 17.4399, "lng": 78.4983, "population": 217910 }, // Part of Hyderabad
+                { "name": "Pondicherry", "lat": 11.9416, "lng": 79.8083, "population": 657209 },
+                { "name": "Davanagere", "lat": 14.4678, "lng": 75.9218, "population": 364523 },
+                { "name": "Nellore", "lat": 14.4447, "lng": 79.9864, "population": 378428 },
+                { "name": "Hubli-Dharwad", "lat": 15.3647, "lng": 75.1227, "population": 943857 },
+                { "name": "Akola", "lat": 20.7000, "lng": 77.0000, "population": 400494 },
+                { "name": "Belagavi", "lat": 15.8497, "lng": 74.5000, "population": 399653 },
+                { "name": "Tirunelveli", "lat": 8.7139, "lng": 77.7567, "population": 473637 },
+                { "name": "Malegaon", "lat": 20.5500, "lng": 74.5500, "population": 409403 },
+                { "name": "Gaya", "lat": 24.7972, "lng": 85.0097, "population": 470876 },
+                { "name": "Jamnagar", "lat": 22.4700, "lng": 70.0700, "population": 600943 },
+                { "name": "Kakinada", "lat": 16.9891, "lng": 82.2471, "population": 325510 },
+                { "name": "Nanded", "lat": 19.1574, "lng": 77.3197, "population": 550564 },
+                { "name": "Gulbarga", "lat": 17.3297, "lng": 76.8343, "population": 422569 },
+                { "name": "Muzaffarpur", "lat": 26.1225, "lng": 85.3900, "population": 333200 },
+                { "name": "Bokaro", "lat": 23.6693, "lng": 86.1517, "population": 414000 },
+                { "name": "Bhavnagar", "lat": 21.7650, "lng": 72.1500, "population": 650000 },
+                { "name": "Mangalore", "lat": 12.9150, "lng": 74.8560, "population": 623841 },
+                { "name": "Thrissur", "lat": 10.5276, "lng": 76.2144, "population": 315596 },
+                { "name": "Agartala", "lat": 23.8315, "lng": 91.2907, "population": 400000 },
+                { "name": "Rourkela", "lat": 22.2858, "lng": 84.8550, "population": 552239 },
+                { "name": "Shimla", "lat": 31.1048, "lng": 77.1734, "population": 238000 },
+                { "name": "Puducherry", "lat": 11.9333, "lng": 79.8333, "population": 657209 },
+                { "name": "Anantapur", "lat": 14.6819, "lng": 77.6012, "population": 267161 },
+                { "name": "Rohtak", "lat": 28.8955, "lng": 76.6067, "population": 374607 },
+                { "name": "Shahjahanpur", "lat": 27.8833, "lng": 79.9167, "population": 346103 },
+                { "name": "Tirupati", "lat": 13.6288, "lng": 79.4192, "population": 287035 },
+                { "name": "Bhagalpur", "lat": 25.2500, "lng": 86.9833, "population": 410210 },
+                { "name": "Chandrapur", "lat": 19.9576, "lng": 79.2961, "population": 375355 },
+                { "name": "Karimnagar", "lat": 18.4385, "lng": 79.1288, "population": 289648 },
+                { "name": "Loni", "lat": 28.7500, "lng": 77.2800, "population": 516082 },
+                { "name": "Sambalpur", "lat": 21.4667, "lng": 83.9833, "population": 335761 },
+                { "name": "Satna", "lat": 24.5800, "lng": 80.8300, "population": 283004 },
+                { "name": "Maheshtala", "lat": 22.4800, "lng": 88.2500, "population": 385266 },
+                { "name": "Kozhikode", "lat": 11.2588, "lng": 75.7804, "population": 609224 },
+                { "name": "Rajahmundry", "lat": 17.0000, "lng": 81.7800, "population": 341887 },
+                { "name": "Panipat", "lat": 29.3909, "lng": 76.9635, "population": 328379 },
+                { "name": "Kadapa", "lat": 14.4750, "lng": 78.8250, "population": 344893 },
+                { "name": "Sonipat", "lat": 28.9800, "lng": 77.0100, "population": 292209 },
+                { "name": "Tiruvottiyur", "lat": 13.1500, "lng": 80.3167, "population": 248059 },
+                // Removed "Bhatpara" due to missing valid coordinates in source data
+                { "name": "Etawah", "lat": 26.7865, "lng": 79.0142, "population": 256838 },
+                { "name": "Dhule", "lat": 20.9000, "lng": 74.7833, "population": 375000 },
+                { "name": "Bardhaman", "lat": 23.2389, "lng": 87.8646, "population": 285602 },
+                { "name": "Bijapur", "lat": 16.8200, "lng": 75.7100, "population": 327427 },
+                { "name": "Karnal", "lat": 29.6800, "lng": 76.9900, "population": 303100 },
+                { "name": "Ambala", "lat": 30.3782, "lng": 76.7797, "population": 207934 },
+                { "name": "Pali", "lat": 25.7713, "lng": 73.3237, "population": 229956 },
+                { "name": "Ganganagar", "lat": 29.9200, "lng": 73.8800, "population": 208535 },
+                { "name": "Thanjavur", "lat": 10.7905, "lng": 79.1378, "population": 222943 },
+                { "name": "Erode", "lat": 11.3410, "lng": 77.7282, "population": 173574 },
+                { "name": "Mehsana", "lat": 23.6000, "lng": 72.3999, "population": 190753 }
+            ];
+
+            // SVG dimensions (can be changed, map will scale)
+            const SVG_WIDTH = 800;
+            const SVG_HEIGHT = 800;
+
+            // Padding for the map within the SVG
+            const PADDING = 50;
+            const NUM_NEAREST_CONNECTIONS = 5; // Number of nearest connections to display for each city
+
+            const mapSvg = document.getElementById('cityMap');
+            const currentCityCountSpan = document.getElementById('currentCityCount');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const messageBox = document.getElementById('messageBox');
+
+            let cityPoints = []; // To store references to SVG circles for cities
+            let connectionLines = []; // To store references to SVG lines for connections
+            let connections = []; // To store all calculated connections (only the nearest 5 per city)
+
+            // Helper to display messages to the user
+            function showMessage(message, type = 'success', duration = 3000) {
+                messageBox.textContent = message;
+                // Remove existing background colors before adding new one
+                messageBox.classList.remove('bg-red-500', 'bg-green-500');
+                messageBox.classList.add(`bg-${type === 'error' ? 'red' : 'green'}-500`);
+                messageBox.classList.add('show');
+                setTimeout(() => {
+                    messageBox.classList.remove('show');
+                }, duration);
+            }
+
+            // Show/hide loading spinner
+            function toggleLoading(show) {
+                if (show) {
+                    loadingSpinner.classList.remove('hidden');
+                } else {
+                    loadingSpinner.classList.add('hidden');
+                }
+            }
+
+            // Haversine formula to calculate distance between two points on a sphere (in km)
+            function haversineDistance(lat1, lon1, lat2, lon2) {
+                const R = 6371; // Radius of Earth in kilometers
+                const dLat = (lat2 - lat1) * Math.PI / 180;
+                const dLon = (lon2 - lon1) * Math.PI / 180;
+                const a =
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                const distance = R * c; // Distance in km
+                return distance;
+            }
+
+            // Function to normalize latitude and longitude to SVG coordinates
+            function normalizeCoordinates(cities) {
+                // Find min/max lat/lng
+                const minLat = Math.min(...cities.map(c => c.lat));
+                const maxLat = Math.max(...cities.map(c => c.lat));
+                const minLng = Math.min(...cities.map(c => c.lng));
+                const maxLng = Math.max(...cities.map(c => c.lng));
+
+                // Calculate scaling factors
+                const scaleX = (SVG_WIDTH - 2 * PADDING) / (maxLng - minLng);
+                // Invert Y-axis for latitude as SVG Y-axis goes down, but latitude increases upwards
+                const scaleY = (SVG_HEIGHT - 2 * PADDING) / (maxLat - minLat);
+
+                return cities.map(city => ({
+                    ...city,
+                    // Map longitude to X (left to right)
+                    x: PADDING + (city.lng - minLng) * scaleX,
+                    // Map latitude to Y (top to bottom, inverted)
+                    y: SVG_HEIGHT - PADDING - (city.lat - minLat) * scaleY
+                }));
+            }
+
+            // Function to calculate the N nearest connections for each city
+            async function calculateNearestConnections(cities) {
+                toggleLoading(true);
+                showMessage(`Calculating ${NUM_NEAREST_CONNECTIONS} nearest connections for each city...`, 'success');
+                const allConnections = [];
+                const numCities = cities.length;
+
+                // Use setTimeout to allow UI to update and prevent blocking for large calculations
+                await new Promise(resolve => setTimeout(() => {
+                    for (let i = 0; i < numCities; i++) {
+                        const cityA = cities[i];
+                        const cityConnections = [];
+
+                        for (let j = 0; j < numCities; j++) {
+                            if (i === j) continue; // Skip self-connection
+
+                            const cityB = cities[j];
+                            const distance = haversineDistance(cityA.lat, cityA.lng, cityB.lat, cityB.lng);
+                            cityConnections.push({
+                                cityA: cityA,
+                                cityB: cityB,
+                                distance: distance
+                            });
+                        }
+
+                        // Sort connections by distance and take the nearest N
+                        cityConnections.sort((a, b) => a.distance - b.distance);
+                        const nearestN = cityConnections.slice(0, NUM_NEAREST_CONNECTIONS);
+                        allConnections.push(...nearestN);
+                    }
+                    resolve();
+                }, 10)); // A small delay
+
+                // Remove duplicate connections (e.g., A-B and B-A)
+                const uniqueConnections = new Map();
+                allConnections.forEach(conn => {
+                    const key1 = `${conn.cityA.name}-${conn.cityB.name}`;
+                    const key2 = `${conn.cityB.name}-${conn.cityA.name}`;
+                    if (!uniqueConnections.has(key1) && !uniqueConnections.has(key2)) {
+                        uniqueConnections.set(key1, conn);
+                    }
+                });
+
+                connections = Array.from(uniqueConnections.values());
+                toggleLoading(false);
+                showMessage(`Found ${connections.length} unique nearest connections.`, 'success');
+                return connections;
+            }
+
+            // Function to draw the map
+            function drawMap(normalizedCities, connectionsToDraw) {
+                mapSvg.innerHTML = ''; // Clear previous drawings
+
+                // Draw connections
+                connectionLines = [];
+                connectionsToDraw.forEach(conn => {
+                    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.setAttribute('x1', conn.cityA.x);
+                    line.setAttribute('y1', conn.cityA.y);
+                    line.setAttribute('x2', conn.cityB.x);
+                    line.setAttribute('y2', conn.cityB.y);
+                    line.classList.add('connection-line');
+                    // Store the connection data on the line element for easy access
+                    line.dataset.distance = conn.distance.toFixed(0);
+                    line.dataset.cityA = conn.cityA.name;
+                    line.dataset.cityB = conn.cityB.name;
+                    mapSvg.appendChild(line);
+                    connectionLines.push(line);
+                });
+
+                // Draw cities
+                cityPoints = [];
+                normalizedCities.forEach(city => {
+                    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    circle.setAttribute('cx', city.x);
+                    circle.setAttribute('cy', city.y);
+                    circle.setAttribute('r', 5); // Base radius
+                    circle.classList.add('city-point');
+                    circle.dataset.name = city.name;
+                    circle.dataset.population = city.population.toLocaleString();
+                    circle.dataset.lat = city.lat.toFixed(2);
+                    circle.dataset.lng = city.lng.toFixed(2);
+                    mapSvg.appendChild(circle);
+                    cityPoints.push(circle);
+                });
+
+                // Add tooltips
+                setupTooltips();
+            }
+
+            // Tooltip functionality
+            function setupTooltips() {
+                const tooltip = document.createElement('div');
+                tooltip.classList.add('tooltip');
+                document.body.appendChild(tooltip);
+
+                let activeTooltip = null;
+
+                function showTooltip(e, content) {
+                    if (activeTooltip) {
+                        activeTooltip.classList.remove('active');
+                    }
+                    tooltip.innerHTML = content;
+                    tooltip.style.left = `${e.pageX + 10}px`;
+                    tooltip.style.top = `${e.pageY + 10}px`;
+                    tooltip.classList.add('active');
+                    activeTooltip = tooltip;
+                }
+
+                function hideTooltip() {
+                    if (activeTooltip) {
+                        activeTooltip.classList.remove('active');
+                        activeTooltip = null;
+                    }
+                }
+
+                cityPoints.forEach(circle => {
+                    circle.addEventListener('mousemove', (e) => {
+                        const cityName = circle.dataset.name;
+                        const cityPopulation = circle.dataset.population;
+                        const cityLat = circle.dataset.lat;
+                        const cityLng = circle.dataset.lng;
+                        const content = `<strong>${cityName}</strong><br>Population: ${cityPopulation}<br>Lat: ${cityLat}, Lng: ${cityLng}`;
+                        showTooltip(e, content);
+                    });
+                    circle.addEventListener('mouseout', hideTooltip);
+                });
+
+                connectionLines.forEach(line => {
+                    line.addEventListener('mousemove', (e) => {
+                        const cityA = line.dataset.cityA;
+                        const cityB = line.dataset.cityB;
+                        const distance = line.dataset.distance;
+                        const content = `<strong>${cityA} - ${cityB}</strong><br>Distance: ${distance} km`;
+                        showTooltip(e, content);
+                        line.classList.add('highlight'); // Highlight line on hover
+                    });
+                    line.addEventListener('mouseout', () => {
+                        hideTooltip();
+                        line.classList.remove('highlight'); // Remove highlight
+                    });
+                });
+            }
+
+            // Initialize the map
+            async function initMap() {
+                toggleLoading(true);
+                showMessage('Initializing map and processing city data...', 'success');
+
+                // Filter out any cities with missing or invalid coordinates if necessary (though the list is curated)
+                const validCities = citiesData.filter(city => city.lat != null && city.lng != null);
+                // Ensure only up to 100 cities are processed, as requested previously.
+                const processedCities = validCities.slice(0, 100);
+
+                currentCityCountSpan.textContent = processedCities.length;
+
+                // Normalize cities to fit the SVG viewport
+                const normalizedCities = normalizeCoordinates(processedCities);
+
+                // Calculate only the nearest connections
+                await calculateNearestConnections(normalizedCities);
+
+                // Draw the map with the pre-filtered connections
+                drawMap(normalizedCities, connections);
+                toggleLoading(false);
+                showMessage('Map loaded successfully!', 'success');
+            }
+
+            // Run initialization when the window loads
+            window.onload = initMap;
+        })();
+    </script>
+</body>
+</html>
