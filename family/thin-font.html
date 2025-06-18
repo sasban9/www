@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Thin Font</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        h1,h2,h3,div,p,li{margin-bottom: 20vh;filter:blur(8px);}
+        h1:hover,h2:hover,h3:hover,div:hover,p:hover,li:hover{filter:blur(0px);}
+        html{
+            scrollbar-width: none;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 4rem;
+            font-weight: 100; /* Thin font weight */
+            line-height: 1.6;
+            background: linear-gradient(-90deg, #01144d, #000);
+            color: #ccc;
+            margin: 200px;
+        }
+        h1, h2, h3 {
+            font-weight: 300; /* Lighter headings */
+        }
+        img {
+            max-width: 100%;
+            /* display: block; */
+            margin: 0 auto;cursor: pointer;
+            transform: scale(0.75) rotate(-10deg);
+            transition: all 0.3s ease-out;
+        }
+        img:hover {
+            transform: rotate(0deg);
+        }
+        small {
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>"Vibe coding," which heavily relies on AI tools to generate code, often prioritizes speed and immediate functionality. <small>However, this approach can lead to several areas being overlooked, particularly by those who are not seasoned developers. Here are some of the key areas generally ignored by vibe coders when building a new web app:</small></p>
+
+        <p><b>1. Security:</b> This is arguably the most critical and frequently ignored area. <small>AI-generated code might function, but it often lacks built-in security best practices, leading to vulnerabilities like:</small></p>
+        <ul>
+            <li><b>SQL Injection:</b> Insufficient input validation can leave databases open to attacks.</li>
+            <li><b>Cross-Site Scripting (XSS):</b> Failure to sanitize user input can allow malicious scripts to be injected.</li>
+            <li><b>Insecure API Key Management:</b> Hardcoding API keys or exposing sensitive credentials.</li>
+            <li><b>Weak Authentication and Authorization:</b> Not implementing robust user authentication (e.g., proper hashing of passwords) or access control mechanisms.</li>
+            <li><b>Insecure Communications:</b> Using plain HTTP instead of HTTPS.</li>
+            <li><b>Dependency Vulnerabilities:</b> Not regularly scanning for or updating vulnerable third-party libraries.</li>
+            <li><b>File Upload Security:</b> Allowing malicious file types or direct access to uploaded files.</li>
+        </ul>
+
+        <h4>2. Code Quality and Maintainability:</h4>
+        <ul>
+            <li><b>Architectural Incoherence:</b> AI might generate fragmented code without a consistent structure, making it difficult to understand, extend, or refactor later.</li>
+            <li><b>Readability and Documentation:</b> The generated code might be less readable, and proper comments or documentation might be missing, hindering future development or collaboration.</li>
+            <li><b>Modularity and Reusability:</b> Code might not be broken down into reusable components, leading to repetition and "technical debt."</li>
+            <li><b>Scalability:</b> AI might not consider how the application will perform under heavy load, leading to performance issues as the user base grows.</li>
+            <li><b>Debugging Challenges:</b> AI-generated code, especially if the user doesn't understand the underlying logic, can be notoriously difficult to debug when issues arise.</li>
+        </ul>
+
+        <h4>3. User Experience (UX) and User Interface (UI) Consistency:</h4>
+        <ul>
+            <li><b>Inconsistent Design:</b> Unless fed a clear design system, AI might produce a UI with inconsistent patterns, layouts, or user flows.</li>
+            <li><b>Accessibility:</b> Accessibility best practices (e.g., for users with disabilities) are often overlooked, leading to an app that is not usable by everyone.</li>
+            <li><b>Edge Cases and Error Handling:</b> The AI might focus on the "happy path" and neglect to generate robust error handling or gracefully manage unexpected user inputs or system failures.</li>
+        </ul>
+
+        <h4>4. Performance Optimization:</h4>
+        <ul>
+        </ul>
+            * **Inefficient Algorithms:** The generated code might not be optimized for performance, leading to slow load times or sluggish interactions.
+            * **Resource Management:** Inefficient use of server resources, database queries, or network requests can impact performance.
+
+        <h4>5. Long-Term Strategy and Operations:</h4>
+        <ul>
+            <li><b>Deployment and Infrastructure:</b> While AI can generate code, the complexities of deployment, continuous integration/continuous delivery (CI/CD), and managing production environments are often beyond the scope of a vibe coder's immediate focus.</li>
+            <li><b>Monitoring and Logging:</b> Lack of proper monitoring and logging can make it hard to diagnose issues in a live application.</li>
+            <li><b>Updates and Patches:</b> Maintaining the application over time, applying security patches, and updating dependencies requires ongoing effort often not considered.</li>
+        </ul>
+
+        <h4>Why these areas are ignored:</h4>
+            * **Speed Over Quality:** Vibe coding is often about getting something functional quickly, which can lead to cutting corners in these critical areas.
+
+* **Focus on Immediate Functionality:** Vibe coding emphasizes rapid prototyping and getting something "working" quickly, often at the expense of deeper, more robust considerations.
+* **Lack of Technical Understanding:** Many vibe coders may not have a strong background in software engineering principles, security best practices, or system architecture. They trust the AI to produce correct and secure code without understanding the "how" or "why."
+* **AI's Limitations:** While powerful, current AI models might not inherently prioritize or fully grasp complex non-functional requirements like security, scalability, and long-term maintainability without explicit and detailed prompting.
+* **"Black Box" Effect:** Users might treat the AI-generated code as a black box, not feeling the need to understand or scrutinize its internal workings.
+
+<p>In essence, while vibe coding offers incredible speed and accessibility, it often trades off depth, robustness, and long-term viability, making human oversight and a fundamental understanding of software development crucial for building truly production-ready web applications.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kind Prompting Slides</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #111;
+      color: white;
+      overflow: hidden;
+    }
+    .slide {
+      display: none;
+      height: 100vh;
+      width: 100vw;
+      padding: 4rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .slide.active {
+      display: block;
+      opacity: 1;
+    }
+    .step {
+      opacity: 0;
+    }
+    .step.visible {
+      opacity: 1;
+      transition: all 0.5s ease;
+    }
+
+    .animate-fadeInUp { animation: fadeInUp 0.6s ease forwards; }
+    .animate-slideInLeft { animation: slideInLeft 0.6s ease forwards; }
+    .animate-zoomIn { animation: zoomIn 0.6s ease forwards; }
+    .animate-rotateIn { animation: rotateIn 0.6s ease forwards; }
+    .animate-bounceIn { animation: bounceIn 0.6s ease forwards; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes rotateIn {
+      from { opacity: 0; transform: rotate(-90deg); }
+      to { opacity: 1; transform: rotate(0); }
+    }
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.3); }
+      50% { transform: scale(1.05); }
+      70% { transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .media-placeholder {
+      width: 100%;
+      height: 300px;
+      background: #333;
+      border: 2px dashed #777;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      margin: 2rem 0;
+    }
+
+    .progress-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #00e0ff;
+      transition: width 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide active">
+    <div class="step animate-zoomIn"> <h1>🔟 Commandment 10: Be Kind to Thy Promptee</h1> </div>
+    <div class="step animate-slideInLeft"> <p>Kindness and clarity go hand in hand. Whether prompting AI, people, or yourself — kindness leads to clarity and better results.</p> </div>
+  </div>
+
+  <div class="slide">
+    <div class="step animate-rotateIn"> <h2>💬 Use Polite Language</h2> </div>
+    <div class="step animate-fadeInUp"> <p>Even simple courtesies like "please" and "thank you" create better interactions.</p> </div>
+    <div class="step animate-slideInLeft"> <blockquote>❌ "Do this now."<br/>✅ "Could you please write a summary of this article?"</blockquote> </div>
+    <div class="step animate-zoomIn"> <div class="media-placeholder">[Image: polite conversation]</div> </div>
+  </div>
+
+  <div class="slide">
+    <div class="step animate-bounceIn"> <h2>🧠 Respect Cognitive Limits</h2> </div>
+    <div class="step animate-fadeInUp"> <p>Don't overload your prompt. Break complex tasks into steps.</p> </div>
+    <div class="step animate-slideInLeft"> <blockquote>❌ "Explain this book, compare..."<br/>✅ "First, give me a brief summary..."</blockquote> </div>
+    <div class="step animate-rotateIn"> <div class="media-placeholder">[Image: simplified steps or flowchart]</div> </div>
+  </div>
+
+  <div class="progress-container">
+    <div id="progress-bar" class="progress-bar"></div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const progressBar = document.getElementById('progress-bar');
+    let current = 0;
+    let stepIndex = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      stepIndex = 0;
+      const steps = slides[current].querySelectorAll('.step');
+      steps.forEach(s => s.classList.remove('visible'));
+      updateProgress();
+    }
+
+    function showNextStepOrSlide() {
+      const steps = slides[current].querySelectorAll('.step');
+      if (stepIndex < steps.length) {
+        steps[stepIndex].classList.add('visible');
+        stepIndex++;
+        updateProgress();
+      } else {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+      }
+    }
+
+    function showPrevSlide() {
+      current = (current - 1 + slides.length) % slides.length;
+      showSlide(current);
+    }
+
+    function updateProgress() {
+      const steps = slides[current].querySelectorAll('.step');
+      const percentage = steps.length ? (stepIndex / steps.length) * 100 : 0;
+      progressBar.style.width = percentage + '%';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        showNextStepOrSlide();
+      } else if (e.key === 'ArrowLeft') {
+        showPrevSlide();
+      }
+    });
+
+    document.addEventListener('click', showNextStepOrSlide);
+
+    showSlide(current);
+  </script>
+</body>
+</html>

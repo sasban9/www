@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Yearly Data Table with HTML Content</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better table appearance */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            border-radius: 0.5rem; /* Rounded corners for the table */
+            overflow: hidden; /* Ensures rounded corners are applied to content */
+        }
+        th, td {
+            border: 1px solid #e5e7eb; /* Light gray border */
+            padding: 0.75rem;
+            text-align: left;
+            white-space: nowrap; /* Prevent wrapping for column headers if not using <br> */
+        }
+        th {
+            background-color: #1f2937; /* Darker header background */
+            color: #ffffff; /* White text for headers */
+            font-weight: 600; /* Semi-bold */
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9fafb; /* Lighter background for even rows */
+        }
+        tbody tr:hover {
+            background-color: #e0e7ff; /* Light blue on hover */
+        }
+        /* Custom scroll for horizontal table overflow */
+        .table-container {
+            overflow-x: auto; /* Enables horizontal scrolling for the table */
+            max-width: 100vw; /* Ensures container doesn't overflow viewport */
+            padding: 1rem; /* Padding around the table */
+        }
+        .rounded-box {
+            border-radius: 0.5rem; /* Apply rounded corners */
+        }
+        /* Sticky header for year column */
+        .sticky-year-header {
+            position: sticky;
+            left: 0;
+            background-color: #1f2937; /* Same as other headers */
+            color: #ffffff;
+            z-index: 10;
+        }
+        .sticky-year-cell {
+            position: sticky;
+            left: 0;
+            background-color: #ffffff; /* Background for the data cells in the sticky column */
+            z-index: 5; /* Slightly lower z-index than header to keep header on top */
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="p-4 bg-gray-100 flex flex-col items-center">
+    <div class="container mx-auto p-4 bg-white rounded-box shadow-lg">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Dynamic Yearly Data Table (1984-2024)</h1>
+
+        <div class="mb-4 text-center">
+            <button id="toggleOrderBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
+                Toggle Year Order (Current: Chronological)
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table id="dynamicTable" class="min-w-full rounded-box">
+                <thead>
+                    <tr id="tableHeader"></tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Table rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Configuration for the table
+        const START_YEAR = 1984;
+        const END_YEAR = 2024;
+        const MONTHS = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        // Generate the array of years from START_YEAR to END_YEAR
+        const YEARS = Array.from({ length: END_YEAR - START_YEAR + 1 }, (_, i) => START_YEAR + i);
+
+        // This boolean controls the chronological order of years.
+        // Set to true for chronological years (1984-2024), false for reverse chronological (2024-1984).
+        let isChronologicalYearOrder = true; // Easily change this to false to reverse the year order initially
+
+        // Sample JSON data for the table cells.
+        // Data is now structured by Year -> Month -> Data Value.
+        const tableData = {
+            // Example for one year. You'd populate this for all years.
+            "1984": {
+                "January": "Sales: 100<br>Growth: 5%",
+                "February": "Users: 50<br>Active: 40",
+                "March": "Revenue: $1k<br>Target: $1.1k",
+                "April": "Temp: 15°C<br>Rain: 10mm",
+                "May": "Visitors: 200<br>Unique: 180",
+                "June": "Saswata 21JUN",
+                "July": "Clicks: 500<br>CTR: 2%",
+                "August": "Leads: 20<br>Converted: 5",
+                "September": "Cost: $50<br>Budget: $60",
+                "October": "Profit: $30<br>Margin: 30%",
+                "November": "Score: 80<br>Max: 100",
+                "December": "Rating: 4.0<br>Reviews: 15"
+            },
+            1985: { 
+                "March": "Manas 05MAR",
+                "June": "Sricheta 28JUN"
+            },
+            1987: {
+                "January": "Sales: 150<br>Growth: 8%",
+                "February": "Users: 70<br>Active: 60",
+                "March": "Revenue: $2k<br>Target: $1.8k",
+                "April": "Temp: 16°C<br>Rain: 8mm",
+                "May": "Visitors: 300<br>Unique: 280",
+                "June": "Units: 100<br>Defects: 2",
+                "July": "Clicks: 800<br>CTR: 2.5%",
+                "August": "Leads: 30<br>Converted: 10",
+                "September": "Niladri 15SEP",
+                "October": "Profit: $50<br>Margin: 20%",
+                "November": "Score: 85<br>Max: 100",
+                "December": "Rating: 4.2<br>Reviews: 20"
+            },
+            1988: {
+                "January": "Sales: 200<br>Growth: 10%",
+                "February": "Users: 90<br>Active: 80",
+                "March": "Revenue: $3k<br>Target: $2.5k",
+                "April": "Temp: 17°C<br>Rain: 7mm",
+                "May": "Visitors: 350<br>Unique: 320",
+                "June": "Basabdatta 30JUN",
+                "July": "Clicks: 1000<br>CTR: 3%",
+                "August": "Leads: 40<br>Converted: 15",
+                "September": "Cost: $100<br>Budget: $90",
+                "October": "Profit: $70<br>Margin: 22%",
+                "November": "Score: 90<br>Max: 100",
+                "December": "Rating: 4.5<br>Reviews: 30"
+            },
+            1994: {
+                "January": "",
+                "February": "",
+                "March": "",
+                "April": "",
+                "May": "",
+                "June": "Sulagna 11JUN",
+                "July": "Clicks: 1100<br>CTR: 3.2%",
+                "August": "Leads: 50<br>Converted: 18",
+                "September": "Cost: $120<br>Budget: $110",
+                "October": "",
+                "November": "",
+                "December": ""
+            },
+            "2024": {
+                "January": "Sales: 250<br>Growth: 12%",
+                "February": "Users: 120<br>Active: 100",
+                "March": "Revenue: $5k<br>Target: $4.5k",
+                "April": "Temp: 18°C<br>Rain: 5mm",
+                "May": "Visitors: 450<br>Unique: 400",
+                "June": "Units: 180<br>Defects: 1",
+                "July": "Clicks: 1200<br>CTR: 3.5%",
+                "August": "Leads: 60<br>Converted: 20",
+                "September": "Cost: $150<br>Budget: $140",
+                "October": "Profit: $100<br>Margin: 25%",
+                "November": "Score: 95<br>Max: 100",
+                "December": "Rating: 4.8<br>Reviews: 50"
+            }
+            // Add more years and their monthly data here
+        };
+
+        // Function to generate more dynamic dummy data for demonstration
+        function generateDummyData() {
+            YEARS.forEach(year => {
+                if (!tableData[year.toString()]) { // Only generate if data for year doesn't exist
+                    tableData[year.toString()] = {};
+                }
+                MONTHS.forEach(month => {
+                    if (!tableData[year.toString()][month]) { // Only generate if data for month doesn't exist for this year
+                        const randomValue1 = Math.floor(Math.random() * 1000) + 1;
+                        const randomValue2 = (Math.random() * 10).toFixed(1); // For a decimal value
+                        tableData[year.toString()][month] = `Data: ${randomValue1}<br>Metric: ${randomValue2}`;
+                    }
+                });
+            });
+        }
+
+        // Generate dummy data on load to fill all cells
+        // generateDummyData();
+
+        // Get table elements
+        const tableHeader = document.getElementById('tableHeader');
+        const tableBody = document.getElementById('tableBody');
+        const toggleOrderBtn = document.getElementById('toggleOrderBtn');
+
+        /**
+         * Renders the table content based on the chronological year order setting.
+         * Months are always rendered chronologically in columns.
+         * @param {boolean} chronologicalYears - If true, renders years chronologically; otherwise, reverse chronologically.
+         */
+        function renderTable(chronologicalYears) {
+            // Clear existing table body content
+            tableBody.innerHTML = '';
+            tableHeader.innerHTML = ''; // Clear header as well for full re-render
+
+            // Prepare years array (for rows) based on order
+            const yearsToRender = chronologicalYears ? [...YEARS] : [...YEARS].reverse();
+
+            // 1. Generate Table Header (Months as Columns)
+            // The first header cell is empty (top-left corner)
+            let headerHtml = '<th class="sticky-year-header rounded-tl-lg">Year</th>';
+            // Add month headers
+            MONTHS.forEach(monthName => {
+                headerHtml += `<th class="px-4 py-2">${monthName}</th>`;
+            });
+            tableHeader.innerHTML = headerHtml;
+
+            // 2. Generate Table Body (Years as Rows, Months as Columns)
+            yearsToRender.forEach(year => {
+                const row = document.createElement('tr');
+                row.classList.add('hover:bg-blue-50'); // Add hover effect to rows
+
+                // First cell for year name (sticky)
+                row.innerHTML = `<td class="sticky-year-cell">${year}</td>`;
+
+                // Add data cells for each month
+                MONTHS.forEach(monthName => {
+                    const cell = document.createElement('td');
+                    // Get data from the tableData object for the current year and month
+                    const cellData = tableData[year.toString()] ? tableData[year.toString()][monthName] : '';
+                    // Use innerHTML to allow for HTML content like <br>
+                    cell.innerHTML = cellData || '-'; // Display data or a hyphen if not found
+                    row.appendChild(cell);
+                });
+                tableBody.appendChild(row);
+            });
+
+            // Update button text to reflect current year order
+            toggleOrderBtn.textContent = `Toggle Year Order (Current: ${chronologicalYears ? 'Chronological' : 'Reverse Chronological'})`;
+        }
+
+        // Event listener for the toggle button
+        toggleOrderBtn.addEventListener('click', () => {
+            isChronologicalYearOrder = !isChronologicalYearOrder; // Toggle the year order
+            renderTable(isChronologicalYearOrder); // Re-render the table with the new year order
+        });
+
+        // Initial render when the page loads
+        window.onload = () => {
+            renderTable(isChronologicalYearOrder);
+        };
+    </script>
+</body>
+</html>
