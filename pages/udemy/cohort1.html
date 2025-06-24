@@ -18,6 +18,12 @@
         .table tr:first-child td{background-color: paleturquoise;}
         .table tr th{background-color: lightsteelblue;}
         /* .col{display:flex;align-items: start;justify-content: center; flex-wrap: wrap; grid-template-columns: auto auto auto auto auto auto;gap:10px;align-content:start;margin: 0 auto;} */
+        img:hover{animation: flick 0.4s ease-in-out;}
+        @keyframes flick {
+            0%,100%{transform: scaleX(1);}
+            25%{transform: translate(15px, -15px);}
+            /* 50%{transform: scaleY(0.5);} */
+        }
 
         .col{display: flex;width: 100%;flex-wrap: wrap;justify-content: center;}
         @media(max-width:1320px){
@@ -50,19 +56,19 @@
         <div class="row1 mt-4">
             <div class="col">
                 <!-- <table class="table">
-                    <tr><td><b>29MAR</b> ------ </td></tr>
+                    <tr><td><b>29MAR</b> --- </td></tr>
                     <tr>
                         <th><a href=""><img src="/sasban.jpg" alt=""><br>John</a></th>
                     </tr>
                 </table>
                 <table class="table">
-                    <tr><td><b>29MAR</b> ------ </td></tr>
+                    <tr><td><b>29MAR</b> --- </td></tr>
                     <tr>
                         <th><a href=""><img src="/sasban.jpg" alt=""><br>John</a></th>
                     </tr>
                 </table> -->
                 <!-- <table class="table" style="border-bottom: solid 10px blueviolet;">
-                    <tr><th>21JUN</th><td> ------ </td></tr>
+                    <tr><th>21JUN</th><td> --- </td></tr>
                     <tr><th>24MAY</th><td> 58,256 </td></tr>
                     <tr><th>26APR</th><td> 57,070 </td></tr>
                     <tr><th>29MAR</th><td> 56,168 </td></tr>
@@ -70,10 +76,10 @@
                         <th colspan="2"><a href="https://www.udemy.com/user/cipherdevlabs/"><img src="https://img-c.udemycdn.com/user/200_H/46213646_031a_3.jpg" alt=""><br>CipherDev Labs™</a></th>
                     </tr>
                     <tr><th>22MAR</th><td> 55,410 [23]</td></tr>
-                    <tr><th>08MAR</th><td> ------ </td></tr>
+                    <tr><th>08MAR</th><td> --- </td></tr>
                 </table>
                 <table class="table" style="border-bottom: solid 10px blueviolet;">
-                    <tr><th>21JUN</th><td> ------ </td></tr>
+                    <tr><th>21JUN</th><td> --- </td></tr>
                     <tr><th>24MAY</th><td> 53,711 </td></tr>
                     <tr><th>26APR</th><td> 52,698 </td></tr>
                     <tr><th>29MAR</th><td> 51,919 </td></tr>
@@ -84,7 +90,7 @@
                     <tr><th>08MAR</th><td> 44,958 [6]</td></tr>
                 </table>
                 <table class="table">
-                    <tr><th>21JUN</th><td> ------ </td></tr>
+                    <tr><th>21JUN</th><td> --- </td></tr>
                     <tr title="Faceless Social Media Content Creation Using ChatGPT And AI"><th>24MAY</th><td> [15]47,273 </td></tr>
                     <tr><th>26APR</th><td> 45,016 </td></tr>
                     <tr><th>29MAR</th><td> 43,238 </td></tr>
@@ -95,7 +101,7 @@
                     <tr><th>15MAR</th><td> 41,883 [14]</td></tr>
                 </table>
                 <table class="table">
-                    <tr><th>21JUN</th><td> ------ </td></tr>
+                    <tr><th>21JUN</th><td> --- </td></tr>
                     <tr><th>24MAY</th><td> 38,223 </td></tr>
                     <tr><th>26APR</th><td> 35,096 </td></tr>
                     <tr><th>29MAR</th><td> 32,975 </td></tr>
@@ -107,7 +113,7 @@
                     <tr><th>11MAR</th><td> 29,823 [3]</td></tr>
                 </table>
                 <table class="table">
-                    <tr><th>21JUN</th><td> ------ </td></tr>
+                    <tr><th>21JUN</th><td> --- </td></tr>
                     <tr title="Generative AI 2025 Executive Briefing: LLMs for Leaders"><th>24MAY</th><td> [4]99,908 </td></tr>
                     <tr title="【AI 자막】 LLM 엔지니어링 : AI 인공지능 및 대규모 언어 모델 및 에이전트 마스터하기!"><th>26APR</th><td> [3]76,342 </td></tr>
                     <tr><th>29MAR</th><td> 67,406 </td></tr>
@@ -119,7 +125,7 @@
                     <tr><th>11MAR</th><td> 55,738 [2]</td></tr>
                 </table>
                 <table class="table">
-                    <tr><th>21JUN</th><td> ------ </td></tr>
+                    <tr><th>21JUN</th><td> --- </td></tr>
                     <tr><th>24MAY</th><td> 139,489 </td></tr>
                     <tr><th>26APR</th><td> [16]137,054 </td></tr>
                     <tr><th>29MAR</th><td> 136,525 [15]</td></tr>
@@ -131,7 +137,7 @@
                     <tr class="bg-danger text-white"><th>10MAR</th><td> 135,550 [15]</td></tr>
                 </table> -->
                 <!-- <table class="table bg-dark text-white" style="border-top: solid 10px purple;">
-                    <tr><th>26APR</th><td> ------ </td></tr>
+                    <tr><th>26APR</th><td> --- </td></tr>
                     <tr><th>29MAR</th><td> 123,211 </td></tr>
                     <tr><th>22MAR</th><td> 119,685 [9]</td></tr>
                     <tr><th>15MAR</th><td> 118,453 [8]</td></tr>
@@ -155,23 +161,24 @@
                         <th><a href="https://www.udemy.com/user/gunjansubedi/"><img src="https://img-c.udemycdn.com/user/200_H/8595682_5ee8.jpg" title="Gunjan Subedi" alt=""></a></th>
                     </tr>
                     <tr>
-                        <td>--<br>[8]33,184<br>--</td>
-                        <td>--<br>[7]400,187<br>--</td>
-                        <td>--<br>[3]29,571<br>--</td>
-                        <td>--<br>[17]466,933<br>--</td>
-                        <td>--<br>[3]58,126<br>--</td>
-                        <td>--<br>[2]99,583<br>--</td>
+                        <td class="bg-danger text-white">--<br>[8]33,184<br>41,478<br>--</td>
+                        <td>--<br>[7]400,187<br>404,949<br>--</td>
+                        <td>--<br>[3]29,571<br>30,426<br>--</td>
+                        <td>--<br>[17]466,933<br>473,046<br>--</td>
+                        <td>--<br>[3]58,126<br>59,618<br>--</td>
+                        <td>--<br>[2]99,583<br>100,798<br>--</td>
                         <th>26APR<br>24MAY<br>21JUN<br>19JUL</th>
-                        <td>[8]8,086<br>8,101<br>--</td>
-                        <td>[12]1,859<br>1,862<br>--</td>
-                        <td>[3]9,159<br>9,200<br>--</td>
-                        <td>[4]10,989<br>11,152<br>--</td>
-                        <td>[6]593<br>634<br>--</td>
-                        <td>[15]12,481<br>12,555<br>--</td>
+                        <td>[8]8,086<br>8,101<br>8,117<br>--</td>
+                        <td class="bg-secondary">[12]1,859<br>1,862<br>1,867<br>--</td>
+                        <td class="bg-secondary">[3]9,159<br>9,200<br>9,224<br>--</td>
+                        <td>[4]10,989<br>11,152<br>[3]11,269<br>--</td>
+                        <td>[6]593<br>634<br>657<br>--</td>
+                        <td>[15]12,481<br>12,555<br>12,637<br>--</td>
                     </tr>
                     <tr>
                         <th><a href="https://www.udemy.com/user/yury-kozlov-5/"><img src="https://img-c.udemycdn.com/user/200_H/160600632_200a_3.jpg" title="HK School of Management - LSP" alt=""></a></th>
-                        <th><a href="https://www.udemy.com/user/susan-stolworthy/"><img src="https://img-c.udemycdn.com/user/200_H/288336439_051f.jpg" title="Susan Stolworthy" alt=""></a></th>
+                        <th><a href="https://www.udemy.com/user/jasonteteak/"><img src="https://img-c.udemycdn.com/user/200_H/1113082_e04e_6.jpg" title="Jason Teteak
+    Author, YouTuber, Keynote & TEDx Speaker, CEO Rule the Room" alt=""></a></th>
                         <th><a href="https://www.udemy.com/user/12785/"><img src="https://img-c.udemycdn.com/user/200_H/4425700_b81a.jpg" title="Michael Boyle" alt=""></a></th>
                         <th><a href="https://www.udemy.com/user/emily-call-3/"><img src="https://img-c.udemycdn.com/user/200_H/54042664_0526_2.jpg" title="Emily Call, MBA" alt=""></a></th>
                         <th><a href="https://www.udemy.com/user/mikeharkin/"><img src="https://img-c.udemycdn.com/user/200_H/3660360_8dfb_2.jpg" title="Mike Harkin" alt=""></a></th>
@@ -186,19 +193,19 @@
                         <th><a href="https://www.udemy.com/user/sumner-hobart/"><img src="https://img-c.udemycdn.com/user/200_H/29085412_790e_3.jpg" alt="" title="Sumner Hobart"></a><br><a href="https://www.youtube.com/watch?v=A68HfR5VU0Y&ab_channel=Sumner%26Ali%7COnlineBusiness">Income Nov2024</a></th>
                     </tr>
                     <tr>
-                        <td>--<br>[5]6,986<br>7,099<br>--</td>
-                        <td>--<br>[5]1,069<br>1,069<br>--</td>
-                        <td>--<br>[8]8,380<br>8,387<br>--</td>
-                        <td>--<br>[6]24,184<br>24,509<br>--</td>
-                        <td>--<br>[3]3,898<br>3,899<br>--</td>
-                        <td class="bg-danger text-white">--<br>[2]38,021<br>40,810<br>--</td>
+                        <td>--<br>[5]6,986<br>7,099<br>7,191<br>--</td>
+                        <td class="bg-info">--<br>--<br>--<br>[58]143,006<br>--</td>
+                        <td>--<br>[8]8,380<br>8,387<br>8,387<br>--</td>
+                        <td>--<br>[6]24,184<br>24,509<br>24,835<br>--</td>
+                        <td>--<br>[3]3,898<br>3,899<br>3,901<br>--</td>
+                        <td class="bg-danger text-white">--<br>[2]38,021<br>40,810<br>43,098<br>--</td>
                         <th>29MAR<br>26APR<br>24MAY<br>21JUN<br>19JUL</th>
-                        <td>[23]56,168<br>57,070<br>58,256<br>---</td>
-                        <td>[7]53,711<br>52,698<br>51,919<br>---</td>
-                        <td>[14]43,238<br>45,016<br>[15]47,273<br>---</td>
-                        <td>[4]32,975<br>35,096<br>38,223<br>---</td>
-                        <td class="bg-danger text-white">[2]67,406<br>[3]76,342<br>[4]99,908<br>---</td>
-                        <td>136,525 [15]<br>[16]137,054<br>139,489<br>---</td>
+                        <td>[23]56,168<br>57,070<br>58,256<br>59,410<br>--</td>
+                        <td>[7]53,711<br>52,698<br>51,919<br>54,699<br>--</td>
+                        <td>[14]43,238<br>45,016<br>[15]47,273<br>47,288<br>--</td>
+                        <td>[4]32,975<br>35,096<br>38,223<br>40,919<br>--</td>
+                        <td class="bg-danger text-white">[2]67,406<br>[3]76,342<br>[4]99,908<br>[6]126,458<br>--</td>
+                        <td>136,525 [15]<br>[16]137,054<br>139,489<br>140,246<br>--</td>
                     </tr>
                     <tr>
                         <th><a href="https://www.udemy.com/user/eden-marco/"><img src="https://img-c.udemycdn.com/user/200_H/30508036_0f4a_4.jpg" alt="" title="Eden Marco | LLM Specialist"></a></th>
@@ -216,23 +223,24 @@
                         <th><a href="https://www.udemy.com/user/josephsiaw/"><img src="https://img-c.udemycdn.com/user/200_H/5838468_6cb4_4.jpg" alt="" title="Joseph Siaw"></a></th>
                     </tr>
                     <tr>
-                        <td class="bg-danger text-white">--- <br><b title="10MAR">[8]117,429</b><br>[9]123,211<br>128,866<br>137,246<br>---</td>
-                        <td>---<br>[1]56,691<br>57,254<br>57,562<br>58,023<br>---</td>
-                        <td>---<br>[5]157,319<br>[5]172,839<br>180,711<br>192,009<br>---</td>
-                        <td class="bg-danger text-white">---<br>[2]161,711<br>[2]170,352<br>175,316<br>[1]182,779<br>---</td>
-                        <td>---<br> [1]3,527<br> [1]3,538<br>3,541<br>3,544<br>---</td>
-                        <td> [7]11,826<br> [6]11,989<br> [7]12,322<br>[6]12,601<br>12,852<br>---</td>
+                        <td class="bg-danger text-white">--- <br><b title="10MAR">[8]117,429</b><br>[9]123,211<br>128,866<br>137,246<br>145,435<br>---</td>
+                        <td>---<br>[1]56,691<br>57,254<br>57,562<br>58,023<br>58,461<br>---</td>
+                        <td class="bg-info">---<br>[5]157,319<br>[5]172,839<br>180,711<br>192,009<br>204,834<br>---</td>
+                        <td class="bg-danger text-white">---<br>[2]161,711<br>[2]170,352<br>175,316<br>[1]182,779<br>192,641<br>---</td>
+                        <td>---<br> [1]3,527<br> [1]3,538<br>3,541<br>3,544<br>3,561<br>---</td>
+                        <td> [7]11,826<br> [6]11,989<br> [7]12,322<br>[6]12,601<br>12,852<br>13,094<br>---</td>
                         <th>15FEB<br>01MAR<br>29MAR<br>26APR<br>24MAY<br>21JUN<br>19JUL</th>
-                        <td>---<br> [17]76,303<br>[17]81,639<br>82,196<br>84,007<br>---</td>
-                        <td><b title="23FEB"> [31]1,004,370</b><br>1,006,169<br> [31]1,016,086<br>1,021,904<br>1,030,365<br>---</td>
-                        <td> [58]1,080,981<br> [60]1,084,825<br>1,100,885<br>[63]1,109,878<br>1,122,524<br>---</td>
-                        <td>---<br> [340]1,696,504<br> [284]1,704,628<br>[289]1,709,030<br>[290]1,715,982<br>---</td>
-                        <td><b title="23FEB">[16]627,565</b><br>630,202<br>643,457<br>649,743<br>[17]659,018<br>---</td>
-                        <td>[3]2025<br>2026<br>2026<br>2026<br>2026<br>---</td>
+                        <td>---<br> [17]76,303<br>[17]81,639<br>82,196<br>84,007<br>85,204<br>---</td>
+                        <td class="bg-info"><b title="23FEB"> [31]1,004,370</b><br>1,006,169<br> [31]1,016,086<br>1,021,904<br>1,030,365<br>1,037,650<br>---</td>
+                        <td class="bg-info"> [58]1,080,981<br> [60]1,084,825<br>1,100,885<br>[63]1,109,878<br>1,122,524<br>[66]1,132,837<br>---</td>
+                        <td>---<br> [340]1,696,504<br> [284]1,704,628<br>[289]1,709,030<br>[290]1,715,982<br>[291]1,725,164<br>---</td>
+                        <td class="bg-danger text-white"><b title="23FEB">[16]627,565</b><br>630,202<br>643,457<br>649,743<br>[17]659,018<br>669,946<br>---</td>
+                        <td class="bg-secondary">[3]2025<br>2026<br>2026<br>2026<br>2026<br>2026<br>---</td>
                     </tr>
                     <tr>
                         <th><a href="https://www.udemy.com/user/daniel-hartweg/"><img src="https://img-c.udemycdn.com/user/200_H/288731777_f2f4.jpg" alt="" title="Daniel Hartweg"></a></th>
-                        <th title="Arun Singhal B-Tech, MBA (IIM-B),Unilever, J&J, Danone, IIMU, Cello"><a href="https://www.udemy.com/user/arun-singhal-19/"><img src="https://img-c.udemycdn.com/user/200_H/170518208_0614.jpg" alt="" title="Arun Singhal B-Tech, MBA (IIM-B)"></a></th>
+                        <th title="Arun Singhal B-Tech, MBA (IIM-B),Unilever, J&J, Danone, IIMU, Cello"><a href="https://www.udemy.com/user/arun-singhal-19/"><img src="https://img-c.udemycdn.com/user/200_H/170518208_0614.jpg" alt="" title="Arun Singhal B-Tech, MBA (IIM-B),Unilever, J&J, Danone, IIMU, Cello
+Management Coach and Mentor with 40 years experience"></a></th>
                         <th><a href="https://www.udemy.com/user/prince-patni/"><img src="https://img-c.udemycdn.com/user/200_H/28616898_184e_2.jpg" alt="" title="Prince Patni"></a></th>
                         <!-- <th><a href="https://www.udemy.com/user/lorraine-wiseman/"><img src="https://img-c.udemycdn.com/user/200_H/33151704_1653_2.jpg" alt="" title="Lorraine Wiseman"></a></th> -->
                         <th><a href="https://www.udemy.com/user/lorraine-wiseman/"><img src="https://img-c.udemycdn.com/user/200_H/33151704_1653_3.jpg" alt="" title="Dr. Lorraine Wiseman, PhD"></a></th>
@@ -248,19 +256,19 @@
                         <th><a href="https://www.udemy.com/user/alanjarvis2/"><img src="https://img-c.udemycdn.com/user/200_H/9772452_1c2b_3.jpg" alt="" title="Alan Jarvis"></a></th>
                     </tr>
                     <tr>
-                        <td>--- <br>--- <br>--- <br><b title="15FEB">[3]98</b><br>100 <br>[8]108 <br>111<br>[8]3,951<br>---</td>
-                        <td>--- <br>--- <br>--- <br><b title="15FEB">[50]256,879</b> <br>[51]257,176<br>[52]258,400<br>[53]265,758<br> [55]275,895<br>--- </td>
-                        <td>--- <br>--- <br>--- <br><b title="15FEB">[56]434,360</b><br>[61]438,137<br>444,168<br>[63]453,072<br>456,684<br>---</td>
-                        <td>--- <br>--- <br>--- <br><b title="15FEB">[10]425,753</b><br>428,869<br>436,091<br>[10]439,155<br>446,667<br>---</td>
-                        <td>--- <br>--- <br><b title="12FEB">[412]1,071,501</b> <br><b title="15FEB">1,071,803</b> <br>[447]1,073,779 <br>[457]1,078,141<br>1,080,168<br>[458]1,083,717<br>---</td>
-                        <td>---<br>---<br><b title="12FEB">701,009[235]</b><br><b title="15FEB">702,927[236]</b><br>714,771[238]<br>747,759[246]<br>767,620[252]<br>[262]796,846<br>---</td>
+                        <td>--- <br>--- <br>--- <br><b title="15FEB">[3]98</b><br>100 <br>[8]108 <br>111<br>[8]3,951<br>4,743<br>---</td>
+                        <td>--- <br>--- <br>--- <br><b title="15FEB">[50]256,879</b> <br>[51]257,176<br>[52]258,400<br>[53]265,758<br> [55]275,895<br>[57]288,828<br>---</td>
+                        <td>--- <br>--- <br>--- <br><b title="15FEB">[56]434,360</b><br>[61]438,137<br>444,168<br>[63]453,072<br>456,684<br>459,837<br>---</td>
+                        <td class="bg-info">--- <br>--- <br>--- <br><b title="15FEB">[10]425,753</b><br>428,869<br>436,091<br>[10]439,155<br>446,667<br>454,263<br>---</td>
+                        <td>--- <br>--- <br><b title="12FEB">[412]1,071,501</b> <br><b title="15FEB">1,071,803</b> <br>[447]1,073,779 <br>[457]1,078,141<br>1,080,168<br>[458]1,083,717<br>[455]1,087,293<br>---</td>
+                        <td class="bg-info">---<br>---<br><b title="12FEB">701,009[235]</b><br><b title="15FEB">702,927[236]</b><br>714,771[238]<br>747,759[246]<br>767,620[252]<br>[262]796,846<br>[267]819,211<br>---</td>
                         <th>09NOV<br>07DEC<br>04JAN<br>01FEB<br>01MAR<br>29MAR<br>26APR<br>24MAY<br>21JUN<br>19JUL</th>
-                        <td>------<br>-------<br><b title="07FEB">220,273[35]</b><br><b title="15FEB">220,498</b><br>220,911<br>221,829<br>222,315<br>223,021<br>---</td>
-                        <td>------<br><b title="10DEC">96,094</b><br>98,062<br>100,813<br>103,669<br>106,166<br>107,857<br>109,951<br>---</td>
-                        <td><b title="30NOV">[4]114,810</b><br>115,208<br>[5]116,675<br>118,234<br>119,626<br>120,832<br>121,445<br>122,557<br>---</td>
-                        <td>------<br><b title="10DEC">245,535</b><br>247,740[2]<br>250,514<br>252,764<br>254,901<br>255,675<br>[2]258,216<br>---</td>
-                        <td>[6]76660+619<br>77,850<br>79,655<br>82,072<br>[6]84,337<br>87,066<br>88,379<br>90,259<br>---</td>
-                        <td><b title="30NOV">[3]135,604</b><br>135,642<br>135,783<br>135,982<br>136,146<br>136,338<br>136,214<br>136,327<br>---</td>
+                        <td>---<br>---<br><b title="07FEB">220,273[35]</b><br><b title="15FEB">220,498</b><br>220,911<br>221,829<br>222,315<br>223,021<br>223,669<br>---</td>
+                        <td>---<br><b title="10DEC">96,094</b><br>98,062<br>100,813<br>103,669<br>106,166<br>107,857<br>109,951<br>[1]111,857<br>---</td>
+                        <td><b title="30NOV">[4]114,810</b><br>115,208<br>[5]116,675<br>118,234<br>119,626<br>120,832<br>121,445<br>122,557<br>124,022<br>---</td>
+                        <td>---<br><b title="10DEC">245,535</b><br>247,740[2]<br>250,514<br>252,764<br>254,901<br>255,675<br>[2]258,216<br>260,316<br>---</td>
+                        <td>[6]76660+619<br>77,850<br>79,655<br>82,072<br>[6]84,337<br>87,066<br>88,379<br>90,259<br>92,043<br>---</td>
+                        <td class="bg-secondary"><b title="30NOV">[3]135,604</b><br>135,642<br>135,783<br>135,982<br>136,146<br>136,338<br>136,214<br>136,327<br>136,445<br>---</td>
                     </tr>
                     <tr>
                         <th><a href="https://www.udemy.com/user/billywigley/"><img src="https://img-c.udemycdn.com/user/200_H/1071808_f970_10.jpg" alt=""><br>Billy Wigley</a></th>
@@ -279,19 +287,19 @@
                         <th><a href="https://www.udemy.com/user/jason-dion/"><img src="https://img-c.udemycdn.com/user/200_H/27592028_e3fb_6.jpg" alt="" title="Jason Dion • 1.8 Million+"></a> (67)</th>
                     </tr>
                     <tr>
-                        <td>--- <br>[4]90,677<br>90,986<br>92,017<br>93,462<br>[5]94,714<br>95,682<br>96,543<br>98,018<br>---<br></td>
-                        <td>--- <br>[7]439,331<br>442,220<br>450,095<br>459,238<br>465,770<br>474,551<br>479,422<br>487,464<br>---<br></td>
-                        <td>--- <br>[7]1,397,094<br>1,402,123<br>1,416,770<br>1,437,527<br>1,457,526<br>1,480,040<br>1,491,018<br>1,509,536<br>---<br></td>
-                        <td>61,847<br>63,127<br>63,473<br> (7)64,338<br>65,302<br>66,104<br> [7]67,226<br>67,732<br>68,561<br>------</td>
-                        <td>-----<br>396,346<br>397,081<br>398,931<br>401,227<br>403,422<br> [7]405,908<br>407,148<br>409,015<br>---<br></td>
-                        <td>------<br><b title="09NOV">(10)355980+386</b><br>356,672<br>357,575<br>358,736<br> [12]359,720<br>360,915<br>361,518<br>[11]363,275<br>---<br></td>
+                        <td>--- <br>[4]90,677<br>90,986<br>92,017<br>93,462<br>[5]94,714<br>95,682<br>96,543<br>98,018<br>99,905<br>---</td>
+                        <td class="bg-info">--- <br>[7]439,331<br>442,220<br>450,095<br>459,238<br>465,770<br>474,551<br>479,422<br>487,464<br>494,999<br>---</td>
+                        <td class="bg-danger">--- <br>[7]1,397,094<br>1,402,123<br>1,416,770<br>1,437,527<br>1,457,526<br>1,480,040<br>1,491,018<br>1,509,536<br>1,528,169<br>---</td>
+                        <td>61,847<br>63,127<br>63,473<br> (7)64,338<br>65,302<br>66,104<br> [7]67,226<br>67,732<br>68,561<br>69,496<br>---</td>
+                        <td>-----<br>396,346<br>397,081<br>398,931<br>401,227<br>403,422<br> [7]405,908<br>407,148<br>409,015<br>410,761<br>---</td>
+                        <td>---<br><b title="09NOV">(10)355980+386</b><br>356,672<br>357,575<br>358,736<br> [12]359,720<br>360,915<br>361,518<br>[11]363,275<br>363,905<br>---</td>
                         <th>02NOV<br>30NOV<br>07DEC<br>04JAN<br>01FEB<br>01MAR<br>29MAR<br>26APR<br>24MAY<br>21JUN<br>19JUL</th>
-                        <td>------<br><b title="09NOV">155980+663</b><br>157,048<br>[12]158,148<br>159,463<br>160,649<br>161,987<br>[13]162,554<br>163,334<br>---<br></td>
-                        <td>-------<br>------<br>[239]3,136,931<br>3,155,365<br>3,177,663<br>[254]3,196,856<br>[258]3,225,013<br>[271]3,237,958<br>3,257,788<br>---<br></td>
-                        <td>------<br>------<br>2,795,651<br>2,829,277<br>2,872,694<br>[74]2,914,859<br>2,963,244<br>2,988,781<br>[68]3,025,874<br>---<br></td>
-                        <td>------<br><b title="09NOV">1,875,821+3466</b><br>1,897,610<br>1,911,374<br>1,930,855<br>[27]1,948,107<br>1,968,984<br>1,979,716<br>[28]1,995,632<br>---<br></td>
-                        <td>------<br>1,561,788<br>[74]1,564,831<br>1,576,066<br>1,590,329<br>[74]1,604,051<br>1,620,962<br>1,626,366<br>[75]1,635,510<br>---<br></td>
-                        <td>------<br>------<br>1,244,300<br>1,262,312<br>1,288,595<br>[68]1,312,128<br>[81]1,342,005<br>1,357,137<br>[83]1,380,725<br>---<br></td>
+                        <td>---<br><b title="09NOV">155980+663</b><br>157,048<br>[12]158,148<br>159,463<br>160,649<br>161,987<br>[13]162,554<br>163,334<br>[14]164,046<br>---</td>
+                        <td>---<br>---<br>[239]3,136,931<br>3,155,365<br>3,177,663<br>[254]3,196,856<br>[258]3,225,013<br>[271]3,237,958<br>3,257,788<br>[272]3,277,060<br>---</td>
+                        <td class="bg-info">---<br>---<br>2,795,651<br>2,829,277<br>2,872,694<br>[74]2,914,859<br>2,963,244<br>2,988,781<br>[68]3,025,874<br>3,060,873<br>---</td>
+                        <td>---<br><b title="09NOV">1,875,821+3466</b><br>1,897,610<br>1,911,374<br>1,930,855<br>[27]1,948,107<br>1,968,984<br>1,979,716<br>[28]1,995,632<br>2,011,461<br>---</td>
+                        <td>---<br>1,561,788<br>[74]1,564,831<br>1,576,066<br>1,590,329<br>[74]1,604,051<br>1,620,962<br>1,626,366<br>[75]1,635,510<br>1,643,569<br>---</td>
+                        <td>---<br>---<br>1,244,300<br>1,262,312<br>1,288,595<br>[68]1,312,128<br>[81]1,342,005<br>1,357,137<br>[83]1,380,725<br>[81]1,403,107<br>---</td>
                     </tr>
                     <tr>
                         <th><a href="https://www.udemy.com/user/mumshad-mannambeth/"><img src="https://img-c.udemycdn.com/user/200_H/31303958_8529_3.jpg" alt="" title="Mumshad Mannambeth"></a> (18)</th>
@@ -309,73 +317,77 @@
                         <th><a href="https://www.udemy.com/user/jonathanalevi/"><img src="https://img-c.udemycdn.com/user/200_H/1603568_4eb9_15.jpg" alt=""><br>Jonathan Levi</a> (18)</th>
                     </tr>
                     <tr>
-                        <td>1,122,570<br>1,139,524<br>1,152,698<br>1,169,146<br> [19]1,184,913<br>1,204,437<br>1,214,727<br>1,228,531<br>---</td>
-                        <td>866322+2455<br>870,294<br>874,406<br>879,869<br>[13]884,251<br>890,326<br>893,135<br>897,442<br>---<br></td>
-                        <td>741,620+2374<br>746,227<br>752,934<br>760,469<br>[27]767,142<br>[28]775,259<br>779,374<br>[29]785,250<br>---<br></td>
-                        <td>54,402+822<br>55,994<br>58,260(33)<br>60,989<br>63,832[34]<br>[35]66,426<br>67,752<br>70,940<br>---<br></td>
-                        <td>40,729+923(23)<br>42,488(25)<br>45,283(27)<br>49,407(29)<br>54,091[29]<br>60,645[32]<br>64,063<br>[36]68,598<br>---<br></td>
-                        <td>510,602+905<br>515,479<br>518,472<br>522,202<br>[23]525,545<br>[36]529,711<br>532,589<br>536,903<br>---<br></td>
+                        <td>1,122,570<br>1,139,524<br>1,152,698<br>1,169,146<br> [19]1,184,913<br>1,204,437<br>1,214,727<br>1,228,531<br>1,241,542<br>---</td>
+                        <td>866322+2455<br>870,294<br>874,406<br>879,869<br>[13]884,251<br>890,326<br>893,135<br>897,442<br>900,977<br>---</td>
+                        <td>741,620+2374<br>746,227<br>752,934<br>760,469<br>[27]767,142<br>[28]775,259<br>779,374<br>[29]785,250<br>790,585<br>---</td>
+                        <td>54,402+822<br>55,994<br>58,260(33)<br>60,989<br>63,832[34]<br>[35]66,426<br>67,752<br>70,940<br>[36]74,166<br>---</td>
+                        <td>40,729+923(23)<br>42,488(25)<br>45,283(27)<br>49,407(29)<br>54,091[29]<br>60,645[32]<br>64,063<br>[36]68,598<br>[37]74,232<br>---</td>
+                        <td>510,602+905<br>515,479<br>518,472<br>522,202<br>[23]525,545<br>[36]529,711<br>532,589<br>536,903<br>541,129<br>---</td>
                         <th>09NOV<br>07DEC<br>04JAN<br>01FEB<br>01MAR<br>29MAR<br>26APR<br>24MAY<br>21JUN<br>19JUL</th>
-                        <td><b title="30NOV">[33]533,650</b><br>535,334<br>540,768<br>546,934<br>[34]553,353<br>560,966<br>564,120<br>569,261<br>---<br></td>
-                        <td><b title="02NOV">429,597</b><br><!--<b title="30NOV">435,316</b>-->437,128<br>442,340<br>448,395<br>452,938<br>[13]457,914<br>460,000<br>463,608<br>---<br></td>
-                        <td><b title="02NOV">526,007</b><!--<b title="30NOV">528,206</b>--> <br>528,955<br>531,016<br>533,406<br>535,323<br>[9]537,132<br>537,911<br>539,569<br>---<br></td>
-                        <td><b title="30NOV">554,977</b><br>556,708<br>562,189<br>568,762<br>574,555<br>[14]582,437<br>586,836<br>592,233<br>---<br></td>
-                        <td>---<br><b title="10DEC">155,412</b><br>156,474<br>158,041<br>[37]159,301<br>[38]160,868<br>161,620<br>162,887<br>---<br></td>
-                        <td>---<br><b title="10DEC">363,180</b><br>364,025<br>365,321<br>366,142<br>[18]366,726<br>366,668<br>367,693<br>---<br></td>
+                        <td><b title="30NOV">[33]533,650</b><br>535,334<br>540,768<br>546,934<br>[34]553,353<br>560,966<br>564,120<br>569,261<br>[35]574,184<br>---</td>
+                        <td><b title="02NOV">429,597</b><br><!--<b title="30NOV">435,316</b>-->437,128<br>442,340<br>448,395<br>452,938<br>[13]457,914<br>460,000<br>463,608<br>[14]467,043<br>---</td>
+                        <td><b title="02NOV">526,007</b><!--<b title="30NOV">528,206</b>--> <br>528,955<br>531,016<br>533,406<br>535,323<br>[9]537,132<br>537,911<br>539,569<br>541,086<br>---</td>
+                        <td><b title="30NOV">554,977</b><br>556,708<br>562,189<br>568,762<br>574,555<br>[14]582,437<br>586,836<br>592,233<br>597,624<br>---</td>
+                        <td>---<br><b title="10DEC">155,412</b><br>156,474<br>158,041<br>[37]159,301<br>[38]160,868<br>161,620<br>162,887<br>163,854<br>---</td>
+                        <td>---<br><b title="10DEC">363,180</b><br>364,025<br>365,321<br>366,142<br>[18]366,726<br>366,668<br>367,693<br>368,486<br>---</td>
                     </tr>
                 </table>
             </div>
                 <table class="table">
-                    <tr><td><b>21JUN</b> ------ </td></tr>
+                    <tr><th><b>19JUL</b> --- </th></tr>
+                    <tr><td><b>21JUN</b> 675,589 </td></tr>
                     <tr><td><b>24MAY</b> 674,284 </td></tr>
                     <tr><td><b>26APR</b> 672,506 </td></tr>
                     <tr><td title="30" style="background: khaki;"><b>29MAR</b> 671,483</td></tr>
                     <tr><td><b>01MAR</b> 669,310 </td></tr>
                     <tr><td><b>01FEB</b> 667,555 </td></tr>
                     <tr><td><b>04JAN</b> 665,132 </td></tr>
-                    <tr><td><b>10DEC</b> 663361 </td></tr>
                     <tr>
                         <th><a href="https://www.udemy.com/user/kainramsay/"><img src="https://img-c.udemycdn.com/user/200_H/3890126_2b28_18.jpg" alt=""><br>Kain Ramsay</a> (31)</th>
                     </tr>
+                    <tr><td><b>10DEC</b> 663361 </td></tr>
                 </table>
                 <table class="table">
-                    <tr><td><b>21JUN</b> ------ </td></tr>
+                    <tr><th><b>19JUL</b> --- </th></tr>
+                    <tr><td><b>21JUN</b> 87,030 </td></tr>
                     <tr><td><b>24MAY</b> 86,793 </td></tr>
                     <tr><td><b>26APR</b> 86,592 </td></tr>
                     <tr><td title="11" style="background: khaki;"><b>29MAR</b> 86,499</td></tr>
                     <tr><td><b>01MAR</b> 86,250 </td></tr>
                     <tr><td><b>01FEB</b> 86,001 </td></tr>
                     <tr><td><b>04JAN</b> 85,705 </td></tr>
-                    <tr><td><b>10DEC</b> 85,438 </td></tr>
                     <tr>
                         <th><a href="https://www.udemy.com/user/sethgodin/"><img src="https://img-c.udemycdn.com/user/200_H/12230048_4934_4.jpg" alt=""><br>Seth Godin</a> (11)</th>
                     </tr>
+                    <tr><td><b>10DEC</b> 85,438 </td></tr>
                 </table>
                 <table class="table">
-                    <tr><td><b>21JUN</b> ------ </td></tr>
+                    <tr><th><b>19JUL</b> --- </th></tr>
+                    <tr><td><b>21JUN</b> 302,308 </td></tr>
                     <tr><td><b>24MAY</b> 298,599 </td></tr>
                     <tr><td><b>26APR</b> 295,358 </td></tr>
                     <tr><td><b>29MAR</b> 293,090</td></tr>
                     <tr><td><b>01MAR</b> 288,878 </td></tr>
                     <tr><td><b>01FEB</b> 285,212 </td></tr>
                     <tr><td title="14" style="background: khaki;"><b>04JAN</b> 282,051</td></tr>
-                    <tr><td><b>10DEC</b> 278980 </td></tr>
                     <tr>
                         <th><a href="https://www.udemy.com/user/a465d2b9-df3d-4f07-acd2-29d049fc6938/"><img src="https://img-c.udemycdn.com/user/200_H/27083724_5f3c_2.jpg" alt=""><br>Practical Growth</a> (13)</th>
                     </tr>
+                    <tr><td><b>10DEC</b> 278980 </td></tr>
                 </table>
                 <table class="table">
-                    <tr><td><b>21JUN</b> ------ </td></tr>
+                    <tr><th><b>19JUL</b> --- </th></tr>
+                    <tr><td title="112" style="background: khaki;"><b>21JUN</b> 3,320,049 </td></tr>
                     <tr><td><b>24MAY</b> 3,282,136 </td></tr>
                     <tr><td title="110" style="background: khaki;"><b>26APR</b> 3,245,430 </td></tr>
+                    <tr><td><b>29MAR</b> --- </td></tr>
+                    <tr><td><b>01MAR</b> --- </td></tr>
+                    <tr><td><b>01FEB</b> --- </td></tr>
+                    <tr><td><b>04JAN</b> --- </td></tr>
                     <tr>
                         <th><a href="https://www.udemy.com/user/ligency-team/"><img src="https://img-c.udemycdn.com/user/200_H/150405524_94b0_9.jpg" alt="" title="Ligency Team"></a></th>
                     </tr>
-                    <tr><td><b>29MAR</b> ------ </td></tr>
-                    <tr><td><b>01MAR</b> ------ </td></tr>
-                    <tr><td><b>01FEB</b> ------ </td></tr>
-                    <tr><td><b>04JAN</b> ------ </td></tr>
-                    <tr><td><b>07DEC</b> ------ </td></tr>
+                    <tr><td><b>07DEC</b> --- </td></tr>
                 </table>
             </div>
         </div>
