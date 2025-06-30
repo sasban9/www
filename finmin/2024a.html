@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Finance Dashboard</title>
+  <!-- Papaparse for client‑side CSV parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <!-- Chart.js for data‑viz -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    *{box-sizing:border-box;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    body{margin:0;padding:1rem;background:#fafafa;color:#222;}
+    h1{text-align:center;margin:0.5rem 0;font-size:1.8rem}
+    #controls{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:1rem}
+    .card{background:#fff;padding:1rem 1.5rem;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);text-align:center;min-width:140px}
+    .card h3{margin:0;font-size:0.9rem;color:#666}
+    .card p{margin:0.4rem 0 0;font-size:1.1rem;font-weight:600}
+    canvas{width:100%!important;max-width:1200px;margin:0 auto 2rem;display:block;}
+    #timeline{max-width:1200px;margin:0 auto 2rem;overflow-x:auto}
+    table{border-collapse:collapse;width:100%}
+    th,td{padding:0.5rem 0.75rem;text-align:left;border-bottom:1px solid #eee;white-space:nowrap}
+    th{background:#f2f2f2;font-weight:600}
+  </style>
+</head>
+<body>
+  <h1>Personal Finance Dashboard</h1>
+
+  <!-- === Controls === -->
+  <div id="controls">
+    <input type="file" id="csvInput" accept=".csv" />
+    <button id="useSampleBtn">Use built‑in sample</button>
+  </div>
+
+  <!-- === KPI Cards === -->
+  <div id="kpis" style="display:flex;flex-wrap:wrap;gap:1rem;justify-content:center"></div>
+
+  <!-- === Charts === -->
+  <canvas id="monthlyChart" height="110"></canvas>
+  <canvas id="categoryChart" height="110"></canvas>
+  <canvas id="accountChart" height="110"></canvas>
+
+  <!-- === Timeline Table === -->
+  <div id="timeline"></div>
+
+<script>
+/****************  HELPER FUNCTIONS  ****************/
+/** Parse currency string or numeric to number */
+function toNumber(v){
+  if(v===null||v===undefined||v==='') return 0;
+  if(typeof v==='number') return v;
+  return parseFloat(String(v).replace(/[^0-9\-\.]/g,''))||0;
+}
+/** Format number as ₹ x,xx,xxx.00 (Indian locale) */
+function fmt(n){return n.toLocaleString('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});}
+/** Group by key fn */
+function groupBy(arr,fn){return arr.reduce((acc,row)=>{const k=fn(row);(acc[k]=acc[k]||[]).push(row);return acc;},{});}
+
+/****************  MAIN PROCESSOR  ****************/
+let monthlyChart,categoryChart,accountChart;
+
+function processData(rows){
+  // Normalize rows
+  rows=rows.filter(r=>r.Date && r.Amount)
+           .map(r=>({
+             ...r,
+             date:new Date(r.Date),
+             amt:toNumber(r.Amount)
+           }));
+
+  // 1. KPI totals
+  const totalIncome=rows.filter(r=>r.Type==='Income').reduce((s,r)=>s+r.amt,0);
+  const totalExpense=rows.filter(r=>r.Type==='Expense').reduce((s,r)=>s+r.amt,0);
+  const net=totalIncome+totalExpense; // expenses are negative
+
+  // Render KPI cards
+  const kpiWrap=document.getElementById('kpis');
+  kpiWrap.innerHTML='';
+  const kpis=[['Total Income',totalIncome],['Total Expense',totalExpense],['Net',net]];
+  kpis.forEach(([label,val])=>{
+    const div=document.createElement('div');div.className='card';
+    div.innerHTML=`<h3>${label}</h3><p>${fmt(val)}</p>`;
+    kpiWrap.appendChild(div);
+  });
+
+  // 2. Monthly NET line chart
+  const byMonth=groupBy(rows,r=>r.date.getFullYear()+"-"+(r.date.getMonth()+1).toString().padStart(2,'0'));
+  const monthLabels=Object.keys(byMonth).sort();
+  const monthValues=monthLabels.map(m=>byMonth[m].reduce((s,r)=>s+r.amt,0));
+
+  monthlyChart && monthlyChart.destroy();
+  monthlyChart=new Chart(document.getElementById('monthlyChart'),{
+    type:'line',
+    data:{labels:monthLabels,datasets:[{label:'Net Cash‑Flow per Month',data:monthValues,fill:false,borderWidth:2}]},
+    options:{responsive:true,plugins:{tooltip:{callbacks:{label:(ctx)=>fmt(ctx.parsed.y)}},legend:{display:false}},scales:{y:{ticks:{callback:val=>fmt(val)}}}}
+  });
+
+  // 3. Category‑wise spend bar chart (top 10 negative totals)
+  const tagTotals={};
+  rows.forEach(r=>{
+    if(r.amt<0){
+      const cat=(r.Tags||'Uncategorised').split(/[\/]/)[0].replace(/[_ ]+/g,'').trim();
+      tagTotals[cat]=(tagTotals[cat]||0)+Math.abs(r.amt);
+    }
+  });
+  const sortedCats=Object.entries(tagTotals).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const catLabels=sortedCats.map(([k])=>k);
+  const catValues=sortedCats.map(([,v])=>v);
+
+  categoryChart && categoryChart.destroy();
+  categoryChart=new Chart(document.getElementById('categoryChart'),{
+    type:'bar',
+    data:{labels:catLabels,datasets:[{label:'Top Spending Categories',data:catValues,backgroundColor:'rgba(54,162,235,0.5)'}]},
+    options:{indexAxis:'y',plugins:{tooltip:{callbacks:{label:(ctx)=>fmt(ctx.parsed.x)}},legend:{display:false}},scales:{x:{ticks:{callback:val=>fmt(val)}}}}
+  });
+
+  // 4. Spend by Account doughnut chart
+  const accTotals=groupBy(rows.filter(r=>r.amt<0),r=>r.Account||'Unknown');
+  const accLabels=Object.keys(accTotals);
+  const accValues=accLabels.map(a=>accTotals[a].reduce((s,r)=>s+Math.abs(r.amt),0));
+  accountChart && accountChart.destroy();
+  accountChart=new Chart(document.getElementById('accountChart'),{
+    type:'doughnut',
+    data:{labels:accLabels,datasets:[{label:'Spending by Account',data:accValues}]},
+    options:{plugins:{tooltip:{callbacks:{label:(ctx)=>ctx.label+': '+fmt(ctx.parsed)}}}}
+  });
+
+  // 5. Timeline table –  most recent 30 rows
+  const tblWrap=document.getElementById('timeline');
+  const recent=rows.sort((a,b)=>b.date-a.date).slice(0,30);
+  let html='<table><thead><tr><th>Date</th><th>Description</th><th>Account</th><th>Category</th><th>Amount</th></tr></thead><tbody>';
+  recent.forEach(r=>{
+    html+=`<tr><td>${r.date.toISOString().split('T')[0]}</td><td>${r.Description}</td><td>${r.Account}</td><td>${(r.Tags||'').split(/[\/]/)[0]}</td><td style="color:${r.amt<0?'#d23':'#0a8'}">${fmt(r.amt)}</td></tr>`;
+  });
+  html+='</tbody></table>';
+  tblWrap.innerHTML=html;
+}
+
+/****************  LOADERS  ****************/
+function loadCSVText(text){
+  const res=Papa.parse(text,{header:true,skipEmptyLines:true});
+  processData(res.data);
+}
+
+// Option 1: Use built‑in sample (same folder) – handy for quick reloads
+async function fetchSample(){
+  const resp=await fetch('transactions.csv');
+  if(!resp.ok){alert('Sample CSV not found in the same folder. Please select a file instead.');return;}
+  const text=await resp.text();
+  loadCSVText(text);
+}
+
+document.getElementById('useSampleBtn').addEventListener('click',fetchSample);
+
+// Option 2: Parse user‑selected file
+const input=document.getElementById('csvInput');
+input.addEventListener('change',e=>{
+  const file=e.target.files[0];
+  if(file){
+    Papa.parse(file,{header:true,skipEmptyLines:true,complete:res=>processData(res.data)});
+  }
+});
+
+// Auto‑load sample once at startup (comment out if undesired)
+fetchSample();
+</script>
+</body>
+</html>
