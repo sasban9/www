@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forge Your Own Path: A Guide to Modern Careers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Harmony (Off-white, Terracotta, Muted Teal, Dark Gray) -->
+    <!-- Application Structure Plan: The application is structured as a single-page interactive guide with a main navigation bar and a visual 'roadmap' to switch between five core themes: Explore, Learn, Build, Plan, and Thrive. Each theme corresponds to a section of the source report but is presented using interactive cards or accordions. This task-oriented, non-linear structure was chosen to make the advice more engaging and less overwhelming for a teenage audience, allowing them to explore content based on their current needs. The user can navigate via top tabs or the central visual roadmap, promoting active discovery over passive reading. -->
+    <!-- Visualization & Content Choices: The report is entirely qualitative. Therefore, no data charts are used. The primary presentation methods are interactive cards and accordions built with HTML/Tailwind and controlled by JavaScript. GOAL: Inform/Organize. METHOD: Interactive HTML/CSS accordions/cards for each piece of advice. INTERACTION: Users click to reveal detailed text, breaking down information into digestible chunks. JUSTIFICATION: This approach transforms static text into an exploratory experience, which is more effective for the target audience. The roadmap is a custom HTML/CSS flexbox element that acts as a visual navigation anchor. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .bg-cream { background-color: #F8F7F4; }
+        .text-stone { color: #44403c; }
+        .accent-bg { background-color: #E17C60; }
+        .accent-text { color: #E17C60; }
+        .accent-border { border-color: #E17C60; }
+        .secondary-accent-bg { background-color: #4DB6AC; }
+        .secondary-accent-text { color: #4DB6AC; }
+        .nav-item {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-item.active {
+            border-bottom-color: #E17C60;
+            color: #E17C60;
+        }
+        .roadmap-step {
+            transition: all 0.3s ease;
+        }
+        .roadmap-step.active {
+            background-color: #E17C60;
+            color: white;
+            transform: scale(1.05);
+        }
+        .roadmap-connector {
+            flex-grow: 1;
+            height: 2px;
+            background-color: #d6d3d1;
+            width: 10%;
+        }
+        .content-card {
+            transition: all 0.3s ease-in-out;
+            visibility: visible;
+            opacity: 1;
+            max-height: 500px;
+        }
+        .content-card.hidden-content .card-body {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+            visibility: hidden;
+            margin-top: 0;
+        }
+        .card-body {
+            transition: all 0.4s ease-in-out;
+            overflow: hidden;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+    </style>
+</head>
+<body class="bg-cream text-stone">
+
+    <div class="container mx-auto max-w-5xl p-4 sm:p-8">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold accent-text mb-2">Forge Your Own Path</h1>
+            <p class="text-lg text-stone-500">An Interactive Guide for Teenagers Navigating Non-Traditional Careers</p>
+        </header>
+
+        <nav class="flex justify-center border-b border-stone-200 mb-8 flex-wrap">
+            <button data-section="explore" class="nav-item active text-lg font-medium py-3 px-4 sm:px-6 cursor-pointer">🧭 Explore</button>
+            <button data-section="learn" class="nav-item text-lg font-medium py-3 px-4 sm:px-6 cursor-pointer">📚 Learn</button>
+            <button data-section="build" class="nav-item text-lg font-medium py-3 px-4 sm:px-6 cursor-pointer">🛠️ Build</button>
+            <button data-section="plan" class="nav-item text-lg font-medium py-3 px-4 sm:px-6 cursor-pointer">⚖️ Plan</button>
+            <button data-section="thrive" class="nav-item text-lg font-medium py-3 px-4 sm:px-6 cursor-pointer">🌱 Thrive</button>
+        </nav>
+
+        <main id="main-content">
+
+            <section id="explore-content" class="content-section space-y-6">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-stone-800">1. Embrace Curiosity & Exploration</h2>
+                    <p class="mt-2 max-w-3xl mx-auto text-stone-600">This first phase is all about looking inward and outward. It’s about giving yourself permission to not have all the answers and starting the journey of discovering what truly motivates and excites you. Use these ideas to begin your exploration.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-xl accent-text">It's Okay Not to Know</h3>
+                        <p class="mt-2 text-stone-600">Reassure yourself that it's normal and healthy not to have your life planned out. The world is constantly changing, and new career opportunities emerge all the time. Your journey is unique.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-xl accent-text">Follow Your Passions</h3>
+                        <p class="mt-2 text-stone-600">Dive deep into what truly excites you. Whether it's gaming, art, coding, social media, or environmental activism, these interests are valuable clues to potential fulfilling work.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-xl accent-text">Experiment Widely</h3>
+                        <p class="mt-2 text-stone-600">Try various activities, hobbies, and short online courses. The goal is to discover what you genuinely enjoy and where your talents lie. Volunteer, join clubs, or start small personal projects.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="learn-content" class="content-section hidden space-y-4">
+                 <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-stone-800">2. Research and Learn Continuously</h2>
+                    <p class="mt-2 max-w-3xl mx-auto text-stone-600">Once you have some ideas, it's time to become a detective. This section is about actively seeking knowledge, learning valuable skills, and connecting with people who can guide you. The modern world is your classroom.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="content-card hidden-content bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                        <div class="card-header p-5 cursor-pointer flex justify-between items-center">
+                            <h3 class="font-bold text-xl secondary-accent-text">Look Beyond the Obvious</h3>
+                            <span class="text-2xl secondary-accent-text transform transition-transform duration-300">-</span>
+                        </div>
+                        <div class="card-body px-5 pb-5 text-stone-600">
+                            Help them research people who have built successful careers in unconventional fields. Many roles today didn't exist 10 or 20 years ago. Websites like YouTube, LinkedIn, and specialized blogs are great resources for finding inspiring stories and learning about emerging industries.
+                        </div>
+                    </div>
+                     <div class="content-card hidden-content bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                        <div class="card-header p-5 cursor-pointer flex justify-between items-center">
+                            <h3 class="font-bold text-xl secondary-accent-text">Skill Over Degree (Sometimes)</h3>
+                             <span class="text-2xl secondary-accent-text transform transition-transform duration-300">-</span>
+                        </div>
+                        <div class="card-body px-5 pb-5 text-stone-600">
+                            While traditional education is valuable, many modern careers prioritize skills and portfolios. Identify the skills needed for your areas of interest (e.g., digital marketing, video editing, app development) and acquire them through online courses on platforms like <span class="font-semibold accent-text">Coursera</span>, <span class="font-semibold accent-text">Udemy</span>, or <span class="font-semibold accent-text">Khan Academy</span>, bootcamps, or self-study.
+                        </div>
+                    </div>
+                     <div class="content-card hidden-content bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                        <div class="card-header p-5 cursor-pointer flex justify-between items-center">
+                            <h3 class="font-bold text-xl secondary-accent-text">Network (Even Virtually)</h3>
+                            <span class="text-2xl secondary-accent-text transform transition-transform duration-300">-</span>
+                        </div>
+                        <div class="card-body px-5 pb-5 text-stone-600">
+                            Reach out to people working in fields you admire. A simple email or LinkedIn message asking for an informational interview (a short chat about their career path) can open doors to incredible insights and potential mentorships.
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="build-content" class="content-section hidden space-y-4">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-stone-800">3. Build and Showcase Your Work</h2>
+                    <p class="mt-2 max-w-3xl mx-auto text-stone-600">Ideas and skills are powerful, but demonstrating them is key. This section focuses on creating tangible proof of your abilities and passion. Your work will speak for itself and open doors to new opportunities.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="content-card hidden-content bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                        <div class="card-header p-5 cursor-pointer flex justify-between items-center">
+                            <h3 class="font-bold text-xl accent-text">Create a Portfolio</h3>
+                            <span class="text-2xl accent-text transform transition-transform duration-300">-</span>
+                        </div>
+                        <div class="card-body px-5 pb-5 text-stone-600">
+                           Start building a portfolio of your work, no matter how small. If you're interested in art, it's a collection of drawings; if it's coding, it's small projects on <span class="font-semibold secondary-accent-text">GitHub</span>; if it's writing, it's blog posts. This shows your dedication.
+                        </div>
+                    </div>
+                    <div class="content-card hidden-content bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                        <div class="card-header p-5 cursor-pointer flex justify-between items-center">
+                            <h3 class="font-bold text-xl accent-text">Leverage Online Platforms</h3>
+                            <span class="text-2xl accent-text transform transition-transform duration-300">-</span>
+                        </div>
+                        <div class="card-body px-5 pb-5 text-stone-600">
+                           Platforms like <span class="font-semibold secondary-accent-text">Behance</span>/<span class="font-semibold secondary-accent-text">ArtStation</span> for artists, <span class="font-semibold secondary-accent-text">YouTube</span> for content creators, and personal blogs are powerful tools for showcasing talent and connecting with like-minded individuals.
+                        </div>
+                    </div>
+                    <div class="content-card hidden-content bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
+                        <div class="card-header p-5 cursor-pointer flex justify-between items-center">
+                            <h3 class="font-bold text-xl accent-text">Start Small, Think Big</h3>
+                            <span class="text-2xl accent-text transform transition-transform duration-300">-</span>
+                        </div>
+                        <div class="card-body px-5 pb-5 text-stone-600">
+                           Take on small freelance gigs, volunteer projects, or create your own content. These experiences build confidence, skills, a professional network, and a solid track record.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="plan-content" class="content-section hidden space-y-6">
+                 <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-stone-800">4. Understand the Practicalities</h2>
+                    <p class="mt-2 max-w-3xl mx-auto text-stone-600">Passion is the engine, but practical planning is the steering wheel. This section covers the essential, real-world considerations that will make your journey sustainable and successful in the long run.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-xl secondary-accent-text">💰 Financial Literacy</h3>
+                        <p class="mt-2 text-stone-600">Understand money, budgeting, and the financial realities of different career paths. Some non-traditional careers might have a slower start financially, requiring patience and smart planning.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-xl secondary-accent-text">🧗 Persistence & Resilience</h3>
+                        <p class="mt-2 text-stone-600">Non-traditional paths often have more uncertainty and require self-discipline. There will be setbacks. Learning to bounce back, adapt, and stay motivated is a crucial skill.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-xl secondary-accent-text">🤝 The "Hybrid" Approach</h3>
+                        <p class="mt-2 text-stone-600">You don't always have to choose. Consider working a part-time job while building a passion project, or pursuing a degree that provides a safety net while exploring ventures on the side.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="thrive-content" class="content-section hidden space-y-6">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-stone-800">5. Prioritize Well-being & Support</h2>
+                    <p class="mt-2 max-w-3xl mx-auto text-stone-600">Your career is part of your life, not all of it. This final section is about building a sustainable and healthy approach to your ambitions by taking care of yourself and cultivating a strong support system.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-xl accent-text">❤️ Maintain a Support System</h3>
+                        <p class="mt-2 text-stone-600">Surround yourself with people who believe in you – friends, family, mentors. It's important to have cheerleaders for the good times and sounding boards for the challenging ones.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-xl accent-text">⚖️ Find Your Balance</h3>
+                        <p class="mt-2 text-stone-600">Pursuing a passion should be enjoyable, not a source of burnout. Maintain a healthy balance between your work, hobbies, social life, and rest. Your well-being comes first.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-xl accent-text">🏃 It's a Journey, Not a Sprint</h3>
+                        <p class="mt-2 text-stone-600">Career development is a marathon. Your path will twist, turn, and evolve in ways you can't predict. The most important thing is to keep learning, adapting, and staying true to your interests.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navItems = document.querySelectorAll('.nav-item');
+            const contentSections = document.querySelectorAll('.content-section');
+            const cardHeaders = document.querySelectorAll('.card-header');
+
+            function switchSection(sectionId) {
+                navItems.forEach(item => {
+                    item.classList.toggle('active', item.dataset.section === sectionId);
+                });
+
+                contentSections.forEach(section => {
+                    section.classList.toggle('hidden', section.id !== `${sectionId}-content`);
+                });
+            }
+
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    switchSection(item.dataset.section);
+                });
+            });
+
+            cardHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const card = header.parentElement;
+                    card.classList.toggle('hidden-content');
+                    const icon = header.querySelector('span');
+                    if (card.classList.contains('hidden-content')) {
+                        icon.textContent = '-';
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        icon.textContent = '-';
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+            
+            // Initialize accordions to be open by default
+            document.querySelectorAll('.content-card').forEach(card => {
+                card.classList.remove('hidden-content');
+                const icon = card.querySelector('.card-header span');
+                if (icon) {
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
