@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Career Evolution 2025</title>
+    <style>
+        body {
+            margin: 0;
+            background: #111;
+            background: url(https://cdn.wallpapersafari.com/91/2/whfYS0.jpg) no-repeat;background-size: cover;
+            /* background: url(https://media.istockphoto.com/id/1250380933/photo/top-down-aerial-view-of-chicago-downtown-urban-grid-with-park.jpg?s=612x612&w=0&k=20&c=ojXCwviHjJCOgvWU-JUM0_AC6hsaI9UfzzhzvDLJkIU=) no-repeat;background-size: cover; */
+            color: white;
+            font-family: sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            touch-action: manipulation;
+        }
+        p{text-align: center;}
+        img{max-width: 90%;max-height: 400px;}
+
+        .slide {
+            padding: 0 300px;line-height: 2;
+            position: absolute;
+            min-width: 80%;
+            min-height: 30vh;
+            background: #222;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;gap: 2rem;text-align: center;
+            align-items: center;
+            font-size: 3em;
+            transform: scale(0);
+            opacity: 0;
+            transition: transform 0.1s ease, opacity 0.3s ease;
+        }
+
+        .slide.active {
+            transform: scale(1);
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .slide.hidden {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .nav-buttons {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            pointer-events: none;
+        }
+
+        button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            pointer-events: all;
+        }
+
+        button:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Slides -->
+    <div class="slide active">
+        <p>The nature of careers has transformed dramatically in the last 20 - 30 years — so much so that your parents and you might be living in two completely different work realities.</p>
+    </div>
+    <div class="slide">
+        <p>What used to be a safe, linear, loyalty-driven path has morphed into a fast-changing, self-directed, visibility-driven game.</p>
+    </div>
+    <div class="slide">
+        Here's a breakdown of that evolution:
+    </div>
+    <div class="slide" style="background: url(https://images.unsplash.com/photo-1464865885825-be7cd16fad8d?fit=max&fm=jpg&ixid=M3wzNTY3MHwwfDF8YWxsfHx8fHx8fHx8MTc1MTYzMTA1Nnw&ixlib=rb-4.1.0&q=75&w=720&utm_medium=referral&utm_source=vocal.media) no-repeat;background-size: cover;">
+        <h3>1. From One Career for Life → To Many Chapters, Roles & Reinventions</h3>
+    </div>
+    <div class="slide">
+        <p>Your parents likely chose a profession (engineer, teacher, banker), stuck with it for decades, and were rewarded for loyalty.</p>
+    </div>
+    <div class="slide">
+        <p>Today, careers are like seasons: people switch roles, industries, even entire identities every few years.</p>
+    </div>
+    <div class="slide">
+        Reinvention is not a crisis anymore — it's a strategy.
+    </div>
+    <div class="slide">
+        <h3>2. From Climbing the Ladder → To Building a Portfolio</h3>
+    </div>
+    <div class="slide">Earlier, success meant climbing a clearly defined corporate ladder.
+    </div>
+    <div class="slide">
+        Now, many build careers like portfolios — a mix of jobs, side hustles, content, products, freelance gigs, investments.
+    </div>
+    <div class="slide">
+        People aren’t just workers; they’re mini-brands, creators, or entrepreneurs, even inside companies.
+    </div>
+    <div class="slide">
+        <h3>3. From Local Jobs → To Global Playing Fields</h3>
+    </div>
+    <div class="slide">
+        Your parents probably worked in one city, maybe one country, for their whole career.
+    </div>
+    <div class="slide"><img src="https://alis.alberta.ca/media/699739/camper-working-laptop-istock-1271342935.jpg" width="600" alt="">
+        You can work from anywhere, with clients or teams across the globe.
+    </div>
+    <div class="slide">
+        The job market is no longer just "who’s hiring in my city" — it’s "who needs my skillset, anywhere in the world." <br><img src="../img/sasban2.jpg" alt="">
+    </div>
+    <div class="slide">
+        <h3>4. From Degrees as Destiny → To Skills as Currency</h3>
+    </div>
+    <div class="slide">
+        <p>In their time, a degree practically guaranteed a job.</p>
+    </div>
+    <div class="slide">
+        Now, it’s just the entry ticket.
+    </div>
+    <div class="slide">
+        <p>Today, what matters is: <br>Can you demonstrate skills?<br> Can you solve problems?<br> Can you learn fast?        </p>
+    </div>
+    <div class="slide">
+        <p>Certifications, GitHub, case studies, writing, content — these now prove value more than pedigree.</p>
+    </div>
+    <div class="slide">
+        <h3>5. From Silent Hard Work → To Visible Contribution        </h3>
+    </div>
+    <div class="slide">
+        <p>Your parents were told: <br><u>"Keep your head down, work hard, <br>and you’ll be rewarded."</u>        </p>
+    </div>
+    <div class="slide">
+        <p>Visibility, storytelling, sharing your process — these are career accelerators. <br><b> Leaders don’t promote ghosts.</b>        </p>
+    </div>
+    <div class="slide">
+        <h3>6. From Job Security → To Skill Security        </h3>
+    </div>
+    <div class="slide">
+        
+    </div>
+    <div class="slide">
+        
+    </div>
+    <div class="slide">
+        
+    </div>
+    <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-E0b9YaGC3J8OmhSQflRKs7uXA254qet6-w&s" alt="">
+        <h3>Your parents were taught to “fit in.” You have to learn to “stand out.”</h3>
+    </div>
+    <div class="slide">
+        They played a game of <img src="https://image7.photobiz.com/8912/28_20240802120030_7089464_large.png"  alt="">
+    </div>
+    <div class="slide">
+        <p>You’re playing a game of <br><img src="https://www.eurokidsindia.com/blog/wp-content/uploads/2023/10/history-of-human-evolution-1-870x425.jpg"  alt="" style="display: block;"></p>
+    </div>
+    <div class="slide">
+        
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons" style="opacity: 1;">
+        <button id="prev">Previous</button>
+        <b style="background: linear-gradient(45deg, red, coral, crimson, black);padding: 10px;">linktr.ee/sasban9</b>
+        <button id="next">Next</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        let current = 0;
+
+        function updateButtons() {
+            prevBtn.disabled = current === 0;
+            nextBtn.disabled = current === slides.length - 1;
+        }
+
+        function showSlide(index) {
+            slides[current].classList.remove('active');
+            slides[current].classList.remove('hidden');
+
+            current = index;
+
+            slides[current].classList.remove('hidden');
+            setTimeout(() => {
+                slides[current].classList.add('active');
+            }, 50);
+
+            updateButtons();
+        }
+
+        function nextSlide() {
+            if (current < slides.length - 1) {
+                showSlide(current + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (current > 0) {
+                showSlide(current - 1);
+            }
+        }
+
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            nextSlide();
+        });
+
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            prevSlide();
+        });
+
+        document.body.addEventListener('click', () => {
+            nextSlide();
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Swipe support
+        let touchStartX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            let touchEndX = e.changedTouches[0].screenX;
+            if (touchEndX - touchStartX > 50) {
+                prevSlide();
+            } else if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            }
+        });
+
+        updateButtons();
+    </script>
+
+</body>
+
+</html>
