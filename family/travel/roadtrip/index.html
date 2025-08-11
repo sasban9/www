@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Principle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    font-size: 1.4rem;
+    font-family: 'PT Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    height: 100%;
+    overflow: hidden;
+    /* scrollbar-width: none; */
+}
+p,div{line-height: 2;}
+div h4{line-height: 1.3;}
+table td{line-height: 1.5;}
+.progress-bar {
+    position: fixed;
+    left: 0;
+    bottom: 8px;
+    height: 8px;
+    background: linear-gradient(45deg, #000, #0000, #0000, #000);
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.3s ease-in-out;
+}
+
+.slide-container {
+    height: 100vh;
+    width: 100vw;
+    scroll-snap-type: y mandatory;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.slide {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: middle;
+    justify-content: center;
+    /* text-align: center; */
+    padding: 20px 14vw;
+    font-size: 1.5em;
+    filter: blur(10px);
+    opacity: 0;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.slide.active {
+    filter: blur(0);
+    opacity: 1;
+    z-index: 1;
+}
+
+.slide img {
+    max-width: 80%;
+    transform: rotate(-6deg);vertical-align: middle;
+    /* height: auto; */
+    margin: 0 2rem;
+    border-radius: 10px;
+}
+
+.slide:nth-child(7n) {background: darksalmon;color: #222;}
+.slide:nth-child(7n+1) {background: #f8961e;color: #000;}
+.slide:nth-child(7n+1) {background: #00003e;color: #eee;}
+.slide:nth-child(7n+2) {background: #f9c74f;color: #111;}
+.slide:nth-child(7n+3) {background: #90be6d;color: #222;}
+.slide:nth-child(7n+4) {background: #43aa8b;color: #111;}
+.slide:nth-child(7n+5) {background: #4d908e;color: #222;}
+.slide:nth-child(7n+6) {background: #577590;color: #111;}
+
+small{font-size: 1.4rem;color: #000;text-shadow: 0 0 4px salmon;}
+a{text-decoration: none;color: #000;padding: 0.2rem 0.4rem;transition: color 0.3s ease, box-shadow 0.3s ease;}
+a:hover{color: #fff;box-shadow: 0 4px 10px #000;}
+table{border-collapse: collapse;}
+th,td{width: 10%;padding: 0 10px;border:solid 1px #fff;vertical-align: top;padding-bottom: 0.5rem;}
+sub{background-color: #0006;color: white;padding: 4px 10px;font-weight: 300;border-radius: 16px;border: solid 2px white;box-shadow: 0 0 10px #000;margin-bottom: 1rem;}
+em{font-size: 1.6rem;}
+b{color: darkolivegreen;background: #fffa;padding: 0 10px;}
+ul{padding-left: 4rem;}
+sup{transform: rotate(-4deg);font-weight: 500; border:solid 3px #000;
+    /* background: linear-gradient(-45deg,red,orange,yellow,green,blue,indigo);  */
+    display: inline-block;padding: 0 10px;
+    background: linear-gradient(-45deg, darksalmon, #f8961e, #f9c74f, #90be6d, #43aa8b, #4d908e, #577590);
+}
+
+iframe {
+    width: 80%;
+    height: 60%;
+    border: none;
+    margin-top: 20px;
+}
+
+.linktree{position: absolute;font-size:1rem;top: 0rem;right: 0;z-index: 999;padding: 10px 100px; color: khaki;text-decoration: none;background:#0006;box-shadow: 0 0 10px khaki;animation: pulse 60s infinite;}
+.bounce {
+    animation: flipp 60s infinite;position: absolute;bottom: 1rem;left: 1rem;z-index: 999;
+    height: 90px;border-radius: 100%;transform: rotate(-6deg);
+}
+
+@keyframes flipp {
+    0%,4%,100% {transform: scaleX(1);}
+    1% {transform: scaleX(-1);}
+}
+
+@keyframes pulse {
+    0%,100% {color: white;background-color: #0000;transform: rotate(90deg) translate(100px,-200px);}
+    10%,100% {color: white;background: #000;transform:translate(100px,30px) rotate(30deg);}
+}
+
+@keyframes bounceIn {
+    0%,20%,50%,80%,100% {transform: translateY(0);opacity: 1;}
+    40% {transform: translateY(-30px);}
+    60% {transform: translateY(15px);}
+}
+code{
+    width: 100%;color: yellow;background: darkblue;font-size: 1.4rem;padding: 0 40px;
+}
+code.prompt{color: yellowgreen;background: black;}
+
+blockquote{background: #333;border-left:solid 10px darkblue;padding: 1rem;}
+small{font-size: 1.4rem;}
+/* ul,ol{padding-left:4rem} */
+ul{width: 100%;}
+li{margin-left:2rem;width: 40%;}
+strong{font-family: monospace;background: #222;color: goldenrod;}
+    </style>
+</head>
+
+<body>
+    <img class="bounce" src="https://sasban.online/sasban.jpg" alt="">
+    <a class="linktree" href="http://linktr.ee/sasban9">linktr.ee/sasban9</a>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-container">
+        <div class="slide">
+            <h3>EAST INDIA RoadTrip 2025</h3>
+            <table>
+                <tr>
+                    <td>25AUG</td><td>BBSR</td><td>TATA</td><td>350km</td><td>7h</td></tr><tr>
+                    <td>26AUG</td><td>TATA</td><td>GAYA</td><td>350km</td><td>6.5h</td></tr><tr>
+                    <td>27AUG</td><td>GAYA</td><td>PATNA</td><td>100km</td><td>2h</td></tr><tr>
+                    <td>28AUG</td><td>PATNA</td><td>SILIGURI</td><td>470km</td><td>10h</td></tr><tr>
+                    <td>29AUG</td><td>SILIGURI</td><td>GUWAHATI</td><td>470km</td><td>10h</td></tr><tr>
+                    <td>30AUG</td><td>GUWAHATI</td><td>SHILLONG</td><td>100km</td><td>3h</td></tr><tr>
+                    <td>02SEP</td><td>SHILLONG</td><td>SILCHAR</td><td>220km</td><td>7h</td></tr><tr>
+                </tr>
+            </table>
+            <ul style="display: none;flex-wrap: wrap;">
+                <li>BBSR 2 TATA</li>
+                <li>TATA 2 GAYA/PATNA</li>
+                <li>PATNA 2 GAYA & BACK</li>
+                <li>PATNA 2 SILIGURI</li>
+                <li>SILIGURI TO GUWAHATI</li>
+                <li>GUWAHATI 2 SHILLONG</li>
+                <li>SHILLONG 2 SILCHAR</li>
+            </ul>
+        </div>
+        <div class="slide" style="background: url(full-map.png) 50% 50% no-repeat;background-size: contain">
+        </div>
+        <div class="slide" style="background: url(bbsr2tata.png) 50% 50% no-repeat;background-size:contain">
+            <!-- <img src="bbsr2tata.png" alt=""> -->
+        </div>
+        <div class="slide" style="background: url(tata2gaya.png) 50% 50% no-repeat;background-size: contain">
+        </div>
+        <div class="slide" style="background: url(patna2gaya.png) 50% 50% no-repeat;background-size: contain">
+        </div>
+        <div class="slide" style="background: url(patna2sili.png) 50% 50% no-repeat;background-size: contain">
+        </div>
+        <div class="slide" style="background: url(sili2guwa.png) 50% 50% no-repeat;background-size: contain">
+        </div>
+        <div class="slide" style="background: url(guwa2shill.png) 50% 50% no-repeat;background-size: contain">
+        </div>
+        <div class="slide" style="background: url(shill2sil.png) 50% 50% no-repeat;background-size: contain">
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            const progress = ((index + 1) / slides.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            }
+            if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            }
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+
+</html>
