@@ -9,6 +9,7 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
         <link rel="stylesheet" href="../styles.css">
     <style>
+        *{box-sizing: border-box;}
         body {
             padding-bottom: 100px;
         }
@@ -23,12 +24,18 @@
             background: #eff8;
         }
         .btn {
-            margin-bottom:8px;
+            margin-bottom:2px;
         }
         #mobile-view{display: none;}
-        @media screen and (max-width:800px) {
-            #mobile-view {display: block;}
-            #desktop-view {display: none;}
+        #desktop-view{display: flex;flex-direction: column;}
+        #desktop-view>div{display: flex;flex-direction: row;}
+        #desktop-view>div>div:nth-of-type(1){min-width: 10%;padding: 2px 10px;background: darkblue;color: white;font-style: italic;font-family: monospace;}
+        #desktop-view>div>div:nth-of-type(n+2){min-width: 30%;padding: 2px 10px;}
+        #desktop-view>div>div:nth-of-type(2n){background: lightcyan;}
+        @media screen and (max-width:760px) {
+            /* #mobile-view {display: block;} */
+        #desktop-view>div{flex-direction: column;}
+            /* #desktop-view {display: none;} */
         }
     </style>
 </head>
@@ -130,131 +137,131 @@
                     </tr>
                 </table>
 
-                <table class="table" id="desktop-view" style="background: #fffc;">
-                    <tr>
-                        <th>YEAR</th>
-                        <th>PROJECTS /<br> COMPANY</th>
-                        <th>EVENTS /<br> PUBLICATIONS</th>
-                        <th width="200">AWARDS /<br> CERTIFICATIONS</th>
-                    </tr>
-                    <tr>
-                        <td><a href="year-one.html">CURRENT</a></td>
-                        <td><a href="https://sasban.online">SASBAN.online</a> <a href="https://www.udemy.com/user/saswata-banerjee-3/" class="btn btn-outline-dark btn-sm">UDEMY</a> <a href="https://youtube.com/@sasban9/videos" class="btn btn-sm btn-outline-dark">YOUTUBE</a></td>
-                        <td><a href="https://photos.google.com/share/AF1QipM1feEiW8_OBIln7PVCfP5qes3WCDY_9xXEpdwIbtb-xyVCCyM23fBm0Pf9pZw_ng?key=Q3NtemlibDFnTWNfeXZGaGxadk8wV3RRdEZCTUt3" class="btn btn-sm btn-outline-dark">Darjeeling Meetup</a></td>
-                    </tr>
-                    <tr>
-                        <td>2024</td>
-                        <td><a href="/career/2023-pixfirst.html" class="btn btn-sm btn-warning">STYCH.ai &raquo;</a> &nbsp; <a href="/career/2023-pixfirst.html" class="btn btn-sm btn-info">STYCH.cloud &raquo;</a></td>
-                        <td><a href="https://photos.google.com/share/AF1QipNbtRhxTsi2pRKN3hs6_jgkovi7G4g-4xQI3n0Yk-UnqQFzNcwsC8fHP0bh5CE4fA?key=YnZtNjM1d2NjeHBqLW0wWXdTM1MtWlhYa29UcmpR" class="btn btn-sm btn-outline-dark">Ladakh Leh Meet-up</a> <a href="https://photos.google.com/share/AF1QipPUH8P3bharbqqiU1XUIuyguFYoyTc-KY2SFjmXXFVf5KHdMaWmHkLmVRBJjBegoA" class="btn btn-sm btn-outline-dark">Goa Meet-up</a><br> 📍 <a href="https://photos.google.com/share/AF1QipPKXJ3wbTVBifEgarsDPPTW_oPNsT7hlI7sOV_pTKD33prxGBF6YO51ElWvLHb_3w?key=MVAxLTdpV3F3eTFWdGo0YjAtVjBkNHotZDEtT3Bn" class="btn btn-sm btn-outline-danger">DUBAI CODERS MEET</a>  🇦🇪 <br> </td>
-                        <td><a href="https://www.udemy.com/user/saswata-banerjee-3/">UDEMY INSTRUCTOR</a> </td>
-                    </tr>
-                    <tr>
-                        <td>2023</td>
-                        <td><a href="/career/2023-pixfirst.html" class="btn btn-sm btn-primary">PIXFIRST &raquo;</a> &nbsp; <a href="/career/2023-pixfirst.html" class="btn btn-sm btn-info">PIXLABS &raquo;</a></td>
-                        <td>
+                <div class="table1" id="desktop-view" style="background: #fffc;">
+                    <div style="font-family: fantasy;">
+                        <div>YEAR</div>
+                        <div>PROJECTS / COMPANY</div>
+                        <div>EVENTS / PUBLICATIONS</div>
+                        <div>AWARDS / CERTIFICATIONS</div>
+                    </div>
+                    <div>
+                        <div><a href="year-one.html">2025</a></div>
+                        <div><a href="./2025-sasban.html" class="btn btn-sm" style="border: solid 1px indigo;">SASBAN.online</a> <a href="https://www.udemy.com/user/saswata-banerjee-3/" class="btn btn-outline-dark btn-sm">UDEMY</a> <a href="https://youtube.com/@sasban9/videos" class="btn btn-sm btn-outline-dark">YOUTUBE</a></div>
+                        <div><a href="https://photos.google.com/share/AF1QipM1feEiW8_OBIln7PVCfP5qes3WCDY_9xXEpdwIbtb-xyVCCyM23fBm0Pf9pZw_ng?key=Q3NtemlibDFnTWNfeXZGaGxadk8wV3RRdEZCTUt3" class="btn btn-sm btn-outline-dark">Darjeeling Meetup</a></div>
+                    </div>
+                    <div>
+                        <div>2024</div>
+                        <div><a href="/career/2023-pixfirst.html" class="btn btn-sm btn-warning">STYCH.ai &raquo;</a> &nbsp; <a href="/career/2023-pixfirst.html" class="btn btn-sm btn-info">STYCH.cloud &raquo;</a> <a href="./2025-sasban.html" class="btn btn-sm" style="border: solid 1px indigo;">SASBAN.online</a></div>
+                        <div><a href="https://photos.google.com/share/AF1QipNbtRhxTsi2pRKN3hs6_jgkovi7G4g-4xQI3n0Yk-UnqQFzNcwsC8fHP0bh5CE4fA?key=YnZtNjM1d2NjeHBqLW0wWXdTM1MtWlhYa29UcmpR" class="btn btn-sm btn-outline-dark">Ladakh Leh Meet-up</a> <a href="https://photos.google.com/share/AF1QipPUH8P3bharbqqiU1XUIuyguFYoyTc-KY2SFjmXXFVf5KHdMaWmHkLmVRBJjBegoA" class="btn btn-sm btn-outline-dark">Goa Meet-up</a><br> 📍 <a href="https://photos.google.com/share/AF1QipPKXJ3wbTVBifEgarsDPPTW_oPNsT7hlI7sOV_pTKD33prxGBF6YO51ElWvLHb_3w?key=MVAxLTdpV3F3eTFWdGo0YjAtVjBkNHotZDEtT3Bn" class="btn btn-sm btn-outline-danger">DUBAI CODERS MEET</a>  🇦🇪 <br> </div>
+                        <div><a href="https://www.udemy.com/user/saswata-banerjee-3/">UDEMY INSTRUCTOR</a> </div>
+                    </div>
+                    <div>
+                        <div>2023</div>
+                        <div><a href="/career/2023-pixfirst.html" class="btn btn-sm btn-primary">PIXFIRST &raquo;</a> &nbsp; <a href="/career/2023-pixfirst.html" class="btn btn-sm btn-info">PIXLABS &raquo;</a></div>
+                        <div>
                             <a href="https://www.udemy.com/user/saswata-banerjee-3/">UDEMY INSTRUCTOR</a> | 
                             <a href="/odin-projects.html">The ODIN Projects &nbsp; 2023</a><br>
                             <a href="https://photos.app.goo.gl/3SDXJZXtpuspF2Mu7">100xDevs BLR Meetup</a><br>
-                        </td>
-                        <td>GCP Professional Cloud Architect</td>
-                    </tr>
-                    <tr>
-                        <td>2022</td>
-                        <td><a href="#" class="btn btn-sm btnsas">STYCHED</a> &nbsp; <a href="#" class="btn btn-sm btn-primary">ERM</a> &nbsp; <a href="#" class="btn btn-sm btn-outline-dark">SHOPIFY</a> &nbsp; <a href="#" class="btn btn-sm btn-outline-dark">ANDROID APP</a></td>
-                        <td>📍 <a href="#" class="btn btn-sm btn-warning">DEVJAM JAKARTA</a> 🇮🇩<br><a href="https://photos.app.goo.gl/wDTFTznUWfnFWnUA9">IIT KGP GOA MEETUP</a>  🇮🇳</td>
-                    </tr>
-                    <tr>
-                        <td>2021</td>
-                        <td><a href="#" class="btn btn-sm btnsas">STYCHED</a> &nbsp; <a href="#" class="btn btn-sm btn-outline-dark">SHOPIFY</a> &nbsp; <a href="#" class="btn btn-sm btn-outline-dark">ERM</a></td>
-                        <td>STYCHED HACKATHON /BENGALURU</td>
-                        <td>GCP Professional Cloud Developer</td>
-                    </tr>
-                    <tr>
-                        <td>2020</td>
-                        <td><a href="/career/2020-styched.html" class="btn btn-sm btn-outline-dark">STYCHED ERM &raquo;</a></td>
-                        <td>📍 <a href="#" class="btn btn-sm btn-outline-danger">DUBAI CODERS MEET</a>  🇦🇪</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>2019</td>
-                        <td><a href="#" class="btn btn-sm btn-outline-dark">STYCHED ERM</a> &nbsp; <a href="/career/2019-yapnaa.html" class="btn btn-sm btn-outline-dark">YAPNAA</a> &nbsp; <a href="/career/2019-iconea.html" class="btn btn-sm btn-outline-dark">ICONEA</a></td>
-                        <td>📍 <a href="#" class="btn btn-sm btn-outline-dark">DEVJAM KIEV</a> 🇺🇦</td>
-                        <td>AWS Certified Cloud Practitioner</td>
-                    </tr>
-                    <tr>
-                        <td>2018</td>
-                        <td><a href="/career/2018-yapnaa.html" class="btn btn-sm btn-warning">YAPNAA &raquo;</a></td>
-                        <td>IOT ON BLOCKCHAIN WHITEPAPER 📝</td>
-                        <td>AWS Certified Solutions Architect - Professional</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>2017</td>
-                        <td><a href="https://blog.pixfirst.com/" class="btn btn-sm btn-info">PIXDOCS &raquo;</a> &nbsp; <a href="https://www.xelpmoc.in/medicoverage" class="btn btn-sm btnsas">XELPMOC</a>  &nbsp; <a href="https://www.talasecure.com/blog" class="btn btn-sm btnsas">TALASECURE</a> </td>
-                        <td>📍 <a href="#" class="btn btn-sm btn-info">TECHMEET RIO DE JANEIRO</a>  🇧🇷 </td>
-                        <td>AWS Certified Developer - Associate</td>
-                    </tr>
-                    <tr>
-                        <td>2016</td>
-                        <td><a href="https://jdomni.com" class="btn btn-sm btn-primary">JUSTDIAL OMNI</a> &nbsp; <a href="#" class="btn btn-sm btnsas">DIGITAL HORIZONS</a></td>
-                        <td>📍 <a href="#" class="btn btn-sm btn-outline-success">DEVJAM AMSTERDAM</a> 🇳🇱<br>
-                            <a href="#" class="btn btn-sm">TECHMEET MUMBAI</a>  🇮🇳</td>
-                    </tr>
-                    <tr>
-                        <td>2015</td>
-                        <td><a href="#" class="btn btn-sm btnsas">DIGITAL HORIZONS</a></td>
-                        <td><a href="#" class="btn btn-sm btn-dark">MOBILE WORLD CONGRESS, BARCELONA</a> 🇪🇸 </td>
-                    </tr>
-                    <tr>
-                        <td>2014</td>
-                        <td><a href="#" class="btn btn-sm btnsas">DIGITAL HORIZONS</a></td>
-                    </tr>
-                    <tr style="background: #fff8dc88;">
-                        <td>2012<br> to 2014</td>
-                        <td>MS INFORMATION SYSTEMS <br/><a href="https://www.ua.pt">UNIVERSITY OF AVEIRO, PT 🇵🇹</a></td>
-                        <td>📍 <a href="#" class="btn btn-sm btn-outline-success">DEV MEETUP LISBON</a> 🇵🇹<br>MS THESIS 📝</td>
-                    </tr>
-                    <tr>
-                        <td>2011</td>
-                        <td><a href="#" class="btn btn-sm btn-outline-dark">YOUNG INDIA POWER</a> &nbsp; <a href="#" class="btn btn-sm btn-outline-dark">ADWIZE</a></td>
-                        <td>IIT KGP Kolkata Meetup</td>
-                    </tr>
-                    <tr>
-                        <td>2010</td>
-                        <td><a href="#" class="btn btn-sm btn-outline-dark">ADWIZE</a></td>
-                    </tr>
-                    <tr>
-                        <td>2009</td>
-                        <td><a href="#" class="btn btn-sm btn-outline-dark">ADWIZE</a></td>
-                        <td>IIT KGP BLR MEETUP</td>
-                    </tr>
-                    <tr>
-                        <td>2008</td>
-                        <td><a href="#" class="btn btn-sm btn-outline-dark"> PROJECT ROSE</a> &nbsp; <a href="#" class="btn btn-sm btnsas">SAMSUNG INDIA</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="year-one.html">2007</a></td>
-                        <td><a href="/career/2006-samsung.html" class="btn btn-sm btn-outline-dark"> PROJECT JUNGFRAU</a> &nbsp; <a href="#" class="btn btn-sm btnsas">SAMSUNG INDIA</a></td>
-                        <td></td>
-                        <td>MD Special Award</td>
-                    </tr>
-                    <tr style="background: #fff8dc88;">
-                        <td>2002<br> to 2006</td>
-                        <td>BTECH ELECTRONICS ENGG<br><a href="https://www.iitkgp.ac.in/">IIT KHARAGPUR, IN 🇮🇳 </a></td>
-                        <td>INTERNSHIPS<br>BTECH THESIS 📝</td>
-                    </tr>
-                    <tr>
-                        <td>1990<br> to 2002</td>
-                        <td>ICSE + ISC <br><a href="https://www.mpbfhsschool.com/">M P BIRLA H S SCHOOL 🇮🇳 </a> </td>
-                        <td>IITJEE RANK 277 / 400,000 <br>WBJEE RANK 54 / 100,000</td>
-                        <td></td>
-                    </tr>
-                    <!-- <tr>
-                        <td>1984</td>
-                        <td></td>
-                        <td>sasban is born :-)</td>
-                    </tr> -->
-                </table>
+                        </div>
+                        <div>GCP Professional Cloud Architect</div>
+                    </div>
+                    <div>
+                        <div>2022</div>
+                        <!-- <div><a href="./2025-sasban.html" class="btn btn-sm" style="border: solid 1px indigo;">SASBAN.online</a> <a href="https://www.udemy.com/user/saswata-banerjee-3/" class="btn btn-outline-dark btn-sm">UDEMY</a> <a href="https://youtube.com/@sasban9/videos" class="btn btn-sm btn-outline-dark">YOUTUBE</a></div> -->
+                        <div><a href="#" class="btn btn-sm btn-outline-dark">STYCHED</a> <a href="#" class="btn btn-sm btn-primary">ERM</a> <a href="#" class="btn btn-sm btn-outline-dark">SHOPIFY</a> <a href="#" class="btn btn-sm btn-outline-dark">ANDROID APP</a></div>
+                        <div>📍 <a href="#" class="btn btn-sm btn-warning">DEVJAM JAKARTA</a> 🇮🇩<br><a href="https://photos.app.goo.gl/wDTFTznUWfnFWnUA9">IIT KGP GOA MEETUP</a>  🇮🇳</div>
+                    </div>
+                    <div>
+                        <div>2021</div>
+                        <div><a href="#" class="btn btn-sm btnsas">STYCHED</a> &nbsp; <a href="#" class="btn btn-sm btn-outline-dark">SHOPIFY</a> &nbsp; <a href="#" class="btn btn-sm btn-outline-dark">ERM</a></div>
+                        <div>STYCHED HACKATHON /BENGALURU</div>
+                        <div>GCP Professional Cloud Developer</div>
+                    </div>
+                    <div>
+                        <div>2020</div>
+                        <div><a href="/career/2020-styched.html" class="btn btn-sm btn-outline-dark">STYCHED ERM &raquo;</a></div>
+                        <div>📍 <a href="#" class="btn btn-sm btn-outline-danger">DUBAI CODERS MEET</a>  🇦🇪</div>
+                        <div></div>
+                    </div>
+                    <div>
+                        <div>2019</div>
+                        <div><a href="#" class="btn btn-sm btn-outline-dark">STYCHED ERM</a> &nbsp; <a href="/career/2019-yapnaa.html" class="btn btn-sm btn-outline-dark">YAPNAA</a> &nbsp; <a href="/career/2019-iconea.html" class="btn btn-sm btn-outline-dark">ICONEA</a></div>
+                        <div>📍 <a href="#" class="btn btn-sm btn-outline-dark">DEVJAM KIEV</a> 🇺🇦</div>
+                        <div>AWS Certified Cloud Practitioner</div>
+                    </div>
+                    <div>
+                        <div>2018</div>
+                        <div><a href="/career/2018-yapnaa.html" class="btn btn-sm btn-warning">YAPNAA &raquo;</a></div>
+                        <div>IOT ON BLOCKCHAIN WHITEPAPER 📝</div>
+                        <div>AWS Certified Solutions Architect - Professional</div>
+                    </div>
+                    <div>
+                        <div>2017</div>
+                        <div><a href="https://blog.pixfirst.com/" class="btn btn-sm btn-info">PIXDOCS &raquo;</a> &nbsp; <a href="https://www.xelpmoc.in/medicoverage" class="btn btn-sm btnsas">XELPMOC</a>  &nbsp; <a href="https://www.talasecure.com/blog" class="btn btn-sm btnsas">TALASECURE</a> </div>
+                        <div>📍 <a href="#" class="btn btn-sm btn-info">TECHMEET RIO DE JANEIRO</a>  🇧🇷 </div>
+                        <div>AWS Certified Developer - Associate</div>
+                    </div>
+                    <div>
+                        <div>2016</div>
+                        <div><a href="https://jdomni.com" class="btn btn-sm btn-primary">JUSTDIAL OMNI</a> &nbsp; <a href="#" class="btn btn-sm btnsas">DIGITAL HORIZONS</a></div>
+                        <div>📍 <a href="#" class="btn btn-sm btn-outline-success">DEVJAM AMSTERDAM</a> 🇳🇱<br>
+                            <a href="#" class="btn btn-sm">TECHMEET MUMBAI</a>  🇮🇳</div>
+                    </div>
+                    <div>
+                        <div>2015</div>
+                        <div><a href="#" class="btn btn-sm btnsas">DIGITAL HORIZONS</a></div>
+                        <div><a href="#" class="btn btn-sm btn-dark">MOBILE WORLD CONGRESS, BARCELONA</a> 🇪🇸 </div>
+                    </div>
+                    <div>
+                        <div>2014</div>
+                        <div><a href="#" class="btn btn-sm btnsas">DIGITAL HORIZONS</a></div>
+                    </div>
+                    <div style="background: #fff8dc88;">
+                        <div>2012 to 2014</div>
+                        <div>MS INFORMATION SYSTEMS <br/><a href="https://www.ua.pt">UNIVERSITY OF AVEIRO, PT 🇵🇹</a></div>
+                        <div>📍 <a href="#" class="btn btn-sm btn-outline-success">DEV MEETUP LISBON</a> 🇵🇹<br>MS THESIS 📝</div>
+                    </div>
+                    <div>
+                        <div>2011</div>
+                        <div><a href="#" class="btn btn-sm btn-outline-dark">YOUNG INDIA POWER</a> &nbsp; <a href="#" class="btn btn-sm btn-outline-dark">ADWIZE</a></div>
+                        <div>IIT KGP Kolkata Meetup</div>
+                    </div>
+                    <div>
+                        <div>2010</div>
+                        <div><a href="#" class="btn btn-sm btn-outline-dark">ADWIZE</a></div>
+                    </div>
+                    <div>
+                        <div>2009</div>
+                        <div><a href="#" class="btn btn-sm btn-outline-dark">ADWIZE</a></div>
+                        <div>IIT KGP BLR MEETUP</div>
+                    </div>
+                    <div>
+                        <div>2008</div>
+                        <div><a href="#" class="btn btn-sm btn-outline-dark"> PROJECT ROSE</a> &nbsp; <a href="#" class="btn btn-sm btnsas">SAMSUNG INDIA</a></div>
+                    </div>
+                    <div>
+                        <div><a href="year-one.html">2007</a></div>
+                        <div><a href="/career/2006-samsung.html" class="btn btn-sm btn-outline-dark"> PROJECT JUNGFRAU</a> &nbsp; <a href="#" class="btn btn-sm btnsas">SAMSUNG INDIA</a></div>
+                        <div></div>
+                        <div>MD Special Award</div>
+                    </div>
+                    <div style="background: #fff8dc88;">
+                        <div>2002 to 2006</div>
+                        <div>BTECH ELECTRONICS ENGG<br><a href="https://www.iitkgp.ac.in/">IIT KHARAGPUR, IN 🇮🇳 </a></div>
+                        <div>INTERNSHIPS<br>BTECH THESIS 📝</div>
+                    </div>
+                    <div>
+                        <div>1990 to 2002</div>
+                        <div>ICSE + ISC <br><a href="https://www.mpbfhsschool.com/">M P BIRLA H S SCHOOL 🇮🇳 </a> </div>
+                        <div>IITJEE RANK 277 / 400,000 <br>WBJEE RANK 54 / 100,000</div>
+                        <div></div>
+                    </div>
+                    <!-- <div>
+                        <div>1984</div>
+                        <div></div>
+                        <div>sasban is born :-)</div>
+                    </div> -->
+                </div>
                 <h2 style="text-align: right;"><a href="soft-skills.html" class="mt-4 text-white"> soft skills 2020</a></h2>
 
             </div>
