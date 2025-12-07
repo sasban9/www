@@ -1,5 +1,5 @@
 body{background: #222;color: #ddd}
 img{height: 90px;border-radius: 100%;}
-a,b{color: crimson;font-size: 1.6rem;text-decoration: none;background-color:khaki;padding: 2px 10px;}
-.table th{background: darkolivegreen;font-family: monospace;}
-.table-links{background-color: darkslategrey;}
+a,b{color: crimson;font-size: 1.6rem;text-decoration: none;backdrop-filter: blur(8px); padding: 2px 10px;font-family: fantasy;border:solid 1px #fff;}
+/* .table th{background: darkolivegreen;font-family: monospace;} */
+/* .table-links{background-color: darkslategrey;} */
