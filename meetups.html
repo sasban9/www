@@ -9,9 +9,10 @@
     *{margin: 0;padding: 0;box-sizing: border-box;}
     body{background: #222;color: #ccc;font-family: sans-serif;text-align: center;}
     main{display: flex;flex-direction: row;width: 100%;justify-content: space-around;min-width: 1480px;}
-    table{width: 100%;border-collapse: collapse;}
+    table{width: 100%;border-collapse: collapse;min-width: 1200px;}
+    a{background-color: darkblue;color: white;font-weight: bold;text-decoration: none;padding: 0 10px 2px;border-radius: 10px;}
     th{background: burlywood;color: black;}
-    td{font-family: monospace;text-align: center;padding: 10px 0;width: 12%;border: solid 1px;min-height: 100px;}
+    td{font-family: monospace;text-align: center;padding: 10px 0;width: 12%;border: solid 1px;min-height: 100px;padding: 20px 0;}
     td:nth-of-type(7n+8){background: #fff9;color: red;font-size: 12pt;}
     .hlt{background: chartreuse;color: crimson;font-weight: bold;}
     input{display: block;width: 100%;}
@@ -22,25 +23,31 @@
   <h2>[CODENAME 02KGP####]</h2>
   <table>
     <tr>
-      <th>SUN 21</th>
+        <th colspan="2">
+            <div style="background: brown;padding: 1rem;"><h3>Create New Meetup</h3><form action="post"><input type="text" placeholder="Location">FROM<input type="date">TO<input type="date">Created by:<input type="text" placeholder="Your Nick"><input type="submit" value="Create"></form></div>
+        </th>
+        <th colspan="3"></th>
+        <th colspan="2">
+            <div style="background: chocolate;padding: 1rem;">JOIN MY MEET #18729<br>Location: Mumbai<br>Dates: 27-31Dec<br>Created by: @sasban9<br><hr>@sasban9 . A.Yadav . VivekT . SNDe . SSethi . ABhuto . PravinK<hr><br><input type="text" placeholder="Your Nick"><a href="#">RSVP</a></div>
+        </th>
+    </tr>
+    <tr>
+      <th>SUN 21 DEC</th>
       <th>MON 22</th>
       <th>TUE 23</th>
       <th>WED 24</th>
       <th>THU 25</th>
       <th>FRI 26</th>
       <th>SAT 27</th>
-        <th rowspan="99">
-            <div style="background: chocolate;padding: 1rem;">JOIN MY MEET <br>#18729<br>Created by: @sasban9<br>Location: Mumbai<br>Dates: 27-31Dec<br><hr>Interests: @sasban9 . A.Yadav . VivekT . SNDe . SSethi . ABhuto . PravinK<hr><br><input type="text" placeholder="Your Nick"><a href="#">RSVP</a></div>
-            <div style="background: brown;padding: 1rem;"><h3>Create new</h3><form action="post"><input type="text" placeholder="Location">FROM<input type="date">TO<input type="date">Created by:<input type="text" placeholder="Your Nick"><input type="submit" value="Create"></form></div>
-        </th>
+        
     </tr>
     <tr>
-      <td><div>Meet <a href="#">#18298</a><br>Kolkata<br>10 interested<hr>@sasban9 . A.Yadav . VivekT . SNDe . SSethi . ABhuto . PravinK</div></td>
-      <td></td><td></td><td></td><td></td><td></td>
-      <td><div>Meet <a href="#">#18377</a><br>Delhi NCR<br>32 interested<hr></div><div>Meet <a href="#">#18877</a><br>Bengaluru<br>19 interested<hr></div></td>
+      <td><div>Kolkata <a href="#">#18298</a><br>10 interested<hr>@sasban9 . A.Yadav . VivekT . SNDe . SSethi . ABhuto . PravinK</div></td>
+      <td></td><td style="background: lightblue;"></td><td></td><td></td><td></td>
+      <td><div>Delhi NCR <a href="#">#18377</a><br>32 interested<hr></div><div>Bengaluru <a href="#">#18877</a><br>19 interested<hr></div></td>
     </tr>
     <tr>
-      <th>SUN 28</th>
+      <th>SUN 28 DEC</th>
       <th>MON 29</th>
       <th>TUE 30</th>
       <th>WED 31</th>
@@ -50,11 +57,11 @@
     </tr>
     <tr>
       <td></td><td></td>
-      <td><div>Meet <a href="#">#18930</a><br>NYC<br>15 interested</div></td>
-      <td></td><td></td><td></td><td><div>Meet <a href="#">#18377</a><br>Hyderabad<br>11 interested</div></td>
+      <td><div>NYC <a href="#">#18930</a><br>15 interested</div></td>
+      <td></td><td></td><td></td><td><div>Hyderabad <a href="#">#18377</a><br>11 interested<hr></div><div>Bengaluru <a href="#">#18877</a><br>19 interested<hr></div></td>
     </tr>
     <tr>
-      <th>SUN 04</th>
+      <th>SUN 04 JAN</th>
       <th>MON 05</th>
       <th>TUE 06</th>
       <th>WED 07</th>
@@ -63,13 +70,13 @@
       <th>SAT 10</th>
     </tr>
     <tr>
-      <td><div>Meet <a href="#">#18377</a><br>London<br>3 interested</div><hr><div>Meet <a href="#">#18370</a><br>Dubai<br> 6 interested</div></td><td></td>
+      <td><div>London <a href="#">#18377</a><br>3 interested</div><hr><div>Dubai <a href="#">#18370</a><br> 6 interested</div><hr><div>Mumbai <a href="#">#18970</a><br> 13 interested</div></td><td></td>
       <td></td>
       <td></td>
-      <td><div>Meet <a href="#">#180197</a><br>Singapore<br>12 interests<hr></div></td><td></td><td></td>
+      <td><div>Singapore <a href="#">#180197</a><br>12 interests<hr></div></td><td></td><td></td>
     </tr>
     <tr>
-      <th>SUN 11</th>
+      <th>SUN 11 JAN</th>
       <th>MON 12</th>
       <th>TUE 13</th>
       <th>WED 14</th>
@@ -81,7 +88,7 @@
         <td><br><br><br><b><br><br><br></b></td><td></td><td></td><td></td><td></td><td></td><td></td>
     </tr>
     <tr>
-      <th>SUN 18</th>
+      <th>SUN 18 JAN</th>
       <th>MON 19</th>
       <th>TUE 20</th>
       <th>WED 21</th>
