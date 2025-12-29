@@ -18,10 +18,10 @@ input{display: block;width: 100%;}
 table img{max-width: 100%;}
 main>div{min-width: 400px;display: flex;justify-content: center;align-items: center;overflow: hidden;}
 /* main>div>img{height: 90vh;} */
-article>img{max-height: 55vh;}
+article>div{max-height: 55vh;}
 @media screen and (max-width:480px) {
-    article>img{max-width: 90%;max-height: 80vh;}
+    article>div{min-width: 90%;min-height: 80vh;}
 }
-@media screen and (max-width:768px) {
-    article>img{max-width: 90%;min-height: 70vh;}
+@media screen and (min-width:481px) and (max-width:768px) {
+    article>div{min-width: 50%;min-height: 70vh;}
 }
