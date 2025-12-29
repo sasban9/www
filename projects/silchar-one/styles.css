@@ -1,12 +1,13 @@
 *{margin: 0;padding: 0;box-sizing: border-box;}
-html{background: url(https://wallpapers.com/images/hd/dark-texture-background-1ww1corpzr0l0sji.jpg);background-size: cover; background-attachment: fixed;scrollbar-width: none;}
-body{background: #222;color: #ccc;font-family: sans-serif;text-align: center;display: block;flex-direction: row;flex-wrap: wrap;padding: 50px 0 100px;align-items: start;max-width: 700px;margin: 0 auto;box-shadow: 0 0 20px #ccc;}
+html{background: url(https://wallpapers.com/images/hd/dark-texture-background-1ww1corpzr0l0sji.jpg) 50% 50%;background-size: cover; background-attachment: fixed;scrollbar-width: none;}
+body{background: linear-gradient(to bottom, #4246, #000);color: #ccc;font-family: sans-serif;text-align: center;display: block;flex-direction: row;flex-wrap: wrap;padding: 50px 0 100px;align-items: start;max-width: 700px;margin: 0 auto;box-shadow: 0 0 20px #ccc;}
 main{display: flex;flex-direction: row;width: 100%;justify-content: center;min-width: 1480px;height: 100vh;align-items: center;}
 /* table{max-width: 100%;border-collapse: collapse;min-width: 1200px;} */
 table{max-width: 500px;font-size: 1.4rem;margin:0 auto;}
 p{margin-bottom: 60px;padding: 0 40px;}
 ul,ol{text-align: left;max-width: 600px;margin: 20px auto 60px;padding-left: 60px;}
-a{background-color: darkblue;color: white;font-weight: bold;text-decoration: none;padding: 0 10px 2px;border-radius: 10px;}
+li{padding: 6px 0;}
+a{background-color: gold;color: #000;font-weight: bold;text-decoration: none;padding: 0 10px 2px;border-radius: 4px;line-height: 1.2rem;}
 strong{background: goldenrod;color: darkmagenta;}
 h1,h2{background: gold;color: crimson;font-family: fantasy;}
 th{background: burlywood;color: black;}
