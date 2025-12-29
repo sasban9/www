@@ -4,10 +4,13 @@ body{background: #222;color: #ccc;font-family: sans-serif;text-align: center;dis
 main{display: flex;flex-direction: row;width: 100%;justify-content: center;min-width: 1480px;height: 100vh;align-items: center;}
 /* table{max-width: 100%;border-collapse: collapse;min-width: 1200px;} */
 table{max-width: 500px;font-size: 1.4rem;margin:0 auto;}
+p{margin-bottom: 60px;padding: 0 40px;}
+ul,ol{text-align: left;max-width: 600px;margin: 20px auto 60px;padding-left: 60px;}
 a{background-color: darkblue;color: white;font-weight: bold;text-decoration: none;padding: 0 10px 2px;border-radius: 10px;}
+strong{background: goldenrod;color: darkmagenta;}
 h1,h2{background: gold;color: crimson;font-family: fantasy;}
 th{background: burlywood;color: black;}
-td{font-family: monospace;text-align: center;padding: 10px 0;width: 12%;border: solid 1px;min-height: 100px;padding: 0px 0;}
+td{font-family: monospace;text-align: center;width: 12%;border: solid 1px;min-height: 100px;padding: 0px 0px;}
 td:nth-of-type(7n+8){background: #fff9;color: red;font-size: 12pt;}
 .hlt{background: chartreuse;color: crimson;font-weight: bold;}
 input{display: block;width: 100%;}
