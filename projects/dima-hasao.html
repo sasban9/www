@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheSilchar1000 Event Backdrop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --black: #000000;
+            --white: #ffffff;
+            --gray: #f4f4f4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            padding: 40px;
+        }
+
+        .backdrop-wrapper {
+            display: flex;
+            width: 95vw;
+            max-width: 1300px;
+            background: white;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+        }
+
+        .panel {
+            flex: 1;
+            aspect-ratio: 2 / 3; /* Maintains 2ft x 4ft proportion */
+            display: flex;
+            flex-direction: column;
+            padding: 4%;
+            position: relative;
+        }
+
+        .panel:not(:last-child) {
+            border-right: 2px solid #ddd;
+        }
+
+        /* Color Themes */
+        .panel-1 { background-color: var(--white); }
+        .panel-2 { background-color: var(--black); color: white; text-align: center; }
+        .panel-3 { background-color: var(--gray); }
+
+        /* Typography */
+        .header { font-size: 1.2vw; font-weight: 900; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .main-title { font-size: 3.5vw; font-weight: 900; line-height: 1; margin-bottom: 30px; letter-spacing: -1px; }
+        .feature-list { list-style: none; margin-top: 20px; }
+        .feature-list li { font-size: 1.1vw; margin-bottom: 15px; padding-left: 25px; position: relative; line-height: 1.4; }
+        .feature-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-weight: bold; }
+
+        .cohort-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 10px; border-radius: 4px; }
+        .cohort-box.active { border-color: var(--gold); background: #fffcf0; }
+        .cohort-title { font-size: 1vw; font-weight: 700; }
+        .cohort-price { font-size: 1.5vw; font-weight: 900; color: var(--black); }
+
+        .cta-big { font-size: 4.5vw; font-weight: 900; margin: 40px 0; line-height: 0.8; }
+        .sub-cta { font-size: 1.4vw; font-weight: 300; letter-spacing: 4px; opacity: 0.8; }
+        
+        .venue-footer { margin-top: auto; padding-top: 20px; border-top: 1px solid #eee; font-size: 0.9vw; font-weight: 700; color: #666; }
+        .venue-footer span { color: var(--black); margin-right: 15px; }
+
+        .qr-placeholder { width: 8vw; height: 8vw; background: #eee; margin: 20px auto; display: flex; align-items: center; justify-content: center; font-size: 0.7vw; color: #999; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+    <div class="backdrop-wrapper">
+        
+        <div class="panel panel-1">
+            <p class="header">Member Privileges</p>
+            <h1 class="main-title">Why Join The 1000?</h1>
+            <ul class="feature-list">
+                <li><strong>Reflected Visibility:</strong> Leverage the combined reach of 1,000 top businesses.</li>
+                <li><strong>Face-Brand Identity:</strong> Turn your personal reputation into a digital asset.</li>
+                <li><strong>Verified Status:</strong> Gain the "Elite 1000" badge for your shop & website.</li>
+                <li><strong>Priority Discovery:</strong> Appear at the top of Silchar’s most curated search engine.</li>
+            </ul>
+            <div class="venue-footer">
+                OFFICIAL VENUES: <br>
+                <span>HOTEL CACHAR CLUB</span> <span>BORAIL VIEW REGENCY</span>
+            </div>
+        </div>
+
+        <div class="panel panel-2">
+            <p class="sub-cta">SILCHAR'S DIGITAL BACKBONE</p>
+            <h1 class="cta-big">TheSilchar<br><span style="color:var(--gold)">1000</span></h1>
+            <p style="font-size: 1.2vw; letter-spacing: 2px; margin-bottom: 20px;">100 CATEGORIES. 1000 NODES.</p>
+            
+            <div style="border: 2px solid var(--gold); padding: 20px; margin: 0 10%; background: rgba(255,255,255,0.05);">
+                <p style="font-size: 1vw;">SCAN TO APPLY</p>
+                <div class="qr-placeholder">GENERATE QR CODE</div>
+                <p style="font-size: 1.5vw; font-weight: 900; color: var(--gold);">SILCHAR-ONE.SPACE</p>
+            </div>
+            
+            <p style="margin-top: auto; font-size: 0.9vw; opacity: 0.6; font-style: italic;">
+                "A collective mission to dominate the local economy."
+            </p>
+        </div>
+
+        <div class="panel panel-3">
+            <p class="header">Admission Roadmap</p>
+            <h1 class="main-title">Limited Tiers</h1>
+            
+            <div class="cohort-box active">
+                <p class="cohort-title">COHORT 1 (Slots 1-250)</p>
+                <p class="cohort-price">₹1,000/yr</p>
+            </div>
+            <div class="cohort-box">
+                <p class="cohort-title">COHORT 2 (Slots 251-500)</p>
+                <p class="cohort-price">₹2,000/yr</p>
+            </div>
+            <div class="cohort-box">
+                <p class="cohort-title">COHORT 3 (Slots 501-750)</p>
+                <p class="cohort-price">₹5,000/yr</p>
+            </div>
+            <div class="cohort-box">
+                <p class="cohort-title">COHORT 4 (Slots 751-1000)</p>
+                <p class="cohort-price">₹10,000/yr</p>
+            </div>
+
+            <p style="font-size: 0.8vw; color: #888; margin-top: 15px;">*VVIP Elite Seats available at ₹49,000/yr.</p>
+            <p class="venue-footer" style="text-align: right; border: none;">Annual Renewal Required</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
