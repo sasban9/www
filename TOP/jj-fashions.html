@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: #f0f2f5; }
+        .container { max-width: 1200px; margin: auto; }
+        
+        /* Summary Table Styling */
+        .summary-box { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .stat-card { padding: 15px; border-left: 5px solid #ccc; background: #fafafa; }
+
+        /* Main Ledger Table */
+        .table-container { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        thead { background: #333; color: white; position: sticky; top: 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        
+        /* Search and Filter */
+        .toolbar { margin-bottom: 15px; display: flex; gap: 10px; }
+        input[type="text"] { flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
+
+        .pending-alert { font-weight: bold; color: #d32f2f; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Business Ledger 2026</h2>
+
+    <div class="summary-box">
+        <div class="summary-grid" id="statsGrid">
+            </div>
+    </div>
+
+    <div class="toolbar">
+        <input type="text" id="searchInput" placeholder="Search by vendor, date, or category..." onkeyup="renderAll()">        
+        <div class="filter-group">
+            <label><input type="radio" name="viewType" value="all" checked onclick="renderAll()"> Both</label>
+            <label><input type="radio" name="viewType" value="income" onclick="renderAll()"> Incomes</label>
+            <label><input type="radio" name="viewType" value="expense" onclick="renderAll()"> Expenses</label>
+        </div>
+    </div>
+
+<style>
+    .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #fff;
+        padding: 0 15px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 0.9em;
+    }
+    .filter-group label { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+</style>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%">Date</th>
+                    <th style="width: 25%">Vendor/Client</th>
+                    <th style="width: 15%">Category</th>
+                    <th style="width: 15%">Type</th>
+                    <th style="width: 15%">Amount Paid</th>
+                    <th style="width: 15%">Balance Due</th>
+                </tr>
+            </thead>
+            <tbody id="ledgerBody">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const transactions = [
+        { date: "2026-03-01", vendor: "Global Tech", type: "expense", total: 5000, paid: 1200, cat: "Servers" },
+        { date: "2026-03-05", vendor: "Mainstream Media", type: "income", total: 8500, paid: 8500, cat: "Ads" },
+        { date: "2026-03-08", vendor: "Office Supplies Co", type: "expense", total: 150, paid: 150, cat: "Stationary" },
+        { date: "2026-03-10", vendor: "Local Landlord", type: "expense", total: 2000, paid: 2000, cat: "Rent" },
+        { date: "2026-03-12", vendor: "Freelance Dev", type: "expense", total: 1200, paid: 400, cat: "Development" },
+        { date: "2026-02-28", vendor: "Client Beta", type: "income", total: 12000, paid: 6000, cat: "Software" }
+    ];
+
+    function getHeatmapColor(amount, maxAmount, type) {
+        // Calculate intensity (0.1 to 0.8 for visibility)
+        const intensity = (amount / maxAmount) * 0.7 + 0.1;
+        return type === 'income' 
+            ? `rgba(76, 175, 80, ${intensity})`  // Green shades
+            : `rgba(244, 67, 54, ${intensity})`;  // Red shades
+    }
+
+    function renderAll() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const tbody = document.getElementById('ledgerBody');
+        const statsGrid = document.getElementById('statsGrid');
+        
+        // 1. Calculate Max for Heatmap
+        const maxAmt = Math.max(...transactions.map(t => t.total));
+        
+        // 2. Filter Data
+        const filtered = transactions.filter(t => 
+            t.vendor.toLowerCase().includes(query) || 
+            t.cat.toLowerCase().includes(query) ||
+            t.date.includes(query)
+        );
+
+        // 3. Group by Month for Summary
+        const monthly = {};
+        tbody.innerHTML = '';
+
+        filtered.forEach(t => {
+            const month = t.date.substring(0, 7);
+            if (!monthly[month]) monthly[month] = { inc: 0, exp: 0, pend: 0 };
+            
+            const pending = t.total - t.paid;
+            if (t.type === 'income') monthly[month].inc += t.paid;
+            else {
+                monthly[month].exp += t.paid;
+                monthly[month].pend += pending;
+            }
+
+            // Generate Table Row with Heatmap
+            const bgColor = getHeatmapColor(t.total, maxAmt, t.type);
+            const row = `
+                <tr style="background-color: ${bgColor}">
+                    <td>${t.date}</td>
+                    <td><strong>${t.vendor}</strong></td>
+                    <td>${t.cat}</td>
+                    <td>${t.type.toUpperCase()}</td>
+                    <td>$${t.paid.toLocaleString()}</td>
+                    <td class="${pending > 0 ? 'pending-alert' : ''}">
+                        ${pending > 0 ? `$${pending.toLocaleString()}` : '—'}
+                    </td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+
+        // 4. Update Stats Grid
+        statsGrid.innerHTML = '';
+        Object.keys(monthly).sort().reverse().forEach(m => {
+            statsGrid.innerHTML += `
+                <div class="stat-card">
+                    <small>${m}</small>
+                    <div>Inc: <strong>$${monthly[m].inc}</strong></div>
+                    <div>Exp: <strong>$${monthly[m].exp}</strong></div>
+                    <div style="color:red">Pending: $${monthly[m].pend}</div>
+                </div>
+            `;
+        });
+    }
+
+    function renderAll() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const viewType = document.querySelector('input[name="viewType"]:checked').value;
+    const tbody = document.getElementById('ledgerBody');
+    const statsGrid = document.getElementById('statsGrid');
+    
+    // 1. Initial Filter by Search Term AND Type (Income/Expense/All)
+    const filtered = transactions.filter(t => {
+        const matchesSearch = t.vendor.toLowerCase().includes(query) || 
+                              t.cat.toLowerCase().includes(query) ||
+                              t.date.includes(query);
+        
+        const matchesType = (viewType === 'all') || (t.type === viewType);
+        
+        return matchesSearch && matchesType;
+    });
+
+    // 2. Calculate Max for Heatmap (only from the filtered set for better contrast)
+    const maxAmt = filtered.length > 0 ? Math.max(...filtered.map(t => t.total)) : 0;
+    
+    tbody.innerHTML = '';
+    const monthly = {};
+
+    filtered.forEach(t => {
+        // ... (The rest of your grouping and row generation logic remains the same)
+        const month = t.date.substring(0, 7);
+        if (!monthly[month]) monthly[month] = { inc: 0, exp: 0, pend: 0 };
+        
+        const pending = t.total - t.paid;
+        if (t.type === 'income') monthly[month].inc += t.paid;
+        else {
+            monthly[month].exp += t.paid;
+            monthly[month].pend += pending;
+        }
+
+        const bgColor = getHeatmapColor(t.total, maxAmt, t.type);
+        tbody.innerHTML += `
+            <tr style="background-color: ${bgColor}">
+                <td>${t.date}</td>
+                <td><strong>${t.vendor}</strong></td>
+                <td>${t.cat}</td>
+                <td>${t.type.toUpperCase()}</td>
+                <td>$${t.paid.toLocaleString()}</td>
+                <td class="${pending > 0 ? 'pending-alert' : ''}">
+                    ${pending > 0 ? `$${pending.toLocaleString()}` : '—'}
+                </td>
+            </tr>
+        `;
+    });
+
+    // 3. Update Summary Grid based on visible data
+    updateStatsGrid(monthly); 
+}
+
+    renderAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Feed in HTML</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        body{background: #111;}
+        /* Optional CSS to style the video feed */
+        video {
+            width: 1800px;
+            height: 100vh;
+            margin-left: -50%;
+            /* border: 2px solid black; */
+            display: block;
+            /* margin: 0 auto; */
+        }
+    </style>
+</head>
+<body>
+    <!-- <h1>Live Webcam Feed</h1> -->
+    <!-- The video element to display the stream -->
+    
+    <div style="height: 100vh;width: 50vw;overflow: hidden;float: right;">
+        <video id="webcamFeed" autoplay playsinline muted></video>
+    </div>
+
+    <script>
+        // Select the video element from the HTML
+        const video = document.querySelector('#webcamFeed');
+
+        // Function to start the webcam stream
+        async function startWebcam() {
+            try {
+                // Request access to the video stream (and optionally audio)
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                
+                // Set the stream as the source of the video element
+                video.srcObject = stream;
+                
+                // When metadata is loaded, play the video (though 'autoplay' handles this in most modern browsers)
+                video.onloadedmetadata = () => {
+                    video.play();
+                };
+            } catch (err) {
+                // Handle cases where the user denies permission or an error occurs
+                console.error("Error accessing the webcam:", err);
+                alert('You need to allow camera access to view the feed.');
+            }
+        }
+
+        // Call the function to start the webcam when the page loads
+        startWebcam();
+    </script>
+</body>
+</html>

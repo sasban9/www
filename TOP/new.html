@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Independence for Seniors</title>
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --text-dark: #202124;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        /* Large fonts for readability */
+        h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+        h2 { font-size: 2.2rem; color: var(--primary-blue); }
+        p { font-size: 1.5rem; }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .hero-section {
+            padding: 60px 20px;
+            opacity: 0; /* For animation */
+            transform: translateY(20px);
+            transition: all 1s ease-out;
+        }
+
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            flex: 1 1 300px;
+            max-width: 400px;
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
+        }
+
+        .card:hover {
+            border: 2px solid var(--primary-blue);
+        }
+
+        /* Big, easy-to-click button */
+        .cta-button {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 25px 50px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-top: 40px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+
+        .cta-button:active {
+            transform: scale(0.95);
+        }
+
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #d93025;
+            margin: 20px 0;
+        }
+
+        .footer {
+            margin-top: 80px;
+            padding: 40px;
+            background: #eee;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <section class="hero-section" id="mainHero">
+            <h1>Master Your Smartphone with Confidence</h1>
+            <p>No more asking for help. Learn to video call, pay bills safely, and enjoy technology in a friendly community.</p>
+            
+            <div class="price-tag">Join for just ₹100</div>
+
+            <div class="card-container">
+                <div class="card">
+                    <h3>📱 Simple Lessons</h3>
+                    <p>Step-by-step guidance on using WhatsApp, YouTube, and Google.</p>
+                </div>
+                <div class="card">
+                    <h3>🛡️ Stay Safe</h3>
+                    <p>Learn how to spot scams and protect your bank account.</p>
+                </div>
+                <div class="card">
+                    <h3>🤝 1-on-1 Help</h3>
+                    <p>Get your personal questions answered directly by me.</p>
+                </div>
+            </div>
+
+            <a href="#" class="cta-button" onclick="handleJoin()">Click Here to Join Us</a>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>A community for 1,000 seniors learning together.</p>
+    </footer>
+
+    <script>
+        // Subtle Fade-in Animation on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            const hero = document.getElementById('mainHero');
+            setTimeout(() => {
+                hero.classList.add('visible');
+            }, 300);
+        });
+
+        // Simple function for the button
+        function handleJoin() {
+            alert("Thank you for your interest! We are excited to have you in our community. A payment link for ₹100 will open next.");
+            // You can replace this with a redirect to your payment gateway or WhatsApp link
+            // window.location.href = "https://wa.me/yourphonenumber";
+        }
+    </script>
+</body>
+</html>
