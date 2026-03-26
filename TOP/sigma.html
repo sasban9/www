@@ -1,0 +1,953 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Next Crorepati – Silchar Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #D4A017;
+    --gold-light: #F5C842;
+    --black: #0A0A08;
+    --charcoal: #111110;
+    --white: #F0EDE4;
+    --red: #C0392B;
+    --green: #1A6B3C;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.35;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    padding: 60px 50px 60px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--red);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    margin-bottom: 28px;
+    width: fit-content;
+    animation: pulse-badge 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse-badge {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  .hero-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(68px, 9vw, 130px);
+    line-height: 0.9;
+    color: var(--white);
+    margin-bottom: 10px;
+    animation: slide-up 0.8s cubic-bezier(.16,1,.3,1) both;
+  }
+  .hero-headline .gold { color: var(--gold-light); }
+
+  .hero-sub {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 72px);
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+    animation: slide-up 0.8s 0.1s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(240,237,228,0.7);
+    max-width: 420px;
+    margin-bottom: 42px;
+    animation: slide-up 0.8s 0.2s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: slide-up 0.8s 0.3s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 16px 32px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 16px 32px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: 1px solid rgba(240,237,228,0.25);
+    transition: border-color 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  /* ── HERO RIGHT ── */
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(30%) contrast(1.1);
+    opacity: 0.55;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--black) 0%, transparent 60%);
+  }
+
+  .rupee-big {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 320px;
+    color: var(--gold);
+    opacity: 0.08;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+  }
+
+  .stat-cards {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat-card {
+    background: rgba(10,10,8,0.85);
+    border-left: 3px solid var(--gold);
+    padding: 12px 20px;
+    backdrop-filter: blur(8px);
+    animation: slide-up 0.8s 0.5s cubic-bezier(.16,1,.3,1) both;
+  }
+  .stat-card + .stat-card { animation-delay: 0.65s; }
+  .stat-card .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+  .stat-card .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(240,237,228,0.5);
+    text-transform: uppercase;
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    background: var(--gold);
+    color: var(--black);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px 0;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 22s linear infinite;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  @keyframes ticker {
+    from { transform: translateX(100vw); }
+    to   { transform: translateX(-100%); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 60px; }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 88px);
+    line-height: 0.95;
+    margin-bottom: 60px;
+  }
+
+  /* ── THE BET ── */
+  .bet-section {
+    background: var(--charcoal);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .bet-text p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(240,237,228,0.72);
+    margin-bottom: 20px;
+  }
+
+  .bet-highlight {
+    border: 1px solid var(--gold);
+    padding: 32px;
+    margin-top: 32px;
+    position: relative;
+  }
+  .bet-highlight::before {
+    content: '★ THE BET';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--charcoal);
+    padding: 0 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+  }
+  .bet-highlight p {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--gold-light);
+    margin-bottom: 0;
+  }
+
+  /* ── CONDITIONS GRID ── */
+  .conditions-section {
+    background: var(--black);
+  }
+
+  .conditions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .condition-card {
+    background: var(--charcoal);
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .condition-card:hover { background: #1A1A18; }
+  .condition-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--gold);
+    transition: width 0.4s ease;
+  }
+  .condition-card:hover::after { width: 100%; }
+
+  .condition-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    color: rgba(212,160,23,0.12);
+    line-height: 1;
+    position: absolute;
+    top: 16px; right: 20px;
+  }
+
+  .condition-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .condition-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .condition-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(240,237,228,0.6);
+  }
+
+  /* ── MONEY BREAKDOWN ── */
+  .money-section {
+    background: var(--gold);
+    color: var(--black);
+    text-align: center;
+  }
+  .money-section .section-label { color: var(--black); opacity: 0.6; }
+  .money-section .section-title { color: var(--black); }
+
+  .money-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    margin-top: -20px;
+  }
+
+  .money-card {
+    background: rgba(0,0,0,0.12);
+    padding: 40px 24px;
+  }
+
+  .money-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--black);
+    margin-bottom: 8px;
+  }
+
+  .money-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+
+  .vs-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin: 48px 0;
+  }
+  .vs-divider::before,
+  .vs-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(0,0,0,0.2);
+  }
+  .vs-divider span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    opacity: 0.35;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .timeline-section { background: var(--charcoal); }
+
+  .timeline {
+    position: relative;
+    padding-left: 60px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 16px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 48px;
+    animation: fade-in 0.6s ease both;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -51px;
+    top: 6px;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .timeline-month {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .timeline-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+
+  .timeline-body {
+    font-size: 14px;
+    color: rgba(240,237,228,0.6);
+    line-height: 1.7;
+  }
+
+  /* ── MENTOR ── */
+  .mentor-section {
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .mentor-photo-wrap {
+    position: relative;
+  }
+
+  .mentor-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    filter: grayscale(60%);
+  }
+
+  .mentor-img-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--charcoal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(212,160,23,0.2);
+  }
+
+  .mentor-initial {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    color: var(--gold);
+    opacity: 0.4;
+  }
+
+  .mentor-photo-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 12px -12px -12px 12px;
+    border: 1px solid var(--gold);
+    z-index: -1;
+  }
+
+  .mentor-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .mentor-handle {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--gold);
+    margin-bottom: 28px;
+  }
+
+  .mentor-bio {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(240,237,228,0.7);
+    margin-bottom: 24px;
+  }
+
+  .mentor-promise {
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(240,237,228,0.6);
+  }
+
+  /* ── LOCATION ── */
+  .location-section {
+    background: var(--charcoal);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .location-info h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    margin-bottom: 20px;
+  }
+
+  .location-detail {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .location-icon {
+    font-size: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .location-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(240,237,228,0.7);
+  }
+
+  .location-map {
+    background: var(--black);
+    border: 1px solid rgba(212,160,23,0.2);
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-pin {
+    font-size: 48px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .map-label {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  /* ── CTA FINAL ── */
+  .cta-section {
+    background: var(--black);
+    text-align: center;
+    padding: 120px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '₹';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 600px;
+    color: var(--gold);
+    opacity: 0.03;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .cta-section .section-title { margin-bottom: 20px; }
+
+  .cta-tagline {
+    font-size: 18px;
+    color: rgba(240,237,228,0.6);
+    max-width: 600px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+
+  .wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #25D366;
+    color: white;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 20px 40px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .wa-btn:hover { background: #1ebe5b; transform: translateY(-3px); }
+
+  .wa-icon { font-size: 22px; }
+
+  .cta-note {
+    margin-top: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: rgba(240,237,228,0.35);
+    letter-spacing: 1px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #060605;
+    padding: 32px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(212,160,23,0.15);
+  }
+
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  .footer-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: rgba(240,237,228,0.3);
+    letter-spacing: 1px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { height: 300px; }
+    .stat-cards { flex-direction: row; bottom: 16px; right: 16px; }
+    section { padding: 70px 24px; }
+    .bet-section,
+    .conditions-grid,
+    .mentor-section,
+    .location-section { grid-template-columns: 1fr; gap: 40px; }
+    .money-grid { grid-template-columns: 1fr; }
+    .hero-left { padding: 50px 24px 40px; }
+    .conditions-grid { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  @media (max-width: 540px) {
+    .conditions-grid { grid-template-columns: 1fr; }
+    .hero-headline { font-size: 68px; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateX(-10px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HERO ════════════ -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <span class="badge">🔴 Live Challenge — Silchar 2025</span>
+    <h1 class="hero-headline">ARE YOU THE <span class="gold">NEXT</span><br>CRORE-<br>PATI?</h1>
+    <p class="hero-sub">Under 21. Silchar. One Year.</p>
+    <p class="hero-desc">
+      @sasban is looking for one fearless person from Silchar to prove they can build a serious online income — or get paid ₹24,000 at the end of the year anyway.
+    </p>
+    <div class="cta-row">
+      <a href="https://wa.me/917019492748" class="btn-primary">Apply on WhatsApp →</a>
+      <a href="#conditions" class="btn-outline">See Conditions</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <img
+      class="hero-img"
+      src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=900&q=80"
+      alt="Young entrepreneur working"
+      onerror="this.style.display='none'"
+    />
+    <div class="hero-overlay"></div>
+    <div class="rupee-big">₹</div>
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="num">₹1L+</div>
+        <div class="label">Target Earnings</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">365</div>
+        <div class="label">Days to Prove It</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ TICKER ════════════ -->
+<div class="ticker">
+  <div class="ticker-inner">
+    SILCHAR'S NEXT CROREPATI &nbsp;★&nbsp; UNDER 21 &nbsp;★&nbsp; EARN MORE THAN ₹1 LAKH &nbsp;★&nbsp; 365 DAYS &nbsp;★&nbsp; DIGITAL PRODUCTS &nbsp;★&nbsp; GLOBAL SALES &nbsp;★&nbsp; OR GET ₹24,000 BACK &nbsp;★&nbsp; SILCHAR'S NEXT CROREPATI &nbsp;★&nbsp; PROVE IT &nbsp;★&nbsp;
+  </div>
+</div>
+
+<!-- ════════════ THE BET ════════════ -->
+<section class="bet-section">
+  <div class="bet-text">
+    <p class="section-label">// the premise</p>
+    <h2 class="section-title">THE DEAL THAT CHANGES EVERYTHING</h2>
+    <p>
+      @sasban believes that any young person in Silchar with the right structure, accountability, and hustle can build a real online income within a year. This isn't a course. This isn't a lecture. It's a live bet.
+    </p>
+    <p>
+      You pay ₹1,000 a month. You show up daily. You build in public. If you follow the process and still don't make significant progress — you get ₹24,000 back at the end of the year.
+    </p>
+    <div class="bet-highlight">
+      <p>If you follow every step and still fail, you get your full ₹24,000 back. @sasban bets you'll earn more than ₹1 Lakh.</p>
+    </div>
+  </div>
+  <div>
+    <img
+      src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=700&q=80"
+      alt="Digital work"
+      style="width:100%; filter:grayscale(40%) contrast(1.1); opacity:0.7;"
+      onerror="this.style.display='none'"
+    />
+  </div>
+</section>
+
+<!-- ════════════ CONDITIONS ════════════ -->
+<section class="conditions-section" id="conditions">
+  <p class="section-label">// what's required</p>
+  <h2 class="section-title">THE<br>RULES<br>ARE SIMPLE.</h2>
+  <div class="conditions-grid">
+    <div class="condition-card">
+      <div class="condition-num">01</div>
+      <div class="condition-icon">💰</div>
+      <div class="condition-title">₹1,000 / Month</div>
+      <div class="condition-desc">Skin in the game. ₹12,000 over the year. If you don't win, you get ₹24,000 back — that's double.</div>
+    </div>
+    <div class="condition-card">
+      <div class="condition-num">02</div>
+      <div class="condition-icon">📲</div>
+      <div class="condition-title">Public Log Daily</div>
+      <div class="condition-desc">Post your daily progress publicly on YouTube, X (Twitter), or LinkedIn. No hiding. Build in public.</div>
+    </div>
+    <div class="condition-card">
+      <div class="condition-num">03</div>
+      <div class="condition-icon">🌐</div>
+      <div class="condition-title">Make Money Online</div>
+      <div class="condition-desc">Focus on selling digital products globally — not local gigs. Real, scalable, internet-native income.</div>
+    </div>
+    <div class="condition-card">
+      <div class="condition-num">04</div>
+      <div class="condition-icon">⚡</div>
+      <div class="condition-title">One Improvement Daily</div>
+      <div class="condition-desc">One meaningful improvement task every single day. You can miss up to 60 days per year. 300+ updates expected.</div>
+    </div>
+    <div class="condition-card">
+      <div class="condition-num">05</div>
+      <div class="condition-icon">👁️</div>
+      <div class="condition-title">@sasban Reviews You</div>
+      <div class="condition-desc">Your mentor checks your daily progress. Real feedback, real accountability — not automated.</div>
+    </div>
+    <div class="condition-card">
+      <div class="condition-num">06</div>
+      <div class="condition-icon">🎯</div>
+      <div class="condition-title">Under 21 Only</div>
+      <div class="condition-desc">This challenge is for hungry young people in Silchar with nothing but time, ambition, and WiFi.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ MONEY ════════════ -->
+<section class="money-section">
+  <p class="section-label">// the numbers</p>
+  <h2 class="section-title">WHAT'S<br>AT STAKE</h2>
+  <div class="money-grid">
+    <div class="money-card">
+      <div class="money-amount">₹1L+</div>
+      <div class="money-label">Expected earnings if you win</div>
+    </div>
+    <div class="money-card" style="background:rgba(0,0,0,0.22);">
+      <div class="money-amount">₹24K</div>
+      <div class="money-label">Guaranteed return if you follow every step and still don't progress</div>
+    </div>
+    <div class="money-card">
+      <div class="money-amount">₹12K</div>
+      <div class="money-label">Total you invest (₹1k × 12 months)</div>
+    </div>
+  </div>
+  <div class="vs-divider"><span>VS</span></div>
+  <p style="font-size:15px; opacity:0.65; font-family:'Space Mono',monospace; letter-spacing:1px;">
+    WORST CASE: You get back ₹24,000 — 2× your investment.<br>
+    BEST CASE: You've built a global digital income stream and you're Silchar's next crorepati.
+  </p>
+</section>
+
+<!-- ════════════ TIMELINE ════════════ -->
+<section class="timeline-section">
+  <p class="section-label">// your year</p>
+  <h2 class="section-title">12 MONTHS.<br>ONE MISSION.</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-month">Month 1–2</div>
+      <div class="timeline-heading">Find Your Thing</div>
+      <div class="timeline-body">Pick your niche. Set up your social presence. Start logging daily. Build the habit before building the product.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-month">Month 3–4</div>
+      <div class="timeline-heading">Build Your First Digital Product</div>
+      <div class="timeline-body">Create something people want. E-book, template, course, tool. Validate it. Price it. Ship it.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-month">Month 5–7</div>
+      <div class="timeline-heading">First Sales + Feedback Loop</div>
+      <div class="timeline-body">Make your first ₹ online. Learn fast. Iterate. Your public log attracts your first audience.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-month">Month 8–10</div>
+      <div class="timeline-heading">Scale & Double Down</div>
+      <div class="timeline-body">Double what works. Cut what doesn't. Your daily log compounds into real visibility.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-month">Month 11–12</div>
+      <div class="timeline-heading">Collect Your Win (Or Your ₹24K)</div>
+      <div class="timeline-body">By now you've either built something real — or you get your guaranteed return. Either way, you didn't lose.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ MENTOR ════════════ -->
+<section class="mentor-section">
+  <div class="mentor-photo-wrap">
+    <div class="mentor-img-placeholder" style="background: url(./sasban-toon.png) 50%;background-size: cover;">
+      <!-- <img src="./sasban-toon.png" alt=""> -->
+    </div>
+  </div>
+  <div>
+    <p class="section-label">// your mentor</p>
+    <h2 class="mentor-name">@sasban</h2>
+    <p class="mentor-handle">YOUR ACCOUNTABILITY PARTNER</p>
+    <p class="mentor-bio">
+      @sasban reviews your daily progress personally — no bots, no automated responses. This is a human bet on a human's potential. Every update you post, every product you build, every rupee you earn gets tracked.
+    </p>
+    <p class="mentor-bio">
+      The goal isn't just income. It's building the discipline of showing up, shipping, and iterating — skills that compound for a lifetime.
+    </p>
+    <div class="mentor-promise">
+      "I believe any under-21 from Silchar can earn over ₹1 Lakh online in one year with the right structure. I'm willing to bet ₹24,000 on it."
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ LOCATION ════════════ -->
+<section class="location-section">
+  <div class="location-info">
+    <p class="section-label">// where to find us</p>
+    <h3>COME MEET IN PERSON</h3>
+    <div class="location-detail">
+      <span class="location-icon">📍</span>
+      <div class="location-text">Near Shoppers Stop, NS Avenue, Silchar, Assam</div>
+    </div>
+    <div class="location-detail">
+      <span class="location-icon">📱</span>
+      <div class="location-text">WhatsApp: <strong style="color:var(--gold);">7019492748</strong></div>
+    </div>
+    <div class="location-detail">
+      <span class="location-icon">🎯</span>
+      <div class="location-text">This is a local challenge for Silchar residents. One seat. First serious applicant wins it.</div>
+    </div>
+    <a href="https://wa.me/917019492748" class="btn-primary" style="margin-top:24px; display:inline-block;">Message on WhatsApp</a>
+  </div>
+  <div class="location-map">
+    <!-- <div class="map-pin">📍</div>
+    <div class="map-label">NS Avenue, Silchar</div> -->
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1155.600967070847!2d92.7957871194268!3d24.80645198476082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x374e4b006796796b%3A0x5e2650ff3319966c!2sShoppers%20Stop%20Ltd%20-%20Pramila%20Square%20S!5e0!3m2!1sen!2sin!4v1774551561955!5m2!1sen!2sin" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
+
+<!-- ════════════ FINAL CTA ════════════ -->
+<section class="cta-section">
+  <p class="section-label">// apply now</p>
+  <h2 class="section-title">ONE SEAT.<br>ONE YEAR.<br>ONE CRORE.</h2>
+  <p class="cta-tagline">
+    Stop watching other people build. Stop consuming and start creating. This is your shot — structured, mentored, and guaranteed.
+  </p>
+  <a href="https://wa.me/917019492748" class="wa-btn">
+    <span class="wa-icon">💬</span>
+    Apply on WhatsApp — 7019492748
+  </a>
+  <p class="cta-note">Under 21 · Silchar residents only · One position available</p>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+  <div class="footer-brand">SILCHAR CROREPATI CHALLENGE</div>
+  <div class="footer-note">@sasban · NS Avenue, Silchar · 7019492748</div>
+</footer>
+
+</body>
+</html>
