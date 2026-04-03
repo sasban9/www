@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Think With AI - Module 1</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #fff;
+}
+.slide {
+  display: none;
+  padding: 60px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+.active {
+  display: block;
+}
+h1, h2 {
+  color: #00ffcc;
+}
+pre {
+  background: #222;
+  padding: 15px;
+  overflow-x: auto;
+}
+button {
+  position: fixed;
+  bottom: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+#prev { left: 20px; }
+#next { right: 20px; }
+</style>
+</head>
+<body>
+
+<div class="slide active">
+<h1>Module 1 — Think With AI</h1>
+<p><b>Objective:</b> Learn to generate ideas, make decisions, and break problems using AI.</p>
+<p><b>Session Duration:</b> 60 Minutes</p>
+</div>
+
+<div class="slide">
+<h2>Session Structure</h2>
+<ul>
+<li>0–5 min: Hook + Demo</li>
+<li>5–15 min: Idea Generation</li>
+<li>15–30 min: Decision Making</li>
+<li>30–45 min: Problem Breakdown</li>
+<li>45–55 min: Mini Project</li>
+<li>55–60 min: Recap</li>
+</ul>
+</div>
+
+<div class="slide">
+<h2>Hook Demo</h2>
+<p>Prompt:</p>
+<pre>Give me 30 ways a student in India can earn ₹10,000/month online.</pre>
+<p>Follow-up:</p>
+<pre>From this list, pick top 5 ideas based on:
+- low investment
+- fast to start
+- high demand
+Explain why</pre>
+<p><b>Insight:</b> Think faster using AI</p>
+</div>
+
+<div class="slide">
+<h2>Skill 1 — Idea Generation</h2>
+<p>Problem: Blank page thinking</p>
+<p>AI removes overthinking</p>
+</div>
+
+<div class="slide">
+<h2>Idea Generation Workflow</h2>
+<pre>Give me 30 business ideas for:
+[students / professionals / homemakers]</pre>
+<pre>Categorize these ideas into:
+- Easy
+- Medium
+- Advanced</pre>
+<pre>From these, pick 3 ideas that:
+- can start within 7 days
+- require less than ₹5,000</pre>
+</div>
+
+<div class="slide">
+<h2>Exercise</h2>
+<p>Generate 20 ideas for yourself</p>
+<p>Shortlist 2 ideas</p>
+<p><b>Insight:</b> Expands thinking space</p>
+</div>
+
+<div class="slide">
+<h2>Skill 2 — Decision Making</h2>
+<p>Problem: Too many options</p>
+<p>AI provides structured comparison</p>
+</div>
+
+<div class="slide">
+<h2>Decision Example</h2>
+<pre>Compare:
+- Freelancing
+- YouTube
+- Digital products
+
+Evaluate based on:
+- time to earn
+- effort
+- scalability
+- risk
+
+Recommend best option</pre>
+</div>
+
+<div class="slide">
+<h2>Follow-up Prompt</h2>
+<pre>What is the biggest mistake beginners make when choosing this path?</pre>
+</div>
+
+<div class="slide">
+<h2>Exercise</h2>
+<p>Decide:</p>
+<ul>
+<li>Career path</li>
+<li>Skill to learn</li>
+<li>Business idea</li>
+</ul>
+<p><b>Insight:</b> Clarity through comparison</p>
+</div>
+
+<div class="slide">
+<h2>Skill 3 — Problem Breakdown</h2>
+<p>Problem: Goals feel too big</p>
+<p>AI breaks into steps</p>
+</div>
+
+<div class="slide">
+<h2>Problem Breakdown Example</h2>
+<pre>Break down this goal:
+Earning ₹50,000/month online
+
+Create a step-by-step 30-day plan</pre>
+<pre>What should I do in the first 7 days?</pre>
+</div>
+
+<div class="slide">
+<h2>Exercise</h2>
+<p>Take one personal goal</p>
+<p>Break into actionable steps</p>
+<p><b>Insight:</b> Converts ambition into execution</p>
+</div>
+
+<div class="slide">
+<h2>Mini Project</h2>
+<p>Design your AI thinking system</p>
+</div>
+
+<div class="slide">
+<h2>Step 1 — Idea</h2>
+<pre>Give me 20 ways to earn money online based on my skills:
+[enter skills]</pre>
+</div>
+
+<div class="slide">
+<h2>Step 2 — Decision</h2>
+<pre>From these ideas, suggest best one based on:
+- beginner friendly
+- fast income</pre>
+</div>
+
+<div class="slide">
+<h2>Step 3 — Plan</h2>
+<pre>Create a 14-day action plan to start this</pre>
+</div>
+
+<div class="slide">
+<h2>Expected Output</h2>
+<ul>
+<li>1 idea</li>
+<li>1 decision</li>
+<li>1 execution plan</li>
+</ul>
+</div>
+
+<div class="slide">
+<h2>Recap</h2>
+<ul>
+<li>AI = Thinking partner</li>
+<li>Ideas → Decisions → Execution</li>
+<li>Prompts = thinking tools</li>
+</ul>
+</div>
+
+<div class="slide">
+<h2>Closing</h2>
+<p>If you can think better, you can earn better.</p>
+</div>
+
+<!-- <div class="slide">
+<h2>Instructor Notes</h2>
+<ul>
+<li>Type live</li>
+<li>Encourage participation</li>
+<li>Avoid heavy theory</li>
+<li>Focus on speed and results</li>
+</ul>
+</div> -->
+
+<button id="prev">Previous</button>
+<button id="next">Next</button>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let index = 0;
+
+function showSlide(i) {
+  slides.forEach(slide => slide.classList.remove('active'));
+  slides[i].classList.add('active');
+}
+
+document.getElementById('next').onclick = () => {
+  if (index < slides.length - 1) index++;
+  showSlide(index);
+};
+
+document.getElementById('prev').onclick = () => {
+  if (index > 0) index--;
+  showSlide(index);
+};
+</script>
+
+</body>
+</html>
