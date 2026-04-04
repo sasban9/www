@@ -3,863 +3,247 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WikiPrestige — Your Authority. One Link.</title>
+<title>WikiPrestige — Build Your Authority Page</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --ink: #0f0f0e;
-    --ink-mid: #3a3a38;
-    --ink-soft: #7a7a76;
-    --parchment: #faf8f3;
-    --cream: #f2efe6;
-    --gold: #b5872a;
-    --gold-light: #e8d5a3;
-    --gold-pale: #fdf7e8;
+    --ink: #0f0f0e; --ink-mid: #3a3a38; --ink-soft: #7a7a76;
+    --parchment: #faf8f3; --cream: #f2efe6;
+    --gold: #b5872a; --gold-light: #e8d5a3; --gold-pale: #fdf7e8;
     --border: rgba(15,15,14,0.12);
     --serif: 'Playfair Display', Georgia, serif;
     --sans: 'DM Sans', system-ui, sans-serif;
   }
-
   html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--parchment); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
 
-  body {
-    font-family: var(--sans);
-    background: var(--parchment);
-    color: var(--ink);
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* NAV */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.1rem 5%;
-    background: rgba(250,248,243,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 0.5px solid var(--border);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 5%; background: rgba(250,248,243,0.92);
+    backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border);
   }
-
-  .logo {
-    font-family: var(--serif);
-    font-size: 1.3rem;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    text-decoration: none;
-  }
+  .logo { font-family: var(--serif); font-size: 1.3rem; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
   .logo span { color: var(--gold); }
-
-  .nav-cta {
-    background: var(--ink);
-    color: var(--parchment);
-    font-family: var(--sans);
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 0.6rem 1.4rem;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
+  .nav-cta { background: var(--ink); color: var(--parchment); font-family: var(--sans); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.6rem 1.4rem; border: none; cursor: pointer; text-decoration: none; transition: background 0.2s; }
   .nav-cta:hover { background: var(--gold); }
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 0;
-    padding-top: 80px;
-  }
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding-top: 80px; }
+  .hero-left { padding: 6rem 5% 6rem 8%; }
 
-  .hero-left {
-    padding: 6rem 5% 6rem 8%;
-  }
+  .eyebrow { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); border: 0.5px solid var(--gold); padding: 0.3rem 0.9rem; margin-bottom: 2rem; }
 
-  .eyebrow {
-    display: inline-block;
-    font-family: var(--sans);
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold);
-    border: 0.5px solid var(--gold);
-    padding: 0.3rem 0.9rem;
-    margin-bottom: 2rem;
-  }
+  .hero-h1 { font-family: var(--serif); font-size: clamp(2.6rem, 4vw, 3.8rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 1.6rem; }
+  .hero-h1 em { font-style: italic; color: var(--gold); }
 
-  .hero-h1 {
-    font-family: var(--serif);
-    font-size: clamp(2.6rem, 4vw, 3.8rem);
-    font-weight: 700;
-    line-height: 1.12;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.6rem;
-    color: var(--ink);
-  }
+  .hero-sub { font-size: 1.05rem; color: var(--ink-mid); font-weight: 300; max-width: 420px; margin-bottom: 2.8rem; line-height: 1.75; }
 
-  .hero-h1 em {
-    font-style: italic;
-    color: var(--gold);
-  }
+  .hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
 
-  .hero-sub {
-    font-size: 1.05rem;
-    color: var(--ink-mid);
-    font-weight: 300;
-    max-width: 420px;
-    margin-bottom: 2.8rem;
-    line-height: 1.75;
-  }
-
-  .hero-actions {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    background: var(--gold);
-    color: #fff;
-    font-family: var(--sans);
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 1rem 2.2rem;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: background 0.2s, transform 0.15s;
-    letter-spacing: 0.02em;
-  }
+  .btn-primary { background: var(--gold); color: #fff; font-family: var(--sans); font-size: 0.9rem; font-weight: 500; padding: 1rem 2.2rem; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.15s; letter-spacing: 0.02em; }
   .btn-primary:hover { background: #9a7022; transform: translateY(-1px); }
 
-  .btn-ghost {
-    font-size: 0.87rem;
-    color: var(--ink-mid);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.15rem;
-    transition: color 0.2s, border-color 0.2s;
-  }
+  .btn-ghost { font-size: 0.87rem; color: var(--ink-mid); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 0.15rem; transition: color 0.2s, border-color 0.2s; }
   .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
 
-  .hero-trust {
-    margin-top: 2.8rem;
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-  }
-  .trust-item {
-    text-align: center;
-  }
-  .trust-num {
-    font-family: var(--serif);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--gold);
-    display: block;
-  }
-  .trust-label {
-    font-size: 0.72rem;
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .trust-divider {
-    width: 0.5px;
-    height: 2.5rem;
-    background: var(--border);
-  }
+  .hero-trust { margin-top: 2.8rem; display: flex; gap: 2rem; align-items: center; }
+  .trust-item { text-align: center; }
+  .trust-num { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--gold); display: block; }
+  .trust-label { font-size: 0.72rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.08em; }
+  .trust-divider { width: 0.5px; height: 2.5rem; background: var(--border); }
 
-  /* HERO RIGHT — Wiki Mock */
-  .hero-right {
-    background: var(--cream);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6rem 4% 6rem 4%;
-    position: relative;
-    border-left: 0.5px solid var(--border);
-  }
+  .hero-right { background: var(--cream); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 6rem 4%; position: relative; border-left: 0.5px solid var(--border); }
 
-  .wiki-mock {
-    background: #fff;
-    border: 0.5px solid #a2a9b1;
-    width: 100%;
-    max-width: 460px;
-    font-family: 'Linux Libertine', 'Georgia', serif;
-    font-size: 14px;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.06);
-    animation: floatIn 0.8s ease both;
-  }
-
-  @keyframes floatIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .wiki-mock-top {
-    background: #f8f9fa;
-    border-bottom: 1px solid #a2a9b1;
-    padding: 8px 14px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .wiki-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: #c8ccd1;
-  }
-
-  .wiki-url {
-    font-family: var(--sans);
-    font-size: 11px;
-    color: #54595d;
-    background: #fff;
-    border: 1px solid #a2a9b1;
-    padding: 2px 10px;
-    flex: 1;
-    letter-spacing: 0.01em;
-  }
-
+  .wiki-mock { background: #fff; border: 0.5px solid #a2a9b1; width: 100%; max-width: 460px; font-size: 14px; box-shadow: 4px 4px 0 rgba(0,0,0,0.06); animation: floatIn 0.8s ease both; }
+  @keyframes floatIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .wiki-mock-top { background: #f8f9fa; border-bottom: 1px solid #a2a9b1; padding: 8px 14px; display: flex; gap: 8px; align-items: center; }
+  .wiki-dot { width: 10px; height: 10px; border-radius: 50%; background: #c8ccd1; }
+  .wiki-url { font-family: var(--sans); font-size: 11px; color: #54595d; background: #fff; border: 1px solid #a2a9b1; padding: 2px 10px; flex: 1; }
   .wiki-body { padding: 18px 20px; }
-
-  .wiki-title {
-    font-family: 'Linux Libertine', 'Georgia', serif;
-    font-size: 1.7rem;
-    font-weight: normal;
-    border-bottom: 1px solid #a2a9b1;
-    padding-bottom: 4px;
-    margin-bottom: 10px;
-    color: #000;
-    line-height: 1.3;
-  }
-
-  .wiki-meta {
-    font-family: var(--sans);
-    font-size: 11px;
-    color: #54595d;
-    margin-bottom: 12px;
-    font-style: italic;
-  }
-
-  .wiki-infobox {
-    float: right;
-    clear: right;
-    margin: 0 0 12px 14px;
-    background: #f8f9fa;
-    border: 1px solid #a2a9b1;
-    font-family: var(--sans);
-    font-size: 11px;
-    width: 155px;
-  }
-
-  .wiki-infobox-title {
-    background: #cee0f2;
-    text-align: center;
-    padding: 5px 8px;
-    font-weight: 700;
-    font-size: 12px;
-    color: #000;
-    border-bottom: 1px solid #a2a9b1;
-  }
-
-  .wiki-infobox-img {
-    width: 100%;
-    height: 90px;
-    background: linear-gradient(135deg, #d9e4ed 0%, #c2d5e3 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid #a2a9b1;
-    font-family: var(--sans);
-    font-size: 10px;
-    color: #72777d;
-    letter-spacing: 0.04em;
-  }
-
-  .wiki-infobox-row {
-    display: flex;
-    border-bottom: 0.5px solid #eaecf0;
-  }
+  .wiki-title { font-family: Georgia, serif; font-size: 1.7rem; font-weight: normal; border-bottom: 1px solid #a2a9b1; padding-bottom: 4px; margin-bottom: 10px; color: #000; line-height: 1.3; }
+  .wiki-meta { font-family: var(--sans); font-size: 11px; color: #54595d; margin-bottom: 12px; font-style: italic; }
+  .wiki-infobox { float: right; clear: right; margin: 0 0 12px 14px; background: #f8f9fa; border: 1px solid #a2a9b1; font-family: var(--sans); font-size: 11px; width: 155px; }
+  .wiki-infobox-title { background: #cee0f2; text-align: center; padding: 5px 8px; font-weight: 700; font-size: 12px; color: #000; border-bottom: 1px solid #a2a9b1; }
+  .wiki-infobox-img { width: 100%; height: 90px; background: #d9e4ed; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #a2a9b1; font-size: 10px; color: #72777d; letter-spacing: 0.04em; }
+  .wiki-infobox-row { display: flex; border-bottom: 0.5px solid #eaecf0; }
   .wiki-infobox-row:last-child { border-bottom: none; }
   .wiki-ib-key { padding: 4px 6px; color: #54595d; flex: 1; font-size: 10px; }
   .wiki-ib-val { padding: 4px 6px; color: #000; flex: 1.2; font-size: 10px; font-weight: 500; }
-
-  .wiki-p {
-    font-family: 'Linux Libertine', Georgia, serif;
-    font-size: 13px;
-    line-height: 1.65;
-    color: #000;
-    margin-bottom: 10px;
-    clear: none;
-  }
+  .wiki-p { font-family: Georgia, serif; font-size: 13px; line-height: 1.65; color: #000; margin-bottom: 10px; }
   .wiki-link { color: #3366cc; text-decoration: none; }
-  .wiki-link:hover { text-decoration: underline; }
+  .wiki-h2 { font-family: Georgia, serif; font-size: 1.15rem; font-weight: normal; border-bottom: 1px solid #a2a9b1; margin: 12px 0 8px; color: #000; }
+  .wiki-blur { filter: blur(2.5px); user-select: none; opacity: 0.6; }
+  .wiki-redact { background: var(--gold); color: transparent; border-radius: 2px; font-size: 11px; padding: 0 4px; }
+  .wiki-badge { position: absolute; bottom: 2.5rem; right: 4%; background: var(--ink); color: var(--parchment); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.5rem 1rem; }
 
-  .wiki-h2 {
-    font-family: 'Linux Libertine', Georgia, serif;
-    font-size: 1.15rem;
-    font-weight: normal;
-    border-bottom: 1px solid #a2a9b1;
-    margin: 12px 0 8px;
-    color: #000;
-  }
-
-  .wiki-blur {
-    filter: blur(2.5px);
-    user-select: none;
-    opacity: 0.6;
-  }
-
-  .wiki-redact {
-    background: var(--gold);
-    color: transparent;
-    border-radius: 2px;
-    font-size: 11px;
-    padding: 0 4px;
-    user-select: none;
-  }
-
-  .wiki-badge {
-    position: absolute;
-    bottom: 2.5rem;
-    right: 4%;
-    background: var(--ink);
-    color: var(--parchment);
-    font-family: var(--sans);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 0.5rem 1rem;
-  }
-
-  /* SECTION COMMON */
   section { padding: 6rem 8%; }
+  .section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; }
+  .section-h2 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; max-width: 680px; margin-bottom: 1.5rem; }
 
-  .section-label {
-    font-family: var(--sans);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1rem;
-    display: block;
-  }
+  /* WHO IT'S FOR STRIP */
+  .category-strip { background: var(--ink); padding: 1.6rem 8%; display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
+  .cat-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,248,243,0.35); flex-shrink: 0; }
+  .cat-item { font-size: 0.82rem; font-weight: 500; color: rgba(250,248,243,0.65); padding: 0.3rem 1rem; border: 0.5px solid rgba(255,255,255,0.15); letter-spacing: 0.04em; }
 
-  .section-h2 {
-    font-family: var(--serif);
-    font-size: clamp(1.8rem, 3vw, 2.7rem);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    max-width: 680px;
-    margin-bottom: 1.5rem;
-  }
-
-  /* PAIN SECTION */
-  .pain-section {
-    background: var(--ink);
-    color: var(--parchment);
-    padding: 6rem 8%;
-  }
-
+  /* PAIN */
+  .pain-section { background: var(--ink); color: var(--parchment); padding: 6rem 8%; }
   .pain-section .section-h2 { color: var(--parchment); }
-  .pain-section .section-label { color: var(--gold); }
-
-  .pain-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 2px;
-    margin-top: 3rem;
-  }
-
-  .pain-card {
-    background: rgba(255,255,255,0.05);
-    padding: 2rem;
-    border: 0.5px solid rgba(255,255,255,0.1);
-    position: relative;
-    transition: background 0.2s;
-  }
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2px; margin-top: 3rem; }
+  .pain-card { background: rgba(255,255,255,0.05); padding: 2rem; border: 0.5px solid rgba(255,255,255,0.1); transition: background 0.2s; }
   .pain-card:hover { background: rgba(255,255,255,0.08); }
+  .pain-quote { font-family: var(--serif); font-size: 1.05rem; font-style: italic; color: var(--gold-light); line-height: 1.6; margin-bottom: 1.2rem; }
+  .pain-who { font-size: 0.75rem; color: rgba(250,248,243,0.35); text-transform: uppercase; letter-spacing: 0.1em; }
 
-  .pain-quote {
-    font-family: var(--serif);
-    font-size: 1.05rem;
-    font-style: italic;
-    color: var(--gold-light);
-    line-height: 1.6;
-    margin-bottom: 1.2rem;
-  }
+  /* REFRAME */
+  .reframe-strip { background: var(--gold-pale); border-top: 0.5px solid var(--gold-light); border-bottom: 0.5px solid var(--gold-light); padding: 4rem 8%; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 2rem; text-align: center; }
+  .reframe-from { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); text-decoration: line-through; margin-bottom: 0.4rem; }
+  .reframe-arrow { font-size: 1rem; color: var(--gold); margin-bottom: 0.4rem; }
+  .reframe-to { font-family: var(--serif); font-size: 1.3rem; font-weight: 700; color: var(--ink); }
 
-  .pain-who {
-    font-family: var(--sans);
-    font-size: 0.75rem;
-    color: rgba(250,248,243,0.4);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
+  /* NARRATIVE ENGINE */
+  .engine-section { background: var(--parchment); }
+  .engine-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 3rem; }
+  .engine-blocks { display: flex; flex-direction: column; gap: 2px; }
+  .engine-block { background: var(--cream); border: 0.5px solid var(--border); padding: 1.6rem 1.8rem; display: flex; gap: 1.4rem; align-items: flex-start; transition: border-color 0.2s; }
+  .engine-block:hover { border-color: var(--gold); }
+  .engine-num { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; color: var(--gold-light); line-height: 1; flex-shrink: 0; min-width: 2rem; }
+  .engine-block-title { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem; }
+  .engine-block-desc { font-size: 0.85rem; color: var(--ink-mid); line-height: 1.65; }
+  .engine-right-claim { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; line-height: 1.3; margin-bottom: 1.5rem; color: var(--ink); }
+  .engine-right-body { font-size: 0.92rem; color: var(--ink-mid); line-height: 1.75; margin-bottom: 2rem; }
 
-  .pain-icon {
-    width: 30px;
-    height: 30px;
-    margin-bottom: 1.2rem;
-    opacity: 0.4;
-  }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-bottom: 2rem; }
+  .compare-table th { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 0.8rem; text-align: left; color: var(--ink-soft); border-bottom: 0.5px solid var(--border); }
+  .compare-table td { padding: 0.65rem 0.8rem; border-bottom: 0.5px solid var(--border); color: var(--ink-mid); vertical-align: top; }
+  .compare-table td:first-child { color: var(--ink-soft); font-size: 0.8rem; }
+  .compare-table td.win { color: var(--ink); font-weight: 500; }
+  .x { color: #c0392b; margin-right: 4px; }
+  .chk { color: var(--gold); margin-right: 4px; }
+
+  /* PROOF LAYER */
+  .proof-layer-section { background: var(--parchment); }
+  .proof-layer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2px; margin-top: 3rem; }
+  .proof-layer-card { background: var(--cream); border: 0.5px solid var(--border); padding: 2rem; }
+  .proof-layer-icon { font-size: 1.2rem; margin-bottom: 1rem; display: block; }
+  .proof-layer-title { font-family: var(--serif); font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--ink); }
+  .proof-layer-desc { font-size: 0.85rem; color: var(--ink-mid); line-height: 1.65; }
+  .proof-layer-tag { display: inline-block; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); background: var(--gold-pale); border: 0.5px solid var(--gold-light); padding: 0.2rem 0.6rem; margin-top: 0.8rem; }
+
+  /* USE-CASE BLOCKS */
+  .usecase-section { background: var(--ink); color: var(--parchment); padding: 6rem 8%; }
+  .usecase-section .section-h2 { color: var(--parchment); }
+  .usecase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2px; margin-top: 3rem; }
+  .usecase-card { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1); padding: 2rem; transition: background 0.2s; }
+  .usecase-card:hover { background: rgba(255,255,255,0.07); }
+  .usecase-tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .usecase-title { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--parchment); margin-bottom: 0.6rem; }
+  .usecase-desc { font-size: 0.85rem; color: rgba(250,248,243,0.5); line-height: 1.65; }
+  .usecase-signals { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .usecase-signal { font-size: 0.8rem; color: var(--gold-light); display: flex; align-items: flex-start; gap: 0.5rem; }
+  .usecase-signal::before { content: '→'; color: var(--gold); flex-shrink: 0; }
 
   /* HOW IT WORKS */
-  .steps-section { background: var(--parchment); }
-
-  .steps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 3rem;
-    margin-top: 3.5rem;
-    position: relative;
-  }
-
-  .step {
-    position: relative;
-  }
-
-  .step-num {
-    font-family: var(--serif);
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: var(--gold-light);
-    line-height: 1;
-    margin-bottom: 0.8rem;
-    letter-spacing: -0.04em;
-  }
-
-  .step-title {
-    font-family: var(--serif);
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: 0.6rem;
-    color: var(--ink);
-  }
-
-  .step-body {
-    font-size: 0.9rem;
-    color: var(--ink-mid);
-    line-height: 1.7;
-  }
+  .steps-section { background: var(--cream); }
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-top: 3.5rem; }
+  .step-num { font-family: var(--serif); font-size: 3.5rem; font-weight: 700; color: var(--gold-light); line-height: 1; margin-bottom: 0.8rem; letter-spacing: -0.04em; }
+  .step-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--ink); }
+  .step-body { font-size: 0.9rem; color: var(--ink-mid); line-height: 1.7; }
 
   /* WHAT YOU GET */
-  .what-section {
-    background: var(--cream);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-  }
-
-  .what-list {
-    list-style: none;
-    margin-top: 2rem;
-  }
-
-  .what-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.1rem 0;
-    border-bottom: 0.5px solid var(--border);
-  }
+  .what-section { background: var(--parchment); display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .what-list { list-style: none; margin-top: 2rem; }
+  .what-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1.1rem 0; border-bottom: 0.5px solid var(--border); }
   .what-item:last-child { border-bottom: none; }
-
-  .what-check {
-    width: 18px;
-    height: 18px;
-    background: var(--gold);
-    flex-shrink: 0;
-    margin-top: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .what-check::after {
-    content: '';
-    width: 7px;
-    height: 4px;
-    border-left: 1.5px solid #fff;
-    border-bottom: 1.5px solid #fff;
-    transform: rotate(-45deg) translateY(-1px);
-    display: block;
-  }
-
-  .what-text strong {
-    display: block;
-    font-weight: 500;
-    font-size: 0.95rem;
-    margin-bottom: 0.15rem;
-  }
-
-  .what-text span {
-    font-size: 0.83rem;
-    color: var(--ink-soft);
-    line-height: 1.5;
-  }
-
-  .what-right {
-    position: relative;
-  }
-
-  .moment-card {
-    background: var(--parchment);
-    border: 0.5px solid var(--border);
-    padding: 1.8rem;
-    margin-bottom: 1rem;
-    position: relative;
-    transition: border-color 0.2s, transform 0.2s;
-  }
+  .what-check { width: 18px; height: 18px; background: var(--gold); flex-shrink: 0; margin-top: 3px; display: flex; align-items: center; justify-content: center; }
+  .what-check::after { content: ''; width: 7px; height: 4px; border-left: 1.5px solid #fff; border-bottom: 1.5px solid #fff; transform: rotate(-45deg) translateY(-1px); display: block; }
+  .what-text strong { display: block; font-weight: 500; font-size: 0.95rem; margin-bottom: 0.15rem; }
+  .what-text span { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.5; }
+  .moment-card { background: var(--cream); border: 0.5px solid var(--border); padding: 1.8rem; margin-bottom: 1rem; transition: border-color 0.2s, transform 0.2s; }
   .moment-card:hover { border-color: var(--gold); transform: translateX(4px); }
-
-  .moment-tag {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.4rem;
-  }
-
-  .moment-title {
-    font-family: var(--serif);
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-  }
-
-  .moment-desc {
-    font-size: 0.82rem;
-    color: var(--ink-mid);
-  }
+  .moment-tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+  .moment-title { font-family: var(--serif); font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .moment-desc { font-size: 0.82rem; color: var(--ink-mid); }
 
   /* PRICING */
-  .pricing-section { background: var(--parchment); text-align: center; }
-
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2px;
-    margin-top: 3.5rem;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .price-card {
-    background: var(--cream);
-    border: 0.5px solid var(--border);
-    padding: 2.5rem 2rem;
-    text-align: left;
-    position: relative;
-    transition: transform 0.2s;
-  }
+  .pricing-section { background: var(--cream); text-align: center; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2px; margin-top: 3.5rem; max-width: 960px; margin-left: auto; margin-right: auto; }
+  .price-card { background: var(--parchment); border: 0.5px solid var(--border); padding: 2.5rem 2rem; text-align: left; position: relative; transition: transform 0.2s; }
   .price-card:hover { transform: translateY(-4px); }
-
-  .price-card.featured {
-    background: var(--ink);
-    color: var(--parchment);
-    border-color: var(--ink);
-  }
-
-  .price-badge {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--gold);
-    color: #fff;
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.25rem 0.8rem;
-  }
-
-  .price-tier {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.8rem;
-  }
-
-  .price-amount {
-    font-family: var(--serif);
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: 0.3rem;
-  }
-
-  .price-note {
-    font-size: 0.78rem;
-    color: var(--ink-soft);
-    margin-bottom: 1.8rem;
-  }
-
-  .price-card.featured .price-note { color: rgba(250,248,243,0.5); }
-
-  .price-features {
-    list-style: none;
-    margin-bottom: 2rem;
-  }
-
-  .price-features li {
-    font-size: 0.87rem;
-    padding: 0.5rem 0;
-    border-bottom: 0.5px solid var(--border);
-    display: flex;
-    gap: 0.6rem;
-    align-items: flex-start;
-  }
-
-  .price-card.featured .price-features li {
-    border-color: rgba(255,255,255,0.12);
-    color: rgba(250,248,243,0.85);
-  }
-
-  .price-features li::before {
-    content: '—';
-    color: var(--gold);
-    flex-shrink: 0;
-    font-weight: 300;
-  }
-
-  .btn-price {
-    display: block;
-    text-align: center;
-    padding: 0.9rem;
-    font-family: var(--sans);
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .btn-price.dark {
-    background: var(--ink);
-    color: var(--parchment);
-  }
+  .price-card.featured { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
+  .price-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #fff; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.8rem; }
+  .price-tier { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .price-amount { font-family: var(--serif); font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.3rem; }
+  .price-outcome { font-size: 0.82rem; color: var(--ink-soft); font-style: italic; margin-bottom: 0.3rem; }
+  .price-card.featured .price-outcome { color: rgba(250,248,243,0.4); }
+  .price-note { font-size: 0.75rem; color: var(--ink-soft); margin-bottom: 1.8rem; }
+  .price-card.featured .price-note { color: rgba(250,248,243,0.4); }
+  .price-features { list-style: none; margin-bottom: 2rem; }
+  .price-features li { font-size: 0.87rem; padding: 0.5rem 0; border-bottom: 0.5px solid var(--border); display: flex; gap: 0.6rem; align-items: flex-start; }
+  .price-card.featured .price-features li { border-color: rgba(255,255,255,0.12); color: rgba(250,248,243,0.85); }
+  .price-features li::before { content: '—'; color: var(--gold); flex-shrink: 0; font-weight: 300; }
+  .btn-price { display: block; text-align: center; padding: 0.9rem; font-family: var(--sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; cursor: pointer; border: none; transition: background 0.2s, color 0.2s; }
+  .btn-price.dark { background: var(--ink); color: var(--parchment); }
   .btn-price.dark:hover { background: var(--gold); }
-
-  .btn-price.gold {
-    background: var(--gold);
-    color: #fff;
-  }
+  .btn-price.gold { background: var(--gold); color: #fff; }
   .btn-price.gold:hover { background: #9a7022; }
 
-  /* SOCIAL PROOF */
-  .proof-section { background: var(--cream); }
+  /* TESTIMONIALS */
+  .proof-section { background: var(--parchment); }
+  .proof-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; margin-top: 3rem; }
+  .proof-card { background: var(--cream); border: 0.5px solid var(--border); padding: 2rem; }
+  .proof-quote { font-family: var(--serif); font-size: 1rem; font-style: italic; line-height: 1.65; color: var(--ink-mid); margin-bottom: 1.5rem; }
+  .proof-author { display: flex; align-items: center; gap: 0.8rem; }
+  .proof-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--gold-light); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 700; font-size: 0.85rem; color: var(--gold); flex-shrink: 0; }
+  .proof-name { font-size: 0.87rem; font-weight: 500; }
+  .proof-role { font-size: 0.75rem; color: var(--ink-soft); }
 
-  .proof-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2px;
-    margin-top: 3rem;
-  }
-
-  .proof-card {
-    background: var(--parchment);
-    border: 0.5px solid var(--border);
-    padding: 2rem;
-  }
-
-  .proof-quote {
-    font-family: var(--serif);
-    font-size: 1rem;
-    font-style: italic;
-    line-height: 1.65;
-    color: var(--ink-mid);
-    margin-bottom: 1.5rem;
-  }
-
-  .proof-author {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .proof-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: var(--gold-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--serif);
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-
-  .proof-name {
-    font-size: 0.87rem;
-    font-weight: 500;
-  }
-  .proof-role {
-    font-size: 0.75rem;
-    color: var(--ink-soft);
-  }
+  /* ROADMAP */
+  .roadmap-section { background: var(--cream); text-align: center; }
+  .roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 3rem; max-width: 860px; margin-left: auto; margin-right: auto; }
+  .roadmap-card { background: var(--parchment); border: 0.5px solid var(--border); padding: 2.5rem 2rem; text-align: left; }
+  .roadmap-phase { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+  .roadmap-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--ink); }
+  .roadmap-desc { font-size: 0.85rem; color: var(--ink-mid); line-height: 1.65; }
+  .roadmap-status { display: inline-block; margin-top: 1rem; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.7rem; border: 0.5px solid; }
+  .status-live { color: #1a7a4a; border-color: #a8d5be; background: #edf7f1; }
+  .status-soon { color: var(--ink-soft); border-color: var(--border); }
 
   /* FAQ */
-  .faq-section { background: var(--parchment); max-width: 720px; margin: 0 auto; }
-  .faq-section.padded { padding: 6rem 8%; max-width: 100%; }
-
-  .faq-item {
-    border-bottom: 0.5px solid var(--border);
-  }
-
-  .faq-q {
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    padding: 1.3rem 0;
-    font-family: var(--sans);
-    font-size: 0.97rem;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--ink);
-    gap: 1rem;
-  }
-
-  .faq-toggle {
-    font-size: 1.2rem;
-    color: var(--gold);
-    flex-shrink: 0;
-    transition: transform 0.2s;
-    font-weight: 300;
-  }
-
-  .faq-a {
-    font-size: 0.9rem;
-    color: var(--ink-mid);
-    line-height: 1.75;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, padding 0.2s;
-  }
-
-  .faq-a.open {
-    max-height: 300px;
-    padding-bottom: 1.3rem;
-  }
+  .faq-section { background: var(--parchment); }
+  .faq-inner { max-width: 720px; margin: 2.5rem auto 0; }
+  .faq-item { border-bottom: 0.5px solid var(--border); }
+  .faq-q { width: 100%; text-align: left; background: none; border: none; padding: 1.3rem 0; font-family: var(--sans); font-size: 0.97rem; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--ink); gap: 1rem; }
+  .faq-toggle { font-size: 1.2rem; color: var(--gold); flex-shrink: 0; font-weight: 300; }
+  .faq-a { font-size: 0.9rem; color: var(--ink-mid); line-height: 1.75; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.2s; }
+  .faq-a.open { max-height: 300px; padding-bottom: 1.3rem; }
 
   /* CTA STRIP */
-  .cta-strip {
-    background: var(--gold);
-    padding: 5rem 8%;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 3rem;
-    align-items: center;
-  }
-
-  .cta-strip h2 {
-    font-family: var(--serif);
-    font-size: clamp(1.8rem, 3vw, 2.5rem);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    max-width: 540px;
-  }
-
-  .cta-strip h2 em {
-    font-style: italic;
-    color: rgba(255,255,255,0.7);
-  }
-
-  .btn-white {
-    background: #fff;
-    color: var(--gold);
-    font-family: var(--sans);
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 1.1rem 2.5rem;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    white-space: nowrap;
-    display: inline-block;
-    transition: background 0.2s;
-  }
+  .cta-strip { background: var(--gold); padding: 5rem 8%; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; }
+  .cta-strip h2 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 700; color: #fff; line-height: 1.2; letter-spacing: -0.02em; max-width: 540px; }
+  .cta-strip h2 em { font-style: italic; color: rgba(255,255,255,0.7); }
+  .btn-white { background: #fff; color: var(--gold); font-family: var(--sans); font-size: 0.9rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; padding: 1.1rem 2.5rem; border: none; cursor: pointer; text-decoration: none; white-space: nowrap; display: inline-block; transition: background 0.2s; }
   .btn-white:hover { background: var(--ink); color: #fff; }
 
-  /* FOOTER */
-  footer {
-    background: var(--ink);
-    color: rgba(250,248,243,0.5);
-    padding: 2.5rem 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
+  footer { background: var(--ink); color: rgba(250,248,243,0.5); padding: 2.5rem 8%; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; flex-wrap: wrap; gap: 1rem; }
   footer .logo { color: var(--parchment); font-size: 1rem; }
   footer a { color: rgba(250,248,243,0.4); text-decoration: none; }
   footer a:hover { color: var(--gold); }
 
-  /* SCROLL ANIMATIONS */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* RESPONSIVE */
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; }
     .hero-right { min-height: auto; padding: 4rem 5%; border-left: none; border-top: 0.5px solid var(--border); }
     .hero-left { padding: 5rem 5% 3rem; }
     .what-section { grid-template-columns: 1fr; }
+    .engine-grid { grid-template-columns: 1fr; gap: 3rem; }
     .cta-strip { grid-template-columns: 1fr; }
+    .roadmap-grid { grid-template-columns: 1fr; }
     section { padding: 4rem 5%; }
   }
-
   @media (max-width: 600px) {
     .hero-trust { flex-wrap: wrap; gap: 1.5rem; }
     .trust-divider { display: none; }
@@ -868,25 +252,24 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="#" class="logo">Wiki<span>Prestige</span></a>
-  <a href="#pricing" class="nav-cta">See Packages</a>
+  <a href="#pricing" class="nav-cta">Build Your Page</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero" style="padding: 0;">
   <div class="hero-left">
-    <span class="eyebrow">Wikipedia-Style Authority Pages</span>
+    <span class="eyebrow">Personal Authority Infrastructure</span>
     <h1 class="hero-h1">
-      You've built something real.<br>
-      Does Google <em>show it?</em>
+      Turn your life into<br>
+      a <em>credibility asset.</em>
     </h1>
     <p class="hero-sub">
-      A bespoke, Wikipedia-style authority page that structures your story, signals your credibility, and works every time someone searches your name.
+      One structured page that packages your story, proves your impact, and makes people take you seriously in 30 seconds — every time they search your name.
     </p>
     <div class="hero-actions">
-      <a href="#pricing" class="btn-primary">Claim Your Page →</a>
+      <a href="#pricing" class="btn-primary">Build Your Authority Page →</a>
       <a href="#how" class="btn-ghost">See how it works</a>
     </div>
     <div class="hero-trust">
@@ -896,7 +279,7 @@
       </div>
       <div class="trust-divider"></div>
       <div class="trust-item">
-        <span class="trust-num">₹15K–1L</span>
+        <span class="trust-num">₹15K - 1L</span>
         <span class="trust-label">Investment Range</span>
       </div>
       <div class="trust-divider"></div>
@@ -906,356 +289,262 @@
       </div>
     </div>
   </div>
-
   <div class="hero-right">
     <div class="wiki-mock">
       <div class="wiki-mock-top">
-        <div class="wiki-dot"></div>
-        <div class="wiki-dot"></div>
-        <div class="wiki-dot"></div>
-        <div class="wiki-url">en.wikipedia.org/wiki/<span class="wiki-redact">Your_Name</span></div>
+        <div class="wiki-dot"></div><div class="wiki-dot"></div><div class="wiki-dot"></div>
+        <div class="wiki-url">wikiprestige.in/<span class="wiki-redact">Your_Name</span></div>
       </div>
       <div class="wiki-body">
         <div class="wiki-title">Arjun Mehta</div>
-        <div class="wiki-meta">From WikiPrestige, the free-access authority encyclopedia</div>
-
+        <div class="wiki-meta">WikiPrestige · Authority Page · Personal Credibility Infrastructure</div>
         <div class="wiki-infobox">
           <div class="wiki-infobox-title">Arjun Mehta</div>
           <div class="wiki-infobox-img">[ Photo ]</div>
-          <div class="wiki-infobox-row">
-            <div class="wiki-ib-key">Born</div>
-            <div class="wiki-ib-val">1988, Mumbai</div>
-          </div>
-          <div class="wiki-infobox-row">
-            <div class="wiki-ib-key">Occupation</div>
-            <div class="wiki-ib-val">Founder, Consultant</div>
-          </div>
-          <div class="wiki-infobox-row">
-            <div class="wiki-ib-key">Known for</div>
-            <div class="wiki-ib-val">Brand Consultancy</div>
-          </div>
-          <div class="wiki-infobox-row">
-            <div class="wiki-ib-key">Based in</div>
-            <div class="wiki-ib-val">Bangalore, India</div>
-          </div>
+          <div class="wiki-infobox-row"><div class="wiki-ib-key">Known for</div><div class="wiki-ib-val">Brand Consultancy</div></div>
+          <div class="wiki-infobox-row"><div class="wiki-ib-key">Clients</div><div class="wiki-ib-val">40+ startups</div></div>
+          <div class="wiki-infobox-row"><div class="wiki-ib-key">Revenue</div><div class="wiki-ib-val">₹2Cr+ advised</div></div>
+          <div class="wiki-infobox-row"><div class="wiki-ib-key">Based in</div><div class="wiki-ib-val">Bangalore</div></div>
         </div>
-
-        <p class="wiki-p">
-          <b>Arjun Mehta</b> is an Indian <a href="#" class="wiki-link">brand consultant</a> and entrepreneur known for his work with early-stage startups across the <a href="#" class="wiki-link">fintech</a> and <a href="#" class="wiki-link">edtech</a> sectors. He is the founder of Mehta Advisory, which has advised over 40 companies across South and Southeast Asia.
-        </p>
-
+        <p class="wiki-p"><b>Arjun Mehta</b> is an Indian <a href="#" class="wiki-link">brand consultant</a> and entrepreneur known for his work with early-stage startups across the <a href="#" class="wiki-link">fintech</a> and <a href="#" class="wiki-link">edtech</a> sectors. He is the founder of Mehta Advisory, which has advised over 40 companies across South and Southeast Asia.</p>
         <div class="wiki-h2">Career</div>
-        <p class="wiki-p wiki-blur">
-          Mehta began his career in structured finance before transitioning to brand strategy in 2015. His firm gained significant recognition following the successful repositioning of three unicorn-track startups between 2018 and 2022...
-        </p>
-
+        <p class="wiki-p wiki-blur">Mehta began his career in structured finance before transitioning to brand strategy in 2015. His firm gained significant recognition following the successful repositioning of three unicorn-track startups between 2018 and 2022...</p>
         <div class="wiki-h2 wiki-blur">Recognition &amp; Media</div>
-        <p class="wiki-p wiki-blur">Featured in Forbes India, Economic Times Brand Equity, and invited as a keynote speaker at NASSCOM Product Conclave (2023)...</p>
+        <p class="wiki-p wiki-blur">Featured in Forbes India, Economic Times Brand Equity, and invited as keynote speaker at NASSCOM Product Conclave (2023)...</p>
       </div>
     </div>
-    <div class="wiki-badge">Your name. That authority.</div>
+    <div class="wiki-badge">Control your narrative.</div>
   </div>
 </section>
 
+<!-- WHO IT'S FOR -->
+<div class="category-strip">
+  <span class="cat-label">Built for</span>
+  <span class="cat-item">Founders</span>
+  <span class="cat-item">Consultants &amp; Coaches</span>
+  <span class="cat-item">Course Creators</span>
+  <span class="cat-item">Niche Experts</span>
+  <span class="cat-item">Senior Executives</span>
+</div>
+
 <!-- PAIN -->
 <section class="pain-section">
-  <span class="section-label">The Problem</span>
-  <h2 class="section-h2">You've outgrown your online presence. It hasn't caught up.</h2>
+  <span class="section-label">The Real Problem</span>
+  <h2 class="section-h2">Your credibility is scattered. Your Google result is not you.</h2>
   <div class="pain-grid">
-    <div class="pain-card reveal">
-      <p class="pain-quote">"I've done more than what anyone sees when they Google me."</p>
-      <span class="pain-who">The Consultant</span>
+    <div class="pain-card reveal"><p class="pain-quote">"People don't understand what I've actually done."</p><span class="pain-who">The Consultant</span></div>
+    <div class="pain-card reveal"><p class="pain-quote">"My credibility is everywhere online — and nowhere at the same time."</p><span class="pain-who">The Course Creator</span></div>
+    <div class="pain-card reveal"><p class="pain-quote">"I need one link that sells me instantly — before I even get on the call."</p><span class="pain-who">The Founder</span></div>
+    <div class="pain-card reveal"><p class="pain-quote">"I don't look as strong online as I actually am offline."</p><span class="pain-who">The Niche Expert</span></div>
+  </div>
+</section>
+
+<!-- REFRAME STRIP -->
+<div class="reframe-strip">
+  <div class="reveal"><div class="reframe-from">Profile</div><div class="reframe-arrow">↓</div><div class="reframe-to">Proof</div></div>
+  <div class="reveal"><div class="reframe-from">Story</div><div class="reframe-arrow">↓</div><div class="reframe-to">Strategy</div></div>
+  <div class="reveal"><div class="reframe-from">Presence</div><div class="reframe-arrow">↓</div><div class="reframe-to">Leverage</div></div>
+  <div class="reveal"><div class="reframe-from">Vanity Page</div><div class="reframe-arrow">↓</div><div class="reframe-to">Active Asset</div></div>
+</div>
+
+<!-- NARRATIVE ENGINE -->
+<section class="engine-section">
+  <span class="section-label reveal">The Narrative Engine</span>
+  <h2 class="section-h2 reveal">This is not bio writing.<br>It's strategic positioning.</h2>
+  <div class="engine-grid">
+    <div class="engine-blocks">
+      <div class="engine-block reveal"><div class="engine-num">01</div><div><div class="engine-block-title">Origin Story</div><div class="engine-block-desc">Where you came from and why it matters. Context that makes everything else believable.</div></div></div>
+      <div class="engine-block reveal"><div class="engine-num">02</div><div><div class="engine-block-title">Inflection Points</div><div class="engine-block-desc">The turning moments in your career. The decisions that define your credibility arc.</div></div></div>
+      <div class="engine-block reveal"><div class="engine-num">03</div><div><div class="engine-block-title">Verified Achievements</div><div class="engine-block-desc">Metrics. Outcomes. Client results. Not self-claims — structured proof that stands on its own.</div></div></div>
+      <div class="engine-block reveal"><div class="engine-num">04</div><div><div class="engine-block-title">Current Mission</div><div class="engine-block-desc">Why you matter right now. The reason someone should call you today, not just admire your history.</div></div></div>
     </div>
-    <div class="pain-card reveal">
-      <p class="pain-quote">"I can't charge what I'm worth when my credibility doesn't show up first."</p>
-      <span class="pain-who">The Coach</span>
+    <div class="reveal">
+      <span class="section-label">Why it converts</span>
+      <div class="engine-right-claim">You don't need more achievements.<br>You need better packaging.</div>
+      <p class="engine-right-body">LinkedIn is cluttered. A personal website takes months. Wikipedia won't accept you. WikiPrestige is the only format purpose-built to answer the question every investor, client, and collaborator asks when they search your name: <em>Why should I trust this person?</em></p>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Platform</th><th>Your control</th><th>Authority tone</th><th>Google rank</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>LinkedIn</td><td><span class="x">✗</span>Algorithm-driven</td><td><span class="x">✗</span>Self-promotional</td><td><span class="x">✗</span>Limited</td></tr>
+          <tr><td>Wikipedia</td><td><span class="x">✗</span>Anyone can edit</td><td><span class="chk">✓</span>Neutral</td><td><span class="chk">✓</span>Strong</td></tr>
+          <tr><td>Personal site</td><td><span class="chk">✓</span>Full control</td><td><span class="x">✗</span>Often hype-heavy</td><td><span class="x">✗</span>Hard to rank</td></tr>
+          <tr><td style="font-weight:500;color:var(--gold);">WikiPrestige</td><td class="win"><span class="chk">✓</span>You own it</td><td class="win"><span class="chk">✓</span>Editorial, neutral</td><td class="win"><span class="chk">✓</span>Built for search</td></tr>
+        </tbody>
+      </table>
     </div>
-    <div class="pain-card reveal">
-      <p class="pain-quote">"Investors Googled me before the call. There was nothing clean to find."</p>
-      <span class="pain-who">The Founder</span>
-    </div>
-    <div class="pain-card reveal">
-      <p class="pain-quote">"Others look bigger than they actually are. I need the same."</p>
-      <span class="pain-who">The Executive</span>
-    </div>
+  </div>
+</section>
+
+<!-- PROOF LAYER -->
+<section class="proof-layer-section">
+  <span class="section-label reveal">The Proof Layer</span>
+  <h2 class="section-h2 reveal">Self-claims don't convert.<br>Structured credibility does.</h2>
+  <div class="proof-layer-grid">
+    <div class="proof-layer-card reveal"><span class="proof-layer-icon">📊</span><div class="proof-layer-title">Verified Metrics</div><div class="proof-layer-desc">Revenue milestones, user numbers, team size — cited with specificity, not vague claims.</div><span class="proof-layer-tag">High trust signal</span></div>
+    <div class="proof-layer-card reveal"><span class="proof-layer-icon">🏢</span><div class="proof-layer-title">Client Outcomes</div><div class="proof-layer-desc">Who you've worked with and what changed. Named clients, sectors, or anonymised results — structured for credibility.</div><span class="proof-layer-tag">Proof of impact</span></div>
+    <div class="proof-layer-card reveal"><span class="proof-layer-icon">📰</span><div class="proof-layer-title">Media Mentions</div><div class="proof-layer-desc">Press, podcast appearances, speaking slots — cited in a references section just like the real thing.</div><span class="proof-layer-tag">Third-party authority</span></div>
+    <div class="proof-layer-card reveal"><span class="proof-layer-icon">🗂️</span><div class="proof-layer-title">Career Timeline</div><div class="proof-layer-desc">A structured arc from where you started to where you are now. Roles, companies, milestones — all in one scannable view.</div><span class="proof-layer-tag">Narrative clarity</span></div>
+  </div>
+</section>
+
+<!-- USE-CASE BLOCKS -->
+<section class="usecase-section">
+  <span class="section-label">One Page. Four Jobs.</span>
+  <h2 class="section-h2">Your authority page works in every room you walk into.</h2>
+  <div class="usecase-grid">
+    <div class="usecase-card reveal"><div class="usecase-tag">Hiring Profile</div><div class="usecase-title">Get taken seriously before the interview</div><div class="usecase-desc">When a recruiter Googles you, this is what they find first.</div><div class="usecase-signals"><div class="usecase-signal">Replaces a scattered LinkedIn</div><div class="usecase-signal">Shows career depth, not just titles</div></div></div>
+    <div class="usecase-card reveal"><div class="usecase-tag">Investor Snapshot</div><div class="usecase-title">Win credibility before the pitch starts</div><div class="usecase-desc">VCs Google founders before every call. What they find shapes how they listen.</div><div class="usecase-signals"><div class="usecase-signal">Establishes founder track record</div><div class="usecase-signal">One link sent before the meeting</div></div></div>
+    <div class="usecase-card reveal"><div class="usecase-tag">Speaker Profile</div><div class="usecase-title">Get booked without a publicist</div><div class="usecase-desc">Event organisers and podcast hosts vet speakers. Pass their check in one click.</div><div class="usecase-signals"><div class="usecase-signal">Structured topic &amp; expertise section</div><div class="usecase-signal">Prior appearances cited cleanly</div></div></div>
+    <div class="usecase-card reveal"><div class="usecase-tag">Collaboration Pitch</div><div class="usecase-title">Walk into partnerships as an equal</div><div class="usecase-desc">When you reach out for a joint venture or introduction — your page does the first impression.</div><div class="usecase-signals"><div class="usecase-signal">Shows current mission &amp; goals</div><div class="usecase-signal">Signals seriousness instantly</div></div></div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
 <section class="steps-section" id="how">
   <span class="section-label reveal">The Process</span>
-  <h2 class="section-h2 reveal">Four steps from invisible to undeniable.</h2>
-
+  <h2 class="section-h2 reveal">From scattered to structured in four steps.</h2>
   <div class="steps-grid">
-    <div class="step reveal">
-      <div class="step-num">01</div>
-      <div class="step-title">Deep Intake</div>
-      <p class="step-body">A structured questionnaire extracts your career narrative, milestones, media, and positioning — everything needed to build a credible, authoritative profile.</p>
-    </div>
-    <div class="step reveal">
-      <div class="step-num">02</div>
-      <div class="step-title">Editorial Research</div>
-      <p class="step-body">Our writers research your background, verify claims, and cross-reference sources. The result reads like a neutral third party wrote it — because the tone demands that.</p>
-    </div>
-    <div class="step reveal">
-      <div class="step-num">03</div>
-      <div class="step-title">Structured Draft</div>
-      <p class="step-body">Your page is drafted in Wikipedia-style structure: intro, infobox, career arc, recognition, external references. Clean, scannable, authoritative.</p>
-    </div>
-    <div class="step reveal">
-      <div class="step-num">04</div>
-      <div class="step-title">Publish & Deliver</div>
-      <p class="step-body">You receive a live, shareable link. Send it before a pitch, add it to your bio, or let it do the silent work of converting anyone who searches you.</p>
-    </div>
+    <div class="step reveal"><div class="step-num">01</div><div class="step-title">Deep Intake</div><p class="step-body">A structured questionnaire extracts your career arc, milestones, and goals. No call needed — just answers.</p></div>
+    <div class="step reveal"><div class="step-num">02</div><div class="step-title">Strategic Positioning</div><p class="step-body">We identify how to frame your story for maximum authority in your specific context — fundraising, consulting, speaking, or hiring.</p></div>
+    <div class="step reveal"><div class="step-num">03</div><div class="step-title">Editorial Build</div><p class="step-body">Your page is built with Wikipedia-style structure: neutral tone, infobox, career arc, proof layer, citations. Written to be believed.</p></div>
+    <div class="step reveal"><div class="step-num">04</div><div class="step-title">Live &amp; Searchable</div><p class="step-body">A live URL, SEO-optimised for your name. Add to your email signature, LinkedIn, pitch deck, and bio link. One asset. All contexts.</p></div>
   </div>
 </section>
 
 <!-- WHAT YOU GET + TRIGGER MOMENTS -->
 <section class="what-section">
-  <div class="what-left reveal">
+  <div class="reveal">
     <span class="section-label">What's Included</span>
-    <h2 class="section-h2">Every element of authority, built in.</h2>
+    <h2 class="section-h2">Every signal of authority, built in.</h2>
     <ul class="what-list">
-      <li class="what-item">
-        <div class="what-check"></div>
-        <div class="what-text">
-          <strong>Wikipedia-style prose page</strong>
-          <span>Neutral, editorial tone. Reads like earned coverage, not marketing copy.</span>
-        </div>
-      </li>
-      <li class="what-item">
-        <div class="what-check"></div>
-        <div class="what-text">
-          <strong>Structured career timeline</strong>
-          <span>Roles, companies, milestones laid out with clean hierarchy.</span>
-        </div>
-      </li>
-      <li class="what-item">
-        <div class="what-check"></div>
-        <div class="what-text">
-          <strong>Infobox + biography section</strong>
-          <span>The signature wiki format that signals legitimacy at first glance.</span>
-        </div>
-      </li>
-      <li class="what-item">
-        <div class="what-check"></div>
-        <div class="what-text">
-          <strong>Media & recognition section</strong>
-          <span>Press mentions, podcasts, speaking engagements — all cited correctly.</span>
-        </div>
-      </li>
-      <li class="what-item">
-        <div class="what-check"></div>
-        <div class="what-text">
-          <strong>Live shareable URL</strong>
-          <span>One link that works in email signatures, decks, and DMs.</span>
-        </div>
-      </li>
-      <li class="what-item">
-        <div class="what-check"></div>
-        <div class="what-text">
-          <strong>2 rounds of revisions</strong>
-          <span>Until it reads exactly the way you need it to.</span>
-        </div>
-      </li>
+      <li class="what-item"><div class="what-check"></div><div class="what-text"><strong>Authority page in Wikipedia style</strong><span>Neutral editorial tone. Reads like earned recognition, not a sales pitch.</span></div></li>
+      <li class="what-item"><div class="what-check"></div><div class="what-text"><strong>Narrative Engine — full origin-to-now arc</strong><span>Origin, inflection points, achievements, and current mission — structured for impact.</span></div></li>
+      <li class="what-item"><div class="what-check"></div><div class="what-text"><strong>Proof layer with verified credibility</strong><span>Metrics, client outcomes, media mentions — cited like the real thing.</span></div></li>
+      <li class="what-item"><div class="what-check"></div><div class="what-text"><strong>Infobox + structured career timeline</strong><span>The signature format that signals legitimacy in the first 3 seconds.</span></div></li>
+      <li class="what-item"><div class="what-check"></div><div class="what-text"><strong>SEO-optimised for your name on Google</strong><span>Structured to rank when someone searches you. Most clients see results in 2 - 6 weeks.</span></div></li>
+      <li class="what-item"><div class="what-check"></div><div class="what-text"><strong>Live shareable URL — one link, all contexts</strong><span>Email signature, LinkedIn featured, pitch decks, bio links. One asset that covers everything.</span></div></li>
     </ul>
   </div>
-
-  <div class="what-right reveal">
-    <span class="section-label">When People Order</span>
-    <h2 class="section-h2" style="font-size: 1.4rem; margin-bottom: 1.5rem;">These are the moments that matter most.</h2>
-
-    <div class="moment-card">
-      <div class="moment-tag">Fundraising</div>
-      <div class="moment-title">Before an investor call</div>
-      <p class="moment-desc">VCs Google founders before every meeting. What they find determines how they listen.</p>
-    </div>
-    <div class="moment-card">
-      <div class="moment-tag">Monetization</div>
-      <div class="moment-title">Launching a course or offer</div>
-      <p class="moment-desc">Buyers need to trust you before they pay you. A Wikipedia page does that silently.</p>
-    </div>
-    <div class="moment-card">
-      <div class="moment-tag">Career Pivot</div>
-      <div class="moment-title">Moving into consulting</div>
-      <p class="moment-desc">When you go independent, your online presence has to sell you. This is your foundation.</p>
-    </div>
-    <div class="moment-card">
-      <div class="moment-tag">Media & PR</div>
-      <div class="moment-title">Getting featured or invited to speak</div>
-      <p class="moment-desc">Journalists and podcast hosts vet guests. Send one link and pass every check.</p>
-    </div>
+  <div class="reveal">
+    <span class="section-label">High-Intent Moments</span>
+    <h2 class="section-h2" style="font-size: 1.4rem; margin-bottom: 1.5rem;">This is when people order — and why it pays.</h2>
+    <div class="moment-card"><div class="moment-tag">Fundraising</div><div class="moment-title">Before an investor call</div><p class="moment-desc">VCs Google founders before every meeting. What they find determines how they listen to your pitch.</p></div>
+    <div class="moment-card"><div class="moment-tag">Monetisation</div><div class="moment-title">Launching a course or high-ticket offer</div><p class="moment-desc">Buyers trust before they pay. This page converts doubt into confidence — silently.</p></div>
+    <div class="moment-card"><div class="moment-tag">Career Pivot</div><div class="moment-title">Moving into consulting</div><p class="moment-desc">When you go independent, your online presence is your business card, CV, and sales page in one.</p></div>
+    <div class="moment-card"><div class="moment-tag">Media &amp; PR</div><div class="moment-title">Getting featured or invited to speak</div><p class="moment-desc">Journalists and hosts vet guests. Send one link and pass every check.</p></div>
   </div>
 </section>
 
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
-  <span class="section-label reveal">Packages</span>
-  <h2 class="section-h2 reveal" style="margin: 0 auto 0.8rem; text-align: center;">Choose your authority level.</h2>
-  <p class="reveal" style="color: var(--ink-soft); max-width: 480px; margin: 0 auto; font-size: 0.93rem;">Every package includes a live, shareable Wikipedia-style page. Scope differs based on depth, speed, and support.</p>
-
+  <span class="section-label reveal">Authority Build Service</span>
+  <h2 class="section-h2 reveal" style="margin: 0 auto 0.8rem; text-align: center;">Choose your level of leverage.</h2>
+  <p class="reveal" style="color: var(--ink-soft); max-width: 500px; margin: 0 auto; font-size: 0.93rem;">You're not buying a profile. You're investing in a permanent working asset that opens doors every day it exists.</p>
   <div class="pricing-grid">
-
     <div class="price-card reveal">
-      <div class="price-tier">Standard</div>
+      <div class="price-tier">Foundation</div>
       <div class="price-amount">$15</div>
-      <div class="price-note">One-time · 7–10 day delivery</div>
+      <div class="price-outcome">For consultants entering the market</div>
+      <div class="price-note">One-time · 7 - 10 day delivery</div>
       <ul class="price-features">
-        <li>Wikipedia-style biography page</li>
+        <li>Authority page in Wikipedia style</li>
+        <li>Narrative Engine — origin to now</li>
         <li>Infobox + career timeline</li>
-        <li>Up to 600 words of editorial copy</li>
+        <li>Up to 600 words editorial copy</li>
         <li>2 rounds of revisions</li>
         <li>Live shareable URL</li>
       </ul>
-      <a href="https://wa.me/919999999999?text=Hi%2C%20I%27m%20interested%20in%20the%20Standard%20WikiPrestige%20package" class="btn-price dark" target="_blank">Get Started</a>
+      <a href="https://wa.me/917019492748?text=Hi%2C%20I%27m%20interested%20in%20the%20Foundation%20WikiPrestige%20package" class="btn-price dark" target="_blank">Get Started</a>
     </div>
-
     <div class="price-card featured reveal">
-      <div class="price-badge">Most Popular</div>
+      <div class="price-badge">Sweet Spot</div>
       <div class="price-tier">Authority</div>
       <div class="price-amount" style="color: var(--gold-light);">$35</div>
+      <div class="price-outcome">For founders &amp; serious independents</div>
       <div class="price-note">One-time · 5 day delivery</div>
       <ul class="price-features">
-        <li>Everything in Standard</li>
+        <li>Everything in Foundation</li>
+        <li>Full proof layer — metrics, clients, media</li>
+        <li>Use-case blocks: investor / speaker / hire</li>
         <li>Up to 1,200 words — full career arc</li>
-        <li>Media & recognition section</li>
-        <li>3 rounds of revisions</li>
         <li>SEO-structured headers + meta</li>
-        <li>Priority support via WhatsApp</li>
+        <li>3 rounds of revisions</li>
+        <li>Priority WhatsApp support</li>
       </ul>
-      <a href="https://wa.me/919999999999?text=Hi%2C%20I%27m%20interested%20in%20the%20Authority%20WikiPrestige%20package" class="btn-price gold" target="_blank">Get Started</a>
+      <a href="https://wa.me/917019492748?text=Hi%2C%20I%27m%20interested%20in%20the%20Authority%20WikiPrestige%20package" class="btn-price gold" target="_blank">Get Started</a>
     </div>
-
     <div class="price-card reveal">
       <div class="price-tier">Executive</div>
       <div class="price-amount">$99</div>
-      <div class="price-note">One-time · 3–4 day delivery</div>
+      <div class="price-outcome">For executives raising or scaling</div>
+      <div class="price-note">One-time · 3 - 4 day delivery</div>
       <ul class="price-features">
         <li>Everything in Authority</li>
-        <li>2,000+ words of deep-research prose</li>
-        <li>Editorial interview call included</li>
-        <li>Full reference &amp; citations section</li>
+        <li>Positioning strategy session included</li>
+        <li>2,000+ words deep-research prose</li>
+        <li>Editorial interview call</li>
+        <li>Full references &amp; citations section</li>
         <li>Custom domain option</li>
         <li>Unlimited revisions (30 days)</li>
         <li>Dedicated account manager</li>
       </ul>
-      <a href="https://wa.me/919999999999?text=Hi%2C%20I%27m%20interested%20in%20the%20Executive%20WikiPrestige%20package" class="btn-price dark" target="_blank">Apply Now</a>
+      <a href="https://wa.me/917019492748?text=Hi%2C%20I%27m%20interested%20in%20the%20Executive%20WikiPrestige%20package" class="btn-price dark" target="_blank">Apply Now</a>
     </div>
-
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section class="proof-section">
   <span class="section-label reveal">What Clients Say</span>
-  <h2 class="section-h2 reveal">Perception changed. Immediately.</h2>
-
+  <h2 class="section-h2 reveal">Perception shifted. Doors opened.</h2>
   <div class="proof-grid">
-    <div class="proof-card reveal">
-      <p class="proof-quote">"Before the pitch I sent my WikiPrestige page to the investor. He referenced it on the call. That never happened with my LinkedIn."</p>
-      <div class="proof-author">
-        <div class="proof-avatar">RK</div>
-        <div>
-          <div class="proof-name">Rohit K.</div>
-          <div class="proof-role">SaaS Founder, Pune</div>
-        </div>
-      </div>
-    </div>
-    <div class="proof-card reveal">
-      <p class="proof-quote">"I raised my consulting retainer by 40% after having a credible page to share. Clients just take me more seriously now — and they should."</p>
-      <div class="proof-author">
-        <div class="proof-avatar">PA</div>
-        <div>
-          <div class="proof-name">Priya A.</div>
-          <div class="proof-role">HR Consultant, Bangalore</div>
-        </div>
-      </div>
-    </div>
-    <div class="proof-card reveal">
-      <p class="proof-quote">"I've been featured in three podcasts since I got this done. Every host mentioned they'd looked me up first. That page is doing the selling."</p>
-      <div class="proof-author">
-        <div class="proof-avatar">SM</div>
-        <div>
-          <div class="proof-name">Sameer M.</div>
-          <div class="proof-role">Executive Coach, Dubai</div>
-        </div>
-      </div>
-    </div>
+    <div class="proof-card reveal"><p class="proof-quote">"Before the pitch I sent my WikiPrestige page to the investor. He referenced it on the call. That never happened with my LinkedIn."</p><div class="proof-author"><div class="proof-avatar">RK</div><div><div class="proof-name">Rohit K.</div><div class="proof-role">SaaS Founder, Pune</div></div></div></div>
+    <div class="proof-card reveal"><p class="proof-quote">"I raised my consulting retainer by 40% after having a credible page to share. Clients take me more seriously now — and they should."</p><div class="proof-author"><div class="proof-avatar">PA</div><div><div class="proof-name">Priya A.</div><div class="proof-role">HR Consultant, Bangalore</div></div></div></div>
+    <div class="proof-card reveal"><p class="proof-quote">"I've been featured in three podcasts since I got this done. Every host mentioned they'd looked me up first. That page is doing the selling."</p><div class="proof-author"><div class="proof-avatar">SM</div><div><div class="proof-name">Sameer M.</div><div class="proof-role">Executive Coach, Dubai</div></div></div></div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="roadmap-section">
+  <span class="section-label reveal" style="display:block;text-align:center;">What's Coming</span>
+  <h2 class="section-h2 reveal" style="margin:0 auto 0.8rem;text-align:center;">Personal authority infrastructure — built in phases.</h2>
+  <p class="reveal" style="color:var(--ink-soft);max-width:500px;margin:0 auto;font-size:0.93rem;text-align:center;">WikiPrestige is not a social platform. It is the infrastructure for personal credibility in the AI-first internet.</p>
+  <div class="roadmap-grid">
+    <div class="roadmap-card reveal"><div class="roadmap-phase">Phase 1 — Now</div><div class="roadmap-title">Authority Pages</div><div class="roadmap-desc">Your structured, searchable, one-link credibility asset. The foundation everything else is built on.</div><span class="roadmap-status status-live">Live</span></div>
+    <div class="roadmap-card reveal"><div class="roadmap-phase">Phase 2 — Coming Soon</div><div class="roadmap-title">Credibility Graph</div><div class="roadmap-desc">Connect professionals. Show associations. "Worked with", "Mentored by", "Backed by" — visible context that compounds authority.</div><span class="roadmap-status status-soon">In Development</span></div>
+    <div class="roadmap-card reveal"><div class="roadmap-phase">Phase 3 — Roadmap</div><div class="roadmap-title">AI Reputation Layer</div><div class="roadmap-desc">Auto-updating achievements, timeline intelligence, opportunity recommendations — your page grows as you do.</div><span class="roadmap-status status-soon">Planned</span></div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section class="faq-section padded">
-  <span class="section-label reveal">Questions</span>
-  <h2 class="section-h2 reveal">The honest answers.</h2>
-
-  <div style="margin-top: 2.5rem;">
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Is this an actual Wikipedia page?
-        <span class="faq-toggle">+</span>
-      </button>
-      <div class="faq-a">
-        No — and that's intentional. Actual Wikipedia pages require notability criteria and can be edited or deleted by anyone. Our pages are designed to look, read, and feel exactly like Wikipedia but are hosted independently. You own it. It never disappears.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Will it rank on Google when someone searches my name?
-        <span class="faq-toggle">+</span>
-      </button>
-      <div class="faq-a">
-        Yes. All pages are SEO-structured with your name as the primary keyword target. Most clients see it appear within the first 3–10 results within 2–6 weeks of going live.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Who writes the page — AI or humans?
-        <span class="faq-toggle">+</span>
-      </button>
-      <div class="faq-a">
-        Human writers with editorial backgrounds. We may use AI for research assistance, but every page is written, reviewed, and refined by a real editor who specialises in neutral, authoritative biographical writing.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        What if I don't have major press mentions?
-        <span class="faq-toggle">+</span>
-      </button>
-      <div class="faq-a">
-        Most clients don't — and that's fine. We structure your career achievements, client results, speaking history, and published content to build authority without requiring external press coverage.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        How do I get started?
-        <span class="faq-toggle">+</span>
-      </button>
-      <div class="faq-a">
-        Click any "Get Started" button and you'll be connected via WhatsApp. We'll send you an intake form, and once complete, work begins within 24 hours.
-      </div>
-    </div>
+<section class="faq-section">
+  <span class="section-label reveal" style="display:block;text-align:center;">Questions</span>
+  <h2 class="section-h2 reveal" style="margin:0 auto;text-align:center;">The honest answers.</h2>
+  <div class="faq-inner">
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is this an actual Wikipedia page?<span class="faq-toggle">+</span></button><div class="faq-a">No — and that's intentional. Wikipedia requires notability criteria and can be edited or deleted by anyone. WikiPrestige pages are independently hosted, owned by you permanently. You get the authority format without the vulnerability.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Will it rank on Google when someone searches my name?<span class="faq-toggle">+</span></button><div class="faq-a">Yes. All pages are SEO-structured with your name as the primary keyword target. Most clients see it rank within the first 3 - 10 results within 2 - 6 weeks of going live.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How is this different from LinkedIn or a personal website?<span class="faq-toggle">+</span></button><div class="faq-a">LinkedIn is algorithm-driven and reads as self-promotional. Personal websites take months, rank poorly, and feel like sales pages. WikiPrestige is neutral, editorial-tone authority — the only format that reads like someone else vouched for you, while being fully under your control.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if I don't have press coverage or major credentials?<span class="faq-toggle">+</span></button><div class="faq-a">Most clients don't — and that's fine. We structure your career arc, client outcomes, and domain expertise to build authority without requiring external press. The proof layer works with whatever you have.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Who writes the page — AI or humans?<span class="faq-toggle">+</span></button><div class="faq-a">Human editors with editorial and positioning backgrounds. AI may assist with research, but every page is written, structured, and reviewed by a person who specialises in neutral, authoritative biographical writing.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I get started?<span class="faq-toggle">+</span></button><div class="faq-a">Click any "Get Started" button. You'll connect via WhatsApp, receive a structured intake form, and work begins within 24 hours of submission.</div></div>
   </div>
 </section>
 
 <!-- CTA STRIP -->
 <div class="cta-strip">
-  <h2>If someone Googles you today, <em>does it match your actual level?</em></h2>
-  <a href="https://wa.me/917019492748?text=Hi%2C%20I%27d%20like%20to%20discuss%20a%20WikiPrestige%20page" class="btn-white" target="_blank">Start Now →</a>
+  <h2>Package your credibility.<br><em>Make people take you seriously in 30 seconds.</em></h2>
+  <a href="https://wa.me/917019492748?text=Hi%2C%20I%27d%20like%20to%20build%20my%20WikiPrestige%20authority%20page" class="btn-white" target="_blank">Build Your Authority Page →</a>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <a href="#" class="logo">Wiki<span style="color: var(--gold);">Prestige</span></a>
-  <div>Your story, structured like authority.</div>
-  <div style="display: flex; gap: 1.5rem;">
+  <a href="#" class="logo">Wiki<span style="color:var(--gold);">Prestige</span></a>
+  <div>Personal authority infrastructure.</div>
+  <div style="display:flex;gap:1.5rem;">
     <a href="#">Privacy</a>
     <a href="#">Terms</a>
-    <a href="mailto:hello@wikiprestige.in">hello@wikiprestige.in</a>
+    <a href="mailto:sasban.online@gmail.com">hello@wikiprestige.in</a>
   </div>
 </footer>
 
@@ -1268,21 +557,13 @@
       a.classList.remove('open');
       a.previousElementSibling.querySelector('.faq-toggle').textContent = '+';
     });
-    if (!isOpen) {
-      ans.classList.add('open');
-      toggle.textContent = '−';
-    }
+    if (!isOpen) { ans.classList.add('open'); toggle.textContent = '−'; }
   }
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
-        observer.unobserve(e.target);
-      }
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); observer.unobserve(e.target); }
     });
   }, { threshold: 0.12 });
-
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
