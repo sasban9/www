@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAUNCHPAD — Build. Earn. Rise.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #020408;
+    --dark: #060d18;
+    --card: #0a1628;
+    --electric: #00f5ff;
+    --volt: #b8ff00;
+    --fire: #ff4d00;
+    --white: #f0f4ff;
+    --muted: #4a5a7a;
+    --border: rgba(0,245,255,0.12);
+    --glow: rgba(0,245,255,0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scrollbar-width: none;}
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--electric);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    box-shadow: 0 0 20px var(--electric), 0 0 40px var(--glow);
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 1.5px solid rgba(0,245,255,0.4);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.18s ease;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* SCANLINES */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 2; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  }
+
+  /* CANVAS BG */
+  #particles-canvas {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(180deg, rgba(2,4,8,0.95) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: 0.2em;
+    color: var(--electric);
+    text-shadow: 0 0 30px var(--electric), 0 0 60px rgba(0,245,255,0.3);
+  }
+  .nav-logo span { color: var(--volt); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav a {
+    font-family: 'Space Mono', monospace; font-size: 0.9rem; letter-spacing: 0.15em;
+    color: var(--muted); text-decoration: none; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--electric); }
+  .nav-cta {
+    font-family: 'Space Mono', monospace; font-size: 0.9rem; letter-spacing: 0.12em;
+    background: transparent; border: 1px solid var(--electric); color: var(--electric);
+    padding: 0.6rem 1.4rem; text-transform: uppercase; cursor: none;
+    transition: all 0.25s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .nav-cta:hover { background: var(--electric); color: var(--black); box-shadow: 0 0 30px var(--glow); }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 10; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 10rem 4rem 6rem;
+    overflow: hidden;
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.25em;
+    color: var(--electric); text-transform: uppercase;
+    border: 1px solid var(--border); padding: 0.4rem 1rem;
+    display: inline-block; margin-bottom: 2rem;
+    animation: fadeSlideIn 0.8s ease forwards;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+
+  .hero-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 12vw, 6rem);
+    line-height: 0.9; letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+    animation: fadeSlideIn 0.8s 0.2s ease both;
+  }
+  .hero-headline .line1 { display: block; color: var(--white); }
+  .hero-headline .line2 {
+    display: block; color: transparent;
+    -webkit-text-stroke: 2px var(--electric);
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px var(--electric));
+  }
+  .hero-headline .line3 { display: block; color: var(--volt); text-shadow: 0 0 40px rgba(184,255,0,0.4); }
+
+  .hero-sub {
+    font-size: 1.15rem; font-weight: 300; color: rgba(240,244,255,0.65);
+    max-width: 540px; line-height: 1.7; margin-bottom: 3rem;
+    animation: fadeSlideIn 0.8s 0.4s ease both;
+  }
+  .hero-sub strong { color: var(--electric); font-weight: 500; }
+
+  .hero-actions {
+    display: flex; gap: 1.2rem; align-items: center;
+    animation: fadeSlideIn 0.8s 0.6s ease both;
+  }
+  .btn-primary {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 0.15em;
+    background: var(--electric); color: var(--black); border: none;
+    padding: 1rem 2.8rem; cursor: none; position: relative; overflow: hidden;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.3s;
+    box-shadow: 0 0 40px rgba(0,245,255,0.4);
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transform: translateX(-100%); transition: transform 0.5s;
+  }
+  .btn-primary:hover::after { transform: translateX(100%); }
+  .btn-primary:hover { box-shadow: 0 0 60px rgba(0,245,255,0.7); transform: translateY(-2px); }
+
+  .btn-secondary {
+    font-family: 'Space Mono', monospace; font-size: 0.95rem; letter-spacing: 0.1em;
+    background: transparent; color: var(--white); border: none;
+    text-transform: uppercase; cursor: none; display: flex; align-items: center; gap: 0.86rem;
+    transition: color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--volt); }
+  .btn-secondary .arrow { display: inline-block; transition: transform 0.2s; }
+  .btn-secondary:hover .arrow { transform: translateX(5px); }
+
+  /* TICKER */
+  .ticker-wrap {
+    overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 0.8rem 0; background: rgba(0,245,255,0.03);
+    position: relative; z-index: 10;
+  }
+  .ticker-track {
+    display: flex; gap: 0; width: max-content;
+    animation: ticker 35s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'Space Mono', monospace; font-size: 0.9rem; letter-spacing: 0.15em;
+    color: var(--muted); text-transform: uppercase; white-space: nowrap;
+    padding: 0 2.5rem;
+  }
+  .ticker-item span { color: var(--electric); margin-right: 0.5rem; }
+
+  /* STATS ROW */
+  #stats {
+    padding: 5rem 4rem;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+    background: var(--border);
+  }
+  .stat-card {
+    background: var(--dark); padding: 3rem 2.5rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .stat-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--electric);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .stat-card:hover { transform: translateY(-4px); }
+  .stat-card:hover::before { transform: scaleX(1); }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem;
+    color: var(--electric); line-height: 1;
+    text-shadow: 0 0 30px rgba(0,245,255,0.4);
+  }
+  .stat-num .unit { font-size: 2rem; color: var(--volt); }
+  .stat-label {
+    font-family: 'Space Mono', monospace; font-size: 0.85rem; letter-spacing: 0.2em;
+    color: var(--muted); text-transform: uppercase; margin-top: 0.5rem;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    padding: 6rem 4rem 3rem;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .section-tag {
+    font-family: 'Space Mono', monospace; font-size: 0.85rem; letter-spacing: 0.25em;
+    color: var(--electric); text-transform: uppercase; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .section-tag::before {
+    content: ''; display: inline-block; width: 30px; height: 1px;
+    background: var(--electric);
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1;
+  }
+
+  /* TIMELINE / PHASES */
+  #phases { padding: 0 4rem 6rem; }
+
+  .phase-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--border); }
+
+  .phase-item {
+    background: var(--dark); padding: 3rem;
+    display: grid; grid-template-columns: 100px 2fr 1fr; gap: 3rem; align-items: start;
+    transition: background 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .phase-item::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--electric), var(--volt));
+    transform: scaleY(0); transform-origin: top; transition: transform 0.4s;
+  }
+  .phase-item:hover { background: rgba(0,245,255,0.04); }
+  .phase-item:hover::before { transform: scaleY(1); }
+
+  .phase-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: var(--border);
+    line-height: 1; transition: color 0.3s;
+  }
+  .phase-item:hover .phase-num { color: rgba(0,245,255,0.15); }
+
+  /* .phase-content {} */
+  .phase-month {
+    font-family: 'Space Mono', monospace; font-size: 0.85rem; letter-spacing: 0.2em;
+    color: var(--electric); text-transform: uppercase; margin-bottom: 0.8rem;
+  }
+  .phase-name {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.05em;
+    margin-bottom: 0.8rem;
+  }
+  .phase-desc { font-size: 1.1rem; color: rgba(240,244,255,0.6); line-height: 1.7; }
+
+  .phase-tasks {
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .phase-task {
+    font-family: 'Space Mono', monospace; font-size: 1rem; letter-spacing: 0.05em;
+    color: var(--muted); padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border); position: relative;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  }
+  .phase-task::before { content: '▶ '; color: var(--electric); font-size: 0.5rem; }
+
+  /* EARN PATHS */
+  #paths { padding: 0 4rem 6rem; }
+
+  .paths-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    background: var(--border);
+  }
+  .path-card {
+    background: var(--card); padding: 2.5rem;
+    position: relative; overflow: hidden; cursor: none;
+    transition: all 0.3s;
+  }
+  .path-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at top right, rgba(0,245,255,0.07), transparent 70%);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .path-card:hover { transform: scale(1.01); background: #0c1830; }
+  .path-card:hover::after { opacity: 1; }
+
+  .path-icon { font-size: 2rem; margin-bottom: 1.2rem; display: block; }
+  .path-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.05em;
+    margin-bottom: 0.86rem; color: var(--white);
+  }
+  .path-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.2rem; }
+  .path-potential {
+    font-family: 'Space Mono', monospace; font-size: 0.85rem;
+    color: var(--volt); letter-spacing: 0.1em;
+    border-top: 1px solid var(--border); padding-top: 1rem;
+  }
+
+  /* COMMUNITY */
+  #community { padding: 0 4rem 6rem; }
+
+  .community-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+    background: var(--border);
+  }
+  .comm-block {
+    background: var(--dark); padding: 4rem;
+    position: relative; overflow: hidden;
+  }
+  .comm-big-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 8rem; line-height: 0.85;
+    color: transparent; -webkit-text-stroke: 1px rgba(0,245,255,0.2);
+    position: absolute; bottom: -1rem; right: 2rem; pointer-events: none;
+  }
+  .comm-block h3 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; margin-bottom: 1rem;
+  }
+  .comm-block p { font-size: 0.92rem; color: rgba(240,244,255,0.6); line-height: 1.8; max-width: 440px; }
+
+  .team-visual {
+    display: flex; flex-wrap: wrap; gap: 0.86rem; margin-top: 2rem;
+  }
+  .avatar-dot {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--electric), var(--volt));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 0.86rem; color: var(--black);
+    font-weight: 700; position: relative;
+  }
+  .avatar-dot.leader {
+    width: 48px; height: 48px; font-size: 0.7rem;
+    background: linear-gradient(135deg, var(--volt), var(--fire));
+    box-shadow: 0 0 20px rgba(184,255,0,0.4);
+  }
+  .avatar-dot::after {
+    content: ''; position: absolute; inset: -2px; border-radius: 50%;
+    border: 1px solid rgba(0,245,255,0.3);
+  }
+
+  /* PROCESS */
+  #process { padding: 0 4rem 6rem; }
+  .process-row {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    background: var(--border); gap: 2px;
+  }
+  .process-step {
+    background: var(--dark); padding: 2.5rem 2rem;
+    display: flex; flex-direction: column; position: relative;
+  }
+  .process-step:not(:last-child)::after {
+    content: '→';
+    position: absolute; right: -14px; top: 50%; transform: translateY(-50%);
+    color: var(--electric); font-size: 1.2rem; z-index: 2;
+    font-family: 'Space Mono', monospace;
+  }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+    color: var(--electric); margin-bottom: 1rem; letter-spacing: 0.2em;
+  }
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; margin-bottom: 0.86rem;
+  }
+  .step-text { font-size: 1rem; color: var(--muted); line-height: 1.6; }
+
+  /* SUPPORT */
+  #support { padding: 0 4rem 6rem; }
+  .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); }
+  .support-card {
+    background: var(--dark); padding: 2.5rem;
+    transition: all 0.3s; cursor: none;
+    border-bottom: 2px solid transparent;
+  }
+  .support-card:hover { border-bottom-color: var(--electric); background: rgba(0,245,255,0.03); }
+  .support-icon { font-size: 1.8rem; margin-bottom: 1.2rem; }
+  .support-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; margin-bottom: 0.86rem; }
+  .support-desc { font-size: 1.15rem; color: var(--muted); line-height: 1.6; }
+
+  /* CTA SECTION */
+  #cta {
+    padding: 8rem 4rem;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  #cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0,245,255,0.08), transparent);
+  }
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.9; margin-bottom: 2rem;
+    position: relative; z-index: 1;
+  }
+  .cta-title em { color: var(--electric); font-style: normal; }
+  .cta-sub {
+    font-size: 1rem; color: rgba(240,244,255,0.55); max-width: 500px;
+    margin: 0 auto 3.5rem; line-height: 1.8; position: relative; z-index: 1;
+  }
+  .cta-form {
+    display: flex; justify-content: center; gap: 0; max-width: 500px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+  .cta-input {
+    flex: 1; background: var(--card); border: 1px solid var(--border); border-right: none;
+    color: var(--white); padding: 1rem 1.5rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s;
+    clip-path: polygon(8px 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+  .cta-input:focus { border-color: var(--electric); }
+  .cta-input::placeholder { color: var(--muted); }
+  .cta-btn {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.12em;
+    background: var(--electric); color: var(--black); border: none;
+    padding: 1rem 2.2rem; cursor: none; white-space: nowrap;
+    transition: all 0.3s; clip-path: polygon(0 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .cta-btn:hover { background: var(--volt); box-shadow: 0 0 40px rgba(184,255,0,0.4); }
+
+  .cta-note {
+    font-family: 'Space Mono', monospace; font-size: 0.86rem; letter-spacing: 0.15em;
+    color: var(--muted); text-transform: uppercase; margin-top: 1.2rem;
+    position: relative; z-index: 1;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border); padding: 3rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(6,13,24,0.8);
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.2em;
+    color: var(--electric);
+  }
+  .footer-text {
+    font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase;
+  }
+
+  /* GLITCH EFFECT */
+  .glitch {
+    position: relative;
+    animation: glitchAnim 8s infinite;
+  }
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute; left: 0;
+    font-family: inherit; font-size: inherit; color: inherit;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    opacity: 0;
+  }
+  .glitch::before { color: var(--electric); animation: glitchTop 8s infinite; }
+  .glitch::after { color: var(--fire); clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); animation: glitchBottom 8s infinite; }
+
+  /* COUNTER ANIMATION */
+  .count-up { display: inline-block; }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ANIMATIONS */
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes glitchAnim {
+    0%, 90%, 100% { transform: none; }
+    91% { transform: skewX(-2deg); }
+    93% { transform: skewX(2deg); }
+    95% { transform: skewX(0); }
+  }
+  @keyframes glitchTop {
+    0%, 89%, 100% { opacity: 0; transform: none; }
+    90% { opacity: 0.6; transform: translate(-3px, -2px); }
+    92% { opacity: 0.6; transform: translate(3px, 0); }
+    94% { opacity: 0; }
+  }
+  @keyframes glitchBottom {
+    0%, 91%, 100% { opacity: 0; transform: none; }
+    92% { opacity: 0.6; transform: translate(3px, 2px); }
+    94% { opacity: 0.6; transform: translate(-3px, 0); }
+    96% { opacity: 0; }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,245,255,0.3); }
+    50% { box-shadow: 0 0 50px rgba(0,245,255,0.7), 0 0 100px rgba(0,245,255,0.3); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* TYPING CURSOR */
+  .typed-cursor {
+    display: inline-block; width: 3px; height: 1em;
+    background: var(--electric); margin-left: 4px;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* INCOME METER */
+  .income-meter { margin-top: 2rem; }
+  .meter-label {
+    display: flex; justify-content: space-between;
+    font-family: 'Space Mono', monospace; font-size: 0.85rem; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .meter-bar {
+    height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden;
+  }
+  .meter-fill {
+    height: 100%; background: linear-gradient(90deg, var(--electric), var(--volt));
+    border-radius: 2px; width: 0%; transition: width 1.5s ease;
+    box-shadow: 0 0 10px var(--electric);
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    #hero { padding: 8rem 1.5rem 4rem; }
+    #stats { grid-template-columns: repeat(2, 1fr); padding: 3rem 1.5rem; }
+    .section-header { padding: 4rem 1.5rem 2rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+    #phases, #paths, #community, #process, #support { padding: 0 1.5rem 4rem; }
+    .paths-grid { grid-template-columns: 1fr; }
+    .community-grid { grid-template-columns: 1fr; }
+    .process-row { grid-template-columns: 1fr; gap: 2px; }
+    .process-step::after { display: none; }
+    .support-grid { grid-template-columns: 1fr; }
+    .phase-item { grid-template-columns: 60px 1fr; }
+    .phase-tasks { display: none; }
+    #cta { padding: 5rem 1.5rem; }
+    .cta-form { flex-direction: column; }
+    .cta-input { clip-path: none; border-right: 1px solid var(--border); }
+    .cta-btn { clip-path: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">LAUNCH<span>PAD</span></div>
+  <ul>
+    <li><a href="#phases">Program</a></li>
+    <li><a href="#paths">Earn Paths</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#support">Support</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Apply Now</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-tag">⚡ 12-Month Online Income Program — Cohort 2026</div>
+  <h1 class="hero-headline">
+    <span class="line1">FROM</span>
+    <span class="line2 glitch" data-text="ZERO">ZERO</span>
+    <span class="line3">TO $300–$1K/MO</span>
+  </h1>
+  <p class="hero-sub">
+    A structured 12-month program for students with basic computer skills.
+    <strong>Build in public. Earn real money. Join 1,000 builders</strong>
+    who post, create, and grow their way to financial independence — step by step.
+  </p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Apply for Interview</button>
+    <button class="btn-secondary" onclick="document.getElementById('phases').scrollIntoView({behavior:'smooth'})">See the Roadmap <span class="arrow">→</span></button>
+  </div>
+
+  <div class="income-meter" style="max-width:600px; margin-top:3.5rem; width:100%;">
+    <div class="meter-label"><span>Month 1 — Setup</span><span id="month-label">Month 12 — $300–$1000/mo</span></div>
+    <div class="meter-bar"><div class="meter-fill" id="income-fill"></div></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker">
+    <span class="ticker-item"><span>▶</span> Freelancing</span>
+    <span class="ticker-item"><span>▶</span> Affiliate Marketing</span>
+    <span class="ticker-item"><span>▶</span> Digital Products</span>
+    <span class="ticker-item"><span>▶</span> SaaS Tools</span>
+    <span class="ticker-item"><span>▶</span> YouTube + Content</span>
+    <span class="ticker-item"><span>▶</span> Blogging & SEO</span>
+    <span class="ticker-item"><span>▶</span> AI Automation</span>
+    <span class="ticker-item"><span>▶</span> Ecommerce</span>
+    <span class="ticker-item"><span>▶</span> Online Coaching</span>
+    <span class="ticker-item"><span>▶</span> Newsletter Business</span>
+    <span class="ticker-item"><span>▶</span> Lead Generation</span>
+    <span class="ticker-item"><span>▶</span> Apps & Templates</span>
+    <span class="ticker-item"><span>▶</span> Freelancing</span>
+    <span class="ticker-item"><span>▶</span> Affiliate Marketing</span>
+    <span class="ticker-item"><span>▶</span> Digital Products</span>
+    <span class="ticker-item"><span>▶</span> SaaS Tools</span>
+    <span class="ticker-item"><span>▶</span> YouTube + Content</span>
+    <span class="ticker-item"><span>▶</span> Blogging & SEO</span>
+    <span class="ticker-item"><span>▶</span> AI Automation</span>
+    <span class="ticker-item"><span>▶</span> Ecommerce</span>
+    <span class="ticker-item"><span>▶</span> Online Coaching</span>
+    <span class="ticker-item"><span>▶</span> Newsletter Business</span>
+    <span class="ticker-item"><span>▶</span> Lead Generation</span>
+    <span class="ticker-item"><span>▶</span> Apps & Templates</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stat-card reveal">
+    <div class="stat-num"><span class="count-up" data-target="1000">0</span><span class="unit">+</span></div>
+    <div class="stat-label">Seats Available</div>
+  </div>
+  <div class="stat-card reveal">
+    <div class="stat-num">$<span class="count-up" data-target="300">0</span><span class="unit">–1K</span></div>
+    <div class="stat-label">Target Monthly Income</div>
+  </div>
+  <div class="stat-card reveal">
+    <div class="stat-num"><span class="count-up" data-target="12">0</span><span class="unit">mo</span></div>
+    <div class="stat-label">Program Duration</div>
+  </div>
+  <div class="stat-card reveal">
+    <div class="stat-num">$<span class="count-up" data-target="3">0</span>–<span class="count-up" data-target="5">0</span><span class="unit">K</span></div>
+    <div class="stat-label">Top Team Monthly Target</div>
+  </div>
+</div>
+
+<!-- PHASES -->
+<section id="phases">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">The Roadmap</div>
+      <h2 class="section-title">12-MONTH<br>BATTLE PLAN</h2>
+    </div>
+    <p style="max-width:400px; font-size:1.1rem; color:var(--muted); line-height:1.8;">
+      Three phases. Each one builds on the last. By month 12, you're not just learning — you're earning.
+    </p>
+  </div>
+
+  <div class="phase-grid">
+    <div class="phase-item reveal">
+      <div class="phase-num">01</div>
+      <div class="phase-content">
+        <div class="phase-month">Months 1–3</div>
+        <div class="phase-name">FOUNDATIONS</div>
+        <div class="phase-desc">Pick your income path. Learn the fundamentals. Start your first tiny project. Post publicly 2–3x per week — no matter how small. Build the habit of shipping.</div>
+      </div>
+      <div class="phase-tasks">
+        <div class="phase-task">Choose your niche path</div>
+        <div class="phase-task">Set up digital presence</div>
+        <div class="phase-task">First public post</div>
+        <div class="phase-task">Weekly Discord check-ins</div>
+      </div>
+    </div>
+    <div class="phase-item reveal">
+      <div class="phase-num">02</div>
+      <div class="phase-content">
+        <div class="phase-month">Months 4–8</div>
+        <div class="phase-name">BUILD IN PUBLIC</div>
+        <div class="phase-desc">Launch your first real product, service, or content channel. Get your first paying customer or client. Document everything online. Build momentum through consistency and community.</div>
+      </div>
+      <div class="phase-tasks">
+        <div class="phase-task">First $1 online 🎉</div>
+        <div class="phase-task">2–3 posts per week</div>
+        <div class="phase-task">Mentor + peer reviews</div>
+        <div class="phase-task">Video tutorials weekly</div>
+      </div>
+    </div>
+    <div class="phase-item reveal">
+      <div class="phase-num">03</div>
+      <div class="phase-content">
+        <div class="phase-month">Months 9–12</div>
+        <div class="phase-name">SCALE & EARN</div>
+        <div class="phase-desc">Hit $300–$1000/month. Top performers form teams of 10, targeting $3K–$5K/month together. Unlock leadership tracks. Your online income becomes real and consistent.</div>
+      </div>
+      <div class="phase-tasks">
+        <div class="phase-task">$300+ monthly income</div>
+        <div class="phase-task">Team leader track</div>
+        <div class="phase-task">$3–5K team target</div>
+        <div class="phase-task">Graduation showcase</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EARN PATHS -->
+<section id="paths">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">Choose Your Lane</div>
+      <h2 class="section-title">12 WAYS TO EARN</h2>
+    </div>
+    <p style="max-width:300px; font-size:0.88rem; color:var(--muted); line-height:1.8;">
+      You choose the path. We give you the map, the tools, and the community to walk it.
+    </p>
+  </div>
+
+  <div class="paths-grid">
+    <div class="path-card reveal">
+      <span class="path-icon">✍️</span>
+      <div class="path-title">Freelancing & Agency</div>
+      <div class="path-desc">Copywriting, web dev, SEO, video editing. Start solo, scale to a small agency. Skills translate directly to income on Fiverr, Upwork, and direct clients.</div>
+      <div class="path-potential">▶ TARGET: $300–$2K/mo solo</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">📦</span>
+      <div class="path-title">Digital Products</div>
+      <div class="path-desc">Courses, ebooks, templates, Notion systems, Canva kits. Build once, sell forever. Highest margins of any business model online.</div>
+      <div class="path-potential">▶ TARGET: $500–$3K/mo passive</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">🔗</span>
+      <div class="path-title">Affiliate Marketing</div>
+      <div class="path-desc">Review and recommend products. Build a niche blog, YouTube, or email list. Earn commissions from Amazon, SaaS tools, hosting, and finance products.</div>
+      <div class="path-potential">▶ TARGET: $300–$5K/mo</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">🎬</span>
+      <div class="path-title">YouTube & Content</div>
+      <div class="path-desc">Pick a niche, post consistently, monetize with ads, sponsors, and products. Paired with affiliate links or courses, this compounds fast.</div>
+      <div class="path-potential">▶ TARGET: $500–$2K/mo at 10K subs</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">🤖</span>
+      <div class="path-title">AI & Automation</div>
+      <div class="path-desc">Build AI chatbots, automation workflows, prompt tools. One of the fastest-growing niches in 2024–26. High demand, low competition for skilled builders.</div>
+      <div class="path-potential">▶ TARGET: $500–$3K/mo</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">📈</span>
+      <div class="path-title">Blogging & SEO</div>
+      <div class="path-desc">Build niche websites, rank on Google, monetize with ads and affiliate links. Slow start, massive compounding. Perfect for patient, structured thinkers.</div>
+      <div class="path-potential">▶ TARGET: $300–$2K/mo after month 8</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">💼</span>
+      <div class="path-title">Consulting & Coaching</div>
+      <div class="path-desc">Turn your expertise into 1-on-1 or group coaching. High-ticket = fastest path to $1K+/month. Business, fitness, career, or skills coaching all work.</div>
+      <div class="path-potential">▶ TARGET: $1K–$5K/mo high-ticket</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">🛒</span>
+      <div class="path-title">E-commerce & Print-on-Demand</div>
+      <div class="path-desc">Shopify, Etsy, Amazon FBA, or print-on-demand. Sell niche physical or digital goods at scale. Start lean, grow with ads and organic traffic.</div>
+      <div class="path-potential">▶ TARGET: $500–$3K/mo</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">📧</span>
+      <div class="path-title">Newsletter Business</div>
+      <div class="path-desc">Build a curated niche email list. Monetize with sponsorships, affiliate links, and paid tiers. Morning Brew started this way. So can you.</div>
+      <div class="path-potential">▶ TARGET: $300–$2K/mo at 5K subs</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">📍</span>
+      <div class="path-title">Lead Generation</div>
+      <div class="path-desc">Build local SEO sites or comparison pages that generate leads for businesses. Sell those leads. Extremely profitable, very low visibility. Hidden gem path.</div>
+      <div class="path-potential">▶ TARGET: $500–$3K/mo per site</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">⚙️</span>
+      <div class="path-title">Micro-SaaS & Apps</div>
+      <div class="path-desc">Build a small software tool solving one specific problem. Chrome extensions, niche SaaS, utility apps. Solo founders run $1M+ businesses this way.</div>
+      <div class="path-potential">▶ TARGET: $300–$5K/mo MRR</div>
+    </div>
+    <div class="path-card reveal">
+      <span class="path-icon">🎙️</span>
+      <div class="path-title">Podcasting & Social Media</div>
+      <div class="path-desc">Build a following on Instagram, TikTok, X, or podcasts. Monetize with brand deals, digital products, and community subscriptions. Leverage attention.</div>
+      <div class="path-potential">▶ TARGET: $500–$2K/mo at scale</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="process">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">The Process</div>
+      <h2 class="section-title">HOW YOU GET THERE</h2>
+    </div>
+  </div>
+  <div class="process-row">
+    <div class="process-step reveal">
+      <div class="step-num">STEP 01</div>
+      <div class="step-title">Apply & Interview</div>
+      <div class="step-text">Short interview to assess interest, commitment, and fit. We want curious, coachable students — not perfect ones.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">STEP 02</div>
+      <div class="step-title">Choose Your Path</div>
+      <div class="step-text">Based on your skills and interests, you pick one of 12 proven income paths. Guided selection with mentor support.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">STEP 03</div>
+      <div class="step-title">Build in Public</div>
+      <div class="step-text">Post 2–3x per week on social media about your projects. Small wins. Real progress. Accountability built in.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">STEP 04</div>
+      <div class="step-title">Get Constant Support</div>
+      <div class="step-text">Discord community, WhatsApp groups, weekly video tutorials, and live check-ins to keep you moving every single week.</div>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">STEP 05</div>
+      <div class="step-title">Earn & Lead</div>
+      <div class="step-text">Hit your income goal. Top performers lead teams of 10 targeting $3–5K/month together. Build real leverage.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">The Squad</div>
+      <h2 class="section-title">1,000 BUILDERS.<br>100 TEAMS.</h2>
+    </div>
+  </div>
+
+  <div class="community-grid">
+    <div class="comm-block reveal">
+      <div class="comm-big-num">1K</div>
+      <h3>THE COHORT</h3>
+      <p>A final pool of 1,000 committed students, all building in public together. Peer accountability, shared wins, cross-pollination of ideas across 12 income paths.</p>
+      <div class="team-visual" id="team-visual"></div>
+    </div>
+    <div class="comm-block reveal">
+      <div class="comm-big-num">100</div>
+      <h3>TEAM STRUCTURE</h3>
+      <p>At the end of the program, the top performers lead teams of 10. Each team targets $3,000–$5,000 per month collectively — turning individual earners into a coordinated income machine.</p>
+      <div style="margin-top:2rem; display:flex; flex-direction:column; gap:1rem;">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:var(--volt);">100</span>
+          <span style="font-size:0.85rem; color:var(--muted); line-height:1.6;">Top performers become team leaders, mentored directly</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:var(--electric);">10x</span>
+          <span style="font-size:0.85rem; color:var(--muted); line-height:1.6;">Each leader commands a team of 10 builders</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <span style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:var(--fire);">$5K</span>
+          <span style="font-size:0.85rem; color:var(--muted); line-height:1.6;">Monthly team income target per 10-person unit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section id="support">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">Never Stuck Alone</div>
+      <h2 class="section-title">SUPPORT SYSTEM</h2>
+    </div>
+  </div>
+  <div class="support-grid">
+    <div class="support-card reveal">
+      <div class="support-icon">💬</div>
+      <div class="support-title">Discord Community</div>
+      <div class="support-desc">Live chat with your cohort, mentors, and team leads 24/7. Topic channels for every income path. Wins celebrated loudly.</div>
+    </div>
+    <div class="support-card reveal">
+      <div class="support-icon">📱</div>
+      <div class="support-title">WhatsApp Groups</div>
+      <div class="support-desc">Quick-fire support in your local language. Share blockers, get fast feedback, and keep each other accountable every single day.</div>
+    </div>
+    <div class="support-card reveal">
+      <div class="support-icon">🎥</div>
+      <div class="support-title">Weekly Video Tutorials</div>
+      <div class="support-desc">Structured video lessons released every week. Practical, step-by-step walkthroughs for each income path — no fluff, just execution.</div>
+    </div>
+    <div class="support-card reveal">
+      <div class="support-icon">🧑‍💻</div>
+      <div class="support-title">1-on-1 Mentorship</div>
+      <div class="support-desc">Each student is assigned a mentor who checks in regularly. Get unstuck fast. Get personalized feedback on your work and strategy.</div>
+    </div>
+    <div class="support-card reveal">
+      <div class="support-icon">📊</div>
+      <div class="support-title">Progress Tracking</div>
+      <div class="support-desc">Monthly income reports, public build-in-progress posts, and milestone badges keep you motivated and visible to the community.</div>
+    </div>
+    <div class="support-card reveal">
+      <div class="support-icon">🏆</div>
+      <div class="support-title">Leaderboard & Rewards</div>
+      <div class="support-desc">Top earners and top posters get featured. Monthly prizes for consistency. Team competition drives everyone toward the $3–5K/month target.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FORM - WhatsApp Apply -->
+<section id="cta">
+<div class="cta-form" style="flex-direction:column; align-items:center; gap:1rem;">
+  <input type="email" class="cta-input" id="email-input" placeholder="your@email.com" style="width:100%; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); border-right:1px solid var(--border);">
+  <a id="wa-apply-btn" href="#" onclick="handleApply(event)" 
+    style="font-family:'Bebas Neue',sans-serif; font-size:1.15rem; letter-spacing:0.15em;
+    background:var(--electric); color:var(--black); text-decoration:none;
+    padding:1rem 2.8rem; clip-path:polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    box-shadow:0 0 40px rgba(0,245,255,0.4); transition:all 0.3s; display:inline-block;">
+    💬 APPLY VIA WHATSAPP →
+  </a>
+</div>
+<p class="cta-note" id="apply-note">// Enter your email then tap to open WhatsApp — free interview, no obligations</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">LAUNCHPAD</div>
+  <div class="footer-text">&copy; 2026 Launchpad Program — Build in Public. Earn Online.</div>
+  <div class="footer-text">1,000 Builders. 12 Months. Real Income.</div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+function animateRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) *.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+document.querySelectorAll('a, button, .path-card, .phase-item, .support-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.width = '20px'; cursor.style.height = '20px'; cursor.style.background = 'var(--volt)'; ring.style.width = '60px'; ring.style.height = '60px'; });
+  el.addEventListener('mouseleave', () => { cursor.style.width = '12px'; cursor.style.height = '12px'; cursor.style.background = 'var(--electric)'; ring.style.width = '40px'; ring.style.height = '40px'; });
+});
+
+// PARTICLES
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+function resizeCanvas() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * W; this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4;
+    this.alpha = Math.random() * 0.5 + 0.05; this.size = Math.random() * 1.5 + 0.3;
+    this.color = Math.random() > 0.5 ? '0,245,255' : '184,255,0';
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+  }
+  draw() {
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${this.color},${this.alpha})`; ctx.fill();
+  }
+}
+
+for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+// Connect nearby particles
+function drawConnections() {
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 100) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(0,245,255,${0.04 * (1 - dist/100)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animParticles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => { p.update(); p.draw(); });
+  drawConnections();
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+// SCROLL REVEAL
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// COUNT UP
+function countUp(el) {
+  const target = parseInt(el.dataset.target);
+  let current = 0; const step = target / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current);
+    if (current >= target) { el.textContent = target; clearInterval(timer); }
+  }, 25);
+}
+const countObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.count-up').forEach(countUp);
+      countObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.getElementById('stats') && countObserver.observe(document.getElementById('stats'));
+
+// INCOME METER
+setTimeout(() => {
+  const fill = document.getElementById('income-fill');
+  if (fill) fill.style.width = '85%';
+}, 1200);
+
+// TEAM VISUAL
+const tv = document.getElementById('team-visual');
+if (tv) {
+  const names = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T'];
+  for (let i = 0; i < 20; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'avatar-dot' + (i % 10 === 0 ? ' leader' : '');
+    dot.textContent = names[i];
+    dot.style.animationDelay = (i * 0.15) + 's';
+    dot.style.animation = `float ${2.5 + Math.random()}s ${Math.random()*2}s ease-in-out infinite`;
+    tv.appendChild(dot);
+  }
+}
+
+function handleApply(e) {
+  e.preventDefault();
+  const email = document.getElementById('email-input').value.trim();
+  const note = document.getElementById('apply-note');
+  if (!email || !email.includes('@')) {
+    note.textContent = '// Please enter a valid email address first';
+    note.style.color = 'var(--fire)';
+    return;
+  }
+  const msg = encodeURIComponent(
+    `Hi! I want to apply for the LAUNCHPAD 12-Month Program.\n\nMy email: ${email}\n\nPlease send me interview details. 🚀`
+  );
+  window.open(`https://wa.me/917019492748?text=${msg}`, '_blank');
+  note.textContent = `// Opening WhatsApp with your email ${email} — just hit Send!`;
+  note.style.color = 'var(--volt)';
+}
+
+// APPLY BUTTON
+function handleApply1() {
+  const email = document.getElementById('email-input').value;
+  const note = document.getElementById('apply-note');
+  const btn = document.getElementById('apply-btn');
+  if (!email || !email.includes('@')) {
+    note.textContent = '// Please enter a valid email address';
+    note.style.color = 'var(--fire)';
+    return;
+  }
+  btn.textContent = 'Applied ✓';
+  btn.style.background = 'var(--volt)';
+  note.textContent = `// Application received for ${email} — we'll be in touch within 48h`;
+  note.style.color = 'var(--volt)';
+  document.getElementById('email-input').disabled = true;
+  btn.disabled = true;
+}
+
+// TYPING EFFECT for section tag
+const typed = document.querySelector('.hero-tag');
+if (typed) {
+  const original = typed.textContent;
+  typed.textContent = '';
+  let i = 0;
+  function typeNext() {
+    if (i < original.length) { typed.textContent += original[i++]; setTimeout(typeNext, 35); }
+  }
+  setTimeout(typeNext, 500);
+}
+</script>
+</body>
+</html>
