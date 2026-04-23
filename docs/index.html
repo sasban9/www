@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{box-sizing: border-box;}
+        body{background: #222;color: cornsilk;font-size: clamp(1rem,6vw,2rem);font-family: sans-serif;}
+        main{display: flex;flex-direction: column;}
+        a{color: cornflowerblue;}
+        .row{display: flex;flex-direction: row;gap: 2rem;justify-content: center;box-shadow: 0 5px 10px #666;margin-bottom: 1rem;padding: 1rem;}
+        .sec-head{background: repeating-linear-gradient(45deg, black, #1e2927 100px);}
+        @media screen and (max-width:800px) {
+            .row{flex-direction: column;gap: 2px;}
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="row" style="background: repeating-linear-gradient(45deg, crimson, coral 100px);">
+            <div style="width: 70%;">For Family</div>
+        </div>
+        <div class="row">
+            <div>2026-04-23 <br>BPB - NDLS</div>
+            <div><a href="./PNR6702553064.pdf">PNR 6702553064</a> <br> 14619 / TRIPURA SUNDARI <br><small>Sasban / Prabir Ghosh</small></div>
+        </div>
+        <div class="row">
+            <div>2025-09-23<br>SDAH - SCL</div>
+            <div><a href="./PNR6702553064.pdf">PNR 6702553064</a><br>13175 / KANCHENJUNGA <br><small>Sasban / Basabdatta / Sabyasachi</small></div>
+        </div>
+        <div class="row">
+            <div>2025-08-19<br>SCL - SDAH</div>
+            <div><a href="./PNR6448992748.pdf">PNR 6448992748</a><br> 13176 / KANCHANJUNGA <br><small>Sasban / Basabdatta / Sabyasachi</small></div>
+        </div>
+        <div class="row sec-head">
+            <div style="width: 70%;">For Relatives</div>
+        </div>
+        <div class="row">
+            <div>2025-04-02</div>
+            <div><a href="./PNR6349170408.pdf">PNR 6349170408</a></div>
+            <div>13175 / KANCHENJUNGA <br><small>Rajarshi / Bharoti / Rupaditya</small></div>
+            <div>SDAH - SCL</div>
+        </div>
+        <div class="row">
+            <div>2025-03-19</div>
+            <div><a href="./PNR6448992748.pdf">PNR 6448992748</a><br><a href="./PNR6448992748a.pdf">PNR 6448992748a</a></div>
+            <div>13176 / KANCHANJUNGA <br><small>Rajarshi / Bharoti / Rupaditya</small></div>
+            <div>SCL - SDAH</div>
+        </div>
+    </main>
+</body>
+</html>
