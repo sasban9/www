@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Train Journeys 2026</title>
     <style>
         *{box-sizing: border-box;}
         body{background: #222;color: cornsilk;font-size: clamp(1rem,6vw,2rem);font-family: sans-serif;}
         main{display: flex;flex-direction: column;}
         a{color: cornflowerblue;}
         .row{display: flex;flex-direction: row;gap: 2rem;justify-content: center;box-shadow: 0 5px 10px #666;margin-bottom: 1rem;padding: 1rem;}
+        .cancelled{background: lemonchiffon;color: #555}
+        .row>div{min-width: 200px;overflow: hidden;}
         .sec-head{background: repeating-linear-gradient(45deg, black, #1e2927 100px);}
         @media screen and (max-width:800px) {
             .row{flex-direction: column;gap: 2px;}
@@ -21,32 +23,99 @@
         <div class="row" style="background: repeating-linear-gradient(45deg, crimson, coral 100px);">
             <div style="width: 70%;">For Family</div>
         </div>
-        <div class="row">
+        <div class="row cancelled">
             <div>2026-04-23 <br>BPB - NDLS</div>
-            <div><a href="./PNR6702553064.pdf">PNR 6702553064</a> <br> 14619 / TRIPURA SUNDARI <br><small>Sasban / Prabir Ghosh</small></div>
+            <div><a href="./PNR6702553064.pdf">PNR 6702553064</a><br> 14619 / TRIPURA SUNDARI <br><small>S Banerjee / Prabir Ghosh</small></div>
+            <div>PNR-6702553064 Trn:14619 Dt:23-04-26 Dep.Time-19:55 Hrs. <br>Frm BPB to NDLS Cls:3E P1-WL,5 P2-WL,6 <br>Your Tickets are not confirmed, automatic refund processed. <br>For Enquiry/Complaint/Assistance,please dial 139 IR-CRIS</div>
+            
+        </div>
+        <div class="row">
+            <div>2026-02-19<br>DMR - SCL</div>
+            <div>PNR6365649194 <br>15663 / Silchar Express <br><small>Saswata B / Rajat S Bhatt</small></div>
+            <div>PNR-6365649194 Trn:15663 Dt:19-02-26 Dep.Time-14:30 Hrs. <br>Frm DMR to SCL Cls:2S P1-D3,104 P2-D3,105 <br>Boarding allowed from DMR only <br><small>Url for coach position: https://enquiry.indianrail.gov.in/mntes/C?u=fjkkhNrc9NfneggkNrh <br>Download RailOne for latest updates https://railone.indianrailways.gov.in </small></div>
+        </div>
+        <div class="row">
+            <div>2025-12-22<br>SDAH - SCL</div>
+            <div>PNR6824813622<br>13175 / Silchar Kanchanjungha Express <br><small>Saswata B</small></div>
+            <div>PNR-6824813622 Trn:13176 Dt:22-12-25 <br>Frm SDAH to SCL Cls:SL P1-xx,xx <br>Boarding allowed from SDAH only <br>Url for coach position: https://enquiry.indianrail.gov.in/mntes/C?u=fhflkN8qbNflfggjN8n</div>
+        </div>
+        <div class="row">
+            <div>2025-12-17<br>SCL - SDAH</div>
+            <div>PNR6562471640<br>13176 / Sealdah Kanchanjungha Express <br><small>Saswata B</small></div>
+            <div>PNR-6562471640 Trn:13176 Dt:17-12-25 <br>Frm SCL to SDAH Cls:SL P1-S9,67 <br>Boarding allowed from SCL only <br>Url for coach position: https://enquiry.indianrail.gov.in/mntes/C?u=fhflkN8qbNflfggjN8n</div>
         </div>
         <div class="row">
             <div>2025-09-23<br>SDAH - SCL</div>
             <div><a href="./PNR6702553064.pdf">PNR 6702553064</a><br>13175 / KANCHENJUNGA <br><small>Sasban / Basabdatta / Sabyasachi</small></div>
         </div>
-        <div class="row">
+        <div class="row cancelled">
+            <div>2025-08-24 <br>HWH - SMVB</div>
+            <div>PNR6157281413 <br>12245 / SMVT Bengaluru Duronto Express <br><small>Saswata Banerjee</small></div>
+            <div>PNR-6157281413 Trn:12245 Dt:24-08-25 <br>Frm HWH to SMVB Cls:SL P1-WL,14 <br>Your Tickets are not confirmed, automatic refund processed.</div>
+        </div>
+        <div class="row cancelled">
+            <div>2025-08-21 <br>HWH - SMVB</div>
+            <div>PNR6557137232 <br>12863 / SMVT Bengaluru SF Express <br><small>Saswata Banerjee</small></div>
+            <div>PNR-6557137232 Trn:12863 Dt:21-08-25 <br>Frm HWH to SMVB Cls:SL P1-WL,14 <br>Your Tickets are not confirmed, automatic refund processed.</div>
+        </div>
+        <div class="row cancelled">
             <div>2025-08-19<br>SCL - SDAH</div>
             <div><a href="./PNR6448992748.pdf">PNR 6448992748</a><br> 13176 / KANCHANJUNGA <br><small>Sasban / Basabdatta / Sabyasachi</small></div>
         </div>
+        <div class="row">
+            <div>2025-08-05 <br>NJP to SDAH</div>
+            <div>PNR6156103699 <br>13148 / Uttarbanga Express <br><small>Saswata / Basabdatta / Sabyasachi</small></div>
+            <div>PNR-6156103699 Trn:13148 Dt:05-08-25 <br>Cls:3A P1-B3,52 P2-B3,50 P3-NOSB,0 <br>Boarding allowed from NJP only <br><small>Url for coach position: https://enquiry.indianrail.gov.in/mntes/C?u=fhfimNdxzNejemgjNph</small><br> For Enquiry/Complaint/Assistance, please dial 139 IR-CRIS</div>
+        </div>
+        <div class="row cancelled">
+            <div>2025-08-01 <br>SCL - NJP</div>
+            <div>PNR6818264140 <br>13176 / Sealdah Kanchanjungha Express <br><small>Saswata / Basabdatta / Sabyasachi</small></div>
+            <div>PNR-6818264140 Trn:13176 Dt:01-08-25 <br>Frm SCL to NJP Cls:3A | P1-B4,23 P2-B4,31 P3-NOSB,0 <br>Boarding allowed from SCL only <br><small>Url for coach position: https://enquiry.indianrail.gov.in/mntes/C?u=fhflkN8qbNefemgjNpi </small></div>
+        </div>
+        <div class="row">
+            <div>2025-05-29 <br>SCL - SDAH</div>
+            <div>PNR 6252984395 <br>05639 / SCL KOAA SPECIAL <br><small>Saswata Banerjee</small></div>
+            <div>PNR-6252984395 Trn:05639 Dt:29-05-25 <br>Frm SCL to KOAA Cls:SL P1-S1,69 Boarding allowed from SCL only <br>Url for coach position: https://enquiry.indianrail.gov.in/mntes/C?u=ejkhnN8qbNgnejgjN8f <br>For Enquiry/Complaint/Assistance, please dial 139 IR-CRIS</div>
+        </div>
+        <div class="row">
+            <!-- <div style="width: 300px;"></div> -->
+            <div>2024-07-16 <br>HWH - SMVB</div>
+            <div>PNR 6435127480 <br>12863 / SMVT Bengaluru SF Express <br><small>Saswata Banerjee</small></div>
+            <div>PNR-6637318214 Trn:12863 Dt:16-07-24 <br>Frm HWH to SMVB | Cls:3A P1-RC,40 <br>Final status may change after charting <br>For Enquiry/Complaint/Assistance, please dial 139 IR-CRIS</div>
+        </div>
+        <div class="row">
+            <div>2024-05-13 <br>HWH - SMVB</div>
+            <div>PNR 6435127480 <br>12863 / SMVT Bengaluru SF Express <br><small>Saswata Banerjee</small></div>
+            <div>PNR-6435127480 Trn:12863 Dt:13-05-24 <br>Frm HWH to SMVB | Cls:3E P1-RC,M2,79 <br>Boarding allowed from HWH only. Chart Prepared. <br>For Enquiry/Complaint/Assistance, please dial 139 IR-CRIS</div>
+        </div>
+
+
+
+
+
+
+
         <div class="row sec-head">
             <div style="width: 70%;">For Relatives</div>
         </div>
-        <div class="row">
-            <div>2025-04-02</div>
-            <div><a href="./PNR6349170408.pdf">PNR 6349170408</a></div>
-            <div>13175 / KANCHENJUNGA <br><small>Rajarshi / Bharoti / Rupaditya</small></div>
-            <div>SDAH - SCL</div>
+        <div class="row cancelled">
+            <div>2026-04-27 <br> NDLS - BPB <br> Not Confirmed</div>
+            <div><a href="./PNR2735413875.pdf">PNR 2735413875</a> <br>14620 / TRIPURA SUNDARI <br><small>Prabir K Ghosh</small></div>
+            <div><small><s>Dt:27-04-26 Dep.Time-23:45 Hrs. <br>Cls:3E P1-WL,27 Chart Prepared <br>Your Tickets are not confirmed, automatic refund processed. <br>For Enquiry/Complaint/Assistance, please dial 139 IR-CRIS</s></small></div>
         </div>
         <div class="row">
-            <div>2025-03-19</div>
-            <div><a href="./PNR6448992748.pdf">PNR 6448992748</a><br><a href="./PNR6448992748a.pdf">PNR 6448992748a</a></div>
-            <div>13176 / KANCHANJUNGA <br><small>Rajarshi / Bharoti / Rupaditya</small></div>
-            <div>SCL - SDAH</div>
+            <div>2025-06-18 <br>ARCL - DMR</div>
+            <div>PNR6454230843 <br>12098 / KGBP AGTL JANSH <br><small>Anita Bhatt / Rajat Bhatt</small></div>
+            <div>PNR-6454230843 Trn:12098 Dt:18-06-25 <br>Frm ARCL to DMR Cls:2S P1-D4,23 P2-D4,25 <br>Boarding allowed from ARCL only <br><small>Url for coach position: https://enquiry.indianrail.gov.in/mntes/C?u=fgenmNo9qbNfmekgjNri </small><br>For Enquiry/Complaint/Assistance, please dial 139 IR-CRIS</div>
+        </div>
+        <div class="row">
+            <div>2025-04-02 <br>SDAH - SCL</div>
+            <div><a href="./PNR6349170408.pdf">PNR 6349170408</a><br>13175 / KANCHENJUNGA <br><small>Rajarshi / Bharoti / Rupaditya</small></div>
+        </div>
+        <div class="row">
+            <div style="min-width: 200px;">2025-03-19<br>SCL-SDAH</div>
+            <div><a href="./PNR6448992748.pdf">PNR 6448992748</a><br><a href="./PNR6448992748a.pdf">PNR 6448992748a</a><br>13176 / KANCHANJUNGA <br><small>Rajarshi / Bharoti / Rupaditya</small></div>
+            <div><small>PNR-6448992748 Trn:13176 Dt:19-03-25 <br>Cls:SL | P1-S2,67 P2-S2,68 P3-S2,69 <br>Boarding allowed from SCL only | Chart Prepared <br>Url for coach position: https://enquiry.indianrail.gov.in/mntes/C?u=fhflkN8qbNfnehgjN8g <br>For Enquiry/Complaint/Assistance, please dial 139 IR-CRIS</small></div>
         </div>
     </main>
 </body>
