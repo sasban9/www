@@ -33,8 +33,14 @@
         table{max-width: 1400px;margin: 10vh auto;text-align: center;border: solid 10px #333;}
         td{width: 10%;}
         a{color: white;text-decoration: none;}
+        main>div>img{max-height: 100vh;width: min(100%,280px);object-fit: cover;}
+        main>div{max-height: 100vh;display: flex;justify-content: center;flex-direction: column;align-items: center;width: 250px;}
         @media (min-width:768px){
             .device-sm{display: none;}
+        }
+        @media (max-width:500px){
+            main>div{width: 100%;max-height: fit-content;}
+            main>div>img{width: 100%;}
         }
         
 img.pulsing{animation: pulse .3s linear infinite;transform: rotate(4deg);}
@@ -53,6 +59,28 @@ transform: scale(1.0) rotate(3deg);
     </style>
 </head>
 <body>
+    <main style="text-align: center;display: flex;gap: 0;flex-wrap: wrap;justify-content: center;max-width: 1600px;margin: 0 auto;">
+                <div><img src="../img/family/20260316.png" alt=""><img src="../img/family/20250723.png" alt=""></div>
+                <div><img src="../img/family/20260302.png" alt=""><img src="../img/family/20250418.png" alt=""></div>
+                <div><img src="../img/family/20251226.png" alt=""><img src="../img/family/pic24.png" alt=""></div>
+                <div><img src="../img/family/20251225.png" alt=""><h2>2023-26</h2><img src="../img/family/pic21.jpeg" alt=""><img src="../img/family/IMG_4079.HEIC" alt=""></div>
+                <div><img src="../img/family/20251001.png" alt=""><img src="../yearbook/2022/pic31.jpg" alt=""></div>
+                <div><img src="../img/family/20250930.png" alt=""><img src="../yearbook/2021/pic41.jpg" alt=""></div>
+                
+
+
+                
+                <div><img src="../img/family/pic8.jpg" alt=""><img src="../img/family/pic5.jpg" alt=""></div>
+                <div><img src="../img/family/pic3.jpg" alt=""><img src="../img/family/oic21.jpg" alt=""></div>
+                <div><img src="../img/family/pic2.jpg" alt=""><h1>2017-22</h1><img src="../img/family/ghibli1.png" alt=""></div>
+                <div><img src="../img/family/pic1.jpg" alt=""><img src="../img/family/pic9.jpg" alt=""></div>
+                <div><img src="../img/family/pic4.jpg" alt=""><img src="../img/family/ghibli3.png" alt=""></div>
+                <div><img src="../img/family/ghibli2.png" alt=""><img src="../yearbook/2021/pic5.jpg" alt=""></div>
+
+                
+                
+                
+    </main>
     <!-- <h1>YEARBOOK 2025</h1> -->
     <table>
         <tr>

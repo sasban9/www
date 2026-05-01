@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@sasban — CODEOGRAPHY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg2: #0f1218;
+    --road: #1a1f2e;
+    --road-line: #2a3040;
+    --neon-cyan: #00e5ff;
+    --neon-green: #39ff14;
+    --neon-pink: #ff2d78;
+    --neon-yellow: #ffe600;
+    --neon-orange: #ff6b00;
+    --neon-purple: #bf5fff;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  #cursor {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--neon-cyan); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 0 15px var(--neon-cyan), 0 0 40px rgba(0,229,255,0.4);
+    transition: transform 0.1s ease;
+    mix-blend-mode: screen;
+  }
+  #cursor-trail {
+    position: fixed; width: 30px; height: 30px;
+    border: 1px solid rgba(0,229,255,0.3); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: all 0.25s ease;
+  }
+
+  /* HERO */
+  #hero {
+    position: relative; height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  #hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,229,255,0.06) 0%, transparent 70%);
+  }
+
+  /* CITY SKYLINE SVG */
+  #skyline {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    opacity: 0.25;
+  }
+
+  /* GRID OVERLAY */
+  .grid-overlay {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridShift 20s linear infinite;
+  }
+  @keyframes gridShift {
+    from { background-position: 0 0; }
+    to { background-position: 0 60px; }
+  }
+
+  /* FLOATING PARTICLES */
+  .particle {
+    position: absolute; border-radius: 50%;
+    animation: float linear infinite;
+    opacity: 0;
+  }
+  @keyframes float {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(5rem, 14vw, 13rem);
+    letter-spacing: 0.05em;
+    line-height: 0.9;
+    text-align: center;
+    position: relative; z-index: 2;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0,229,255,0.6);
+    text-shadow:
+      0 0 40px rgba(0,229,255,0.3),
+      0 0 80px rgba(0,229,255,0.1);
+    animation: heroReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: translateY(60px);
+    opacity: 0;
+  }
+  @keyframes heroReveal {
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .hero-title span {
+    color: var(--neon-cyan);
+    -webkit-text-stroke: 0;
+    text-shadow: 0 0 30px var(--neon-cyan), 0 0 60px rgba(0,229,255,0.5);
+  }
+
+  .hero-sub {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 1.5rem; z-index: 2; position: relative;
+    animation: heroReveal 1.5s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-sub em {
+    color: var(--neon-green); font-style: normal;
+    text-shadow: 0 0 15px var(--neon-green);
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: var(--muted); font-size: 0.65rem; letter-spacing: 0.2em;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .scroll-hint .arrow { font-size: 1.5rem; animation: bounce 1.5s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  /* YEAR LABELS ON PATH */
+  .year-badge {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 0.9rem; letter-spacing: 0.15em;
+    color: var(--neon-yellow);
+    text-shadow: 0 0 10px rgba(255,230,0,0.6);
+    white-space: nowrap;
+  }
+
+  /* ===== MAIN TIMELINE ===== */
+  #timeline {
+    position: relative;
+    padding: 4rem 0 8rem;
+    overflow: hidden;
+  }
+
+  /* ROAD SVG */
+  #road-svg {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    text-align: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 0.2em; margin-bottom: 4rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 30px rgba(0,229,255,0.4);
+    position: relative; z-index: 2;
+  }
+
+  /* JOURNEY PATH CONTAINER */
+  .journey-path {
+    position: relative;
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* SVG PATH DRAWN */
+  .path-svg {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+    overflow: visible;
+  }
+  .road-path {
+    fill: none;
+    stroke: var(--road-line);
+    stroke-width: 28;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .road-path-glow {
+    fill: none; stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 8 18;
+    animation: dashMove 2s linear infinite;
+  }
+  .road-path-center {
+    fill: none; stroke: rgba(255,255,255,0.05);
+    stroke-width: 1; stroke-dasharray: 20 15;
+    stroke-linecap: round;
+    animation: dashMove 3s linear infinite;
+  }
+  @keyframes dashMove { to { stroke-dashoffset: -200; } }
+
+  /* MILESTONE CARDS */
+  .milestone {
+    position: relative; z-index: 2;
+    display: flex; align-items: flex-start;
+    margin-bottom: 6rem;
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .milestone.visible { opacity: 1; transform: translateY(0); }
+
+  .milestone.left { flex-direction: row; padding-right: 55%; }
+  .milestone.right { flex-direction: row-reverse; padding-left: 55%; }
+
+  .card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1.4rem 1.6rem;
+    backdrop-filter: blur(12px);
+    flex: 1;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; inset: 0; border-radius: 12px;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 70%);
+    pointer-events: none;
+  }
+  .card:hover {
+    transform: scale(1.03) translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  /* Card accent lines per category */
+  .card.era-school { border-top: 2px solid var(--neon-purple); }
+  .card.era-iit { border-top: 2px solid var(--neon-pink); }
+  .card.era-samsung { border-top: 2px solid var(--neon-orange); }
+  .card.era-adwize { border-top: 2px solid var(--neon-yellow); }
+  .card.era-ms { border-top: 2px solid var(--neon-cyan); }
+  .card.era-digital { border-top: 2px solid var(--neon-green); }
+  .card.era-pixdocs { border-top: 2px solid var(--neon-orange); }
+  .card.era-yapnaa { border-top: 2px solid var(--neon-pink); }
+  .card.era-styched { border-top: 2px solid var(--neon-cyan); }
+  .card.era-pixfirst { border-top: 2px solid var(--neon-green); }
+  .card.era-stych { border-top: 2px solid var(--neon-yellow); }
+  .card.era-sasban { border-top: 2px solid var(--neon-cyan); }
+
+  .card-year {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.4rem; line-height: 1;
+    margin-bottom: 0.3rem;
+    display: flex; align-items: baseline; gap: 0.5rem;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .card-tags {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    margin-bottom: 0.7rem;
+  }
+  .tag {
+    font-size: 0.6rem; font-family: 'Space Mono', monospace;
+    padding: 0.25rem 0.6rem; border-radius: 3px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid;
+  }
+  .tag.proj { border-color: var(--neon-cyan); color: var(--neon-cyan); background: rgba(0,229,255,0.06); }
+  .tag.event { border-color: var(--neon-pink); color: var(--neon-pink); background: rgba(255,45,120,0.06); }
+  .tag.cert { border-color: var(--neon-green); color: var(--neon-green); background: rgba(57,255,20,0.06); }
+  .tag.award { border-color: var(--neon-yellow); color: var(--neon-yellow); background: rgba(255,230,0,0.06); }
+  .tag.edu { border-color: var(--neon-purple); color: var(--neon-purple); background: rgba(191,95,255,0.06); }
+  .tag.flag { border-color: var(--muted); color: var(--text); background: rgba(255,255,255,0.04); }
+
+  .card-desc {
+    font-size: 0.72rem; color: var(--muted); line-height: 1.7;
+    margin-top: 0.3rem;
+  }
+
+  /* DOT ON PATH */
+  .path-dot {
+    position: absolute; top: 2rem;
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid currentColor;
+    z-index: 3;
+    animation: dotPulse 2s ease-in-out infinite;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  @keyframes dotPulse {
+    0% { box-shadow: 0 0 0 0 rgba(0,229,255,0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(0,229,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(0,229,255,0); }
+  }
+  .milestone.left .path-dot { right: calc(50% - 8px); }
+  .milestone.right .path-dot { left: calc(50% - 8px); }
+
+  /* CONNECTOR LINE FROM CARD TO DOT */
+  .connector {
+    position: absolute; top: 2.4rem; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-border));
+    z-index: 1;
+  }
+  .milestone.left .connector {
+    right: calc(50%);
+    left: 0; width: calc(100% - 55% - 8px);
+  }
+  .milestone.right .connector {
+    right: 0; width: calc(100% - 55% - 8px);
+    background: linear-gradient(-90deg, transparent, var(--glass-border));
+  }
+
+  /* BUILDINGS / DECORATIVE */
+  .city-deco {
+    position: absolute; bottom: 0; opacity: 0.15;
+    pointer-events: none;
+  }
+
+  /* PHASE LABEL */
+  .phase-label {
+    text-align: center; margin: 3rem 0 2rem;
+    position: relative; z-index: 2;
+  }
+  .phase-label span {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 0.9rem; letter-spacing: 0.4em;
+    color: var(--muted); padding: 0.3rem 1rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 2px;
+  }
+
+  /* STATS BAR */
+  #stats {
+    background: var(--bg2);
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 3rem 2rem;
+    display: flex; justify-content: center; flex-wrap: wrap;
+    gap: 3rem; position: relative; z-index: 2;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-number {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 3.5rem; line-height: 1;
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  /* FOOTER */
+  #footer {
+    text-align: center; padding: 4rem 2rem;
+    position: relative;
+  }
+  #footer h2 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2rem, 6vw, 5rem);
+    letter-spacing: 0.1em;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+  }
+  #footer p { color: var(--muted); font-size: 0.8rem; letter-spacing: 0.15em; }
+
+  /* NEON GLOW HELPERS */
+  .glow-cyan { color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); }
+  .glow-green { color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green); }
+  .glow-pink { color: var(--neon-pink); text-shadow: 0 0 15px var(--neon-pink); }
+  .glow-yellow { color: var(--neon-yellow); text-shadow: 0 0 15px var(--neon-yellow); }
+  .glow-orange { color: var(--neon-orange); text-shadow: 0 0 15px var(--neon-orange); }
+  .glow-purple { color: var(--neon-purple); text-shadow: 0 0 15px var(--neon-purple); }
+
+  /* SCAN LINE */
+  body::after {
+    content: '';
+    position: fixed; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+    animation: scan 6s linear infinite;
+    pointer-events: none; z-index: 9000; opacity: 0.15;
+  }
+  @keyframes scan { from { top: -3px; } to { top: 100vh; } }
+
+  /* ===== EDUCATION SPOTLIGHT ===== */
+  #education-spotlight {
+    position: relative; overflow: hidden;
+    padding: 5rem 2rem 4rem;
+    background: linear-gradient(180deg, var(--bg) 0%, #0d0f1a 100%);
+  }
+  .edu-bg-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(255,45,120,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .edu-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,45,120,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,45,120,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+  }
+  .edu-inner { position: relative; z-index: 2; max-width: 960px; margin: 0 auto; }
+  .edu-section-label {
+    text-align: center; margin-bottom: 2.5rem;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 0.85rem; letter-spacing: 0.5em;
+    color: var(--neon-pink);
+    text-shadow: 0 0 20px rgba(255,45,120,0.5);
+  }
+
+  /* IIT HERO CARD */
+  .edu-hero-card {
+    position: relative; overflow: hidden;
+    border: 1px solid rgba(255,45,120,0.25);
+    border-top: 2px solid var(--neon-pink);
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(255,45,120,0.06) 0%, rgba(255,45,120,0.02) 100%);
+    backdrop-filter: blur(20px);
+    padding: 2.5rem 2.5rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 60px rgba(255,45,120,0.08), inset 0 1px 0 rgba(255,255,255,0.06);
+    animation: iitEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes iitEntrance {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .iit-badge {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1rem; letter-spacing: 0.3em;
+    color: var(--neon-pink);
+    text-shadow: 0 0 20px var(--neon-pink);
+    border: 1px solid rgba(255,45,120,0.4);
+    padding: 0.3rem 0.8rem; border-radius: 3px;
+    background: rgba(255,45,120,0.08);
+  }
+  .iit-beam {
+    position: absolute; top: 0; width: 1px; height: 100%;
+    background: linear-gradient(180deg, var(--neon-pink), transparent);
+    opacity: 0.2;
+    animation: beamPulse 3s ease-in-out infinite;
+  }
+  .iit-beam-left { left: 30%; }
+  .iit-beam-right { right: 30%; animation-delay: 1.5s; }
+  @keyframes beamPulse { 0%,100%{opacity:0.1} 50%{opacity:0.35} }
+  .iit-orb {
+    position: absolute; top: -80px; right: -80px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,45,120,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .iit-circuit {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; opacity: 0.5;
+  }
+  .iit-content { position: relative; z-index: 2; }
+  .iit-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.2em;
+    color: rgba(255,45,120,0.7); text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .iit-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 0.05em; line-height: 1;
+    color: var(--text);
+    text-shadow: 0 0 40px rgba(255,45,120,0.2);
+    margin-bottom: 0.4rem;
+  }
+  .iit-subtitle {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 0.85rem; letter-spacing: 0.15em;
+    color: var(--neon-pink);
+    text-shadow: 0 0 15px rgba(255,45,120,0.4);
+    margin-bottom: 1.5rem;
+  }
+  .iit-stats {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 1.2rem; flex-wrap: wrap;
+  }
+  .iit-stat { display: flex; flex-direction: column; gap: 0.1rem; }
+  .iit-num {
+    font-size: 0.6rem; font-family: 'Space Mono', monospace;
+    letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase;
+  }
+  .iit-val {
+    font-family: 'Bebas Neue', cursive; font-size: 1.3rem;
+    color: var(--neon-pink); letter-spacing: 0.05em;
+    text-shadow: 0 0 12px rgba(255,45,120,0.5);
+  }
+  .iit-divider {
+    width: 1px; height: 32px;
+    background: rgba(255,45,120,0.25);
+  }
+  .iit-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+  .iit-desc {
+    font-size: 0.8rem; color: var(--muted); line-height: 1.8;
+    max-width: 600px;
+  }
+
+  /* SCHOOL + MS ROW */
+  .edu-school-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
+  }
+  .edu-school-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-top: 2px solid var(--neon-purple);
+    border-radius: 10px;
+    padding: 1.4rem 1.6rem;
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .edu-school-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  }
+  .school-year {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.6rem; line-height: 1; margin-bottom: 0.3rem;
+  }
+  .school-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 0.9rem; letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* PHASE DIVIDER */
+  .phase-divider {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 2.5rem 3rem;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 0.85rem; letter-spacing: 0.35em;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 15px rgba(0,229,255,0.4);
+  }
+  .phase-divider-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.3), transparent);
+  }
+
+  @media (max-width: 700px) {
+    .edu-school-row { grid-template-columns: 1fr; }
+    .iit-stats { gap: 1rem; }
+    .iit-divider { display: none; }
+  }
+    .milestone.left, .milestone.right {
+      flex-direction: column; padding: 0;
+    }
+    .milestone.left .path-dot,
+    .milestone.right .path-dot { left: 0; right: auto; }
+    .connector { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<!-- ==================== HERO ==================== -->
+<section id="hero">
+  <div class="grid-overlay"></div>
+  <div id="hero-bg"></div>
+  <div id="particles"></div>
+
+  <!-- City Skyline -->
+  <svg id="skyline" viewBox="0 0 1400 260" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#1a2035">
+      <!-- Buildings row -->
+      <rect x="10" y="120" width="40" height="140"/><rect x="55" y="80" width="30" height="180"/><rect x="90" y="100" width="50" height="160"/>
+      <rect x="145" y="50" width="35" height="210"/><rect x="185" y="90" width="45" height="170"/><rect x="235" y="40" width="25" height="220"/>
+      <rect x="265" y="70" width="60" height="190"/><rect x="330" y="30" width="30" height="230"/><rect x="365" y="60" width="55" height="200"/>
+      <rect x="425" y="20" width="40" height="240"/><rect x="470" y="80" width="35" height="180"/><rect x="510" y="55" width="50" height="205"/>
+      <rect x="565" y="35" width="30" height="225"/><rect x="600" y="70" width="60" height="190"/><rect x="665" y="15" width="45" height="245"/>
+      <rect x="715" y="65" width="35" height="195"/><rect x="755" y="40" width="55" height="220"/><rect x="815" y="90" width="30" height="170"/>
+      <rect x="850" y="25" width="50" height="235"/><rect x="905" y="60" width="40" height="200"/><rect x="950" y="80" width="60" height="180"/>
+      <rect x="1015" y="30" width="35" height="230"/><rect x="1055" y="55" width="45" height="205"/><rect x="1105" y="45" width="30" height="215"/>
+      <rect x="1140" y="70" width="55" height="190"/><rect x="1200" y="20" width="40" height="240"/><rect x="1245" y="60" width="60" height="200"/>
+      <rect x="1310" y="50" width="35" height="210"/><rect x="1350" y="85" width="45" height="175"/>
+      <!-- Windows glow dots -->
+    </g>
+    <!-- Window lights -->
+    <g fill="rgba(0,229,255,0.3)" opacity="0.6">
+      <rect x="60" y="95" width="4" height="4"/><rect x="70" y="95" width="4" height="4"/><rect x="60" y="108" width="4" height="4"/>
+      <rect x="150" y="60" width="4" height="4"/><rect x="162" y="60" width="4" height="4"/><rect x="150" y="73" width="4" height="4"/>
+      <rect x="272" y="80" width="4" height="4"/><rect x="284" y="80" width="4" height="4"/><rect x="272" y="93" width="4" height="4"/>
+      <rect x="335" y="40" width="4" height="4"/><rect x="347" y="40" width="4" height="4"/><rect x="335" y="53" width="4" height="4"/>
+      <rect x="432" y="30" width="4" height="4"/><rect x="444" y="30" width="4" height="4"/><rect x="432" y="43" width="4" height="4"/>
+      <rect x="608" y="80" width="4" height="4"/><rect x="620" y="80" width="4" height="4"/><rect x="608" y="93" width="4" height="4"/>
+    </g>
+    <g fill="rgba(255,230,0,0.4)" opacity="0.7">
+      <rect x="238" y="55" width="3" height="3"/><rect x="238" y="68" width="3" height="3"/>
+      <rect x="430" y="50" width="3" height="3"/><rect x="475" y="95" width="3" height="3"/>
+      <rect x="670" y="25" width="3" height="3"/><rect x="670" y="38" width="3" height="3"/>
+      <rect x="857" y="35" width="3" height="3"/><rect x="1022" y="40" width="3" height="3"/>
+    </g>
+  </svg>
+
+  <h1 class="hero-title"><span>@sasban</span><br>CODEOGRAPHY</h1>
+  <p class="hero-sub">2002 — 2025 · <em>20+ years</em> through the city jungle</p>
+
+  <div class="scroll-hint">
+    <span>SCROLL THE JOURNEY</span>
+    <span class="arrow">↓</span>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div id="stats">
+  <div class="stat"><span class="stat-number glow-cyan">20+</span><div class="stat-label">Years in Tech</div></div>
+  <div class="stat"><span class="stat-number glow-green">10+</span><div class="stat-label">Companies</div></div>
+  <div class="stat"><span class="stat-number glow-pink">6</span><div class="stat-label">AWS / GCP Certs</div></div>
+  <div class="stat"><span class="stat-number glow-yellow">12+</span><div class="stat-label">Countries Visited</div></div>
+  <div class="stat"><span class="stat-number glow-purple">IIT KGP</span><div class="stat-label">Alma Mater</div></div>
+  <div class="stat"><span class="stat-number glow-orange">UDEMY</span><div class="stat-label">Instructor</div></div>
+</div>
+
+<!-- ==================== EDUCATION SPOTLIGHT ==================== -->
+<section id="education-spotlight">
+  <div class="edu-bg-glow"></div>
+  <div class="edu-grid"></div>
+  <div class="edu-inner">
+
+    <div class="edu-section-label">— THE FOUNDATION —</div>
+
+    <!-- IIT KGP HERO CARD -->
+    <div class="edu-hero-card" id="iit-hero">
+      <div class="iit-badge">IIT KGP</div>
+      <div class="iit-beam iit-beam-left"></div>
+      <div class="iit-beam iit-beam-right"></div>
+      <div class="iit-orb"></div>
+      <div class="iit-content">
+        <div class="iit-eyebrow">B.Tech · 2002 — 2006 · IIT Kharagpur 🇮🇳</div>
+        <h2 class="iit-title">Electronics &<br>Electrical Comm. Engg</h2>
+        <div class="iit-subtitle">Indian Institute of Technology Kharagpur</div>
+        <div class="iit-stats">
+          <div class="iit-stat"><span class="iit-num">CGPA</span><span class="iit-val">6.85/10</span></div>
+          <div class="iit-divider"></div>
+          <div class="iit-stat"><span class="iit-num">IITJEE</span><span class="iit-val">Rank 277 / 400K</span></div>
+          <div class="iit-divider"></div>
+          <div class="iit-stat"><span class="iit-num">WBJEE</span><span class="iit-val">Rank 54 / 100K</span></div>
+        </div>
+        <div class="iit-tags">
+          <span class="tag edu">B.Tech Thesis 📝</span>
+          <span class="tag edu">Internships</span>
+          <span class="tag award">Top 0.07% IITJEE</span>
+        </div>
+        <div class="iit-desc">The crucible. Four years at one of India's premier engineering institutions forged the analytical rigour that underpins 20+ years of building — from Samsung to AI-era startups. Every line of code traces back to these corridors.</div>
+      </div>
+      <svg class="iit-circuit" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <g stroke="rgba(255,45,120,0.15)" stroke-width="1" fill="none">
+          <path d="M0,50 L60,50 L80,30 L200,30"/><circle cx="200" cy="30" r="3" fill="rgba(255,45,120,0.4)"/>
+          <path d="M0,100 L40,100 L60,120 L160,120 L180,100 L300,100"/><circle cx="300" cy="100" r="3" fill="rgba(255,45,120,0.4)"/>
+          <path d="M500,80 L440,80 L420,60 L320,60"/><circle cx="320" cy="60" r="3" fill="rgba(255,45,120,0.4)"/>
+          <path d="M500,150 L450,150 L430,170 L350,170 L330,150 L250,150"/><circle cx="250" cy="150" r="3" fill="rgba(255,45,120,0.4)"/>
+          <path d="M100,300 L100,240 L120,220 L200,220"/><circle cx="200" cy="220" r="3" fill="rgba(255,45,120,0.4)"/>
+          <path d="M400,300 L400,260 L380,240 L300,240 L280,260"/><circle cx="280" cy="260" r="3" fill="rgba(255,45,120,0.4)"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- SCHOOL + MS CARDS -->
+    <div class="edu-school-row">
+      <div class="edu-school-card">
+        <div class="school-year glow-purple">1990 — 2002</div>
+        <div class="school-title">M P Birla H S School 🇮🇳</div>
+        <div class="card-tags" style="margin-top:0.6rem">
+          <span class="tag edu">ICSE · ISC</span>
+          <span class="tag award">ISC 91.40%</span>
+          <span class="tag award">ICSE 92.50%</span>
+        </div>
+        <div class="card-desc" style="margin-top:0.6rem">Twelve years of rigorous schooling. Exceptional board scores across ICSE and ISC. The runway that made IIT possible.</div>
+      </div>
+      <div class="edu-school-card" style="border-top-color:var(--neon-cyan)">
+        <div class="school-year glow-cyan">2012 — 2014</div>
+        <div class="school-title">MS Information Systems</div>
+        <div class="card-tags" style="margin-top:0.6rem">
+          <span class="tag edu">Graduate Degree</span>
+          <span class="tag proj">MS Thesis 📝</span>
+          <span class="tag event">Dev Meetup Lisbon 🇵🇹</span>
+        </div>
+        <div class="card-desc" style="margin-top:0.6rem">Post-grad deep dive into Information Systems. Thesis research. First international dev meetup — Lisbon, Portugal.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="phase-divider">
+  <div class="phase-divider-line"></div>
+  <span>↓ CAREER JOURNEY · LATEST FIRST ↓</span>
+  <div class="phase-divider-line"></div>
+</div>
+
+<!-- ==================== TIMELINE (REVERSE CHRONO) ==================== -->
+<section id="timeline">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 100% 50% at 50% 50%, rgba(0,229,255,0.02) 0%, transparent 70%); pointer-events:none;"></div>
+
+  <div class="journey-path" id="journey">
+
+    <!-- ===== PHASE: NOW ===== -->
+    <div class="phase-label"><span>— PRESENT —</span></div>
+
+    <div class="milestone right" data-index="0">
+      <div class="card era-sasban">
+        <div class="card-year"><span class="glow-cyan">2025</span><small style="font-family:'Space Mono';font-size:0.6rem;color:var(--neon-green)"> NOW ●</small></div>
+        <div class="card-title">SASBAN.online · Udemy · YouTube</div>
+        <div class="card-tags">
+          <span class="tag proj">SASBAN.online</span>
+          <span class="tag cert">Udemy Instructor 🎓</span>
+          <span class="tag proj">YouTube Channel</span>
+          <span class="tag event">Darjeeling Meetup</span>
+        </div>
+        <div class="card-desc">The present chapter. SASBAN.online as platform. Teaching on Udemy, creating on YouTube. Darjeeling meetup. The journey continues — still shipping, still exploring.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-cyan);background:rgba(0,229,255,0.2)"></div>
+    </div>
+
+    <div class="milestone left" data-index="1">
+      <div class="card era-stych">
+        <div class="card-year"><span class="glow-yellow">2024</span></div>
+        <div class="card-title">Stych.ai · Stych.cloud · SASBAN</div>
+        <div class="card-tags">
+          <span class="tag proj">Stych.ai</span>
+          <span class="tag proj">Stych.cloud</span>
+          <span class="tag proj">SASBAN.online</span>
+          <span class="tag event">Dubai Coders 🇦🇪</span>
+          <span class="tag event">Ladakh Leh Meet-up</span>
+          <span class="tag event">Goa Meet-up</span>
+        </div>
+        <div class="card-desc">AI-era pivot — Stych.ai and Stych.cloud born. Personal brand SASBAN.online takes shape. Dubai Coders, Ladakh Leh, and Goa meetups. Everywhere, always building.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-yellow);background:rgba(255,230,0,0.15)"></div>
+    </div>
+
+    <div class="milestone right" data-index="2">
+      <div class="card era-pixfirst">
+        <div class="card-year"><span class="glow-green">2023</span></div>
+        <div class="card-title">PixFirst · PixLabs · Udemy Launch</div>
+        <div class="card-tags">
+          <span class="tag proj">PixFirst</span>
+          <span class="tag proj">PixLabs</span>
+          <span class="tag proj">Odin Projects</span>
+          <span class="tag event">100xDevs BLR</span>
+          <span class="tag cert">Udemy Instructor 🎓</span>
+        </div>
+        <div class="card-desc">Launched PixFirst & PixLabs. Became a Udemy instructor — sharing two decades of knowledge. Built the Odin Projects. Connected at 100xDevs Bengaluru meetup.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-green);background:rgba(57,255,20,0.15)"></div>
+    </div>
+
+    <!-- ===== PHASE: DEEP BUILD ===== -->
+    <div class="phase-label"><span>— DEEP BUILD —</span></div>
+
+    <div class="milestone left" data-index="3">
+      <div class="card era-styched">
+        <div class="card-year"><span class="glow-cyan">2022</span></div>
+        <div class="card-title">Styched · Android App · DevJam Jakarta</div>
+        <div class="card-tags">
+          <span class="tag proj">Styched ERM</span>
+          <span class="tag proj">Shopify</span>
+          <span class="tag proj">Android App</span>
+          <span class="tag event">DevJam Jakarta 🇮🇩</span>
+          <span class="tag event">IIT KGP Goa Meetup</span>
+        </div>
+        <div class="card-desc">Expanded to Android app development. DevJam Jakarta, Indonesia. Stayed connected to the IIT KGP network at the Goa meetup. Full-stack momentum.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-cyan);background:rgba(0,229,255,0.15)"></div>
+    </div>
+
+    <div class="milestone right" data-index="4">
+      <div class="card era-styched">
+        <div class="card-year"><span class="glow-cyan">2021</span></div>
+        <div class="card-title">Styched · Shopify · Hackathon BLR</div>
+        <div class="card-tags">
+          <span class="tag proj">Styched</span>
+          <span class="tag proj">Shopify Integration</span>
+          <span class="tag proj">ERM</span>
+          <span class="tag event">Styched Hackathon BLR</span>
+          <span class="tag cert">GCP Cloud Architect ☁️</span>
+        </div>
+        <div class="card-desc">Built on multiple fronts — Styched, Shopify integrations, ERM systems. Ran a hackathon in Bengaluru. Crowned the cloud cert journey with GCP Professional Cloud Architect.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-cyan);background:rgba(0,229,255,0.15)"></div>
+    </div>
+
+    <div class="milestone left" data-index="5">
+      <div class="card era-styched">
+        <div class="card-year"><span class="glow-cyan">2020</span></div>
+        <div class="card-title">Styched ERM · Dubai Coders</div>
+        <div class="card-tags">
+          <span class="tag proj">Styched ERM</span>
+          <span class="tag event">Dubai Coders Meet 🇦🇪</span>
+          <span class="tag cert">GCP Cloud Developer ☁️</span>
+        </div>
+        <div class="card-desc">Deep in Styched's ERM platform. Met the global dev community at Dubai Coders Meet. Added GCP Professional Cloud Developer to the arsenal.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-cyan);background:rgba(0,229,255,0.15)"></div>
+    </div>
+
+    <!-- ===== PHASE: CLOUD AGE ===== -->
+    <div class="phase-label"><span>— CLOUD AGE —</span></div>
+
+    <div class="milestone right" data-index="6">
+      <div class="card era-yapnaa">
+        <div class="card-year"><span class="glow-pink">2019</span></div>
+        <div class="card-title">YAPNAA · Styched · ICONEA</div>
+        <div class="card-tags">
+          <span class="tag proj">YAPNAA</span>
+          <span class="tag proj">Styched ERM</span>
+          <span class="tag proj">ICONEA</span>
+          <span class="tag event">DevJam Kiev 🇺🇦</span>
+          <span class="tag cert">AWS Cloud Practitioner ☁️</span>
+        </div>
+        <div class="card-desc">Juggling YAPNAA, Styched ERM, and ICONEA simultaneously. Flew to DevJam Kiev, Ukraine. AWS Cloud Practitioner certification locked in.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-pink);background:rgba(255,45,120,0.15)"></div>
+    </div>
+
+    <div class="milestone left" data-index="7">
+      <div class="card era-yapnaa">
+        <div class="card-year"><span class="glow-pink">2018</span></div>
+        <div class="card-title">YAPNAA · IoT on Blockchain</div>
+        <div class="card-tags">
+          <span class="tag proj">YAPNAA</span>
+          <span class="tag proj">IoT Blockchain Whitepaper 📝</span>
+          <span class="tag cert">AWS Solutions Arch. Pro ☁️</span>
+        </div>
+        <div class="card-desc">Founded YAPNAA. Published the IoT on Blockchain Whitepaper — visionary ahead of its time. Achieved AWS Certified Solutions Architect – Professional, the most demanding AWS cert.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-pink);background:rgba(255,45,120,0.15)"></div>
+    </div>
+
+    <div class="milestone right" data-index="8">
+      <div class="card era-pixdocs">
+        <div class="card-year"><span class="glow-orange">2017</span></div>
+        <div class="card-title">PixDocs · Xelpmoc · TalaSecure</div>
+        <div class="card-tags">
+          <span class="tag proj">PixDocs</span>
+          <span class="tag proj">Xelpmoc</span>
+          <span class="tag proj">TalaSecure</span>
+          <span class="tag event">TechMeet Rio 🇧🇷</span>
+          <span class="tag cert">AWS Dev Associate ☁️</span>
+        </div>
+        <div class="card-desc">A powerhouse year — three concurrent ventures. TechMeet in Rio de Janeiro. Earned AWS Certified Developer – Associate, kicking off the cloud cert streak.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-orange);background:rgba(255,107,0,0.15)"></div>
+    </div>
+
+    <!-- ===== PHASE: ENTERPRISE ===== -->
+    <div class="phase-label"><span>— ENTERPRISE —</span></div>
+
+    <div class="milestone left" data-index="9">
+      <div class="card era-digital">
+        <div class="card-year"><span class="glow-green">2014</span><small style="font-family:'Space Mono';font-size:0.6rem;color:var(--muted)">→ 2016</small></div>
+        <div class="card-title">Digital Horizons · JustDial Omni</div>
+        <div class="card-tags">
+          <span class="tag proj">Digital Horizons</span>
+          <span class="tag proj">JustDial OMNI</span>
+          <span class="tag event">MWC Barcelona 🇪🇸 2015</span>
+          <span class="tag event">DevJam Amsterdam 🇳🇱 2016</span>
+          <span class="tag event">TechMeet Mumbai 🇮🇳</span>
+        </div>
+        <div class="card-desc">Major enterprise chapters: Digital Horizons and JustDial OMNI. Traveled the world — Mobile World Congress Barcelona, DevJam Amsterdam, TechMeet Mumbai.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-green);background:rgba(57,255,20,0.15)"></div>
+    </div>
+
+    <!-- ===== PHASE: STARTUP ===== -->
+    <div class="phase-label"><span>— STARTUP TURN —</span></div>
+
+    <div class="milestone right" data-index="10">
+      <div class="card era-adwize">
+        <div class="card-year"><span class="glow-yellow">2009</span><small style="font-family:'Space Mono';font-size:0.6rem;color:var(--muted)">→ 2011</small></div>
+        <div class="card-title">Adwize · Young India Power</div>
+        <div class="card-tags">
+          <span class="tag proj">Adwize</span>
+          <span class="tag proj">Young India Power</span>
+          <span class="tag event">IIT KGP BLR Meetup</span>
+          <span class="tag event">IIT KGP KOL Meetup</span>
+        </div>
+        <div class="card-desc">The entrepreneurial pivot. Three years navigating startup life — Adwize (2009–2011), then Young India Power in 2011. Active in the IIT KGP alumni network.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-yellow);background:rgba(255,230,0,0.15)"></div>
+    </div>
+
+    <!-- ===== PHASE: FIRST STEPS ===== -->
+    <div class="phase-label"><span>— FIRST STEPS —</span></div>
+
+    <div class="milestone left" data-index="11">
+      <div class="card era-samsung">
+        <div class="card-year"><span class="glow-orange">2008</span></div>
+        <div class="card-title">Samsung India · Project Rose</div>
+        <div class="card-tags">
+          <span class="tag proj">Project ROSE</span>
+          <span class="tag flag">Samsung India</span>
+        </div>
+        <div class="card-desc">Continued corporate momentum at Samsung with Project ROSE, deepening expertise in hardware/software integration in one of India's most demanding tech environments.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-orange);background:rgba(255,107,0,0.15)"></div>
+    </div>
+
+    <div class="milestone right" data-index="12">
+      <div class="card era-samsung">
+        <div class="card-year"><span class="glow-orange">2007</span></div>
+        <div class="card-title">Samsung India · Project Jungfrau</div>
+        <div class="card-tags">
+          <span class="tag proj">Project JUNGFRAU</span>
+          <span class="tag award">MD Special Award 🏆</span>
+        </div>
+        <div class="card-desc">First corporate battle at Samsung India. Led Project JUNGFRAU, earning the prestigious MD Special Award — exceptional impact right out of the IIT KGP gate.</div>
+      </div>
+      <div class="path-dot" style="color:var(--neon-orange);background:rgba(255,107,0,0.15)"></div>
+    </div>
+
+  </div><!-- /journey-path -->
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <h2>STILL BUILDING</h2>
+  <p>sasban.online · @sasban · 2002 → ∞</p>
+  <div style="margin-top:2rem;display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;">
+    <a href="https://sasban.online" target="_blank" style="color:var(--neon-cyan);font-size:0.75rem;letter-spacing:0.15em;text-decoration:none;border:1px solid rgba(0,229,255,0.3);padding:0.5rem 1.2rem;border-radius:4px;transition:all 0.3s" onmouseover="this.style.background='rgba(0,229,255,0.1)'" onmouseout="this.style.background='transparent'">WEBSITE</a>
+    <a href="https://www.udemy.com/user/saswata-banerjee-3/" target="_blank" style="color:var(--neon-orange);font-size:0.75rem;letter-spacing:0.15em;text-decoration:none;border:1px solid rgba(255,107,0,0.3);padding:0.5rem 1.2rem;border-radius:4px;transition:all 0.3s" onmouseover="this.style.background='rgba(255,107,0,0.1)'" onmouseout="this.style.background='transparent'">UDEMY</a>
+    <a href="https://youtube.com/@sasban9/videos" target="_blank" style="color:var(--neon-pink);font-size:0.75rem;letter-spacing:0.15em;text-decoration:none;border:1px solid rgba(255,45,120,0.3);padding:0.5rem 1.2rem;border-radius:4px;transition:all 0.3s" onmouseover="this.style.background='rgba(255,45,120,0.1)'" onmouseout="this.style.background='transparent'">YOUTUBE</a>
+  </div>
+</footer>
+
+<script>
+// ===== CURSOR =====
+const cursor = document.getElementById('cursor');
+const trail = document.getElementById('cursor-trail');
+let mx = 0, my = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  setTimeout(() => { trail.style.left = mx + 'px'; trail.style.top = my + 'px'; }, 80);
+});
+
+// ===== PARTICLES =====
+const pcont = document.getElementById('particles');
+const colors = ['#00e5ff','#39ff14','#ff2d78','#ffe600','#ff6b00','#bf5fff'];
+for (let i = 0; i < 40; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 4 + 1;
+  p.style.cssText = `
+    width:${size}px; height:${size}px;
+    background:${colors[Math.floor(Math.random()*colors.length)]};
+    left:${Math.random()*100}%;
+    animation-duration:${Math.random()*15+8}s;
+    animation-delay:${Math.random()*10}s;
+    box-shadow: 0 0 6px currentColor;
+  `;
+  pcont.appendChild(p);
+}
+
+// ===== SVG ZIG-ZAG ROAD =====
+function buildRoad() {
+  const journey = document.getElementById('journey');
+  const milestones = journey.querySelectorAll('.milestone');
+  if (!milestones.length) return;
+
+  // Build SVG path through milestones
+  const jRect = journey.getBoundingClientRect();
+  const jTop = journey.offsetTop;
+  const W = journey.offsetWidth;
+  const CX = W / 2;
+
+  let pts = [];
+  pts.push([CX, 0]);
+
+  milestones.forEach((m, i) => {
+    const mTop = m.offsetTop + 32; // center of dot
+    const side = m.classList.contains('left') ? 0.25 : 0.75;
+    const x = W * side;
+    const midY = mTop - 60;
+    pts.push([CX, midY]);
+    pts.push([x, mTop]);
+    pts.push([CX, mTop + 60]);
+  });
+
+  const lastM = milestones[milestones.length - 1];
+  pts.push([CX, lastM.offsetTop + 200]);
+
+  // Create smooth path
+  let d = `M ${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 1; i < pts.length; i++) {
+    const prev = pts[i - 1];
+    const curr = pts[i];
+    const cpx = (prev[0] + curr[0]) / 2;
+    const cpy = (prev[1] + curr[1]) / 2;
+    d += ` Q ${prev[0]} ${prev[1]} ${cpx} ${cpy}`;
+  }
+  d += ` L ${pts[pts.length-1][0]} ${pts[pts.length-1][1]}`;
+
+  const totalH = lastM.offsetTop + 300;
+  journey.style.minHeight = totalH + 'px';
+
+  // Remove old SVG if any
+  const old = journey.querySelector('.path-svg');
+  if (old) old.remove();
+
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'path-svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${totalH}`);
+  svg.style.width = W + 'px';
+  svg.style.height = totalH + 'px';
+
+  // Road fill
+  const road = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  road.setAttribute('class', 'road-path');
+  road.setAttribute('d', d);
+  road.setAttribute('stroke', '#151b2e');
+  svg.appendChild(road);
+
+  // Glow line
+  const glow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  glow.setAttribute('class', 'road-path-glow');
+  glow.setAttribute('d', d);
+  glow.setAttribute('stroke', '#00e5ff');
+  glow.setAttribute('stroke-width', '1.5');
+  glow.setAttribute('opacity', '0.5');
+  svg.appendChild(glow);
+
+  // Center dashes
+  const center = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  center.setAttribute('class', 'road-path-center');
+  center.setAttribute('d', d);
+  svg.appendChild(center);
+
+  // Animated travel dot
+  const traveler = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  traveler.setAttribute('r', '5');
+  traveler.setAttribute('fill', '#00e5ff');
+  traveler.setAttribute('filter', 'drop-shadow(0 0 8px #00e5ff)');
+  svg.appendChild(traveler);
+
+  const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
+  anim.setAttribute('dur', '12s');
+  anim.setAttribute('repeatCount', 'indefinite');
+  anim.setAttribute('rotate', 'auto');
+  const mpath = document.createElementNS('http://www.w3.org/2000/svg', 'mpath');
+  
+  // Use inline path for the motion
+  anim.setAttribute('path', d);
+  traveler.appendChild(anim);
+
+  journey.insertBefore(svg, journey.firstChild);
+}
+
+// ===== INTERSECTION OBSERVER =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.milestone').forEach(m => observer.observe(m));
+
+// ===== INIT =====
+window.addEventListener('load', () => {
+  buildRoad();
+});
+window.addEventListener('resize', () => {
+  buildRoad();
+});
+
+// ===== CARD HOVER GLOW =====
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+    const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+    card.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(0,229,255,0.08), rgba(255,255,255,0.02) 60%)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.background = '';
+  });
+});
+
+// ===== PARALLAX HERO =====
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  const skyline = document.getElementById('skyline');
+  if (skyline) skyline.style.transform = `translateY(${sy * 0.2}px)`;
+  const htitle = document.querySelector('.hero-title');
+  if (htitle) htitle.style.transform = `translateY(${sy * 0.3}px)`;
+});
+</script>
+</body>
+</html>
