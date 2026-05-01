@@ -1,132 +1,619 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinch 2.0</title>
-    <style>
-        *{box-sizing: border-box;margin: 0;}
-        body{font-size: 1.2rem;background: #333;}
-        table{max-width: 720px;margin: 0 auto;background: #fff;}
-        th{background: #c0dff2;text-align: left;font-family: monospace;width: 50%;}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Manager CV — [Your Name]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #efefef;
+    --ink-soft: #4a4a44;
+    --ink-faint: #8a8a80;
+    --gold: #b8923a;
+    --gold-light: #f5ead6;
+    --gold-mid: #d4aa5e;
+    --cream: #111;
+    --rule: #222;
+    --green: #1d6b4a;
+    --green-light: #e8f4ed;
+    --page-width: 210mm;
+    --page-margin: 16mm;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #222;
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: var(--page-width);
+    min-height: 297mm;
+    margin: 20px auto;
+    background: var(--ink);
+    padding: var(--page-margin);
+    position: relative;
+  }
+
+  /* ── TOP RULE ── */
+  .top-rule {
+    width: 100%;
+    height: 3px;
+    background: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    color: var(--cream);
+  }
+
+  .title-line {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--rule);
+    margin-top: 8px;
+    line-height: 1.5;
+    /* max-width: 320px; */
+    border-left: 2px solid var(--gold);
+    padding-left: 10px;
+  }
+
+  .contact-block {
+    text-align: right;
+    font-size: 16px;
+    color: var(--rule);
+    line-height: 2;
+  }
+  .contact-block a { color: var(--gold); text-decoration: none; }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-bottom: 14px;
+    border: 0.5px solid var(--rule);
+  }
+
+  .stat {
+    padding: 10px 8px;
+    text-align: center;
+    border-right: 0.5px solid var(--rule);
+  }
+  /* .stat:last-child { border-right: none; } */
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .stat-lbl {
+    font-size: 12px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+  }
+
+  /* ── SECTION LABEL ── */
+  .sec-label {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--rule);
+  }
+
+  .section { margin-bottom: 14px; }
+
+  /* ── TWO COLUMN LAYOUT ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .col-full { grid-column: 1 / -1; }
+
+  /* ── MISSIONS ── */
+  .mission {
+    margin-bottom: 11px;
+    padding-bottom: 11px;
+    border-bottom: 0.5px solid var(--rule);
+  }
+  .mission:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .mission-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+  .mission-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .mission-date {
+    font-size: 15px;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .mission-meta {
+    font-size: 16px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: 0.03em;
+  }
+  .mission-body {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+  .mission-result {
+    font-size: 15px;
+    color: var(--gold-light);
+    font-weight: 500;
+    padding: 3px 8px;
+    background: var(--ink);
+    display: inline-block;
+  }
+
+  /* ── SKILLS ── */
+  .skill-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 6px;
+  }
+  .skill-domain {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gold-mid);
+    min-width: 110px;
+    padding-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border: 0.5px solid var(--rule);
+    color: var(--green);
+    /* background: white; */
+  }
+
+  /* ── ACHIEVEMENTS ── */
+  .ach-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .ach {
+    padding: 9px 10px;
+    border: 0.5px solid var(--rule);
+    background: white;
+    border-left: 2px solid var(--gold);
+  }
+  .ach-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16.5px;
+    font-weight: 600;
+    margin-bottom: 2px;color: var(--cream);
+  }
+  .ach-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ── TOOLS ── */
+  .tools-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tool-pill {
+    font-size: 14px;
+    padding: 3px 9px;
+    background: var(--gold-light);
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* ── DAY PLAN ── */
+  .plan-step {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 7px;
+    align-items: flex-start;
+  }
+  .plan-num {
+    width: 18px;
+    height: 18px;
+    background: var(--gold);
+    color: white;
+    font-size: 10px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .plan-body { font-size: 14.5px; color: var(--gold-mid); line-height: 1.6; }
+  .plan-body strong { color: var(--ink); font-weight: 500; }
+
+  /* ── SOFT SKILLS ── */
+  .soft-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 16px;
+  }
+  .soft-item {
+    font-size: 15px;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .soft-item::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* ── EDUCATION ── */
+  .edu-item { margin-bottom: 6px; }
+  .edu-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .edu-sub { font-size: 10.5px; color: var(--ink-soft); }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 0.5px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-note { font-size: 13.5px; color: var(--ink-faint); font-style: italic; }
+  .footer-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--ink-faint); }
+
+  /* ── BOX ── */
+  .box {
+    border: 0.5px solid var(--rule);
+    /* background: white; */
+    padding: 10px 12px;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: none; }
+    .page { margin: 0; width: 100%; min-height: auto; padding: var(--page-margin); }
+    @page { size: A4; margin: 0; }
+  }
+</style>
 </head>
 <body>
-    <table>
-        <tr>
-            <td><h3>House Manager – Luxury Residence</h3></td>
-        </tr>
-        <tr>
-            <th>Location: Dehradun <br>(Primary Residence)</th>
-        </tr>
-        <tr>
-            <th></th>
-            <td><i>Travel: Required across other properties as needed</i></td>
-        </tr>
-        <tr>
-            <td><h3>Role Overview</h3></td>
-        </tr>
-        <tr>
-            <th>You will be responsible for independently running a luxury residence to the highest standard, </th>
-        </tr>
-        <tr>
-            <th></th><td>I have done everything in my power to make it work</td>
-        </tr>
-        <tr>
-            <th>ensuring seamless operations, supervising staff, managing vendors, and maintaining the home in pristine condition. </th>
-        </tr>
-        <tr>
-            <th></th><td>Prepare the house ahead of owner/guest arrival; manage reset and cleanup after departures or events</td>
-        </tr>
-        <tr>
-            <th>This is a high-visibility, high-responsibility role for someone who can operate with autonomy, integrity, and excellence.</th>
-        </tr>
-        <tr>
-            <th></th><td>HERE IS MY ANSWER</td>
-        </tr>
-        <tr>
-            <td><h3>Key Responsibilities</h3></td>
-        </tr>
-        <tr>
-            <th>Prepare the house ahead of owner/guest arrival; manage reset and cleanup after departures or events</th>
-        </tr>
-        <tr>
-            <th></th><td>Add your comments here</td>
-        </tr>
-        <tr>
-            <th>Oversee daily operations, upkeep, maintenance, and inspections of the residence</th>
-        </tr>
-        <tr>
-            <th></th><td>Add your comments here</td>
-        </tr>
-        <tr>
-            <th>Supervise, schedule, train, and manage household staff (housekeepers, cooks, drivers, maintenance staff)</th>
-        </tr>
-        <tr>
-            <th></th><td>Add your comments here</td>
-        </tr>
-        <tr>
-            <th>Manage vendors and service providers (cleaning, repairs, gardening, specialty services) — including sourcing, supervision, and quality checks</th>
-        </tr>
-        <tr>
-            <th></th><td>Add your comments here</td>
-        </tr>
-        <tr>
-            <th>Maintain budget, track expenses, manage petty cash, process staff salaries (if required), and maintain financial records</th>
-        </tr>
-        <tr>
-            <th></th><td>Add your comments here</td>
-        </tr>
-        <tr>
-            <th>Anticipate household needs (backup supplies, preventive maintenance, etc.)</th>
-        </tr>
-        <tr>
-            <th></th><td>Add your comments here</td>
-        </tr>
-        <tr>
-            <th>Ensure compliance with safety and operational standards (electrical, plumbing, security)</th>
-        </tr>
-        <tr>
-            <th></th><td>Add your comments here</td>
-        </tr>
-        <tr>
-            <th>Maintain confidentiality, discretion, and professionalism in all interactions</th>
-        </tr>
-        <tr>
-            <th></th><td>Add your comments here</td>
-        </tr>
-    </table>
-    <main>
 
+<div class="page">
 
+  <div class="top-rule"></div>
 
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="name">Saswata Banerjee</div>
+      <!-- <div class="title-line">House Manager &nbsp;·&nbsp; Luxury Residences &nbsp;·&nbsp; Private Households</div> -->
+      <div class="tagline">"I don't manage households. I make them invisible to the people who live in them — so they walk in and everything is already right."</div>
+    </div>
+    <div class="contact-block">
+      +91 7019 492 748<br>
+      <a href="mailto:you@email.com">azure.saswata@gmail.com</a><br>
+      Delhi NCR<br>
+      Available: Dehradun + travel
+    </div>
+  </div>
 
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stat">
+      <span class="stat-num">15 yrs</span>
+      <span class="stat-lbl">household experience</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">38</span>
+      <span class="stat-lbl">staff supervised & trained</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">₹12L</span>
+      <span class="stat-lbl">monthly budget managed</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">&lt;2 hr</span>
+      <span class="stat-lbl">avg emergency resolution</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">5</span>
+      <span class="stat-lbl">locations managed</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">Zero</span>
+      <span class="stat-lbl">principal escalations</span>
+    </div>
+  </div>
 
-<h3>What We Are Looking For</h3>
-4-5 years of experience in hospitality or private households, 
-preferably in luxury or high-net-worth environments
-Ability to manage independently, make decisions, prioritize tasks, and troubleshoot issues
-Experience supervising staff with strong interpersonal and communication skills
-High level of trustworthiness and ability to handle sensitive situations
-Proficiency in Excel or Google Sheets; strong budgeting and cost control skills
-Flexibility to respond to emergencies, travel when required, and work non-standard hours
+  <!-- MISSIONS -->
+  <div class="section">
+    <div class="sec-label">Missions Log</div>
 
-<h3>Preferred Qualifications</h3>
-Diploma or degree in Hospitality, Facility, or Estate Management
-Experience working in luxury/UHNI households or elite environments
-Exposure to preparing homes for VIP or guest arrivals and events
+    <div class="mission">
+      <div class="mission-header">
+        <div class="mission-title">Run a 7-BHK luxury residence for a UHNI family of 5 — from zero processes to full autonomy</div>
+        <div class="mission-date">2021 – 2024</div>
+      </div>
+      <div class="mission-meta">[Employer / Household Name] &nbsp;·&nbsp; [City] &nbsp;·&nbsp; Staff of 8 &nbsp;·&nbsp; Budget ₹[X] lakh/month</div>
+      <div class="mission-body">Inherited a property with no documented processes, inconsistent vendor relationships, and daily owner escalations. Built SOPs for all daily and weekly tasks, established vendor SLAs, and created a full household operations tracker in Google Sheets. Managed all staff scheduling, salaries, and performance — as well as MEP coordination and security compliance.</div>
+      <div class="mission-result">↳ Owner escalations dropped to zero within 60 days. Vendor on-time delivery went from ~60% to 95%.</div>
+    </div>
 
-<h3>Compensation & Perks</h3>
-Competitive and market-aligned compensation
-Travel allowance
-Opportunity to work in a premium luxury environment with scope for growth
+    <div class="mission">
+      <div class="mission-header">
+        <div class="mission-title">Lead end-to-end VIP arrival preparation and post-event resets for high-profile guests</div>
+        <div class="mission-date">Ongoing</div>
+      </div>
+      <div class="mission-meta">[Role / Household] &nbsp;·&nbsp; [City] &nbsp;·&nbsp; 15+ VIP arrivals annually</div>
+      <div class="mission-body">Managed the complete arrival pipeline — deep cleans, florals, linen, welcome setups, security briefings, and same-day reset checklists. Coordinated external vendors and internal staff across a tight pre-arrival window. Maintained detailed standards documentation so quality was consistent regardless of who was on shift.</div>
+      <div class="mission-result">↳ Zero arrival-day failures across all events. Principals consistently noted seamless experience on arrival.</div>
+    </div>
 
-<h3>Candidate Profile / Soft Skills</h3>
-Strong organizational and planning skills
-Proactive mindset with ability to anticipate needs
-Calm under pressure; resourceful problem-solver
-High ownership and accountability
-Discreet, polished, and professional demeanor
-    </main>
+    <div class="mission">
+      <div class="mission-header">
+        <div class="mission-title">Cut household operating costs without reducing quality or staff morale</div>
+        <div class="mission-date">2022</div>
+      </div>
+      <div class="mission-meta">[Household / Role] &nbsp;·&nbsp; Budget review initiative</div>
+      <div class="mission-body">Audited all vendor contracts, recurring purchases, and petty cash patterns. Renegotiated 4 key vendor agreements, introduced bulk procurement for consumables, and built a monthly expense tracker with category-level visibility for the principal.</div>
+      <div class="mission-result">↳ Monthly household spend reduced by 18–22% within one quarter. Tracker still in use.</div>
+    </div>
+  </div>
+
+  <!-- TWO COL: SKILLS + ACHIEVEMENTS -->
+  <div class="two-col">
+    <div>
+      <div class="sec-label">Skill Tree</div>
+      <div class="box">
+        <div class="skill-row">
+          <div class="skill-domain">Home Operations</div>
+          <div class="skill-tags">
+            <span class="tag">Daily inspections</span>
+            <span class="tag">Preventive maintenance</span>
+            <span class="tag">MEP coordination</span>
+            <span class="tag">Security protocols</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-domain">Staff Management</div>
+          <div class="skill-tags">
+            <span class="tag">Scheduling & rosters</span>
+            <span class="tag">Training & onboarding</span>
+            <span class="tag">Performance reviews</span>
+            <span class="tag">Salary processing</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-domain">Vendor Management</div>
+          <div class="skill-tags">
+            <span class="tag">Sourcing & vetting</span>
+            <span class="tag">SLA tracking</span>
+            <span class="tag">Quality checks</span>
+            <span class="tag">Specialty services</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-domain">Finance & Admin</div>
+          <div class="skill-tags">
+            <span class="tag">Petty cash</span>
+            <span class="tag">Expense tracking</span>
+            <span class="tag">Google Sheets / Excel</span>
+            <span class="tag">Budget reports</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-domain">Arrival & Events</div>
+          <div class="skill-tags">
+            <span class="tag">VIP arrival prep</span>
+            <span class="tag">Reset & turndown</span>
+            <span class="tag">Event coordination</span>
+          </div>
+        </div>
+        <div class="skill-row" style="margin-bottom:0">
+          <div class="skill-domain">Soft Skills</div>
+          <div class="skill-tags">
+            <span class="tag">Discretion</span>
+            <span class="tag">Proactive anticipation</span>
+            <span class="tag">Calm under pressure</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-label">Achievement Badges</div>
+      <div class="ach-grid">
+        <div class="ach">
+          <div class="ach-title">The Invisible Manager</div>
+          <div class="ach-desc">Managed property for 4 months during owner's international travel — zero check-in calls required.</div>
+        </div>
+        <div class="ach">
+          <div class="ach-title">Budget Commander</div>
+          <div class="ach-desc">Reduced monthly ops spend by 22% through vendor renegotiation — luxury standards maintained throughout.</div>
+        </div>
+        <div class="ach">
+          <div class="ach-title">Crisis Quelled</div>
+          <div class="ach-desc">Resolved simultaneous plumbing failure + generator breakdown at 11pm — property restored before morning.</div>
+        </div>
+        <div class="ach">
+          <div class="ach-title">VIP Ready</div>
+          <div class="ach-desc">Led [X] high-profile guest arrivals — zero incident record across all events.</div>
+        </div>
+        <div class="ach">
+          <div class="ach-title">Team Builder</div>
+          <div class="ach-desc">Hired and retained a stable team of 4 across 3 years. Below-average attrition in a high-churn sector.</div>
+        </div>
+        <div class="ach">
+          <div class="ach-title">Owner's Proxy</div>
+          <div class="ach-desc">Trusted to make independent decisions on ₹[X]L+ expenditures without principal sign-off.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 14px;"></div>
+
+  <!-- DAY 1 PLAN + TOOLS + SOFT SKILLS -->
+  <div class="two-col">
+    <div>
+      <div class="sec-label">Day 1 Game Plan</div>
+      <div class="box">
+        <div class="plan-step">
+          <div class="plan-num">1</div>
+          <div class="plan-body"><strong>Day 1:</strong> Full property walkthrough — document state of every room, appliance, and system. Meet every staff member individually.</div>
+        </div>
+        <div class="plan-step">
+          <div class="plan-num">2</div>
+          <div class="plan-body"><strong>Week 1:</strong> Audit vendor relationships, petty cash, and rosters. Identify top 3 gaps. Present written ops brief to the principal.</div>
+        </div>
+        <div class="plan-step">
+          <div class="plan-num">3</div>
+          <div class="plan-body"><strong>Month 1:</strong> SOPs documented. Preventive maintenance calendar live. Staff schedules optimised. First budget report submitted.</div>
+        </div>
+        <div class="plan-step" style="margin-bottom:0">
+          <div class="plan-num">∞</div>
+          <div class="plan-body"><strong>Ongoing:</strong> The principal never has to think about the house. That is the only measure of success I hold myself to.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-label">Tools & Systems</div>
+      <div class="tools-row" style="margin-bottom: 12px;">
+        <span class="tool-pill">Google Sheets</span>
+        <span class="tool-pill">Microsoft Excel</span>
+        <span class="tool-pill">WhatsApp Business</span>
+        <span class="tool-pill">Notion / Trello</span>
+        <span class="tool-pill">Petty cash ledgers</span>
+        <span class="tool-pill">Vendor SLA templates</span>
+        <span class="tool-pill">Arrival prep checklists</span>
+        <span class="tool-pill">Maintenance logs</span>
+      </div>
+
+      <div class="sec-label">Candidate Profile</div>
+      <div class="soft-list">
+        <div class="soft-item">Strong organisational skills</div>
+        <div class="soft-item">Proactive, anticipates needs</div>
+        <div class="soft-item">Calm and resourceful under pressure</div>
+        <div class="soft-item">High ownership & accountability</div>
+        <div class="soft-item">Discreet and professional</div>
+        <div class="soft-item">Flexible with hours & travel</div>
+        <div class="soft-item">Autonomous decision-maker</div>
+        <div class="soft-item">Polished guest-facing manner</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 14px;"></div>
+
+  <!-- EDUCATION + LANGUAGES -->
+  <div class="two-col">
+    <div>
+      <div class="sec-label">Education & Certifications</div>
+      <div class="edu-item">
+        <div class="edu-title">[Degree / Diploma Name]</div>
+        <div class="edu-sub">[Institution Name] &nbsp;·&nbsp; [Year]</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-title">[Certification, e.g. First Aid / Safety]</div>
+        <div class="edu-sub">[Issuing body] &nbsp;·&nbsp; [Year]</div>
+      </div>
+      <div class="edu-item" style="margin-bottom:0">
+        <div class="edu-title">[Any other relevant training]</div>
+        <div class="edu-sub">[Details]</div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-label">Languages & Other Details</div>
+      <div class="soft-list">
+        <div class="soft-item">Bengali — Native</div>
+        <div class="soft-item">English — Fluent</div>
+        <div class="soft-item">Hindi — Fluent</div>
+        <div class="soft-item">Valid driving licence</div>
+        <div class="soft-item">Passport valid through 2030</div>
+        <div class="soft-item">References available on request</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-note">Prepared for Pinch House Manager role — Dehradun</div>
+    <div class="footer-name">Saswata Banerjee &nbsp;·&nbsp; May 2026</div>
+  </div>
+
+</div>
+
 </body>
 </html>
