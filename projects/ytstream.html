@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Livestream Name Card Generator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Amiri:wght@700&family=Anton&family=Archivo+Black&family=Baloo+2:wght@800&family=Bebas+Neue&family=Bitter:wght@700&family=Black+Han+Sans&family=Boogaloo&family=Bowlby+One+SC&family=Bree+Serif&family=Cabin:wght@700&family=Caveat:wght@700&family=Chakra+Petch:wght@700&family=Cinzel:wght@700&family=Codystar:wght@700&family=Comfortaa:wght@700&family=Concert+One&family=Cookie&family=Courgette&family=Creepster&family=Crimson+Pro:wght@700&family=Dancing+Script:wght@700&family=DM+Serif+Display&family=Domine:wght@700&family=Dosis:wght@800&family=Exo+2:wght@900&family=Fjalla+One&family=Fraunces:wght@900&family=Fredoka+One&family=Fugaz+One&family=Germania+One&family=Gochi+Hand&family=Graduate&family=Grand+Hotel&family=Gravitas+One&family=Ibarra+Real+Nova:wght@700&family=Josefin+Sans:wght@700&family=Josefin+Slab:wght@700&family=Jost:wght@900&family=Kaushan+Script&family=Krona+One&family=Lalezar&family=Leckerli+One&family=Lilita+One&family=Lobster&family=Lora:wght@700&family=Merriweather:wght@900&family=Monoton&family=Montserrat:wght@900&family=Mochiy+Pop+One&family=Nanum+Brush+Script&family=Nunito:wght@900&family=Orbitron:wght@900&family=Oswald:wght@700&family=Outfit:wght@900&family=Pacifico&family=Permanent+Marker&family=Philosopher:wght@700&family=Pirata+One&family=Playfair+Display:wght@900&family=Poiret+One&family=Poppins:wght@900&family=Press+Start+2P&family=Protest+Riot&family=PT+Serif:wght@700&family=Quantico:wght@700&family=Quicksand:wght@700&family=Raleway:wght@900&family=Rancho&family=Righteous&family=Roboto+Slab:wght@900&family=Ropa+Sans&family=Rowdies:wght@700&family=Russo+One&family=Satisfy&family=Secular+One&family=Shrikhand&family=Sigmar+One&family=Sirin+Stencil&family=Skranji&family=Slabo+27px&family=Space+Mono:wght@700&family=Spicy+Rice&family=Squada+One&family=Teko:wght@700&family=Titan+One&family=Titillium+Web:wght@900&family=Tourney:wght@900&family=Ubuntu:wght@700&family=Ultra&family=Unbounded:wght@900&family=Unica+One&family=Varela+Round&family=Vidaloka&family=Volkhov:wght@700&family=Waiting+for+the+Sunrise&family=Yellowtail&family=Yeseva+One&family=ZCOOL+KuaiLe&family=Zilla+Slab:wght@700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0e17;
+    --surface: #1a1826;
+    --card: #23213a;
+    --accent: #ff6b6b;
+    --accent2: #ffd93d;
+    --text: #fffffe;
+    --muted: #a7a9be;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    height: 100vh;
+  }
+
+  /* ── LEFT: canvas panel ── */
+  .left-panel {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    gap: 0.75rem;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .canvas-wrap {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  #nameCanvas {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .font-info {
+    width: 100%;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .font-tag {
+    background: rgba(255,217,61,0.12);
+    color: var(--accent2);
+    border-radius: 6px;
+    padding: 0.15rem 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .dl-btn {
+    background: rgba(77,150,255,0.15);
+    border: 1px solid rgba(77,150,255,0.3);
+    color: #4d96ff;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    padding: 0.28rem 0.65rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .dl-btn:hover { background: rgba(77,150,255,0.28); }
+
+  .history-strip {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+  .history-strip::-webkit-scrollbar { height: 4px; }
+  .history-strip::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .history-thumb {
+    flex: 0 0 auto;
+    width: 76px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .history-thumb:hover { border-color: var(--accent); }
+  .history-thumb img { display: block; width: 100%; }
+
+  /* ── RIGHT: controls panel ── */
+  .right-panel {
+    width: 300px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--surface);
+    padding: 1.5rem 1.2rem;
+    gap: 1.4rem;
+  }
+  .right-panel::-webkit-scrollbar { width: 4px; }
+  .right-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .app-title {
+    font-size: 1.2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+  .app-sub {
+    font-size: 0.73rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 -1.2rem;
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    padding: 0.58rem 0.8rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="text"]:focus { border-color: var(--accent); }
+  input[type="text"]::placeholder { color: var(--muted); }
+
+  .btn-row { display: flex; gap: 0.45rem; }
+
+  .btn {
+    flex: 1;
+    background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    font-family: inherit;
+    padding: 0.58rem 0.4rem;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.15s;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-ghost {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-ghost:hover { border-color: var(--accent2); opacity: 1; transform: translateY(-1px); }
+
+  .toggle-group { display: flex; flex-wrap: wrap; gap: 0.32rem; }
+
+  .toggle-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-family: inherit;
+    padding: 0.28rem 0.6rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .toggle-btn.active {
+    background: rgba(255,107,107,0.15);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  select {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.85rem;
+    font-family: inherit;
+    padding: 0.48rem 0.72rem;
+    outline: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- LEFT: canvas -->
+<div class="left-panel">
+  <div class="canvas-wrap">
+    <canvas id="nameCanvas"></canvas>
+    <div class="font-info">
+      <span>Font: <span class="font-tag" id="fontLabel">–</span></span>
+      <button class="dl-btn" onclick="downloadImage()">⬇ Download PNG</button>
+    </div>
+  </div>
+  <div class="history-strip" id="historyStrip"></div>
+</div>
+
+<!-- RIGHT: controls -->
+<div class="right-panel">
+
+  <div>
+    <div class="app-title">✨ Name Card</div>
+    <div class="app-sub">Livestream generator</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-label">Name</div>
+    <input type="text" id="nameInput" placeholder="Type a name…" maxlength="40" value="StreamerPro" />
+    <div class="btn-row">
+      <button class="btn" onclick="generate(true)">🎲 Randomize</button>
+      <button class="btn btn-ghost" onclick="generate(false)">🔄 New look</button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-label">Background</div>
+    <div class="toggle-group" id="bgGroup">
+      <button class="toggle-btn active" data-bg="dark" onclick="setBg(this)">Dark</button>
+      <button class="toggle-btn" data-bg="light" onclick="setBg(this)">Light</button>
+      <button class="toggle-btn" data-bg="gradient" onclick="setBg(this)">Gradient</button>
+      <button class="toggle-btn" data-bg="neon" onclick="setBg(this)">Neon</button>
+      <button class="toggle-btn" data-bg="pastel" onclick="setBg(this)">Pastel</button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-label">Canvas size</div>
+    <select id="sizeSelect" onchange="generate(false)">
+      <option value="landscape">Landscape (16:9)</option>
+      <option value="square">Square (1:1)</option>
+      <option value="banner">Wide Banner</option>
+      <option value="portrait">Portrait (9:16)</option>
+    </select>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Emoji density</div>
+    <div class="toggle-group" id="densityGroup">
+      <button class="toggle-btn" data-density="low" onclick="setDensity(this)">Few</button>
+      <button class="toggle-btn active" data-density="medium" onclick="setDensity(this)">Medium</button>
+      <button class="toggle-btn" data-density="high" onclick="setDensity(this)">Many</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const FONTS = [
+  'Abril Fatface','Alfa Slab One','Amiri','Anton','Archivo Black','Baloo 2',
+  'Bebas Neue','Bitter','Black Han Sans','Boogaloo','Bowlby One SC','Bree Serif',
+  'Cabin','Caveat','Chakra Petch','Cinzel','Codystar','Comfortaa','Concert One',
+  'Cookie','Courgette','Creepster','Crimson Pro','Dancing Script','DM Serif Display',
+  'Domine','Dosis','Exo 2','Fjalla One','Fraunces','Fredoka One','Fugaz One',
+  'Germania One','Gochi Hand','Graduate','Grand Hotel','Gravitas One',
+  'Ibarra Real Nova','Josefin Sans','Josefin Slab','Jost','Kaushan Script',
+  'Krona One','Lalezar','Leckerli One','Lilita One','Lobster','Lora',
+  'Merriweather','Monoton','Montserrat','Mochiy Pop One','Nanum Brush Script',
+  'Nunito','Orbitron','Oswald','Outfit','Pacifico','Permanent Marker',
+  'Philosopher','Pirata One','Playfair Display','Poiret One','Poppins',
+  'Press Start 2P','Protest Riot','PT Serif','Quantico','Quicksand','Raleway',
+  'Rancho','Righteous','Roboto Slab','Ropa Sans','Rowdies','Russo One',
+  'Satisfy','Secular One','Shrikhand','Sigmar One','Sirin Stencil','Skranji',
+  'Slabo 27px','Space Mono','Spicy Rice','Squada One','Teko','Titan One',
+  'Titillium Web','Tourney','Ubuntu','Ultra','Unbounded','Unica One',
+  'Varela Round','Vidaloka','Volkhov','Waiting for the Sunrise',
+  'Yellowtail','Yeseva One','ZCOOL KuaiLe','Zilla Slab'
+];
+
+const EMOJI_SETS = {
+  sparkle: ['✨','⭐','🌟','💫','🔥','💥','🎇','🎆','🌈','⚡','🌠','💎'],
+  fun:     ['🎉','🎊','🎈','🎁','🎮','🕹️','🎯','🏆','🥇','🎵','🎶','💃'],
+  nature:  ['🌸','🌺','🌻','🌼','🍀','🦋','🌙','☀️','🌊','🍃','🌿','🎋'],
+  cool:    ['😎','🤩','🔥','💯','👑','🦄','🐉','🦅','🌀','❄️','⚔️','🛡️'],
+  hearts:  ['❤️','💖','💗','💝','💕','💞','🩷','🧡','💛','💚','💙','💜'],
+};
+
+const BG_THEMES = {
+  dark:     { type:'solid',    colors:['#0f0e17'] },
+  light:    { type:'solid',    colors:['#f8f6f0'] },
+  gradient: { type:'gradient', palettes:[['#1a1a2e','#16213e','#0f3460'],['#2d0057','#57003d','#000a6b'],['#0a0a0a','#1a3a2a','#0a1a0a'],['#3d0000','#1a0000','#600000']] },
+  neon:     { type:'neon',     palettes:[['#0d0221','#030015','#160030'],['#001a0d','#000d00','#001a1a']] },
+  pastel:   { type:'solid',    colors:['#fff0f3','#f0fff4','#fff8e1','#e8f4fd','#f3e5f5'] },
+};
+
+const TEXT_COLORS = {
+  dark:     ['#ffffff','#ffd93d','#ff6b6b','#6bcb77','#4d96ff','#c77dff','#ff9f1c'],
+  light:    ['#0f0e17','#5c0a00','#003566','#00420a','#3d0066','#5c3400'],
+  gradient: ['#ffffff','#ffd93d','#a8daff','#b5ffb5','#ffb3c1','#c9b1ff'],
+  neon:     ['#00ffff','#ff00ff','#00ff41','#ffff00','#ff6600','#ff0099'],
+  pastel:   ['#5c0a00','#003566','#00420a','#3d0066','#5c3400','#003333'],
+};
+
+let currentBg = 'dark', currentDensity = 'medium', currentFont = '', currentDataUrl = '';
+
+const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+const randInt = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+
+function setBg(btn) {
+  document.querySelectorAll('#bgGroup .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentBg = btn.dataset.bg;
+  generate(false);
+}
+
+function setDensity(btn) {
+  document.querySelectorAll('#densityGroup .toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentDensity = btn.dataset.density;
+  generate(false);
+}
+
+function getCanvasSize() {
+  const s = document.getElementById('sizeSelect').value;
+  return { landscape:{w:1280,h:720}, square:{w:800,h:800}, banner:{w:1600,h:500}, portrait:{w:720,h:1280} }[s];
+}
+
+function drawBackground(ctx, w, h) {
+  const bg = BG_THEMES[currentBg];
+  if (bg.type === 'solid') {
+    ctx.fillStyle = rand(bg.colors); ctx.fillRect(0,0,w,h);
+  } else if (bg.type === 'gradient') {
+    const p = rand(bg.palettes);
+    const g = ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,p[0]); g.addColorStop(0.5,p[1]); g.addColorStop(1,p[2]);
+    ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+  } else if (bg.type === 'neon') {
+    ctx.fillStyle = rand(bg.palettes)[0]; ctx.fillRect(0,0,w,h);
+    ['#ff00ff55','#00ffff44','#ff006633','#00ff4133'].forEach(c => {
+      const r = ctx.createRadialGradient(randInt(0,w),randInt(0,h),0,randInt(0,w),randInt(0,h),randInt(w/4,w/2));
+      r.addColorStop(0,c); r.addColorStop(1,'transparent');
+      ctx.fillStyle = r; ctx.fillRect(0,0,w,h);
+    });
+  }
+}
+
+function drawEmojis(ctx, w, h, cy, textH) {
+  const counts = { low: randInt(6,12), medium: randInt(15,25), high: randInt(28,45) };
+  const pool = Object.values(EMOJI_SETS).flat();
+  const emojis = Array.from({ length: counts[currentDensity] }, () => rand(pool));
+  const safeTop = cy - textH * 0.7, safeBot = cy + textH * 0.7;
+  emojis.forEach(e => {
+    let x, y, t = 0;
+    do { x = randInt(10,w-10); y = randInt(10,h-10); t++; if(t>30) break; }
+    while (y > safeTop-30 && y < safeBot+30 && x > w*0.15 && x < w*0.85);
+    const sz = randInt(currentDensity==='high'?28:32, currentDensity==='high'?55:70);
+    ctx.save();
+    ctx.translate(x,y); ctx.rotate((Math.random()-0.5)*Math.PI*0.6);
+    ctx.font=`${sz}px serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(e,0,0); ctx.restore();
+  });
+}
+
+async function generate(newFont = true) {
+  const name = document.getElementById('nameInput').value.trim() || 'StreamerPro';
+  const {w, h} = getCanvasSize();
+  if (newFont || !currentFont) currentFont = rand(FONTS);
+  document.getElementById('fontLabel').textContent = currentFont;
+
+  const canvas = document.getElementById('nameCanvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d');
+
+  drawBackground(ctx, w, h);
+  await document.fonts.ready;
+
+  let fontSize = Math.min(h * 0.28, 220);
+  ctx.font = `900 ${fontSize}px '${currentFont}', sans-serif`;
+  while (ctx.measureText(name).width > w*0.82 && fontSize > 24) {
+    fontSize -= 2;
+    ctx.font = `900 ${fontSize}px '${currentFont}', sans-serif`;
+  }
+
+  const tc = TEXT_COLORS[currentBg];
+  const c1 = rand(tc);
+  let c2 = rand(tc); while(c2===c1) c2=rand(tc);
+  const cx=w/2, cy=h/2, tm=ctx.measureText(name), textH=fontSize*1.1;
+
+  drawEmojis(ctx, w, h, cy, textH);
+
+  ctx.save();
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.font=`900 ${fontSize}px '${currentFont}', sans-serif`;
+  ctx.shadowColor = ['dark','gradient','neon'].includes(currentBg) ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.7)';
+  ctx.shadowBlur=18; ctx.shadowOffsetX=3; ctx.shadowOffsetY=4;
+  const g = ctx.createLinearGradient(cx-tm.width/2, cy-textH/2, cx+tm.width/2, cy+textH/2);
+  g.addColorStop(0,c1); g.addColorStop(1,c2);
+  ctx.fillStyle=g; ctx.fillText(name,cx,cy);
+  ctx.shadowBlur=0; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0;
+  ctx.restore();
+
+  currentDataUrl = canvas.toDataURL('image/png');
+  addToHistory(currentDataUrl);
+}
+
+function downloadImage() {
+  if (!currentDataUrl) return;
+  const name = document.getElementById('nameInput').value.trim() || 'namecard';
+  const a = document.createElement('a');
+  a.href = currentDataUrl;
+  a.download = `${name.replace(/\s+/g,'_')}_namecard.png`;
+  a.click();
+}
+
+function addToHistory(dataUrl) {
+  const strip = document.getElementById('historyStrip');
+  const thumb = document.createElement('div');
+  thumb.className = 'history-thumb';
+  thumb.title = 'Click to download';
+  const img = document.createElement('img'); img.src = dataUrl;
+  thumb.appendChild(img);
+  thumb.onclick = () => { const a=document.createElement('a'); a.href=dataUrl; a.download='namecard.png'; a.click(); };
+  strip.insertBefore(thumb, strip.firstChild);
+  while (strip.children.length > 10) strip.removeChild(strip.lastChild);
+}
+
+document.getElementById('nameInput').addEventListener('input', () => generate(false));
+document.getElementById('nameInput').addEventListener('keydown', e => { if(e.key==='Enter') generate(true); });
+
+generate();
+</script>
+</body>
+</html>
