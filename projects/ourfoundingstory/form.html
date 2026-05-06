@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founding Contribution — Raj & Ananya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f7f2eb;
+    --cream: #ede8df;
+    --gold: #b8975a;
+    --gold-light: #d4b87a;
+    --gold-muted: #e8d9b8;
+    --red-accent: #8b2c2c;
+    --muted: #7a6e62;
+    --border: #d5cab8;
+    --white: #fdfaf5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* PROGRESS BAR */
+  .progress-rail {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold-muted);
+    z-index: 100;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  /* STEP INDICATORS */
+  .step-nav {
+    position: fixed;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 99;
+  }
+  .step-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .step-dot.active { background: var(--gold); transform: scale(1.6); }
+  .step-dot.done { background: var(--gold-muted); }
+
+  /* HERO BANNER */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 10vw, 100px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-divider {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 36px auto;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-gift-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 40px 56px;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .hero-gift-card::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 8px; right: -8px; bottom: -8px;
+    border: 1px solid var(--gold-muted);
+    z-index: -1;
+  }
+
+  .gift-label {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .gift-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .gift-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--gold);
+    margin-bottom: 28px;
+  }
+
+  .progress-bar-wrap {
+    margin-bottom: 12px;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--cream);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-segment {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    width: 60%;
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .supported-by {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .supporter-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink);
+    display: block;
+    margin-top: 4px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .begin-btn {
+    margin-top: 52px;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 18px 48px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .begin-btn:hover {
+    background: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(184,151,90,0.3);
+  }
+
+  .begin-btn svg { transition: transform 0.3s; }
+  .begin-btn:hover svg { transform: translateX(4px); }
+
+  /* FORM WRAPPER */
+  .form-wrapper {
+    display: none;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 120px;
+  }
+
+  .form-wrapper.visible { display: block; }
+
+  /* SECTION */
+  .form-section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+
+  .form-section.revealed { opacity: 1; transform: translateY(0); }
+
+  .section-number {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 52px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 40px;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* FIELD */
+  .field-group {
+    margin-bottom: 32px;
+  }
+
+  label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  label .req { color: var(--gold); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.3s;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+  }
+
+  textarea {
+    resize: none;
+    min-height: 120px;
+    line-height: 1.6;
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23b8975a'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 4px center;
+    padding-right: 24px;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--border);
+    font-style: italic;
+    font-size: 20px;
+  }
+
+  .char-count {
+    text-align: right;
+    font-size: 10px;
+    color: var(--border);
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .field-hint {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* RADIO / PILL GROUP */
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .radio-pill input { display: none; }
+
+  .radio-pill label {
+    display: block;
+    padding: 9px 22px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.25s;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .radio-pill input:checked + label {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: var(--white);
+  }
+
+  .radio-pill label:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* TWO COLUMN */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* FAMILY MEMBERS */
+  .family-members-wrap { margin-top: 24px; }
+
+  .member-card {
+    border: 1px solid var(--border);
+    padding: 28px;
+    margin-bottom: 16px;
+    position: relative;
+    background: var(--white);
+    animation: fadeUp 0.4s forwards;
+  }
+
+  .member-card .remove-btn {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none;
+    border: none;
+    color: var(--border);
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.2s;
+    line-height: 1;
+    padding: 4px;
+  }
+  .member-card .remove-btn:hover { color: var(--red-accent); }
+
+  .add-member-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: 1px dashed var(--gold);
+    color: var(--gold);
+    padding: 12px 28px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-top: 8px;
+  }
+  .add-member-btn:hover { background: var(--gold); color: var(--white); }
+
+  /* UPLOAD ZONES */
+  .upload-zone {
+    border: 1px dashed var(--border);
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    background: var(--white);
+  }
+
+  .upload-zone:hover { border-color: var(--gold); }
+  .upload-zone input[type="file"] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    font-size: 0;
+  }
+
+  .upload-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    display: block;
+    color: var(--gold);
+  }
+
+  .upload-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .upload-hint {
+    font-size: 12px;
+    color: var(--border);
+    font-style: italic;
+  }
+
+  .upload-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .upload-preview img {
+    width: 72px; height: 72px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+  }
+
+  /* VISIBILITY SELECT */
+  .visibility-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .vis-option input { display: none; }
+
+  .vis-option label {
+    display: block;
+    border: 1px solid var(--border);
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin: 0;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .vis-option label .vis-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+    font-style: normal;
+  }
+
+  .vis-option label .vis-desc {
+    font-size: 11px;
+    color: var(--muted);
+    display: block;
+  }
+
+  .vis-option input:checked + label {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, rgba(184,151,90,0.06), rgba(184,151,90,0.02));
+  }
+
+  @media (max-width: 500px) { .visibility-grid { grid-template-columns: 1fr; } }
+
+  /* TIME CAPSULE */
+  .capsule-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .capsule-option input { display: none; }
+
+  .capsule-option label {
+    display: block;
+    border: 1px solid var(--border);
+    padding: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.25s;
+    margin: 0;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .capsule-option label .cap-icon { font-size: 22px; display: block; margin-bottom: 6px; }
+  .capsule-option label .cap-label { font-size: 12px; color: var(--muted); display: block; }
+
+  .capsule-option input:checked + label {
+    border-color: var(--gold);
+    background: rgba(184,151,90,0.05);
+  }
+
+  @media (max-width: 500px) { .capsule-grid { grid-template-columns: 1fr; } }
+
+  /* MAGAZINE PREVIEW */
+  .magazine-preview {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 60px 48px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 32px;
+  }
+
+  .magazine-preview::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .mag-issue {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mag-issue::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(184,151,90,0.3);
+    margin-left: 20px;
+  }
+
+  .mag-contributor-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+    color: var(--paper);
+  }
+
+  .mag-role {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+
+  .mag-blessing {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(247,242,235,0.8);
+    margin-bottom: 36px;
+    padding-left: 24px;
+    border-left: 2px solid var(--gold);
+  }
+
+  .mag-gift-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 28px;
+    border-top: 1px solid rgba(184,151,90,0.3);
+  }
+
+  .mag-gift-title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .mag-gift-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--paper);
+  }
+
+  .mag-gift-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    color: var(--gold);
+    text-align: right;
+  }
+
+  /* AMOUNT INPUT */
+  .amount-wrap {
+    position: relative;
+  }
+
+  .amount-prefix {
+    position: absolute;
+    left: 0;
+    bottom: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--muted);
+  }
+
+  .amount-wrap input { padding-left: 24px; }
+
+  /* NAVIGATION */
+  .form-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-back {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 14px 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .nav-back:hover { border-color: var(--ink); color: var(--ink); }
+
+  .nav-next {
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    color: var(--paper);
+    padding: 14px 40px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .nav-next:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    transform: translateX(4px);
+  }
+
+  .nav-complete {
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: var(--white);
+    padding: 18px 48px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .nav-complete:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+  }
+
+  /* SAVED BADGE */
+  .saved-badge {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 24px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: all 0.4s;
+    z-index: 200;
+    pointer-events: none;
+  }
+
+  .saved-badge.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* CEREMONY OVERLAY */
+  .ceremony-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--ink);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s;
+  }
+
+  .ceremony-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .ceremony-inner {
+    text-align: center;
+    max-width: 560px;
+    padding: 40px;
+    transform: scale(0.92);
+    transition: transform 0.8s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  .ceremony-overlay.active .ceremony-inner { transform: scale(1); }
+
+  .ceremony-seal {
+    width: 100px; height: 100px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    margin: 0 auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(184,151,90,0.4); }
+    50% { box-shadow: 0 0 0 20px rgba(184,151,90,0); }
+  }
+
+  .ceremony-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .ceremony-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--paper);
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+
+  .ceremony-text {
+    font-size: 14px;
+    color: rgba(247,242,235,0.6);
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  .ceremony-close {
+    background: none;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 12px 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .ceremony-close:hover { background: var(--gold); color: var(--ink); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLL PROMPTS */
+  .scroll-hint {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--border);
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+
+  /* YES/NO toggle */
+  .toggle-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .toggle-btn input { display: none; }
+
+  .toggle-btn label {
+    display: block;
+    padding: 10px 28px;
+    border: 1px solid var(--border);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.25s;
+    margin: 0;
+  }
+
+  .toggle-btn input:checked + label {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: var(--white);
+  }
+
+  /* Watermark */
+  .mag-watermark {
+    position: absolute;
+    bottom: 20px; right: 24px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(184,151,90,0.3);
+  }
+
+  /* section hidden/show */
+  .form-section { display: none; }
+  .form-section.active-section { display: block; }
+
+  /* INLINE PROMPT */
+  .emotional-prompt {
+    background: linear-gradient(135deg, rgba(184,151,90,0.06), transparent);
+    border-left: 2px solid var(--gold);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+<nav class="step-nav" id="stepNav"></nav>
+
+<!-- HERO -->
+<section class="hero" id="heroSection">
+  <div class="eyebrow">A Wedding Gift Registry Contribution</div>
+  <h1 class="hero-title">Founding<br><em>Contribution</em></h1>
+  <div class="hero-divider"></div>
+
+  <div class="hero-gift-card">
+    <div class="gift-label">You are contributing toward</div>
+    <div class="gift-name">"First Home Dining Table"</div>
+    <div class="gift-amount">₹1,20,000</div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-track"><div class="progress-segment"></div></div>
+      <div class="progress-meta">
+        <span>₹72,000 raised</span>
+        <span>60% complete</span>
+      </div>
+    </div>
+
+    <div class="supported-by">
+      Currently Supported By
+      <span class="supporter-name">The Mehtas & Family</span>
+    </div>
+  </div>
+
+  <button class="begin-btn" onclick="beginForm()">
+    Begin Your Contribution
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="scroll-hint">8 thoughtful steps · Takes about 5 minutes</div>
+</section>
+
+<!-- FORM -->
+<div class="form-wrapper" id="formWrapper">
+
+  <!-- STEP 1: Contributor Identity -->
+  <section class="form-section" data-step="1">
+    <div class="section-number">Step 01 of 08</div>
+    <h2 class="section-title">Who is<br><em>contributing?</em></h2>
+
+    <div class="field-group">
+      <label>Contribution Type</label>
+      <div class="radio-group" id="contribTypeGroup">
+        <div class="radio-pill"><input type="radio" name="contribType" id="ct1" value="Individual" checked><label for="ct1">Individual</label></div>
+        <div class="radio-pill"><input type="radio" name="contribType" id="ct2" value="Couple"><label for="ct2">Couple</label></div>
+        <div class="radio-pill"><input type="radio" name="contribType" id="ct3" value="Family"><label for="ct3">Family</label></div>
+        <div class="radio-pill"><input type="radio" name="contribType" id="ct4" value="Group of Friends"><label for="ct4">Group of Friends</label></div>
+        <div class="radio-pill"><input type="radio" name="contribType" id="ct5" value="Organisation"><label for="ct5">Organisation</label></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field-group">
+        <label>Display Name <span class="req">*</span></label>
+        <input type="text" id="displayName" placeholder="The Guptas" maxlength="60">
+        <div class="field-hint">How you'll appear on the magazine</div>
+      </div>
+      <div class="field-group">
+        <label>Primary Contact <span class="req">*</span></label>
+        <input type="text" id="contactName" placeholder="Rajesh Gupta" maxlength="60">
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="field-group">
+        <label>Email <span class="req">*</span></label>
+        <input type="email" id="contactEmail" placeholder="rajesh@family.com">
+      </div>
+      <div class="field-group">
+        <label>Phone</label>
+        <input type="tel" id="contactPhone" placeholder="+91 98765 43210">
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Relationship to the Couple <span class="req">*</span></label>
+      <select id="relationshipType">
+        <option value="">Select relationship…</option>
+        <option>Bride's Family</option>
+        <option>Groom's Family</option>
+        <option>Friend of Bride</option>
+        <option>Friend of Groom</option>
+        <option>Friend of Both</option>
+        <option>Colleague</option>
+        <option>Mentor</option>
+        <option>Family Friend</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <!-- FAMILY MEMBERS (conditional) -->
+    <div id="familySection" style="display:none;">
+      <div class="field-group">
+        <label>Family Members</label>
+        <div class="family-members-wrap" id="familyMembersWrap"></div>
+        <button class="add-member-btn" onclick="addFamilyMember()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Add Member
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 2: Relationship Story -->
+  <section class="form-section" data-step="2">
+    <div class="section-number">Step 02 of 08</div>
+    <h2 class="section-title">Your Journey<br><em>With Them</em></h2>
+
+    <div class="emotional-prompt" id="relationPrompt">
+      "How do you know Raj & Ananya?"
+    </div>
+
+    <div class="field-group">
+      <label>How do you know the couple? <span class="req">*</span></label>
+      <textarea id="relationStory" placeholder="Ananya is my niece. We watched her grow from a curious little girl into the extraordinary woman she is today…" maxlength="600" oninput="countChars(this,'rc1')"></textarea>
+      <div class="char-count"><span id="rc1">0</span> / 600</div>
+    </div>
+
+    <div class="field-group">
+      <label>Years Known</label>
+      <input type="number" id="yearsKnown" placeholder="12" min="0" max="100" style="max-width:120px;">
+    </div>
+
+    <div class="field-group">
+      <label>A Cherished Memory</label>
+      <div class="emotional-prompt">What is your favourite story involving this couple?</div>
+      <textarea id="favoriteMemory" placeholder="I still laugh about the time Raj got completely lost trying to find our house for Diwali dinner — and somehow arrived two hours late with the most beautiful bouquet…" maxlength="800" oninput="countChars(this,'rc2')"></textarea>
+      <div class="char-count"><span id="rc2">0</span> / 800</div>
+    </div>
+  </section>
+
+  <!-- STEP 3: Blessing -->
+  <section class="form-section" data-step="3">
+    <div class="section-number">Step 03 of 08</div>
+    <h2 class="section-title">Your<br><em>Blessing</em></h2>
+
+    <div class="emotional-prompt">
+      "What do you wish for their new home together?"
+    </div>
+
+    <div class="field-group">
+      <label>Written Blessing <span class="req">*</span></label>
+      <textarea id="blessing" placeholder="May your home always be filled with warm meals, louder laughter, and the quiet comfort of knowing you are loved…" maxlength="500" oninput="countChars(this,'rc3');updatePreview()"></textarea>
+      <div class="char-count"><span id="rc3">0</span> / 500 · Short editorial-style blessing preferred</div>
+    </div>
+
+    <div class="field-group">
+      <label>Why This Gift? <span class="req">*</span></label>
+      <textarea id="whyThisGift" placeholder="We chose the dining table because every great family story begins around one. May yours be long and loud." maxlength="400" oninput="countChars(this,'rc4')"></textarea>
+      <div class="char-count"><span id="rc4">0</span> / 400</div>
+    </div>
+
+    <div class="field-group">
+      <label>Signature Line</label>
+      <input type="text" id="signatureLine" placeholder="With love from the Guptas" maxlength="80" oninput="updatePreview()">
+      <div class="field-hint">Appears below your blessing in the magazine</div>
+    </div>
+  </section>
+
+  <!-- STEP 4: Media -->
+  <section class="form-section" data-step="4">
+    <div class="section-number">Step 04 of 08</div>
+    <h2 class="section-title">Your Voice &amp;<br><em>Memories</em></h2>
+
+    <div class="field-group">
+      <label>Upload Shared Photos</label>
+      <div class="upload-zone">
+        <input type="file" id="photoUpload" accept="image/*" multiple onchange="handlePhotoUpload(this)">
+        <span class="upload-icon">🖼</span>
+        <span class="upload-label">Upload Photos</span>
+        <span class="upload-hint">Childhood photos, family moments, vacations together</span>
+      </div>
+      <div class="upload-preview" id="photoPreview"></div>
+    </div>
+
+    <div class="two-col">
+      <div class="field-group">
+        <label>Audio Blessing</label>
+        <div class="upload-zone">
+          <input type="file" id="audioUpload" accept="audio/*">
+          <span class="upload-icon">🎙</span>
+          <span class="upload-label">Upload Audio</span>
+          <span class="upload-hint">Grandparent blessings, family songs</span>
+        </div>
+        <div id="audioName" style="margin-top:10px;font-size:12px;color:var(--muted);"></div>
+      </div>
+
+      <div class="field-group">
+        <label>Video Message</label>
+        <div class="upload-zone">
+          <input type="file" id="videoUpload" accept="video/*">
+          <span class="upload-icon">🎬</span>
+          <span class="upload-label">Upload Video</span>
+          <span class="upload-hint">Marriage advice, future wishes</span>
+        </div>
+        <div id="videoName" style="margin-top:10px;font-size:12px;color:var(--muted);"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 5: Contribution Amount -->
+  <section class="form-section" data-step="5">
+    <div class="section-number">Step 05 of 08</div>
+    <h2 class="section-title">Your<br><em>Contribution</em></h2>
+
+    <div class="field-group">
+      <label>Contribution Amount <span class="req">*</span></label>
+      <div class="amount-wrap">
+        <span class="amount-prefix">₹</span>
+        <input type="number" id="contribAmount" placeholder="10,000" min="100" oninput="updatePreview()">
+      </div>
+      <div class="field-hint">Remaining: ₹48,000 of ₹1,20,000 available</div>
+    </div>
+
+    <div class="field-group">
+      <label>Quick Select</label>
+      <div class="radio-group">
+        <div class="radio-pill"><input type="radio" name="quickAmt" id="qa1" value="5000"><label for="qa1" onclick="setAmt(5000)">₹5,000</label></div>
+        <div class="radio-pill"><input type="radio" name="quickAmt" id="qa2" value="10000"><label for="qa2" onclick="setAmt(10000)">₹10,000</label></div>
+        <div class="radio-pill"><input type="radio" name="quickAmt" id="qa3" value="25000"><label for="qa3" onclick="setAmt(25000)">₹25,000</label></div>
+        <div class="radio-pill"><input type="radio" name="quickAmt" id="qa4" value="48000"><label for="qa4" onclick="setAmt(48000)">Complete It</label></div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Payment Method</label>
+      <div class="radio-group">
+        <div class="radio-pill"><input type="radio" name="payMethod" id="pm1" value="UPI" checked><label for="pm1">UPI</label></div>
+        <div class="radio-pill"><input type="radio" name="payMethod" id="pm2" value="Bank Transfer"><label for="pm2">Bank Transfer</label></div>
+        <div class="radio-pill"><input type="radio" name="payMethod" id="pm3" value="Card"><label for="pm3">Card</label></div>
+        <div class="radio-pill"><input type="radio" name="payMethod" id="pm4" value="Cash"><label for="pm4">Cash</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 6: Visibility -->
+  <section class="form-section" data-step="6">
+    <div class="section-number">Step 06 of 08</div>
+    <h2 class="section-title">Recognition<br><em>Preferences</em></h2>
+
+    <div class="field-group">
+      <label>Contribution Visibility</label>
+      <div class="visibility-grid">
+        <div class="vis-option"><input type="radio" name="visibility" id="v1" value="Public" checked><label for="v1"><span class="vis-title">Public</span><span class="vis-desc">Name and amount visible to all guests</span></label></div>
+        <div class="vis-option"><input type="radio" name="visibility" id="v2" value="Family Only"><label for="v2"><span class="vis-title">Family Only</span><span class="vis-desc">Visible only to the couple's family</span></label></div>
+        <div class="vis-option"><input type="radio" name="visibility" id="v3" value="Anonymous Amount"><label for="v3"><span class="vis-title">Anonymous Amount</span><span class="vis-desc">Name visible, amount hidden</span></label></div>
+        <div class="vis-option"><input type="radio" name="visibility" id="v4" value="Fully Anonymous"><label for="v4"><span class="vis-title">Fully Anonymous</span><span class="vis-desc">Contribution is private</span></label></div>
+      </div>
+    </div>
+
+    <div class="field-group" style="margin-top:40px;">
+      <label>Include in Printed Legacy Magazine?</label>
+      <div class="toggle-row">
+        <div class="toggle-btn"><input type="radio" name="magazine" id="mg1" value="Yes" checked><label for="mg1">Yes, include me</label></div>
+        <div class="toggle-btn"><input type="radio" name="magazine" id="mg2" value="No"><label for="mg2">No, thank you</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 7: Time Capsule -->
+  <section class="form-section" data-step="7">
+    <div class="section-number">Step 07 of 08</div>
+    <h2 class="section-title">Legacy<br><em>Time Capsule</em></h2>
+
+    <div class="field-group">
+      <label>When should this message unlock?</label>
+      <div class="capsule-grid">
+        <div class="capsule-option"><input type="radio" name="capsule" id="cap1" value="First Anniversary"><label for="cap1"><span class="cap-icon">🥂</span><span class="cap-label">First Anniversary</span></label></div>
+        <div class="capsule-option"><input type="radio" name="capsule" id="cap2" value="5 Years Later"><label for="cap2"><span class="cap-icon">🌿</span><span class="cap-label">5 Years Later</span></label></div>
+        <div class="capsule-option"><input type="radio" name="capsule" id="cap3" value="After First Child"><label for="cap3"><span class="cap-icon">🌸</span><span class="cap-label">After First Child</span></label></div>
+        <div class="capsule-option"><input type="radio" name="capsule" id="cap4" value="10 Years Later"><label for="cap4"><span class="cap-icon">🏡</span><span class="cap-label">10 Years Later</span></label></div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Future Message</label>
+      <div class="emotional-prompt">What do you want them to read in the future?</div>
+      <textarea id="futureMessage" placeholder="By the time you read this, I hope your dining table has hosted a hundred feasts and at least one chaotic family reunion…" maxlength="600" oninput="countChars(this,'rc5')"></textarea>
+      <div class="char-count"><span id="rc5">0</span> / 600</div>
+    </div>
+  </section>
+
+  <!-- STEP 8: Preview + Complete -->
+  <section class="form-section" data-step="8">
+    <div class="section-number">Step 08 of 08</div>
+    <h2 class="section-title">Your Magazine<br><em>Preview</em></h2>
+
+    <div class="magazine-preview" id="magPreview">
+      <div class="mag-issue">
+        <span>Legacy Edition · Raj & Ananya 2025</span>
+      </div>
+      <div class="mag-contributor-name" id="magName">Your Name</div>
+      <div class="mag-role">Founding Contributor</div>
+      <div class="mag-blessing" id="magBlessing">Your blessing will appear here…</div>
+      <div class="mag-gift-row">
+        <div>
+          <div class="mag-gift-title">Sponsored</div>
+          <div class="mag-gift-name">First Home Dining Table</div>
+        </div>
+        <div class="mag-gift-value" id="magAmount">₹—</div>
+      </div>
+      <div class="mag-watermark">raj-ananya.legacy</div>
+    </div>
+
+    <div style="margin-top:40px; padding:28px; border:1px solid var(--border); background:var(--white);">
+      <div style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">Contribution Summary</div>
+      <div id="summaryContent" style="font-family:'Cormorant Garamond',serif; font-size:18px; line-height:2; color:var(--ink);"></div>
+    </div>
+
+    <div class="form-nav">
+      <button class="nav-back" onclick="goStep(currentStep - 1)">← Previous</button>
+      <button class="nav-complete" onclick="completeContribution()">
+        Become Part of Their Story
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1l2 5h5l-4 3 1.5 5L8 11l-4.5 3L5 9 1 6h5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="rgba(255,255,255,0.2)"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- NAV (except last step) -->
+  <div id="mainNav" class="form-nav" style="display:none;">
+    <button class="nav-back" id="backBtn" onclick="goStep(currentStep - 1)">← Previous</button>
+    <button class="nav-next" id="nextBtn" onclick="goStep(currentStep + 1)">
+      Continue
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- SAVED BADGE -->
+<div class="saved-badge" id="savedBadge">Draft saved ✓</div>
+
+<!-- CEREMONY OVERLAY -->
+<div class="ceremony-overlay" id="ceremonyOverlay">
+  <div class="ceremony-inner">
+    <div class="ceremony-seal">✦</div>
+    <div class="ceremony-eyebrow">Contribution Complete</div>
+    <h2 class="ceremony-headline" id="ceremonyHeadline">The Guptas have become<br>Founding Contributors</h2>
+    <p class="ceremony-text" id="ceremonyText">
+      Your contribution to <em>Raj & Ananya's</em> First Home Dining Table has been recorded.<br>
+      You are now part of their founding story — forever.
+    </p>
+    <button class="ceremony-close" onclick="closeCeremony()">Return to the Registry</button>
+  </div>
+</div>
+
+<script>
+const TOTAL_STEPS = 8;
+let currentStep = 1;
+let memberCount = 0;
+let photoFiles = [];
+
+const STEP_LABELS = [
+  'Identity','Story','Blessing','Media','Amount','Visibility','Time Capsule','Preview'
+];
+
+// ─── INIT ───────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  buildStepNav();
+  loadFromStorage();
+  setupAutoSave();
+  setupFamilyToggle();
+  updatePreview();
+});
+
+function buildStepNav() {
+  const nav = document.getElementById('stepNav');
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'step-dot';
+    dot.setAttribute('data-step', i);
+    dot.title = STEP_LABELS[i-1];
+    dot.onclick = () => { if(document.getElementById('formWrapper').classList.contains('visible')) goStep(i); };
+    nav.appendChild(dot);
+  }
+}
+
+function beginForm() {
+  document.getElementById('heroSection').style.display = 'none';
+  const fw = document.getElementById('formWrapper');
+  fw.classList.add('visible');
+  goStep(1);
+  window.scrollTo(0,0);
+}
+
+// ─── NAVIGATION ─────────────────────────────────────────────────
+function goStep(n) {
+  if (n < 1 || n > TOTAL_STEPS) return;
+
+  // Save current before moving
+  saveToStorage();
+
+  // Hide all
+  document.querySelectorAll('.form-section').forEach(s => {
+    s.classList.remove('active-section','revealed');
+  });
+  document.getElementById('mainNav').style.display = 'none';
+
+  currentStep = n;
+
+  // Show current
+  const section = document.querySelector(`.form-section[data-step="${n}"]`);
+  section.classList.add('active-section');
+  setTimeout(() => section.classList.add('revealed'), 30);
+
+  // Show main nav (not on last step – it has its own)
+  if (n < TOTAL_STEPS) {
+    const nav = document.getElementById('mainNav');
+    nav.style.display = 'flex';
+    document.getElementById('backBtn').style.display = n === 1 ? 'none' : 'inline-flex';
+  }
+
+  // Update indicators
+  updateIndicators();
+
+  // Scroll to top of form
+  document.getElementById('formWrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // If preview step, build summary
+  if (n === TOTAL_STEPS) buildSummary();
+}
+
+function updateIndicators() {
+  const fill = ((currentStep - 1) / (TOTAL_STEPS - 1)) * 100;
+  document.getElementById('progressFill').style.width = fill + '%';
+
+  document.querySelectorAll('.step-dot').forEach((dot, i) => {
+    const step = i + 1;
+    dot.classList.toggle('active', step === currentStep);
+    dot.classList.toggle('done', step < currentStep);
+  });
+}
+
+// ─── FAMILY MEMBERS ──────────────────────────────────────────────
+function setupFamilyToggle() {
+  document.querySelectorAll('input[name="contribType"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const show = radio.value === 'Family' || radio.value === 'Group of Friends';
+      document.getElementById('familySection').style.display = show ? 'block' : 'none';
+    });
+  });
+}
+
+function addFamilyMember() {
+  memberCount++;
+  const id = memberCount;
+  const wrap = document.getElementById('familyMembersWrap');
+  const card = document.createElement('div');
+  card.className = 'member-card';
+  card.id = `member-${id}`;
+  card.innerHTML = `
+    <button class="remove-btn" onclick="removeMember(${id})" title="Remove">✕</button>
+    <div class="two-col">
+      <div class="field-group">
+        <label>Member Name</label>
+        <input type="text" id="mname-${id}" placeholder="Sunita Gupta" maxlength="60">
+      </div>
+      <div class="field-group">
+        <label>Relation</label>
+        <input type="text" id="mrel-${id}" placeholder="Aunt" maxlength="40">
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Personal Message (Optional)</label>
+      <input type="text" id="mmsg-${id}" placeholder="A quick note from them…" maxlength="120">
+    </div>
+  `;
+  wrap.appendChild(card);
+}
+
+function removeMember(id) {
+  const el = document.getElementById(`member-${id}`);
+  if (el) el.remove();
+}
+
+// ─── CHAR COUNTERS ───────────────────────────────────────────────
+function countChars(el, spanId) {
+  document.getElementById(spanId).textContent = el.value.length;
+}
+
+// ─── AMOUNT QUICK SELECT ─────────────────────────────────────────
+function setAmt(val) {
+  document.getElementById('contribAmount').value = val;
+  updatePreview();
+}
+
+// ─── PHOTO UPLOAD ────────────────────────────────────────────────
+function handlePhotoUpload(input) {
+  const preview = document.getElementById('photoPreview');
+  Array.from(input.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Store names
+  const names = Array.from(input.files).map(f => f.name);
+  document.getElementById('audioName');
+}
+
+// Handle audio/video name display
+document.addEventListener('change', e => {
+  if (e.target.id === 'audioUpload' && e.target.files[0]) {
+    document.getElementById('audioName').textContent = '🎙 ' + e.target.files[0].name;
+  }
+  if (e.target.id === 'videoUpload' && e.target.files[0]) {
+    document.getElementById('videoName').textContent = '🎬 ' + e.target.files[0].name;
+  }
+});
+
+// ─── PREVIEW ─────────────────────────────────────────────────────
+function updatePreview() {
+  const name = document.getElementById('displayName')?.value || 'Your Name';
+  const blessing = document.getElementById('blessing')?.value || 'Your blessing will appear here…';
+  const amount = document.getElementById('contribAmount')?.value;
+
+  document.getElementById('magName').textContent = name || 'Your Name';
+  document.getElementById('magBlessing').textContent = blessing || 'Your blessing will appear here…';
+  document.getElementById('magAmount').textContent = amount ? `₹${parseInt(amount).toLocaleString('en-IN')}` : '₹—';
+}
+
+function buildSummary() {
+  updatePreview();
+  const fields = [
+    ['Contributor', getValue('displayName') || '—'],
+    ['Contact', getValue('contactName') || '—'],
+    ['Relationship', getValue('relationshipType') || '—'],
+    ['Contribution', getValue('contribAmount') ? `₹${parseInt(getValue('contribAmount')).toLocaleString('en-IN')}` : '—'],
+    ['Payment', getRadio('payMethod') || '—'],
+    ['Visibility', getRadio('visibility') || '—'],
+    ['Magazine', getRadio('magazine') || '—'],
+    ['Time Capsule', getRadio('capsule') || '—'],
+  ];
+
+  const html = fields.map(([k, v]) =>
+    `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:6px 0;">
+      <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-family:'Jost',sans-serif;">${k}</span>
+      <span>${v}</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('summaryContent').innerHTML = html;
+}
+
+// ─── LOCAL STORAGE ───────────────────────────────────────────────
+function gatherData() {
+  return {
+    contribType: getRadio('contribType'),
+    displayName: getValue('displayName'),
+    contactName: getValue('contactName'),
+    contactEmail: getValue('contactEmail'),
+    contactPhone: getValue('contactPhone'),
+    relationshipType: getValue('relationshipType'),
+    relationStory: getValue('relationStory'),
+    yearsKnown: getValue('yearsKnown'),
+    favoriteMemory: getValue('favoriteMemory'),
+    blessing: getValue('blessing'),
+    whyThisGift: getValue('whyThisGift'),
+    signatureLine: getValue('signatureLine'),
+    contribAmount: getValue('contribAmount'),
+    payMethod: getRadio('payMethod'),
+    visibility: getRadio('visibility'),
+    magazine: getRadio('magazine'),
+    capsule: getRadio('capsule'),
+    futureMessage: getValue('futureMessage'),
+    currentStep: currentStep,
+    savedAt: new Date().toISOString()
+  };
+}
+
+function saveToStorage() {
+  try {
+    localStorage.setItem('foundingContrib', JSON.stringify(gatherData()));
+    flashSaved();
+  } catch(e) {}
+}
+
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem('foundingContrib');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+
+    setVal('displayName', d.displayName);
+    setVal('contactName', d.contactName);
+    setVal('contactEmail', d.contactEmail);
+    setVal('contactPhone', d.contactPhone);
+    setVal('relationshipType', d.relationshipType);
+    setVal('relationStory', d.relationStory);
+    setVal('yearsKnown', d.yearsKnown);
+    setVal('favoriteMemory', d.favoriteMemory);
+    setVal('blessing', d.blessing);
+    setVal('whyThisGift', d.whyThisGift);
+    setVal('signatureLine', d.signatureLine);
+    setVal('contribAmount', d.contribAmount);
+    setVal('futureMessage', d.futureMessage);
+
+    setRadio('contribType', d.contribType);
+    setRadio('payMethod', d.payMethod);
+    setRadio('visibility', d.visibility);
+    setRadio('magazine', d.magazine);
+    setRadio('capsule', d.capsule);
+
+    // Sync char counts
+    ['relationStory','favoriteMemory','blessing','whyThisGift','futureMessage'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.value) {
+        const map = {relationStory:'rc1',favoriteMemory:'rc2',blessing:'rc3',whyThisGift:'rc4',futureMessage:'rc5'};
+        const span = document.getElementById(map[id]);
+        if (span) span.textContent = el.value.length;
+      }
+    });
+
+    updatePreview();
+  } catch(e) {}
+}
+
+function setupAutoSave() {
+  // Debounced autosave on any input
+  let timer;
+  document.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(saveToStorage, 1500);
+    updatePreview();
+  });
+  document.addEventListener('change', () => {
+    clearTimeout(timer);
+    timer = setTimeout(saveToStorage, 800);
+  });
+}
+
+function flashSaved() {
+  const badge = document.getElementById('savedBadge');
+  badge.classList.add('show');
+  setTimeout(() => badge.classList.remove('show'), 2000);
+}
+
+// Helpers
+function getValue(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+function setValue(id, val) { const el = document.getElementById(id); if (el && val) el.value = val; }
+function setVal(id, val) { if (val !== undefined && val !== null) setValue(id, val); }
+function getRadio(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : null; }
+function setRadio(name, val) { if (!val) return; const el = document.querySelector(`input[name="${name}"][value="${CSS.escape(val)}"]`); if (el) el.checked = true; }
+
+// ─── COMPLETE ────────────────────────────────────────────────────
+function completeContribution() {
+  const name = getValue('displayName') || 'Your Family';
+  const amount = getValue('contribAmount');
+
+  document.getElementById('ceremonyHeadline').innerHTML =
+    `${name} have become<br>Founding Contributors`;
+
+  document.getElementById('ceremonyText').innerHTML =
+    `Your contribution${amount ? ' of <strong>₹' + parseInt(amount).toLocaleString('en-IN') + '</strong>' : ''} to <em>Raj & Ananya's</em> First Home Dining Table has been recorded.<br><br>You are now part of their founding story — forever.`;
+
+  document.getElementById('ceremonyOverlay').classList.add('active');
+  saveToStorage();
+}
+
+function closeCeremony() {
+  document.getElementById('ceremonyOverlay').classList.remove('active');
+}
+</script>
+</body>
+</html>

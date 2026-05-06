@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Wedding Legacy Stakeholders</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#040912;
+    --card:#09131d;
+    --gold:#d7ab63;
+    --gold-soft:#86663a;
+    --pink:#d98ba1;
+    --green:#97c07c;
+    --text:#f4efe8;
+    --muted:#95a0ae;
+    --line:#24303d;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#01050b;
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    padding:40px;
+}
+
+.wrapper{
+    max-width:1450px;
+    margin:auto;
+}
+
+.magazine-card{
+    background:
+    radial-gradient(circle at top left,#0a1520 0%,#050a10 65%);
+    border:1px solid rgba(215,171,99,.18);
+    border-radius:28px;
+    overflow:hidden;
+    margin-bottom:44px;
+    box-shadow:0 20px 80px rgba(0,0,0,.55);
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 34px;
+    border-bottom:1px solid var(--line);
+    gap:20px;
+}
+
+.top-left{
+    color:#9eaab8;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.brand{
+    text-align:center;
+}
+
+.brand h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:54px;
+    line-height:1;
+    letter-spacing:2px;
+    font-weight:600;
+}
+
+.brand p{
+    color:var(--gold);
+    margin-top:8px;
+    letter-spacing:5px;
+    font-size:12px;
+}
+
+.top-right{
+    text-align:right;
+}
+
+.top-right span{
+    color:var(--gold);
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.top-right h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:28px;
+    font-weight:500;
+    margin-top:8px;
+}
+
+.content{
+    display:grid;
+    grid-template-columns:280px 1fr 330px;
+}
+
+.left-panel,
+.right-panel{
+    padding:28px;
+}
+
+.center-panel{
+    border-left:1px solid var(--line);
+    border-right:1px solid var(--line);
+}
+
+.tag{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:11px;
+    margin-bottom:16px;
+}
+
+.family-name{
+    font-family:'Cormorant Garamond',serif;
+    font-size:52px;
+    line-height:1;
+    margin-bottom:10px;
+}
+
+.role{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:13px;
+    margin-bottom:28px;
+}
+
+.contribution-box{
+    border:1px solid rgba(215,171,99,.22);
+    border-radius:18px;
+    padding:22px;
+}
+
+.contribution-box small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:10px;
+}
+
+.amount{
+    font-family:'Cormorant Garamond',serif;
+    font-size:50px;
+    color:var(--gold);
+    margin:14px 0;
+}
+
+.level{
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:24px;
+    letter-spacing:1px;
+}
+
+.gift-title{
+    font-family:'Cormorant Garamond',serif;
+    color:var(--gold);
+    font-size:26px;
+    margin-top:10px;
+}
+
+.gift-desc{
+    margin-top:10px;
+    color:var(--muted);
+    line-height:1.7;
+    font-size:13px;
+}
+
+.since{
+    margin-top:24px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:12px;
+}
+
+.main-image{
+    width:100%;
+    aspect-ratio:1.15/1;
+    object-fit:cover;
+    display:block;
+}
+
+.caption{
+    padding:18px;
+    text-align:center;
+    font-family:'Cormorant Garamond',serif;
+    font-size:26px;
+    border-top:1px solid var(--line);
+}
+
+.quote-title{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:11px;
+    margin-bottom:18px;
+}
+
+.quote{
+    line-height:1.9;
+    color:#e8dfd2;
+    font-size:15px;
+}
+
+.media-card{
+    border:1px solid rgba(215,171,99,.18);
+    border-radius:16px;
+    overflow:hidden;
+    margin-top:22px;
+}
+
+.media-head{
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    color:var(--muted);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.audio{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:18px;
+}
+
+.play{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:rgba(215,171,99,.12);
+    border:1px solid rgba(215,171,99,.2);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:var(--gold);
+    font-size:18px;
+}
+
+.wave{
+    height:4px;
+    flex:1;
+    border-radius:20px;
+    background:linear-gradient(to right,var(--gold),#343f4d);
+}
+
+.video{
+    position:relative;
+}
+
+.video img{
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    display:block;
+}
+
+.video .play{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    backdrop-filter:blur(6px);
+}
+
+.bottom{
+    border-top:1px solid var(--line);
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+}
+
+.info{
+    padding:20px;
+    border-right:1px solid var(--line);
+}
+
+.info:last-child{
+    border-right:none;
+}
+
+.info-title{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+    margin-bottom:12px;
+}
+
+.info-text{
+    color:var(--muted);
+    line-height:1.8;
+    font-size:13px;
+}
+
+.highlight{
+    color:var(--gold);
+    font-family:'Cormorant Garamond',serif;
+    font-size:28px;
+    line-height:1.5;
+}
+
+.cta{
+    padding:24px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:center;
+}
+
+.cta button{
+    background:transparent;
+    border:1px solid rgba(215,171,99,.28);
+    color:var(--gold);
+    padding:14px 28px;
+    border-radius:999px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:11px;
+    cursor:pointer;
+}
+
+.cta button:hover{
+    background:rgba(215,171,99,.06);
+}
+
+/* PINK VERSION */
+
+.pink .tag,
+.pink .role,
+.pink .quote-title,
+.pink .info-title{
+    color:var(--pink);
+}
+
+.pink .amount,
+.pink .gift-title,
+.pink .highlight,
+.pink .play,
+.pink .brand p,
+.pink .top-right span{
+    color:var(--pink);
+}
+
+.pink .play{
+    border-color:rgba(217,139,161,.25);
+    background:rgba(217,139,161,.08);
+}
+
+.pink .contribution-box,
+.pink .media-card,
+.pink .cta button{
+    border-color:rgba(217,139,161,.25);
+}
+
+/* TABLET */
+
+@media(max-width:1100px){
+
+    body{
+        padding:20px;
+    }
+
+    .content{
+        grid-template-columns:1fr;
+    }
+
+    .center-panel{
+        border:none;
+        border-top:1px solid var(--line);
+        border-bottom:1px solid var(--line);
+    }
+
+    .bottom{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .brand h1{
+        font-size:40px;
+    }
+
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    body{
+        padding:12px;
+    }
+
+    .topbar{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .top-right{
+        text-align:center;
+    }
+
+    .brand h1{
+        font-size:32px;
+    }
+
+    .brand p{
+        letter-spacing:3px;
+        font-size:10px;
+    }
+
+    .left-panel,
+    .right-panel{
+        padding:20px;
+    }
+
+    .family-name{
+        font-size:40px;
+    }
+
+    .amount{
+        font-size:42px;
+    }
+
+    .caption{
+        font-size:22px;
+    }
+
+    .quote{
+        font-size:14px;
+    }
+
+    .bottom{
+        grid-template-columns:1fr;
+    }
+
+    .highlight{
+        font-size:24px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- 25K VERSION -->
+
+    <section class="magazine-card">
+
+        <div class="topbar">
+
+            <div class="top-left">
+                Digital Legacy Edition
+            </div>
+
+            <div class="brand">
+                <h1>ANANYA & RAJ</h1>
+                <p>PRIVATE LIMITED</p>
+            </div>
+
+            <div class="top-right">
+                <span>Founding Day</span>
+                <h3>12.12.2025</h3>
+            </div>
+
+        </div>
+
+        <div class="content">
+
+            <!-- LEFT -->
+
+            <div class="left-panel">
+
+                <div class="tag">
+                    Stakeholder
+                </div>
+
+                <div class="family-name">
+                    The Mehtas
+                </div>
+
+                <div class="role">
+                    Founding Family
+                </div>
+
+                <div class="contribution-box">
+
+                    <small>Equity Contribution</small>
+
+                    <div class="amount">
+                        ₹ 25,000
+                    </div>
+
+                    <div class="level">
+                        Diamond Contributor
+                    </div>
+
+                    <small>Gift Contributed Towards</small>
+
+                    <div class="gift-title">
+                        Dining Table For Our New Home
+                    </div>
+
+                    <div class="gift-desc">
+                        Creating a place for conversations,
+                        laughter and future celebrations.
+                    </div>
+
+                    <div class="since">
+                        Stakeholder Since — 12.12.2025
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CENTER -->
+
+            <div class="center-panel">
+
+                <img class="main-image"
+                src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop">
+
+                <div class="caption">
+                    Mr. Rajiv Mehta, Mrs. Neeta Mehta with Ananya & Raj
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="right-panel">
+
+                <div class="quote-title">
+                    A Note From The Mehtas
+                </div>
+
+                <div class="quote">
+                    To our dearest Ananya & Raj,
+                    may your home always be filled with laughter,
+                    warmth and endless beautiful memories.
+                </div>
+
+                <div class="media-card">
+
+                    <div class="media-head">
+                        Audio Blessing
+                    </div>
+
+                    <div class="audio">
+                        <div class="play">▶</div>
+                        <div class="wave"></div>
+                    </div>
+
+                </div>
+
+                <div class="media-card">
+
+                    <div class="media-head">
+                        Video Message
+                    </div>
+
+                    <div class="video">
+
+                        <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop">
+
+                        <div class="play">▶</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bottom">
+
+            <div class="info">
+                <div class="info-title">
+                    Our Relationship
+                </div>
+
+                <div class="info-text">
+                    Raj is Neeta’s nephew.
+                    We have watched him grow into the amazing
+                    person he is today.
+                </div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">
+                    Favorite Memory
+                </div>
+
+                <div class="info-text">
+                    That unforgettable trip to Manali where
+                    everyone got stuck in snow and laughed all night.
+                </div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">
+                    Why This Gift?
+                </div>
+
+                <div class="info-text">
+                    Every home deserves a beautiful gathering space
+                    where memories are made together.
+                </div>
+            </div>
+
+            <div class="info">
+                <div class="highlight">
+                    “Here’s to many meals, memories and a lifetime together.”
+                </div>
+            </div>
+
+        </div>
+
+        <div class="cta">
+            <button>View In Magazine Layout</button>
+        </div>
+
+    </section>
+
+
+    <!-- 2.5K VERSION -->
+
+    <section class="magazine-card pink">
+
+        <div class="topbar">
+
+            <div class="top-left">
+                Digital Legacy Edition
+            </div>
+
+            <div class="brand">
+                <h1>ANANYA & RAJ</h1>
+                <p>PRIVATE LIMITED</p>
+            </div>
+
+            <div class="top-right">
+                <span>Founding Day</span>
+                <h3>12.12.2025</h3>
+            </div>
+
+        </div>
+
+        <div class="content">
+
+            <!-- LEFT -->
+
+            <div class="left-panel">
+
+                <div class="tag">
+                    Stakeholder
+                </div>
+
+                <div class="family-name">
+                    Riya Sharma
+                </div>
+
+                <div class="role">
+                    Friend Of The Bride
+                </div>
+
+                <div class="contribution-box">
+
+                    <small>Equity Contribution</small>
+
+                    <div class="amount">
+                        ₹ 2,500
+                    </div>
+
+                    <div class="level">
+                        Valued Supporter
+                    </div>
+
+                    <small>Gift Contributed Towards</small>
+
+                    <div class="gift-title">
+                        Decorative Table Lamp
+                    </div>
+
+                    <div class="gift-desc">
+                        Bringing warmth and beautiful light into their home.
+                    </div>
+
+                    <div class="since">
+                        Stakeholder Since — 05.12.2025
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CENTER -->
+
+            <div class="center-panel">
+
+                <img class="main-image"
+                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop">
+
+                <div class="caption">
+                    Ananya & Riya Sharma
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="right-panel">
+
+                <div class="quote-title">
+                    A Note From Riya
+                </div>
+
+                <div class="quote">
+                    From college nights to endless chai sessions,
+                    you’ve been my constant. Wishing you a home filled
+                    with happiness and beautiful moments.
+                </div>
+
+                <div class="media-card">
+
+                    <div class="media-head">
+                        Audio Note
+                    </div>
+
+                    <div class="audio">
+                        <div class="play">▶</div>
+                        <div class="wave"></div>
+                    </div>
+
+                </div>
+
+                <div class="media-card">
+
+                    <div class="media-head">
+                        Video Message
+                    </div>
+
+                    <div class="video">
+
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop">
+
+                        <div class="play">▶</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bottom">
+
+            <div class="info">
+                <div class="info-title">
+                    Our Relationship
+                </div>
+
+                <div class="info-text">
+                    Best friends since college.
+                    Through every exam, breakup and celebration.
+                </div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">
+                    Favorite Memory
+                </div>
+
+                <div class="info-text">
+                    Our Goa trip in final year —
+                    endless laughter and unforgettable memories.
+                </div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">
+                    Why This Gift?
+                </div>
+
+                <div class="info-text">
+                    May this lamp light up your beautiful home
+                    and your future life together.
+                </div>
+            </div>
+
+            <div class="info">
+                <div class="highlight">
+                    “May your home always shine with love & happiness.”
+                </div>
+            </div>
+
+        </div>
+
+        <div class="cta">
+            <button>View In Magazine Layout</button>
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>
