@@ -6,20 +6,27 @@
     <title>Magazine</title>
     <style>
         *{box-sizing: border-box;margin: 0;}
+        html{scrollbar-width: thin;}
         body{background: #111;}
         main{display: flex;width: 100%;flex-wrap: wrap;gap: 1rem;justify-content: center;}
         img{max-width: 48%;min-width: 700px;}
+        .two-page{width: 48%;aspect-ratio: 768/1024;}
         @media screen and (max-width:800px) {
             img{max-width: 100%;min-width: auto;}
+            .two-page{width: 100%;aspect-ratio: 768/1024;}
         }
     </style>
 </head>
 <body>
     <main>
+        <div class="two-page" style="background: url(./2pages.png) 0% 50%;background-size: cover;"></div>
+        <div class="two-page" style="background: url(./2pages.png) 100% 50%;background-size: cover;"></div>
         <img src="./white2.5L.png" alt="">
         <img src="./dark2.5L.png" alt="">
         <img src="./25k.png" alt="">
         <img src="./50k.png" alt="">
+        <img src="./left1.png" alt="">
+        <img src="./right1.png" alt="">
     </main>
 </body>
 </html>
