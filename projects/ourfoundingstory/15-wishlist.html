@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Wishlist Funding — VowLedger</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#060b12;
+    --card:#0c1621;
+    --gold:#d9ae69;
+    --line:#1c2937;
+    --text:#f4efe8;
+    --muted:#95a2af;
+    --green:#77c28c;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#121d2a 0%,#060b12 40%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+}
+
+img{
+    width:100%;
+    display:block;
+}
+
+.container{
+    width:min(1500px,94%);
+    margin:auto;
+}
+
+/* HERO */
+
+.hero{
+    padding:90px 0 70px;
+    text-align:center;
+}
+
+.hero-tag{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-size:12px;
+    margin-bottom:24px;
+}
+
+.hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:84px;
+    line-height:.95;
+    max-width:1100px;
+    margin:auto;
+}
+
+.hero p{
+    max-width:900px;
+    margin:30px auto 0;
+    line-height:2;
+    color:var(--muted);
+    font-size:18px;
+}
+
+/* FILTERS */
+
+.filters{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:44px;
+}
+
+.filter{
+    padding:14px 22px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.08);
+    color:#d8e0e8;
+    font-size:13px;
+    background:rgba(255,255,255,.02);
+}
+
+.filter.active{
+    background:var(--gold);
+    color:#111;
+    border:none;
+    font-weight:600;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:32px;
+    padding-bottom:100px;
+}
+
+/* CARD */
+
+.card{
+    background:linear-gradient(to bottom,#0d1722,#09121b);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:34px;
+    overflow:hidden;
+    box-shadow:0 24px 70px rgba(0,0,0,.35);
+}
+
+.card-image{
+    position:relative;
+}
+
+.card-image img{
+    height:420px;
+    object-fit:cover;
+}
+
+.badge{
+    position:absolute;
+    top:24px;
+    left:24px;
+    background:rgba(6,11,18,.82);
+    border:1px solid rgba(217,174,105,.2);
+    color:var(--gold);
+    padding:12px 18px;
+    border-radius:999px;
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    backdrop-filter:blur(8px);
+}
+
+.card-content{
+    padding:34px;
+}
+
+.top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+}
+
+.title h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:54px;
+    line-height:1;
+}
+
+.title p{
+    margin-top:14px;
+    color:var(--muted);
+    line-height:1.9;
+    font-size:15px;
+    max-width:650px;
+}
+
+.amount-box{
+    text-align:right;
+    min-width:180px;
+}
+
+.amount-box small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.amount{
+    font-family:'Cormorant Garamond',serif;
+    color:var(--gold);
+    font-size:56px;
+    margin-top:8px;
+}
+
+.progress-wrap{
+    margin-top:34px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:14px;
+    color:#d5dee7;
+    font-size:14px;
+}
+
+.progress{
+    width:100%;
+    height:14px;
+    background:#14202d;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.bar{
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(to right,#d9ae69,#f0d0a0);
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-top:28px;
+}
+
+.stat{
+    background:#101a25;
+    border:1px solid rgba(255,255,255,.04);
+    padding:20px;
+    border-radius:20px;
+}
+
+.stat small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:10px;
+}
+
+.stat h3{
+    margin-top:10px;
+    font-size:24px;
+}
+
+/* CONTRIBUTORS */
+
+.contributors{
+    margin-top:36px;
+}
+
+.section-title{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:3px;
+    font-size:11px;
+    margin-bottom:22px;
+}
+
+.people{
+    display:grid;
+    gap:16px;
+}
+
+.person{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.04);
+    border-radius:22px;
+    padding:18px;
+}
+
+.person-left{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.avatar{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.person h4{
+    font-size:18px;
+}
+
+.person p{
+    margin-top:6px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.contribution{
+    text-align:right;
+}
+
+.contribution h3{
+    color:var(--gold);
+    font-size:26px;
+    font-family:'Cormorant Garamond',serif;
+}
+
+.contribution span{
+    color:var(--green);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+/* CTA */
+
+.card-footer{
+    margin-top:36px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.funded{
+    color:var(--green);
+    font-size:15px;
+}
+
+.actions{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:16px 24px;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s ease;
+}
+
+.btn-primary{
+    background:var(--gold);
+    color:#111;
+    font-weight:600;
+}
+
+.btn-secondary{
+    border:1px solid rgba(255,255,255,.08);
+    color:#fff;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* MOBILE */
+
+@media(max-width:1100px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:62px;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .hero{
+        padding:70px 0 50px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    .card-image img{
+        height:260px;
+    }
+
+    .top-row{
+        flex-direction:column;
+    }
+
+    .amount-box{
+        text-align:left;
+    }
+
+    .title h2{
+        font-size:42px;
+    }
+
+    .amount{
+        font-size:42px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .person{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .contribution{
+        text-align:left;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+
+<section class="hero container">
+
+    <div class="hero-tag">
+        Founding Wishlist
+    </div>
+
+    <h1>
+        Build Their Future Together.
+    </h1>
+
+    <p>
+        Family and friends collaborate to fund meaningful dreams, shared experiences and future milestones — turning gifts into emotional participation.
+    </p>
+
+    <div class="filters">
+        <div class="filter active">All Wishes</div>
+        <div class="filter">Home</div>
+        <div class="filter">Honeymoon</div>
+        <div class="filter">Dream Goals</div>
+        <div class="filter">Luxury Experiences</div>
+        <div class="filter">Fully Funded</div>
+    </div>
+
+</section>
+
+
+<!-- GRID -->
+
+<section class="container">
+
+    <div class="grid">
+
+        <!-- CARD 1 -->
+
+        <div class="card">
+
+            <div class="card-image">
+
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="badge">
+                    Home Foundation
+                </div>
+
+            </div>
+
+            <div class="card-content">
+
+                <div class="top-row">
+
+                    <div class="title">
+                        <h2>
+                            Mahogany Bed Kings
+                        </h2>
+
+                        <p>
+                            A place where future celebrations, family dinners and lifelong memories will unfold together.
+                        </p>
+                    </div>
+
+                    <div class="amount-box">
+                        <small>Wishlist Value</small>
+                        <div class="amount">
+                            ₹1.2L
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-top">
+                        <div>₹92,000 funded</div>
+                        <div>76%</div>
+                    </div>
+
+                    <div class="progress">
+                        <div class="bar" style="width:76%"></div>
+                    </div>
+
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <small>Contributors</small>
+                        <h3>12</h3>
+                    </div>
+
+                    <div class="stat">
+                        <small>Largest Gift</small>
+                        <h3>₹25K</h3>
+                    </div>
+
+                    <div class="stat">
+                        <small>Days Left</small>
+                        <h3>18</h3>
+                    </div>
+
+                </div>
+
+                <div class="contributors">
+
+                    <div class="section-title">
+                        Founding Contributors
+                    </div>
+
+                    <div class="people">
+
+                        <div class="person">
+
+                            <div class="person-left">
+
+                                <div class="avatar">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop">
+                                </div>
+
+                                <div>
+                                    <h4>The Mehtas</h4>
+                                    <p>Close Family Friends</p>
+                                </div>
+
+                            </div>
+
+                            <div class="contribution">
+                                <h3>₹25,000</h3>
+                                <span>Diamond Contributor</span>
+                            </div>
+
+                        </div>
+
+                        <div class="person">
+
+                            <div class="person-left">
+
+                                <div class="avatar">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop">
+                                </div>
+
+                                <div>
+                                    <h4>Riya Sharma</h4>
+                                    <p>Best Friend Of Bride</p>
+                                </div>
+
+                            </div>
+
+                            <div class="contribution">
+                                <h3>₹10,000</h3>
+                                <span>Legacy Patron</span>
+                            </div>
+
+                        </div>
+
+                        <div class="person">
+
+                            <div class="person-left">
+
+                                <div class="avatar">
+                                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop">
+                                </div>
+
+                                <div>
+                                    <h4>The Guptas</h4>
+                                    <p>Bride's Family</p>
+                                </div>
+
+                            </div>
+
+                            <div class="contribution">
+                                <h3>₹15,000</h3>
+                                <span>Patron Circle</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="funded">
+                        ✓ Expected to be fully funded this week
+                    </div>
+
+                    <div class="actions">
+                        <a href="#" class="btn btn-secondary">View Stories</a>
+                        <a href="#" class="btn btn-primary">Contribute</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD 2 -->
+
+        <div class="card">
+
+            <div class="card-image">
+
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="badge">
+                    Honeymoon Experience
+                </div>
+
+            </div>
+
+            <div class="card-content">
+
+                <div class="top-row">
+
+                    <div class="title">
+                        <h2>
+                            Santorini Honeymoon
+                        </h2>
+
+                        <p>
+                            A once-in-a-lifetime Mediterranean escape filled with sunsets, sea views and unforgettable moments together.
+                        </p>
+                    </div>
+
+                    <div class="amount-box">
+                        <small>Wishlist Value</small>
+                        <div class="amount">
+                            ₹4.5L
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-top">
+                        <div>₹3.8L funded</div>
+                        <div>84%</div>
+                    </div>
+
+                    <div class="progress">
+                        <div class="bar" style="width:84%"></div>
+                    </div>
+
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <small>Contributors</small>
+                        <h3>21</h3>
+                    </div>
+
+                    <div class="stat">
+                        <small>Largest Gift</small>
+                        <h3>₹50K</h3>
+                    </div>
+
+                    <div class="stat">
+                        <small>Days Left</small>
+                        <h3>18</h3>
+                    </div>
+
+                </div>
+
+                <div class="contributors">
+
+                    <div class="section-title">
+                        Voyage Circle
+                    </div>
+
+                    <div class="people">
+
+                        <div class="person">
+
+                            <div class="person-left">
+
+                                <div class="avatar">
+                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop">
+                                </div>
+
+                                <div>
+                                    <h4>The Malhotras</h4>
+                                    <p>Family Patrons</p>
+                                </div>
+
+                            </div>
+
+                            <div class="contribution">
+                                <h3>₹50,000</h3>
+                                <span>Platinum Patron</span>
+                            </div>
+
+                        </div>
+
+                        <div class="person">
+
+                            <div class="person-left">
+
+                                <div class="avatar">
+                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop">
+                                </div>
+
+                                <div>
+                                    <h4>Neha & Karan</h4>
+                                    <p>College Friends</p>
+                                </div>
+
+                            </div>
+
+                            <div class="contribution">
+                                <h3>₹25,000</h3>
+                                <span>Luxury Contributor</span>
+                            </div>
+
+                        </div>
+
+                        <div class="person">
+
+                            <div class="person-left">
+
+                                <div class="avatar">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop">
+                                </div>
+
+                                <div>
+                                    <h4>The Delhi Cousins</h4>
+                                    <p>Family Circle</p>
+                                </div>
+
+                            </div>
+
+                            <div class="contribution">
+                                <h3>₹18,000</h3>
+                                <span>Founding Circle</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <div class="funded">
+                        ✓ Trending among contributors this week
+                    </div>
+
+                    <div class="actions">
+                        <a href="#" class="btn btn-secondary">View Journey</a>
+                        <a href="#" class="btn btn-primary">Contribute</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

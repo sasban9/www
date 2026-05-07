@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VowLedger — Magazine Showcase</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#070b11;
+    --card:#0c131b;
+    --gold:#d9ad67;
+    --line:#1c2632;
+    --text:#f3efe8;
+    --muted:#94a0ad;
+}
+
+html{
+    scrollbar-width:thin;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#101926 0%,#070b11 45%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+}
+
+/* HERO */
+
+.hero{
+    padding:100px 20px 70px;
+    text-align:center;
+}
+
+.hero-tag{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-size:12px;
+    margin-bottom:24px;
+}
+
+.hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:88px;
+    line-height:.95;
+    max-width:1100px;
+    margin:auto;
+}
+
+.hero p{
+    max-width:900px;
+    margin:34px auto 0;
+    line-height:2;
+    color:var(--muted);
+    font-size:18px;
+}
+
+/* GALLERY */
+
+.gallery{
+    width:min(1600px,94%);
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:36px;
+    padding-bottom:80px;
+}
+
+/* CARD */
+
+.card{
+    background:linear-gradient(to bottom,#0d1620,#091018);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    transition:.4s ease;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(217,173,103,.25);
+}
+
+.card-image{
+    width:100%;
+    display:block;
+    object-fit:cover;
+}
+
+/* TWO PAGE */
+
+.two-page{
+    aspect-ratio:768/1024;
+    background-size:cover !important;
+    background-repeat:no-repeat !important;
+}
+
+/* CONTENT */
+
+.card-content{
+    padding:28px;
+}
+
+.card-type{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:3px;
+    font-size:11px;
+    margin-bottom:14px;
+}
+
+.card h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+    line-height:1;
+}
+
+.card p{
+    margin-top:18px;
+    line-height:1.9;
+    color:var(--muted);
+    font-size:15px;
+}
+
+/* BADGES */
+
+.badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:24px;
+}
+
+.badge{
+    border:1px solid rgba(217,173,103,.22);
+    color:var(--gold);
+    padding:10px 16px;
+    border-radius:999px;
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+/* FULL WIDTH */
+
+.full{
+    grid-column:span 2;
+}
+
+/* CTA */
+
+.cta{
+    width:min(1400px,92%);
+    margin:0 auto 100px;
+    background:
+    linear-gradient(rgba(7,11,17,.9),rgba(7,11,17,.96)),
+    url('./2pages.png');
+    background-size:cover;
+    background-position:center;
+    border-radius:36px;
+    border:1px solid rgba(255,255,255,.05);
+    padding:90px 60px;
+    text-align:center;
+}
+
+.cta h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:76px;
+    line-height:1;
+    max-width:900px;
+    margin:auto;
+}
+
+.cta p{
+    max-width:820px;
+    margin:28px auto 0;
+    line-height:2;
+    color:#c0cad4;
+    font-size:17px;
+}
+
+.cta-buttons{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:40px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:18px 34px;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s ease;
+}
+
+.btn-primary{
+    background:var(--gold);
+    color:#111;
+    font-weight:600;
+}
+
+.btn-secondary{
+    border:1px solid rgba(255,255,255,.14);
+    color:#fff;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* MOBILE */
+
+@media screen and (max-width:1100px){
+
+    .gallery{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:span 1;
+    }
+
+    .hero h1{
+        font-size:62px;
+    }
+
+    .cta h2{
+        font-size:56px;
+    }
+
+}
+
+@media screen and (max-width:700px){
+
+    .hero{
+        padding:70px 18px 50px;
+    }
+
+    .hero h1{
+        font-size:44px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    .gallery{
+        gap:24px;
+    }
+
+    .card h2{
+        font-size:34px;
+    }
+
+    .card-content{
+        padding:22px;
+    }
+
+    .cta{
+        padding:70px 26px;
+        border-radius:24px;
+    }
+
+    .cta h2{
+        font-size:40px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-tag">
+        VowLedger Editorial Showcase
+    </div>
+
+    <h1>
+        Weddings Reimagined As Luxury Editorial Experiences.
+    </h1>
+
+    <p>
+        Explore stakeholder pages, contribution stories, magazine spreads
+        and cinematic wedding archives designed to preserve memories,
+        relationships and emotional moments for generations.
+    </p>
+
+</section>
+
+
+<!-- GALLERY -->
+
+<section class="gallery">
+
+    <!-- TWO PAGE LEFT -->
+
+    <div class="card">
+
+        <div class="two-page"
+        style="background:url('./2pages.png') 0% 50%;">
+        </div>
+
+        <div class="card-content">
+
+            <div class="card-type">
+                Double Spread
+            </div>
+
+            <h2>
+                Founders Edition Opening Spread
+            </h2>
+
+            <p>
+                A cinematic editorial opening inspired by luxury magazines
+                and annual reports — introducing the wedding as a timeless
+                founding story.
+            </p>
+
+            <div class="badges">
+                <div class="badge">Luxury Editorial</div>
+                <div class="badge">Coffee Table Print</div>
+                <div class="badge">Double Page Spread</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TWO PAGE RIGHT -->
+
+    <div class="card">
+
+        <div class="two-page"
+        style="background:url('./2pages.png') 100% 50%;">
+        </div>
+
+        <div class="card-content">
+
+            <div class="card-type">
+                Legacy Storytelling
+            </div>
+
+            <h2>
+                Relationship & Stakeholder Narratives
+            </h2>
+
+            <p>
+                Emotional stories, founder interviews, family memories
+                and contributor acknowledgements woven into one premium
+                collectible archive.
+            </p>
+
+            <div class="badges">
+                <div class="badge">Family Archive</div>
+                <div class="badge">Guest Stories</div>
+                <div class="badge">Interactive Media</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- WHITE -->
+
+    <div class="card">
+
+        <img class="card-image" src="./white2.5L.png" alt="">
+
+        <div class="card-content">
+
+            <div class="card-type">
+                Luxury White Theme
+            </div>
+
+            <h2>
+                Premium Patron Edition
+            </h2>
+
+            <p>
+                Elegant light-themed editorial layouts designed for high-value
+                family patrons and luxury wedding experiences.
+            </p>
+
+            <div class="badges">
+                <div class="badge">₹2.5L Contribution</div>
+                <div class="badge">Editorial Layout</div>
+                <div class="badge">Luxury Theme</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DARK -->
+
+    <div class="card">
+
+        <img class="card-image" src="./dark2.5L.png" alt="">
+
+        <div class="card-content">
+
+            <div class="card-type">
+                Digital Legacy Theme
+            </div>
+
+            <h2>
+                Interactive Multimedia Experience
+            </h2>
+
+            <p>
+                Designed for online viewing with embedded audio blessings,
+                cinematic videos and digital relationship storytelling.
+            </p>
+
+            <div class="badges">
+                <div class="badge">Interactive Media</div>
+                <div class="badge">Audio & Video</div>
+                <div class="badge">Digital Edition</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- 25K -->
+
+    <div class="card">
+
+        <img class="card-image" src="./25k.png" alt="">
+
+        <div class="card-content">
+
+            <div class="card-type">
+                Diamond Contributor
+            </div>
+
+            <h2>
+                ₹25,000 Stakeholder Experience
+            </h2>
+
+            <p>
+                Mid-tier contributor pages featuring relationship stories,
+                emotional notes and elegant stakeholder recognition.
+            </p>
+
+            <div class="badges">
+                <div class="badge">Diamond Contributor</div>
+                <div class="badge">Relationship Story</div>
+                <div class="badge">Audio Blessings</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- 50K -->
+
+    <div class="card">
+
+        <img class="card-image" src="./50k.png" alt="">
+
+        <div class="card-content">
+
+            <div class="card-type">
+                Platinum Patron
+            </div>
+
+            <h2>
+                ₹50,000 Legacy Patron Layout
+            </h2>
+
+            <p>
+                Enhanced layouts with cinematic photography,
+                premium storytelling and personalized media sections.
+            </p>
+
+            <div class="badges">
+                <div class="badge">Platinum Patron</div>
+                <div class="badge">Premium Spread</div>
+                <div class="badge">Cinematic Theme</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LEFT PAGE -->
+
+    <div class="card">
+
+        <img class="card-image" src="./page-left1.png" alt="">
+
+        <div class="card-content">
+
+            <div class="card-type">
+                Editorial Left Spread
+            </div>
+
+            <h2>
+                Luxury Print Layout System
+            </h2>
+
+            <p>
+                Modular editorial components inspired by Vogue,
+                Forbes and luxury annual report aesthetics.
+            </p>
+
+            <div class="badges">
+                <div class="badge">Print Ready</div>
+                <div class="badge">Luxury Magazine</div>
+                <div class="badge">Responsive Layout</div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT PAGE -->
+
+    <div class="card">
+
+        <img class="card-image" src="./page-right1.png" alt="">
+
+        <div class="card-content">
+
+            <div class="card-type">
+                Editorial Right Spread
+            </div>
+
+            <h2>
+                Multimedia Storytelling Architecture
+            </h2>
+
+            <p>
+                Every contributor page supports interactive media,
+                emotional quotes, family archives and video storytelling.
+            </p>
+
+            <div class="badges">
+                <div class="badge">Video Integration</div>
+                <div class="badge">Guest Memories</div>
+                <div class="badge">Relationship Archive</div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <h2>
+        Every Wedding Deserves A Founders Edition.
+    </h2>
+
+    <p>
+        Create a wedding experience that becomes more valuable with time —
+        blending emotional storytelling, family legacy and luxury editorial design
+        into one unforgettable archive.
+    </p>
+
+    <div class="cta-buttons">
+
+        <a href="form.html" class="btn btn-primary">
+            Start Your Wedding
+        </a>
+
+        <a href="./csr/" class="btn btn-secondary">
+            Book A Demo
+        </a>
+
+    </div>
+
+</section>
+
+</body>
+</html>

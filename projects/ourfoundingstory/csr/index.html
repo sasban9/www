@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>The Elder Chronicle — Shantivan Home Edition</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0c0c0c;
+    color:#f5f1e8;
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+.hero{
+    min-height:100vh;
+    padding:80px 8%;
+    background:
+        linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.8)),
+        url('https://images.unsplash.com/photo-1516589091380-5d601f7ce0f2?q=80&w=1600&auto=format&fit=crop') center/cover;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.tag{
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:#b89c5e;
+    font-size:12px;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:5rem;
+    line-height:1;
+    margin-bottom:20px;
+    max-width:900px;
+}
+
+.hero p{
+    font-size:1.2rem;
+    max-width:700px;
+    line-height:1.8;
+    color:#d7d0c2;
+}
+
+.audio-bar{
+    margin-top:40px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:20px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.03);
+    width:fit-content;
+    border-radius:16px;
+}
+
+.play-btn{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#b89c5e;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#000;
+    font-weight:bold;
+}
+
+.section{
+    padding:100px 8%;
+}
+
+.section-title{
+    font-family:'Cormorant Garamond',serif;
+    font-size:3.5rem;
+    margin-bottom:20px;
+}
+
+.section-sub{
+    color:#c9c3b5;
+    line-height:1.8;
+    max-width:800px;
+    margin-bottom:60px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:40px;
+}
+
+.card{
+    background:#141414;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:24px;
+    overflow:hidden;
+    transition:.4s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color:#b89c5e;
+}
+
+.card img{
+    width:100%;
+    height:340px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:30px;
+}
+
+.card h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:2rem;
+    margin-bottom:10px;
+}
+
+.age{
+    color:#b89c5e;
+    margin-bottom:20px;
+    font-size:14px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.quote{
+    font-size:1rem;
+    line-height:1.8;
+    color:#d4cec0;
+}
+
+.audio-pill{
+    margin-top:25px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 18px;
+    border-radius:100px;
+    background:#1e1e1e;
+    border:1px solid rgba(255,255,255,.08);
+    color:#b89c5e;
+    font-size:14px;
+}
+
+.staff-section{
+    background:#101010;
+}
+
+.staff-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+.staff-card{
+    background:#181818;
+    padding:30px;
+    border-radius:22px;
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.staff-card h4{
+    font-size:1.6rem;
+    font-family:'Cormorant Garamond',serif;
+    margin-bottom:10px;
+}
+
+.staff-role{
+    color:#b89c5e;
+    margin-bottom:20px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:13px;
+}
+
+.donation{
+    padding:120px 8%;
+    text-align:center;
+    background:linear-gradient(to bottom,#0c0c0c,#131313);
+}
+
+.qr-box{
+    margin:40px auto;
+    width:280px;
+    background:#fff;
+    padding:20px;
+    border-radius:30px;
+}
+
+.qr-box img{
+    width:100%;
+}
+
+.upi{
+    margin-top:25px;
+    font-size:1.1rem;
+    color:#d8d1c3;
+}
+
+.upi span{
+    color:#b89c5e;
+    font-weight:600;
+}
+
+.footer{
+    padding:60px 8%;
+    border-top:1px solid rgba(255,255,255,.05);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.footer-left h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:2rem;
+}
+
+.footer p{
+    color:#aaa393;
+    line-height:1.8;
+    max-width:600px;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:3.2rem;
+}
+
+.section-title{
+    font-size:2.5rem;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<section class="hero">
+
+<div class="tag">
+THE ELDER CHRONICLE · DELHI EDITION · VOL 01
+</div>
+
+<h1>
+Shantivan Senior Living Home
+</h1>
+
+<p>
+    <b>Voices, Insights, Reflections And Stories Across Time (V.I.R.A.S.A.T.)</b><br>
+A living archive of stories, memories, forgotten professions, unfinished dreams,
+and the voices that built modern India.
+Each resident carries a lifetime of victories, heartbreaks, humor, sacrifice,
+and wisdom that deserves to be preserved forever.
+</p>
+
+<div class="audio-bar">
+    <div class="play-btn">▶</div>
+    <div>
+        <strong>Featured Audio:</strong><br>
+        “I still wait for Sunday calls.”
+    </div>
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+Residents of Shantivan
+</h2>
+
+<p class="section-sub">
+Every portrait below includes recorded oral history, handwritten memories,
+and preserved reflections from the residents themselves.
+This edition documents the emotional history of one old age home in Delhi.
+</p>
+
+<div class="grid">
+
+<div class="card">
+
+<img src="https://freerangestock.com/sample/131248/old-indian-man-with-traditonal-cap-.jpg">
+
+<div class="card-content">
+
+<h3>Shri Ashok Mehra</h3>
+
+<div class="age">
+82 YEARS · FORMER RAILWAY ENGINEER
+</div>
+
+<p class="quote">
+“I worked on railway bridges for 35 years.
+Thousands crossed safely every day and never knew my name.
+That used to bother me once.
+Now it makes me smile.”
+</p>
+
+<div class="audio-pill">
+🎙 Listen to Ashok Ji's Story
+</div>
+
+</div>
+</div>
+
+<div class="card">
+
+<img src="https://i.pinimg.com/474x/3b/65/f2/3b65f2cf69289f75b44284813c01cd2b.jpg">
+
+<div class="card-content">
+
+<h3>Mrs. Leela Banerjee</h3>
+
+<div class="age">
+78 YEARS · RETIRED SCHOOL TEACHER
+</div>
+
+<p class="quote">
+“I still remember every student who cried during exams.
+Children never forget kindness.
+Adults do.”
+</p>
+
+<div class="audio-pill">
+🎙 Listen to Leela ji's Tales
+</div>
+
+</div>
+</div>
+
+<div class="card">
+
+<img src="https://media.istockphoto.com/id/910391852/photo/portrait-of-an-old-indian-man.jpg?s=612x612&w=0&k=20&c=suJdDc6RCtslgIDDF04sCGj4WKYQ10tGRP3IxCX03Uc=">
+
+<div class="card-content">
+
+<h3>Harjit Singh Babu</h3>
+
+<div class="age">
+86 YEARS · FORMER ARMY SIGNAL OFFICER
+</div>
+
+<p class="quote">
+“The loudest sound after war
+is silence at home.”
+</p>
+
+<div class="audio-pill">
+🎙 Hear Harjit Singh's Memories
+</div>
+
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section class="section staff-section">
+
+<h2 class="section-title">
+Voices Behind the Care
+</h2>
+
+<p class="section-sub">
+Not all heroes wear uniforms.
+Some simply show up every day with patience, medicine, warm food,
+and emotional strength.
+</p>
+
+<div class="staff-grid">
+
+<div class="staff-card">
+
+<h4>Ritu Sharma</h4>
+
+<div class="staff-role">
+CARETAKER · 11 YEARS
+</div>
+
+<p>
+“Many residents just want someone to sit beside them while they eat.
+Loneliness is heavier than illness.”
+</p>
+
+</div>
+
+<div class="staff-card">
+
+<h4>Father Dominic</h4>
+
+<div class="staff-role">
+HOME MANAGER
+</div>
+
+<p>
+“We are not running a shelter.
+We are preserving dignity.”
+</p>
+
+</div>
+
+<div class="staff-card">
+
+<h4>Mohammed Salim</h4>
+
+<div class="staff-role">
+NIGHT STAFF
+</div>
+
+<p>
+“At night many residents cannot sleep.
+Sometimes they only want to talk about their childhood.”
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="donation">
+
+<div class="tag">
+SUPPORT THIS HOME
+</div>
+
+<h2 class="section-title">
+Help Preserve Lives With Dignity
+</h2>
+
+<p class="section-sub" style="margin:auto;">
+Your contribution helps fund medicines, meals,
+winter clothing, emotional care programs,
+and preservation of oral histories.
+</p>
+
+<div class="upi">
+Donate via UPI: <span>yourupi@oksbi</span>
+</div>
+
+<div class="qr-box">
+
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=upi://pay?pa=yourupi@oksbi&pn=Shantivan%20Senior%20Living">
+
+</div>
+
+<div class="upi">
+Or contribute directly to the V.I.R.A.S.A.T. project:
+<span>7019492748</span>
+</div>
+
+</section>
+
+<footer class="footer">
+
+<div class="footer-left">
+<h3>The Elder Chronicle</h3>
+</div>
+
+<p>
+An initiative dedicated to preserving India's living memories through
+editorial storytelling, oral history recordings, and cinematic archives.
+Built with the same philosophy behind VowLedger —
+because every human life deserves to become part of history.
+</p>
+
+</footer>
+
+</body>
+</html>
