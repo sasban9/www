@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VowLedger — Future Dreams Registry</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#060b12;
+    --card:#0d1722;
+    --card2:#111d2a;
+    --gold:#d9ae69;
+    --line:#1f2b38;
+    --text:#f3efe7;
+    --muted:#97a4b0;
+    --green:#79c78d;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#101b29 0%,#060b12 42%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+}
+
+.container{
+    width:min(1600px,94%);
+    margin:auto;
+}
+
+.hero{
+    padding:80px 0 60px;
+    text-align:center;
+}
+
+.hero small{
+    color:var(--gold);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    font-size:11px;
+}
+
+.hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:86px;
+    line-height:.95;
+    max-width:1100px;
+    margin:26px auto 0;
+}
+
+.hero p{
+    max-width:900px;
+    margin:30px auto 0;
+    color:var(--muted);
+    line-height:2;
+    font-size:18px;
+}
+
+/* TIMELINE */
+
+.timeline{
+    display:flex;
+    gap:14px;
+    overflow:auto;
+    padding:10px 0 30px;
+    scrollbar-width:none;
+}
+
+.timeline::-webkit-scrollbar{
+    display:none;
+}
+
+.day{
+    min-width:170px;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:22px;
+    padding:18px;
+}
+
+.day.active{
+    border-color:rgba(217,174,105,.28);
+    background:linear-gradient(to bottom,#1a2735,#101923);
+}
+
+.day small{
+    color:var(--gold);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:10px;
+}
+
+.day h3{
+    margin-top:12px;
+    font-size:18px;
+}
+
+.day p{
+    margin-top:10px;
+    color:var(--muted);
+    line-height:1.6;
+    font-size:12px;
+}
+
+/* SECTION */
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:20px;
+    margin:50px 0 30px;
+    flex-wrap:wrap;
+}
+
+.section-head h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:62px;
+    line-height:1;
+}
+
+.section-head p{
+    color:var(--muted);
+    max-width:650px;
+    line-height:1.9;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+    padding-bottom:100px;
+}
+
+.card{
+    background:linear-gradient(to bottom,#0d1722,#09121b);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:30px;
+    overflow:hidden;
+    transition:.35s ease;
+    position:relative;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(217,174,105,.24);
+}
+
+.image{
+    position:relative;
+}
+
+.image img{
+    width:100%;
+    height:260px;
+    object-fit:cover;
+    display:block;
+}
+
+.reveal{
+    position:absolute;
+    top:18px;
+    left:18px;
+    background:rgba(6,11,18,.82);
+    border:1px solid rgba(217,174,105,.2);
+    color:var(--gold);
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    backdrop-filter:blur(8px);
+}
+
+.content{
+    padding:24px;
+}
+
+.category{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.content h3{
+    margin-top:14px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+    line-height:1;
+}
+
+.desc{
+    margin-top:16px;
+    color:var(--muted);
+    line-height:1.9;
+    font-size:14px;
+}
+
+.stats{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:22px;
+}
+
+.stat{
+    flex:1;
+    background:#111b26;
+    border:1px solid rgba(255,255,255,.04);
+    padding:14px;
+    border-radius:18px;
+}
+
+.stat small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:9px;
+}
+
+.stat h4{
+    margin-top:8px;
+    color:var(--gold);
+    font-size:18px;
+}
+
+.progress-wrap{
+    margin-top:24px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:12px;
+    color:#d0d9e1;
+}
+
+.progress{
+    width:100%;
+    height:10px;
+    border-radius:999px;
+    overflow:hidden;
+    background:#172433;
+}
+
+.bar{
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(to right,#d9ae69,#f1d2a2);
+}
+
+.people{
+    margin-top:24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+}
+
+.avatars{
+    display:flex;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    overflow:hidden;
+    border:2px solid #09121b;
+    margin-left:-10px;
+}
+
+.avatar:first-child{
+    margin-left:0;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.people span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.actions{
+    margin-top:26px;
+    display:flex;
+    gap:14px;
+}
+
+.btn{
+    flex:1;
+    text-align:center;
+    padding:15px;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s ease;
+}
+
+.primary{
+    background:var(--gold);
+    color:#111;
+    font-weight:600;
+}
+
+.secondary{
+    border:1px solid rgba(255,255,255,.08);
+    color:#fff;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* MOBILE */
+
+@media(max-width:1100px){
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero h1{
+        font-size:62px;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .hero{
+        padding:60px 0 40px;
+    }
+
+    .hero h1{
+        font-size:44px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    .section-head h2{
+        font-size:42px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+        gap:22px;
+    }
+
+    .image img{
+        height:220px;
+    }
+
+    .content h3{
+        font-size:36px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <small>Founding Registry</small>
+
+        <h1>
+            Build Their Future Together.
+        </h1>
+
+        <p>
+            Every contribution becomes part of the couple’s story — funding future memories, beautiful spaces and lifelong experiences.
+        </p>
+
+    </section>
+
+
+    <!-- TIMELINE -->
+
+    <div class="timeline">
+
+        <div class="day active">
+            <small>D-21</small>
+            <h3>Founding Day</h3>
+            <p>Launch of the registry and first contributors.</p>
+        </div>
+
+        <div class="day">
+            <small>D-20</small>
+            <h3>Home Dreams</h3>
+            <p>Kitchen, dining and decor experiences unlock.</p>
+        </div>
+
+        <div class="day">
+            <small>D-18</small>
+            <h3>Coffee & Music</h3>
+            <p>Creative corners and lifestyle spaces revealed.</p>
+        </div>
+
+        <div class="day">
+            <small>D-16</small>
+            <h3>Travel Week</h3>
+            <p>Honeymoon and journey experiences open.</p>
+        </div>
+
+        <div class="day">
+            <small>D-14</small>
+            <h3>Luxury Living</h3>
+            <p>Premium interiors and spa spaces unlock.</p>
+        </div>
+
+        <div class="day">
+            <small>D-10</small>
+            <h3>Family Legacy</h3>
+            <p>Archives, libraries and future planning.</p>
+        </div>
+
+        <div class="day">
+            <small>D-7</small>
+            <h3>Final Experiences</h3>
+            <p>Luxury and signature dream pools revealed.</p>
+        </div>
+
+    </div>
+
+
+    <!-- SECTION -->
+
+    <div class="section-head">
+
+        <div>
+            <h2>
+                Future Dream Pools
+            </h2>
+        </div>
+
+        <p>
+            Pools are gradually revealed during the 21-day celebration marathon to maintain excitement, momentum and emotional storytelling.
+        </p>
+
+    </div>
+
+
+    <!-- GRID -->
+
+    <div class="grid">
+
+        <!-- CARD -->
+
+        <div class="card">
+
+            <div class="image">
+
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="reveal">
+                    Revealed On D-18
+                </div>
+
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    ₹5K – ₹20K • Lifestyle Pool
+                </div>
+
+                <h3>
+                    Coffee Corner
+                </h3>
+
+                <div class="desc">
+                    Create a warm café-style corner for future conversations, rainy evenings and slow Sunday mornings together.
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <small>Goal</small>
+                        <h4>₹65K</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Contributors</small>
+                        <h4>14</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Status</small>
+                        <h4>72%</h4>
+                    </div>
+
+                </div>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-top">
+                        <div>₹47K funded</div>
+                        <div>72%</div>
+                    </div>
+
+                    <div class="progress">
+                        <div class="bar" style="width:72%"></div>
+                    </div>
+
+                </div>
+
+                <div class="people">
+
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop"></div>
+                    </div>
+
+                    <span>14 people joined</span>
+
+                </div>
+
+                <div class="actions">
+                    <a href="#" class="btn secondary">View Story</a>
+                    <a href="#" class="btn primary">Contribute</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD -->
+
+        <div class="card">
+
+            <div class="image">
+
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="reveal">
+                    Revealed On D-16
+                </div>
+
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    ₹1L – ₹5L • Signature Journey
+                </div>
+
+                <h3>
+                    Santorini Escape
+                </h3>
+
+                <div class="desc">
+                    Sunset dinners, private suites and unforgettable Mediterranean memories during the couple’s first journey together.
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <small>Goal</small>
+                        <h4>₹4.5L</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Contributors</small>
+                        <h4>29</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Status</small>
+                        <h4>88%</h4>
+                    </div>
+
+                </div>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-top">
+                        <div>₹3.9L funded</div>
+                        <div>88%</div>
+                    </div>
+
+                    <div class="progress">
+                        <div class="bar" style="width:88%"></div>
+                    </div>
+
+                </div>
+
+                <div class="people">
+
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"></div>
+                    </div>
+
+                    <span>29 people joined</span>
+
+                </div>
+
+                <div class="actions">
+                    <a href="#" class="btn secondary">View Journey</a>
+                    <a href="#" class="btn primary">Contribute</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD -->
+
+        <div class="card">
+
+            <div class="image">
+
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="reveal">
+                    Revealed On D-20
+                </div>
+
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    ₹20K – ₹1L • Home Foundation
+                </div>
+
+                <h3>
+                    Dining Room Experience
+                </h3>
+
+                <div class="desc">
+                    A timeless dining space where future birthdays, festivals and generations will gather together.
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <small>Goal</small>
+                        <h4>₹1.8L</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Contributors</small>
+                        <h4>17</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Status</small>
+                        <h4>63%</h4>
+                    </div>
+
+                </div>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-top">
+                        <div>₹1.1L funded</div>
+                        <div>63%</div>
+                    </div>
+
+                    <div class="progress">
+                        <div class="bar" style="width:63%"></div>
+                    </div>
+
+                </div>
+
+                <div class="people">
+
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop"></div>
+                    </div>
+
+                    <span>17 people joined</span>
+
+                </div>
+
+                <div class="actions">
+                    <a href="#" class="btn secondary">View Memories</a>
+                    <a href="#" class="btn primary">Contribute</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD -->
+
+        <div class="card">
+
+            <div class="image">
+
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="reveal">
+                    Revealed On D-14
+                </div>
+
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    ₹50K – ₹2L • Wellness Space
+                </div>
+
+                <h3>
+                    Spa Bathroom Retreat
+                </h3>
+
+                <div class="desc">
+                    Transform the couple’s bathroom into a calming luxury wellness sanctuary inspired by five-star resorts.
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <small>Goal</small>
+                        <h4>₹2.2L</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Contributors</small>
+                        <h4>11</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Status</small>
+                        <h4>49%</h4>
+                    </div>
+
+                </div>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-top">
+                        <div>₹1.08L funded</div>
+                        <div>49%</div>
+                    </div>
+
+                    <div class="progress">
+                        <div class="bar" style="width:49%"></div>
+                    </div>
+
+                </div>
+
+                <div class="people">
+
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"></div>
+                    </div>
+
+                    <span>11 people joined</span>
+
+                </div>
+
+                <div class="actions">
+                    <a href="#" class="btn secondary">View Design</a>
+                    <a href="#" class="btn primary">Contribute</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD -->
+
+        <div class="card">
+
+            <div class="image">
+
+                <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="reveal">
+                    Revealed On D-10
+                </div>
+
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    ₹20K – ₹1L • Legacy Collection
+                </div>
+
+                <h3>
+                    Home Library
+                </h3>
+
+                <div class="desc">
+                    A thoughtfully curated reading room filled with books, memories and handwritten family notes.
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <small>Goal</small>
+                        <h4>₹95K</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Contributors</small>
+                        <h4>22</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Status</small>
+                        <h4>91%</h4>
+                    </div>
+
+                </div>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-top">
+                        <div>₹86K funded</div>
+                        <div>91%</div>
+                    </div>
+
+                    <div class="progress">
+                        <div class="bar" style="width:91%"></div>
+                    </div>
+
+                </div>
+
+                <div class="people">
+
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"></div>
+                    </div>
+
+                    <span>22 people joined</span>
+
+                </div>
+
+                <div class="actions">
+                    <a href="#" class="btn secondary">View Archive</a>
+                    <a href="#" class="btn primary">Contribute</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD -->
+
+        <div class="card">
+
+            <div class="image">
+
+                <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="reveal">
+                    Revealed On D-7
+                </div>
+
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    ₹5L – ₹10L • Dynasty Pool
+                </div>
+
+                <h3>
+                    First Home Foundation
+                </h3>
+
+                <div class="desc">
+                    A once-in-a-generation contribution helping the couple build the foundation of their future family home.
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <small>Goal</small>
+                        <h4>₹10L</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Contributors</small>
+                        <h4>31</h4>
+                    </div>
+
+                    <div class="stat">
+                        <small>Status</small>
+                        <h4>54%</h4>
+                    </div>
+
+                </div>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-top">
+                        <div>₹5.4L funded</div>
+                        <div>54%</div>
+                    </div>
+
+                    <div class="progress">
+                        <div class="bar" style="width:54%"></div>
+                    </div>
+
+                </div>
+
+                <div class="people">
+
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop"></div>
+                    </div>
+
+                    <span>31 people joined</span>
+
+                </div>
+
+                <div class="actions">
+                    <a href="#" class="btn secondary">View Vision</a>
+                    <a href="#" class="btn primary">Contribute</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

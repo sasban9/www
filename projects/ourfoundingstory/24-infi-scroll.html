@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Social Network</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#071019;
+    --panel:#101b27;
+    --panel2:#132331;
+    --line:rgba(255,255,255,.06);
+    --gold:#d7ae6d;
+    --text:#f4efe8;
+    --muted:#98a9b6;
+    --green:#7dd49f;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#15273a 0%,#071019 45%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+}
+
+body::-webkit-scrollbar{
+    width:10px;
+}
+
+body::-webkit-scrollbar-thumb{
+    background:#22384d;
+    border-radius:999px;
+}
+
+.container{
+    width:min(1700px,95%);
+    margin:auto;
+    padding:28px 0 100px;
+}
+
+.top{
+    margin: 0 auto;
+    margin-bottom:28px;
+    max-width: 960px;
+}
+
+.top small{
+    color:var(--gold);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    font-size:11px;
+}
+
+.top h1{
+    margin-top:16px;
+    font-size:76px;
+    line-height:.95;
+    font-family:'Cormorant Garamond',serif;
+}
+
+.top p{
+    margin-top:18px;
+    max-width:900px;
+    line-height:1.9;
+    color:var(--muted);
+}
+
+.layout{
+    max-width: 960px;margin: 0 auto;
+    display:grid;
+    /* grid-template-columns:1.55fr .9fr; */
+    gap:22px;
+    align-items:start;
+}
+
+/* FEED */
+
+.feed-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.feed-card{
+    background:linear-gradient(to bottom,var(--panel),#0c1620);
+    border:1px solid var(--line);
+    border-radius:30px;
+    overflow:hidden;
+    animation:fadeUp .6s ease;
+    transition:.35s ease;
+}
+
+.feed-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(215,174,109,.18);
+}
+
+.feed-image{
+    height:240px;
+    overflow:hidden;
+}
+
+.feed-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:1.2s ease;
+}
+
+.feed-card:hover img{
+    transform:scale(1.08);
+}
+
+.feed-content{
+    padding:20px;
+}
+
+.feed-top{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.user h4{
+    font-size:14px;
+}
+
+.user p{
+    margin-top:4px;
+    font-size:12px;
+    color:var(--muted);
+}
+
+.energy-text{
+    color:var(--green);
+    font-size:12px;
+    font-weight:700;
+}
+
+.feed-text{
+    margin-top:18px;
+    line-height:1.85;
+    color:#dbe6ee;
+    font-size:14px;
+}
+
+.tags{
+    margin-top:18px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.tag{
+    background:#0b141d;
+    border:1px solid rgba(255,255,255,.05);
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:11px;
+}
+
+.energy-wrap{
+    margin-top:18px;
+    height:10px;
+    background:#09131c;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.energy-bar{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    background:linear-gradient(to right,#d7ae6d,#ffe0a8);
+    animation:growBar 1.3s forwards;
+}
+
+.ai-card{
+    padding:28px;
+}
+
+.ai-card small{
+    color:var(--gold);
+    letter-spacing:3px;
+    text-transform:uppercase;
+    font-size:11px;
+}
+
+.ai-card p{
+    margin-top:16px;
+    line-height:1.9;
+    font-size:17px;
+}
+
+/* RIGHT */
+
+.right-column{
+    /* position:sticky; */
+    top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.panel{
+    background:linear-gradient(to bottom,var(--panel2),#0d1720);
+    border:1px solid var(--line);
+    border-radius:30px;
+    overflow:hidden;
+}
+
+.panel-content{
+    padding:24px;
+}
+
+.cta{
+    width:100%;max-width: 360px;
+    border:none;
+    padding:18px;margin: 18px 0;
+    border-radius:999px;
+    background:linear-gradient(to right,#d7ae6d,#f2d9a9);
+    color:#111;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.35s ease;
+}
+
+.cta:hover{
+    transform:translateY(-3px) scale(1.02);
+}
+
+.panel h2{
+    margin-top:24px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+}
+
+.panel p{
+    margin-top:12px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:14px;
+}
+
+.leaderboard{
+    margin-top:22px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.clan{
+    background:#0d1823;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:24px;
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:.35s ease;
+}
+
+.clan:hover{
+    transform:translateX(6px);
+    border-color:rgba(215,174,109,.18);
+}
+
+.clan-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.rank{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#182839;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold);
+    font-weight:700;
+}
+
+.clan h4{
+    font-size:14px;
+}
+
+.clan small{
+    display:block;
+    margin-top:4px;
+    color:var(--muted);
+}
+
+.points{
+    color:var(--green);
+    font-weight:700;
+    font-size:14px;
+}
+
+/* SHEET */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    backdrop-filter:blur(10px);
+    opacity:0;
+    visibility:hidden;
+    transition:.4s ease;
+    z-index:80;
+}
+
+.overlay.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.sheet{
+    position:fixed;
+    top:0;
+    right:-768px;
+    width:540px;
+    max-width:100%;
+    height:100vh;
+    background:#09131c;
+    z-index:100;
+    transition:.55s cubic-bezier(.2,.8,.2,1);
+    overflow:auto;
+    border-left:1px solid rgba(255,255,255,.06);
+}
+
+.sheet.active{
+    right:0;
+}
+
+.sheet-content{
+    padding:28px;
+}
+
+.sheet-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.close{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    border:none;
+    background:#172636;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.sheet h2{
+    margin-top:24px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:56px;
+}
+
+.sheet p{
+    margin-top:14px;
+    line-height:1.9;
+    color:var(--muted);
+}
+
+.actions{
+    margin-top:28px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.action{
+    background:#101b27;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:24px;
+    padding:22px;
+    transition:.35s ease;
+    cursor:pointer;
+}
+
+.action:hover{
+    transform:translateX(8px);
+    border-color:rgba(215,174,109,.22);
+}
+
+.action-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.action small{
+    color:var(--gold);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:10px;
+}
+
+.action span{
+    background:#172636;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:11px;
+}
+
+.action h3{
+    margin-top:14px;
+    font-size:20px;
+}
+
+.action p{
+    margin-top:10px;
+    font-size:13px;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#d7ae6d;
+    color:#111;
+    padding:14px 24px;
+    border-radius:999px;
+    font-weight:700;
+    z-index:120;
+    animation:fadeUp .35s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes growBar{
+    to{
+        width:100%;
+    }
+}
+
+/* TABLET + DESKTOP */
+
+@media(max-width:1100px){
+
+    .top h1{
+        font-size:60px;
+    }
+
+}
+
+/* KEEP 2 COLS ABOVE 767 */
+
+@media(max-width:767px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .feed-grid{
+        grid-template-columns:1fr;
+    }
+
+    .right-column{
+        position:relative;
+        top:auto;
+    }
+
+    .sheet{
+        width:100%;
+    }
+
+    .top h1{
+        font-size:44px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="sheet" id="sheet">
+
+    <div class="sheet-content">
+
+        <div class="sheet-top">
+
+            
+
+            <button class="close" onclick="closeSheet()">✕</button>
+
+        </div>
+<!-- RIGHT -->
+
+        <div class="right-column">
+
+            <div class="panel">
+
+                <div class="panel-content">
+
+                    
+
+                    <h2>
+                        Clan Energy
+                    </h2>
+
+                    <p>
+                        Rankings constantly shift based on emotional resonance, uniqueness and unpredictable wedding momentum.
+                    </p>
+
+                    <div class="leaderboard" id="leaderboard"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div>
+                <small style="color:var(--gold);letter-spacing:3px;text-transform:uppercase;">
+                    D-11 MISSIONS
+                </small>
+            </div>
+        <h2>
+            Join Today’s Story
+        </h2>
+
+        <p>
+            Add memories, transformation stories, rare archives and chaotic throwbacks from different eras of the couple’s lives.
+        </p>
+
+        <div class="actions" id="actions"></div>
+
+    </div>
+
+</div>
+
+<div class="container">
+
+    <div class="top">
+
+        <small>D-11 EXPERIENCE</small>
+
+        <h1>
+            How They Changed
+        </h1>
+
+        <p>
+            Families are uploading transformation stories, emotional voice notes, chaotic glowups and rare archives while clans battle silently for social dominance.
+        </p>
+        <button class="cta" onclick="openSheet()">
+            Add To Today’s Story
+        </button>
+    </div>
+
+    <div class="layout">
+
+        <!-- LEFT -->
+
+        <div class="feed-grid" id="feed"></div>
+
+        
+
+    </div>
+
+</div>
+
+<script>
+
+/* DATA */
+
+const names = [
+"Sharma Syndicate",
+"Chaos Cousins",
+"Legacy Keepers",
+"Bride Squad",
+"Groom Side Mafia",
+"Punjabi Powerhouse",
+"Photo Hoarders",
+"Hostel Survivors",
+"Roast Committee",
+"Emotional Damage Unit",
+"Silent Watchers",
+"Delhi Delegation",
+"Dance Cartel",
+"Late Baraatis",
+"Memory Smugglers",
+"Midnight Historians"
+];
+
+const stories = [
+"Uploaded a terrifying school haircut transformation of the groom from 2011.",
+"Shared a rare hostel clip exposing emotional breakdowns before engineering exams.",
+"Recorded a 15-second voice note describing how the bride became calmer after moving cities.",
+"Uploaded chaotic dance rehearsal footage that already triggered clan warfare.",
+"Added a side-by-side glowup comparison that shocked the entire family network.",
+"Unlocked forgotten vacation footage from a family trip nobody remembered.",
+"Shared a story about how the groom became responsible after his startup disaster.",
+"Uploaded emotional airport goodbye photos from the couple’s college years.",
+"Added rare school memories exposing everyone’s dangerous fashion phase.",
+"Posted a transformation story that immediately triggered nostalgia reactions."
+];
+
+const tagPool = [
+["Glowup","Legendary"],
+["Rare Archive","Chaos"],
+["Voice Note","Emotional"],
+["Family Lore","Unlocked"],
+["Throwback","OG Memory"],
+["Transformation","Chaos Energy"],
+["College Era","Dangerous Evidence"]
+];
+
+const images = [
+    "https://www.adsingh.com/wp-content/uploads/2017/06/bella-hadid-gif.gif",
+    "https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUyOXdxMjNrcDI5YjZ2dmJwcDhxdXdhbXZ0MTh2Zjlyc3l6NDN2cmpsNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/bRKM4yqBFJ5JQEsxRr/source.gif",
+    "https://mir-s3-cdn-cf.behance.net/project_modules/max_632/6096c566531971.5b190f04558a9.gif",
+    "https://static.boredpanda.com/blog/wp-content/uploads/2026/02/funny-worst-haircut-fails-cover_675.jpg",
+    "https://www.davishighnews.com/wp-content/uploads/2014/10/Awkward-13-900x600.jpg",
+    "https://curlytales.com/wp-content/uploads/2023/05/maggi-1.png",
+    "https://www.pmrgo.com/wp-content/uploads/2025/12/updating-your-address-after-moving.webp",
+    "https://i0.wp.com/bravefreetravel.com/wp-content/uploads/2021/11/DSCF5847-scaled.jpg?resize=1140%2C600&ssl=1",
+    "https://st3.depositphotos.com/4232343/18107/i/1600/depositphotos_181072490-stock-photo-smiling-tourists-saying-goodbye-at.jpg",
+    "https://mesmerizeindia.com/cdn/shop/articles/Blog_-_Office_Siren_1.png?v=1715339971&width=1500",
+    "https://i.pinimg.com/originals/6a/2e/a0/6a2ea073b479d386ab7cacb3b4055e85.gif",
+    "https://media2.giphy.com/media/v1.Y2lkPTZjMDliOTUyd3d1YTVmZmtrN2Z1YjhmbTNiZm1oYnY0Z2sweHJrdGEyaHU5d2poZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/IhsEJ88BJ3MQl9UAoZ/giphy.gif",
+    "https://media1.giphy.com/media/v1.Y2lkPTZjMDliOTUyenc5ajI5dGk3Zm44eWpxdHk1YnFqdXBucWl4YnRsZGQ4aHMwYWtpaCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xTdAjDBfc3wMMn4utO/giphy.gif"
+];
+
+const actionData = [
+{
+title:"Upload Old Photo",
+time:"20 sec",
+desc:"Share then-vs-now memories from school, college or family events."
+},
+{
+title:"Record Transformation Story",
+time:"15 sec",
+desc:"Describe how the bride or groom emotionally changed over time."
+},
+{
+title:"Vote Biggest Glowup",
+time:"8 sec",
+desc:"Choose who transformed the most over the years."
+},
+{
+title:"Add Throwback Clip",
+time:"30 sec",
+desc:"Upload rare dance videos, travel clips or hostel archives."
+},
+{
+title:"React To Others",
+time:"5 sec",
+desc:"Send reactions like chaos energy, emotional damage or legendary."
+},
+{
+title:"Unlock Hidden Album",
+time:"12 sec",
+desc:"Contribute to reveal locked college and childhood archives."
+}
+];
+
+/* IMAGE ROTATION WITHOUT CONSECUTIVE REPEAT */
+
+let shuffledImages = [];
+let imageIndex = 0;
+let lastImage = "";
+
+function shuffle(array){
+
+    let arr = [...array];
+
+    for(let i = arr.length - 1; i > 0; i--){
+
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+
+    return arr;
+}
+
+function getNextImage(){
+
+    if(imageIndex >= shuffledImages.length){
+
+        shuffledImages = shuffle(images);
+
+        if(shuffledImages[0] === lastImage){
+
+            shuffledImages.push(shuffledImages.shift());
+        }
+
+        imageIndex = 0;
+    }
+
+    const img = shuffledImages[imageIndex];
+
+    imageIndex++;
+
+    lastImage = img;
+
+    return img;
+}
+
+shuffledImages = shuffle(images);
+
+/* FEED */
+
+const feed = document.getElementById("feed");
+
+function rand(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function createFeedCard(){
+
+    const card = document.createElement("div");
+
+    card.className = "feed-card";
+
+    const tags = rand(tagPool);
+
+    const image = getNextImage();
+
+    const isAiCard = Math.random() > .75;
+
+    if(isAiCard){
+
+        card.innerHTML = `
+
+            <div class="ai-card">
+
+                <small>AI WEDDING INTELLIGENCE</small>
+
+                <p>
+                    The Delhi Delegation has suddenly surged in emotional resonance after three hidden college archives surfaced tonight.
+                </p>
+                <button class="cta" onclick="openSheet()">
+                    Add To Today’s Story
+                </button>
+
+            </div>
+
+        `;
+
+    } else {
+
+        card.innerHTML = `
+
+            <div class="feed-image">
+                <img src="${image}">
+            </div>
+
+            <div class="feed-content">
+
+                <div class="feed-top">
+
+                    <div class="user">
+
+                        <div class="avatar">
+                            <img src="${getNextImage()}">
+                        </div>
+
+                        <div>
+                            <h4>${rand(names)}</h4>
+                            <p>${Math.floor(Math.random()*59)+1} mins ago</p>
+                        </div>
+
+                    </div>
+
+                    <div class="energy-text">
+                        +${Math.floor(Math.random()*35)+8} energy
+                    </div>
+
+                </div>
+
+                <div class="feed-text">
+                    ${rand(stories)}
+                </div>
+
+                <div class="tags">
+                    <div class="tag">${tags[0]}</div>
+                    <div class="tag">${tags[1]}</div>
+                </div>
+
+                <div class="energy-wrap">
+                    <div class="energy-bar"></div>
+                </div>
+
+            </div>
+
+        `;
+    }
+
+    feed.appendChild(card);
+}
+
+/* INITIAL LOAD */
+
+for(let i=0;i<10;i++){
+    createFeedCard();
+}
+
+/* INFINITE SCROLL */
+
+let loading = false;
+
+window.addEventListener("scroll",()=>{
+
+    if(loading) return;
+
+    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 1200){
+
+        loading = true;
+
+        setTimeout(()=>{
+
+            for(let i=0;i<6;i++){
+                createFeedCard();
+            }
+
+            loading = false;
+
+        },500);
+
+    }
+
+});
+
+/* RANDOMIZED LEADERBOARD */
+
+const leaderboard = document.getElementById("leaderboard");
+
+function renderLeaderboard(){
+
+    leaderboard.innerHTML = "";
+
+    const shuffledClans = shuffle(names).slice(0,12);
+
+    const randomRanks = shuffle([1,2,3,4,5,6,7,8,9,10,11,12]);
+
+    shuffledClans.forEach((name,index)=>{
+
+        const clan = document.createElement("div");
+
+        clan.className = "clan";
+
+        clan.innerHTML = `
+
+            <div class="clan-left">
+
+                <div class="rank">
+                    ${randomRanks[index]}
+                </div>
+
+                <div>
+                    <h4>${name}</h4>
+                    <small>
+                        ${Math.floor(Math.random()*120)+20} active signals
+                    </small>
+                </div>
+
+            </div>
+
+            <div class="points">
+                ${Math.floor(Math.random()*9000)+1000}
+            </div>
+
+        `;
+
+        leaderboard.appendChild(clan);
+
+    });
+
+}
+
+renderLeaderboard();
+
+setInterval(renderLeaderboard,7000);
+
+/* ACTIONS */
+
+const actions = document.getElementById("actions");
+
+actionData.forEach(item=>{
+
+    const div = document.createElement("div");
+
+    div.className = "action";
+
+    div.innerHTML = `
+
+        <div class="action-top">
+
+            <small>Quick Mission</small>
+
+            <span>${item.time}</span>
+
+        </div>
+
+        <h3>${item.title}</h3>
+
+        <p>${item.desc}</p>
+
+    `;
+
+    div.onclick = ()=>showToast("Contribution Window Opened");
+
+    actions.appendChild(div);
+
+});
+
+/* SHEET */
+
+const overlay = document.getElementById("overlay");
+const sheet = document.getElementById("sheet");
+
+function openSheet(){
+
+    overlay.classList.add("active");
+    sheet.classList.add("active");
+
+}
+
+function closeSheet(){
+
+    overlay.classList.remove("active");
+    sheet.classList.remove("active");
+
+}
+
+overlay.onclick = closeSheet;
+
+/* TOAST */
+
+function showToast(message){
+
+    const toast = document.createElement("div");
+
+    toast.className = "toast";
+
+    toast.innerText = message;
+
+    document.body.appendChild(toast);
+
+    setTimeout(()=>{
+        toast.remove();
+    },2200);
+
+}
+
+</script>
+
+</body>
+</html>

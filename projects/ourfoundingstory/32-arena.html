@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>VowLedger — Archive Console</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+BASE VARIABLES
+========================================================= */
+
+:root{
+
+  --bg:#0f0f10;
+  --bg-soft:#171718;
+  --bg-card:#1d1d1f;
+
+  --text:#f5f1ea;
+  --muted:#9f9586;
+
+  --gold:#c8a46f;
+  --gold-soft:#8b734d;
+
+  --border:rgba(255,255,255,.08);
+
+  --heart:#d37c7c;
+  --diamond:#d2b27a;
+  --club:#8ba47f;
+  --spade:#9ba0b5;
+
+  --shadow:
+  0 20px 60px rgba(0,0,0,.45);
+
+  --radius:28px;
+
+  --transition:
+  all .7s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  overflow:hidden;
+}
+
+body{
+  height:100vh;
+}
+
+/* =========================================================
+BACKGROUND GRAIN
+========================================================= */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  opacity:.06;
+  pointer-events:none;
+
+  background-image:
+  radial-gradient(circle at 20% 20%, rgba(255,255,255,.08) 1px, transparent 1px),
+  radial-gradient(circle at 80% 70%, rgba(255,255,255,.05) 1px, transparent 1px);
+
+  background-size:4px 4px;
+}
+
+/* =========================================================
+LAYOUT
+========================================================= */
+
+.app{
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;
+  height:100vh;
+}
+
+/* =========================================================
+LEFT PANEL
+========================================================= */
+
+.left-panel{
+  padding:48px;
+  border-right:1px solid var(--border);
+  overflow:auto;
+}
+
+.archive-tag{
+  font-size:.75rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:16px;
+}
+
+.hero{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(48px,7vw,82px);
+  line-height:.92;
+  max-width:700px;
+  margin-bottom:20px;
+  font-weight:500;
+}
+
+.hero-sub{
+  max-width:620px;
+  line-height:1.8;
+  color:var(--muted);
+  margin-bottom:40px;
+}
+
+/* =========================================================
+INPUT
+========================================================= */
+
+.input-shell{
+  position:relative;
+  margin-bottom:42px;
+}
+
+.memory-input{
+  width:100%;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:24px 28px;
+  font-size:1rem;
+  color:var(--text);
+  outline:none;
+  transition:var(--transition);
+  backdrop-filter:blur(12px);
+}
+
+.memory-input::placeholder{
+  color:#7f776b;
+}
+
+.memory-input:focus{
+  border-color:rgba(200,164,111,.4);
+  box-shadow:0 0 0 1px rgba(200,164,111,.15);
+}
+
+/* =========================================================
+CARDS GRID
+========================================================= */
+
+.cards-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+}
+
+.archive-card{
+  position:relative;
+  min-height:250px;
+
+  background:
+  linear-gradient(
+    180deg,
+    rgba(255,255,255,.04),
+    rgba(255,255,255,.02)
+  );
+
+  border:1px solid var(--border);
+
+  border-radius:var(--radius);
+
+  padding:26px;
+
+  overflow:hidden;
+
+  transition:var(--transition);
+
+  cursor:pointer;
+
+  box-shadow:var(--shadow);
+
+  opacity:.42;
+  transform:scale(.98);
+}
+
+.archive-card.active{
+  opacity:1;
+  transform:scale(1);
+  border-color:rgba(200,164,111,.28);
+}
+
+.archive-card:hover{
+  transform:translateY(-4px);
+}
+
+.archive-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(circle at top right,
+  rgba(255,255,255,.06),
+  transparent 50%);
+  pointer-events:none;
+}
+
+/* =========================================================
+SUIT COLORS
+========================================================= */
+
+.card-heart{
+  border-top:2px solid var(--heart);
+}
+
+.card-diamond{
+  border-top:2px solid var(--diamond);
+}
+
+.card-club{
+  border-top:2px solid var(--club);
+}
+
+.card-spade{
+  border-top:2px solid var(--spade);
+}
+
+/* =========================================================
+CARD CONTENT
+========================================================= */
+
+.suit-line{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.suit-symbol{
+  font-size:1.3rem;
+}
+
+.suit-name{
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:.72rem;
+  color:var(--muted);
+}
+
+.card-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;
+  line-height:1;
+  margin-bottom:18px;
+}
+
+.collection{
+  color:var(--gold);
+  font-size:.8rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+.card-description{
+  line-height:1.7;
+  color:#b8afa1;
+  font-size:.95rem;
+}
+
+.card-footer{
+  position:absolute;
+  bottom:24px;
+  left:26px;
+
+  font-size:.75rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#6f675d;
+}
+
+/* =========================================================
+RIGHT PANEL
+========================================================= */
+
+.right-panel{
+  position:relative;
+  overflow:hidden;
+  padding:50px 44px;
+}
+
+.pulse-header{
+  margin-bottom:36px;
+}
+
+.pulse-label{
+  font-size:.72rem;
+  letter-spacing:.2em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.pulse-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:3rem;
+  line-height:1;
+}
+
+/* =========================================================
+PULSE STREAM
+========================================================= */
+
+.pulse-stream{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.pulse-item{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:22px;
+
+  padding:20px 22px;
+
+  backdrop-filter:blur(10px);
+
+  transition:var(--transition);
+
+  animation:fadeIn .8s ease;
+}
+
+.pulse-item:hover{
+  transform:translateY(-2px);
+}
+
+.pulse-head{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+
+.pulse-name{
+  font-weight:600;
+}
+
+.pulse-time{
+  color:#756e64;
+  font-size:.82rem;
+}
+
+.signature{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.sig{
+  font-size:.9rem;
+  color:#d6cdbf;
+}
+
+.pulse-note{
+  line-height:1.7;
+  color:#b0a89c;
+}
+
+/* =========================================================
+AMBIENT FLOAT
+========================================================= */
+
+.floating-orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:.08;
+  pointer-events:none;
+}
+
+.orb1{
+  width:260px;
+  height:260px;
+  background:#8b5e2b;
+  top:-60px;
+  right:-60px;
+}
+
+.orb2{
+  width:240px;
+  height:240px;
+  background:#6d7c95;
+  bottom:-100px;
+  left:-60px;
+}
+
+/* =========================================================
+ANIMATIONS
+========================================================= */
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .app{
+    grid-template-columns:1fr;
+    overflow:auto;
+  }
+
+  .right-panel{
+    border-top:1px solid var(--border);
+  }
+
+}
+
+@media(max-width:700px){
+
+  body{
+    overflow:auto;
+  }
+
+  .left-panel,
+  .right-panel{
+    padding:26px;
+  }
+
+  .cards-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    font-size:56px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- =====================================================
+  LEFT
+  ====================================================== -->
+
+  <section class="left-panel">
+
+    <div class="archive-tag">
+      Founding Archive
+    </div>
+
+    <h1 class="hero">
+      Discover unfinished fragments of the family story.
+    </h1>
+
+    <p class="hero-sub">
+      Search memories, uncover forgotten collections,
+      and contribute artifacts that deserve to survive.
+    </p>
+
+    <div class="input-shell">
+      <input
+        type="text"
+        class="memory-input"
+        id="memoryInput"
+        placeholder='Search "recipe", "dance", "Darjeeling", "cassette"...'
+      />
+    </div>
+
+    <div class="cards-grid" id="cardsGrid"></div>
+
+  </section>
+
+  <!-- =====================================================
+  RIGHT
+  ====================================================== -->
+
+  <section class="right-panel">
+
+    <div class="floating-orb orb1"></div>
+    <div class="floating-orb orb2"></div>
+
+    <div class="pulse-header">
+
+      <div class="pulse-label">
+        Seasonal Pulse
+      </div>
+
+      <div class="pulse-title">
+        The Evening Archive
+      </div>
+
+    </div>
+
+    <div class="pulse-stream" id="pulseStream"></div>
+
+  </section>
+
+</div>
+
+<script>
+/* =========================================================
+TASKS
+========================================================= */
+
+const tasks = [
+
+{
+title:"Grandmother Lore",
+suit:"♥",
+suitClass:"heart",
+subtitle:"Emotional Chaos",
+collection:"Founding Blessings",
+
+keywords:["grandmother","voice","elder","memory","blessing"],
+aliases:["nani","dida","ajji","grandma"],
+searchTokens:["voice note","family wisdom","audio"],
+
+description:
+"Record a voice blessing from the oldest family member willing to speak tonight."
+},
+
+{
+title:"The Golden Table",
+suit:"♦",
+suitClass:"diamond",
+subtitle:"Celebration & Momentum",
+collection:"Founding Voyage",
+
+keywords:["gift","table","home","future","celebration"],
+aliases:["dining table","home setup"],
+searchTokens:["future home","first dinner","ceremony"],
+
+description:
+"Share one object that symbolically belongs in the couple’s future home."
+},
+
+{
+title:"Family Rituals",
+suit:"♣",
+suitClass:"club",
+subtitle:"Rituals & Continuity",
+collection:"Tradition Vault",
+
+keywords:["ritual","recipe","festival","custom","family"],
+aliases:["tradition","puja","family saying"],
+searchTokens:["culture","continuity","custom"],
+
+description:
+"Document a ritual or family custom that deserves another generation."
+},
+
+{
+title:"Lost Wedding Photograph",
+suit:"♠",
+suitClass:"spade",
+subtitle:"Deep Family Archive",
+collection:"Forgotten Weddings",
+
+keywords:["photo","wedding","archive","history","nostalgia"],
+aliases:["old photo","marriage picture"],
+searchTokens:["album","scan","vintage"],
+
+description:
+"Find the oldest surviving wedding photograph in either family."
+}
+
+];
+
+/* =========================================================
+PULSE DATA
+========================================================= */
+
+const pulseData = [
+
+{
+name:"Bride Side",
+sig:"32♥ 14♦ 52♠ 44♣",
+note:"The Assam Collection gained two new fragments tonight."
+},
+
+{
+name:"Groom Side",
+sig:"48♥ 29♦ 31♠ 18♣",
+note:"An elder recording surfaced from Silchar."
+},
+
+{
+name:"The Cousins Circle",
+sig:"66♥ 18♦ 8♠ 4♣",
+note:"The Chaos Years collection opened briefly."
+},
+
+{
+name:"The Archive Hunters",
+sig:"12♥ 9♦ 72♠ 61♣",
+note:"A rare cassette recording was restored tonight."
+},
+
+{
+name:"Founding Families",
+sig:"25♥ 38♦ 40♠ 32♣",
+note:"The Black Vault received a new artifact."
+}
+
+];
+
+/* =========================================================
+RENDER CARDS
+========================================================= */
+
+const cardsGrid = document.getElementById("cardsGrid");
+
+function renderCards(activeSuit = null){
+
+cardsGrid.innerHTML = "";
+
+tasks.forEach(task=>{
+
+const card = document.createElement("div");
+
+card.className = `
+archive-card
+card-${task.suitClass}
+${activeSuit === task.suit ? "active" : ""}
+`;
+
+card.innerHTML = `
+<div class="suit-line">
+  <div class="suit-symbol">${task.suit}</div>
+  <div class="suit-name">${task.subtitle}</div>
+</div>
+
+<div class="card-title">
+  ${task.title}
+</div>
+
+<div class="collection">
+  ${task.collection}
+</div>
+
+<div class="card-description">
+  ${task.description}
+</div>
+
+<div class="card-footer">
+  ARCHIVE FRAGMENT
+</div>
+`;
+
+cardsGrid.appendChild(card);
+
+});
+
+}
+
+renderCards("♣");
+
+/* =========================================================
+SEARCH
+========================================================= */
+
+const memoryInput = document.getElementById("memoryInput");
+
+memoryInput.addEventListener("input",(e)=>{
+
+const value = e.target.value.toLowerCase();
+
+let foundSuit = null;
+
+tasks.forEach(task=>{
+
+const allTokens = [
+...task.keywords,
+...task.aliases,
+...task.searchTokens,
+task.title.toLowerCase()
+];
+
+const matched = allTokens.some(token =>
+token.toLowerCase().includes(value)
+);
+
+if(matched && !foundSuit){
+foundSuit = task.suit;
+}
+
+});
+
+renderCards(foundSuit);
+
+});
+
+/* =========================================================
+CYCLING
+========================================================= */
+
+const suitOrder = ["♣","♦","♥","♠"];
+let currentSuitIndex = 0;
+
+function cycleCards(){
+
+currentSuitIndex++;
+
+if(currentSuitIndex >= suitOrder.length){
+currentSuitIndex = 0;
+}
+
+renderCards(suitOrder[currentSuitIndex]);
+
+}
+
+document.addEventListener("keydown",(e)=>{
+
+if(e.code === "Space"){
+
+e.preventDefault();
+cycleCards();
+
+}
+
+});
+
+/* =========================================================
+PULSE STREAM
+========================================================= */
+
+const pulseStream = document.getElementById("pulseStream");
+
+function shuffleArray(array){
+
+return [...array].sort(()=>Math.random()-0.5);
+
+}
+
+function renderPulse(){
+
+pulseStream.innerHTML = "";
+
+const shuffled = shuffleArray(pulseData);
+
+shuffled.forEach(item=>{
+
+const div = document.createElement("div");
+
+div.className = "pulse-item";
+
+div.innerHTML = `
+
+<div class="pulse-head">
+  <div class="pulse-name">${item.name}</div>
+  <div class="pulse-time">just surfaced</div>
+</div>
+
+<div class="signature">
+  <div class="sig">${item.sig}</div>
+</div>
+
+<div class="pulse-note">
+  ${item.note}
+</div>
+
+`;
+
+pulseStream.appendChild(div);
+
+});
+
+}
+
+renderPulse();
+
+setInterval(()=>{
+renderPulse();
+},60000);
+
+</script>
+
+</body>
+</html>

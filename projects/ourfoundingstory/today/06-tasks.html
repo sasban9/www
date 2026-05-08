@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VowLedger — D-6 Guest Arrival Feed</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#071019;
+    --card:#0d1722;
+    --card2:#101c29;
+    --gold:#d9ae69;
+    --text:#f4efe7;
+    --muted:#94a2af;
+    --green:#78c68d;
+    --line:#1f2c38;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#132131 0%,#071019 40%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+img{
+    width:100%;
+    display:block;
+}
+
+.container{
+    width:min(1400px,94%);
+    margin:auto;
+}
+
+/* HERO */
+
+.hero{
+    padding:50px 0 34px;
+}
+
+.hero small{
+    color:var(--gold);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    font-size:11px;
+}
+
+.hero h1{
+    margin-top:18px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:72px;
+    line-height:.95;
+}
+
+.hero p{
+    margin-top:22px;
+    color:var(--muted);
+    max-width:760px;
+    line-height:2;
+    font-size:16px;
+}
+
+/* TOP BAR */
+
+.topbar{
+    margin-top:30px;
+    display:flex;
+    gap:14px;
+    overflow:auto;
+    padding-bottom:12px;
+    scrollbar-width:none;
+}
+
+.topbar::-webkit-scrollbar{
+    display:none;
+}
+
+.metric{
+    min-width:180px;
+    background:var(--card);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:20px;
+    padding:18px;
+}
+
+.metric small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.metric h3{
+    margin-top:10px;
+    color:var(--gold);
+    font-size:28px;
+}
+
+/* LAYOUT */
+
+.layout{
+    margin-top:34px;
+    display:grid;
+    grid-template-columns:320px 1fr;
+    gap:24px;
+    padding-bottom:80px;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    position:sticky;
+    top:20px;
+    height:fit-content;
+}
+
+.panel{
+    background:linear-gradient(to bottom,#0d1722,#09121b);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:28px;
+    padding:22px;
+    margin-bottom:22px;
+}
+
+.panel h3{
+    font-size:18px;
+}
+
+.panel p{
+    margin-top:12px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:14px;
+}
+
+.action-btn{
+    width:100%;
+    border:none;
+    margin-top:16px;
+    background:var(--gold);
+    color:#111;
+    padding:15px;
+    border-radius:16px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.quick-actions{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:18px;
+}
+
+.quick{
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    padding:14px;
+    border-radius:16px;
+    cursor:pointer;
+    transition:.3s ease;
+}
+
+.quick:hover{
+    border-color:rgba(217,174,105,.24);
+}
+
+.quick small{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.quick h4{
+    margin-top:8px;
+    font-size:14px;
+}
+
+/* FEED */
+
+.feed{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+/* CARD */
+
+.card{
+    background:linear-gradient(to bottom,#0d1722,#09121b);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:28px;
+    overflow:hidden;
+}
+
+.card-top{
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.user{
+    display:flex;
+    gap:14px;
+    align-items:center;
+}
+
+.avatar{
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    overflow:hidden;
+}
+
+.avatar img{
+    height:100%;
+    object-fit:cover;
+}
+
+.user h3{
+    font-size:16px;
+}
+
+.user p{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.tag{
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    padding:10px 14px;
+    border-radius:999px;
+    color:var(--gold);
+    font-size:11px;
+    height:fit-content;
+}
+
+.card-image img{
+    aspect-ratio:16/9;
+    object-fit:cover;
+}
+
+.content{
+    padding:20px;
+}
+
+.content p{
+    color:#d8e0e8;
+    line-height:1.9;
+    font-size:14px;
+}
+
+.meta{
+    margin-top:18px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.meta div{
+    background:#101923;
+    border:1px solid rgba(255,255,255,.04);
+    padding:10px 14px;
+    border-radius:999px;
+    color:#d5dde5;
+    font-size:11px;
+}
+
+.actions{
+    margin-top:20px;
+    display:flex;
+    gap:12px;
+}
+
+.actions button{
+    flex:1;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    color:#fff;
+    padding:14px;
+    border-radius:14px;
+    cursor:pointer;
+}
+
+.actions button:hover{
+    border-color:rgba(217,174,105,.25);
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:999;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:min(560px,100%);
+    background:#0d1722;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:30px;
+    padding:28px;
+}
+
+.modal-box h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+}
+
+.modal-box p{
+    margin-top:12px;
+    color:var(--muted);
+    line-height:1.8;
+}
+
+.modal-box textarea,
+.modal-box input{
+    width:100%;
+    margin-top:18px;
+    background:#09121b;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:16px;
+    padding:16px;
+    color:#fff;
+    outline:none;
+}
+
+.modal-actions{
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+}
+
+.modal-actions button{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:16px;
+    cursor:pointer;
+}
+
+.primary{
+    background:var(--gold);
+    color:#111;
+    font-weight:600;
+}
+
+.secondary{
+    background:#101923;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.06);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:relative;
+        top:auto;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:44px;
+    }
+
+    .hero p{
+        font-size:15px;
+        line-height:1.8;
+    }
+
+    .card-top{
+        flex-direction:column;
+    }
+
+    .actions{
+        flex-wrap:wrap;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <small>D-6 • Guest Arrival Feed <small><a href="04-tasks.html">D-4</a></small></small>
+
+        <h1>
+            Everyone Is Arriving.
+        </h1>
+
+        <p>
+            Guests across cities are checking in, uploading travel stories, sharing outfit previews and building excitement for the celebration week.
+        </p>
+
+    </section>
+
+    <!-- METRICS -->
+
+    <div class="topbar">
+
+        <div class="metric">
+            <small>Guests Arrived</small>
+            <h3>118</h3>
+        </div>
+
+        <div class="metric">
+            <small>Cities Connected</small>
+            <h3>23</h3>
+        </div>
+
+        <div class="metric">
+            <small>Travel Posts</small>
+            <h3>241</h3>
+        </div>
+
+        <div class="metric">
+            <small>Outfit Teasers</small>
+            <h3>87</h3>
+        </div>
+
+        <div class="metric">
+            <small>Voice Notes</small>
+            <h3>49</h3>
+        </div>
+
+    </div>
+
+    <!-- LAYOUT -->
+
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="panel">
+
+                <h3>Contribute To Today</h3>
+
+                <p>
+                    Add your journey, emotions, memories and excitement to the live wedding timeline.
+                </p>
+
+                <div class="quick-actions">
+
+                    <div class="quick" onclick="openModal('arrival')">
+                        <small>Upload</small>
+                        <h4>Arrival Selfie</h4>
+                    </div>
+
+                    <div class="quick" onclick="openModal('voice')">
+                        <small>Record</small>
+                        <h4>Voice Blessing</h4>
+                    </div>
+
+                    <div class="quick" onclick="openModal('story')">
+                        <small>Share</small>
+                        <h4>Travel Story</h4>
+                    </div>
+
+                    <div class="quick" onclick="openModal('outfit')">
+                        <small>Reveal</small>
+                        <h4>Outfit Sneak Peek</h4>
+                    </div>
+
+                    <div class="quick" onclick="openModal('memory')">
+                        <small>Post</small>
+                        <h4>Funny Wedding Memory</h4>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- FEED -->
+
+        <section class="feed">
+
+            <!-- CARD -->
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="user">
+
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop">
+                        </div>
+
+                        <div>
+                            <h3>Riya Sharma</h3>
+                            <p>College Friend • Arrived From Bangalore</p>
+                        </div>
+
+                    </div>
+
+                    <div class="tag">
+                        Arrival Story
+                    </div>
+
+                </div>
+
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1400&auto=format&fit=crop">
+                </div>
+
+                <div class="content">
+
+                    <p>
+                        “Landed after a delayed flight and immediately headed to the hotel. Cannot believe my best friend is getting married tomorrow week.”
+                    </p>
+
+                    <div class="meta">
+                        <div>✈ Bangalore → Delhi</div>
+                        <div>❤ 241 reactions</div>
+                        <div>🎵 Added To Wedding Reel</div>
+                    </div>
+
+                    <div class="actions">
+                        <button>React</button>
+                        <button>Comment</button>
+                        <button>Add Memory</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="user">
+
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop">
+                        </div>
+
+                        <div>
+                            <h3>The Guptas</h3>
+                            <p>Family Circle • Arrived From Kolkata</p>
+                        </div>
+
+                    </div>
+
+                    <div class="tag">
+                        Outfit Reveal
+                    </div>
+
+                </div>
+
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1400&auto=format&fit=crop">
+                </div>
+
+                <div class="content">
+
+                    <p>
+                        “Keeping the full look secret till the sangeet night. Here’s just a little glimpse.”
+                    </p>
+
+                    <div class="meta">
+                        <div>👗 14 outfit previews today</div>
+                        <div>🔥 Trending Post</div>
+                    </div>
+
+                    <div class="actions">
+                        <button>React</button>
+                        <button>Guess Color</button>
+                        <button>Comment</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CARD -->
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="user">
+
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop">
+                        </div>
+
+                        <div>
+                            <h3>Ananya's Cousins</h3>
+                            <p>Family Group</p>
+                        </div>
+
+                    </div>
+
+                    <div class="tag">
+                        Voice Note
+                    </div>
+
+                </div>
+
+                <div class="content">
+
+                    <p>
+                        “Uploaded a 3-minute voice montage with childhood stories and embarrassing secrets.”
+                    </p>
+
+                    <div class="meta">
+                        <div>🎤 Audio Blessing</div>
+                        <div>😂 92 laughs reacted</div>
+                        <div>📁 Archived Forever</div>
+                    </div>
+
+                    <div class="actions">
+                        <button>Play Audio</button>
+                        <button>React</button>
+                        <button>Reply</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle">Share Your Moment</h2>
+
+        <p>
+            Add your story to the wedding timeline.
+        </p>
+
+        <input type="text" placeholder="Title or caption">
+
+        <textarea rows="5" placeholder="Write something memorable..."></textarea>
+
+        <div class="modal-actions">
+            <button class="secondary" onclick="closeModal()">Cancel</button>
+            <button class="primary">Post To Timeline</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modalTitle');
+
+function openModal(type){
+
+    const titles = {
+        arrival:'Upload Arrival Selfie',
+        voice:'Record Voice Blessing',
+        story:'Share Travel Story',
+        outfit:'Upload Outfit Sneak Peek',
+        memory:'Share Funny Memory'
+    };
+
+    modalTitle.innerText = titles[type];
+    modal.classList.add('active');
+
+}
+
+function closeModal(){
+    modal.classList.remove('active');
+}
+
+window.onclick = function(e){
+    if(e.target === modal){
+        closeModal();
+    }
+}
+
+</script>
+
+</body>
+</html>

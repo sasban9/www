@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VowLedger — D-1 Archive Atlas</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#0f0f10;
+    --bg-soft:#171718;
+    --bg-card:rgba(255,255,255,.03);
+
+    --text:#f5f1ea;
+    --muted:#8d8577;
+    --soft:#cbbda6;
+
+    --gold:#c8a46f;
+    --gold-bright:#e5c38f;
+
+    --border:rgba(255,255,255,.08);
+
+    --shadow:
+    0 10px 40px rgba(0,0,0,.35);
+
+    --radius:28px;
+
+    --transition:
+    all .6s cubic-bezier(.19,1,.22,1);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+    scrollbar-width: none;
+}
+
+body{
+    background:
+    radial-gradient(circle at top left,#1d1a16 0%,transparent 40%),
+    radial-gradient(circle at bottom right,#191512 0%,transparent 35%),
+    var(--bg);
+
+    color:var(--text);
+
+    font-family:'Inter',sans-serif;
+
+    overflow-x:hidden;
+}
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.05;
+    background-image:url("https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop");
+    background-size:cover;
+    mix-blend-mode:overlay;
+}
+
+.container{
+    width:min(1320px,92%);
+    margin:auto;
+}
+
+header{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:92%;
+    z-index:1000;
+
+    background:rgba(10,10,10,.5);
+    backdrop-filter:blur(16px);
+
+    border:1px solid var(--border);
+
+    border-radius:999px;
+
+    padding:18px 28px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-family:'Cormorant Garamond',serif;
+    font-size:28px;
+    letter-spacing:.04em;
+}
+
+.logo span{
+    color:var(--gold);
+}
+
+nav{
+    display:flex;
+    gap:28px;
+}
+
+nav a{
+    text-decoration:none;
+    color:var(--soft);
+    font-size:13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+}
+
+.hero{
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+
+    padding-top:120px;
+    position:relative;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:70px;
+    align-items:center;
+}
+
+.eyebrow{
+    color:var(--gold);
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    font-size:12px;
+    margin-bottom:24px;
+}
+
+.hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(58px,9vw,110px);
+    line-height:.92;
+    font-weight:600;
+    margin-bottom:32px;
+}
+
+.hero p{
+    color:var(--soft);
+    line-height:1.9;
+    max-width:700px;
+    font-size:17px;
+}
+
+.hero-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:36px;
+    padding:38px;
+    box-shadow:var(--shadow);
+
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-card:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(135deg,
+    rgba(255,255,255,.03),
+    transparent 40%);
+}
+
+.stat-row{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+    margin-top:30px;
+}
+
+.stat{
+    padding:24px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:24px;
+    background:rgba(255,255,255,.02);
+}
+
+.stat h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+    margin-bottom:6px;
+    color:var(--gold-bright);
+}
+
+.stat p{
+    font-size:13px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+}
+
+.section{
+    padding:120px 0;
+}
+
+.section-head{
+    margin-bottom:70px;
+}
+
+.section-head h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(42px,5vw,72px);
+    line-height:1;
+    margin-top:16px;
+}
+
+.section-head p{
+    margin-top:20px;
+    max-width:700px;
+    color:var(--soft);
+    line-height:1.8;
+}
+
+.deck-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:36px;
+}
+
+.suit{
+    border:1px solid var(--border);
+    background:var(--bg-card);
+    border-radius:36px;
+    padding:40px;
+    position:relative;
+    overflow:hidden;
+}
+
+.suit:before{
+    content:"";
+    position:absolute;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    top:-140px;
+    right:-140px;
+    background:rgba(255,255,255,.02);
+}
+
+.suit-symbol{
+    font-size:72px;
+    margin-bottom:12px;
+}
+
+.suit h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:46px;
+    margin-bottom:12px;
+}
+
+.suit p{
+    color:var(--soft);
+    line-height:1.8;
+    margin-bottom:26px;
+}
+
+.suit ul{
+    list-style:none;
+}
+
+.suit li{
+    padding:12px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    color:#ddd4c6;
+    display:flex;
+    justify-content:space-between;
+    gap:14px;
+}
+
+.suit li span{
+    color:var(--muted);
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+}
+
+.archive{
+    color:#d4c29d;
+}
+
+.arena{
+    color:#d56d6d;
+}
+
+.massive-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+}
+
+.page-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:28px;
+    padding:24px;
+    transition:var(--transition);
+    position:relative;
+    overflow:hidden;
+}
+
+.page-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(200,164,111,.4);
+}
+
+.page-tag{
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:16px;
+}
+
+.page-card h4{
+    font-family:'Cormorant Garamond',serif;
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.page-card p{
+    color:var(--soft);
+    line-height:1.7;
+    font-size:14px;
+}
+
+.page-meta{
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid rgba(255,255,255,.05);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    color:var(--muted);
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.quote{
+    padding:140px 0;
+}
+
+.quote-box{
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+
+    padding:80px 0;
+    text-align:center;
+}
+
+.quote-box h3{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(40px,6vw,82px);
+    line-height:1.05;
+    max-width:1000px;
+    margin:auto;
+}
+
+.quote-box p{
+    margin-top:24px;
+    color:var(--gold);
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    font-size:12px;
+}
+
+footer{
+    border-top:1px solid var(--border);
+    padding:60px 0 100px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+}
+
+.footer-title{
+    font-family:'Cormorant Garamond',serif;
+    font-size:38px;
+    margin-bottom:18px;
+}
+
+.footer-text{
+    max-width:520px;
+    color:var(--soft);
+    line-height:1.9;
+}
+
+.footer-right{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.footer-chip{
+    padding:18px 22px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    background:rgba(255,255,255,.02);
+
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+}
+
+.reveal{
+    opacity:0;
+    transform:translateY(60px);
+    transition:1.2s cubic-bezier(.19,1,.22,1);
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+@media(max-width:1100px){
+
+    .hero-grid,
+    .deck-grid,
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .massive-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:700px){
+
+    nav{
+        display:none;
+    }
+
+    .hero{
+        min-height:auto;
+        padding-top:160px;
+        padding-bottom:80px;
+    }
+
+    .massive-grid{
+        grid-template-columns:1fr;
+    }
+
+    .section{
+        padding:90px 0;
+    }
+
+    .suit,
+    .page-card{
+        border-radius:24px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        Vow<span>Ledger</span>
+    </div>
+
+    <nav>
+        <a href="#">Story</a>
+        <a href="#">Arena</a>
+        <a href="#">Archive</a>
+        <a href="#">Blessings</a>
+        <a href="#">Legacy</a>
+    </nav>
+</header>
+
+<section class="hero">
+<div class="container">
+
+<div class="hero-grid">
+
+<div class="reveal">
+<div class="eyebrow">
+D-1 · The Final Night Before The Founding Chapter
+</div>
+
+<h1>
+The Complete Archive Atlas
+</h1>
+
+<p>
+Tonight the archive is fully awake. The Arena slows. The permanent collections emerge. Forgotten photographs, midnight voice notes, cousin lore, ritual vaults, migration stories, dining table dreams, lost cassette tapes, proposal letters, elder recordings, chaotic family legends, and the emotional infrastructure of two converging histories now exist inside one living archive.
+</p>
+</div>
+
+<div class="hero-card reveal">
+
+<div class="eyebrow">
+Engaged Guest Access
+</div>
+
+<h2 style="
+font-family:'Cormorant Garamond',serif;
+font-size:52px;
+margin-bottom:18px;
+line-height:1;
+">
+127 Archive Paths
+</h2>
+
+<p style="
+color:var(--soft);
+line-height:1.8;
+">
+This view appears only after meaningful participation across the 21-day founding season. The collections below are editorially surfaced based on emotional resonance, continuity value, archival rarity, and family significance.
+</p>
+
+<div class="stat-row">
+
+<div class="stat">
+<h3>3,842</h3>
+<p>Memories Preserved</p>
+</div>
+
+<div class="stat">
+<h3>214</h3>
+<p>Elder Recordings</p>
+</div>
+
+<div class="stat">
+<h3>52</h3>
+<p>Deck Chapters</p>
+</div>
+
+<div class="stat">
+<h3>18</h3>
+<p>Hidden Vaults</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+
+<div class="section-head reveal">
+<div class="eyebrow">
+The Four Suits
+</div>
+
+<h2>
+Arena fades. Archive remains.
+</h2>
+
+<p>
+The red suits generated emotional electricity. The black suits preserved continuity. What survives here are the moments that deserved permanence.
+</p>
+</div>
+
+<div class="deck-grid">
+
+<div class="suit reveal">
+<div class="suit-symbol arena">♥</div>
+<h3>Hearts</h3>
+
+<p>
+The emotional Arena. Confessions, cousin wars, nostalgia nights, tears, chaos, and the moments everyone kept replaying after midnight.
+</p>
+
+<ul>
+<li>Anonymous Proposal Confessions <span>Arena</span></li>
+<li>Sibling Roast Night Archives <span>Arena</span></li>
+<li>The Great Cousins Derby <span>Arena</span></li>
+<li>Voice Notes That Broke Everyone <span>Arena</span></li>
+<li>Heartbreaker Round Highlights <span>Arena</span></li>
+</ul>
+</div>
+
+<div class="suit reveal">
+<div class="suit-symbol arena">♦</div>
+<h3>Diamonds</h3>
+
+<p>
+Prestige through participation, generosity, ceremony, symbolism, and collective momentum. Not wealth. Emotional contribution.
+</p>
+
+<ul>
+<li>The Dining Table Chapter <span>Arena</span></li>
+<li>Founding Contributors Circle <span>Arena</span></li>
+<li>Midnight Registry Unlocks <span>Arena</span></li>
+<li>The Golden Lantern Collection <span>Arena</span></li>
+<li>Diamond Patron Stories <span>Arena</span></li>
+</ul>
+</div>
+
+<div class="suit reveal">
+<div class="suit-symbol archive">♠</div>
+<h3>Spades</h3>
+
+<p>
+Family excavation. Migration histories, old recordings, sacrifice stories, lost wedding albums, and emotional roots that grow more valuable over time.
+</p>
+
+<ul>
+<li>The Assam Migration Tapes <span>Archive</span></li>
+<li>Grandfather’s Final Blessing <span>Archive</span></li>
+<li>1987 Wedding Negatives <span>Archive</span></li>
+<li>The Black Vault Collection <span>Archive</span></li>
+<li>Family Origins Timeline <span>Archive</span></li>
+</ul>
+</div>
+
+<div class="suit reveal">
+<div class="suit-symbol archive">♣</div>
+<h3>Clubs</h3>
+
+<p>
+Tradition and continuity. Rituals, recipes, dialects, songs, festival recordings, and the emotional operating system of the family.
+</p>
+
+<ul>
+<li>The Durga Puja Archive <span>Archive</span></li>
+<li>Recipes That Survived Generations <span>Archive</span></li>
+<li>Lost Bengali Sayings Collection <span>Archive</span></li>
+<li>Wedding Songs Restoration Vault <span>Archive</span></li>
+<li>Keeper Of Traditions Hall <span>Archive</span></li>
+</ul>
+</div>
+
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="container">
+
+<div class="section-head reveal">
+<div class="eyebrow">
+127 Live Collections
+</div>
+
+<h2>
+The complete D-1 navigation atlas
+</h2>
+
+<p>
+Below are the surfaced editorial chapters visible to deeply engaged guests on the final evening before the wedding. The architecture intentionally alternates emotion, nostalgia, humor, silence, ritual, intimacy, and spectacle.
+</p>
+</div>
+
+<div class="massive-grid" id="pageGrid"></div>
+
+</div>
+</section>
+
+<section class="quote">
+<div class="container">
+
+<div class="quote-box reveal">
+<h3>
+“The wedding lasts a few days.  
+The archive may outlive everyone in this room.”
+</h3>
+
+<p>
+Founding Chapter · VowLedger
+</p>
+</div>
+
+</div>
+</section>
+
+<footer>
+<div class="container">
+
+<div class="footer-grid">
+
+<div>
+<div class="footer-title">
+VowLedger
+</div>
+
+<div class="footer-text">
+An emotional continuity archive preserving blessings, rituals, stories, voices, photographs, and family mythology across generations. The Arena created momentum. The Archive preserved meaning.
+</div>
+</div>
+
+<div class="footer-right">
+
+<div class="footer-chip">Founding Chapter</div>
+<div class="footer-chip">Archive Atlas</div>
+<div class="footer-chip">D-1 Access Layer</div>
+<div class="footer-chip">127 Collections</div>
+<div class="footer-chip">Emotional Continuity</div>
+<div class="footer-chip">Editorial Legacy</div>
+
+</div>
+
+</div>
+
+</div>
+</footer>
+
+<script>
+
+const pages = [
+
+"First Memory",
+"Proposal Timeline",
+"How The Families Met",
+"Grandmother Voice Archive",
+"Lost Wedding Albums",
+"The Assam Collection",
+"Sibling Derby",
+"Midnight Blessings",
+"School Friends Vault",
+"Parents Before Marriage",
+"Letters Never Sent",
+"Anonymous Cousin Stories",
+"The Dining Table Fund",
+"Rituals Of The Family",
+"Migration Histories",
+"Wedding Speech Drafts",
+"The Black Vault",
+"Festival Chronicles",
+"Audio Blessings",
+"Founding Contributors",
+"Family Tree Atlas",
+"Grandfather Lore",
+"Old VHS Recovery",
+"The First Diwali",
+"Recipe Preservation Hall",
+"Future Children Capsules",
+"Forgotten Invitations",
+"Legacy Portrait Studio",
+"Family Debate Archives",
+"Best Dance Failures",
+"Proposal Witnesses",
+"Hidden Cassette Collection",
+"Village Stories",
+"Parents Love Letters",
+"Housewarming Memories",
+"The Archive Theatre",
+"Blessings Wall",
+"Emotional Timeline",
+"Clan Histories",
+"Sibling Confessions",
+"Lost Train Journeys",
+"Grandmother Recipes",
+"The Silk Saree Story",
+"Private Couple Notes",
+"School Report Card Vault",
+"First Salary Stories",
+"Photographs From 1994",
+"The Cousins Cabinet",
+"Generational Advice Hall",
+"Rainy Night Recordings",
+"Family Anthem Collection",
+"The Midnight Historians",
+"Voice Of The Family",
+"Old Home Blueprints",
+"The Ritual Deck",
+"Letters To Future Children",
+"The Editorial Magazine",
+"Grandparents Before The Internet",
+"Regional Dialects Archive",
+"The Forgotten Uncle",
+"Wedding Cinema Reels",
+"Founding Chapter Notes",
+"The Golden Lantern",
+"Marriage Wisdom Vault",
+"The Story Keepers",
+"The Emotional Atlas",
+"Kitchen Table Memories",
+"Songs Sung At 2AM",
+"Family Chaos Archives",
+"The Railway Years",
+"The Archive Guardians",
+"Hidden Love Stories",
+"Bride Side Legends",
+"Groom Side Mythology",
+"The Red Deck Recap",
+"The Black Deck Collection",
+"Archive Patron Hall",
+"Memory Guardian Circle",
+"The Night Before Wedding",
+"Family Radio Recordings",
+"Future Anniversary Unlocks",
+"Emotional Time Capsules",
+"Children’s Future Archive",
+"Festival Memory Engine",
+"Ritual Soundscapes",
+"Old City Maps",
+"The Dining Room Chronicles",
+"First Apartment Stories",
+"Family Constitution",
+"Letters Across Continents",
+"The Emotional Inheritance",
+"The Legacy Wall",
+"The Cousins Parliament",
+"Legendary One-Liners",
+"The Great Food Wars",
+"Marriage Advice Theatre",
+"The Emotional Museum",
+"Family Documentary Scripts",
+"The Archive Concierge",
+"Private Blessings Collection",
+"Lost Photo Restoration",
+"Oral History Chamber",
+"The Heirloom Editions",
+"Future Reunion Vault",
+"The Family Orchestra",
+"Monsoon Memories",
+"The Wedding Forecast Room",
+"The Grandparents Lounge",
+"The 21 Days Chronicle",
+"The Origin Story",
+"Family Folklore Vault",
+"Hidden Ritual Meanings",
+"The Emotional Geography",
+"Who Introduced Whom",
+"Unexpected Friendships",
+"The Late Night Adda",
+"The Dynasty Layer",
+"Legacy Transfer Notes",
+"Archive Stewardship",
+"The Future Vault",
+"Family Continuity Engine",
+"The Final Countdown",
+"The Last Night Before Forever",
+"The Founding Season Film",
+"The Story That Continues"
+
+];
+
+const grid = document.getElementById("pageGrid");
+
+pages.forEach((title,index)=>{
+
+    const card = document.createElement("div");
+    card.className = "page-card reveal";
+
+    const types = [
+        "Archive",
+        "Arena",
+        "Editorial",
+        "Blessings",
+        "Continuity",
+        "Legacy"
+    ];
+
+    const moods = [
+        "Emotional",
+        "Rare",
+        "Private",
+        "Cinematic",
+        "Founding",
+        "Curated"
+    ];
+
+    card.innerHTML = `
+        <div class="page-tag">
+            ${types[index % types.length]}
+        </div>
+
+        <h4>${title}</h4>
+
+        <p>
+            Editorially surfaced memory collection preserving emotionally significant moments, rituals, recordings, photographs, or seasonal Arena mythology across the founding chapter.
+        </p>
+
+        <div class="page-meta">
+            <div>${moods[index % moods.length]}</div>
+            <div>#${index + 1}</div>
+        </div>
+    `;
+
+    grid.appendChild(card);
+
+});
+
+const observer = new IntersectionObserver(entries=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+            entry.target.classList.add("active");
+        }
+
+    });
+
+},{threshold:.12});
+
+document.querySelectorAll(".reveal").forEach(el=>{
+    observer.observe(el);
+});
+
+</script>
+
+</body>
+</html>

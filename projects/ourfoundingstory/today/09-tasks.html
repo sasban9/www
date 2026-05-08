@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VowLedger — D-9 Most Likely To</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#071019;
+    --card:#0f1a26;
+    --card2:#142232;
+    --gold:#d8ad67;
+    --text:#f4efe8;
+    --muted:#93a2af;
+    --line:#223244;
+    --green:#7fc98f;
+    --pink:#e39bb0;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#122031 0%,#071019 45%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+.container{
+    width:min(1300px,94%);
+    margin:auto;
+    padding-bottom:100px;
+}
+
+.hero{
+    padding:60px 0 34px;
+}
+
+.hero small{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-size:11px;
+}
+
+.hero h1{
+    margin-top:18px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:78px;
+    line-height:.92;
+    max-width:900px;
+}
+
+.hero p{
+    margin-top:22px;
+    max-width:760px;
+    color:var(--muted);
+    line-height:1.9;
+    font-size:16px;
+}
+
+.topbar{
+    display:flex;
+    gap:16px;
+    overflow:auto;
+    padding-bottom:24px;
+    scrollbar-width:none;
+}
+
+.topbar::-webkit-scrollbar{
+    display:none;
+}
+
+.mini-card{
+    min-width:200px;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:22px;
+    padding:18px;
+}
+
+.mini-card small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.mini-card h3{
+    margin-top:12px;
+    color:var(--gold);
+    font-size:32px;
+}
+
+.layout{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:26px;
+}
+
+.stack{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+.card{
+    background:linear-gradient(to bottom,var(--card),#0a131c);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:30px;
+    padding:24px;
+}
+
+.card-head{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    align-items:flex-start;
+}
+
+.card-head h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+    line-height:1;
+}
+
+.live{
+    background:rgba(127,201,143,.12);
+    border:1px solid rgba(127,201,143,.22);
+    color:var(--green);
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:11px;
+    white-space:nowrap;
+}
+
+.sub{
+    margin-top:14px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:14px;
+}
+
+.poll{
+    margin-top:22px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.option{
+    background:var(--card2);
+    border:1px solid rgba(255,255,255,.04);
+    border-radius:20px;
+    overflow:hidden;
+    cursor:pointer;
+}
+
+.option-top{
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    position:relative;
+    z-index:2;
+}
+
+.option h4{
+    font-size:15px;
+}
+
+.option span{
+    color:var(--gold);
+    font-size:13px;
+}
+
+.bar-wrap{
+    height:10px;
+    background:#1d2b3a;
+}
+
+.bar{
+    height:100%;
+    background:linear-gradient(to right,var(--gold),#f0d0a0);
+    width:30%;
+    transition:.35s ease;
+}
+
+.people{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+    overflow:auto;
+    scrollbar-width:none;
+}
+
+.people::-webkit-scrollbar{
+    display:none;
+}
+
+.person{
+    min-width:120px;
+    background:#111c28;
+    border:1px solid rgba(255,255,255,.04);
+    border-radius:18px;
+    padding:12px;
+    text-align:center;
+}
+
+.person img{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.person h5{
+    margin-top:10px;
+    font-size:13px;
+}
+
+.person p{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+.upload-box{
+    margin-top:24px;
+    border:2px dashed rgba(255,255,255,.08);
+    border-radius:24px;
+    padding:26px;
+    text-align:center;
+}
+
+.upload-box h3{
+    font-size:22px;
+}
+
+.upload-box p{
+    margin-top:10px;
+    color:var(--muted);
+    line-height:1.7;
+}
+
+.actions{
+    margin-top:20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.btn{
+    border:none;
+    background:var(--gold);
+    color:#111;
+    padding:14px 18px;
+    border-radius:999px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.secondary{
+    background:#111c28;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.feed{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-top:22px;
+}
+
+.feed-item{
+    display:flex;
+    gap:14px;
+    background:#111c28;
+    border:1px solid rgba(255,255,255,.04);
+    border-radius:22px;
+    padding:16px;
+}
+
+.feed-item img{
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.feed-item h5{
+    font-size:14px;
+}
+
+.feed-item p{
+    margin-top:8px;
+    color:#d4dde5;
+    line-height:1.7;
+    font-size:13px;
+}
+
+.feed-item small{
+    display:block;
+    margin-top:10px;
+    color:var(--muted);
+}
+
+.voice-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:22px;
+}
+
+.voice{
+    background:#111c28;
+    border:1px solid rgba(255,255,255,.04);
+    border-radius:22px;
+    padding:18px;
+}
+
+.voice small{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.player{
+    margin-top:16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.play{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:rgba(216,173,103,.1);
+    border:1px solid rgba(216,173,103,.2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold);
+}
+
+.wave{
+    flex:1;
+    height:5px;
+    border-radius:999px;
+    background:linear-gradient(to right,var(--gold),#3d4c5d);
+}
+
+.toast{
+    position:fixed;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#101923;
+    border:1px solid rgba(127,201,143,.2);
+    color:var(--green);
+    padding:16px 22px;
+    border-radius:999px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s ease;
+    z-index:999;
+}
+
+.toast.show{
+    opacity:1;
+}
+
+@media(max-width:900px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:52px;
+    }
+
+}
+
+@media(max-width:640px){
+
+    .hero{
+        padding:42px 0 26px;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .hero p{
+        font-size:14px;
+        line-height:1.8;
+    }
+
+    .card{
+        padding:18px;
+        border-radius:24px;
+    }
+
+    .card-head h2{
+        font-size:32px;
+    }
+
+    .voice-grid{
+        grid-template-columns:1fr;
+    }
+
+    .mini-card{
+        min-width:160px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <section class="hero">
+
+        <small>D-9 Activity Day <a href="06-tasks.html">D-6</a></small>
+
+        <h1>
+            Most Likely To.
+        </h1>
+
+        <p>
+            Today the wedding becomes playful. Guests vote, upload confessions, share memories and predict the future of the couple through interactive activities.
+        </p>
+
+    </section>
+
+
+    <div class="topbar">
+
+        <div class="mini-card">
+            <small>Votes Cast</small>
+            <h3 id="voteCount">2,481</h3>
+        </div>
+
+        <div class="mini-card">
+            <small>Voice Notes</small>
+            <h3>187</h3>
+        </div>
+
+        <div class="mini-card">
+            <small>Confessions</small>
+            <h3>94</h3>
+        </div>
+
+        <div class="mini-card">
+            <small>Countries Active</small>
+            <h3>11</h3>
+        </div>
+
+    </div>
+
+
+    <div class="layout">
+
+        <div class="stack">
+
+            <!-- POLL -->
+
+            <div class="card">
+
+                <div class="card-head">
+                    <div>
+                        <h2>
+                            Who Is Most Likely To Cry First?
+                        </h2>
+                    </div>
+                    <div class="live">LIVE POLL</div>
+                </div>
+
+                <div class="sub">
+                    Guests are voting live as predictions flood in from family and friends across the world.
+                </div>
+
+                <div class="poll">
+
+                    <div class="option" onclick="vote(this)">
+                        <div class="option-top">
+                            <h4>The Bride</h4>
+                            <span class="percent">68%</span>
+                        </div>
+                        <div class="bar-wrap">
+                            <div class="bar" style="width:68%"></div>
+                        </div>
+                    </div>
+
+                    <div class="option" onclick="vote(this)">
+                        <div class="option-top">
+                            <h4>The Groom</h4>
+                            <span class="percent">21%</span>
+                        </div>
+                        <div class="bar-wrap">
+                            <div class="bar" style="width:21%"></div>
+                        </div>
+                    </div>
+
+                    <div class="option" onclick="vote(this)">
+                        <div class="option-top">
+                            <h4>The Parents</h4>
+                            <span class="percent">11%</span>
+                        </div>
+                        <div class="bar-wrap">
+                            <div class="bar" style="width:11%"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="people">
+
+                    <div class="person">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop">
+                        <h5>Riya</h5>
+                        <p>“Definitely the bride.”</p>
+                    </div>
+
+                    <div class="person">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop">
+                        <h5>Arjun</h5>
+                        <p>“Parents for sure.”</p>
+                    </div>
+
+                    <div class="person">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop">
+                        <h5>The Mehtas</h5>
+                        <p>“Groom secretly emotional.”</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONFESSION -->
+
+            <div class="card">
+
+                <div class="card-head">
+                    <div>
+                        <h2>
+                            Anonymous Wedding Confessions
+                        </h2>
+                    </div>
+                    <div class="live">94 RECEIVED</div>
+                </div>
+
+                <div class="feed">
+
+                    <div class="feed-item">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&auto=format&fit=crop">
+                        <div>
+                            <h5>Anonymous Cousin</h5>
+                            <p>
+                                “The groom practiced his proposal speech in front of the mirror for three straight nights.”
+                            </p>
+                            <small>Uploaded 12 mins ago</small>
+                        </div>
+                    </div>
+
+                    <div class="feed-item">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=300&auto=format&fit=crop">
+                        <div>
+                            <h5>Secret Friend</h5>
+                            <p>
+                                “The bride already has the future baby names shortlisted.”
+                            </p>
+                            <small>Uploaded 25 mins ago</small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="upload-box">
+                    <h3>
+                        Add Your Anonymous Confession
+                    </h3>
+                    <p>
+                        Funny stories, secret truths, emotional revelations and inside jokes are welcome.
+                    </p>
+
+                    <div class="actions">
+                        <button class="btn" onclick="showToast('Confession submitted anonymously')">Write Confession</button>
+                        <button class="btn secondary">Upload Screenshot</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="stack">
+
+            <!-- AUDIO -->
+
+            <div class="card">
+
+                <div class="card-head">
+                    <div>
+                        <h2>
+                            Rapid Fire Voice Notes
+                        </h2>
+                    </div>
+                    <div class="live">TRENDING</div>
+                </div>
+
+                <div class="voice-grid">
+
+                    <div class="voice">
+                        <small>Best Friend</small>
+                        <div class="player">
+                            <div class="play">▶</div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+
+                    <div class="voice">
+                        <small>Parents</small>
+                        <div class="player">
+                            <div class="play">▶</div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+
+                    <div class="voice">
+                        <small>College Gang</small>
+                        <div class="player">
+                            <div class="play">▶</div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+
+                    <div class="voice">
+                        <small>Anonymous Roast</small>
+                        <div class="player">
+                            <div class="play">▶</div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="upload-box">
+
+                    <h3>
+                        Add A 15-Second Voice Note
+                    </h3>
+
+                    <p>
+                        Record predictions, blessings, roasts or emotional messages for the couple.
+                    </p>
+
+                    <div class="actions">
+                        <button class="btn" onclick="showToast('Voice note uploaded successfully')">Record Audio</button>
+                        <button class="btn secondary">Upload Existing Clip</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEMORY -->
+
+            <div class="card">
+
+                <div class="card-head">
+                    <div>
+                        <h2>
+                            Instant Memory Drops
+                        </h2>
+                    </div>
+                    <div class="live">LIVE FEED</div>
+                </div>
+
+                <div class="sub">
+                    Guests are rapidly uploading forgotten photos, screenshots and chaotic throwback moments.
+                </div>
+
+                <div class="feed">
+
+                    <div class="feed-item">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop">
+                        <div>
+                            <h5>The Delhi Cousins</h5>
+                            <p>
+                                Uploaded 17 unseen Goa trip photos from 2017.
+                            </p>
+                            <small>8 mins ago</small>
+                        </div>
+                    </div>
+
+                    <div class="feed-item">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop">
+                        <div>
+                            <h5>Priya Menon</h5>
+                            <p>
+                                Added the couple's first awkward college selfie.
+                            </p>
+                            <small>19 mins ago</small>
+                        </div>
+                    </div>
+
+                    <div class="feed-item">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop">
+                        <div>
+                            <h5>Anonymous Upload</h5>
+                            <p>
+                                Shared a screenshot of the groom asking for proposal advice.
+                            </p>
+                            <small>31 mins ago</small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="upload-box">
+
+                    <h3>
+                        Drop A Memory
+                    </h3>
+
+                    <p>
+                        Upload photos, screenshots, stories, old chats or nostalgic moments from any era.
+                    </p>
+
+                    <div class="actions">
+                        <button class="btn" onclick="showToast('Photo uploaded to live feed')">Upload Photo</button>
+                        <button class="btn secondary">Add Story</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+function vote(option){
+
+    const percent = option.querySelector('.percent');
+    const bar = option.querySelector('.bar');
+
+    let current = parseInt(percent.innerText);
+    current += 1;
+
+    percent.innerText = current + '%';
+    bar.style.width = current + '%';
+
+    const total = document.getElementById('voteCount');
+    total.innerText = parseInt(total.innerText.replace(/,/g,'')) + 1;
+
+    showToast('Vote recorded successfully');
+
+}
+
+function showToast(message){
+
+    const toast = document.getElementById('toast');
+
+    toast.innerText = message;
+    toast.classList.add('show');
+
+    setTimeout(()=>{
+        toast.classList.remove('show');
+    },2200);
+
+}
+
+</script>
+
+</body>
+</html>

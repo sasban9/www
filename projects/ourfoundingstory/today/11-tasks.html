@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VowLedger — D-11</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#071019;
+    --card:#101b27;
+    --card2:#132131;
+    --gold:#d9ae69;
+    --line:#223142;
+    --text:#f4efe7;
+    --muted:#97a5b3;
+    --green:#7cc68f;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#152334 0%,#071019 40%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+.container{
+    width:min(1300px,94%);
+    margin:auto;
+    padding-bottom:100px;
+}
+
+.hero{
+    padding:60px 0 34px;
+}
+
+.hero small{
+    color:var(--gold);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    font-size:11px;
+}
+
+.hero h1{
+    margin-top:18px;
+    font-size:78px;
+    line-height:.92;
+    font-family:'Cormorant Garamond',serif;
+    max-width:760px;
+}
+
+.hero p{
+    margin-top:24px;
+    color:var(--muted);
+    line-height:2;
+    max-width:800px;
+    font-size:17px;
+}
+
+.stats{
+    margin-top:34px;
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+}
+
+.stat{
+    background:rgba(16,27,39,.75);
+    border:1px solid rgba(255,255,255,.05);
+    padding:18px 22px;
+    border-radius:22px;
+    min-width:180px;
+}
+
+.stat small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.stat h3{
+    margin-top:10px;
+    color:var(--gold);
+    font-size:30px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:28px;
+    margin-top:40px;
+}
+
+.card{
+    background:linear-gradient(to bottom,#101b27,#0b151f);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:32px;
+    padding:28px;
+}
+
+.card-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    margin-bottom:24px;
+}
+
+.card-title h2{
+    font-size:42px;
+    line-height:1;
+    font-family:'Cormorant Garamond',serif;
+}
+
+.tag{
+    background:rgba(217,174,105,.1);
+    border:1px solid rgba(217,174,105,.2);
+    color:var(--gold);
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.prompt{
+    font-size:18px;
+    line-height:1.9;
+    color:#d9e2ea;
+}
+
+/* ACTIONS */
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:30px;
+}
+
+.action{
+    background:#132131;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:24px;
+    padding:22px;
+    transition:.3s ease;
+    cursor:pointer;
+}
+
+.action:hover{
+    transform:translateY(-4px);
+    border-color:rgba(217,174,105,.24);
+}
+
+.action small{
+    color:var(--gold);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:10px;
+}
+
+.action h3{
+    margin-top:14px;
+    font-size:24px;
+    font-family:'Cormorant Garamond',serif;
+}
+
+.action p{
+    margin-top:12px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:14px;
+}
+
+/* FEED */
+
+.feed{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.entry{
+    background:#132131;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:24px;
+    padding:18px;
+}
+
+.top{
+    display:flex;
+    gap:14px;
+    align-items:center;
+}
+
+.avatar{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.name h4{
+    font-size:16px;
+}
+
+.name p{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.story{
+    margin-top:16px;
+    line-height:1.9;
+    color:#d7e0e8;
+    font-size:14px;
+}
+
+.reaction-bar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+.reaction{
+    background:#0e1722;
+    border:1px solid rgba(255,255,255,.05);
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:12px;
+    cursor:pointer;
+}
+
+/* MODAL */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.overlay.active{
+    display:flex;
+}
+
+.modal{
+    width:min(700px,100%);
+    background:#101b27;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:32px;
+    padding:28px;
+}
+
+.modal h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:48px;
+}
+
+.modal p{
+    margin-top:14px;
+    color:var(--muted);
+    line-height:1.9;
+}
+
+.form{
+    margin-top:24px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.form input,
+.form textarea,
+.form select{
+    width:100%;
+    background:#0b151f;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    padding:16px;
+    color:#fff;
+    outline:none;
+    font-family:'Inter',sans-serif;
+}
+
+.form textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.btns{
+    display:flex;
+    gap:14px;
+    margin-top:10px;
+}
+
+.btn{
+    flex:1;
+    border:none;
+    padding:16px;
+    border-radius:18px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.primary{
+    background:var(--gold);
+    color:#111;
+}
+
+.secondary{
+    background:#132131;
+    border:1px solid rgba(255,255,255,.06);
+    color:#fff;
+}
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#132131;
+    border:1px solid rgba(255,255,255,.06);
+    padding:18px 22px;
+    border-radius:20px;
+    display:none;
+    z-index:120;
+}
+
+.toast.active{
+    display:block;
+}
+
+@media(max-width:900px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:56px;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .hero{
+        padding:40px 0 20px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:15px;
+        line-height:1.8;
+    }
+
+    .card{
+        padding:20px;
+        border-radius:26px;
+    }
+
+    .card-title h2{
+        font-size:34px;
+    }
+
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+    .row{
+        grid-template-columns:1fr;
+    }
+
+    .modal{
+        padding:22px;
+    }
+
+    .modal h2{
+        font-size:36px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <section class="hero">
+
+        <small>D-11 Activity Experience <small><a href="09-tasks.html">D-09</a></small></small>
+
+        <h1>
+            How They Changed.
+        </h1>
+
+        <p>
+            Today’s theme invites friends and family to reflect on how the bride and groom evolved through the years — emotionally, professionally and personally.
+        </p>
+
+        <div class="stats">
+
+            <div class="stat">
+                <small>Stories Shared</small>
+                <h3>184</h3>
+            </div>
+
+            <div class="stat">
+                <small>Audio Memories</small>
+                <h3>62</h3>
+            </div>
+
+            <div class="stat">
+                <small>Photos Added</small>
+                <h3>417</h3>
+            </div>
+
+            <div class="stat">
+                <small>Guest Reactions</small>
+                <h3>3.2K</h3>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="grid">
+
+        <!-- LEFT -->
+
+        <div class="card">
+
+            <div class="card-title">
+                <h2>Ways To Participate Today</h2>
+                <div class="tag">6 Activities Live</div>
+            </div>
+
+            <div class="prompt">
+                Share stories, upload memories and celebrate the emotional growth of the couple before they begin their next chapter together.
+            </div>
+
+            <div class="actions">
+
+                <div class="action" onclick="openModal('Story Upload')">
+                    <small>Activity 01</small>
+                    <h3>Share A Story</h3>
+                    <p>Write about a moment where you saw the bride or groom evolve emotionally or personally.</p>
+                </div>
+
+                <div class="action" onclick="openModal('Voice Memory')">
+                    <small>Activity 02</small>
+                    <h3>Record Voice Note</h3>
+                    <p>Upload a heartfelt audio blessing or a funny transformation story.</p>
+                </div>
+
+                <div class="action" onclick="openModal('Photo Archive')">
+                    <small>Activity 03</small>
+                    <h3>Add Throwback Photos</h3>
+                    <p>Contribute school, college or family memories to the wedding archive.</p>
+                </div>
+
+                <div class="action" onclick="openModal('Advice Capsule')">
+                    <small>Activity 04</small>
+                    <h3>Future Advice Capsule</h3>
+                    <p>Write a note the couple can unlock on their first anniversary.</p>
+                </div>
+
+                <div class="action" onclick="openModal('Reaction Poll')">
+                    <small>Activity 05</small>
+                    <h3>Vote & React</h3>
+                    <p>Vote on how the couple changed the most over the years.</p>
+                </div>
+
+                <div class="action" onclick="openModal('Video Tribute')">
+                    <small>Activity 06</small>
+                    <h3>Upload Video Tribute</h3>
+                    <p>Create a short cinematic message for the final wedding magazine.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="card">
+
+            <div class="card-title">
+                <h2>Live Family Feed</h2>
+                <div class="tag">Updating Live</div>
+            </div>
+
+            <div class="feed">
+
+                <div class="entry">
+
+                    <div class="top">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop">
+                        </div>
+                        <div class="name">
+                            <h4>Riya Sharma</h4>
+                            <p>Best Friend Of Bride</p>
+                        </div>
+                    </div>
+
+                    <div class="story">
+                        “She went from being terrified of public speaking to confidently leading entire teams. Watching that transformation has been inspiring.”
+                    </div>
+
+                    <div class="reaction-bar">
+                        <div class="reaction">❤ 218</div>
+                        <div class="reaction">🎤 Voice Note Added</div>
+                        <div class="reaction">📸 4 Photos</div>
+                    </div>
+
+                </div>
+
+                <div class="entry">
+
+                    <div class="top">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop">
+                        </div>
+                        <div class="name">
+                            <h4>The Mehtas</h4>
+                            <p>Family Friends</p>
+                        </div>
+                    </div>
+
+                    <div class="story">
+                        “He became calmer, kinder and more grounded after meeting her. We all noticed it.”
+                    </div>
+
+                    <div class="reaction-bar">
+                        <div class="reaction">❤ 301</div>
+                        <div class="reaction">🎬 Video Tribute</div>
+                    </div>
+
+                </div>
+
+                <div class="entry">
+
+                    <div class="top">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop">
+                        </div>
+                        <div class="name">
+                            <h4>The Delhi Cousins</h4>
+                            <p>Family Circle</p>
+                        </div>
+                    </div>
+
+                    <div class="story">
+                        “From chaotic teenagers to mature partners — it feels surreal seeing them ready for this chapter.”
+                    </div>
+
+                    <div class="reaction-bar">
+                        <div class="reaction">❤ 148</div>
+                        <div class="reaction">📝 Advice Capsule</div>
+                        <div class="reaction">📸 11 Photos</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="overlay" id="overlay">
+
+    <div class="modal">
+
+        <h2 id="modalTitle">Share A Story</h2>
+
+        <p>
+            Your contribution today becomes part of the couple’s permanent wedding archive and luxury founders magazine.
+        </p>
+
+        <div class="form">
+
+            <div class="row">
+                <input type="text" placeholder="Your name or family name">
+                <select>
+                    <option>Your relationship</option>
+                    <option>Friend</option>
+                    <option>Family</option>
+                    <option>Colleague</option>
+                    <option>Cousin</option>
+                </select>
+            </div>
+
+            <textarea placeholder="Write your story, memory or message..."></textarea>
+
+            <input type="file">
+
+            <div class="btns">
+                <button class="btn secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn primary" onclick="submitContribution()">Submit Contribution</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast">
+    Contribution Added To The Wedding Archive.
+</div>
+
+
+<script>
+
+function openModal(type){
+
+    document.getElementById('overlay').classList.add('active');
+    document.getElementById('modalTitle').innerText = type;
+
+}
+
+function closeModal(){
+
+    document.getElementById('overlay').classList.remove('active');
+
+}
+
+function submitContribution(){
+
+    closeModal();
+
+    const toast = document.getElementById('toast');
+
+    toast.classList.add('active');
+
+    setTimeout(()=>{
+        toast.classList.remove('active');
+    },2500);
+
+}
+
+window.addEventListener('click',(e)=>{
+
+    const overlay = document.getElementById('overlay');
+
+    if(e.target === overlay){
+        closeModal();
+    }
+
+});
+
+</script>
+
+</body>
+</html>

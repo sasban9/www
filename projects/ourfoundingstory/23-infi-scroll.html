@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Wedding Social Network — D-11</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#071019;
+    --panel:#101c28;
+    --panel2:#132231;
+    --gold:#d5ab68;
+    --text:#f6f0e8;
+    --muted:#9cadba;
+    --line:rgba(255,255,255,.06);
+    --green:#79d29d;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#132335 0%,#071019 48%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+}
+
+body::-webkit-scrollbar{
+    width:10px;
+}
+
+body::-webkit-scrollbar-thumb{
+    background:#233547;
+    border-radius:999px;
+}
+
+.container{
+    width:min(869px,95%);
+    margin:auto;
+    padding:30px 0 100px;
+}
+
+.top{
+    margin-bottom:28px;
+}
+
+.top small{
+    color:var(--gold);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    font-size:11px;
+}
+
+.top h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:74px;
+    line-height:.95;
+    margin-top:16px;
+}
+
+.top p{
+    margin-top:18px;
+    max-width:900px;
+    line-height:1.9;
+    color:var(--muted);
+}
+
+.layout{
+    display:grid;
+    grid-template-columns:1.6fr .9fr;
+    gap:24px;
+    align-items:start;
+}
+
+/* LEFT FEED */
+
+.feed-column{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.feed-card{
+    background:linear-gradient(to bottom,var(--panel),#0c1620);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    animation:fadeUp .6s ease;
+    transition:.3s ease;
+}
+
+.feed-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(213,171,104,.16);
+}
+
+.feed-image{
+    height:260px;
+    overflow:hidden;
+}
+
+.feed-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:1.2s ease;
+}
+
+.feed-card:hover img{
+    transform:scale(1.06);
+}
+
+.feed-content{
+    padding:22px;
+}
+
+.feed-top{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    align-items:center;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.user h4{
+    font-size:15px;
+}
+
+.user p{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:3px;
+}
+
+.time{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.feed-text{
+    margin-top:18px;
+    line-height:1.9;
+    font-size:14px;
+    color:#dde7ee;
+}
+
+.tags{
+    margin-top:18px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.tag{
+    background:#0b141c;
+    border:1px solid rgba(255,255,255,.05);
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:11px;
+    color:#cdd6dd;
+}
+
+.energy{
+    margin-top:18px;
+    background:#0c1620;
+    border-radius:18px;
+    overflow:hidden;
+}
+
+.energy-bar{
+    height:10px;
+    width:0%;
+    background:linear-gradient(to right,#d5ab68,#f7d79e);
+    animation:growBar 1.2s forwards;
+}
+
+.ai-card{
+    padding:28px;
+}
+
+.ai-card h3{
+    color:var(--gold);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:3px;
+}
+
+.ai-card p{
+    margin-top:14px;
+    line-height:1.9;
+    font-size:17px;
+    color:#edf5fb;
+}
+
+/* RIGHT */
+
+.right-column{
+    position:sticky;
+    top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.panel{
+    background:linear-gradient(to bottom,var(--panel2),#0d1822);
+    border:1px solid var(--line);
+    border-radius:30px;
+    overflow:hidden;
+}
+
+.panel-content{
+    padding:24px;
+}
+
+.cta{
+    width:100%;
+    border:none;
+    background:linear-gradient(to right,#d5ab68,#f0d7a7);
+    color:#111;
+    padding:18px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    transition:.3s ease;
+}
+
+.cta:hover{
+    transform:translateY(-2px) scale(1.02);
+}
+
+.panel h2{
+    margin-top:24px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+    line-height:1;
+}
+
+.panel p{
+    margin-top:12px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:14px;
+}
+
+.leaderboard{
+    margin-top:22px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.clan{
+    background:#0e1822;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:22px;
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:.3s ease;
+}
+
+.clan:hover{
+    transform:translateX(6px);
+    border-color:rgba(213,171,104,.2);
+}
+
+.clan-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.rank{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#162534;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold);
+    font-weight:700;
+}
+
+.clan h4{
+    font-size:14px;
+}
+
+.clan small{
+    color:var(--muted);
+    display:block;
+    margin-top:3px;
+}
+
+.points{
+    color:var(--green);
+    font-weight:700;
+    font-size:14px;
+}
+
+/* SLIDE PANEL */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    backdrop-filter:blur(10px);
+    opacity:0;
+    visibility:hidden;
+    transition:.4s ease;
+    z-index:50;
+}
+
+.overlay.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.sheet{
+    position:fixed;
+    top:0;
+    right:-540px;
+    width:520px;
+    max-width:100%;
+    height:100vh;
+    background:#09131d;
+    z-index:60;
+    transition:.55s cubic-bezier(.2,.8,.2,1);
+    overflow:auto;
+    border-left:1px solid rgba(255,255,255,.06);
+}
+
+.sheet.active{
+    right:0;
+}
+
+.sheet-content{
+    padding:28px;
+}
+
+.sheet-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.close{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:none;
+    background:#152331;
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.sheet h2{
+    margin-top:24px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:52px;
+}
+
+.sheet p{
+    margin-top:14px;
+    line-height:1.8;
+    color:var(--muted);
+}
+
+.actions{
+    margin-top:28px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.action{
+    background:#101b27;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:24px;
+    padding:20px;
+    transition:.3s ease;
+    cursor:pointer;
+}
+
+.action:hover{
+    transform:translateX(8px);
+    border-color:rgba(213,171,104,.24);
+}
+
+.action-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.action small{
+    color:var(--gold);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:10px;
+}
+
+.action span{
+    background:#162636;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:11px;
+    color:#d7e3ec;
+}
+
+.action h3{
+    margin-top:14px;
+    font-size:20px;
+}
+
+.action p{
+    margin-top:10px;
+    font-size:13px;
+}
+
+.toast{
+    position:fixed;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#d5ab68;
+    color:#111;
+    padding:14px 22px;
+    border-radius:999px;
+    font-weight:700;
+    z-index:100;
+    animation:fadeUp .3s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes growBar{
+    to{
+        width:100%;
+    }
+}
+
+@media(max-width:767px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .right-column{
+        position:relative;
+        top:auto;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .top h1{
+        font-size:48px;
+    }
+
+    .sheet{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="sheet" id="sheet">
+
+    <div class="sheet-content">
+
+        <div class="sheet-top">
+            <div>
+                <small style="color:var(--gold);letter-spacing:3px;text-transform:uppercase;">
+                    D-11 Missions
+                </small>
+            </div>
+
+            <button class="close" onclick="closeSheet()">✕</button>
+        </div>
+
+        <h2>
+            Add To Today’s Story
+        </h2>
+
+        <p>
+            Today guests are documenting how the couple transformed over the years.
+        </p>
+
+        <div class="actions" id="actions"></div>
+
+    </div>
+
+</div>
+
+<div class="container">
+
+    <div class="top">
+
+        <small>D-11 EXPERIENCE</small>
+
+        <h1>
+            How They Changed
+        </h1>
+
+        <p>
+            Friends and families are uploading stories, glowups, emotional transformations and rare memories from different eras of the couple’s lives.
+        </p>
+
+    </div>
+
+    <div class="layout">
+
+        <!-- LEFT -->
+
+        <div class="feed-column" id="feed"></div>
+
+        <!-- RIGHT -->
+
+        <div class="right-column">
+
+            <div class="panel">
+
+                <div class="panel-content">
+
+                    <button class="cta" onclick="openSheet()">
+                        Join Today’s Story
+                    </button>
+
+                    <h2>
+                        Clan Energy
+                    </h2>
+
+                    <p>
+                        Every contribution increases your clan’s wedding energy and unlocks hidden memories.
+                    </p>
+
+                    <div class="leaderboard" id="leaderboard"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const names = [
+"Sharma Clan",
+"Banerjee Syndicate",
+"Chaos Cousins",
+"Groom Side Mafia",
+"Bride Squad",
+"Delhi Delegation",
+"Legacy Keepers",
+"Hostel Survivors",
+"Dance Cartel",
+"The Guptas",
+"Silent Watchers",
+"Emotional Damage Unit",
+"Photo Hoarders",
+"Punjabi Powerhouse",
+"Late Baraatis",
+"Roast Committee"
+];
+
+const stories = [
+"Uploaded a terrifying college haircut transformation of the groom from 2012.",
+"Recorded a 14-second emotional voice note describing how the bride became calmer after moving cities.",
+"Added old school photos and accidentally exposed everyone’s fashion crimes.",
+"Shared a chaotic wedding rehearsal clip that already has 400 reactions.",
+"Uploaded rare hostel footage featuring midnight Maggi sessions and emotional breakdowns.",
+"Unlocked hidden family vacation archives from 2007.",
+"Posted a side-by-side glowup comparison that started a clan war.",
+"Added a story about how the groom became responsible after his startup disaster.",
+"Shared a throwback dance clip that the bride requested be deleted immediately.",
+"Uploaded a secret airport goodbye memory from college days."
+];
+
+const tags = [
+["Glowup","Rare Archive"],
+["Voice Note","Emotional"],
+["College Chaos","Legendary"],
+["Unlocked","Family Lore"],
+["Dance Energy","Viral"],
+["Throwback","Chaos"],
+["Transformation","OG Memories"]
+];
+
+const images = [
+"https://static.boredpanda.com/blog/wp-content/uploads/2026/02/funny-worst-haircut-fails-cover_675.jpg",
+"https://www.davishighnews.com/wp-content/uploads/2014/10/Awkward-13-900x600.jpg",
+"https://curlytales.com/wp-content/uploads/2023/05/maggi-1.png",
+"https://www.pmrgo.com/wp-content/uploads/2025/12/updating-your-address-after-moving.webp",
+"https://i0.wp.com/bravefreetravel.com/wp-content/uploads/2021/11/DSCF5847-scaled.jpg?resize=1140%2C600&ssl=1",
+"https://st3.depositphotos.com/4232343/18107/i/1600/depositphotos_181072490-stock-photo-smiling-tourists-saying-goodbye-at.jpg",
+"https://mesmerizeindia.com/cdn/shop/articles/Blog_-_Office_Siren_1.png?v=1715339971&width=1500"
+];
+
+const actionData = [
+{
+title:"Upload Old Photo",
+time:"20 sec",
+desc:"Share then-vs-now memories from school, college or family events."
+},
+{
+title:"Record Transformation Story",
+time:"15 sec",
+desc:"Describe how the bride or groom changed emotionally over time."
+},
+{
+title:"Vote Biggest Glowup",
+time:"8 sec",
+desc:"Choose who transformed the most over the years."
+},
+{
+title:"Add Throwback Clip",
+time:"30 sec",
+desc:"Upload old dance clips, travel videos or rare hostel footage."
+},
+{
+title:"React To Others",
+time:"5 sec",
+desc:"Send reactions like chaos energy, emotional damage or legendary."
+},
+{
+title:"Unlock Hidden Album",
+time:"12 sec",
+desc:"Contribute to help reveal locked college archives."
+}
+];
+
+const feed = document.getElementById("feed");
+const leaderboard = document.getElementById("leaderboard");
+const actions = document.getElementById("actions");
+
+function rand(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function generateCard(){
+
+    const card = document.createElement("div");
+    card.className = "feed-card";
+
+    const chosenTags = rand(tags);
+
+    card.innerHTML = `
+
+        ${Math.random() > .45 ? `
+        <div class="feed-image">
+            <img src="${rand(images)}">
+        </div>
+        ` : ""}
+
+        <div class="feed-content">
+
+            <div class="feed-top">
+
+                <div class="user">
+
+                    <div class="avatar">
+                        <img src="${rand(images)}">
+                    </div>
+
+                    <div>
+                        <h4>${rand(names)}</h4>
+                        <p>${Math.floor(Math.random()*50)+1} mins ago</p>
+                    </div>
+
+                </div>
+
+                <div class="time">
+                    +${Math.floor(Math.random()*30)+5} Clan Energy
+                </div>
+
+            </div>
+
+            <div class="feed-text">
+                ${rand(stories)}
+            </div>
+
+            <div class="tags">
+                <div class="tag">${chosenTags[0]}</div>
+                <div class="tag">${chosenTags[1]}</div>
+            </div>
+
+            <div class="energy">
+                <div class="energy-bar"></div>
+            </div>
+
+        </div>
+
+    `;
+
+    feed.appendChild(card);
+
+}
+
+for(let i=0;i<8;i++){
+    generateCard();
+}
+
+window.addEventListener("scroll",()=>{
+
+    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000){
+
+        for(let i=0;i<4;i++){
+            generateCard();
+        }
+
+    }
+
+});
+
+function renderLeaderboard(){
+
+    leaderboard.innerHTML = "";
+
+    const shuffled = [...names].sort(()=>Math.random()-0.5).slice(0,12);
+
+    shuffled.forEach((name,index)=>{
+
+        const clan = document.createElement("div");
+        clan.className = "clan";
+
+        clan.innerHTML = `
+            <div class="clan-left">
+
+                <div class="rank">
+                    ${index+1}
+                </div>
+
+                <div>
+                    <h4>${name}</h4>
+                    <small>${Math.floor(Math.random()*80)+20} contributions</small>
+                </div>
+
+            </div>
+
+            <div class="points">
+                ${Math.floor(Math.random()*9000)+1000}
+            </div>
+        `;
+
+        leaderboard.appendChild(clan);
+
+    });
+
+}
+
+renderLeaderboard();
+
+setInterval(renderLeaderboard,7000);
+
+actionData.forEach(item=>{
+
+    const div = document.createElement("div");
+    div.className = "action";
+
+    div.innerHTML = `
+        <div class="action-top">
+            <small>Quick Mission</small>
+            <span>${item.time}</span>
+        </div>
+
+        <h3>${item.title}</h3>
+
+        <p>${item.desc}</p>
+    `;
+
+    div.onclick = ()=>showToast("Contribution Window Opened");
+
+    actions.appendChild(div);
+
+});
+
+const overlay = document.getElementById("overlay");
+const sheet = document.getElementById("sheet");
+
+function openSheet(){
+    overlay.classList.add("active");
+    sheet.classList.add("active");
+}
+
+function closeSheet(){
+    overlay.classList.remove("active");
+    sheet.classList.remove("active");
+}
+
+overlay.onclick = closeSheet;
+
+function showToast(message){
+
+    const toast = document.createElement("div");
+
+    toast.className = "toast";
+
+    toast.innerText = message;
+
+    document.body.appendChild(toast);
+
+    setTimeout(()=>{
+        toast.remove();
+    },2200);
+
+}
+
+</script>
+
+</body>
+</html>

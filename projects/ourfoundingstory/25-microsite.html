@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aisha & Arjun — The Founding Chapter</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg-primary:#0f0f10;
+    --bg-secondary:#171718;
+    --bg-soft:#1f1f21;
+
+    --text-primary:#f5f1ea;
+    --text-secondary:#c8bda8;
+    --text-muted:#8b8375;
+
+    --gold-soft:#c6a46c;
+    --gold-bright:#e0c28a;
+
+    --border-soft:rgba(255,255,255,0.08);
+    --card-bg:rgba(255,255,255,0.03);
+
+    --max-width:1280px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg-primary);
+    color:var(--text-primary);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    line-height:1.7;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.08;
+    background-image:url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+    z-index:9999;
+}
+
+img{
+    width:100%;
+    display:block;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+section{
+    padding:120px 8%;
+    position:relative;
+}
+
+.container{
+    max-width:var(--max-width);
+    margin:auto;
+}
+
+.section-tag{
+    color:var(--gold-soft);
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    font-size:.75rem;
+    margin-bottom:24px;
+}
+
+.section-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2.2rem,5vw,4rem);
+    line-height:1.05;
+    margin-bottom:28px;
+    font-weight:500;
+    max-width:900px;
+}
+
+.section-description{
+    max-width:760px;
+    color:var(--text-secondary);
+    font-size:1.05rem;
+}
+
+.nav{
+    position:fixed;
+    top:24px;
+    left:50%;
+    transform:translateX(-50%);
+    width:92%;
+    z-index:1000;
+    background:rgba(10,10,10,.55);
+    backdrop-filter:blur(14px);
+    border:1px solid var(--border-soft);
+    border-radius:999px;
+    padding:16px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-family:'Playfair Display',serif;
+    letter-spacing:.05em;
+    font-size:1.15rem;
+}
+
+.logo span{
+    color:var(--gold-soft);
+}
+
+.nav-links{
+    display:flex;
+    gap:26px;
+    align-items:center;
+}
+
+.nav-links a{
+    color:var(--text-secondary);
+    font-size:.92rem;
+    transition:.4s;
+}
+
+.nav-links a:hover{
+    color:var(--text-primary);
+}
+
+.nav-cta{
+    padding:12px 22px;
+    border-radius:999px;
+    border:1px solid rgba(224,194,138,.25);
+    color:var(--gold-bright)!important;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.8)),
+    url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1800&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    transform:scale(1.05);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:980px;
+}
+
+.hero-sub{
+    letter-spacing:.35em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:28px;
+    font-size:.8rem;
+}
+
+.hero-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(4rem,9vw,8rem);
+    line-height:.95;
+    font-weight:500;
+    margin-bottom:30px;
+}
+
+.hero-text{
+    color:var(--text-secondary);
+    max-width:680px;
+    font-size:1.1rem;
+    margin-bottom:40px;
+}
+
+.hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+}
+
+.btn{
+    padding:16px 28px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    transition:.45s cubic-bezier(.19,1,.22,1);
+    font-size:.95rem;
+}
+
+.btn-primary{
+    background:var(--gold-soft);
+    color:#111;
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+}
+
+.btn-secondary{
+    background:transparent;
+    border:1px solid var(--border-soft);
+    color:var(--text-primary);
+}
+
+.story-grid{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:70px;
+    align-items:center;
+}
+
+.story-image{
+    border-radius:28px;
+    overflow:hidden;
+    position:relative;
+}
+
+.story-image img{
+    height:720px;
+    object-fit:cover;
+    filter:brightness(.85) contrast(1.05);
+}
+
+.story-copy p{
+    color:var(--text-secondary);
+    margin-bottom:28px;
+}
+
+.timeline{
+    margin-top:40px;
+    border-left:1px solid var(--border-soft);
+    padding-left:24px;
+}
+
+.timeline-item{
+    margin-bottom:34px;
+}
+
+.timeline-item h4{
+    color:var(--gold-soft);
+    margin-bottom:8px;
+}
+
+.events-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    margin-top:60px;
+}
+
+.event-card{
+    background:var(--card-bg);
+    border:1px solid var(--border-soft);
+    border-radius:28px;
+    padding:34px;
+}
+
+.event-card h3{
+    font-family:'Playfair Display',serif;
+    margin-bottom:12px;
+    font-size:1.7rem;
+}
+
+.event-meta{
+    color:var(--gold-soft);
+    margin-bottom:18px;
+}
+
+.registry-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:30px;
+    margin-top:70px;
+}
+
+.registry-card{
+    background:var(--card-bg);
+    border:1px solid var(--border-soft);
+    border-radius:32px;
+    overflow:hidden;
+    transition:.5s cubic-bezier(.19,1,.22,1);
+}
+
+.registry-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(224,194,138,.25);
+}
+
+.registry-card img{
+    height:280px;
+    object-fit:cover;
+}
+
+.registry-content{
+    padding:36px;
+}
+
+.registry-content h3{
+    font-family:'Playfair Display',serif;
+    font-size:2rem;
+    margin-bottom:14px;
+}
+
+.registry-content p{
+    color:var(--text-secondary);
+    margin-bottom:24px;
+}
+
+.progress{
+    height:7px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    overflow:hidden;
+    margin-bottom:18px;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    width:65%;
+    background:linear-gradient(to right,var(--gold-soft),var(--gold-bright));
+}
+
+.registry-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.registry-footer small{
+    color:var(--text-muted);
+}
+
+.blessing-wall{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    margin-top:70px;
+}
+
+.blessing-card{
+    background:var(--card-bg);
+    border:1px solid var(--border-soft);
+    border-radius:28px;
+    padding:30px;
+    position:relative;
+}
+
+.voice-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 16px;
+    border-radius:999px;
+    background:rgba(255,255,255,.04);
+    margin-bottom:24px;
+    color:var(--gold-soft);
+    font-size:.9rem;
+}
+
+.wave{
+    display:flex;
+    gap:3px;
+}
+
+.wave span{
+    width:3px;
+    background:var(--gold-soft);
+    border-radius:999px;
+    animation:wave 1s infinite ease-in-out;
+}
+
+.wave span:nth-child(1){height:10px;}
+.wave span:nth-child(2){height:18px;}
+.wave span:nth-child(3){height:8px;}
+.wave span:nth-child(4){height:20px;}
+
+@keyframes wave{
+    50%{
+        transform:scaleY(1.4);
+    }
+}
+
+.blessing-card p{
+    color:var(--text-secondary);
+    margin-bottom:22px;
+}
+
+.blessing-author{
+    color:var(--text-primary);
+    font-weight:500;
+}
+
+.legacy-grid{
+    columns:3 280px;
+    column-gap:22px;
+    margin-top:70px;
+}
+
+.legacy-item{
+    break-inside:avoid;
+    margin-bottom:22px;
+    background:var(--card-bg);
+    border:1px solid var(--border-soft);
+    border-radius:24px;
+    overflow:hidden;
+}
+
+.legacy-item img{
+    height:auto;
+}
+
+.legacy-item-content{
+    padding:22px;
+}
+
+.quote{
+    font-family:'Playfair Display',serif;
+    font-size:1.35rem;
+    line-height:1.5;
+}
+
+.archive-preview{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    margin-top:70px;
+    align-items:center;
+}
+
+.archive-book{
+    position:relative;
+}
+
+.archive-book img{
+    border-radius:28px;
+    box-shadow:0 40px 80px rgba(0,0,0,.5);
+}
+
+.archive-copy p{
+    color:var(--text-secondary);
+    margin-bottom:24px;
+}
+
+.concierge{
+    background:linear-gradient(to bottom,var(--bg-primary),#121212);
+}
+
+.concierge-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+    margin-top:70px;
+}
+
+.concierge-card{
+    background:var(--card-bg);
+    border:1px solid var(--border-soft);
+    border-radius:28px;
+    padding:30px;
+}
+
+.concierge-card h4{
+    font-family:'Playfair Display',serif;
+    margin-bottom:18px;
+    font-size:1.5rem;
+}
+
+.concierge-card p{
+    color:var(--text-secondary);
+}
+
+.final-section{
+    text-align:center;
+    padding-top:180px;
+    padding-bottom:180px;
+}
+
+.final-section h2{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(3rem,8vw,7rem);
+    line-height:1;
+    max-width:1000px;
+    margin:auto;
+    margin-bottom:30px;
+}
+
+.final-section p{
+    max-width:720px;
+    margin:auto;
+    color:var(--text-secondary);
+    margin-bottom:40px;
+}
+
+.footer{
+    border-top:1px solid var(--border-soft);
+    padding:40px 8%;
+    color:var(--text-muted);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.reveal{
+    opacity:0;
+    transform:translateY(60px);
+    transition:1.2s cubic-bezier(.19,1,.22,1);
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+@media(max-width:1000px){
+
+    .story-grid,
+    .archive-preview{
+        grid-template-columns:1fr;
+    }
+
+    .events-grid,
+    .registry-grid,
+    .blessing-wall,
+    .concierge-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero-title{
+        font-size:4rem;
+    }
+
+    .story-image img{
+        height:500px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<nav class="nav">
+    <div class="logo">Vow<span>Ledger</span></div>
+
+    <div class="nav-links">
+        <a href="#story">Story</a>
+        <a href="#events">Events</a>
+        <a href="#registry">Registry</a>
+        <a href="#blessings">Blessings</a>
+        <a href="#archive">Archive</a>
+        <a class="nav-cta" href="#">Contribute</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container hero-content">
+        <div class="hero-sub">The Founding Chapter</div>
+
+        <h1 class="hero-title">
+            Aisha<br>
+            & Arjun
+        </h1>
+
+        <p class="hero-text">
+            Two histories becoming one future.  
+            A living archive of blessings, memories, rituals, stories, and the people who shaped them.
+        </p>
+
+        <div class="hero-actions">
+            <button class="btn btn-primary">Enter Their Story</button>
+            <button class="btn btn-secondary">Contribute To Their Legacy</button>
+        </div>
+    </div>
+</section>
+
+<section id="story" class="reveal">
+    <div class="container story-grid">
+
+        <div class="story-image">
+            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1600&auto=format&fit=crop">
+        </div>
+
+        <div class="story-copy">
+
+            <div class="section-tag">Their Story</div>
+
+            <h2 class="section-title">
+                Every family begins with a story worth preserving.
+            </h2>
+
+            <p>
+                They met during a monsoon evening in Bangalore. What began as a missed cab and an unexpected conversation slowly became a shared language of rituals, laughter, migration, ambition, and family.
+            </p>
+
+            <p>
+                This archive is not only about their wedding. It is about the people, memories, and histories that brought them here.
+            </p>
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <h4>2018 · The First Conversation</h4>
+                    <p>A delayed ride-share turned into six hours of uninterrupted conversation.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>2021 · Families Meet</h4>
+                    <p>Two homes, two cultures, and two histories slowly began weaving into one.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>2026 · The Founding Chapter</h4>
+                    <p>The wedding becomes the beginning of a permanent family archive.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section id="events" class="reveal">
+    <div class="container">
+
+        <div class="section-tag">Wedding Events</div>
+
+        <h2 class="section-title">
+            Gatherings designed to become memories.
+        </h2>
+
+        <div class="events-grid">
+
+            <div class="event-card">
+                <h3>Mehendi Evening</h3>
+                <div class="event-meta">12 February · 6:30 PM</div>
+                <p>Music, handwritten notes, old family stories, and an evening under warm lights.</p>
+            </div>
+
+            <div class="event-card">
+                <h3>Sangeet Night</h3>
+                <div class="event-meta">13 February · 8:00 PM</div>
+                <p>An editorial celebration of friendship, nostalgia, dance, and collective chaos.</p>
+            </div>
+
+            <div class="event-card">
+                <h3>The Wedding</h3>
+                <div class="event-meta">14 February · 4:00 PM</div>
+                <p>The moment two families officially become one continuing story.</p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section id="registry" class="reveal">
+    <div class="container">
+
+        <div class="section-tag">Emotional Registry</div>
+
+        <h2 class="section-title">
+            Contributions that become part of their future memory.
+        </h2>
+
+        <div class="registry-grid">
+
+            <div class="registry-card">
+
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400&auto=format&fit=crop">
+
+                <div class="registry-content">
+
+                    <h3>First Diwali Dining Table</h3>
+
+                    <p>
+                        The table where future festivals, arguments, late-night tea, and family dinners will happen for decades.
+                    </p>
+
+                    <div class="progress">
+                        <span></span>
+                    </div>
+
+                    <div class="registry-footer">
+                        <small>18 Founding Contributors</small>
+                        <button class="btn btn-primary">Contribute</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="registry-card">
+
+                <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=1400&auto=format&fit=crop">
+
+                <div class="registry-content">
+
+                    <h3>Library For Future Sundays</h3>
+
+                    <p>
+                        A quiet reading corner filled with books, handwritten notes, and stories for future children.
+                    </p>
+
+                    <div class="progress">
+                        <span style="width:82%"></span>
+                    </div>
+
+                    <div class="registry-footer">
+                        <small>31 Memory Guardians</small>
+                        <button class="btn btn-primary">Contribute</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section id="blessings" class="reveal">
+    <div class="container">
+
+        <div class="section-tag">Blessings Archive</div>
+
+        <h2 class="section-title">
+            Voices that deserve to survive time.
+        </h2>
+
+        <div class="blessing-wall">
+
+            <div class="blessing-card">
+
+                <div class="voice-pill">
+                    <div class="wave">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    Grandmother’s Blessing · 02:14
+                </div>
+
+                <p>
+                    “Marriage is not built in ceremonies. It is built quietly in ordinary evenings when both people still choose kindness.”
+                </p>
+
+                <div class="blessing-author">
+                    — Nirmala Devi · Silchar
+                </div>
+
+            </div>
+
+            <div class="blessing-card">
+
+                <div class="voice-pill">
+                    <div class="wave">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    College Friends Archive · 01:08
+                </div>
+
+                <p>
+                    “We watched these two survive impossible deadlines, bad apartments, terrible coffee, and still somehow become softer together.”
+                </p>
+
+                <div class="blessing-author">
+                    — The Bangalore Group
+                </div>
+
+            </div>
+
+            <div class="blessing-card">
+
+                <div class="voice-pill">
+                    <div class="wave">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    Father’s Letter · 03:45
+                </div>
+
+                <p>
+                    “One day your children will ask what this wedding was like. I hope this archive tells them how deeply everyone loved you.”
+                </p>
+
+                <div class="blessing-author">
+                    — Imran Khan
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section id="archive" class="reveal">
+    <div class="container">
+
+        <div class="section-tag">Legacy Wall</div>
+
+        <h2 class="section-title">
+            A curated archive of memories, photographs, and emotional history.
+        </h2>
+
+        <div class="legacy-grid">
+
+            <div class="legacy-item">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop">
+                <div class="legacy-item-content">
+                    <div class="quote">
+                        “This was the evening they first danced together.”
+                    </div>
+                </div>
+            </div>
+
+            <div class="legacy-item">
+                <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1200&auto=format&fit=crop">
+            </div>
+
+            <div class="legacy-item">
+                <div class="legacy-item-content">
+                    <div class="quote">
+                        “Some memories become family mythology.”
+                    </div>
+                </div>
+            </div>
+
+            <div class="legacy-item">
+                <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=1200&auto=format&fit=crop">
+            </div>
+
+            <div class="legacy-item">
+                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1200&auto=format&fit=crop">
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="reveal">
+    <div class="container archive-preview">
+
+        <div class="archive-book">
+            <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=1400&auto=format&fit=crop">
+        </div>
+
+        <div class="archive-copy">
+
+            <div class="section-tag">Editorial Archive</div>
+
+            <h2 class="section-title">
+                Designed to feel worthy of inheritance.
+            </h2>
+
+            <p>
+                After the wedding, every blessing, memory, contribution, and photograph becomes part of a luxury editorial archive crafted like a private family publication.
+            </p>
+
+            <p>
+                Not stored in forgotten folders. Preserved as a living emotional artifact for future generations.
+            </p>
+
+            <button class="btn btn-primary">
+                Preview Legacy Edition
+            </button>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="concierge reveal">
+
+    <div class="container">
+
+        <div class="section-tag">White Glove Concierge</div>
+
+        <h2 class="section-title">
+            Every family deserves a private archival studio.
+        </h2>
+
+        <div class="concierge-grid">
+
+            <div class="concierge-card">
+                <h4>Elder Interviews</h4>
+                <p>
+                    Oral histories, blessings, and family wisdom preserved with warmth and dignity.
+                </p>
+            </div>
+
+            <div class="concierge-card">
+                <h4>Editorial Storytelling</h4>
+                <p>
+                    Professional narrative curation inspired by luxury magazines and documentaries.
+                </p>
+            </div>
+
+            <div class="concierge-card">
+                <h4>Archive Restoration</h4>
+                <p>
+                    Restore faded albums, old letters, audio tapes, and forgotten family artifacts.
+                </p>
+            </div>
+
+            <div class="concierge-card">
+                <h4>Legacy Continuity</h4>
+                <p>
+                    Anniversary editions, future time capsules, and evolving family archives.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="final-section reveal">
+
+    <div class="container">
+
+        <h2>
+            The wedding lasts a weekend.<br>
+            The archive becomes inheritance.
+        </h2>
+
+        <p>
+            VowLedger transforms celebrations into living family memory infrastructure designed to survive generations.
+        </p>
+
+        <button class="btn btn-primary">
+            Create Your Legacy
+        </button>
+
+    </div>
+
+</section>
+
+<footer class="footer">
+    <div>VowLedger — Emotional Continuity Infrastructure</div>
+    <div>Aisha & Arjun · The Founding Chapter</div>
+</footer>
+
+<script>
+
+const reveals = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){
+            entry.target.classList.add('active');
+        }
+    });
+},{
+    threshold:0.15
+});
+
+reveals.forEach(el=>observer.observe(el));
+
+</script>
+
+</body>
+</html>

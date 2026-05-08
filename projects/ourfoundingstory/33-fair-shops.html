@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VowLedger Arena Fair</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+BASE SYSTEM
+========================================================= */
+
+:root{
+
+--bg:#0f0f10;
+--bg-soft:#181818;
+--bg-card:rgba(255,255,255,.04);
+
+--text:#f4efe6;
+--muted:#b7aa96;
+
+--gold:#d6b27a;
+--gold-soft:#9c7b4f;
+
+--line:rgba(255,255,255,.08);
+
+--heart:#d46d72;
+--diamond:#cda46b;
+--spade:#8d98a7;
+--club:#8ca47d;
+
+--radius:30px;
+
+--shadow:
+0 30px 80px rgba(0,0,0,.45);
+
+--ease:cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:
+radial-gradient(circle at top,#1d1a17 0%,#0f0f10 50%);
+color:var(--text);
+font-family:'Inter',sans-serif;
+overflow-x:hidden;
+}
+
+/* =========================================================
+GLOBAL
+========================================================= */
+
+.container{
+width:min(1320px,92%);
+margin:auto;
+}
+
+section{
+padding:120px 0;
+position:relative;
+}
+
+.eyebrow{
+letter-spacing:.3em;
+text-transform:uppercase;
+font-size:12px;
+color:var(--gold);
+margin-bottom:22px;
+}
+
+h1,h2,h3{
+font-family:'Cormorant Garamond',serif;
+font-weight:600;
+line-height:.95;
+letter-spacing:-.03em;
+}
+
+p{
+line-height:1.8;
+color:var(--muted);
+}
+
+.section-title{
+font-size:clamp(44px,6vw,92px);
+max-width:900px;
+margin-bottom:26px;
+}
+
+.section-copy{
+max-width:760px;
+font-size:18px;
+}
+
+/* =========================================================
+BACKGROUND GRAIN
+========================================================= */
+
+body:before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+opacity:.06;
+background-image:
+url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+mix-blend-mode:screen;
+}
+
+/* =========================================================
+NAVIGATION
+========================================================= */
+
+nav{
+position:fixed;
+top:24px;
+left:50%;
+transform:translateX(-50%);
+width:min(1200px,92%);
+height:72px;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:0 28px;
+
+background:rgba(10,10,10,.45);
+backdrop-filter:blur(16px);
+
+border:1px solid var(--line);
+border-radius:999px;
+
+z-index:999;
+}
+
+.logo{
+font-family:'Cormorant Garamond',serif;
+font-size:28px;
+letter-spacing:.03em;
+}
+
+.logo span{
+color:var(--gold);
+}
+
+.nav-links{
+display:flex;
+gap:30px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:var(--muted);
+font-size:14px;
+transition:.5s var(--ease);
+}
+
+.nav-links a:hover{
+color:var(--text);
+}
+
+.nav-btn{
+padding:14px 22px;
+border-radius:999px;
+background:var(--gold);
+color:#111;
+font-weight:600;
+border:none;
+cursor:pointer;
+transition:.5s var(--ease);
+}
+
+.nav-btn:hover{
+transform:translateY(-2px);
+}
+
+/* =========================================================
+HERO
+========================================================= */
+
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+position:relative;
+overflow:hidden;
+}
+
+.hero-grid{
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:60px;
+align-items:center;
+}
+
+.hero-title{
+font-size:clamp(72px,10vw,150px);
+margin-bottom:30px;
+}
+
+.hero-title span{
+color:var(--gold);
+}
+
+.hero-copy{
+max-width:620px;
+font-size:20px;
+margin-bottom:40px;
+}
+
+.hero-actions{
+display:flex;
+gap:16px;
+flex-wrap:wrap;
+}
+
+.primary-btn,
+.secondary-btn{
+padding:18px 30px;
+border-radius:999px;
+font-weight:600;
+cursor:pointer;
+transition:.6s var(--ease);
+border:none;
+}
+
+.primary-btn{
+background:var(--gold);
+color:#111;
+}
+
+.primary-btn:hover{
+transform:translateY(-4px);
+box-shadow:
+0 15px 40px rgba(214,178,122,.18);
+}
+
+.secondary-btn{
+background:transparent;
+border:1px solid var(--line);
+color:var(--text);
+}
+
+.secondary-btn:hover{
+border-color:var(--gold);
+}
+
+/* =========================================================
+FLOATING CARDS
+========================================================= */
+
+.fair-map{
+position:relative;
+height:680px;
+}
+
+.float-card{
+position:absolute;
+background:var(--bg-card);
+backdrop-filter:blur(12px);
+border:1px solid var(--line);
+border-radius:28px;
+padding:24px;
+box-shadow:var(--shadow);
+overflow:hidden;
+transition:1s var(--ease);
+cursor:pointer;
+}
+
+.float-card:hover{
+transform:translateY(-10px);
+border-color:rgba(214,178,122,.4);
+}
+
+.float-card:before{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(
+145deg,
+rgba(255,255,255,.03),
+transparent
+);
+pointer-events:none;
+}
+
+.card-suit{
+font-size:14px;
+margin-bottom:18px;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.card-title{
+font-size:36px;
+margin-bottom:14px;
+}
+
+.card-desc{
+font-size:15px;
+}
+
+/* positions */
+
+.balloon{
+width:300px;
+top:20px;
+left:40px;
+}
+
+.rings{
+width:260px;
+top:160px;
+right:80px;
+}
+
+.joker{
+width:240px;
+bottom:40px;
+left:140px;
+}
+
+.vault{
+width:320px;
+bottom:60px;
+right:30px;
+}
+
+/* =========================================================
+STALLS
+========================================================= */
+
+.stalls{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:28px;
+margin-top:70px;
+}
+
+.stall{
+background:var(--bg-card);
+border:1px solid var(--line);
+border-radius:32px;
+padding:36px;
+position:relative;
+overflow:hidden;
+min-height:280px;
+transition:.8s var(--ease);
+}
+
+.stall:hover{
+transform:translateY(-10px);
+border-color:rgba(214,178,122,.35);
+}
+
+.stall:before{
+content:"";
+position:absolute;
+top:-100px;
+right:-100px;
+width:240px;
+height:240px;
+border-radius:50%;
+background:rgba(214,178,122,.05);
+}
+
+.stall-number{
+font-size:12px;
+letter-spacing:.3em;
+color:var(--gold);
+margin-bottom:20px;
+}
+
+.stall h3{
+font-size:42px;
+margin-bottom:18px;
+}
+
+.stall p{
+font-size:15px;
+max-width:90%;
+}
+
+.stall-footer{
+margin-top:28px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.tag{
+padding:10px 14px;
+border-radius:999px;
+font-size:12px;
+background:rgba(255,255,255,.05);
+border:1px solid var(--line);
+}
+
+/* =========================================================
+LIVE TICKER
+========================================================= */
+
+.ticker-wrap{
+margin-top:100px;
+overflow:hidden;
+border-top:1px solid var(--line);
+border-bottom:1px solid var(--line);
+padding:24px 0;
+}
+
+.ticker{
+display:flex;
+gap:80px;
+white-space:nowrap;
+animation:ticker 28s linear infinite;
+}
+
+.ticker-item{
+font-size:20px;
+font-family:'Cormorant Garamond',serif;
+color:var(--gold);
+}
+
+@keyframes ticker{
+0%{transform:translateX(0);}
+100%{transform:translateX(-50%);}
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+footer{
+padding:80px 0;
+border-top:1px solid var(--line);
+}
+
+.footer-grid{
+display:flex;
+justify-content:space-between;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.footer-brand{
+font-family:'Cormorant Garamond',serif;
+font-size:34px;
+}
+
+.footer-copy{
+max-width:500px;
+margin-top:20px;
+}
+
+/* =========================================================
+REVEAL
+========================================================= */
+
+.reveal{
+opacity:0;
+transform:translateY(80px);
+transition:1.4s var(--ease);
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media(max-width:980px){
+
+.hero-grid{
+grid-template-columns:1fr;
+}
+
+.fair-map{
+height:auto;
+display:grid;
+grid-template-columns:1fr;
+gap:24px;
+}
+
+.float-card{
+position:relative;
+width:100%;
+top:auto;
+left:auto;
+right:auto;
+bottom:auto;
+}
+
+.stalls{
+grid-template-columns:1fr;
+}
+
+.nav-links{
+display:none;
+}
+
+.hero{
+padding-top:120px;
+}
+
+section{
+padding:90px 0;
+}
+
+.hero-title{
+font-size:72px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+NAV
+========================================================= -->
+
+<nav>
+
+<div class="logo">
+Vow<span>Ledger</span>
+</div>
+
+<div class="nav-links">
+<a href="#">Arena</a>
+<a href="#">Voyages</a>
+<a href="#">Collections</a>
+<a href="#">Archive</a>
+<a href="#">Blessings</a>
+</div>
+
+<button class="nav-btn">
+Enter The Fair
+</button>
+
+</nav>
+
+<!-- =========================================================
+HERO
+========================================================= -->
+
+<section class="hero">
+
+<div class="container hero-grid">
+
+<div class="reveal">
+
+<div class="eyebrow">
+THE ARENA SEASON
+</div>
+
+<h1 class="hero-title">
+The Wedding <span>Fairground</span><br>
+Of Family Memory
+</h1>
+
+<p class="hero-copy">
+A living carnival of hidden photographs, forgotten stories, elder voices, clan expeditions, emotional discoveries, and legendary archive moments.
+</p>
+
+<div class="hero-actions">
+<button class="primary-btn">
+Enter The Arena
+</button>
+
+<button class="secondary-btn">
+Explore Voyages
+</button>
+</div>
+
+</div>
+
+<!-- FAIR MAP -->
+
+<div class="fair-map reveal">
+
+<div class="float-card balloon">
+
+<div class="card-suit" style="color:var(--heart)">
+♥ HEARTS STALL
+</div>
+
+<div class="card-title">
+Balloon Burst Bazaar
+</div>
+
+<p class="card-desc">
+Burst forgotten memories to reveal hidden archive missions and emotional expeditions.
+</p>
+
+</div>
+
+<div class="float-card rings">
+
+<div class="card-suit" style="color:var(--diamond)">
+♦ DIAMONDS STALL
+</div>
+
+<div class="card-title">
+Ring Toss Pavilion
+</div>
+
+<p class="card-desc">
+Unlock ceremonial vaults and tonight-only family discoveries.
+</p>
+
+</div>
+
+<div class="float-card joker">
+
+<div class="card-suit" style="color:#d8d8d8">
+🃏 JOKER TENT
+</div>
+
+<div class="card-title">
+Wildcard Nights
+</div>
+
+<p class="card-desc">
+Unexpected confessions, hidden reels, restored tapes, and emotional chaos.
+</p>
+
+</div>
+
+<div class="float-card vault">
+
+<div class="card-suit" style="color:var(--club)">
+♣ CLUBS STALL
+</div>
+
+<div class="card-title">
+The Expedition Office
+</div>
+
+<p class="card-desc">
+Choose voyages across forgotten family territories and unfinished collections.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+STALLS
+========================================================= -->
+
+<section>
+
+<div class="container">
+
+<div class="reveal">
+
+<div class="eyebrow">
+FAIRGROUND STALLS
+</div>
+
+<h2 class="section-title">
+Every Attraction Unlocks A Piece Of The Family Civilization
+</h2>
+
+<p class="section-copy">
+The Arena transforms wedding participation into collaborative discovery. Every stall uncovers stories, rituals, voices, photographs, and emotional mythology that eventually ascend into the Archive.
+</p>
+
+</div>
+
+<div class="stalls">
+
+<div class="stall reveal">
+<div class="stall-number">STALL 01</div>
+<h3>Wheel Of Memories</h3>
+<p>
+Spin nightly emotional prompts that reveal forgotten journeys, hidden rituals, and legendary family moments.
+</p>
+
+<div class="stall-footer">
+<div class="tag">♥ Emotional Arena</div>
+<div class="tag">Nightly Ritual</div>
+</div>
+</div>
+
+<div class="stall reveal">
+<div class="stall-number">STALL 02</div>
+<h3>Lost Photo Studio</h3>
+<p>
+Restore mystery photographs and uncover the stories hidden behind damaged fragments and faded albums.
+</p>
+
+<div class="stall-footer">
+<div class="tag">♠ Archive Hunt</div>
+<div class="tag">Memory Recovery</div>
+</div>
+</div>
+
+<div class="stall reveal">
+<div class="stall-number">STALL 03</div>
+<h3>Antakshari Courtyard</h3>
+<p>
+One story triggers another as memories chain together into collaborative family mythology.
+</p>
+
+<div class="stall-footer">
+<div class="tag">Story Chain</div>
+<div class="tag">Voice Notes</div>
+</div>
+</div>
+
+<div class="stall reveal">
+<div class="stall-number">STALL 04</div>
+<h3>Mirror Maze</h3>
+<p>
+Navigate emotional relationship maps and discover who introduced whom across generations.
+</p>
+
+<div class="stall-footer">
+<div class="tag">Relationship Lore</div>
+<div class="tag">Family Routes</div>
+</div>
+</div>
+
+<div class="stall reveal">
+<div class="stall-number">STALL 05</div>
+<h3>Lantern Pavilion</h3>
+<p>
+Leave anniversary predictions, future blessings, and messages for generations yet to come.
+</p>
+
+<div class="stall-footer">
+<div class="tag">Future Capsules</div>
+<div class="tag">Continuity</div>
+</div>
+</div>
+
+<div class="stall reveal">
+<div class="stall-number">STALL 06</div>
+<h3>Joker Theatre</h3>
+<p>
+Tonight only: secret archive reveals, emotional reversals, anonymous confessions, and chaos stories.
+</p>
+
+<div class="stall-footer">
+<div class="tag">Rare Events</div>
+<div class="tag">Wildcard Energy</div>
+</div>
+</div>
+
+</div>
+
+<!-- TICKER -->
+
+<div class="ticker-wrap reveal">
+
+<div class="ticker">
+
+<div class="ticker-item">♥ Grandmother Lore Activated Tonight</div>
+<div class="ticker-item">♦ The Founding Voyage Expanded</div>
+<div class="ticker-item">♠ A Lost Photograph Surfaced From Silchar</div>
+<div class="ticker-item">♣ Family Recipe Collection Restored</div>
+<div class="ticker-item">🃏 Joker Event Begins At Midnight</div>
+
+<div class="ticker-item">♥ Grandmother Lore Activated Tonight</div>
+<div class="ticker-item">♦ The Founding Voyage Expanded</div>
+<div class="ticker-item">♠ A Lost Photograph Surfaced From Silchar</div>
+<div class="ticker-item">♣ Family Recipe Collection Restored</div>
+<div class="ticker-item">🃏 Joker Event Begins At Midnight</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+FOOTER
+========================================================= -->
+
+<footer>
+
+<div class="container footer-grid">
+
+<div>
+
+<div class="footer-brand">
+VowLedger Arena
+</div>
+
+<p class="footer-copy">
+The temporary emotional carnival where stories, rituals, chaos, nostalgia, and discoveries become permanent family mythology.
+</p>
+
+</div>
+
+<div>
+
+<div class="eyebrow">
+FOUNDING CHAPTER
+</div>
+
+<p>
+Arena Season · 2026<br>
+Emotional Continuity Infrastructure
+</p>
+
+</div>
+
+</div>
+
+</footer>
+
+<!-- =========================================================
+JS
+========================================================= -->
+
+<script>
+
+/* =========================================================
+SCROLL REVEAL
+========================================================= */
+
+const reveals = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+entry.target.classList.add('active');
+}
+
+});
+
+},{
+threshold:.15
+});
+
+reveals.forEach(r=>{
+observer.observe(r);
+});
+
+/* =========================================================
+FLOATING MOTION
+========================================================= */
+
+const cards = document.querySelectorAll('.float-card');
+
+document.addEventListener('mousemove',(e)=>{
+
+const x = (window.innerWidth / 2 - e.clientX) / 40;
+const y = (window.innerHeight / 2 - e.clientY) / 40;
+
+cards.forEach((card,index)=>{
+
+const depth = (index + 1) * .3;
+
+card.style.transform = `
+translate(${x * depth}px, ${y * depth}px)
+`;
+
+});
+
+});
+
+/* =========================================================
+STALL HOVER GLOW
+========================================================= */
+
+const stalls = document.querySelectorAll('.stall');
+
+stalls.forEach(stall=>{
+
+stall.addEventListener('mouseenter',()=>{
+
+stall.style.background =
+'rgba(255,255,255,.06)';
+
+});
+
+stall.addEventListener('mouseleave',()=>{
+
+stall.style.background =
+'rgba(255,255,255,.04)';
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

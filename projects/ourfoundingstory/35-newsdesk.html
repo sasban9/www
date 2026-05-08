@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VowLedger — Tonight's Discoveries</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   BASE SYSTEM
+========================================================= */
+
+:root{
+
+  --bg:#0f0f10;
+  --bg-soft:#18181a;
+  --bg-card:#1c1c1f;
+  --bg-glass:rgba(255,255,255,.03);
+
+  --text:#f5f1ea;
+  --muted:#9c9488;
+
+  --gold:#c8a46f;
+
+  --red:#6f2a2a;
+  --red-soft:#3d1b1b;
+
+  --line:rgba(255,255,255,.07);
+
+  --radius:28px;
+
+  --shadow:
+  0 20px 80px rgba(0,0,0,.35);
+
+  --transition:
+  all .7s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+  radial-gradient(circle at top left,
+  rgba(255,255,255,.03),
+  transparent 30%),
+  var(--bg);
+
+  color:var(--text);
+
+  font-family:'Inter',sans-serif;
+
+  overflow-x:hidden;
+}
+
+/* =========================================================
+   FILM GRAIN
+========================================================= */
+
+body::before{
+  content:"";
+
+  position:fixed;
+  inset:0;
+
+  background-image:
+  url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+
+  opacity:.08;
+  pointer-events:none;
+
+  z-index:999;
+}
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav{
+  position:fixed;
+  top:22px;
+  left:50%;
+  transform:translateX(-50%);
+
+  width:92%;
+  max-width:1400px;
+
+  z-index:100;
+
+  backdrop-filter:blur(14px);
+
+  background:rgba(10,10,10,.55);
+
+  border:1px solid var(--line);
+
+  border-radius:999px;
+
+  padding:16px 28px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:20px;
+  letter-spacing:.06em;
+}
+
+.logo span{
+  color:var(--gold);
+}
+
+.nav-right{
+  display:flex;
+  gap:28px;
+}
+
+.nav-right a{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:14px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+  padding:
+  180px
+  7%
+  80px;
+
+  max-width:1500px;
+  margin:auto;
+}
+
+.hero-label{
+  color:var(--gold);
+
+  letter-spacing:.28em;
+  text-transform:uppercase;
+
+  font-size:12px;
+
+  margin-bottom:24px;
+}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+
+  font-size:
+  clamp(58px,9vw,130px);
+
+  line-height:.92;
+
+  font-weight:500;
+
+  max-width:1100px;
+
+  margin-bottom:28px;
+}
+
+.hero p{
+  max-width:760px;
+
+  color:var(--muted);
+
+  font-size:18px;
+  line-height:1.9;
+}
+
+/* =========================================================
+   FEATURED DISCOVERY
+========================================================= */
+
+.featured{
+  margin-top:90px;
+
+  display:grid;
+  grid-template-columns:
+  1.1fr
+  .9fr;
+
+  gap:40px;
+}
+
+.feature-image{
+  min-height:620px;
+
+  border-radius:var(--radius);
+
+  overflow:hidden;
+
+  position:relative;
+
+  background:
+  linear-gradient(
+  to bottom,
+  transparent,
+  rgba(0,0,0,.7)),
+  url("https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1800&auto=format&fit=crop");
+
+  background-size:cover;
+  background-position:center;
+
+  box-shadow:var(--shadow);
+}
+
+.feature-image::after{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+  180deg,
+  rgba(0,0,0,.05),
+  rgba(0,0,0,.6));
+
+}
+
+.feature-meta{
+  position:absolute;
+  left:40px;
+  bottom:40px;
+
+  z-index:2;
+}
+
+.feature-meta small{
+  color:#d8c5a5;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:11px;
+}
+
+.feature-meta h2{
+  font-family:'Playfair Display',serif;
+  font-size:48px;
+  line-height:1;
+  margin:18px 0;
+  max-width:600px;
+}
+
+.feature-meta p{
+  max-width:500px;
+  line-height:1.8;
+  color:#d4cabc;
+}
+
+.feature-panel{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+.panel-card{
+  background:var(--bg-glass);
+
+  border:1px solid var(--line);
+
+  border-radius:var(--radius);
+
+  padding:34px;
+
+  backdrop-filter:blur(10px);
+
+  transition:var(--transition);
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+.panel-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(200,164,111,.3);
+}
+
+.panel-card::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+  135deg,
+  rgba(255,255,255,.02),
+  transparent);
+
+  pointer-events:none;
+}
+
+.panel-label{
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:11px;
+}
+
+.panel-card h3{
+  font-family:'Playfair Display',serif;
+
+  font-size:34px;
+  line-height:1.1;
+
+  margin:
+  18px
+  0
+  16px;
+}
+
+.panel-card p{
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.panel-footer{
+  margin-top:28px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.wave{
+  color:#d8cab4;
+  font-size:14px;
+}
+
+.arrow{
+  width:46px;
+  height:46px;
+
+  border-radius:50%;
+
+  border:1px solid var(--line);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:var(--gold);
+}
+
+/* =========================================================
+   LIVE DESK
+========================================================= */
+
+.section{
+  max-width:1500px;
+  margin:auto;
+
+  padding:
+  100px
+  7%;
+}
+
+.section-head{
+  margin-bottom:60px;
+}
+
+.section-head small{
+  color:var(--gold);
+
+  letter-spacing:.24em;
+  text-transform:uppercase;
+
+  font-size:11px;
+}
+
+.section-head h2{
+  font-family:'Playfair Display',serif;
+
+  font-size:
+  clamp(40px,6vw,70px);
+
+  margin:
+  18px
+  0
+  20px;
+}
+
+.section-head p{
+  max-width:720px;
+  color:var(--muted);
+  line-height:1.9;
+}
+
+/* =========================================================
+   HORIZONTAL STRIP
+========================================================= */
+
+.horizontal-scroll{
+  display:flex;
+  gap:28px;
+
+  overflow-x:auto;
+
+  padding-bottom:20px;
+}
+
+.horizontal-scroll::-webkit-scrollbar{
+  height:6px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.12);
+  border-radius:999px;
+}
+
+.artifact{
+  min-width:360px;max-width:500px;
+
+  background:var(--bg-glass);
+
+  border:1px solid var(--line);
+
+  border-radius:28px;
+
+  overflow:hidden;
+
+  transition:var(--transition);
+
+  flex-shrink:0;
+}
+
+.artifact:hover{
+  transform:translateY(-8px);
+}
+
+.artifact-image{
+  height:240px;
+
+  background-size:cover;
+  background-position:center;
+
+  filter:
+  brightness(.88)
+  contrast(1.05)
+  saturate(.92);
+}
+
+.artifact-content{
+  padding:28px;
+}
+
+.artifact small{
+  color:var(--gold);
+
+  text-transform:uppercase;
+  letter-spacing:.16em;
+
+  font-size:11px;
+}
+
+.artifact h3{
+  font-family:'Playfair Display',serif;
+
+  font-size:30px;
+  line-height:1.1;
+
+  margin:
+  18px
+  0
+  16px;
+}
+
+.artifact p{
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.artifact-meta{
+  margin-top:24px;
+
+  color:#b8ab98;
+
+  font-size:13px;
+
+  display:flex;
+  justify-content:space-between;
+}
+
+/* =========================================================
+   ARENA STRIP
+========================================================= */
+
+.arena-card{
+  background:
+  linear-gradient(
+  180deg,
+  rgba(111,42,42,.18),
+  rgba(0,0,0,.2));
+
+  border:1px solid rgba(140,70,70,.25);
+}
+
+/* =========================================================
+   AUDIO CARD
+========================================================= */
+
+.audio-card{
+  padding:60px;
+
+  border-radius:38px;
+
+  background:
+  linear-gradient(
+  135deg,
+  rgba(255,255,255,.02),
+  rgba(255,255,255,.01));
+
+  border:1px solid var(--line);
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+.audio-card::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  radial-gradient(circle at top left,
+  rgba(200,164,111,.08),
+  transparent 30%);
+
+  pointer-events:none;
+}
+
+.audio-label{
+  color:var(--gold);
+
+  letter-spacing:.18em;
+  text-transform:uppercase;
+
+  font-size:11px;
+}
+
+.audio-card h2{
+  font-family:'Playfair Display',serif;
+
+  font-size:
+  clamp(44px,6vw,74px);
+
+  line-height:.95;
+
+  margin:
+  28px
+  0;
+}
+
+.audio-card p{
+  max-width:700px;
+
+  line-height:1.9;
+
+  color:var(--muted);
+
+  margin-bottom:40px;
+}
+
+.waveform{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  height:70px;
+}
+
+.waveform span{
+  width:4px;
+
+  background:var(--gold);
+
+  border-radius:999px;
+
+  animation:pulse 1.6s infinite ease-in-out;
+}
+
+.waveform span:nth-child(odd){
+  animation-duration:2s;
+}
+
+@keyframes pulse{
+  0%,100%{
+    height:12px;
+    opacity:.4;
+  }
+
+  50%{
+    height:68px;
+    opacity:1;
+  }
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+  padding:
+  80px
+  7%
+  120px;
+
+  border-top:1px solid var(--line);
+
+  margin-top:100px;
+
+  display:flex;
+  justify-content:space-between;
+  gap:40px;
+
+  flex-wrap:wrap;
+}
+
+.footer h3{
+  font-family:'Playfair Display',serif;
+  font-size:32px;
+  margin-bottom:18px;
+}
+
+.footer p{
+  color:var(--muted);
+  line-height:1.9;
+  max-width:500px;
+}
+
+.footer-note{
+  color:#7c7367;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:11px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .featured{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .nav-right{
+    display:none;
+  }
+
+  .hero{
+    padding-top:160px;
+  }
+
+  .feature-image{
+    min-height:480px;
+  }
+
+  .feature-meta{
+    left:24px;
+    right:24px;
+    bottom:24px;
+  }
+
+  .feature-meta h2{
+    font-size:40px;
+  }
+
+  .artifact{
+    min-width:85vw;
+  }
+
+  .audio-card{
+    padding:38px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAV
+====================================================== -->
+
+<nav class="nav">
+
+  <div class="logo">
+    Vow<span>Ledger</span>
+  </div>
+
+  <div class="nav-right">
+    <a href="#">Archive</a>
+    <a href="#">Collections</a>
+    <a href="#">Arena</a>
+    <a href="#">Blessings</a>
+  </div>
+
+</nav>
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+  <div class="hero-label">
+    Tonight’s Edition · Wedding Season Day -5
+  </div>
+
+  <h1>
+    The archive continued
+    opening itself tonight.
+  </h1>
+
+  <p>
+    New voices surfaced from the Assam Collection. Three forgotten photographs were restored from an old trunk in Kolkata. A cousin finally explained the story behind the Darjeeling train journey.
+  </p>
+
+  <!-- FEATURED -->
+
+  <div class="featured">
+
+    <div class="feature-image">
+
+      <div class="feature-meta">
+
+        <small>
+          Tonight’s Discovery
+        </small>
+
+        <h2>
+          A damaged cassette recording from 1994 was restored.
+        </h2>
+
+        <p>
+          Recorded during a monsoon evening in Silchar. The tape contains marriage advice from the bride’s grandfather, discovered inside an old wooden cupboard.
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="feature-panel">
+
+      <div class="panel-card">
+
+        <div class="panel-label">
+          Archive Movement
+        </div>
+
+        <h3>
+          The Assam Collection is now only three artifacts away from completion.
+        </h3>
+
+        <p>
+          Tonight’s discoveries included a handwritten Bengali letter, a railway photograph, and an elder recording describing migration years.
+        </p>
+
+        <div class="panel-footer">
+          <div class="wave">
+            3 new restorations
+          </div>
+
+          <div class="arrow">
+            →
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel-card arena-card">
+
+        <div class="panel-label">
+          Arena Energy
+        </div>
+
+        <h3>
+          Cousin Stories became unexpectedly active after midnight.
+        </h3>
+
+        <p>
+          Four new memories surfaced from the college years collection. One anonymous story triggered a chain of forgotten Darjeeling photographs.
+        </p>
+
+        <div class="panel-footer">
+          <div class="wave">
+            Temporary Arena Moment
+          </div>
+
+          <div class="arrow">
+            ♥
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =====================================================
+     NEWLY RESTORED
+====================================================== -->
+
+<section class="section">
+
+  <div class="section-head">
+
+    <small>
+      Newly Restored
+    </small>
+
+    <h2>
+      Recovered Artifacts
+    </h2>
+
+    <p>
+      Fragments of family history recovered tonight from old albums, handwritten archives, damaged storage boxes, and forgotten devices.
+    </p>
+
+  </div>
+
+  <div class="horizontal-scroll">
+
+    <div class="artifact">
+
+      <div
+      class="artifact-image"
+      style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs8ea4xodkr0rMNHBqRwJ4q8rnPs4DWVtgwA&s')">
+      </div>
+
+      <div class="artifact-content">
+
+        <small>
+          The Black Vault
+        </small>
+
+        <h3>
+          Parents Before Marriage
+        </h3>
+
+        <p>
+          A faded studio portrait recovered from a sealed envelope hidden inside the original wedding album.
+        </p>
+
+        <div class="artifact-meta">
+          <span>Silchar · 1991</span>
+          <span>♠ Spades</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="artifact">
+
+      <div
+      class="artifact-image"
+      style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop')">
+      </div>
+
+      <div class="artifact-content">
+
+        <small>
+          Founding Blessings
+        </small>
+
+        <h3>
+          The Railway Story
+        </h3>
+
+        <p>
+          An uncle finally explained how the families first met during a delayed overnight train journey.
+        </p>
+
+        <div class="artifact-meta">
+          <span>Kolkata Route</span>
+          <span>♣ Clubs</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="artifact">
+
+      <div
+      class="artifact-image"
+      style="background-image:url('https://www.befunky.com/images/wp/wp-2023-04-Recipecard.featured.jpg?auto=avif,webp&format=jpg&width=1200&crop=16:9')">
+      </div>
+
+      <div class="artifact-content">
+
+        <small>
+          Quiet Discovery
+        </small>
+
+        <h3>
+          A Recipe Card Resurfaced
+        </h3>
+
+        <p>
+          A handwritten fish curry recipe from the grandmother’s archive was uploaded tonight after years of being misplaced.
+        </p>
+
+        <div class="artifact-meta">
+          <span>Kitchen Collection</span>
+          <span>♣ Clubs</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =====================================================
+     AUDIO
+====================================================== -->
+
+<section class="section">
+
+  <div class="audio-card">
+
+    <div class="audio-label">
+      Sacred Audio Archive
+    </div>
+
+    <h2>
+      Grandmother’s Blessing · 02:14
+    </h2>
+
+    <p>
+      Recorded from Silchar. Restored tonight from a WhatsApp voice note forwarded by a cousin living in Dubai.
+    </p>
+
+    <div class="waveform" id="waveform"></div>
+
+  </div>
+
+</section>
+
+<!-- =====================================================
+     ARENA
+====================================================== -->
+
+<section class="section">
+
+  <div class="section-head">
+
+    <small>
+      Arena Tonight
+    </small>
+
+    <h2>
+      Temporary Emotional Weather
+    </h2>
+
+    <p>
+      These moments belong to the live season of the wedding. Some may disappear tomorrow. A few may eventually enter the permanent archive.
+    </p>
+
+  </div>
+
+  <div class="horizontal-scroll">
+
+    <div class="artifact arena-card">
+
+      <div
+      class="artifact-image"
+      style="background-image:url('https://i.ytimg.com/vi/qpwWM4sZDz4/maxresdefault.jpg')">
+      </div>
+
+      <div class="artifact-content">
+
+        <small>
+          Cousin Chaos
+        </small>
+
+        <h3>
+          The Darjeeling Story Spiral
+        </h3>
+
+        <p>
+          One blurry train photograph triggered six overlapping stories from different family members tonight.
+        </p>
+
+        <div class="artifact-meta">
+          <span>Temporary Arena Event</span>
+          <span>♥ Hearts</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="artifact arena-card">
+
+      <div
+      class="artifact-image"
+      style="background-image:url('https://cdn.shopify.com/s/files/1/0558/6413/1764/files/BlogThumbnail_7fa803eb-1ad0-4380-a12c-a3bd1f13ceac.jpg?v=1636654428')">
+      </div>
+
+      <div class="artifact-content">
+
+        <small>
+          Ceremony Momentum
+        </small>
+
+        <h3>
+          Bride Side Recovered A Lost Invitation Card
+        </h3>
+
+        <p>
+          The original reception invitation from 1998 surfaced during tonight’s archive restoration session.
+        </p>
+
+        <div class="artifact-meta">
+          <span>Wedding Week</span>
+          <span>♦ Diamonds</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="artifact arena-card">
+
+      <div
+      class="artifact-image"
+      style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoA7EHA8WlX7mkkOb-VVfRGlAMLFN3zlfy5g&s')">
+      </div>
+
+      <div class="artifact-content">
+
+        <small>
+          Ceremony Momentum
+        </small>
+
+        <h3>
+          Bride Side Recovered A Lost Invitation Card
+        </h3>
+
+        <p>
+          The original reception invitation from 1998 surfaced during tonight’s archive restoration session.
+        </p>
+
+        <div class="artifact-meta">
+          <span>Wedding Week</span>
+          <span>♦ Diamonds</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="footer">
+
+  <div>
+
+    <h3>
+      Tonight’s Edition Closes Here
+    </h3>
+
+    <p>
+      The archive will continue unfolding tomorrow evening. Some memories will fade from the Arena. Others may quietly enter permanence.
+    </p>
+
+  </div>
+
+  <div class="footer-note">
+    VowLedger · Emotional Continuity Infrastructure
+  </div>
+
+</footer>
+
+<!-- =====================================================
+     JS
+====================================================== -->
+
+<script>
+
+/* =====================================================
+   WAVEFORM GENERATOR
+====================================================== */
+
+const waveform = document.getElementById("waveform");
+
+for(let i=0;i<70;i++){
+
+  const bar = document.createElement("span");
+
+  bar.style.height =
+  Math.floor(Math.random()*60)+10+"px";
+
+  bar.style.animationDelay =
+  (Math.random()*2)+"s";
+
+  waveform.appendChild(bar);
+
+}
+
+/* =====================================================
+   SCROLL REVEAL
+====================================================== */
+
+const revealElements =
+document.querySelectorAll(
+'.artifact,.panel-card,.audio-card,.feature-image'
+);
+
+const observer =
+new IntersectionObserver((entries)=>{
+
+  entries.forEach(entry=>{
+
+    if(entry.isIntersecting){
+
+      entry.target.style.opacity = 1;
+      entry.target.style.transform =
+      "translateY(0px)";
+
+    }
+
+  });
+
+},{
+  threshold:.15
+});
+
+revealElements.forEach(el=>{
+
+  el.style.opacity = 0;
+  el.style.transform =
+  "translateY(60px)";
+
+  el.style.transition =
+  "all 1.2s cubic-bezier(.19,1,.22,1)";
+
+  observer.observe(el);
+
+});
+
+</script>
+
+</body>
+</html>

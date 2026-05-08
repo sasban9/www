@@ -1,0 +1,1155 @@
+<!-- Added interactive tab navigation, contributor drawers, funded states and anonymous patrons -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VowLedger — 21 Day Registry</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#060b12;
+    --card:#0d1722;
+    --card2:#111d2a;
+    --gold:#d9ae69;
+    --line:#1f2c39;
+    --text:#f4efe7;
+    --muted:#97a4b0;
+    --green:#78c78d;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#101b29 0%,#060b12 42%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+img{
+    width:100%;
+    display:block;
+}
+
+.container{
+    width:min(1500px,94%);
+    margin:auto;
+}
+
+/* HERO */
+
+.hero{
+    padding:60px 0 36px;
+}
+
+.hero small{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-size:11px;
+}
+
+.hero h1{
+    margin-top:18px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:78px;
+    line-height:.95;
+    max-width:900px;
+}
+
+.hero p{
+    margin-top:24px;
+    max-width:760px;
+    color:var(--muted);
+    line-height:2;
+    font-size:17px;
+}
+
+/* TABS */
+
+.tabs{
+    display:flex;
+    gap:12px;
+    overflow:auto;
+    padding:10px 0 26px;
+    scrollbar-width:none;
+    position:sticky;
+    top:0;
+    z-index:30;
+    background:rgba(6,11,18,.92);
+    backdrop-filter:blur(12px);
+}
+
+.tabs::-webkit-scrollbar{
+    display:none;
+}
+
+.tab{
+    min-width:110px;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:18px;
+    padding:14px;
+    flex-shrink:0;
+}
+
+.tab.active{
+    border-color:rgba(217,174,105,.28);
+    background:linear-gradient(to bottom,#1b2735,#101923);
+}
+
+.tab small{
+    color:var(--gold);
+    font-size:10px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.tab h4{
+    margin-top:10px;
+    font-size:13px;
+    line-height:1.4;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    padding-bottom:80px;
+}
+
+/* CARD */
+
+.card{
+    background:linear-gradient(to bottom,#0d1722,#09121b);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:28px;
+    overflow:hidden;
+    transition:.35s ease;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(217,174,105,.22);
+}
+
+.image{
+    position:relative;
+}
+
+.image img{
+    height:220px;
+    object-fit:cover;
+}
+
+.day{
+    position:absolute;
+    top:16px;
+    left:16px;
+    background:rgba(6,11,18,.84);
+    border:1px solid rgba(217,174,105,.18);
+    color:var(--gold);
+    padding:9px 14px;
+    border-radius:999px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.content{
+    padding:22px;
+}
+
+.category{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.content h2{
+    margin-top:12px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:38px;
+    line-height:1;
+}
+
+.desc{
+    margin-top:16px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:14px;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:22px;
+}
+
+.stat{
+    background:#111c27;
+    border:1px solid rgba(255,255,255,.04);
+    padding:12px;
+    border-radius:16px;
+}
+
+.stat small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:9px;
+}
+
+.stat h4{
+    margin-top:6px;
+    color:var(--gold);
+    font-size:17px;
+}
+
+/* PROGRESS */
+
+.progress-wrap{
+    margin-top:22px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    color:#d2dae3;
+    font-size:12px;
+}
+
+.progress{
+    width:100%;
+    height:10px;
+    border-radius:999px;
+    background:#172434;
+    overflow:hidden;
+}
+
+.bar{
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(to right,#d9ae69,#f0d0a0);
+}
+
+/* CONTRIBUTORS */
+
+.people{
+    margin-top:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+}
+
+.avatars{
+    display:flex;
+}
+
+.avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    overflow:hidden;
+    border:2px solid #09121b;
+    margin-left:-10px;
+}
+
+.avatar:first-child{
+    margin-left:0;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.people span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* COMMIT */
+
+.commit{
+    margin-top:22px;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:20px;
+    padding:16px;
+}
+
+.commit-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+    margin-bottom:14px;
+}
+
+.commit-top h5{
+    font-size:14px;
+}
+
+.commit-top span{
+    color:var(--green);
+    font-size:12px;
+}
+
+.input-row{
+    display:flex;
+    gap:12px;
+}
+
+.input-row input{
+    flex:1;
+    background:#0c141d;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:14px;
+    padding:15px;
+    color:#fff;
+    outline:none;
+    font-size:14px;
+}
+
+.input-row button{
+    border:none;
+    background:var(--gold);
+    color:#111;
+    padding:0 22px;
+    border-radius:14px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.quick{
+    display:flex;
+    gap:10px;
+    overflow:auto;
+    margin-top:14px;
+    scrollbar-width:none;
+}
+
+.quick::-webkit-scrollbar{
+    display:none;
+}
+
+.quick div{
+    white-space:nowrap;
+    background:#0c141d;
+    border:1px solid rgba(255,255,255,.06);
+    padding:10px 14px;
+    border-radius:999px;
+    color:#d9e1e8;
+    font-size:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:1100px){
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero h1{
+        font-size:58px;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .hero{
+        padding:42px 0 24px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:15px;
+        line-height:1.8;
+    }
+
+    .tabs{
+        top:auto;
+        position:relative;
+        padding-bottom:18px;
+    }
+
+    .tab{
+        min-width:92px;
+        padding:12px;
+    }
+
+    .tab h4{
+        font-size:12px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+        gap:18px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .content h2{
+        font-size:32px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr 1fr;
+        gap:10px;
+    }
+
+    .stat{
+        padding:10px;
+    }
+
+    .input-row button{
+        padding:0 18px;
+    }
+
+}
+
+
+
+/* FUNDED */
+
+.funded-badge{
+    position:absolute;
+    right:16px;
+    top:16px;
+    background:#7ac88d;
+    color:#08110b;
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-weight:700;
+}
+
+/* CONTRIBUTORS */
+
+.drawer{
+    margin-top:18px;
+    border-top:1px solid rgba(255,255,255,.05);
+    padding-top:18px;
+    display:none;
+}
+
+.drawer.active{
+    display:block;
+}
+
+.contributor{
+    display:flex;
+    justify-content:space-between;
+    gap:14px;
+    padding:14px 0;
+    border-bottom:1px solid rgba(255,255,255,.04);
+}
+
+.contributor:last-child{
+    border-bottom:none;
+}
+
+.contributor-left{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.contributor-left img{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.contributor h5{
+    font-size:14px;
+}
+
+.contributor p{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.amount-pill{
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    padding:10px 14px;
+    border-radius:999px;
+    color:var(--gold);
+    font-size:12px;
+    white-space:nowrap;
+}
+
+.toggle-btn{
+    margin-top:16px;
+    width:100%;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.06);
+    color:#fff;
+    padding:14px;
+    border-radius:16px;
+    cursor:pointer;
+}
+
+.card.hidden{
+    display:none;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <small>21 Day Founding Registry</small>
+
+        <h1>
+            One Dream Revealed Every Day.
+        </h1>
+
+        <p>
+            Explore the couple’s future wishlist as new dreams unlock every day leading up to the wedding celebration.
+        </p>
+
+    </section>
+
+
+    <!-- TABS -->
+
+    <div class="tabs" id="poolTabs">
+
+        <div class="tab active" onclick="jumpPool('coffee')"><small>D-21</small><h4>Coffee Ritual</h4></div>
+        <div class="tab"><small>D-20</small><h4>Garden Escape</h4></div>
+        <div class="tab"><small>D-19</small><h4>Book Collection</h4></div>
+        <div class="tab"><small>D-18</small><h4>Dinnerware</h4></div>
+        <div class="tab"><small>D-17</small><h4>Bar Lounge</h4></div>
+        <div class="tab"><small>D-16</small><h4>Kitchen Upgrade</h4></div>
+        <div class="tab"><small>D-15</small><h4>Coffee Studio</h4></div>
+        <div class="tab"><small>D-14</small><h4>Wellness Retreat</h4></div>
+        <div class="tab"><small>D-13</small><h4>Home Theatre</h4></div>
+        <div class="tab"><small>D-12</small><h4>Santorini Dinner</h4></div>
+        <div class="tab"><small>D-11</small><h4>Dining Experience</h4></div>
+        <div class="tab"><small>D-10</small><h4>Spa Retreat</h4></div>
+        <div class="tab"><small>D-9</small><h4>Terrace Lounge</h4></div>
+        <div class="tab"><small>D-8</small><h4>Photo Journey</h4></div>
+        <div class="tab"><small>D-7</small><h4>Home Library</h4></div>
+        <div class="tab" onclick="jumpPool('europe')"><small>D-6</small><h4>Rail Honeymoon</h4></div>
+        <div class="tab"><small>D-5</small><h4>Bedroom Suite</h4></div>
+        <div class="tab"><small>D-4</small><h4>Villa Escape</h4></div>
+        <div class="tab"><small>D-3</small><h4>Family Fund</h4></div>
+        <div class="tab" onclick="jumpPool('home')"><small>D-2</small><h4>First Home</h4></div>
+        <div class="tab"><small>D-1</small><h4>Travel Legacy</h4></div>
+
+    </div>
+
+
+    <!-- GRID -->
+
+    <section class="grid" id="poolGrid">
+
+
+        <!-- CARD 3 -->
+
+        <div class="card" data-pool="home">
+
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400&auto=format&fit=crop">
+                <!-- <div class="funded-badge">Fully Funded</div> -->
+                <div class="day">Revealed D-2</div>
+            </div>
+
+            <div class="content">
+
+                <div class="category">₹10L Pool • Legacy</div>
+
+                <h2>First Home Down Payment</h2>
+
+                <div class="desc">
+                    A generational contribution helping the couple build the foundation of their future home and family life.
+                </div>
+
+                <div class="stats">
+                    <div class="stat"><small>Goal</small><h4>₹10L</h4></div>
+                    <div class="stat"><small>Joined</small><h4>52</h4></div>
+                    <div class="stat"><small>Funded</small><h4>48%</h4></div>
+                </div>
+
+                <div class="progress-wrap">
+                    <div class="progress-top">
+                        <div>₹4.8L funded</div>
+                        <div>48%</div>
+                    </div>
+                    <div class="progress"><div class="bar" style="width:48%"></div></div>
+                </div>
+
+                <div class="people">
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop"></div>
+                    </div>
+                    <span>52 contributors</span>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrawer(this)">View Contributors</button>
+
+                <div class="drawer">
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>The Mehtas</h5>
+                                <p>Founding Contributors</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,500</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Riya Sharma</h5>
+                                <p>Best Friend Of Bride</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,000</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Anonymous Patron</h5>
+                                <p>Silent Blessing</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹2,100</div>
+                    </div>
+
+                </div>
+
+                <div class="commit">
+
+                    <div class="commit-top">
+                        <h5>Commit Any Amount</h5>
+                        <span>Legacy Pool</span>
+                    </div>
+
+                    <div class="input-row">
+                        <input type="text" placeholder="Enter contribution amount">
+                        <button>Join</button>
+                    </div>
+
+                    <div class="quick">
+                        <div>₹10K</div>
+                        <div>₹25K</div>
+                        <div>₹50K</div>
+                        <div>₹1L</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CARD 2 -->
+
+        <div class="card" data-pool="europe">
+
+            <div class="image">
+                <img src="https://deeptravels.co.in/uploads/2026/04/luxury-trains-in-the-usa-the-best-high-end-rail-journeys.webp">
+                <div class="day">Revealed D-6</div>
+            </div>
+
+            <div class="content">
+
+                <div class="category">₹4.5L Pool • Journey</div>
+
+                <h2>European Rail Honeymoon</h2>
+
+                <div class="desc">
+                    Scenic train journeys across Europe with slow travel, mountain views and unforgettable shared memories.
+                </div>
+
+                <div class="stats">
+                    <div class="stat"><small>Goal</small><h4>₹4.5L</h4></div>
+                    <div class="stat"><small>Joined</small><h4>31</h4></div>
+                    <div class="stat"><small>Funded</small><h4>67%</h4></div>
+                </div>
+
+                <div class="progress-wrap">
+                    <div class="progress-top">
+                        <div>₹3.02L funded</div>
+                        <div>67%</div>
+                    </div>
+                    <div class="progress"><div class="bar" style="width:67%"></div></div>
+                </div>
+
+                <div class="people">
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop"></div>
+                    </div>
+                    <span>31 contributors</span>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrawer(this)">View Contributors</button>
+
+                <div class="drawer">
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>The Mehtas</h5>
+                                <p>Founding Contributors</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,500</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Riya Sharma</h5>
+                                <p>Best Friend Of Bride</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,000</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Anonymous Patron</h5>
+                                <p>Silent Blessing</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹2,100</div>
+                    </div>
+
+                </div>
+
+                <div class="commit">
+
+                    <div class="commit-top">
+                        <h5>Commit Any Amount</h5>
+                        <span>Trending Pool</span>
+                    </div>
+
+                    <div class="input-row">
+                        <input type="text" placeholder="Enter contribution amount">
+                        <button>Join</button>
+                    </div>
+
+                    <div class="quick">
+                        <div>₹5K</div>
+                        <div>₹10K</div>
+                        <div>₹25K</div>
+                        <div>₹50K</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card" data-pool="europe">
+
+            <div class="image">
+                <img src="https://images.woodenstreet.de/image/data/blog-images/dining-room-decor-ideas/dining-room-wall-decor.png">
+                <div class="day">Revealed D-11</div>
+            </div>
+
+            <div class="content">
+
+                <div class="category">₹2.25L Pool • Experience</div>
+
+                <h2>Dining Room Experience</h2>
+
+                <div class="desc">
+                    Help create the emotional center of the future home where generations will gather together.
+                </div>
+
+                <div class="stats">
+                    <div class="stat"><small>Goal</small><h4>₹2.25L</h4></div>
+                    <div class="stat"><small>Joined</small><h4>21</h4></div>
+                    <div class="stat"><small>Funded</small><h4>80%</h4></div>
+                </div>
+
+                <div class="progress-wrap">
+                    <div class="progress-top">
+                        <div>₹1.8L funded</div>
+                        <div>80%</div>
+                    </div>
+                    <div class="progress"><div class="bar" style="width:80%"></div></div>
+                </div>
+
+                <div class="people">
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop"></div>
+                    </div>
+                    <span>21 contributors</span>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrawer(this)">View Contributors</button>
+
+                <div class="drawer">
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>The Mehtas</h5>
+                                <p>Founding Contributors</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,500</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Riya Sharma</h5>
+                                <p>Best Friend Of Bride</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,000</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Anonymous Patron</h5>
+                                <p>Silent Blessing</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹2,100</div>
+                    </div>
+
+                </div>
+
+                <div class="commit">
+
+                    <div class="commit-top">
+                        <h5>Commit Any Amount</h5>
+                        <span>Trending Pool</span>
+                    </div>
+
+                    <div class="input-row">
+                        <input type="text" placeholder="Enter contribution amount">
+                        <button>Join</button>
+                    </div>
+
+                    <div class="quick">
+                        <div>₹5K</div>
+                        <div>₹10K</div>
+                        <div>₹25K</div>
+                        <div>₹50K</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card" data-pool="coffee">
+
+            <div class="image">
+                <img src="https://tiimg.tistatic.com/fp/1/009/042/modern-modular-kitchen-413.jpg">
+                <div class="funded-badge">Fully Funded</div>
+                <div class="day">Revealed D-16</div>
+            </div>
+
+            <div class="content">
+
+                <div class="category">₹40K Pool • Lifestyle</div>
+
+                <h2>Smart Kitchen Upgrade</h2>
+
+                <div class="desc">
+                    Upgrade the couple’s kitchen into a beautiful creative space for cooking and shared experiences.
+                </div>
+
+                <div class="stats">
+                    <div class="stat"><small>Goal</small><h4>₹40K</h4></div>
+                    <div class="stat"><small>Joined</small><h4>17</h4></div>
+                    <div class="stat"><small>Funded</small><h4>100%</h4></div>
+                </div>
+
+                <div class="progress-wrap">
+                    <div class="progress-top">
+                        <div>₹40,000 funded</div>
+                        <div>100%</div>
+                    </div>
+                    <div class="progress"><div class="bar" style="width:100%"></div></div>
+                </div>
+
+                <div class="people">
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop"></div>
+                    </div>
+                    <span>17 contributors</span>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrawer(this)">View Contributors</button>
+
+                <div class="drawer">
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>The Mehtas</h5>
+                                <p>Founding Contributors</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,500</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Riya Sharma</h5>
+                                <p>Best Friend Of Bride</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,000</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Anonymous Patron</h5>
+                                <p>Silent Blessing</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹2,100</div>
+                    </div>
+                </div>
+
+                <div class="commit" style="display: none;">
+                    <div class="commit-top">
+                        <h5>Commit Any Amount</h5>
+                        <span>Open Pool</span>
+                    </div>
+
+                    <div class="input-row">
+                        <input type="text" placeholder="Enter contribution amount">
+                        <button>Join</button>
+                    </div>
+
+                    <div class="quick">
+                        <div>₹501</div>
+                        <div>₹1K</div>
+                        <div>₹2K</div>
+                        <div>₹5K</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD 1 -->
+
+        <div class="card" data-pool="coffee">
+
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1400&auto=format&fit=crop">
+                <div class="funded-badge">Fully Funded</div>
+                <div class="day">Revealed D-21</div>
+            </div>
+
+            <div class="content">
+
+                <div class="category">₹5K Pool • Lifestyle</div>
+
+                <h2>Morning Coffee Ritual</h2>
+
+                <div class="desc">
+                    Build the couple’s future morning ritual with artisanal coffee, handmade mugs and slow Sunday energy.
+                </div>
+
+                <div class="stats">
+                    <div class="stat"><small>Goal</small><h4>₹5K</h4></div>
+                    <div class="stat"><small>Joined</small><h4>5</h4></div>
+                    <div class="stat"><small>Funded</small><h4>100%</h4></div>
+                </div>
+
+                <div class="progress-wrap">
+                    <div class="progress-top">
+                        <div>₹5,000 funded</div>
+                        <div>100%</div>
+                    </div>
+                    <div class="progress"><div class="bar" style="width:100%"></div></div>
+                </div>
+
+                <div class="people">
+                    <div class="avatars">
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop"></div>
+                        <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop"></div>
+                    </div>
+                    <span>5 contributors</span>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrawer(this)">View Contributors</button>
+
+                <div class="drawer">
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>The Mehtas</h5>
+                                <p>Founding Contributors</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,500</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Riya Sharma</h5>
+                                <p>Best Friend Of Bride</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹1,000</div>
+                    </div>
+
+                    <div class="contributor">
+                        <div class="contributor-left">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop">
+                            <div>
+                                <h5>Anonymous Patron</h5>
+                                <p>Silent Blessing</p>
+                            </div>
+                        </div>
+                        <div class="amount-pill">₹2,100</div>
+                    </div>
+                </div>
+
+                <div class="commit" style="display: none;">
+                    <div class="commit-top">
+                        <h5>Commit Any Amount</h5>
+                        <span>Open Pool</span>
+                    </div>
+
+                    <div class="input-row">
+                        <input type="text" placeholder="Enter contribution amount">
+                        <button>Join</button>
+                    </div>
+
+                    <div class="quick">
+                        <div>₹501</div>
+                        <div>₹1K</div>
+                        <div>₹2K</div>
+                        <div>₹5K</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>        
+    </section>
+
+</div>
+
+
+<script>
+
+function jumpPool(pool){
+
+    const card = document.querySelector(`[data-pool="${pool}"]`);
+
+    if(card){
+        card.scrollIntoView({
+            behavior:'smooth',
+            block:'start'
+        });
+
+        document.querySelectorAll('.card').forEach(c=>{
+            c.style.borderColor='rgba(255,255,255,.05)';
+        });
+
+        card.style.borderColor='rgba(217,174,105,.45)';
+
+        setTimeout(()=>{
+            card.style.borderColor='rgba(255,255,255,.05)';
+        },2500);
+    }
+}
+
+function toggleDrawer(button){
+
+    const drawer = button.nextElementSibling;
+
+    drawer.classList.toggle('active');
+
+    if(drawer.classList.contains('active')){
+        button.innerText='Hide Contributors';
+    }else{
+        button.innerText='View Contributors';
+    }
+
+}
+
+</script>
+
+</body>
+</html>

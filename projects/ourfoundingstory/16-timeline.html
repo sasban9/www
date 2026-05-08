@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Live Wedding Feed — VowLedger</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#060b12;
+    --card:#0d1722;
+    --gold:#d9ae69;
+    --line:#1d2a38;
+    --text:#f3efe7;
+    --muted:#96a3af;
+    --green:#7dc38d;
+    --pink:#d98ea2;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#121d2a 0%,#060b12 42%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+.container{
+    width:min(760px,94%);
+    margin:auto;
+    padding-bottom:120px;
+}
+
+/* HERO */
+
+.hero{
+    padding:70px 0 34px;
+    text-align:center;
+    backdrop-filter:blur(12px);
+    background:rgba(6,11,18,.35);
+    border-bottom:1px solid rgba(255,255,255,.04);
+}
+
+.hero-tag{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-size:11px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:54px;
+    line-height:.95;
+}
+
+.hero p{
+    margin-top:18px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:14px;
+}
+
+/* TIMELINE */
+
+.timeline{
+    position:relative;
+    margin-top:34px;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:26px;
+    top:0;
+    width:2px;
+    height:100%;
+    background:linear-gradient(to bottom,var(--gold),transparent);
+    opacity:.35;
+}
+
+.day-divider{
+    position:relative;
+    z-index:1;
+    margin:34px 0 20px 72px;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:999px;
+    padding:10px 18px;
+    color:var(--gold);
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    backdrop-filter:blur(10px);
+}
+
+/* ENTRY */
+
+.entry{
+    position:relative;
+    display:flex;
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.dot{
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    background:#101923;
+    border:1px solid rgba(217,174,105,.2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    position:relative;
+    z-index:2;
+    color:var(--gold);
+    font-size:20px;
+    backdrop-filter:blur(10px);
+}
+
+.card{
+    flex:1;
+    background:linear-gradient(to bottom,#0d1722,#09121b);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:24px;
+    padding:18px;
+    box-shadow:0 16px 40px rgba(0,0,0,.24);
+}
+
+.top-row{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+}
+
+.left{
+    display:flex;
+    gap:14px;
+    align-items:center;
+}
+
+.avatar{
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.name h3{
+    font-size:17px;
+}
+
+.name p{
+    color:var(--muted);
+    margin-top:4px;
+    font-size:12px;
+}
+
+.amount{
+    text-align:right;
+    min-width:90px;
+}
+
+.amount h2{
+    color:var(--gold);
+    font-family:'Cormorant Garamond',serif;
+    font-size:34px;
+    line-height:1;
+}
+
+.amount span{
+    color:var(--green);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.story{
+    margin-top:18px;
+    line-height:1.9;
+    color:#d7dfe8;
+    font-size:14px;
+}
+
+.highlight{
+    margin-top:16px;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.04);
+    border-radius:18px;
+    padding:16px;
+}
+
+.highlight small{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.highlight h4{
+    margin-top:10px;
+    font-size:16px;
+    line-height:1.7;
+    color:#f3efe7;
+}
+
+.meta{
+    margin-top:16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.tag{
+    border:1px solid rgba(255,255,255,.06);
+    background:#101923;
+    padding:10px 14px;
+    border-radius:999px;
+    color:#d0d8e1;
+    font-size:11px;
+}
+
+.progress-box{
+    margin-top:18px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:12px;
+    color:#cdd6df;
+}
+
+.progress{
+    width:100%;
+    height:10px;
+    border-radius:999px;
+    background:#172433;
+    overflow:hidden;
+}
+
+.bar{
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(to right,#d9ae69,#f0d0a0);
+}
+
+.media{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.media-card{
+    background:#101923;
+    border:1px solid rgba(255,255,255,.04);
+    border-radius:18px;
+    padding:14px;
+}
+
+.media-card small{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.player{
+    margin-top:14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.play{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:rgba(217,174,105,.1);
+    border:1px solid rgba(217,174,105,.2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold);
+    flex-shrink:0;
+}
+
+.wave{
+    flex:1;
+    height:4px;
+    border-radius:999px;
+    background:linear-gradient(to right,var(--gold),#384654);
+}
+
+.video-thumb{
+    margin-top:12px;
+    border-radius:14px;
+    overflow:hidden;
+    position:relative;
+}
+
+.video-thumb img{
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+}
+
+.video-thumb .play{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    backdrop-filter:blur(4px);
+}
+
+/* SPECIAL ENTRY */
+
+.featured .card{
+    border-color:rgba(217,174,105,.2);
+}
+
+.featured .dot{
+    background:rgba(217,174,105,.08);
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .hero{
+        padding:52px 0 24px;
+    }
+
+    .hero h1{
+        font-size:38px;
+    }
+
+    .timeline::before{
+        left:18px;
+    }
+
+    .day-divider{
+        top:106px;
+        margin-left:50px;
+        font-size:10px;
+    }
+
+    .entry{
+        gap:12px;
+    }
+
+    .dot{
+        width:38px;
+        height:38px;
+        font-size:14px;
+    }
+
+    .card{
+        padding:14px;
+        border-radius:20px;
+    }
+
+    .avatar{
+        width:42px;
+        height:42px;
+    }
+
+    .top-row{
+        flex-direction:column;
+    }
+
+    .amount{
+        text-align:left;
+    }
+
+    .amount h2{
+        font-size:28px;
+    }
+
+    .story{
+        font-size:13px;
+        line-height:1.8;
+    }
+
+    .media{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-tag">
+            Live Founding Commentary
+        </div>
+
+        <h1>
+            The Journey To The Wedding.
+        </h1>
+
+        <p>
+            Follow every blessing, contribution, story and emotional moment as family and friends build the couple’s future together.
+        </p>
+
+    </section>
+
+
+    <!-- TIMELINE -->
+
+    <section class="timeline">
+
+        <!-- DAY -->
+
+        <div class="day-divider">
+            3 Days Before Wedding
+        </div>
+
+        <div class="entry featured">
+            <div class="dot">✦</div>
+            <div class="card">
+                <div class="top-row">
+                    <div class="left">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop">
+                        </div>
+                        <div class="name">
+                            <h3>The Malhotras</h3>
+                            <p>Family Patrons • Mumbai</p>
+                        </div>
+                    </div>
+                    <div class="amount">
+                        <h2>₹1L</h2>
+                        <span>Grand Patron</span>
+                    </div>
+                </div>
+                <div class="story">
+                    The Malhotras completed funding for the couple's private Amalfi Coast yacht dinner and uploaded a cinematic blessing filmed at Marine Drive.
+                </div>
+                <div class="highlight">
+                    <small>Final Blessing</small>
+                    <h4>“May your first journey together feel endless.”</h4>
+                </div>
+                <div class="meta">
+                    <div class="tag">Fully Funded</div>
+                    <div class="tag">Luxury Experience</div>
+                    <div class="tag">Video Blessing</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="dot">❤</div>
+            <div class="card">
+                <div class="top-row">
+                    <div class="left">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop">
+                        </div>
+                        <div class="name">
+                            <h3>The Delhi Cousins</h3>
+                            <p>Family Circle</p>
+                        </div>
+                    </div>
+                    <div class="amount">
+                        <h2>₹18K</h2>
+                        <span>Founding Circle</span>
+                    </div>
+                </div>
+                <div class="story">
+                    Added 42 childhood photos to the family archive and completed funding for the honeymoon photography session.
+                </div>
+                <div class="meta">
+                    <div class="tag">42 Photos Added</div>
+                    <div class="tag">Archive Updated</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-divider">
+            7 Days Before Wedding
+        </div>
+
+        <div class="entry">
+            <div class="dot">♫</div>
+            <div class="card">
+                <div class="top-row">
+                    <div class="left">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop">
+                        </div>
+                        <div class="name">
+                            <h3>Riya Sharma</h3>
+                            <p>Best Friend Of Bride</p>
+                        </div>
+                    </div>
+                    <div class="amount">
+                        <h2>₹12K</h2>
+                        <span>Legacy Patron</span>
+                    </div>
+                </div>
+                <div class="story">
+                    Uploaded a 6-minute voice montage featuring messages from the bride's college friends across 4 cities.
+                </div>
+                <div class="meta">
+                    <div class="tag">Audio Memories</div>
+                    <div class="tag">College Friends</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="dot">✦</div>
+            <div class="card">
+                <div class="top-row">
+                    <div class="left">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop">
+                        </div>
+                        <div class="name">
+                            <h3>The Mehtas</h3>
+                            <p>Close Family Friends</p>
+                        </div>
+                    </div>
+                    <div class="amount">
+                        <h2>₹25K</h2>
+                        <span>Diamond Contributor</span>
+                    </div>
+                </div>
+                <div class="story">
+                    Completed funding for the handcrafted teakwood dining table and added a handwritten family recipe collection.
+                </div>
+                <div class="meta">
+                    <div class="tag">Home Foundation</div>
+                    <div class="tag">Recipes Added</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-divider">
+            14 Days Before Wedding
+        </div>
+
+        <!-- GENERATED ENTRIES -->
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="top-row"><div class="left"><div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"></div><div class="name"><h3>The Guptas</h3><p>Family Friends</p></div></div><div class="amount"><h2>₹8K</h2><span>Contributor</span></div></div><div class="story">Contributed toward the couple's espresso machine and uploaded wedding wishes from Singapore.</div><div class="meta"><div class="tag">International Blessing</div><div class="tag">Kitchen Wishlist</div></div></div></div>
+
+        <div class="entry"><div class="dot">♫</div><div class="card"><div class="top-row"><div class="left"><div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop"></div><div class="name"><h3>Arjun & Neha</h3><p>College Circle</p></div></div><div class="amount"><h2>₹15K</h2><span>Patron Circle</span></div></div><div class="story">Recorded a surprise piano cover of the couple's favorite song and funded the vinyl record collection.</div><div class="meta"><div class="tag">Audio Upload</div><div class="tag">Music Collection</div></div></div></div>
+
+        <div class="entry"><div class="dot">✦</div><div class="card"><div class="top-row"><div class="left"><div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop"></div><div class="name"><h3>The Bangalore Team</h3><p>Work Family</p></div></div><div class="amount"><h2>₹32K</h2><span>Corporate Circle</span></div></div><div class="story">The groom's colleagues collectively sponsored the smart home system and uploaded an office farewell montage.</div><div class="meta"><div class="tag">Work Friends</div><div class="tag">Video Montage</div></div></div></div>
+
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="top-row"><div class="left"><div class="avatar"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop"></div><div class="name"><h3>The Patels</h3><p>Extended Family</p></div></div><div class="amount"><h2>₹20K</h2><span>Legacy Circle</span></div></div><div class="story">Added rare childhood photographs from old family albums dating back 22 years.</div><div class="meta"><div class="tag">Archive Update</div><div class="tag">Family Photos</div></div></div></div>
+
+        <div class="entry"><div class="dot">♫</div><div class="card"><div class="top-row"><div class="left"><div class="avatar"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop"></div><div class="name"><h3>Priya Menon</h3><p>School Friend</p></div></div><div class="amount"><h2>₹5K</h2><span>Supporter</span></div></div><div class="story">Uploaded a nostalgic slideshow from the couple's school reunion and contributed toward travel luggage.</div><div class="meta"><div class="tag">Slideshow Added</div><div class="tag">Travel Fund</div></div></div></div>
+
+        <!-- many more compact entries -->
+        
+        <div class="day-divider">21 Days Before Wedding</div>
+        
+        <div class="entry"><div class="dot">✦</div><div class="card"><div class="top-row"><div class="left"><div class="avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"></div><div class="name"><h3>The Sharma Family</h3><p>Family Circle</p></div></div><div class="amount"><h2>₹40K</h2><span>Platinum Patron</span></div></div><div class="story">Sponsored the couple's master bedroom decor package and uploaded handwritten blessings.</div><div class="meta"><div class="tag">Luxury Interiors</div><div class="tag">Letters Added</div></div></div></div>
+
+        <!-- repeated realistic activity feed -->
+        
+        <!-- AUTO FILL STYLE ENTRIES -->
+        
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="story">The Kolkata cousins contributed ₹11K toward the honeymoon dinner experience.</div><div class="meta"><div class="tag">Honeymoon Fund</div></div></div></div>
+        <div class="entry"><div class="dot">♫</div><div class="card"><div class="story">3 new audio blessings were uploaded by family friends from Dubai.</div><div class="meta"><div class="tag">Audio Memories</div></div></div></div>
+        <div class="entry"><div class="dot">✦</div><div class="card"><div class="story">The wedding photography drone experience reached 100% funding.</div><div class="meta"><div class="tag">Fully Funded</div></div></div></div>
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="story">A vintage family recipe book was digitized and added to the archive.</div><div class="meta"><div class="tag">Family Archive</div></div></div></div>
+        <div class="entry"><div class="dot">♫</div><div class="card"><div class="story">The Singapore family circle uploaded a collaborative video montage.</div><div class="meta"><div class="tag">Video Blessings</div></div></div></div>
+        <div class="entry"><div class="dot">✦</div><div class="card"><div class="story">The couple's Santorini suite officially crossed ₹4.5L in contributions.</div><div class="meta"><div class="tag">Goal Achieved</div></div></div></div>
+
+        <div class="day-divider">30 Days Before Wedding</div>
+
+        <!-- 20 more compact entries -->
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="story">The Jaipur relatives funded custom silver dinnerware for the new home.</div></div></div>
+        <div class="entry"><div class="dot">♫</div><div class="card"><div class="story">A surprise engagement video was uploaded by the bride's cousins.</div></div></div>
+        <div class="entry"><div class="dot">✦</div><div class="card"><div class="story">The living room library project reached 68% funding.</div></div></div>
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="story">12 guests jointly funded the luxury coffee machine.</div></div></div>
+        <div class="entry"><div class="dot">♫</div><div class="card"><div class="story">New childhood memories added from school alumni archives.</div></div></div>
+        <div class="entry"><div class="dot">✦</div><div class="card"><div class="story">The bride's office team contributed ₹27K toward the home theatre setup.</div></div></div>
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="story">Family blessing wall crossed 100 messages.</div></div></div>
+        <div class="entry"><div class="dot">♫</div><div class="card"><div class="story">The couple's first-trip memory album was uploaded.</div></div></div>
+        <div class="entry"><div class="dot">✦</div><div class="card"><div class="story">Luxury luggage set reached full funding.</div></div></div>
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="story">A handwritten note from grandparents was scanned into the archive.</div></div></div>
+
+        <div class="day-divider">45 Days Before Wedding</div>
+
+        <div class="entry"><div class="dot">✦</div><div class="card"><div class="story">The first contribution arrived from the couple's New York friends circle.</div></div></div>
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="story">The honeymoon adventure fund crossed ₹2L.</div></div></div>
+        <div class="entry"><div class="dot">♫</div><div class="card"><div class="story">A violin cover of the proposal song was uploaded.</div></div></div>
+        <div class="entry"><div class="dot">✦</div><div class="card"><div class="story">Dining table project became 42% funded within 24 hours.</div></div></div>
+        <div class="entry"><div class="dot">❤</div><div class="card"><div class="story">The bride's aunt contributed heirloom table linen designs.</div></div></div>
+
+        <div class="day-divider">60 Days Before Wedding</div>
+
+        <div class="entry featured">
+            <div class="dot">✦</div>
+            <div class="card">
+                <div class="story">
+                    VowLedger wedding page officially launched. The first wave of invitations was sent to 184 family members and friends across 9 cities.
+                </div>
+                <div class="meta">
+                    <div class="tag">Wedding Launched</div>
+                    <div class="tag">184 Guests Invited</div>
+                    <div class="tag">Founding Day</div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>

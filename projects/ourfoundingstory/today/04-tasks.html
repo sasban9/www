@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VowLedger — D-4 Activities</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#060b12;
+    --card:#0d1722;
+    --card2:#101923;
+    --gold:#d9ae69;
+    --text:#f3efe7;
+    --muted:#96a3af;
+    --green:#7cc78d;
+    --line:#1d2a38;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#101b29 0%,#060b12 42%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+img{
+    width:100%;
+    display:block;
+}
+
+.container{
+    width:min(1400px,94%);
+    margin:auto;
+}
+
+/* HERO */
+
+.hero{
+    padding:50px 0 40px;
+}
+
+.day{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:#101923;
+    border:1px solid rgba(217,174,105,.15);
+    padding:12px 18px;
+    border-radius:999px;
+    color:var(--gold);
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.hero h1{
+    margin-top:24px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:78px;
+    line-height:.95;
+    max-width:900px;
+}
+
+.hero p{
+    margin-top:24px;
+    max-width:850px;
+    color:var(--muted);
+    line-height:2;
+    font-size:17px;
+}
+
+/* PROGRESS */
+
+.progress-section{
+    margin-top:34px;
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+}
+
+.progress-card{
+    flex:1;
+    min-width:180px;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:24px;
+    padding:22px;
+}
+
+.progress-card small{
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.progress-card h2{
+    margin-top:12px;
+    color:var(--gold);
+    font-size:34px;
+}
+
+/* GRID */
+
+.grid{
+    margin-top:40px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+    padding-bottom:100px;
+}
+
+/* CARD */
+
+.card{
+    background:linear-gradient(to bottom,#0d1722,#09121b);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:30px;
+    overflow:hidden;
+}
+
+.image{
+    position:relative;
+}
+
+.image img{
+    height:260px;
+    object-fit:cover;
+}
+
+.live{
+    position:absolute;
+    top:18px;
+    left:18px;
+    background:rgba(124,199,141,.14);
+    border:1px solid rgba(124,199,141,.25);
+    color:var(--green);
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.content{
+    padding:26px;
+}
+
+.category{
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:10px;
+}
+
+.content h2{
+    margin-top:14px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:42px;
+    line-height:1;
+}
+
+.desc{
+    margin-top:18px;
+    color:var(--muted);
+    line-height:1.9;
+    font-size:14px;
+}
+
+/* ACTIONS */
+
+.actions{
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.btn{
+    border:none;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.06);
+    color:#fff;
+    padding:16px;
+    border-radius:18px;
+    cursor:pointer;
+    transition:.3s ease;
+    font-size:13px;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.primary{
+    background:var(--gold);
+    color:#111;
+    font-weight:600;
+}
+
+/* DRAWER */
+
+.drawer{
+    margin-top:20px;
+    display:none;
+}
+
+.drawer.active{
+    display:block;
+}
+
+.input{
+    width:100%;
+    background:#0b131c;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:16px;
+    padding:16px;
+    color:#fff;
+    outline:none;
+    margin-bottom:14px;
+}
+
+textarea.input{
+    min-height:110px;
+    resize:vertical;
+}
+
+.uploads{
+    display:flex;
+    gap:10px;
+    overflow:auto;
+    margin-top:10px;
+    scrollbar-width:none;
+}
+
+.uploads::-webkit-scrollbar{
+    display:none;
+}
+
+.chip{
+    white-space:nowrap;
+    background:#101923;
+    border:1px solid rgba(255,255,255,.06);
+    padding:12px 16px;
+    border-radius:999px;
+    font-size:12px;
+}
+
+.feed{
+    margin-top:22px;
+}
+
+.feed-item{
+    display:flex;
+    gap:14px;
+    padding:14px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.feed-item:last-child{
+    border-bottom:none;
+}
+
+.feed-item img{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.feed-item h5{
+    font-size:14px;
+}
+
+.feed-item p{
+    margin-top:5px;
+    color:var(--muted);
+    line-height:1.7;
+    font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:52px;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .hero{
+        padding:38px 0 28px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:15px;
+        line-height:1.8;
+    }
+
+    .image img{
+        height:220px;
+    }
+
+    .content{
+        padding:20px;
+    }
+
+    .content h2{
+        font-size:34px;
+    }
+
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="day">
+            D-4 • Parents Speak Day
+        </div>
+
+        <h1>
+            The Families Begin Speaking From The Heart.
+        </h1>
+
+        <p>
+            Four days before the wedding, the focus shifts from gifting to emotional legacy. Parents, relatives and close family friends contribute blessings, stories, voice notes, family archives and emotional memories for the final Founders Edition magazine.
+        </p>
+
+        <div class="progress-section">
+
+            <div class="progress-card">
+                <small>Voice Blessings</small>
+                <h2>184</h2>
+            </div>
+
+            <div class="progress-card">
+                <small>Family Stories</small>
+                <h2>72</h2>
+            </div>
+
+            <div class="progress-card">
+                <small>Archive Photos</small>
+                <h2>463</h2>
+            </div>
+
+            <div class="progress-card">
+                <small>Guest Participation</small>
+                <h2>91%</h2>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- GRID -->
+
+    <section class="grid">
+
+        <!-- ACTIVITY -->
+
+        <div class="card">
+
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1600&auto=format&fit=crop">
+                <div class="live">Most Active</div>
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    Emotional Archive
+                </div>
+
+                <h2>
+                    Record A Voice Blessing
+                </h2>
+
+                <div class="desc">
+                    Share a heartfelt 15-second blessing, advice or emotional memory that will become part of the couple’s permanent wedding archive.
+                </div>
+
+                <div class="actions">
+                    <button class="btn primary" onclick="toggleDrawer('voice')">
+                        Contribute Now
+                    </button>
+
+                    <button class="btn">
+                        Listen To Others
+                    </button>
+                </div>
+
+                <div class="drawer" id="voice">
+
+                    <input class="input" placeholder="Your Name or Family Name">
+
+                    <textarea class="input" placeholder="Write a short blessing or note..."></textarea>
+
+                    <div class="uploads">
+                        <div class="chip">🎤 Upload Voice</div>
+                        <div class="chip">📷 Add Photo</div>
+                        <div class="chip">🎬 Add Video</div>
+                    </div>
+
+                </div>
+
+                <div class="feed">
+
+                    <div class="feed-item">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&auto=format&fit=crop">
+                        <div>
+                            <h5>The Mehtas</h5>
+                            <p>
+                                “May your home always be louder with laughter than silence.”
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="feed-item">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&auto=format&fit=crop">
+                        <div>
+                            <h5>Anonymous Patron</h5>
+                            <p>
+                                Uploaded a private voice blessing for the couple.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIVITY -->
+
+        <div class="card">
+
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop">
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    Family Archive
+                </div>
+
+                <h2>
+                    Upload Childhood Memories
+                </h2>
+
+                <div class="desc">
+                    Add old family photos, VHS clips, scanned albums or funny stories from childhood that deserve to live forever.
+                </div>
+
+                <div class="actions">
+                    <button class="btn primary" onclick="toggleDrawer('archive')">
+                        Upload Memories
+                    </button>
+
+                    <button class="btn">
+                        View Archive
+                    </button>
+                </div>
+
+                <div class="drawer" id="archive">
+
+                    <input class="input" placeholder="Title of Memory">
+
+                    <textarea class="input" placeholder="Describe the story behind this memory..."></textarea>
+
+                    <div class="uploads">
+                        <div class="chip">📸 Upload Photos</div>
+                        <div class="chip">📼 VHS Clips</div>
+                        <div class="chip">📝 Handwritten Notes</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIVITY -->
+
+        <div class="card">
+
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop">
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    Parent Reflections
+                </div>
+
+                <h2>
+                    Parents Speak
+                </h2>
+
+                <div class="desc">
+                    Parents and elders share emotional reflections about watching the couple grow through life and into marriage.
+                </div>
+
+                <div class="actions">
+                    <button class="btn primary" onclick="toggleDrawer('parents')">
+                        Add Reflection
+                    </button>
+
+                    <button class="btn">
+                        Watch Stories
+                    </button>
+                </div>
+
+                <div class="drawer" id="parents">
+
+                    <textarea class="input" placeholder="Share a heartfelt message..."></textarea>
+
+                    <div class="uploads">
+                        <div class="chip">🎥 Record Video</div>
+                        <div class="chip">🎤 Audio Only</div>
+                        <div class="chip">📷 Family Portrait</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIVITY -->
+
+        <div class="card">
+
+            <div class="image">
+                <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1600&auto=format&fit=crop">
+                <div class="live">Trending</div>
+            </div>
+
+            <div class="content">
+
+                <div class="category">
+                    Social Participation
+                </div>
+
+                <h2>
+                    Wedding Predictions
+                </h2>
+
+                <div class="desc">
+                    Vote on funny predictions and family debates before the wedding day chaos officially begins.
+                </div>
+
+                <div class="actions">
+                    <button class="btn primary" onclick="toggleDrawer('polls')">
+                        Participate
+                    </button>
+
+                    <button class="btn">
+                        Live Results
+                    </button>
+                </div>
+
+                <div class="drawer" id="polls">
+
+                    <div class="uploads">
+                        <div class="chip">💃 Who dances hardest?</div>
+                        <div class="chip">😭 Who cries first?</div>
+                        <div class="chip">🍰 Who steals dessert?</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+function toggleDrawer(id){
+
+    const drawer = document.getElementById(id);
+
+    drawer.classList.toggle('active');
+
+}
+
+</script>
+
+</body>
+</html>

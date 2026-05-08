@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VowLedger — Emotional Contribution Archive</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ======================================================
+GLOBAL UI SPECIFICATION IMPLEMENTATION
+====================================================== */
+
+:root{
+
+    --bg-primary:#0f0f10;
+    --bg-secondary:#171718;
+    --bg-soft:#1f1f21;
+
+    --text-primary:#f5f1ea;
+    --text-secondary:#c8bda8;
+    --text-muted:#8b8375;
+
+    --gold-soft:#c6a46c;
+    --gold-bright:#e0c28a;
+
+    --border-soft:rgba(255,255,255,0.08);
+    --card-bg:rgba(255,255,255,0.03);
+
+    --max-width:1320px;
+
+}
+
+/* ======================================================
+BASE
+====================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg-primary);
+    color:var(--text-primary);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    line-height:1.85;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+    opacity:.06;
+    pointer-events:none;
+    z-index:9999;
+}
+
+img{
+    width:100%;
+    display:block;
+}
+
+button,
+input,
+textarea,
+select{
+    font-family:inherit;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+.container{
+    max-width:var(--max-width);
+    margin:auto;
+    padding-left:6%;
+    padding-right:6%;
+}
+
+.section{
+    padding:120px 0;
+    position:relative;
+}
+
+.section-tag{
+    color:var(--gold-soft);
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    font-size:.75rem;
+    margin-bottom:24px;
+}
+
+.section-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2.4rem,5vw,4.5rem);
+    line-height:1.05;
+    margin-bottom:26px;
+    font-weight:500;
+    max-width:900px;
+}
+
+.section-description{
+    max-width:760px;
+    color:var(--text-secondary);
+    font-size:1.04rem;
+}
+
+/* ======================================================
+GLOBAL NAVIGATION
+====================================================== */
+
+.nav{
+    position:fixed;
+    top:24px;
+    left:50%;
+    transform:translateX(-50%);
+    width:92%;
+    z-index:1000;
+
+    background:rgba(10,10,10,.55);
+    backdrop-filter:blur(14px);
+
+    border:1px solid var(--border-soft);
+    border-radius:999px;
+
+    padding:16px 28px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-family:'Playfair Display',serif;
+    font-size:1.15rem;
+    letter-spacing:.04em;
+}
+
+.logo span{
+    color:var(--gold-soft);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:28px;
+}
+
+.nav-links a{
+    color:var(--text-secondary);
+    font-size:.92rem;
+    transition:.4s;
+}
+
+.nav-links a:hover{
+    color:var(--text-primary);
+}
+
+.nav-cta{
+    padding:13px 22px;
+    border-radius:999px;
+    border:1px solid rgba(224,194,138,.25);
+    color:var(--gold-bright)!important;
+}
+
+/* ======================================================
+GLOBAL BUTTONS
+====================================================== */
+
+.btn{
+    border:none;
+    cursor:pointer;
+    border-radius:999px;
+    transition:all .5s cubic-bezier(.19,1,.22,1);
+}
+
+.btn-primary{
+    background:var(--gold-soft);
+    color:#111;
+    padding:16px 30px;
+    font-weight:500;
+}
+
+.btn-primary:hover{
+    transform:translateY(-2px);
+}
+
+.btn-secondary{
+    background:transparent;
+    border:1px solid var(--border-soft);
+    color:var(--text-primary);
+    padding:16px 30px;
+}
+
+/* ======================================================
+HERO
+====================================================== */
+
+.hero{
+    min-height:90vh;
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+    linear-gradient(to bottom, rgba(0,0,0,.38), rgba(0,0,0,.88)),
+    url("https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1800&auto=format&fit=crop");
+
+    background-size:cover;
+    background-position:center;
+    transform:scale(1.04);
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    padding-bottom:100px;
+    padding-top:120px;
+}
+
+.hero-tag{
+    color:var(--gold-soft);
+    letter-spacing:.35em;
+    text-transform:uppercase;
+    font-size:.75rem;
+    margin-bottom:24px;
+}
+
+.hero-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(4rem,9vw,8rem);
+    line-height:.93;
+    letter-spacing:-.04em;
+    font-weight:500;
+    margin-bottom:28px;
+    max-width:980px;
+}
+
+.hero-copy{
+    max-width:700px;
+    color:var(--text-secondary);
+    margin-bottom:40px;
+    font-size:1.08rem;
+}
+
+.hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+}
+
+/* ======================================================
+GLOBAL CARD SYSTEM
+====================================================== */
+
+.card{
+    background:var(--card-bg);
+    border:1px solid var(--border-soft);
+    border-radius:28px;
+    overflow:hidden;
+    transition:all .6s cubic-bezier(.19,1,.22,1);
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(224,194,138,.18);
+}
+
+/* ======================================================
+REGISTRY GRID
+====================================================== */
+
+.registry-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+    margin-top:70px;
+}
+
+.registry-card img{
+    height:300px;
+    object-fit:cover;
+
+    filter:
+    brightness(.88)
+    contrast(1.05)
+    saturate(.95);
+}
+
+.registry-content{
+    padding:40px;
+}
+
+.registry-title{
+    font-family:'Playfair Display',serif;
+    font-size:2.2rem;
+    margin-bottom:16px;
+}
+
+.registry-copy{
+    color:var(--text-secondary);
+    margin-bottom:28px;
+}
+
+.progress-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:12px;
+    color:var(--text-muted);
+    font-size:.92rem;
+}
+
+.progress{
+    height:7px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    overflow:hidden;
+    margin-bottom:24px;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    background:linear-gradient(to right,var(--gold-soft),var(--gold-bright));
+}
+
+.registry-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.contributor-label{
+    color:var(--gold-soft);
+    font-size:.95rem;
+}
+
+/* ======================================================
+CONTRIBUTION PANEL
+====================================================== */
+
+.contribution-layout{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:36px;
+    margin-top:110px;
+}
+
+.story-panel img{
+    height:340px;
+    object-fit:cover;
+
+    filter:
+    brightness(.88)
+    contrast(1.05)
+    saturate(.95);
+}
+
+.story-content{
+    padding:42px;
+}
+
+.story-content h3{
+    font-family:'Playfair Display',serif;
+    font-size:2.4rem;
+    margin-bottom:18px;
+}
+
+.story-content p{
+    color:var(--text-secondary);
+    margin-bottom:24px;
+}
+
+.quote-block{
+    border-left:3px solid var(--gold-soft);
+    padding:24px;
+    background:rgba(255,255,255,.03);
+    border-radius:18px;
+    color:var(--text-secondary);
+    font-style:italic;
+}
+
+/* ======================================================
+FORM PANEL
+====================================================== */
+
+.form-panel{
+    padding:42px;
+}
+
+.form-title{
+    font-family:'Playfair Display',serif;
+    font-size:2rem;
+    margin-bottom:14px;
+}
+
+.form-sub{
+    color:var(--text-secondary);
+    margin-bottom:40px;
+}
+
+.field{
+    margin-bottom:28px;
+}
+
+.label{
+    display:block;
+    margin-bottom:12px;
+    color:var(--gold-soft);
+    font-size:.9rem;
+    letter-spacing:.08em;
+}
+
+.input,
+.textarea,
+.select{
+    width:100%;
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--border-soft);
+    border-radius:18px;
+    padding:18px 20px;
+    color:var(--text-primary);
+    outline:none;
+    transition:.4s;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus{
+    border-color:rgba(224,194,138,.24);
+}
+
+.textarea{
+    min-height:160px;
+    resize:vertical;
+}
+
+/* ======================================================
+UPLOAD
+====================================================== */
+
+.upload-box{
+    border:1px dashed rgba(224,194,138,.28);
+    border-radius:24px;
+    padding:40px;
+    text-align:center;
+    color:var(--text-secondary);
+    background:rgba(255,255,255,.02);
+}
+
+/* ======================================================
+VISIBILITY
+====================================================== */
+
+.visibility-options{
+    display:grid;
+    gap:14px;
+}
+
+.visibility-card{
+    border:1px solid var(--border-soft);
+    background:rgba(255,255,255,.02);
+    border-radius:20px;
+    padding:20px;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.visibility-card.active{
+    border-color:rgba(224,194,138,.28);
+    background:rgba(224,194,138,.05);
+}
+
+.visibility-title{
+    margin-bottom:8px;
+}
+
+.visibility-desc{
+    color:var(--text-muted);
+    font-size:.92rem;
+}
+
+/* ======================================================
+AUDIO COMPONENT
+====================================================== */
+
+.audio-section{
+    background:var(--bg-secondary);
+}
+
+.audio-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    margin-top:70px;
+}
+
+.audio-card{
+    padding:30px;
+}
+
+.voice-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 16px;
+    border-radius:999px;
+    background:rgba(255,255,255,.04);
+    margin-bottom:24px;
+    color:var(--gold-soft);
+    font-size:.9rem;
+}
+
+.wave{
+    display:flex;
+    gap:3px;
+}
+
+.wave span{
+    width:3px;
+    border-radius:999px;
+    background:var(--gold-soft);
+    animation:wave 1s infinite ease-in-out;
+}
+
+.wave span:nth-child(1){height:10px;}
+.wave span:nth-child(2){height:18px;}
+.wave span:nth-child(3){height:8px;}
+.wave span:nth-child(4){height:20px;}
+
+@keyframes wave{
+    50%{
+        transform:scaleY(1.4);
+    }
+}
+
+.audio-card p{
+    color:var(--text-secondary);
+    margin-bottom:24px;
+}
+
+.audio-author{
+    color:var(--text-primary);
+}
+
+/* ======================================================
+SUCCESS SCREEN
+====================================================== */
+
+.success-screen{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.92);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:2000;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.6s;
+}
+
+.success-screen.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.success-card{
+    max-width:720px;
+    text-align:center;
+    padding:60px;
+}
+
+.success-glow{
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:radial-gradient(circle,var(--gold-soft),transparent 70%);
+    margin:auto;
+    margin-bottom:34px;
+    opacity:.7;
+}
+
+.success-card h2{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2.5rem,6vw,5rem);
+    line-height:1;
+    margin-bottom:24px;
+}
+
+.success-card p{
+    color:var(--text-secondary);
+    margin-bottom:40px;
+}
+
+/* ======================================================
+FOOTER
+====================================================== */
+
+.footer{
+    border-top:1px solid var(--border-soft);
+    padding:50px 6%;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:20px;
+    color:var(--text-muted);
+}
+
+/* ======================================================
+REVEAL
+====================================================== */
+
+.reveal{
+    opacity:0;
+    transform:translateY(60px);
+    transition:1.2s cubic-bezier(.19,1,.22,1);
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ======================================================
+MOBILE
+====================================================== */
+
+@media(max-width:1000px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .registry-grid,
+    .contribution-layout,
+    .audio-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        min-height:75vh;
+    }
+
+    .hero-content{
+        padding-bottom:70px;
+    }
+
+    .section{
+        padding:80px 0;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ======================================================
+NAVIGATION
+====================================================== -->
+
+<nav class="nav">
+
+    <div class="logo">
+        Vow<span>Ledger</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="#">Story</a>
+        <a href="#">Events</a>
+        <a href="#">Registry</a>
+        <a href="#">Blessings</a>
+        <a href="#">Archive</a>
+
+        <a href="#" class="nav-cta">
+            Contribute
+        </a>
+    </div>
+
+</nav>
+
+<!-- ======================================================
+HERO
+====================================================== -->
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <div class="hero-tag">
+            Emotional Contribution Archive
+        </div>
+
+        <h1 class="hero-title">
+            Every contribution<br>
+            becomes part of<br>
+            their inheritance.
+        </h1>
+
+        <p class="hero-copy">
+            Not a transaction. Not a donation.  
+            A preserved emotional artifact that future generations may one day revisit.
+        </p>
+
+        <div class="hero-actions">
+
+            <button class="btn btn-primary">
+                Contribute To Their Story
+            </button>
+
+            <button class="btn btn-secondary">
+                Explore The Archive
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+REGISTRY
+====================================================== -->
+
+<section class="section reveal">
+
+    <div class="container">
+
+        <div class="section-tag">
+            Emotional Registry
+        </div>
+
+        <h2 class="section-title">
+            Contribute to moments that future generations will remember.
+        </h2>
+
+        <p class="section-description">
+            The registry is not a shopping list. It is a collection of future memories waiting to happen.
+        </p>
+
+        <div class="registry-grid">
+
+            <div class="registry-card card">
+
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="registry-content">
+
+                    <div class="registry-title">
+                        First Diwali Dining Table
+                    </div>
+
+                    <div class="registry-copy">
+                        The table where future festivals, midnight conversations, and family traditions quietly unfold for decades.
+                    </div>
+
+                    <div class="progress-label">
+                        <span>68% raised</span>
+                        <!-- <span>68%</span> -->
+                    </div>
+
+                    <div class="progress">
+                        <span style="width:68%"></span>
+                    </div>
+
+                    <div class="registry-footer">
+
+                        <div class="contributor-label">
+                            22 Founding Contributors
+                        </div>
+
+                        <button class="btn btn-primary">
+                            Contribute
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="registry-card card">
+
+                <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="registry-content">
+
+                    <div class="registry-title">
+                        Library For Future Sundays
+                    </div>
+
+                    <div class="registry-copy">
+                        A quiet reading corner filled with stories, poetry, handwritten notes, and books waiting for future children.
+                    </div>
+
+                    <div class="progress-label">
+                        <!-- <span>₹42,000 raised</span> -->
+                        <span>84% raised</span>
+                    </div>
+
+                    <div class="progress">
+                        <span style="width:84%"></span>
+                    </div>
+
+                    <div class="registry-footer">
+
+                        <div class="contributor-label">
+                            31 Memory Guardians
+                        </div>
+
+                        <button class="btn btn-primary">
+                            Contribute
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ======================================================
+CONTRIBUTION EXPERIENCE
+====================================================== -->
+
+        <div class="contribution-layout">
+
+            <!-- LEFT -->
+
+            <div class="story-panel card">
+
+                <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1600&auto=format&fit=crop">
+
+                <div class="story-content">
+
+                    <h3>
+                        Your contribution becomes part of their founding chapter.
+                    </h3>
+
+                    <p>
+                        Years from now, this archive will not remember who spent the most. It will remember who showed up with warmth, meaning, memory, and care.
+                    </p>
+
+                    <p>
+                        Attach a blessing, a photograph, a voice note, or a story that deserves to survive time.
+                    </p>
+
+                    <div class="quote-block">
+                        “What should they remember 20 years from now?”
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="form-panel card">
+
+                <div class="form-title">
+                    Contribute To Their Legacy
+                </div>
+
+                <div class="form-sub">
+                    Your contribution will become part of a permanent family archive preserved across generations.
+                </div>
+
+                <div class="field">
+
+                    <label class="label">
+                        Contribution Category
+                    </label>
+
+                    <select class="select">
+
+                        <option>
+                            First Diwali Dining Table
+                        </option>
+
+                        <option>
+                            Library For Future Sundays
+                        </option>
+
+                        <option>
+                            First Home Kitchen
+                        </option>
+
+                        <option>
+                            Honeymoon Train Through Switzerland
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="field">
+
+                    <label class="label">
+                        Your Name
+                    </label>
+
+                    <input
+                    type="text"
+                    class="input"
+                    placeholder="How should this memory remember you?">
+
+                </div>
+
+                <div class="field">
+
+                    <label class="label">
+                        Contribution Amount
+                    </label>
+
+                    <input
+                    type="number"
+                    class="input"
+                    placeholder="₹">
+
+                </div>
+
+                <div class="field">
+
+                    <label class="label">
+                        Your Blessing Or Memory
+                    </label>
+
+                    <textarea
+                    class="textarea"
+                    placeholder="Share a story, blessing, or memory that deserves to survive."></textarea>
+
+                </div>
+
+                <div class="field">
+
+                    <label class="label">
+                        Upload A Photograph / Voice Note / Letter
+                    </label>
+
+                    <div class="upload-box">
+
+                        Drag & drop memories here<br><br>
+
+                        <small style="color:var(--text-muted)">
+                            Photos · Voice Notes · Videos · Handwritten Letters
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="field">
+
+                    <label class="label">
+                        Visibility Preference
+                    </label>
+
+                    <div class="visibility-options">
+
+                        <div class="visibility-card active">
+
+                            <div class="visibility-title">
+                                Shared With Family Archive
+                            </div>
+
+                            <div class="visibility-desc">
+                                Visible in the editorial archive and family legacy edition.
+                            </div>
+
+                        </div>
+
+                        <div class="visibility-card">
+
+                            <div class="visibility-title">
+                                Visible Only To The Couple
+                            </div>
+
+                            <div class="visibility-desc">
+                                Preserved privately between you and the couple.
+                            </div>
+
+                        </div>
+
+                        <div class="visibility-card">
+
+                            <div class="visibility-title">
+                                Anonymous Public Contribution
+                            </div>
+
+                            <div class="visibility-desc">
+                                Your story appears publicly without your name attached.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary submit-btn">
+                    Become Part Of Their Story
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+AUDIO BLESSINGS
+====================================================== -->
+
+<section class="section audio-section reveal">
+
+    <div class="container">
+
+        <div class="section-tag">
+            Blessings Archive
+        </div>
+
+        <h2 class="section-title">
+            Voices that deserve to survive time.
+        </h2>
+
+        <p class="section-description">
+            The most valuable part of a family archive is often the human voice.
+        </p>
+
+        <div class="audio-grid">
+
+            <div class="audio-card card">
+
+                <div class="voice-pill">
+
+                    <div class="wave">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    Grandmother’s Blessing · 02:14
+
+                </div>
+
+                <p>
+                    “Marriage is built quietly in ordinary evenings when both people still choose kindness.”
+                </p>
+
+                <div class="audio-author">
+                    — Nirmala Devi · Silchar
+                </div>
+
+            </div>
+
+            <div class="audio-card card">
+
+                <div class="voice-pill">
+
+                    <div class="wave">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    Father’s Letter · 03:41
+
+                </div>
+
+                <p>
+                    “One day your children will ask what this wedding felt like. I hope this archive answers them beautifully.”
+                </p>
+
+                <div class="audio-author">
+                    — Imran Khan
+                </div>
+
+            </div>
+
+            <div class="audio-card card">
+
+                <div class="voice-pill">
+
+                    <div class="wave">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    College Friends · 01:18
+
+                </div>
+
+                <p>
+                    “We watched them survive impossible deadlines, tiny apartments, and still somehow become softer together.”
+                </p>
+
+                <div class="audio-author">
+                    — Bangalore Circle
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+FINAL CTA
+====================================================== -->
+
+<section class="section reveal">
+
+    <div class="container" style="text-align:center;">
+
+        <div class="section-tag">
+            Emotional Continuity
+        </div>
+
+        <h2 class="section-title" style="margin:auto; max-width:1000px;">
+            The wedding lasts a weekend.<br>
+            The archive becomes inheritance.
+        </h2>
+
+        <p class="section-description" style="margin:auto; margin-bottom:40px;">
+            VowLedger transforms celebrations into preserved emotional history designed to survive generations.
+        </p>
+
+        <button class="btn btn-primary">
+            Create Your Legacy
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ======================================================
+FOOTER
+====================================================== -->
+
+<footer class="footer">
+
+    <div>
+        VowLedger — Emotional Continuity Infrastructure
+    </div>
+
+    <div>
+        Founding Chapter · Archive Edition · 2026
+    </div>
+
+</footer>
+
+<!-- ======================================================
+SUCCESS SCREEN
+====================================================== -->
+
+<div class="success-screen" id="successScreen">
+
+    <div class="success-card">
+
+        <div class="success-glow"></div>
+
+        <h2>
+            Your story is now part of their founding chapter.
+        </h2>
+
+        <p>
+            This contribution will become part of a living family archive preserved for future generations.
+        </p>
+
+        <button class="btn btn-primary close-success">
+            Return To Archive
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ======================================================
+JS
+====================================================== -->
+
+<script>
+
+/* ======================================================
+VISIBILITY SELECTOR
+====================================================== */
+
+const visibilityCards =
+document.querySelectorAll('.visibility-card');
+
+visibilityCards.forEach(card=>{
+
+    card.addEventListener('click',()=>{
+
+        visibilityCards.forEach(c=>{
+            c.classList.remove('active');
+        });
+
+        card.classList.add('active');
+
+    });
+
+});
+
+/* ======================================================
+SUCCESS MODAL
+====================================================== */
+
+const submitBtn =
+document.querySelector('.submit-btn');
+
+const successScreen =
+document.getElementById('successScreen');
+
+const closeSuccess =
+document.querySelector('.close-success');
+
+submitBtn.addEventListener('click',()=>{
+
+    successScreen.classList.add('active');
+
+});
+
+closeSuccess.addEventListener('click',()=>{
+
+    successScreen.classList.remove('active');
+
+});
+
+/* ======================================================
+REVEAL SYSTEM
+====================================================== */
+
+const reveals =
+document.querySelectorAll('.reveal');
+
+const observer =
+new IntersectionObserver((entries)=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+            entry.target.classList.add('active');
+        }
+
+    });
+
+},{
+    threshold:.15
+});
+
+reveals.forEach(el=>{
+    observer.observe(el);
+});
+
+</script>
+
+</body>
+</html>

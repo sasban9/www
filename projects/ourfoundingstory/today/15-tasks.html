@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VowLedger — D-15 Family Recipe Vault</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#060b12;
+    --card:#0d1722;
+    --card2:#111d2a;
+    --gold:#d9ae69;
+    --line:#1f2b38;
+    --text:#f4efe7;
+    --muted:#97a4b0;
+    --green:#7dc38d;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:
+    radial-gradient(circle at top,#111c2a 0%,#060b12 42%);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+img{
+    width:100%;
+    display:block;
+}
+
+.container{
+    width:min(1600px,95%);
+    margin:auto;
+    padding:36px 0 80px;
+}
+
+/* TOP */
+
+.top{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.top small{
+    color:var(--gold);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    font-size:11px;
+}
+
+.top h1{
+    margin-top:18px;
+    font-family:'Cormorant Garamond',serif;
+    font-size:72px;
+    line-height:.95;
+}
+
+.top p{
+    margin:24px auto 0;
+    max-width:900px;
+    color:var(--muted);
+    line-height:2;
+    font-size:16px;
+}
+
+/* LAYOUT */
+
+.layout{
+    display:grid;
+    grid-template-columns:1fr 120px 1fr;
+    gap:26px;
+    align-items:start;
+}
+
+/* TIMELINE */
+
+.timeline{
+    position:sticky;
+    top:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.day{
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:18px;
+    padding:12px;
+    text-align:center;
+    cursor:pointer;
+    transition:.3s ease;
+}
+
+.day:hover{
+    transform:translateY(-2px);
+}
+
+.day.active{
+    border-color:rgba(217,174,105,.28);
+    background:linear-gradient(to bottom,#1b2735,#101923);
+}
+
+.day small{
+    color:var(--gold);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:10px;
+}
+
+.day h5{
+    margin-top:6px;
+    font-size:12px;
+    line-height:1.4;
+}
+
+/* COLUMN */
+
+.column{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+/* CARD */
+
+.card{
+    background:linear-gradient(to bottom,#0d1722,#09121b);
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:30px;
+    overflow:hidden;
+}
+
+.hero-image{
+    position:relative;
+}
+
+.hero-image img{
+    height:280px;
+    object-fit:cover;
+}
+
+.badge{
+    position:absolute;
+    top:18px;
+    left:18px;
+    background:rgba(6,11,18,.84);
+    border:1px solid rgba(217,174,105,.22);
+    color:var(--gold);
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.content{
+    padding:24px;
+}
+
+.content h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:44px;
+    line-height:1;
+}
+
+.desc{
+    margin-top:16px;
+    color:var(--muted);
+    line-height:1.9;
+    font-size:15px;
+}
+
+/* CONTRIBUTION OPTIONS */
+
+.options{
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.option{
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:20px;
+    padding:18px;
+    transition:.3s ease;
+    cursor:pointer;
+}
+
+.option:hover{
+    border-color:rgba(217,174,105,.2);
+    transform:translateY(-2px);
+}
+
+.option small{
+    color:var(--gold);
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:10px;
+}
+
+.option h4{
+    margin-top:10px;
+    font-size:18px;
+}
+
+.option p{
+    margin-top:10px;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+}
+
+/* UPLOAD */
+
+.upload-box{
+    margin-top:24px;
+    background:#101923;
+    border:1px dashed rgba(255,255,255,.12);
+    border-radius:24px;
+    padding:28px;
+    text-align:center;
+}
+
+.upload-box h3{
+    font-size:22px;
+}
+
+.upload-box p{
+    margin-top:14px;
+    color:var(--muted);
+    line-height:1.8;
+}
+
+.upload-btn{
+    margin-top:20px;
+    border:none;
+    background:var(--gold);
+    color:#111;
+    padding:14px 24px;
+    border-radius:999px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* FEED */
+
+.feed{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-top:24px;
+}
+
+.feed-item{
+    background:#101923;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:22px;
+    padding:18px;
+}
+
+.feed-top{
+    display:flex;
+    justify-content:space-between;
+    gap:14px;
+}
+
+.user{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.user img{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.user h5{
+    font-size:15px;
+}
+
+.user p{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.time{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.feed-text{
+    margin-top:16px;
+    line-height:1.9;
+    color:#dce4eb;
+    font-size:14px;
+}
+
+.tags{
+    margin-top:16px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.tag{
+    background:#0b141d;
+    border:1px solid rgba(255,255,255,.05);
+    padding:9px 12px;
+    border-radius:999px;
+    color:#d0d9e1;
+    font-size:11px;
+}
+
+/* MOBILE */
+
+@media(max-width:1100px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .timeline{
+        position:relative;
+        top:auto;
+        flex-direction:row;
+        overflow:auto;
+        padding-bottom:10px;
+        scrollbar-width:none;
+    }
+
+    .timeline::-webkit-scrollbar{
+        display:none;
+    }
+
+    .day{
+        min-width:92px;
+        flex-shrink:0;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .top h1{
+        font-size:44px;
+    }
+
+    .top p{
+        font-size:15px;
+        line-height:1.8;
+    }
+
+    .options{
+        grid-template-columns:1fr;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .hero-image img{
+        height:220px;
+    }
+
+    .content h2{
+        font-size:34px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- TOP -->
+
+    <section class="top">
+
+        <small>D-15 Experience</small>
+
+        <h1>
+            Family Recipe Vault
+        </h1>
+
+        <p>
+            Today’s activity celebrates the food memories, traditions and handwritten recipes that shaped generations of both families.
+        </p>
+
+    </section>
+
+
+    <!-- LAYOUT -->
+
+    <section class="layout">
+
+
+        <!-- LEFT -->
+
+        <div class="column">
+
+            <div class="card">
+
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1600&auto=format&fit=crop">
+                    <div class="badge">Today’s Main Activity</div>
+                </div>
+
+                <div class="content">
+
+                    <h2>
+                        Share A Family Recipe
+                    </h2>
+
+                    <div class="desc">
+                        Upload recipes, food rituals and emotional stories connected to family meals, celebrations and childhood memories.
+                    </div>
+
+                    <div class="options">
+
+                        <div class="option" onclick="showToast('Recipe Uploaded')">
+                            <small>Contribution</small>
+                            <h4>Upload Recipe</h4>
+                            <p>Share ingredients, cooking methods and handwritten family traditions.</p>
+                        </div>
+
+                        <div class="option" onclick="showToast('Voice Note Added')">
+                            <small>Contribution</small>
+                            <h4>Record Food Story</h4>
+                            <p>Tell the emotional story behind your favorite family meal.</p>
+                        </div>
+
+                        <div class="option" onclick="showToast('Photo Uploaded')">
+                            <small>Contribution</small>
+                            <h4>Add Old Food Photos</h4>
+                            <p>Upload nostalgic kitchen and dining memories from old albums.</p>
+                        </div>
+
+                        <div class="option" onclick="showToast('Tradition Added')">
+                            <small>Contribution</small>
+                            <h4>Share Festival Traditions</h4>
+                            <p>Document rituals and food traditions celebrated across generations.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="upload-box">
+
+                        <h3>
+                            Upload Today’s Contribution
+                        </h3>
+
+                        <p>
+                            Photos, PDFs, handwritten recipes, videos and voice notes are all accepted.
+                        </p>
+
+                        <button class="upload-btn" onclick="showToast('Upload Window Opened')">
+                            Start Upload
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="content">
+
+                    <h2>
+                        Today’s Engagement Challenges
+                    </h2>
+
+                    <div class="options">
+
+                        <div class="option" onclick="showToast('Vote Submitted')">
+                            <small>Interactive</small>
+                            <h4>Vote Best Comfort Food</h4>
+                            <p>Families compete to crown the ultimate emotional comfort meal.</p>
+                        </div>
+
+                        <div class="option" onclick="showToast('Challenge Joined')">
+                            <small>Interactive</small>
+                            <h4>Recreate Childhood Dish</h4>
+                            <p>Cook and upload your version of a nostalgic family recipe.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TIMELINE -->
+
+        <div class="timeline">
+
+            <div class="day"><small>D-21</small><h5>Founding</h5></div>
+            <div class="day"><small>D-20</small><h5>Guest Map</h5></div>
+            <div class="day"><small>D-19</small><h5>Voice Notes</h5></div>
+            <div class="day"><small>D-18</small><h5>Predictions</h5></div>
+            <div class="day"><small>D-17</small><h5>Then vs Now</h5></div>
+            <div class="day"><small>D-16</small><h5>Playlist</h5></div>
+            <div class="day active"><small>D-15</small><h5>Recipes</h5></div>
+            <div class="day"><small>D-14</small><h5>Couple Skills</h5></div>
+            <div class="day"><small>D-13</small><h5>Advice Wall</h5></div>
+            <div class="day"><small>D-12</small><h5>Photo Stories</h5></div>
+            <div class="day"><small>D-11</small><h5>Transformation</h5></div>
+            <div class="day"><small>D-10</small><h5>Future Letters</h5></div>
+            <div class="day"><small>D-9</small><h5>Most Likely</h5></div>
+            <div class="day"><small>D-8</small><h5>Archive Day</h5></div>
+            <div class="day"><small>D-7</small><h5>Roast Night</h5></div>
+            <div class="day"><small>D-6</small><h5>Arrivals</h5></div>
+            <div class="day"><small>D-5</small><h5>Style Teasers</h5></div>
+            <div class="day"><small>D-4</small><h5>Parents Speak</h5></div>
+            <div class="day"><small>D-3</small><h5>Dance Chaos</h5></div>
+            <div class="day"><small>D-2</small><h5>Confessions</h5></div>
+            <div class="day"><small>D-1</small><h5>Tomorrow</h5></div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="column">
+
+            <div class="card">
+
+                <div class="content">
+
+                    <h2>
+                        Live Family Contributions
+                    </h2>
+
+                    <div class="feed">
+
+                        <div class="feed-item">
+
+                            <div class="feed-top">
+
+                                <div class="user">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop">
+                                    <div>
+                                        <h5>The Mehtas</h5>
+                                        <p>Family Friends • Delhi</p>
+                                    </div>
+                                </div>
+
+                                <div class="time">2 mins ago</div>
+
+                            </div>
+
+                            <div class="feed-text">
+                                Uploaded grandmother’s handwritten biryani recipe dating back 42 years along with an emotional kitchen story.
+                            </div>
+
+                            <div class="tags">
+                                <div class="tag">Recipe Upload</div>
+                                <div class="tag">Archive Added</div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="feed-item">
+
+                            <div class="feed-top">
+
+                                <div class="user">
+                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop">
+                                    <div>
+                                        <h5>Riya Sharma</h5>
+                                        <p>Best Friend Of Bride</p>
+                                    </div>
+                                </div>
+
+                                <div class="time">11 mins ago</div>
+
+                            </div>
+
+                            <div class="feed-text">
+                                Recorded a voice note describing midnight hostel maggi sessions during college exams.
+                            </div>
+
+                            <div class="tags">
+                                <div class="tag">Voice Story</div>
+                                <div class="tag">College Memories</div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="feed-item">
+
+                            <div class="feed-top">
+
+                                <div class="user">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop">
+                                    <div>
+                                        <h5>The Guptas</h5>
+                                        <p>Extended Family</p>
+                                    </div>
+                                </div>
+
+                                <div class="time">28 mins ago</div>
+
+                            </div>
+
+                            <div class="feed-text">
+                                Added rare photographs from family Diwali dinners between 1998–2008.
+                            </div>
+
+                            <div class="tags">
+                                <div class="tag">Family Archive</div>
+                                <div class="tag">Photo Upload</div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="feed-item">
+
+                            <div class="feed-top">
+
+                                <div class="user">
+                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop">
+                                    <div>
+                                        <h5>Anonymous Patron</h5>
+                                        <p>Silent Family Blessing</p>
+                                    </div>
+                                </div>
+
+                                <div class="time">1 hour ago</div>
+
+                            </div>
+
+                            <div class="feed-text">
+                                Shared a private family dessert recipe and requested it be revealed only after the wedding.
+                            </div>
+
+                            <div class="tags">
+                                <div class="tag">Locked Contribution</div>
+                                <div class="tag">Private Archive</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="content">
+
+                    <h2>
+                        Today’s Community Stats
+                    </h2>
+
+                    <div class="options">
+
+                        <div class="option">
+                            <small>Recipes</small>
+                            <h4>84 Uploads</h4>
+                            <p>Traditional recipes and cooking memories submitted today.</p>
+                        </div>
+
+                        <div class="option">
+                            <small>Voice Stories</small>
+                            <h4>29 Recordings</h4>
+                            <p>Emotional food and dining stories shared by guests.</p>
+                        </div>
+
+                        <div class="option">
+                            <small>Archive Photos</small>
+                            <h4>213 Images</h4>
+                            <p>Family dining memories and festival photos added.</p>
+                        </div>
+
+                        <div class="option">
+                            <small>Most Active City</small>
+                            <h4>Kolkata</h4>
+                            <p>Highest participation in recipe and archive contributions.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+function showToast(message){
+
+    const toast = document.createElement('div');
+
+    toast.innerText = message;
+
+    toast.style.position='fixed';
+    toast.style.bottom='24px';
+    toast.style.left='50%';
+    toast.style.transform='translateX(-50%)';
+    toast.style.background='#d9ae69';
+    toast.style.color='#111';
+    toast.style.padding='14px 22px';
+    toast.style.borderRadius='999px';
+    toast.style.fontWeight='600';
+    toast.style.zIndex='999';
+
+    document.body.appendChild(toast);
+
+    setTimeout(()=>{
+        toast.remove();
+    },2200);
+
+}
+
+</script>
+
+</body>
+</html>

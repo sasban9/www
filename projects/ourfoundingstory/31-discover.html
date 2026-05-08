@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VowLedger Arena</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   BASE VARIABLES
+========================================================= */
+
+:root{
+  --bg:#0f0f10;
+  --bg-soft:#171718;
+  --card:#1c1c1f;
+  --border:rgba(255,255,255,.08);
+
+  --text:#f5f1ea;
+  --muted:#968d80;
+
+  --gold:#c8a46f;
+  --gold-soft:#e0c28a;
+
+  --radius:28px;
+
+  --heading:'Cormorant Garamond', serif;
+  --body:'Inter', sans-serif;
+
+  --shadow:
+  0 20px 80px rgba(0,0,0,.45);
+
+  --transition:
+  all .6s cubic-bezier(.19,1,.22,1);
+}
+
+/* =========================================================
+   THEME: ESTATE
+========================================================= */
+
+body.theme-estate{
+  --bg:#121110;
+  --bg-soft:#1a1917;
+  --card:#1d1b19;
+  --text:#f4eee3;
+  --muted:#988f82;
+  --gold:#c7a46d;
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  min-height:100%;
+  overflow-x:hidden;
+}
+
+body{
+  position:relative;
+}
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.bg-noise{
+  position:fixed;
+  inset:0;
+  opacity:.05;
+  pointer-events:none;
+  background-image:
+  radial-gradient(circle at 20% 20%, rgba(255,255,255,.08) 0 1px, transparent 1px),
+  radial-gradient(circle at 80% 70%, rgba(255,255,255,.06) 0 1px, transparent 1px);
+  background-size:30px 30px;
+}
+
+.glow{
+  position:fixed;
+  width:600px;
+  height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(200,164,111,.09), transparent 70%);
+  filter:blur(30px);
+  pointer-events:none;
+}
+
+.glow.one{
+  top:-200px;
+  left:-120px;
+}
+
+.glow.two{
+  bottom:-250px;
+  right:-120px;
+}
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.nav{
+  position:fixed;
+  top:24px;
+  left:50%;
+  transform:translateX(-50%);
+  width:92%;
+  max-width:1320px;
+  z-index:1000;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:18px 28px;
+
+  border:1px solid var(--border);
+  border-radius:999px;
+
+  background:rgba(10,10,10,.45);
+  backdrop-filter:blur(18px);
+}
+
+.logo{
+  font-family:var(--heading);
+  font-size:28px;
+  letter-spacing:.04em;
+}
+
+.logo span{
+  color:var(--gold);
+}
+
+.nav-links{
+  display:flex;
+  gap:28px;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:var(--muted);
+  font-size:14px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  transition:var(--transition);
+}
+
+.nav-links a:hover{
+  color:var(--gold-soft);
+}
+
+.nav-btn{
+  padding:14px 22px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+
+  background:var(--gold);
+  color:#111;
+
+  font-weight:600;
+  transition:var(--transition);
+}
+
+.nav-btn:hover{
+  transform:translateY(-2px);
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:180px 24px 120px;
+}
+
+.wrapper{
+  width:100%;
+  max-width:1120px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.eyebrow{
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.25em;
+  font-size:12px;
+  margin-bottom:24px;
+}
+
+.hero-title{
+  font-family:var(--heading);
+  font-size:clamp(52px,8vw,108px);
+  line-height:.92;
+  letter-spacing:-.04em;
+  max-width:900px;
+}
+
+.hero-sub{
+  margin-top:28px;
+  max-width:720px;
+
+  color:var(--muted);
+  line-height:1.9;
+  font-size:17px;
+}
+
+/* =========================================================
+   SEARCH BOX
+========================================================= */
+
+.search-shell{
+  margin-top:70px;
+
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.03);
+
+  border-radius:38px;
+  overflow:hidden;
+
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(20px);
+}
+
+.search-top{
+  padding:34px;
+  border-bottom:1px solid var(--border);
+}
+
+.search-input-wrap{
+  position:relative;
+}
+
+.search-input{
+  width:100%;
+  background:transparent;
+  border:none;
+  outline:none;
+
+  color:var(--text);
+  font-size:20px;
+  line-height:1.8;
+
+  font-family:var(--body);
+}
+
+.search-input::placeholder{
+  color:#6d665c;
+}
+
+.suggestions{
+  margin-top:20px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.suggestion{
+  border:1px solid var(--border);
+  padding:10px 16px;
+  border-radius:999px;
+  cursor:pointer;
+
+  color:var(--muted);
+  font-size:14px;
+
+  transition:var(--transition);
+}
+
+.suggestion:hover{
+  border-color:rgba(200,164,111,.35);
+  color:var(--gold-soft);
+  transform:translateY(-2px);
+}
+
+/* =========================================================
+   TASKS
+========================================================= */
+
+.tasks-area{
+  padding:34px;
+}
+
+.tasks-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:28px;
+}
+
+.tasks-label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.25em;
+  color:var(--gold);
+}
+
+.next-btn{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--text);
+
+  padding:12px 18px;
+  border-radius:999px;
+  cursor:pointer;
+
+  transition:var(--transition);
+}
+
+.next-btn:hover{
+  transform:translateY(-2px);
+  border-color:rgba(200,164,111,.3);
+  color:var(--gold-soft);
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+
+.card{
+  position:relative;
+  overflow:hidden;
+
+  background:var(--card);
+  border:1px solid var(--border);
+
+  border-radius:32px;
+  padding:30px;
+
+  min-height:260px;
+
+  transition:var(--transition);
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(200,164,111,.28);
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(circle at top right,
+  rgba(200,164,111,.12),
+  transparent 40%);
+  pointer-events:none;
+}
+
+.suit{
+  font-size:13px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+
+.task-title{
+  margin-top:22px;
+  font-family:var(--heading);
+  font-size:36px;
+  line-height:1.02;
+}
+
+.task-desc{
+  margin-top:18px;
+  line-height:1.8;
+  color:var(--muted);
+  font-size:15px;
+}
+
+.meta{
+  position:absolute;
+  bottom:28px;
+  left:30px;
+
+  font-size:13px;
+  color:#7d7467;
+  letter-spacing:.08em;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
+  text-align:center;
+  padding:60px 20px;
+  color:var(--muted);
+  line-height:1.9;
+}
+
+/* =========================================================
+   FOOTER NOTE
+========================================================= */
+
+.footer-note{
+  margin-top:60px;
+  text-align:center;
+  color:#72695d;
+  font-size:14px;
+  line-height:1.9;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:980px){
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .hero-title{
+    font-size:72px;
+  }
+
+  .nav-links{
+    display:none;
+  }
+}
+
+@media(max-width:640px){
+
+  .main{
+    padding-top:150px;
+  }
+
+  .search-top,
+  .tasks-area{
+    padding:24px;
+  }
+
+  .hero-title{
+    font-size:54px;
+  }
+
+  .card{
+    min-height:unset;
+    padding-bottom:80px;
+  }
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<div class="bg-noise"></div>
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<!-- ======================================================
+     NAV
+======================================================= -->
+
+<nav class="nav">
+  <div class="logo">Vow<span>Ledger</span></div>
+
+  <div class="nav-links">
+    <a href="#">Story</a>
+    <a href="#">Archive</a>
+    <a href="#">Blessings</a>
+    <a href="#">Arena</a>
+  </div>
+
+  <button class="nav-btn">Enter Archive</button>
+</nav>
+
+<!-- ======================================================
+     MAIN
+======================================================= -->
+
+<main class="main">
+
+  <div class="wrapper">
+
+    <div class="eyebrow">
+      THE ARENA
+    </div>
+
+    <h1 class="hero-title">
+      Discover a memory worth awakening tonight.
+    </h1>
+
+    <p class="hero-sub">
+      The Arena quietly holds hundreds of emotional prompts, family discoveries,
+      hidden archive missions, storytelling rituals, nostalgia challenges,
+      and cinematic contribution moments. Begin with a word.
+    </p>
+
+    <!-- ==================================================
+         SEARCH SHELL
+    =================================================== -->
+
+    <section class="search-shell">
+
+      <div class="search-top">
+
+        <div class="search-input-wrap">
+
+          <input
+            id="searchInput"
+            class="search-input"
+            type="text"
+            placeholder="Search memories, rituals, stories, blessings, nostalgia..."
+            autocomplete="off"
+          />
+
+          <div id="suggestions" class="suggestions"></div>
+
+        </div>
+
+      </div>
+
+      <!-- ================================================
+           TASKS
+      ================================================= -->
+
+      <div class="tasks-area">
+
+        <div class="tasks-head">
+          <div class="tasks-label">
+            Tonight's Discoveries
+          </div>
+
+          <button class="next-btn" id="nextBtn">
+            Reveal Another Collection
+          </button>
+        </div>
+
+        <div class="cards" id="cards"></div>
+
+      </div>
+
+    </section>
+
+    <div class="footer-note">
+      The Arena reveals temporary emotional moments.<br/>
+      Only a few ascend into the permanent archive.
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+
+/* =========================================================
+   TASK DATABASE (SIMULATED 500+)
+========================================================= */
+
+const baseTasks = [
+
+{
+title:"Lost Wedding Photograph",
+suit:"♠ Spades Archive",
+keywords:["photo","wedding","nostalgia","archive","family"],
+description:"Find the oldest surviving wedding photograph in either family and share the story hidden behind it."
+},
+
+{
+title:"Grandmother Lore",
+suit:"♣ Clubs Continuity",
+keywords:["grandmother","voice","ritual","tradition","elder"],
+description:"Record a voice blessing from the oldest living grandmother in the family."
+},
+
+{
+title:"Sibling Confession",
+suit:"♥ Hearts Arena",
+keywords:["siblings","confession","funny","chaos","story"],
+description:"Reveal the funniest secret your sibling still hopes the family never discovers."
+},
+
+{
+title:"The Assam Collection",
+suit:"♠ Spades Archive",
+keywords:["assam","roots","history","migration","memories"],
+description:"Uncover forgotten photographs, recipes, or stories connected to Assam."
+},
+
+{
+title:"Midnight Historian",
+suit:"♣ Clubs Continuity",
+keywords:["history","family","ritual","stories","culture"],
+description:"Document one family ritual that deserves to survive another generation."
+},
+
+{
+title:"The Dance Disaster",
+suit:"♥ Hearts Arena",
+keywords:["dance","video","funny","chaos","cousins"],
+description:"Upload the most catastrophic dance performance ever recorded inside the family."
+},
+
+{
+title:"Dining Table Prophecy",
+suit:"♦ Diamonds Arena",
+keywords:["future","home","dreams","legacy","gift"],
+description:"Describe the kind of conversations future generations will have around the couple’s dining table."
+},
+
+{
+title:"Forgotten Recipe Vault",
+suit:"♣ Clubs Continuity",
+keywords:["recipe","food","tradition","culture","kitchen"],
+description:"Preserve one disappearing family recipe before it vanishes forever."
+},
+
+{
+title:"The Cousins Derby",
+suit:"♥ Hearts Arena",
+keywords:["cousins","competition","stories","fun","memories"],
+description:"Which cousin caused the greatest family chaos growing up?"
+},
+
+{
+title:"Parents Before Marriage",
+suit:"♠ Spades Archive",
+keywords:["parents","history","love","archive","photos"],
+description:"Find one photograph of the parents before they became parents."
+}, 
+
+{
+title:"The Train Platform Goodbye",
+suit:"♠ Spades Archive",
+keywords:["train","goodbye","migration","family","memory"],
+description:"Tell the story of a family goodbye that happened at a railway station."
+},
+
+{
+title:"Wedding Card Archaeology",
+suit:"♣ Clubs Continuity",
+keywords:["invitation","cards","wedding","archive","ritual"],
+description:"Upload the oldest surviving wedding invitation card from the family."
+},
+
+{
+title:"The Strict Uncle Files",
+suit:"♥ Hearts Arena",
+keywords:["uncle","funny","discipline","stories","chaos"],
+description:"Share the funniest moment involving the strictest uncle in the family."
+},
+
+{
+title:"Monsoon Memory",
+suit:"♠ Spades Archive",
+keywords:["rain","nostalgia","childhood","family","india"],
+description:"Document a family memory forever tied to heavy monsoon rain."
+},
+
+{
+title:"The Midnight Cook",
+suit:"♣ Clubs Continuity",
+keywords:["food","night","kitchen","family","ritual"],
+description:"Reveal who secretly cooked the best late-night meals in the family."
+},
+
+{
+title:"The Baraat Incident",
+suit:"♥ Hearts Arena",
+keywords:["baraat","dance","chaos","wedding","funny"],
+description:"Describe the most chaotic thing that ever happened during a baraat."
+},
+
+{
+title:"The First Salary Gift",
+suit:"♦ Diamonds Arena",
+keywords:["salary","gift","parents","emotion","legacy"],
+description:"Share what the first earning member of the family bought with their first salary."
+},
+
+{
+title:"Grandfather’s Chair",
+suit:"♠ Spades Archive",
+keywords:["grandfather","furniture","home","memory","legacy"],
+description:"Photograph the chair or corner most associated with your grandfather."
+},
+
+{
+title:"The School Diary Vault",
+suit:"♣ Clubs Continuity",
+keywords:["school","diary","childhood","archive","stories"],
+description:"Recover one old school diary entry that still feels emotionally real."
+},
+
+{
+title:"The Cousin Who Vanished",
+suit:"♥ Hearts Arena",
+keywords:["cousin","disappeared","funny","wedding","chaos"],
+description:"Tell the story of the cousin who always disappears during family functions."
+},
+
+{
+title:"The House Before Renovation",
+suit:"♠ Spades Archive",
+keywords:["house","old","renovation","photos","history"],
+description:"Find old photos of the family home before it changed forever."
+},
+
+{
+title:"Festival Morning Sounds",
+suit:"♣ Clubs Continuity",
+keywords:["festival","audio","ritual","family","tradition"],
+description:"Record the sounds of a family festival morning before everyone wakes up."
+},
+
+{
+title:"The Mic Snatcher",
+suit:"♥ Hearts Arena",
+keywords:["speech","wedding","mic","funny","chaos"],
+description:"Who in the family always grabs the microphone unexpectedly?"
+},
+
+{
+title:"The Gold Trunk",
+suit:"♠ Spades Archive",
+keywords:["trunk","jewelry","dowry","family","archive"],
+description:"Photograph the oldest family storage trunk and reveal what it once carried."
+},
+
+{
+title:"Recipe From Another State",
+suit:"♣ Clubs Continuity",
+keywords:["food","migration","recipe","culture","india"],
+description:"Preserve a recipe the family brought from another city or state."
+},
+
+{
+title:"The Groom Escape Theory",
+suit:"♥ Hearts Arena",
+keywords:["groom","wedding","escape","funny","stories"],
+description:"Tell the funniest rumor ever spread about the groom before marriage."
+},
+
+{
+title:"Telephone Era Romance",
+suit:"♠ Spades Archive",
+keywords:["telephone","love","romance","parents","history"],
+description:"Describe how relationships survived during the landline era."
+},
+
+{
+title:"The Festival Sleeper",
+suit:"♥ Hearts Arena",
+keywords:["festival","sleep","funny","family","chaos"],
+description:"Reveal who always sleeps through important family rituals."
+},
+
+{
+title:"The Silk Saree Story",
+suit:"♣ Clubs Continuity",
+keywords:["saree","tradition","mother","heirloom","culture"],
+description:"Document the emotional history behind one treasured saree."
+},
+
+{
+title:"The Loudest Relative",
+suit:"♥ Hearts Arena",
+keywords:["loud","relative","family","funny","wedding"],
+description:"Who can be heard from the farthest distance during family events?"
+},
+
+{
+title:"The Scooter Chronicles",
+suit:"♠ Spades Archive",
+keywords:["scooter","father","india","nostalgia","childhood"],
+description:"Tell the story of a family scooter that carried generations."
+},
+
+{
+title:"The Hidden Singer",
+suit:"♣ Clubs Continuity",
+keywords:["music","voice","talent","family","ritual"],
+description:"Record the family member secretly blessed with the best singing voice."
+},
+
+{
+title:"The Negotiation Table",
+suit:"♦ Diamonds Arena",
+keywords:["marriage","negotiation","families","stories","legacy"],
+description:"Describe the most dramatic marriage negotiation story in the family."
+},
+
+{
+title:"The Rice Ceremony",
+suit:"♣ Clubs Continuity",
+keywords:["ritual","rice","culture","family","wedding"],
+description:"Document a rice-related ritual unique to your family traditions."
+},
+
+{
+title:"The Broken TV Era",
+suit:"♠ Spades Archive",
+keywords:["tv","childhood","nostalgia","family","india"],
+description:"Tell the story of a family television that survived too many years."
+},
+
+{
+title:"The Secret Nickname",
+suit:"♥ Hearts Arena",
+keywords:["nickname","funny","siblings","family","chaos"],
+description:"Reveal a secret nickname still used inside the family."
+},
+
+{
+title:"The Wedding Power Cut",
+suit:"♥ Hearts Arena",
+keywords:["electricity","wedding","india","funny","chaos"],
+description:"Describe the most legendary wedding power cut in family history."
+},
+
+{
+title:"The Letter Box Archive",
+suit:"♠ Spades Archive",
+keywords:["letters","mail","romance","family","history"],
+description:"Find an old handwritten letter that still carries emotional weight."
+},
+
+{
+title:"The Grandmother Remedy",
+suit:"♣ Clubs Continuity",
+keywords:["health","grandmother","remedy","tradition","family"],
+description:"Preserve one grandmother remedy everyone in the family still trusts."
+},
+
+{
+title:"The Accidental Proposal",
+suit:"♥ Hearts Arena",
+keywords:["proposal","love","funny","chaos","stories"],
+description:"Tell the story of a proposal that almost failed hilariously."
+},
+
+{
+title:"The Balcony Archive",
+suit:"♠ Spades Archive",
+keywords:["balcony","home","nostalgia","family","memories"],
+description:"Photograph the balcony where countless family conversations happened."
+},
+
+{
+title:"The Family Poet",
+suit:"♣ Clubs Continuity",
+keywords:["poetry","letters","culture","family","writing"],
+description:"Share poetry, shayari, or handwritten lines preserved in the family."
+},
+
+{
+title:"The Baraat DJ War",
+suit:"♥ Hearts Arena",
+keywords:["dj","music","dance","wedding","chaos"],
+description:"Reveal the most controversial song ever played during a baraat."
+},
+
+{
+title:"The Lantern Years",
+suit:"♠ Spades Archive",
+keywords:["lantern","village","electricity","history","family"],
+description:"Tell stories from a time before stable electricity existed in the home."
+},
+
+{
+title:"The Mango Summer",
+suit:"♣ Clubs Continuity",
+keywords:["summer","mango","childhood","family","tradition"],
+description:"Describe a summer memory forever connected to mango season."
+},
+
+{
+title:"The Crying Champion",
+suit:"♥ Hearts Arena",
+keywords:["crying","emotion","wedding","funny","family"],
+description:"Who cried the hardest during a family wedding?"
+},
+
+{
+title:"The Railway Tea Memory",
+suit:"♠ Spades Archive",
+keywords:["train","tea","india","travel","nostalgia"],
+description:"Capture a story connected to tea bought during long train journeys."
+},
+
+{
+title:"The Secret Recipe Notebook",
+suit:"♣ Clubs Continuity",
+keywords:["recipe","notebook","mother","food","archive"],
+description:"Photograph the oldest handwritten recipe notebook still surviving."
+},
+
+{
+title:"The Family Wrestler",
+suit:"♥ Hearts Arena",
+keywords:["fight","siblings","funny","chaos","childhood"],
+description:"Who was involved in the most legendary sibling fight?"
+},
+
+{
+title:"The Old Radio Hour",
+suit:"♠ Spades Archive",
+keywords:["radio","music","nostalgia","grandparents","history"],
+description:"Tell the story of a radio that once gathered the whole family together."
+},
+
+{
+title:"The Saree Ironing Ritual",
+suit:"♣ Clubs Continuity",
+keywords:["saree","ritual","mother","culture","tradition"],
+description:"Preserve the rituals around preparing wedding clothes at home."
+},
+
+{
+title:"The Relative Who's Always Late",
+suit:"♥ Hearts Arena",
+keywords:["late","relative","funny","wedding","chaos"],
+description:"Who is famous for arriving late to every family function?"
+},
+
+{
+title:"The Village Migration Story",
+suit:"♠ Spades Archive",
+keywords:["migration","village","history","family","roots"],
+description:"Document why the family originally left its ancestral village."
+},
+
+{
+title:"The Sacred Spice Box",
+suit:"♣ Clubs Continuity",
+keywords:["spices","kitchen","mother","tradition","food"],
+description:"Photograph the spice box that defines the smell of home."
+},
+
+{
+title:"The Phone Call Panic",
+suit:"♥ Hearts Arena",
+keywords:["phone","panic","family","funny","chaos"],
+description:"Describe the most dramatic phone call ever received during wedding season."
+},
+
+{
+title:"The Trunk Of Sarees",
+suit:"♠ Spades Archive",
+keywords:["saree","heirloom","archive","family","nostalgia"],
+description:"Open and document a trunk filled with old sarees and their stories."
+},
+
+{
+title:"The Family Lullaby",
+suit:"♣ Clubs Continuity",
+keywords:["song","lullaby","mother","audio","tradition"],
+description:"Record a lullaby passed through generations."
+},
+
+{
+title:"The Cousin Conspiracy",
+suit:"♥ Hearts Arena",
+keywords:["cousins","secret","funny","chaos","stories"],
+description:"Reveal a childhood cousin conspiracy that almost succeeded."
+},
+
+{
+title:"The Black And White Portrait",
+suit:"♠ Spades Archive",
+keywords:["portrait","photo","blackwhite","grandparents","history"],
+description:"Upload the most emotionally powerful black-and-white family portrait."
+},
+
+{
+title:"The Midnight Wedding Snack",
+suit:"♣ Clubs Continuity",
+keywords:["food","night","wedding","ritual","family"],
+description:"Document the unofficial midnight snack tradition during weddings."
+},
+
+{
+title:"The Missing Shoe Incident",
+suit:"♥ Hearts Arena",
+keywords:["shoe","joota","wedding","funny","ritual"],
+description:"Describe the greatest shoe-stealing victory in wedding history."
+},
+
+{
+title:"The Family Monogram",
+suit:"♠ Spades Archive",
+keywords:["symbol","family","identity","crest","history"],
+description:"Design or rediscover a symbol representing the family legacy."
+},
+
+{
+title:"The Tea Table Philosophy",
+suit:"♣ Clubs Continuity",
+keywords:["tea","conversation","elders","culture","ritual"],
+description:"Capture the kind of conversations that happen around evening tea."
+},
+
+{
+title:"The Photographer Disaster",
+suit:"♥ Hearts Arena",
+keywords:["camera","photo","wedding","funny","chaos"],
+description:"Share the funniest wedding photography disaster ever witnessed."
+},
+
+{
+title:"The Last Village Visit",
+suit:"♠ Spades Archive",
+keywords:["village","roots","travel","family","history"],
+description:"Document the last meaningful visit to the ancestral hometown."
+},
+
+{
+title:"The Family Prayer Sound",
+suit:"♣ Clubs Continuity",
+keywords:["prayer","audio","ritual","culture","family"],
+description:"Record a prayer or chant deeply associated with the family."
+},
+
+{
+title:"The Emotional Toast",
+suit:"♦ Diamonds Arena",
+keywords:["speech","toast","emotion","wedding","legacy"],
+description:"Write the speech nobody in the family could finish without crying."
+}
+
+
+];
+
+/* =========================================================
+   GENERATE 500+
+========================================================= */
+
+const tasks = [];
+
+for(let i=0;i<60;i++){
+
+  baseTasks.forEach((task,index)=>{
+
+    tasks.push({
+      id:`${i}-${index}`,
+      title:task.title,
+      suit:task.suit,
+      keywords:task.keywords,
+      description:task.description
+    });
+
+  });
+
+}
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let remainingTasks = [...tasks];
+let shownIds = new Set();
+
+const cardsContainer = document.getElementById('cards');
+const nextBtn = document.getElementById('nextBtn');
+
+/* =========================================================
+   RANDOM 3 WITHOUT REPEAT
+========================================================= */
+
+function getRandomTasks(count=3){
+
+  if(remainingTasks.length < count){
+
+    remainingTasks = [...tasks].filter(
+      task => !shownIds.has(task.id)
+    );
+
+    if(remainingTasks.length < count){
+      shownIds.clear();
+      remainingTasks = [...tasks];
+    }
+  }
+
+  const selected = [];
+
+  while(selected.length < count && remainingTasks.length > 0){
+
+    const randIndex = Math.floor(Math.random() * remainingTasks.length);
+
+    const picked = remainingTasks.splice(randIndex,1)[0];
+
+    shownIds.add(picked.id);
+    selected.push(picked);
+  }
+
+  return selected;
+}
+
+/* =========================================================
+   RENDER CARDS
+========================================================= */
+
+function renderCards(taskList){
+
+  cardsContainer.innerHTML = '';
+
+  if(taskList.length === 0){
+
+    cardsContainer.innerHTML = `
+      <div class="empty">
+        The archive is waiting for another memory.
+      </div>
+    `;
+
+    return;
+  }
+
+  taskList.forEach(task=>{
+
+    const card = document.createElement('article');
+    card.className = 'card';
+
+    card.innerHTML = `
+      <div class="suit">${task.suit}</div>
+
+      <h3 class="task-title">
+        ${task.title}
+      </h3>
+
+      <p class="task-desc">
+        ${task.description}
+      </p>
+
+      <div class="meta">
+        CONTRIBUTION ARTIFACT
+      </div>
+    `;
+
+    cardsContainer.appendChild(card);
+
+  });
+
+}
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+renderCards(getRandomTasks());
+
+/* =========================================================
+   NEXT BUTTON
+========================================================= */
+
+nextBtn.addEventListener('click',()=>{
+
+  renderCards(getRandomTasks());
+
+});
+
+/* =========================================================
+   AUTOCOMPLETE
+========================================================= */
+
+const searchInput = document.getElementById('searchInput');
+const suggestionsBox = document.getElementById('suggestions');
+
+const keywordPool = [
+  ...new Set(
+    tasks.flatMap(task=>task.keywords)
+  )
+];
+
+searchInput.addEventListener('input',()=>{
+
+  const val = searchInput.value
+    .trim()
+    .toLowerCase();
+
+  suggestionsBox.innerHTML = '';
+
+  if(val.length < 3) return;
+
+  const matches = keywordPool
+    .filter(word=>word.includes(val))
+    .slice(0,8);
+
+  matches.forEach(match=>{
+
+    const btn = document.createElement('button');
+
+    btn.className = 'suggestion';
+    btn.textContent = match;
+
+    btn.onclick = ()=>{
+
+      searchInput.value = match;
+      performSearch(match);
+
+    };
+
+    suggestionsBox.appendChild(btn);
+
+  });
+
+  performSearch(val);
+
+});
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function performSearch(term){
+
+  const results = tasks.filter(task=>{
+
+    return (
+      task.title.toLowerCase().includes(term) ||
+      task.description.toLowerCase().includes(term) ||
+      task.keywords.some(k=>k.includes(term))
+    );
+
+  }).slice(0,3);
+
+  renderCards(results);
+
+}
+
+</script>
+
+</body>
+</html>
