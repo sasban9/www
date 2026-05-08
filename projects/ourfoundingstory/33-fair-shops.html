@@ -332,20 +332,20 @@ left:40px;
 
 .rings{
 width:260px;
-top:160px;
-right:80px;
+top:60px;
+right:10px;
 }
 
 .joker{
 width:240px;
-bottom:40px;
-left:140px;
+bottom:60px;
+left:10px;
 }
 
 .vault{
 width:320px;
-bottom:60px;
-right:30px;
+bottom:80px;
+right:10px;
 }
 
 /* =========================================================
@@ -822,6 +822,7 @@ VowLedger Arena
 
 <p class="footer-copy">
 The temporary emotional carnival where stories, rituals, chaos, nostalgia, and discoveries become permanent family mythology.
+<br><br><a href="35-newsdesk.html" class="btn nav-btn">Next: Newsdesk</a>
 </p>
 
 </div>
@@ -881,7 +882,7 @@ const cards = document.querySelectorAll('.float-card');
 
 document.addEventListener('mousemove',(e)=>{
 
-const x = (window.innerWidth / 2 - e.clientX) / 40;
+const x = (window.innerWidth / 2 - e.clientX) / 10;
 const y = (window.innerHeight / 2 - e.clientY) / 40;
 
 cards.forEach((card,index)=>{
@@ -889,7 +890,7 @@ cards.forEach((card,index)=>{
 const depth = (index + 1) * .3;
 
 card.style.transform = `
-translate(${x * depth}px, ${y * depth}px)
+translate(${x * depth}px, ${y * 2* depth}px)
 `;
 
 });

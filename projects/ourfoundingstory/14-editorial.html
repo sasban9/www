@@ -6,6 +6,10 @@
 
 <title>ShaadiLedger — Magazine Showcase</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -36,6 +40,51 @@ body{
     color:var(--text);
     font-family:'Inter',sans-serif;
     overflow-x:hidden;
+}
+
+/* =========================================================
+GLOBAL
+========================================================= */
+
+.container{
+width:min(1320px,92%);
+margin:auto;
+}
+
+section{
+padding:120px 0;
+position:relative;
+}
+
+.eyebrow{
+letter-spacing:.3em;
+text-transform:uppercase;
+font-size:12px;
+color:var(--gold);
+margin-bottom:22px;
+}
+
+h1,h2,h3{
+font-family:'Cormorant Garamond',serif;
+font-weight:600;
+line-height:.95;
+letter-spacing:-.03em;
+}
+
+p{
+line-height:1.8;
+color:var(--muted);
+}
+
+.section-title{
+font-size:clamp(44px,6vw,92px);
+max-width:900px;
+margin-bottom:26px;
+}
+
+.section-copy{
+max-width:760px;
+font-size:18px;
 }
 
 /* HERO */
@@ -223,6 +272,32 @@ body{
 
 .btn:hover{
     transform:translateY(-2px);
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+footer{
+padding:80px 0;
+border-top:1px solid var(--line);
+}
+
+.footer-grid{
+display:flex;
+justify-content:space-between;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.footer-brand{
+font-family:'Cormorant Garamond',serif;
+font-size:34px;
+}
+
+.footer-copy{
+max-width:500px;
+margin-top:20px;
 }
 
 /* MOBILE */
@@ -605,6 +680,43 @@ body{
     </div>
 
 </section>
+
+<!-- =========================================================
+FOOTER
+========================================================= -->
+
+<footer>
+
+<div class="container footer-grid">
+
+<div>
+
+<div class="footer-brand">
+VowLedger Arena 
+<a class="btn btn-primary" href="15-wishlist.html">Wishlist</a>
+</div>
+
+<p class="footer-copy">
+The temporary emotional carnival where stories, rituals, chaos, nostalgia, and discoveries become permanent family mythology.
+</p>
+
+</div>
+<div>
+
+<div class="eyebrow">
+FOUNDING CHAPTER
+</div>
+
+<p>
+Arena Season · 2026<br>
+Emotional Continuity Infrastructure
+</p>
+
+</div>
+
+</div>
+
+</footer>
 
 </body>
 </html>
