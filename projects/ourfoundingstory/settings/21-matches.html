@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VowLedger — 21 Match Founding Season</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+BASE STRUCTURE
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+
+  background:var(--bg);
+  color:var(--text-primary);
+
+  font-family:var(--font-body);
+
+  transition:.6s cubic-bezier(.19,1,.22,1);
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+button{
+  border:none;
+  cursor:pointer;
+  font:inherit;
+}
+
+/* =========================================================
+STRUCTURE TOKENS
+========================================================= */
+
+:root{
+
+  --container:1320px;
+
+  --space-xs:12px;
+  --space-sm:16px;
+  --space-md:24px;
+  --space-lg:40px;
+  --space-xl:64px;
+
+  --radius-sm:14px;
+  --radius-md:22px;
+  --radius-lg:32px;
+  --radius-pill:999px;
+
+}
+
+/* =========================================================
+THEMES
+========================================================= */
+
+.theme-estate{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+  --bg-elevated:#221f1c;
+
+  --text-primary:#f4eee3;
+  --text-secondary:#c8bda8;
+  --text-muted:#918675;
+
+  --accent:#c8a46f;
+  --accent-bright:#e4c891;
+
+  --border:rgba(255,255,255,.08);
+
+  --card-bg:rgba(255,255,255,.03);
+
+  --font-heading:'Playfair Display',serif;
+  --font-body:'Inter',sans-serif;
+
+}
+
+.theme-bengal{
+
+  --bg:#1b1414;
+  --bg-soft:#2a1f1f;
+  --bg-elevated:#342626;
+
+  --text-primary:#f4ead9;
+  --text-secondary:#ccbca4;
+  --text-muted:#9d8a77;
+
+  --accent:#d7a35c;
+  --accent-bright:#efc98d;
+
+  --border:rgba(255,220,180,.08);
+
+  --card-bg:rgba(255,255,255,.03);
+
+  --font-heading:'Cormorant Garamond',serif;
+  --font-body:'Inter',sans-serif;
+
+}
+
+.theme-noir{
+
+  --bg:#090909;
+  --bg-soft:#151515;
+  --bg-elevated:#1d1d1d;
+
+  --text-primary:#f3f3f3;
+  --text-secondary:#bfbfbf;
+  --text-muted:#858585;
+
+  --accent:#d5d5d5;
+  --accent-bright:#ffffff;
+
+  --border:rgba(255,255,255,.08);
+
+  --card-bg:rgba(255,255,255,.025);
+
+  --font-heading:'Playfair Display',serif;
+  --font-body:'Inter',sans-serif;
+
+}
+
+/* =========================================================
+TYPOGRAPHY
+========================================================= */
+
+h1,h2,h3{
+  font-family:var(--font-heading);
+  font-weight:500;
+}
+
+.hero-title{
+  font-size:clamp(48px,8vw,90px);
+  line-height:.95;
+  letter-spacing:-0.04em;
+}
+
+.section-title{
+  font-size:clamp(28px,5vw,54px);
+  line-height:1.05;
+}
+
+.body-text{
+  font-size:16px;
+  line-height:1.8;
+  color:var(--text-secondary);
+}
+
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+/* =========================================================
+LAYOUT
+========================================================= */
+
+.page-shell{
+  width:min(100%,var(--container));
+  margin:auto;
+  padding-inline:28px;
+}
+
+.hero{
+  padding-top:60px;
+  padding-bottom:40px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:32px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+}
+
+.stack{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+.theme-switcher{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:28px;
+}
+
+.theme-btn{
+
+  padding:12px 18px;
+
+  border-radius:999px;
+
+  background:var(--card-bg);
+
+  border:1px solid var(--border);
+
+  color:var(--text-secondary);
+
+  transition:.4s ease;
+
+}
+
+.theme-btn:hover{
+  transform:translateY(-2px);
+  color:var(--text-primary);
+}
+
+/* =========================================================
+CARDS
+========================================================= */
+
+.card{
+
+  position:relative;
+
+  background:var(--card-bg);
+
+  border:1px solid var(--border);
+
+  border-radius:var(--radius-lg);
+
+  overflow:hidden;
+
+  backdrop-filter:blur(14px);
+
+}
+
+.card-inner{
+  padding:24px;
+}
+
+.metric{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:16px 0;
+
+  border-bottom:1px solid var(--border);
+
+}
+
+.metric:last-child{
+  border-bottom:none;
+}
+
+.metric-label{
+  color:var(--text-muted);
+}
+
+.metric-value{
+  color:var(--accent-bright);
+  font-weight:600;
+}
+
+.highlight-card{
+
+  min-height:280px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+
+}
+
+.highlight-total{
+  font-size:56px;
+  font-family:var(--font-heading);
+  line-height:1;
+}
+
+.progress-wrap{
+  height:10px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.05);
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-bright));
+  transition:1s cubic-bezier(.19,1,.22,1);
+}
+
+/* =========================================================
+MATCH FEED
+========================================================= */
+
+.match-feed{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.match-card{
+
+  opacity:0;
+  transform:translateY(30px);
+
+  transition:1s cubic-bezier(.19,1,.22,1);
+
+}
+
+.match-card.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.match-top{
+
+  padding:18px 20px;
+
+  border-bottom:1px solid var(--border);
+
+  background:rgba(255,255,255,.02);
+
+}
+
+.match-day{
+  font-size:12px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:10px;
+}
+
+.match-title{
+  font-size:26px;
+  line-height:1.05;
+}
+
+.match-body{
+  padding:20px;
+}
+
+.match-amount{
+  font-size:34px;
+  margin-bottom:18px;
+  font-family:var(--font-heading);
+}
+
+.split-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.split-box{
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid var(--border);
+
+  border-radius:18px;
+
+  padding:14px;
+
+}
+
+.split-name{
+  font-size:11px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-bottom:8px;
+}
+
+.split-percent{
+  font-size:22px;
+  color:var(--accent-bright);
+}
+
+.match-footer{
+
+  margin-top:18px;
+
+  padding-top:18px;
+
+  border-top:1px solid var(--border);
+
+}
+
+.match-footer p{
+  font-size:14px;
+  line-height:1.7;
+  color:var(--text-secondary);
+}
+
+/* =========================================================
+FINAL NIGHT
+========================================================= */
+
+.final-night{
+
+  margin-top:48px;
+
+  padding:32px;
+
+  border-radius:40px;
+
+  background:
+  radial-gradient(circle at top left,
+  rgba(255,255,255,.06),
+  transparent 60%),
+  var(--bg-elevated);
+
+  border:1px solid var(--border);
+
+  opacity:0;
+  transform:translateY(40px);
+
+  transition:1.2s cubic-bezier(.19,1,.22,1);
+
+}
+
+.final-night.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.final-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:32px;
+}
+
+.final-stat{
+
+  padding:22px;
+
+  border-radius:24px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid var(--border);
+
+}
+
+.final-label{
+  font-size:12px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-bottom:12px;
+}
+
+.final-value{
+  font-size:38px;
+  color:var(--accent-bright);
+  font-family:var(--font-heading);
+}
+
+.couple-message{
+  margin-top:22px;
+  line-height:1.9;
+  color:var(--text-secondary);
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media(max-width:1024px){
+
+  .hero-grid,
+  .grid,
+  .final-grid{
+    grid-template-columns:1fr;
+  }
+
+  .match-feed{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .match-feed{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    padding-top:40px;
+  }
+
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<div class="page-shell">
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-grid">
+
+      <div class="stack">
+
+        <div class="eyebrow">
+          FOUNDING SEASON
+        </div>
+
+        <h1 class="hero-title">
+          21 Matches.<br>
+          21 Nights.<br>
+          One Living Archive.
+        </h1>
+
+        <p class="body-text">
+          Each night reshaped the emotional balance of the season —
+          preserving memories, supporting the couple, funding discoveries,
+          and keeping the archive alive until the wedding night finale.
+        </p>
+
+        <div class="theme-switcher">
+
+          <button class="theme-btn" onclick="setTheme('theme-estate')">
+            Estate
+          </button>
+
+          <button class="theme-btn" onclick="setTheme('theme-bengal')">
+            Bengal
+          </button>
+
+          <button class="theme-btn" onclick="setTheme('theme-noir')">
+            Noir
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="card highlight-card">
+
+        <div class="card-inner stack">
+
+          <div>
+            <div class="eyebrow">
+              SEASON TOTAL
+            </div>
+
+            <div class="highlight-total" id="grandTotal">
+              ₹0
+            </div>
+          </div>
+
+          <div class="stack">
+
+            <div class="metric">
+              <div class="metric-label">Most Resonant Match</div>
+              <div class="metric-value" id="bestNight">
+                —
+              </div>
+            </div>
+
+            <div class="metric">
+              <div class="metric-label">Archive Energy</div>
+              <div class="metric-value" id="archiveEnergy">
+                —
+              </div>
+            </div>
+
+            <div class="metric">
+              <div class="metric-label">Family Participation</div>
+              <div class="metric-value" id="familyParticipation">
+                —
+              </div>
+            </div>
+
+            <div class="progress-wrap">
+              <div class="progress-bar" id="seasonProgress"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- MATCHES -->
+
+  <section>
+
+    <div class="match-feed" id="matchFeed"></div>
+
+  </section>
+
+  <!-- FINAL NIGHT -->
+
+  <section class="final-night" id="finalNight">
+
+    <div class="stack">
+
+      <div>
+
+        <div class="eyebrow">
+          WEDDING NIGHT FINALE
+        </div>
+
+        <h2 class="section-title">
+          The 21 Days That Formed This Legacy
+        </h2>
+
+      </div>
+
+      <div class="final-grid">
+
+        <div class="final-stat">
+
+          <div class="final-label">
+            Couple Gift Pool
+          </div>
+
+          <div class="final-value" id="giftPoolFinal">
+            ₹0
+          </div>
+
+        </div>
+
+        <div class="final-stat">
+
+          <div class="final-label">
+            Archive Preservation
+          </div>
+
+          <div class="final-value" id="archiveFinal">
+            ₹0
+          </div>
+
+        </div>
+
+        <div class="final-stat">
+
+          <div class="final-label">
+            Stewardship Allocation
+          </div>
+
+          <div class="final-value" id="stewardFinal">
+            ₹0
+          </div>
+
+        </div>
+
+        <div class="final-stat">
+
+          <div class="final-label">
+            Living Archive Reserve
+          </div>
+
+          <div class="final-value" id="reserveFinal">
+            ₹0
+          </div>
+
+        </div>
+
+      </div>
+
+      <p class="couple-message">
+        Over 21 nights, families recovered forgotten photographs,
+        recorded elder blessings, restored migration stories,
+        funded future dreams, and transformed a wedding into a
+        permanent emotional archive.
+      </p>
+
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+
+const matches = [
+
+  "Founding Blessings",
+  "The Assam Route",
+  "Chaos Cousins Night",
+  "Grandmother Lore",
+  "The Kolkata Years",
+  "Memory Bingo",
+  "Parents Before Marriage",
+  "The Monsoon Collection",
+  "Voice Note Revival",
+  "Train Journey Route",
+  "Family Ritual Vault",
+  "The Tea Garden Archive",
+  "Founding Witnesses",
+  "Before Smartphones",
+  "Recipe Restoration",
+  "Language Vault",
+  "The Black Vault",
+  "Archive Powerplay",
+  "Hidden Wedding Albums",
+  "Legacy Route",
+  "Wedding Night Finale"
+
+];
+
+const feed = document.getElementById('matchFeed');
+
+let total = 0;
+
+let giftPool = 0;
+let archivePool = 0;
+let stewardPool = 0;
+let reservePool = 0;
+
+let bestMatch = "";
+let bestAmount = 0;
+
+matches.forEach((title,index)=>{
+
+  const amount =
+  Math.floor(Math.random()*250000)+50000;
+
+  total += amount;
+
+  if(amount > bestAmount){
+    bestAmount = amount;
+    bestMatch = title;
+  }
+
+  const giftPercent =
+  Math.floor(Math.random()*35)+25;
+
+  const archivePercent =
+  Math.floor(Math.random()*20)+15;
+
+  const stewardPercent =
+  Math.floor(Math.random()*15)+10;
+
+  let reservePercent =
+  100 - giftPercent - archivePercent - stewardPercent;
+
+  giftPool += amount * giftPercent/100;
+  archivePool += amount * archivePercent/100;
+  stewardPool += amount * stewardPercent/100;
+  reservePool += amount * reservePercent/100;
+
+  const card = document.createElement('div');
+
+  card.className = 'card match-card';
+
+  card.innerHTML = `
+
+    <div class="match-top">
+
+      <div class="match-day">
+        Match ${index+1}
+      </div>
+
+      <div class="match-title">
+        ${title}
+      </div>
+
+    </div>
+
+    <div class="match-body">
+
+      <div class="match-amount">
+        ₹${amount.toLocaleString('en-IN')}
+      </div>
+
+      <div class="split-grid">
+
+        <div class="split-box">
+          <div class="split-name">
+            Couple
+          </div>
+          <div class="split-percent">
+            ${giftPercent}%
+          </div>
+        </div>
+
+        <div class="split-box">
+          <div class="split-name">
+            Archive
+          </div>
+          <div class="split-percent">
+            ${archivePercent}%
+          </div>
+        </div>
+
+        <div class="split-box">
+          <div class="split-name">
+            Steward
+          </div>
+          <div class="split-percent">
+            ${stewardPercent}%
+          </div>
+        </div>
+
+        <div class="split-box">
+          <div class="split-name">
+            Reserve
+          </div>
+          <div class="split-percent">
+            ${reservePercent}%
+          </div>
+        </div>
+
+      </div>
+
+      <div class="match-footer">
+
+        <p>
+          Tonight the archive shifted emotionally toward
+          ${giftPercent > 40 ? 'future-building contributions' :
+          archivePercent > 25 ? 'preservation and elder memory' :
+          reservePercent > 30 ? 'living archive momentum' :
+          'season stewardship'}.
+        </p>
+
+      </div>
+
+    </div>
+
+  `;
+
+  feed.appendChild(card);
+
+});
+
+/* =========================================================
+DAY BY DAY REVEAL
+========================================================= */
+
+const cards =
+document.querySelectorAll('.match-card');
+
+cards.forEach((card,index)=>{
+
+  setTimeout(()=>{
+
+    card.classList.add('visible');
+
+    const progress =
+    ((index+1)/21)*100;
+
+    document.getElementById('seasonProgress')
+    .style.width = progress + '%';
+
+    document.getElementById('grandTotal')
+    .innerText =
+    '₹' +
+    Math.floor(total * ((index+1)/21))
+    .toLocaleString('en-IN');
+
+    if(index === 20){
+
+      setTimeout(()=>{
+
+        document.getElementById('finalNight')
+        .classList.add('visible');
+
+      },1200);
+
+    }
+
+  }, index * 900);
+
+});
+
+/* =========================================================
+FINAL STATS
+========================================================= */
+
+document.getElementById('bestNight')
+.innerText = bestMatch;
+
+document.getElementById('archiveEnergy')
+.innerText =
+(Math.random()*40+60).toFixed(0) + '%';
+
+document.getElementById('familyParticipation')
+.innerText =
+(Math.random()*30+70).toFixed(0) + '%';
+
+document.getElementById('giftPoolFinal')
+.innerText =
+'₹' + Math.floor(giftPool)
+.toLocaleString('en-IN');
+
+document.getElementById('archiveFinal')
+.innerText =
+'₹' + Math.floor(archivePool)
+.toLocaleString('en-IN');
+
+document.getElementById('stewardFinal')
+.innerText =
+'₹' + Math.floor(stewardPool)
+.toLocaleString('en-IN');
+
+document.getElementById('reserveFinal')
+.innerText =
+'₹' + Math.floor(reservePool)
+.toLocaleString('en-IN');
+
+/* =========================================================
+THEME SWITCHER
+========================================================= */
+
+function setTheme(theme){
+
+  document.body.className = theme;
+
+}
+
+</script>
+
+</body>
+</html>

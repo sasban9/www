@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VowLedger — Archive Quest</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;500;600&family=Hind+Siliguri:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/themes.css">
+
+<style>
+
+.quest-shell{
+padding-top:140px;
+padding-bottom:120px;
+}
+
+.quest-layout{
+display:grid;
+grid-template-columns:300px 1fr 320px;
+gap:24px;
+align-items:start;
+}
+
+.quest-sidebar{
+position:sticky;
+top:120px;
+}
+
+.quest-levels{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.level-card{
+cursor:pointer;
+padding:18px;
+border-radius:24px;
+}
+
+.level-card.active{
+outline:1px solid var(--accent);
+background:rgba(255,255,255,.06);
+}
+
+.level-number{
+font-size:12px;
+letter-spacing:.24em;
+text-transform:uppercase;
+margin-bottom:10px;
+color:var(--accent);
+}
+
+.quiz-card{
+min-height:720px;
+}
+
+.quiz-options{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+.quiz-option{
+text-align:left;
+cursor:pointer;
+padding:24px;
+border-radius:24px;
+transition:var(--transition-base);
+}
+
+.quiz-option:hover{
+transform:translateY(-4px);
+}
+
+.quest-progress{
+height:10px;
+border-radius:999px;
+overflow:hidden;
+background:rgba(255,255,255,.06);
+}
+
+.quest-progress-fill{
+height:100%;
+width:38%;
+background:var(--accent);
+}
+
+.memory-artifact{
+aspect-ratio:4/5;
+border-radius:28px;
+overflow:hidden;
+position:relative;
+}
+
+.memory-artifact img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.artifact-overlay{
+position:absolute;
+inset:0;
+padding:24px;
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+background:var(--overlay-dark);
+}
+
+.energy-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.energy-card{
+padding:18px;
+border-radius:22px;
+background:rgba(255,255,255,.03);
+border:1px solid var(--border-soft);
+}
+
+.quest-feed{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.quest-event{
+display:flex;
+gap:12px;
+padding-bottom:18px;
+border-bottom:1px solid var(--border-soft);
+}
+
+.quest-dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:var(--accent);
+margin-top:8px;
+flex-shrink:0;
+}
+
+.answer-result{
+margin-top:28px;
+padding:22px;
+border-radius:24px;
+display:none;
+}
+
+.answer-result.show{
+display:block;
+}
+
+.quest-map{
+position:relative;
+min-height:340px;
+overflow:hidden;
+}
+
+.quest-node{
+position:absolute;
+padding:14px 18px;
+border-radius:999px;
+background:var(--card-bg);
+border:1px solid var(--border-soft);
+backdrop-filter:blur(12px);
+}
+
+.quest-node:nth-child(1){top:12%;left:8%;}
+.quest-node:nth-child(2){top:30%;right:10%;}
+.quest-node:nth-child(3){bottom:18%;left:24%;}
+.quest-node:nth-child(4){bottom:10%;right:18%;}
+
+@media(max-width:1200px){
+
+.quest-layout{
+grid-template-columns:1fr;
+}
+
+.quest-sidebar{
+position:relative;
+top:auto;
+}
+
+}
+
+@media(max-width:1024px){
+
+.page-shell{
+padding-inline:28px;
+}
+
+.quiz-options{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:768px){
+
+.quiz-options{
+grid-template-columns:1fr;
+}
+
+.energy-grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+
+<div class="logo">
+VowLedger
+</div>
+
+<nav class="nav-links">
+<a href="#">Archive</a>
+<a href="#">Quests</a>
+<a href="#">Collections</a>
+<a href="#">Blessings</a>
+<a href="#">Arena</a>
+</nav>
+
+<div class="flex gap-sm">
+
+<select id="themeSwitcher" class="input-field">
+
+<option value="theme-estate">Estate</option>
+<option value="theme-bengal">Bengal</option>
+<option value="theme-noir">Noir</option>
+<option value="theme-journal">Journal</option>
+<option value="theme-garden">Garden</option>
+
+</select>
+
+</div>
+
+</header>
+
+<main class="quest-shell">
+
+<div class="page-shell">
+
+<div class="stack-xl">
+
+<!-- HERO -->
+
+<section class="stack-lg">
+
+<div class="stack-md">
+
+<div class="eyebrow">
+Founding Quest
+</div>
+
+<h1 class="hero-title">
+The Family Expedition
+</h1>
+
+<p class="body-text reading-width">
+Recover forgotten stories, unlock hidden collections, and quietly shape the emotional mythology of the archive.
+</p>
+
+</div>
+
+<div class="quest-progress">
+<div class="quest-progress-fill"></div>
+</div>
+
+</section>
+
+<!-- MAIN LAYOUT -->
+
+<section class="quest-layout">
+
+<!-- LEFT SIDEBAR -->
+
+<aside class="quest-sidebar stack-lg">
+
+<div class="card stack-md">
+
+<div class="eyebrow">
+Voyage Levels
+</div>
+
+<div class="quest-levels">
+
+<button class="level-card card active">
+
+<div class="level-number">
+Level 1
+</div>
+
+<h3 class="card-title">
+The First Fragments
+</h3>
+
+<p class="small-text">
+Recover foundational memories and elder blessings.
+</p>
+
+</button>
+
+<button class="level-card card">
+
+<div class="level-number">
+Level 2
+</div>
+
+<h3 class="card-title">
+Before Smartphones
+</h3>
+
+<p class="small-text">
+Unlock forgotten albums and cassette recordings.
+</p>
+
+</button>
+
+<button class="level-card card">
+
+<div class="level-number">
+Level 3
+</div>
+
+<h3 class="card-title">
+The Assam Route
+</h3>
+
+<p class="small-text">
+Discover migration stories and railway memories.
+</p>
+
+</button>
+
+<button class="level-card card">
+
+<div class="level-number">
+Level 4
+</div>
+
+<h3 class="card-title">
+The Black Vault
+</h3>
+
+<p class="small-text">
+Rare emotional discoveries emerge.
+</p>
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card stack-md">
+
+<div class="eyebrow">
+Your Signature
+</div>
+
+<div class="energy-grid">
+
+<div class="energy-card stack-xs">
+
+<div class="caption">
+♥ Hearts
+</div>
+
+<div class="card-title">
+42
+</div>
+
+<div class="small-text">
+Story Energy
+</div>
+
+</div>
+
+<div class="energy-card stack-xs">
+
+<div class="caption">
+♠ Spades
+</div>
+
+<div class="card-title">
+68
+</div>
+
+<div class="small-text">
+Archive Depth
+</div>
+
+</div>
+
+<div class="energy-card stack-xs">
+
+<div class="caption">
+♦ Diamonds
+</div>
+
+<div class="card-title">
+21
+</div>
+
+<div class="small-text">
+Momentum
+</div>
+
+</div>
+
+<div class="energy-card stack-xs">
+
+<div class="caption">
+♣ Clubs
+</div>
+
+<div class="card-title">
+36
+</div>
+
+<div class="small-text">
+Traditions
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+<!-- CENTER -->
+
+<section class="quiz-card card stack-xl">
+
+<div class="stack-md">
+
+<div class="eyebrow">
+Tonight’s Expedition
+</div>
+
+<h2 class="display-title">
+Who First Predicted<br>
+The Marriage?
+</h2>
+
+<p class="body-text reading-width">
+A hidden family memory surfaced tonight. Select the most likely storyteller before the archive reveals the answer.
+</p>
+
+</div>
+
+<div class="memory-artifact">
+
+<img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop" alt="">
+
+<div class="artifact-overlay stack-sm">
+
+<div class="caption">
+Recovered Fragment · Kolkata · 2009
+</div>
+
+<h3 class="card-title">
+“Someone in the family knew long before they did.”
+</h3>
+
+</div>
+
+</div>
+
+<div class="quiz-options">
+
+<button class="quiz-option card" onclick="showResult('correct')">
+
+<div class="stack-sm">
+
+<div class="caption">
+Option A
+</div>
+
+<h3 class="card-title">
+The Bride’s Cousin
+</h3>
+
+<p class="body-text">
+She noticed they always disappeared during family functions.
+</p>
+
+</div>
+
+</button>
+
+<button class="quiz-option card" onclick="showResult('wrong')">
+
+<div class="stack-sm">
+
+<div class="caption">
+Option B
+</div>
+
+<h3 class="card-title">
+The Groom’s Uncle
+</h3>
+
+<p class="body-text">
+He claims he predicted every wedding in the family.
+</p>
+
+</div>
+
+</button>
+
+<button class="quiz-option card" onclick="showResult('wrong')">
+
+<div class="stack-sm">
+
+<div class="caption">
+Option C
+</div>
+
+<h3 class="card-title">
+The Hostel Friend
+</h3>
+
+<p class="body-text">
+He only discovered it after the engagement.
+</p>
+
+</div>
+
+</button>
+
+<button class="quiz-option card" onclick="showResult('wrong')">
+
+<div class="stack-sm">
+
+<div class="caption">
+Option D
+</div>
+
+<h3 class="card-title">
+The Photographer
+</h3>
+
+<p class="body-text">
+He met them years after they already knew each other.
+</p>
+
+</div>
+
+</button>
+
+</div>
+
+<div id="correctResult" class="answer-result card stack-md">
+
+<div class="eyebrow">
+Archive Opened
+</div>
+
+<h3 class="card-title">
+Correct — The Cousin Predicted It First
+</h3>
+
+<p class="body-text">
+A hidden memory fragment and one rare photograph were unlocked from the “College Years” collection.
+</p>
+
+<div class="suit-strip">
+
+<div class="suit-badge">♥</div>
+<div class="suit-badge">♠</div>
+
+</div>
+
+</div>
+
+<div id="wrongResult" class="answer-result card stack-md">
+
+<div class="eyebrow">
+Another Fragment Remains Hidden
+</div>
+
+<h3 class="card-title">
+The Archive Withheld The Full Story
+</h3>
+
+<p class="body-text">
+Spend more time in the expedition routes and recover additional clues before trying again.
+</p>
+
+</div>
+
+<!-- QUEST MAP -->
+
+<section class="card quest-map">
+
+<div class="quest-node">
+The Assam Collection
+</div>
+
+<div class="quest-node">
+Before Smartphones
+</div>
+
+<div class="quest-node">
+The Darjeeling Route
+</div>
+
+<div class="quest-node">
+Founding Blessings
+</div>
+
+</section>
+
+</section>
+
+<!-- RIGHT -->
+
+<aside class="stack-lg">
+
+<div class="card stack-md">
+
+<div class="eyebrow">
+Archive Events
+</div>
+
+<div class="quest-feed">
+
+<div class="quest-event">
+
+<div class="quest-dot"></div>
+
+<div class="stack-2xs">
+
+<div class="action-title">
+Grandmother Lore Activated
+</div>
+
+<div class="small-text">
+Voice recordings from elders now carry elevated archival significance.
+</div>
+
+</div>
+
+</div>
+
+<div class="quest-event">
+
+<div class="quest-dot"></div>
+
+<div class="stack-2xs">
+
+<div class="action-title">
+The Kolkata Route Expanded
+</div>
+
+<div class="small-text">
+Three new photographs surfaced tonight.
+</div>
+
+</div>
+
+</div>
+
+<div class="quest-event">
+
+<div class="quest-dot"></div>
+
+<div class="stack-2xs">
+
+<div class="action-title">
+A Rare Artifact Was Restored
+</div>
+
+<div class="small-text">
+A damaged cassette from 1994 became playable again.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card stack-md">
+
+<div class="eyebrow">
+Unlocked Roles
+</div>
+
+<div class="stack-sm">
+
+<div class="flex-between">
+<span>Archive Hunter ♠</span>
+<span class="caption">Unlocked</span>
+</div>
+
+<div class="flex-between">
+<span>Chaos Cousin ♥</span>
+<span class="caption">Unlocked</span>
+</div>
+
+<div class="flex-between">
+<span>Keeper Of Traditions ♣</span>
+<span class="caption">Locked</span>
+</div>
+
+<div class="flex-between">
+<span>Black Vault Explorer ♠</span>
+<span class="caption">Locked</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="card stack-md">
+
+<div class="eyebrow">
+Tonight’s Mission
+</div>
+
+<h3 class="card-title">
+Recover The Oldest Wedding Photograph
+</h3>
+
+<p class="body-text">
+The first verified artifact unlocks a hidden chapter from the founding families collection.
+</p>
+
+<button class="btn btn-primary">
+Begin Expedition
+</button>
+
+</div>
+
+</aside>
+
+</section>
+
+</div>
+
+</div>
+
+</main>
+
+<footer class="site-footer">
+
+<div class="page-shell">
+
+<div class="footer-grid">
+
+<div class="stack-sm">
+
+<div class="logo">
+VowLedger
+</div>
+
+<p class="body-text">
+A living archive for emotional continuity.
+</p>
+
+</div>
+
+<div class="footer-links">
+<a href="#">Archive</a>
+<a href="#">Collections</a>
+<a href="#">Blessings</a>
+</div>
+
+<div class="footer-links">
+<a href="#">Quests</a>
+<a href="#">Arena</a>
+<a href="#">Legacy</a>
+</div>
+
+<div class="footer-links">
+<a href="#">Concierge</a>
+<a href="#">Privacy</a>
+<a href="#">Contact</a>
+</div>
+
+</div>
+
+</div>
+
+</footer>
+
+<script>
+
+const themeSwitcher = document.getElementById('themeSwitcher');
+
+themeSwitcher.addEventListener('change', function(){
+
+document.body.className = this.value;
+
+localStorage.setItem('vowledger-theme', this.value);
+
+});
+
+const savedTheme = localStorage.getItem('vowledger-theme');
+
+if(savedTheme){
+
+document.body.className = savedTheme;
+themeSwitcher.value = savedTheme;
+
+}
+
+function showResult(type){
+
+document.getElementById('correctResult').classList.remove('show');
+document.getElementById('wrongResult').classList.remove('show');
+
+if(type === 'correct'){
+document.getElementById('correctResult').classList.add('show');
+}else{
+document.getElementById('wrongResult').classList.add('show');
+}
+
+}
+
+</script>
+
+</body>
+</html>

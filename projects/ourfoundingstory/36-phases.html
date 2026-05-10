@@ -1,0 +1,955 @@
+<!-- # VowLedger — Progressive User Dashboard Evolution -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VowLedger Dashboard Evolution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{max-width: 1024px;margin: 0 auto;}
+:root{
+--bg:#0f0f10;
+--bg-soft:#171718;
+--card:rgba(255,255,255,.03);
+--border:rgba(255,255,255,.08);
+--text:#f5f1ea;
+--muted:#c8bda8;
+--faint:#8b8375;
+--gold:#c6a46c;
+--gold-bright:#e0c28a;
+--radius:28px;
+--pill:999px;
+--transition:all .6s cubic-bezier(.19,1,.22,1);
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+font-family:'Inter',sans-serif;
+overflow-x:hidden;
+}
+
+body::before{
+content:'';
+position:fixed;
+inset:0;
+pointer-events:none;
+opacity:.16;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
+z-index:999;
+}
+
+h1,h2,h3,h4{
+font-family:'Playfair Display',serif;
+font-weight:600;
+}
+
+.topbar{
+position:fixed;
+top:24px;
+left:50%;
+transform:translateX(-50%);
+width:min(92%,980px);
+height:76px;
+border-radius:999px;
+border:1px solid var(--border);
+backdrop-filter:blur(14px);
+background:rgba(10,10,10,.58);
+padding:0 28px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+z-index:100;
+}
+
+.logo{
+font-family:'Playfair Display',serif;
+font-size:24px;
+}
+
+.logo span{color:var(--gold);}
+
+.top-links{
+display:flex;
+gap:28px;
+}
+
+.top-links a{
+text-decoration:none;
+font-size:12px;
+letter-spacing:.18em;
+text-transform:uppercase;
+color:var(--muted);
+}
+
+.phase-rail{
+position:fixed;
+left:0;
+top:110px;
+bottom:0;
+width:84px;
+border-right:1px solid var(--border);
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:14px;
+padding-top:24px;
+background:rgba(255,255,255,.01);
+z-index:20;
+}
+
+.phase-dot{
+width:52px;
+height:52px;
+border-radius:18px;
+border:1px solid var(--border);
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:'Playfair Display',serif;
+font-size:18px;
+cursor:pointer;
+transition:var(--transition);
+color:var(--faint);
+}
+
+.phase-dot.active{
+background:rgba(198,164,108,.12);
+color:var(--gold-bright);
+border-color:rgba(198,164,108,.4);
+}
+
+.phase-dot:hover{
+transform:translateY(-2px);
+}
+
+.canvas{
+margin-left:84px;
+padding-top:120px;
+}
+
+.phase{
+display:none;
+min-height:100vh;
+}
+
+.phase.active{display:block;}
+
+.shell{
+width:min(1380px,100%);
+margin:auto;
+padding:0 6% 120px;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:340px 1fr 320px;
+gap:24px;
+align-items:start;
+}
+
+.panel{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:var(--radius);
+padding:26px;
+backdrop-filter:blur(10px);
+}
+
+.panel-title{
+font-size:10px;
+letter-spacing:.28em;
+text-transform:uppercase;
+color:var(--gold);
+margin-bottom:18px;
+}
+
+.panel-heading{
+font-family:'Playfair Display',serif;
+font-size:30px;
+margin-bottom:20px;
+line-height:1.1;
+}
+
+.post-box{
+min-height:260px;
+}
+
+.prompt{
+font-size:16px;
+line-height:1.9;
+color:var(--muted);
+margin-bottom:24px;
+}
+
+.action-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.action{
+padding:18px;
+border-radius:22px;
+border:1px solid var(--border);
+background:rgba(255,255,255,.015);
+transition:var(--transition);
+cursor:pointer;
+}
+
+.action:hover{
+background:rgba(198,164,108,.06);
+border-color:rgba(198,164,108,.3);
+}
+
+.action-title{
+font-size:14px;
+font-weight:600;
+margin-bottom:8px;
+}
+
+.action-copy{
+font-size:13px;
+line-height:1.7;
+color:var(--muted);
+}
+
+.feed-item{
+padding:20px 0;
+border-bottom:1px solid var(--border);
+display:flex;
+gap:14px;
+}
+
+.feed-item:last-child{border:none;}
+
+.feed-dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:var(--gold);
+margin-top:7px;
+flex-shrink:0;
+}
+
+.feed-title{
+font-size:14px;
+font-weight:600;
+margin-bottom:6px;
+}
+
+.feed-copy{
+font-size:14px;
+line-height:1.8;
+color:var(--muted);
+}
+
+.feed-meta{
+margin-top:10px;
+font-size:10px;
+letter-spacing:.18em;
+text-transform:uppercase;
+color:var(--faint);
+}
+
+.feature-stage{
+min-height:640px;
+position:relative;
+overflow:hidden;
+}
+
+.feature-stage::before{
+content:'';
+position:absolute;
+inset:0;
+background:radial-gradient(circle at top right, rgba(198,164,108,.08), transparent 40%);
+pointer-events:none;
+}
+
+.big-title{
+font-family:'Playfair Display',serif;
+font-size:clamp(44px,5vw,72px);
+line-height:.96;
+letter-spacing:-0.05em;
+margin-bottom:28px;
+max-width:680px;
+position:relative;
+z-index:2;
+}
+
+.big-sub{
+font-size:16px;
+line-height:1.9;
+color:var(--muted);
+max-width:720px;
+margin-bottom:34px;
+position:relative;
+z-index:2;
+}
+
+.feature-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
+position:relative;
+z-index:2;
+}
+
+.feature-card{
+padding:22px;
+border-radius:24px;
+border:1px solid var(--border);
+background:rgba(255,255,255,.02);
+min-height:160px;
+}
+
+.feature-card h4{
+font-size:22px;
+margin-bottom:10px;
+}
+
+.feature-card p{
+font-size:14px;
+line-height:1.8;
+color:var(--muted);
+}
+
+.side-card{
+padding:18px;
+border-radius:24px;
+border:1px solid var(--border);
+margin-bottom:18px;
+background:rgba(255,255,255,.02);
+}
+
+.side-card:last-child{margin-bottom:0;}
+
+.side-title{
+font-family:'Playfair Display',serif;
+font-size:22px;
+margin-bottom:8px;
+}
+
+.side-copy{
+font-size:14px;
+line-height:1.8;
+color:var(--muted);
+}
+
+.suit-row{
+display:flex;
+gap:10px;
+margin-top:14px;
+flex-wrap:wrap;
+}
+
+.suit{
+width:40px;
+height:40px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+border:1px solid var(--border);
+background:rgba(255,255,255,.02);
+}
+
+.btn{
+margin-top:34px;
+border:none;
+background:var(--gold);
+color:#111;
+padding:18px 30px;
+border-radius:999px;
+font-size:11px;
+letter-spacing:.24em;
+text-transform:uppercase;
+cursor:pointer;
+transition:var(--transition);
+}
+
+.btn:hover{
+transform:translateY(-2px);
+background:var(--gold-bright);
+}
+
+.drawer-toggle{
+position:fixed;
+right:26px;
+bottom:26px;
+width:62px;
+height:62px;
+border-radius:50%;
+border:1px solid var(--border);
+background:rgba(20,20,20,.88);
+backdrop-filter:blur(10px);
+color:var(--gold);
+font-size:12px;
+letter-spacing:.18em;
+text-transform:uppercase;
+cursor:pointer;
+z-index:200;
+}
+
+.drawer{
+position:fixed;
+top:0;
+right:-420px;
+width:420px;
+height:100vh;
+background:#141414;
+border-left:1px solid var(--border);
+padding:120px 34px 40px;
+transition:var(--transition);
+z-index:150;
+overflow:auto;
+}
+
+.drawer.open{
+right:0;
+}
+
+.drawer h3{
+font-size:42px;
+line-height:1;
+margin-bottom:22px;
+}
+
+.drawer p{
+font-size:15px;
+line-height:1.9;
+color:var(--muted);
+margin-bottom:22px;
+}
+
+.drawer small{
+font-size:11px;
+letter-spacing:.18em;
+text-transform:uppercase;
+color:var(--gold);
+}
+
+@media(max-width:1980px){
+.dashboard{
+grid-template-columns:1fr;
+}
+}
+
+@media(max-width:768px){
+.phase-rail{display:none;}
+.canvas{margin-left:0;}
+.top-links{display:none;}
+.shell{padding:0 24px 100px;}
+.feature-grid,.action-grid{grid-template-columns:1fr;}
+.drawer{width:100%;}
+}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+<div class="logo">Vow<span>Ledger</span></div>
+<div class="top-links">
+<a href="#">Archive</a>
+<a href="#">Blessings</a>
+<a href="#">Collections</a>
+<a href="#">Arena</a>
+</div>
+<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);">Live Archive</div>
+</header>
+
+<aside class="phase-rail">
+<div class="phase-dot active" onclick="goPhase(1)">1</div>
+<div class="phase-dot" onclick="goPhase(2)">2</div>
+<div class="phase-dot" onclick="goPhase(3)">3</div>
+<div class="phase-dot" onclick="goPhase(4)">4</div>
+<div class="phase-dot" onclick="goPhase(5)">5</div>
+</aside>
+
+<main class="canvas">
+
+<!-- PHASE 1 -->
+<section class="phase active" id="phase-1">
+<div class="shell">
+<div class="dashboard">
+
+<div class="panel post-box">
+<div class="panel-title">Contribute</div>
+<div class="panel-heading">Add A Memory</div>
+<div class="prompt">What should they remember 20 years from now?</div>
+
+<div class="action-grid">
+<div class="action">
+<div class="action-title">📸 Photograph</div>
+<div class="action-copy">Upload one meaningful image.</div>
+</div>
+
+<div class="action">
+<div class="action-title">🎙 Voice Blessing</div>
+<div class="action-copy">Record a short blessing.</div>
+</div>
+</div>
+</div>
+
+<div class="panel feature-stage">
+<div class="panel-title">Tonight's Archive</div>
+<div class="big-title">Raj & Ananya</div>
+<div class="big-sub">A quiet editorial archive of blessings, memories, and family moments.</div>
+
+<div class="feature-grid">
+<div class="feature-card">
+<h4>Grandmother’s Blessing</h4>
+<p>“May your home always remain noisy with laughter.”</p>
+</div>
+
+<div class="feature-card">
+<h4>Founding Photograph</h4>
+<p>The first surviving image of both families together.</p>
+</div>
+</div>
+
+<button class="btn" onclick="goPhase(2)">Open Next Phase</button>
+</div>
+
+<div class="panel">
+<div class="panel-title">Archive Events</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">Another Memory Surfaced Tonight</div>
+<div class="feed-copy">A school photograph from 2004 was restored.</div>
+<div class="feed-meta">Recovered In Kolkata</div>
+</div>
+</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">A Blessing Was Added</div>
+<div class="feed-copy">Voice note received from Guwahati.</div>
+<div class="feed-meta">02:14 Audio</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- PHASE 2 -->
+<section class="phase" id="phase-2">
+<div class="shell">
+<div class="dashboard">
+
+<div class="panel post-box">
+<div class="panel-title">Contribute</div>
+<div class="panel-heading">Family Archive</div>
+<div class="prompt">Share something your future children should know.</div>
+
+<div class="action-grid">
+<div class="action">
+<div class="action-title">🕯 Family Story</div>
+<div class="action-copy">Write a short memory.</div>
+</div>
+
+<div class="action">
+<div class="action-title">🎙 Elder Recording</div>
+<div class="action-copy">Capture a parent or grandparent.</div>
+</div>
+
+<div class="action">
+<div class="action-title">📼 Old Media</div>
+<div class="action-copy">Restore a VHS or cassette.</div>
+</div>
+
+<div class="action">
+<div class="action-title">🧾 Ritual</div>
+<div class="action-copy">Preserve a tradition or recipe.</div>
+</div>
+</div>
+</div>
+
+<div class="panel feature-stage">
+<div class="panel-title">Family Contributions</div>
+<div class="big-title">The Families Begin Appearing</div>
+<div class="big-sub">Different relatives quietly shape the emotional atmosphere of the archive.</div>
+
+<div class="feature-grid">
+<div class="feature-card">
+<h4>Archive Hunter ♠</h4>
+<p>Recovered migration letters and rare photographs.</p>
+</div>
+
+<div class="feature-card">
+<h4>Chaos Cousin ♥</h4>
+<p>Uploaded dance clips and school memories.</p>
+</div>
+
+<div class="feature-card">
+<h4>Ritual Keeper ♣</h4>
+<p>Preserved family sayings and festive recipes.</p>
+</div>
+
+<div class="feature-card">
+<h4>Voyage Patron ♦</h4>
+<p>Sponsored the restoration of old albums.</p>
+</div>
+</div>
+
+<button class="btn" onclick="goPhase(3)">Open Next Phase</button>
+</div>
+
+<div class="panel">
+<div class="panel-title">Family Signatures</div>
+
+<div class="side-card">
+<div class="side-title">Saswata</div>
+<div class="suit-row">
+<div class="suit">♥</div>
+<div class="suit">♦</div>
+<div class="suit">♠</div>
+<div class="suit">♣</div>
+</div>
+</div>
+
+<div class="side-card">
+<div class="side-title">Grandmother</div>
+<div class="suit-row">
+<div class="suit">♠</div>
+<div class="suit">♠</div>
+<div class="suit">♣</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<!-- PHASE 3 -->
+<section class="phase" id="phase-3">
+<div class="shell">
+<div class="dashboard">
+
+<div class="panel post-box">
+<div class="panel-title">Contribute</div>
+<div class="panel-heading">Collections</div>
+<div class="prompt">The archive is missing something from these memory worlds.</div>
+
+<div class="action-grid">
+<div class="action">
+<div class="action-title">🚂 Assam Route</div>
+<div class="action-copy">Migration stories and train memories.</div>
+</div>
+
+<div class="action">
+<div class="action-title">📼 Before Smartphones</div>
+<div class="action-copy">Cassette tapes and old diaries.</div>
+</div>
+
+<div class="action">
+<div class="action-title">🏫 College Years</div>
+<div class="action-copy">Hostel stories and friendships.</div>
+</div>
+
+<div class="action">
+<div class="action-title">📸 Lost Wedding Albums</div>
+<div class="action-copy">Recover forgotten family weddings.</div>
+</div>
+</div>
+</div>
+
+<div class="panel feature-stage">
+<div class="panel-title">Collections</div>
+<div class="big-title">The Archive Starts Opening Worlds</div>
+<div class="big-sub">Users no longer feel like they are uploading content. They feel like they are uncovering forgotten family territory.</div>
+
+<div class="feature-grid">
+<div class="feature-card">
+<h4>The Assam Collection</h4>
+<p>36 artifacts remaining.</p>
+</div>
+
+<div class="feature-card">
+<h4>Before Smartphones</h4>
+<p>18 artifacts remaining.</p>
+</div>
+
+<div class="feature-card">
+<h4>Parents Before Marriage</h4>
+<p>A newly unlocked emotional layer.</p>
+</div>
+
+<div class="feature-card">
+<h4>The Black Vault</h4>
+<p>Deep archival recordings surfaced tonight.</p>
+</div>
+</div>
+
+<button class="btn" onclick="goPhase(4)">Open Next Phase</button>
+</div>
+
+<div class="panel">
+<div class="panel-title">Archive Invitations</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">A Forgotten Collection Surfaced</div>
+<div class="feed-copy">Parents Before Marriage opened tonight.</div>
+</div>
+</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">Rare Artifact Requested</div>
+<div class="feed-copy">The archive is missing the story behind one damaged photograph.</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- PHASE 4 -->
+<section class="phase" id="phase-4">
+<div class="shell">
+<div class="dashboard">
+
+<div class="panel post-box">
+<div class="panel-title">Tonight's Arena</div>
+<div class="panel-heading">Live Memory Rituals</div>
+<div class="prompt">Temporary emotional events are now unfolding across the archive.</div>
+
+<div class="action-grid">
+<div class="action">
+<div class="action-title">🎈 Balloon Burst</div>
+<div class="action-copy">Reveal a hidden archive mission.</div>
+</div>
+
+<div class="action">
+<div class="action-title">🎤 Antakshari Chain</div>
+<div class="action-copy">Continue someone’s memory.</div>
+</div>
+
+<div class="action">
+<div class="action-title">📸 Lost Photo Studio</div>
+<div class="action-copy">Identify mystery relatives.</div>
+</div>
+
+<div class="action">
+<div class="action-title">🧳 Expedition Office</div>
+<div class="action-copy">Open a new memory route.</div>
+</div>
+</div>
+</div>
+
+<div class="panel feature-stage">
+<div class="panel-title">Arena Energy</div>
+<div class="big-title">The Wedding Feels Alive</div>
+<div class="big-sub">The Arena introduces temporary emotional energy while the Archive quietly curates what deserves permanence.</div>
+
+<div class="feature-grid">
+<div class="feature-card">
+<h4>♥ Hearts</h4>
+<p>Confessions, cousin chaos, emotional reveals.</p>
+</div>
+
+<div class="feature-card">
+<h4>♦ Diamonds</h4>
+<p>Momentum, patronage, ceremonial energy.</p>
+</div>
+
+<div class="feature-card">
+<h4>♠ Spades</h4>
+<p>Migration history and forgotten ancestry.</p>
+</div>
+
+<div class="feature-card">
+<h4>♣ Clubs</h4>
+<p>Traditions, rituals, continuity systems.</p>
+</div>
+</div>
+
+<button class="btn" onclick="goPhase(5)">Open Next Phase</button>
+</div>
+
+<div class="panel">
+<div class="panel-title">Live Signals</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">Grandparent Lore Active</div>
+<div class="feed-copy">Elder recordings now carry elevated resonance tonight.</div>
+</div>
+</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">Unexpected Swing</div>
+<div class="feed-copy">Bride side recovered momentum after a rare archival discovery.</div>
+</div>
+</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">Joker Event Triggered</div>
+<div class="feed-copy">A hidden VHS tape surfaced during the chaos window.</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- PHASE 5 -->
+<section class="phase" id="phase-5">
+<div class="shell">
+<div class="dashboard">
+
+<div class="panel post-box">
+<div class="panel-title">Continuity</div>
+<div class="panel-heading">Living Archive</div>
+<div class="prompt">The wedding is now one chapter inside a growing emotional civilization.</div>
+
+<div class="action-grid">
+<div class="action">
+<div class="action-title">📦 Time Capsule</div>
+<div class="action-copy">Send a message to future children.</div>
+</div>
+
+<div class="action">
+<div class="action-title">🎞 Family Chronicle</div>
+<div class="action-copy">Create this year’s emotional documentary.</div>
+</div>
+
+<div class="action">
+<div class="action-title">🎙 Elder Preservation</div>
+<div class="action-copy">Record family history interviews.</div>
+</div>
+
+<div class="action">
+<div class="action-title">🧬 Emotional Graph</div>
+<div class="action-copy">Map relationships and continuity.</div>
+</div>
+</div>
+</div>
+
+<div class="panel feature-stage">
+<div class="panel-title">Emotional Continuity</div>
+<div class="big-title">The Family Becomes A Living Archive</div>
+<div class="big-sub">The interface still feels calm and familiar — but now contains decades of voices, rituals, routes, yearly chronicles, and inherited memory.</div>
+
+<div class="feature-grid">
+<div class="feature-card">
+<h4>🎞 Family Chronicle</h4>
+<p>Your yearly emotional documentary is ready.</p>
+</div>
+
+<div class="feature-card">
+<h4>🕯 Anniversary Capsule</h4>
+<p>A hidden blessing from 2026 unlocked today.</p>
+</div>
+
+<div class="feature-card">
+<h4>📚 Dynasty Archive</h4>
+<p>48 years of family history preserved.</p>
+</div>
+
+<div class="feature-card">
+<h4>🧬 Emotional Graph</h4>
+<p>Stories and relationships now form a living memory network.</p>
+</div>
+</div>
+
+<button class="btn" onclick="goPhase(1)">Return To Phase 01</button>
+</div>
+
+<div class="panel">
+<div class="panel-title">Archive Events</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">A Voice Resurfaced Tonight</div>
+<div class="feed-copy">Grandfather’s blessing from 2026 was restored into this year’s chronicle.</div>
+</div>
+</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">Children Entered The Archive</div>
+<div class="feed-copy">The Founding Wedding chapter became available to the next generation.</div>
+</div>
+</div>
+
+<div class="feed-item">
+<div class="feed-dot"></div>
+<div>
+<div class="feed-title">The Assam Route Completed</div>
+<div class="feed-copy">Three generations contributed to the same archive route.</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+</main>
+
+<button class="drawer-toggle" onclick="toggleDrawer()">Info</button>
+
+<aside class="drawer" id="drawer">
+<small>Dashboard Evolution</small>
+<h3>Why The Interface Evolves Slowly</h3>
+
+<p>The user should never feel overwhelmed. Every phase introduces only one additional layer of emotional depth while preserving the same calm editorial atmosphere.</p>
+
+<p>Phase 1 begins with simple blessings and memories. Later phases gradually reveal collections, voyages, Arena events, emotional signatures, and continuity systems.</p>
+
+<p>The dashboard remains visually familiar throughout all five phases so users subconsciously learn the system without needing tutorials.</p>
+</aside>
+
+<script>
+
+const phases=document.querySelectorAll('.phase');
+const dots=document.querySelectorAll('.phase-dot');
+
+function goPhase(number){
+phases.forEach(p=>p.classList.remove('active'));
+dots.forEach(d=>d.classList.remove('active'));
+
+document.getElementById(`phase-${number}`).classList.add('active');
+dots[number-1].classList.add('active');
+
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleDrawer(){
+document.getElementById('drawer').classList.toggle('open');
+}
+
+</script>
+
+</body>
+</html>

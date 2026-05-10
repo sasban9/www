@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VowLedger — Founding Reserve</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- =========================================================
+BASE + THEME CSS
+========================================================= -->
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/themes.css">
+
+<style>
+
+/* =========================================================
+PAGE OVERRIDES ONLY
+========================================================= */
+
+body{
+    padding-top:120px;
+}
+
+.reserve-hero{
+    min-height:78vh;
+
+    display:flex;
+    align-items:center;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:48px;
+}
+
+.reserve-orb{
+
+    position:relative;
+
+    width:420px;
+    height:420px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+    radial-gradient(
+        circle at center,
+        rgba(200,164,111,.18),
+        rgba(255,255,255,.02)
+    );
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    overflow:hidden;
+
+}
+
+.reserve-orb::before{
+
+    content:"";
+
+    position:absolute;
+    inset:20px;
+
+    border-radius:50%;
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+}
+
+.reserve-core{
+    text-align:center;
+    z-index:2;
+}
+
+.reserve-amount{
+    font-size:72px;
+    line-height:1;
+
+    font-family:var(--font-heading);
+}
+
+.reserve-status{
+    margin-top:18px;
+    color:var(--text-secondary);
+}
+
+.live-pulse{
+
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    border-radius:50%;
+
+    border:
+    1px solid rgba(200,164,111,.14);
+
+    animation:
+    pulse 4s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(.9);
+        opacity:.2;
+    }
+
+    100%{
+        transform:scale(1.4);
+        opacity:0;
+    }
+
+}
+
+.widget-grid{
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+
+    margin-top:80px;
+
+}
+
+.widget-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:32px;
+
+    background:var(--card-bg);
+
+    border:
+    1px solid var(--border-soft);
+
+    padding:32px;
+
+    backdrop-filter:blur(10px);
+
+}
+
+.widget-card.large{
+    grid-column:span 2;
+}
+
+.split-bar{
+
+    width:100%;
+    height:18px;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    margin-top:24px;
+
+    display:flex;
+}
+
+.platform-fill{
+    background:
+    linear-gradient(
+        90deg,
+        #b6874e,
+        #e0c28a
+    );
+}
+
+.arena-fill{
+    background:
+    linear-gradient(
+        90deg,
+        #6f7f72,
+        #97b19a
+    );
+}
+
+.split-segment{
+    height:100%;
+    transition:width 1s cubic-bezier(.19,1,.22,1);
+}
+
+.breakdown-grid{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+
+    margin-top:30px;
+
+}
+
+.breakdown-box{
+
+    padding:22px;
+
+    border-radius:24px;
+
+    background:
+    rgba(255,255,255,.025);
+
+    border:
+    1px solid var(--border-soft);
+
+}
+
+.big-number{
+
+    font-size:42px;
+    line-height:1;
+
+    font-family:var(--font-heading);
+
+    margin-top:12px;
+
+}
+
+.counter-row{
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:20px 0;
+
+    border-bottom:
+    1px solid rgba(255,255,255,.06);
+
+}
+
+.counter-row:last-child{
+    border-bottom:none;
+}
+
+.activity-meter{
+
+    margin-top:18px;
+
+    height:12px;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    background:
+    rgba(255,255,255,.06);
+
+}
+
+.activity-fill{
+
+    height:100%;
+
+    border-radius:999px;
+
+    transition:
+    width 1s cubic-bezier(.19,1,.22,1);
+
+}
+
+.hearts{
+    background:linear-gradient(90deg,#af4a55,#d67b87);
+}
+
+.diamonds{
+    background:linear-gradient(90deg,#c19a5f,#e3c08f);
+}
+
+.spades{
+    background:linear-gradient(90deg,#6f727a,#b9bec7);
+}
+
+.clubs{
+    background:linear-gradient(90deg,#5f8064,#8fb090);
+}
+
+.recharge-panel{
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+
+    margin-top:34px;
+
+}
+
+.recharge-btn{
+
+    padding:18px 24px;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    background:
+    rgba(255,255,255,.03);
+
+    border:
+    1px solid var(--border-soft);
+
+    transition:var(--transition-base);
+
+}
+
+.recharge-btn:hover{
+
+    transform:translateY(-2px);
+
+    border-color:
+    rgba(200,164,111,.4);
+
+}
+
+.log-feed{
+
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+
+    margin-top:30px;
+
+}
+
+.log-item{
+
+    padding:18px;
+
+    border-radius:22px;
+
+    background:
+    rgba(255,255,255,.025);
+
+    border:
+    1px solid var(--border-soft);
+
+    line-height:1.7;
+
+    color:var(--text-secondary);
+
+}
+
+.floating-banner{
+
+    position:fixed;
+
+    bottom:24px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:min(92%,980px);
+
+    z-index:999;
+
+    border-radius:999px;
+
+    padding:20px 28px;
+
+    background:
+    rgba(15,15,16,.84);
+
+    backdrop-filter:blur(16px);
+
+    border:
+    1px solid rgba(200,164,111,.2);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+
+}
+
+.low-warning{
+    color:#e0c28a;
+}
+
+@media(max-width:1100px){
+
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .widget-grid{
+        grid-template-columns:1fr;
+    }
+
+    .widget-card.large{
+        grid-column:span 1;
+    }
+
+    .breakdown-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .reserve-orb{
+        width:320px;
+        height:320px;
+    }
+
+    .reserve-amount{
+        font-size:54px;
+    }
+
+    .floating-banner{
+        border-radius:28px;
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+
+    <div class="logo">
+        VowLedger
+    </div>
+
+    <nav class="nav-links">
+        <a href="#">Story</a>
+        <a href="#">Arena</a>
+        <a href="#">Collections</a>
+        <a href="#">Blessings</a>
+        <a href="#">Archive</a>
+    </nav>
+
+    <button class="btn btn-secondary">
+        Founding Season
+    </button>
+
+</header>
+
+<section class="reserve-hero section">
+
+    <div class="page-shell">
+
+        <div class="hero-grid">
+
+            <!-- LEFT -->
+
+            <div class="stack-lg">
+
+                <div>
+                    <div class="eyebrow">
+                        Founding Reserve
+                    </div>
+
+                    <h1 class="hero-title" style="margin-top:22px;">
+                        Families Keep The Arena Alive Together
+                    </h1>
+
+                    <p class="body-text reading-width" style="margin-top:28px;">
+                        Guests collectively extend the living archive. Half of the reserve sustains the platform and preservation infrastructure. The remaining half becomes the Arena Pool — funding quests, archive hunts, memory expeditions, and rewards for the cousins and contributors preserving family history.
+                    </p>
+                </div>
+
+                <div class="recharge-panel">
+
+                    <button class="recharge-btn" data-amount="2500">
+                        Add ₹2,500
+                    </button>
+
+                    <button class="recharge-btn" data-amount="5000">
+                        Add ₹5,000
+                    </button>
+
+                    <button class="recharge-btn" data-amount="12000">
+                        Add ₹12,000
+                    </button>
+
+                    <button class="recharge-btn" data-amount="25000">
+                        Add ₹25,000
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="reserve-orb">
+
+                <div class="live-pulse"></div>
+
+                <div class="reserve-core">
+
+                    <div class="eyebrow">
+                        Current Reserve
+                    </div>
+
+                    <div class="reserve-amount" id="reserveAmount">
+                        ₹48,000
+                    </div>
+
+                    <div class="reserve-status" id="reserveStatus">
+                        The Arena remains emotionally active.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- WIDGETS -->
+
+        <div class="widget-grid">
+
+            <!-- SPLIT -->
+
+            <div class="widget-card large">
+
+                <div class="eyebrow">
+                    Living Distribution
+                </div>
+
+                <h2 class="section-title" style="margin-top:18px;">
+                    The Reserve Splits Automatically
+                </h2>
+
+                <p class="body-text" style="max-width:760px; margin-top:18px;">
+                    Every contribution quietly sustains both the preservation studio and the family’s active memory season.
+                </p>
+
+                <div class="split-bar">
+
+                    <div class="split-segment platform-fill"
+                         id="platformFill"
+                         style="width:50%">
+                    </div>
+
+                    <div class="split-segment arena-fill"
+                         id="arenaFill"
+                         style="width:50%">
+                    </div>
+
+                </div>
+
+                <div class="breakdown-grid">
+
+                    <div class="breakdown-box">
+
+                        <div class="eyebrow">
+                            Total Reserve
+                        </div>
+
+                        <div class="big-number" id="totalReserve">
+                            ₹48K
+                        </div>
+
+                    </div>
+
+                    <div class="breakdown-box">
+
+                        <div class="eyebrow">
+                            Preservation Studio
+                        </div>
+
+                        <div class="big-number" id="platformShare">
+                            ₹24K
+                        </div>
+
+                    </div>
+
+                    <div class="breakdown-box">
+
+                        <div class="eyebrow">
+                            Arena Pool
+                        </div>
+
+                        <div class="big-number" id="arenaShare">
+                            ₹24K
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CLANS -->
+
+            <div class="widget-card">
+
+                <div class="eyebrow">
+                    Arena Momentum
+                </div>
+
+                <h2 style="margin-top:18px;">
+                    Family Clans
+                </h2>
+
+                <div class="stack-md" style="margin-top:30px;">
+
+                    <div>
+
+                        <div class="counter-row">
+                            <span>Bride Side ♥</span>
+                            <span id="heartsValue">72</span>
+                        </div>
+
+                        <div class="activity-meter">
+                            <div class="activity-fill hearts"
+                                 id="heartsFill"
+                                 style="width:72%">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <div class="counter-row">
+                            <span>Groom Side ♦</span>
+                            <span id="diamondsValue">64</span>
+                        </div>
+
+                        <div class="activity-meter">
+                            <div class="activity-fill diamonds"
+                                 id="diamondsFill"
+                                 style="width:64%">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <div class="counter-row">
+                            <span>Assam Route ♠</span>
+                            <span id="spadesValue">41</span>
+                        </div>
+
+                        <div class="activity-meter">
+                            <div class="activity-fill spades"
+                                 id="spadesFill"
+                                 style="width:41%">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <div class="counter-row">
+                            <span>Kolkata Cousins ♣</span>
+                            <span id="clubsValue">36</span>
+                        </div>
+
+                        <div class="activity-meter">
+                            <div class="activity-fill clubs"
+                                 id="clubsFill"
+                                 style="width:36%">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- LOGS -->
+
+            <div class="widget-card">
+
+                <div class="eyebrow">
+                    Archive Events
+                </div>
+
+                <h2 style="margin-top:18px;">
+                    Live Redistribution
+                </h2>
+
+                <div class="log-feed" id="logFeed">
+
+                    <div class="log-item">
+                        The Assam Collection received unusual resonance after tonight’s patronage.
+                    </div>
+
+                    <div class="log-item">
+                        Forgotten collections quietly gained visibility through the Arena Pool.
+                    </div>
+
+                    <div class="log-item">
+                        Emotional pressure softened around dominant clans as quieter routes resurfaced.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<div class="floating-banner">
+
+    <div>
+
+        <div class="eyebrow">
+            Founding Season Status
+        </div>
+
+        <div class="low-warning" id="warningText">
+            The Arena Reserve is weakening. Guests may extend the season tonight.
+        </div>
+
+    </div>
+
+    <button class="btn btn-primary" id="bannerRecharge">
+        Continue The Season
+    </button>
+
+</div>
+
+<script>
+
+/* =========================================================
+STATE
+========================================================= */
+
+let totalReserve = 48000;
+
+let clans = {
+
+    hearts:72,
+    diamonds:64,
+    spades:41,
+    clubs:36
+
+};
+
+const logs = [
+
+"The archive shifted emotional attention toward quieter routes tonight.",
+
+"Hidden family collections gained unusual momentum after the latest patronage.",
+
+"The Arena Pool reopened forgotten memory expeditions.",
+
+"Silent clans received stronger resonance through tonight’s redistribution.",
+
+"Grandparent lore quietly amplified the archive atmosphere.",
+
+"The Assam Route unexpectedly surged through underdog diffusion.",
+
+"New collections surfaced through collaborative reserve pressure."
+
+];
+
+/* =========================================================
+RENDER
+========================================================= */
+
+function render(){
+
+    document.getElementById('reserveAmount')
+    .innerText =
+    "₹" + totalReserve.toLocaleString();
+
+    document.getElementById('totalReserve')
+    .innerText =
+    "₹" + Math.round(totalReserve/1000) + "K";
+
+    const platform =
+        Math.round(totalReserve * .5);
+
+    const arena =
+        Math.round(totalReserve * .5);
+
+    document.getElementById('platformShare')
+    .innerText =
+    "₹" + Math.round(platform/1000) + "K";
+
+    document.getElementById('arenaShare')
+    .innerText =
+    "₹" + Math.round(arena/1000) + "K";
+
+    updateClan('hearts');
+    updateClan('diamonds');
+    updateClan('spades');
+    updateClan('clubs');
+
+    updateReserveState();
+
+}
+
+function updateClan(type){
+
+    document.getElementById(type+'Value')
+    .innerText =
+    Math.round(clans[type]);
+
+    document.getElementById(type+'Fill')
+    .style.width =
+    clans[type] + "%";
+
+}
+
+function updateReserveState(){
+
+    const warning =
+        document.getElementById('warningText');
+
+    const reserveStatus =
+        document.getElementById('reserveStatus');
+
+    if(totalReserve < 25000){
+
+        warning.innerText =
+        "The Arena Reserve is weakening. Guests may extend the season tonight.";
+
+        reserveStatus.innerText =
+        "Several archive routes may soon quiet into preservation mode.";
+
+    }
+
+    else if(totalReserve < 70000){
+
+        warning.innerText =
+        "The Founding Season remains stable through collective patronage.";
+
+        reserveStatus.innerText =
+        "The Arena remains emotionally active.";
+
+    }
+
+    else{
+
+        warning.innerText =
+        "The archive atmosphere is thriving. New collections continue surfacing.";
+
+        reserveStatus.innerText =
+        "Multiple expeditions remain active across the family archive.";
+
+    }
+
+}
+
+/* =========================================================
+RECHARGE ENGINE
+========================================================= */
+
+function recharge(amount){
+
+    totalReserve += amount;
+
+    // 50 / 50 split
+    const arenaPool =
+        amount * .5;
+
+    // hidden fuzzy redistribution
+    const dominant =
+        'hearts';
+
+    const hiddenCeiling =
+        84 + Math.random()*8;
+
+    const diffusion =
+        arenaPool * (.25 + Math.random()*.35);
+
+    const dominantGain =
+        arenaPool - diffusion;
+
+    clans[dominant] +=
+        Math.min(
+            dominantGain / 1800,
+            hiddenCeiling - clans[dominant]
+        );
+
+    const underdogs =
+        ['clubs','spades','diamonds'];
+
+    underdogs.forEach((type,index)=>{
+
+        const weight =
+            (underdogs.length-index) /
+            underdogs.length;
+
+        clans[type] +=
+            (diffusion * weight)
+            / 3500;
+
+    });
+
+    // soft leakage
+    Object.keys(clans)
+    .forEach(type=>{
+
+        clans[type] *=
+        .992 + Math.random()*.008;
+
+        if(clans[type] > 92){
+            clans[type] -=
+            Math.random()*3;
+        }
+
+    });
+
+    addLog(amount);
+
+    render();
+
+}
+
+/* =========================================================
+LOGS
+========================================================= */
+
+function addLog(amount){
+
+    const feed =
+        document.getElementById('logFeed');
+
+    const item =
+        document.createElement('div');
+
+    item.className =
+        'log-item';
+
+    item.innerHTML = `
+
+        <strong style="color:var(--text-primary)">
+            ₹${amount.toLocaleString()} entered the Founding Reserve.
+        </strong>
+
+        <br><br>
+
+        ${logs[Math.floor(Math.random()*logs.length)]}
+
+    `;
+
+    feed.prepend(item);
+
+    if(feed.children.length > 6){
+        feed.removeChild(feed.lastChild);
+    }
+
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+document.querySelectorAll('.recharge-btn')
+.forEach(btn=>{
+
+    btn.addEventListener('click',()=>{
+
+        recharge(
+            parseInt(btn.dataset.amount)
+        );
+
+    });
+
+});
+
+document.getElementById('bannerRecharge')
+.addEventListener('click',()=>{
+
+    recharge(10000);
+
+});
+
+render();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>VowLedger — Founding Reserve Settings</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   BASE
+========================================================= */
+
+:root{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+  --bg-card:#1f1d1b;
+
+  --text:#f4eee3;
+  --muted:#b9ac94;
+
+  --accent:#c8a46f;
+  --accent-bright:#e3c38f;
+
+  --border:rgba(255,255,255,.08);
+
+  --radius:28px;
+  --pill:999px;
+
+  --transition:.45s cubic-bezier(.19,1,.22,1);
+
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  padding:40px 24px;
+}
+
+.page{
+  width:min(1200px,100%);
+  margin:auto;
+}
+
+h1,h2,h3{
+  font-family:'Playfair Display',serif;
+  font-weight:500;
+}
+
+.hero{
+  margin-bottom:48px;
+}
+
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:16px;
+}
+
+.hero h1{
+  font-size:clamp(42px,7vw,82px);
+  line-height:.95;
+  margin-bottom:18px;
+}
+
+.hero p{
+  max-width:760px;
+  line-height:1.8;
+  color:var(--muted);
+  font-size:17px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:28px;
+}
+
+.card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:28px;
+}
+
+.stack{
+  display:flex;
+  flex-direction:column;
+  gap:28px;
+}
+
+.label-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.label{
+  font-size:14px;
+  color:var(--muted);
+}
+
+.value{
+  font-size:15px;
+  color:var(--accent-bright);
+}
+
+input[type="range"]{
+  width:100%;
+  accent-color:var(--accent);
+}
+
+.input-group{
+  display:grid;
+  grid-template-columns:1fr 120px;
+  gap:14px;
+  align-items:center;
+}
+
+.number-input{
+  width:100%;
+  background:#111;
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:18px;
+  padding:14px 16px;
+  font-size:15px;
+}
+
+.section-title{
+  font-size:28px;
+  margin-bottom:24px;
+}
+
+.summary-box{
+  padding:20px;
+  border-radius:24px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+}
+
+.summary-line{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:14px;
+}
+
+.summary-line:last-child{
+  margin-bottom:0;
+}
+
+.summary-line span:first-child{
+  color:var(--muted);
+}
+
+.summary-line strong{
+  color:var(--accent-bright);
+}
+
+.balls-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+  gap:14px;
+}
+
+.ball{
+  aspect-ratio:1;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.03);
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  transition:var(--transition);
+}
+
+.ball:hover{
+  transform:translateY(-4px);
+  border-color:rgba(255,255,255,.2);
+}
+
+.ball-number{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.ball-value{
+  font-size:14px;
+  color:var(--accent-bright);
+  font-weight:600;
+}
+
+.ball.missing{
+  background:rgba(255,255,255,.01);
+  border-style:dashed;
+  opacity:.35;
+}
+
+.fee-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.fee-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:18px;
+}
+
+.progress-wrap{
+  margin-top:20px;
+}
+
+.progress-bar{
+  height:16px;
+  background:#0d0d0d;
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+.progress-fill{
+  height:100%;
+  background:linear-gradient(to right,var(--accent),var(--accent-bright));
+  width:0%;
+  transition:var(--transition);
+}
+
+.progress-label{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.status-good{
+  color:#97d897;
+}
+
+.status-bad{
+  color:#ff8c8c;
+}
+
+.total-highlight{
+  margin-top:22px;
+  padding:24px;
+  border-radius:26px;
+  border:1px solid rgba(200,164,111,.28);
+  background:rgba(200,164,111,.06);
+}
+
+.total-highlight h2{
+  font-size:42px;
+  margin-bottom:8px;
+}
+
+.total-highlight p{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+@media(max-width:980px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .fee-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="eyebrow">FOUNDING RESERVE SETTINGS</div>
+    <h1>99 Ball Reserve Engine</h1>
+    <p>
+      Configure the starting value, progression step size, and the emotional funding distribution
+      powering the living archive experience.
+    </p>
+  </div>
+
+  <div class="grid">
+
+    <!-- LEFT SETTINGS -->
+    <div class="stack">
+
+      <div class="card">
+
+        <h2 class="section-title">Reserve Structure</h2>
+
+        <div class="stack">
+
+          <div>
+            <div class="label-row">
+              <div class="label">Starting Value</div>
+              <div class="value">₹<span id="startValueText">100</span></div>
+            </div>
+
+            <div class="input-group">
+              <input type="range" id="startValue" min="0" max="50000" step="100" value="100">
+              <input type="number" class="number-input" id="startValueInput" value="100">
+            </div>
+          </div>
+
+          <div>
+            <div class="label-row">
+              <div class="label">Step Size</div>
+              <div class="value">₹<span id="stepValueText">100</span></div>
+            </div>
+
+            <div class="input-group">
+              <input type="range" id="stepValue" min="0" max="10000" step="100" value="100">
+              <input type="number" class="number-input" id="stepValueInput" value="100">
+            </div>
+          </div>
+
+        </div>
+
+        <div class="total-highlight">
+          <h2 id="grandTotal">₹4,95,000</h2>
+          <p>
+            Total reserve generated across 99 emotional funding balls.
+            Ball #50 remains intentionally missing to preserve symbolic balance and a rounded reserve structure.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <h2 class="section-title">Reserve Distribution</h2>
+
+        <div class="fee-grid">
+
+          <div class="fee-card">
+            <div class="label-row">
+              <div class="label">Platform Preservation</div>
+              <div class="value"><span id="platformText">25</span>%</div>
+            </div>
+
+            <input type="range" id="platformFee" min="0" max="100" value="25">
+          </div>
+
+          <div class="fee-card">
+            <div class="label-row">
+              <div class="label">Wedding Steward</div>
+              <div class="value"><span id="vendorText">25</span>%</div>
+            </div>
+
+            <input type="range" id="vendorFee" min="0" max="100" value="25">
+          </div>
+
+          <div class="fee-card">
+            <div class="label-row">
+              <div class="label">Couple Gift Pool</div>
+              <div class="value"><span id="giftText">25</span>%</div>
+            </div>
+
+            <input type="range" id="giftPool" min="0" max="100" value="25">
+          </div>
+
+          <div class="fee-card">
+            <div class="label-row">
+              <div class="label">Clan Prize Reserve</div>
+              <div class="value"><span id="clanText">25</span>%</div>
+            </div>
+
+            <input type="range" id="clanPrize" min="0" max="100" value="25">
+          </div>
+
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <div class="progress-label" id="progressLabel">
+            Total Allocation: 100%
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <h2 class="section-title">Current Split Preview</h2>
+
+        <div class="summary-box">
+
+          <div class="summary-line">
+            <span>Platform Preservation</span>
+            <strong id="platformAmount">₹1,23,750</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Wedding Steward</span>
+            <strong id="vendorAmount">₹1,23,750</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Couple Gift Pool</span>
+            <strong id="giftAmount">₹1,23,750</strong>
+          </div>
+
+          <div class="summary-line">
+            <span>Clan Prize Reserve</span>
+            <strong id="clanAmount">₹1,23,750</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="card">
+
+      <div class="label-row" style="margin-bottom:24px;">
+        <h2 class="section-title" style="margin:0;">99 Ball Reserve Map</h2>
+
+        <div class="value">
+          Ball #50 Missing
+        </div>
+      </div>
+
+      <div class="balls-grid" id="ballsGrid"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const startSlider = document.getElementById('startValue');
+const stepSlider = document.getElementById('stepValue');
+
+const startInput = document.getElementById('startValueInput');
+const stepInput = document.getElementById('stepValueInput');
+
+const startText = document.getElementById('startValueText');
+const stepText = document.getElementById('stepValueText');
+
+const ballsGrid = document.getElementById('ballsGrid');
+const grandTotal = document.getElementById('grandTotal');
+
+const platformFee = document.getElementById('platformFee');
+const vendorFee = document.getElementById('vendorFee');
+const giftPool = document.getElementById('giftPool');
+const clanPrize = document.getElementById('clanPrize');
+
+function formatINR(num){
+  return '₹' + num.toLocaleString('en-IN');
+}
+
+function generateBalls(){
+
+  ballsGrid.innerHTML = '';
+
+  const start = Number(startSlider.value);
+  const step = Number(stepSlider.value);
+
+  startText.textContent = start;
+  stepText.textContent = step;
+
+  startInput.value = start;
+  stepInput.value = step;
+
+  let total = 0;
+
+  for(let i=1;i<101;i++){
+
+    const ball = document.createElement('div');
+
+    if(i === 50){
+
+      ball.className = 'ball missing';
+
+      ball.innerHTML = `
+        <div class="ball-number">BALL 50</div>
+        <div class="ball-value">MISSING</div>
+      `;
+
+    //   ballsGrid.appendChild(ball);
+
+      continue;
+    }
+
+    const value = start + ((i-1) * step);
+
+    total += value;
+
+    ball.className = 'ball';
+
+    ball.innerHTML = `
+      <div class="ball-number">BALL ${i}</div>
+      <div class="ball-value">${formatINR(value)}</div>
+    `;
+
+    ballsGrid.appendChild(ball);
+  }
+
+  grandTotal.textContent = formatINR(total);
+
+  updateSplit(total);
+}
+
+function updateSplit(total){
+
+  const p = Number(platformFee.value);
+  const v = Number(vendorFee.value);
+  const g = Number(giftPool.value);
+  const c = Number(clanPrize.value);
+
+  document.getElementById('platformText').textContent = p;
+  document.getElementById('vendorText').textContent = v;
+  document.getElementById('giftText').textContent = g;
+  document.getElementById('clanText').textContent = c;
+
+  const sum = p+v+g+c;
+
+  const progress = document.getElementById('progressFill');
+  const label = document.getElementById('progressLabel');
+
+  progress.style.width = Math.min(sum,100) + '%';
+
+  if(sum === 100){
+
+    label.innerHTML = `
+      <span class="status-good">
+        Total Allocation: 100% Balanced
+      </span>
+    `;
+
+  }else{
+
+    label.innerHTML = `
+      <span class="status-bad">
+        Total Allocation: ${sum}% — Must equal 100%
+      </span>
+    `;
+  }
+
+  document.getElementById('platformAmount').textContent =
+    formatINR(Math.round(total * p / 100));
+
+  document.getElementById('vendorAmount').textContent =
+    formatINR(Math.round(total * v / 100));
+
+  document.getElementById('giftAmount').textContent =
+    formatINR(Math.round(total * g / 100));
+
+  document.getElementById('clanAmount').textContent =
+    formatINR(Math.round(total * c / 100));
+}
+
+[startSlider,stepSlider].forEach(el=>{
+  el.addEventListener('input',generateBalls);
+});
+
+[startInput,stepInput].forEach((el,index)=>{
+
+  el.addEventListener('input',()=>{
+
+    if(index===0){
+      startSlider.value = el.value || 0;
+    }else{
+      stepSlider.value = el.value || 0;
+    }
+
+    generateBalls();
+
+  });
+
+});
+
+[platformFee,vendorFee,giftPool,clanPrize].forEach(el=>{
+  el.addEventListener('input',()=>{
+
+    const total = Number(
+      grandTotal.textContent.replace(/[₹,]/g,'')
+    );
+
+    updateSplit(total);
+
+  });
+});
+
+generateBalls();
+
+</script>
+
+</body>
+</html>

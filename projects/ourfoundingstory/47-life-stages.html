@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>VowLedger — 21 Day Founding Season</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+
+    background:var(--bg);
+    color:var(--text-primary);
+
+    font-family:var(--font-body);
+
+    transition:
+    background .6s cubic-bezier(.19,1,.22,1),
+    color .6s cubic-bezier(.19,1,.22,1);
+}
+
+button{
+    border:none;
+    background:none;
+    font:inherit;
+    color:inherit;
+    cursor:pointer;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+/* =========================================================
+STRUCTURE TOKENS
+========================================================= */
+
+:root{
+
+    --container:1400px;
+
+    --space-xs:10px;
+    --space-sm:16px;
+    --space-md:24px;
+    --space-lg:40px;
+    --space-xl:64px;
+
+    --radius-sm:14px;
+    --radius-md:24px;
+    --radius-lg:36px;
+    --radius-pill:999px;
+
+    --transition:
+    all .6s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+THEMES
+========================================================= */
+
+.theme-estate{
+
+    --bg:#121110;
+    --bg-soft:#1b1917;
+    --bg-elevated:#221f1b;
+
+    --text-primary:#f4eee3;
+    --text-secondary:#c8bda8;
+    --text-muted:#918878;
+
+    --accent:#c8a46f;
+    --accent-bright:#e3c58f;
+
+    --border-soft:rgba(255,255,255,.08);
+
+    --card-bg:rgba(255,255,255,.03);
+
+    --header-bg:rgba(12,12,12,.55);
+
+    --font-heading:'Playfair Display', serif;
+    --font-body:'Inter', sans-serif;
+}
+
+.theme-bengal{
+
+    --bg:#1b1414;
+    --bg-soft:#2a1e1e;
+    --bg-elevated:#322322;
+
+    --text-primary:#f4ead9;
+    --text-secondary:#ccbca4;
+    --text-muted:#9f8d79;
+
+    --accent:#d7a35c;
+    --accent-bright:#efc27f;
+
+    --border-soft:rgba(255,220,180,.08);
+
+    --card-bg:rgba(255,255,255,.03);
+
+    --header-bg:rgba(22,14,14,.62);
+
+    --font-heading:'Cormorant Garamond', serif;
+    --font-body:'Inter', sans-serif;
+}
+
+.theme-noir{
+
+    --bg:#090909;
+    --bg-soft:#111;
+    --bg-elevated:#171717;
+
+    --text-primary:#f2f2f2;
+    --text-secondary:#b7b7b7;
+    --text-muted:#848484;
+
+    --accent:#cfcfcf;
+    --accent-bright:#fff;
+
+    --border-soft:rgba(255,255,255,.08);
+
+    --card-bg:rgba(255,255,255,.025);
+
+    --header-bg:rgba(10,10,10,.7);
+
+    --font-heading:'Playfair Display', serif;
+    --font-body:'Inter', sans-serif;
+}
+
+.theme-journal{
+
+    --bg:#f6f1e8;
+    --bg-soft:#ebe2d6;
+    --bg-elevated:#e0d6c8;
+
+    --text-primary:#191919;
+    --text-secondary:#4f493f;
+    --text-muted:#837b6d;
+
+    --accent:#8c6944;
+    --accent-bright:#b68856;
+
+    --border-soft:rgba(0,0,0,.08);
+
+    --card-bg:rgba(255,255,255,.5);
+
+    --header-bg:rgba(255,255,255,.7);
+
+    --font-heading:'Playfair Display', serif;
+    --font-body:'Inter', sans-serif;
+}
+
+/* =========================================================
+GLOBAL
+========================================================= */
+
+.page-shell{
+    width:min(100%,var(--container));
+    margin:auto;
+    padding-inline:4%;
+}
+
+.site-header{
+
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:min(94%,1400px);
+
+    z-index:1000;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:14px 20px;
+
+    border-radius:999px;
+
+    border:1px solid var(--border-soft);
+
+    background:var(--header-bg);
+
+    backdrop-filter:blur(16px);
+}
+
+.logo{
+    font-family:var(--font-heading);
+    font-size:24px;
+    letter-spacing:-.03em;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.theme-switcher{
+    display:flex;
+    gap:8px;
+}
+
+.theme-btn{
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,.2);
+}
+
+.theme-btn[data-theme="theme-estate"]{
+    background:#c8a46f;
+}
+
+.theme-btn[data-theme="theme-bengal"]{
+    background:#d7a35c;
+}
+
+.theme-btn[data-theme="theme-noir"]{
+    background:#fff;
+}
+
+.theme-btn[data-theme="theme-journal"]{
+    background:#8c6944;
+}
+
+/* =========================================================
+HERO
+========================================================= */
+
+.hero{
+    padding-top:140px;
+    padding-bottom:60px;
+}
+
+.eyebrow{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.28em;
+    color:var(--accent);
+    margin-bottom:20px;
+}
+
+.hero-title{
+    font-family:var(--font-heading);
+    font-size:clamp(48px,8vw,96px);
+    line-height:.95;
+    letter-spacing:-.05em;
+    margin-bottom:24px;
+}
+
+.hero-text{
+    max-width:760px;
+    font-size:18px;
+    line-height:1.9;
+    color:var(--text-secondary);
+}
+
+/* =========================================================
+LAYOUT
+========================================================= */
+
+.main-grid{
+    display:grid;
+    grid-template-columns:340px 1fr;
+    gap:32px;
+
+    padding-bottom:80px;
+}
+
+.sidebar{
+
+    position:sticky;
+    top:110px;
+
+    height:calc(100vh - 140px);
+
+    overflow:auto;
+
+    padding-right:8px;
+}
+
+.sidebar::-webkit-scrollbar{
+    width:4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.08);
+}
+
+.phase-card{
+
+    padding:18px;
+    margin-bottom:14px;
+
+    border-radius:var(--radius-md);
+
+    border:1px solid var(--border-soft);
+
+    background:var(--card-bg);
+
+    transition:var(--transition);
+
+    cursor:pointer;
+}
+
+.phase-card:hover{
+    transform:translateY(-2px);
+}
+
+.phase-card.active{
+    border-color:var(--accent);
+    background:rgba(255,255,255,.06);
+}
+
+.phase-day{
+    font-size:12px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+}
+
+.phase-title{
+    font-family:var(--font-heading);
+    font-size:26px;
+    line-height:1.1;
+    margin-bottom:10px;
+}
+
+.phase-sub{
+    color:var(--text-secondary);
+    line-height:1.7;
+    font-size:14px;
+}
+
+/* =========================================================
+DETAIL PANEL
+========================================================= */
+
+.detail-panel{
+
+    padding:34px;
+
+    border-radius:var(--radius-lg);
+
+    border:1px solid var(--border-soft);
+
+    background:var(--card-bg);
+
+    min-height:720px;
+}
+
+.phase-tag{
+    font-size:12px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:20px;
+}
+
+.detail-title{
+    font-family:var(--font-heading);
+    font-size:clamp(44px,5vw,74px);
+    line-height:.95;
+    letter-spacing:-.04em;
+    margin-bottom:18px;
+}
+
+.detail-sub{
+    font-size:22px;
+    color:var(--text-secondary);
+    margin-bottom:34px;
+    line-height:1.6;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    margin-bottom:40px;
+}
+
+.info-card{
+
+    padding:22px;
+
+    border-radius:var(--radius-md);
+
+    border:1px solid var(--border-soft);
+
+    background:rgba(255,255,255,.02);
+}
+
+.info-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.2em;
+    color:var(--accent);
+    margin-bottom:12px;
+}
+
+.info-content{
+    line-height:1.8;
+    color:var(--text-secondary);
+}
+
+.activities{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.activity{
+
+    padding:18px;
+
+    border-radius:20px;
+
+    border:1px solid var(--border-soft);
+
+    background:rgba(255,255,255,.02);
+}
+
+.activity h4{
+    font-size:20px;
+    margin-bottom:12px;
+    font-family:var(--font-heading);
+}
+
+.activity ul{
+    padding-left:18px;
+}
+
+.activity li{
+    margin-bottom:10px;
+    color:var(--text-secondary);
+    line-height:1.7;
+}
+
+.navigation-row{
+    display:flex;
+    justify-content:space-between;
+    margin-top:40px;
+    gap:20px;
+}
+
+.nav-btn{
+
+    flex:1;
+
+    padding:18px 24px;
+
+    border-radius:999px;
+
+    background:var(--accent);
+    color:#111;
+
+    transition:var(--transition);
+
+    font-weight:600;
+}
+
+.nav-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* =========================================================
+IPAD / TABLET
+========================================================= */
+
+@media(max-width:1100px){
+
+    .main-grid{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+
+        position:relative;
+        top:auto;
+
+        height:auto;
+
+        display:flex;
+        overflow:auto;
+        gap:14px;
+        padding-bottom:10px;
+    }
+
+    .phase-card{
+        min-width:240px;
+        margin-bottom:0;
+    }
+
+    .activities{
+        grid-template-columns:1fr;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+    .hero{
+        padding-top:120px;
+    }
+
+    .detail-panel{
+        padding:24px;
+    }
+
+    .detail-title{
+        font-size:42px;
+    }
+
+    .navigation-row{
+        flex-direction:column;
+    }
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+
+    <div class="logo">VowLedger</div>
+
+    <div class="top-actions">
+
+        <div class="theme-switcher">
+            <button class="theme-btn" data-theme="theme-estate"></button>
+            <button class="theme-btn" data-theme="theme-bengal"></button>
+            <button class="theme-btn" data-theme="theme-noir"></button>
+            <button class="theme-btn" data-theme="theme-journal"></button>
+        </div>
+
+    </div>
+
+</header>
+
+<section class="hero page-shell">
+
+    <div class="eyebrow">
+        THE FOUNDING SEASON
+    </div>
+
+    <h1 class="hero-title">
+        The 21 Days That <br>Formed This Legacy
+    </h1>
+
+    <p class="hero-text">
+        A 21-day emotional expedition through ancestry, childhood, friendships,
+        rituals, migration stories, romance, and the founding union of two family rivers.
+    </p>
+
+</section>
+
+<section class="page-shell">
+
+    <div class="main-grid">
+
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <div class="detail-panel">
+
+            <div class="phase-tag" id="phaseTag"></div>
+
+            <h2 class="detail-title" id="detailTitle"></h2>
+
+            <div class="detail-sub" id="detailSub"></div>
+
+            <div class="info-grid">
+
+                <div class="info-card">
+                    <div class="info-label">Primary Emotional Realm</div>
+                    <div class="info-content" id="realm"></div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-label">Dominant Participants</div>
+                    <div class="info-content" id="participants"></div>
+                </div>
+
+            </div>
+
+            <div class="activities" id="activities"></div>
+
+            <div class="navigation-row">
+
+                <button class="nav-btn" onclick="prevPhase()">
+                    Previous Phase
+                </button>
+
+                <button class="nav-btn" onclick="nextPhase()">
+                    Next Phase
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+const phases = [
+
+{
+day:"DAY 1",
+title:"The Ancestor Gates",
+subtitle:"Where The Rivers Began",
+realm:"♠ Spades — ancestry, migration, roots",
+participants:"Grandparents, parents, family historians",
+activities:[
+{
+title:"Recover",
+items:[
+"Oldest surviving photographs",
+"Ancestral village names",
+"Family surnames",
+"Migration routes"
+]
+},
+{
+title:"Trace",
+items:[
+"Tea garden journeys",
+"Railway memories",
+"First known marriages",
+"Family origins"
+]
+}
+]
+},
+
+{
+day:"DAY 2",
+title:"The Grandparent Era",
+subtitle:"The First Foundations",
+realm:"♠ Deep archival memory",
+participants:"Grandparents, uncles, parents",
+activities:[
+{
+title:"Record",
+items:[
+"Grandparent love stories",
+"Marriage advice",
+"Cassette recordings",
+"Old rituals"
+]
+},
+{
+title:"Restore",
+items:[
+"Black-and-white photos",
+"Wedding invitations",
+"Damaged albums",
+"Handwritten notes"
+]
+}
+]
+},
+
+{
+day:"DAY 3",
+title:"House Of Rituals",
+subtitle:"What The Families Preserved",
+realm:"♣ Traditions & continuity",
+participants:"Parents, elders, aunts",
+activities:[
+{
+title:"Preserve",
+items:[
+"Recipes",
+"Puja customs",
+"Regional songs",
+"Family sayings"
+]
+},
+{
+title:"Reveal",
+items:[
+"Festival stories",
+"Traditional clothing",
+"Language vaults",
+"Cultural practices"
+]
+}
+]
+},
+
+{
+day:"DAY 4",
+title:"Migration Routes",
+subtitle:"Cities That Changed The Family",
+realm:"♠ Emotional cartography",
+participants:"Entire family",
+activities:[
+{
+title:"Trace",
+items:[
+"Silchar route",
+"Kolkata years",
+"Delhi migration",
+"NRI timelines"
+]
+},
+{
+title:"Identify",
+items:[
+"Old homes",
+"Train routes",
+"Family businesses",
+"Relocation eras"
+]
+}
+]
+},
+
+{
+day:"DAY 5",
+title:"The Lost Archives",
+subtitle:"Recover What Was Forgotten",
+realm:"♠ Restoration & discovery",
+participants:"Kids, cousins, parents",
+activities:[
+{
+title:"Recover",
+items:[
+"VHS tapes",
+"Old CDs",
+"Faded albums",
+"Damaged letters"
+]
+},
+{
+title:"Restore",
+items:[
+"Scanned memories",
+"Photo repair",
+"Audio cleanup",
+"Archive digitization"
+]
+}
+]
+},
+
+{
+day:"DAY 6",
+title:"The Family Constellation",
+subtitle:"Who Raised Them",
+realm:"♣ Relationship graph",
+participants:"Entire family",
+activities:[
+{
+title:"Map",
+items:[
+"Uncles and aunts",
+"Cousin groups",
+"Relationship routes",
+"Family connections"
+]
+},
+{
+title:"Reveal",
+items:[
+"Sibling chaos",
+"Hidden family lore",
+"Who introduced whom",
+"Silent contributors"
+]
+}
+]
+},
+
+{
+day:"DAY 7",
+title:"First Resonance Night",
+subtitle:"What Still Echoes",
+realm:"♥ Emotional resurfacing",
+participants:"All generations",
+activities:[
+{
+title:"Resurface",
+items:[
+"Elder voice notes",
+"Recovered moments",
+"Legendary stories",
+"Archive highlights"
+]
+},
+{
+title:"Unlock",
+items:[
+"Hidden routes",
+"Memory collections",
+"Rare fragments",
+"Emotional signatures"
+]
+}
+]
+},
+
+{
+day:"DAY 8",
+title:"Childhood Years",
+subtitle:"Before The World Became Serious",
+realm:"♥ Nostalgia & warmth",
+participants:"Cousins, siblings, parents",
+activities:[
+{
+title:"Recover",
+items:[
+"School uniforms",
+"Toy memories",
+"Birthday chaos",
+"First awards"
+]
+},
+{
+title:"Reveal",
+items:[
+"Funny incidents",
+"Old drawings",
+"First trips",
+"Cousin gangs"
+]
+}
+]
+},
+
+{
+day:"DAY 9",
+title:"School Legends",
+subtitle:"Stories Everyone Still Remembers",
+realm:"♥ Shared nostalgia",
+participants:"Friends, cousins",
+activities:[
+{
+title:"Record",
+items:[
+"Nicknames",
+"Punishments",
+"School trips",
+"Embarrassing moments"
+]
+},
+{
+title:"Identify",
+items:[
+"Class photographs",
+"Teachers",
+"Friend circles",
+"Farewell memories"
+]
+}
+]
+},
+
+{
+day:"DAY 10",
+title:"Chaos Cousins Match",
+subtitle:"Family Theatre",
+realm:"♥ Arena energy",
+participants:"Cousins & siblings",
+activities:[
+{
+title:"Reveal",
+items:[
+"Anonymous stories",
+"Antakshari chains",
+"Family gossip",
+"Drama reveals"
+]
+},
+{
+title:"Contribute",
+items:[
+"Commentary moments",
+"Memory chains",
+"Funny clips",
+"Inside jokes"
+]
+}
+]
+},
+
+{
+day:"DAY 11",
+title:"College Years",
+subtitle:"The Years That Changed Everything",
+realm:"♥ Identity & independence",
+participants:"Friends, hostel circles",
+activities:[
+{
+title:"Trace",
+items:[
+"Hostel life",
+"Train journeys",
+"College festivals",
+"Friendship groups"
+]
+},
+{
+title:"Reveal",
+items:[
+"First ambitions",
+"Rebellion stories",
+"Life lessons",
+"Hidden adventures"
+]
+}
+]
+},
+
+{
+day:"DAY 12",
+title:"First Ambitions",
+subtitle:"Who They Were Becoming",
+realm:"♦ Personal growth",
+participants:"Friends, siblings",
+activities:[
+{
+title:"Record",
+items:[
+"First jobs",
+"Career struggles",
+"City transitions",
+"Independent life"
+]
+},
+{
+title:"Contribute",
+items:[
+"Dreams",
+"Failures",
+"Turning points",
+"Adult milestones"
+]
+}
+]
+},
+
+{
+day:"DAY 13",
+title:"Before They Met",
+subtitle:"Parallel Timelines",
+realm:"♠ Converging destiny",
+participants:"Friends & families",
+activities:[
+{
+title:"Trace",
+items:[
+"Shared cities",
+"Near misses",
+"Mutual networks",
+"Parallel lives"
+]
+},
+{
+title:"Reveal",
+items:[
+"What they were doing",
+"Common places",
+"Unexpected overlaps",
+"Timeline collisions"
+]
+}
+]
+},
+
+{
+day:"DAY 14",
+title:"The Whispers",
+subtitle:"Who Knew First?",
+realm:"♥ Emotional speculation",
+participants:"Cousins, siblings, friends",
+activities:[
+{
+title:"Reveal",
+items:[
+"Proposal suspicions",
+"Hidden crush theories",
+"Sibling observations",
+"Early signs"
+]
+},
+{
+title:"Contribute",
+items:[
+"Anonymous stories",
+"Predictions",
+"Emotional commentary",
+"Memory battles"
+]
+}
+]
+},
+
+{
+day:"DAY 15",
+title:"The First Meeting",
+subtitle:"Where The Rivers Converged",
+realm:"♦ Founding convergence",
+participants:"Couple & witnesses",
+activities:[
+{
+title:"Record",
+items:[
+"How they met",
+"Conflicting versions",
+"First impressions",
+"Witness stories"
+]
+},
+{
+title:"Reveal",
+items:[
+"Unexpected details",
+"Funny memories",
+"Timeline syncs",
+"Early sparks"
+]
+}
+]
+},
+
+{
+day:"DAY 16",
+title:"The Secret Timeline",
+subtitle:"When It Became Real",
+realm:"♥ Emotional escalation",
+participants:"Couple & close circle",
+activities:[
+{
+title:"Trace",
+items:[
+"Relationship milestones",
+"Hidden turning points",
+"Quiet moments",
+"Important conversations"
+]
+},
+{
+title:"Reveal",
+items:[
+"When it became serious",
+"Secret memories",
+"Relationship lore",
+"Founding moments"
+]
+}
+]
+},
+
+{
+day:"DAY 17",
+title:"Families Notice",
+subtitle:"The Convergence Expands",
+realm:"♦ Social convergence",
+participants:"Parents, siblings, cousins",
+activities:[
+{
+title:"Record",
+items:[
+"Family reactions",
+"First meetings",
+"Approval journeys",
+"Funny interrogations"
+]
+},
+{
+title:"Reveal",
+items:[
+"Emotional negotiations",
+"Unexpected supporters",
+"Resistance stories",
+"Acceptance moments"
+]
+}
+]
+},
+
+{
+day:"DAY 18",
+title:"Founding Promises",
+subtitle:"The Future Begins To Form",
+realm:"♦ Future mythology",
+participants:"Entire family",
+activities:[
+{
+title:"Contribute",
+items:[
+"Future dreams",
+"Marriage hopes",
+"Home plans",
+"Future traditions"
+]
+},
+{
+title:"Preserve",
+items:[
+"Symbolic gifts",
+"Blessings",
+"Future messages",
+"Time capsules"
+]
+}
+]
+},
+
+{
+day:"DAY 19",
+title:"Blessings Night",
+subtitle:"Voices For The Future",
+realm:"♠ Archival gold",
+participants:"Grandparents & elders",
+activities:[
+{
+title:"Record",
+items:[
+"Elder voice notes",
+"Marriage advice",
+"Future blessings",
+"Life wisdom"
+]
+},
+{
+title:"Restore",
+items:[
+"Family speeches",
+"Rare recordings",
+"Cultural sayings",
+"Oral history"
+]
+}
+]
+},
+
+{
+day:"DAY 20",
+title:"Final Gathering",
+subtitle:"The Night Before The Founding",
+realm:"♦ Emotional culmination",
+participants:"Entire wedding universe",
+activities:[
+{
+title:"Resurface",
+items:[
+"Greatest discoveries",
+"Legendary moments",
+"Recovered collections",
+"Emotional highlights"
+]
+},
+{
+title:"Unlock",
+items:[
+"Final archive routes",
+"Hidden fragments",
+"Season chronicle",
+"Legacy preview"
+]
+}
+]
+},
+
+{
+day:"DAY 21",
+title:"The Founding Union",
+subtitle:"The Beginning Of A New Lineage",
+realm:"♦♣ Permanent continuity",
+participants:"Entire family",
+activities:[
+{
+title:"Preserve",
+items:[
+"Wedding vows",
+"Founding signatures",
+"Union memories",
+"Legacy archive"
+]
+},
+{
+title:"Begin",
+items:[
+"Future generations",
+"Anniversary routes",
+"Continuity graph",
+"Family future"
+]
+}
+]
+}
+
+];
+
+let current = 0;
+
+const sidebar = document.getElementById("sidebar");
+
+function renderSidebar(){
+
+    sidebar.innerHTML = "";
+
+    phases.forEach((phase,index)=>{
+
+        const div = document.createElement("div");
+
+        div.className = "phase-card" + (index === current ? " active" : "");
+
+        div.innerHTML = `
+            <div class="phase-day">${phase.day}</div>
+            <div class="phase-title">${phase.title}</div>
+            <div class="phase-sub">${phase.subtitle}</div>
+        `;
+
+        div.onclick = ()=>{
+
+            current = index;
+            render();
+
+        };
+
+        sidebar.appendChild(div);
+
+    });
+
+}
+
+function render(){
+
+    renderSidebar();
+
+    const phase = phases[current];
+
+    document.getElementById("phaseTag").innerText = phase.day;
+
+    document.getElementById("detailTitle").innerText = phase.title;
+
+    document.getElementById("detailSub").innerText = phase.subtitle;
+
+    document.getElementById("realm").innerText = phase.realm;
+
+    document.getElementById("participants").innerText = phase.participants;
+
+    const activities = document.getElementById("activities");
+
+    activities.innerHTML = "";
+
+    phase.activities.forEach(activity=>{
+
+        const div = document.createElement("div");
+
+        div.className = "activity";
+
+        div.innerHTML = `
+            <h4>${activity.title}</h4>
+            <ul>
+                ${activity.items.map(item=>`<li>${item}</li>`).join("")}
+            </ul>
+        `;
+
+        activities.appendChild(div);
+
+    });
+
+}
+
+function nextPhase(){
+
+    current = (current + 1) % phases.length;
+
+    render();
+
+}
+
+function prevPhase(){
+
+    current = (current - 1 + phases.length) % phases.length;
+
+    render();
+
+}
+
+document.querySelectorAll(".theme-btn").forEach(btn=>{
+
+    btn.addEventListener("click",()=>{
+
+        document.body.className = btn.dataset.theme;
+
+    });
+
+});
+
+render();
+
+</script>
+
+</body>
+</html>

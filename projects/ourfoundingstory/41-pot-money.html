@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VowLedger — Living Archive Reserve</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+
+    background:var(--bg);
+    color:var(--text-primary);
+
+    font-family:var(--font-body);
+
+    text-rendering:optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
+
+    transition:all .6s cubic-bezier(.19,1,.22,1);
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+button,input{
+    border:none;
+    outline:none;
+    font:inherit;
+}
+
+/* =========================================================
+STRUCTURE TOKENS
+========================================================= */
+
+:root{
+
+    --container:1320px;
+
+    --space-sm:16px;
+    --space-md:24px;
+    --space-lg:40px;
+    --space-xl:64px;
+    --space-2xl:120px;
+
+    --radius-md:22px;
+    --radius-lg:32px;
+    --radius-pill:999px;
+
+    --transition:
+    all .6s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+THEME — ESTATE
+========================================================= */
+
+.theme-estate{
+
+    --bg:#121110;
+    --bg-soft:#1b1917;
+    --bg-elevated:#211f1d;
+
+    --text-primary:#f4eee3;
+    --text-secondary:#c8bda8;
+    --text-muted:#8e8578;
+
+    --accent:#c8a46f;
+    --accent-bright:#e0c28a;
+
+    --border-soft:
+    rgba(255,255,255,.08);
+
+    --card-bg:
+    rgba(255,255,255,.03);
+
+    --header-bg:
+    rgba(12,12,12,.55);
+
+    --font-heading:
+    'Playfair Display', serif;
+
+    --font-body:
+    'Inter', sans-serif;
+
+}
+
+/* =========================================================
+TYPOGRAPHY
+========================================================= */
+
+h1,h2,h3{
+    font-family:var(--font-heading);
+    font-weight:500;
+}
+
+.hero-title{
+    font-size:clamp(52px,8vw,96px);
+    line-height:.95;
+    letter-spacing:-0.04em;
+}
+
+.section-title{
+    font-size:clamp(32px,4vw,54px);
+    line-height:1.05;
+}
+
+.body-text{
+    font-size:17px;
+    line-height:1.85;
+    color:var(--text-secondary);
+}
+
+.eyebrow{
+    font-size:12px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--accent);
+}
+
+/* =========================================================
+LAYOUT
+========================================================= */
+
+.page-shell{
+    width:min(100%,var(--container));
+    margin:auto;
+    padding-inline:6%;
+}
+
+.section{
+    padding-block:120px;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.site-header{
+
+    position:fixed;
+    top:24px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:min(92%,1320px);
+
+    height:84px;
+
+    z-index:1000;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding-inline:28px;
+
+    border-radius:999px;
+
+    backdrop-filter:blur(14px);
+
+    border:1px solid var(--border-soft);
+
+    background:var(--header-bg);
+
+}
+
+.logo{
+    font-family:var(--font-heading);
+    font-size:24px;
+}
+
+.nav-links{
+    display:flex;
+    gap:32px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:var(--text-secondary);
+}
+
+/* =========================================================
+ALERT BAR
+========================================================= */
+
+.reserve-alert{
+
+    position:sticky;
+    top:120px;
+
+    z-index:900;
+
+    margin-top:120px;
+
+}
+
+.alert-card{
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(200,164,111,.14),
+        rgba(255,255,255,.04)
+    );
+
+    border:1px solid rgba(200,164,111,.25);
+
+    border-radius:26px;
+
+    padding:24px 28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+
+    backdrop-filter:blur(10px);
+
+}
+
+.alert-left{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.reserve-meter{
+
+    width:240px;
+    height:10px;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    background:
+    rgba(255,255,255,.06);
+
+}
+
+.reserve-fill{
+
+    height:100%;
+    width:28%;
+
+    border-radius:999px;
+
+    background:
+    linear-gradient(
+        90deg,
+        #b5834c,
+        #e0c28a
+    );
+
+    transition:width 1s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+.btn{
+
+    cursor:pointer;
+
+    border-radius:999px;
+
+    padding:16px 28px;
+
+    transition:var(--transition);
+
+}
+
+.btn-primary{
+
+    background:var(--accent);
+    color:#111;
+
+}
+
+.btn-secondary{
+
+    border:1px solid var(--border-soft);
+
+    background:transparent;
+
+    color:var(--text-primary);
+
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================================================
+CARDS
+========================================================= */
+
+.grid{
+
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:40px;
+
+    margin-top:80px;
+
+}
+
+.card{
+
+    background:var(--card-bg);
+
+    border:1px solid var(--border-soft);
+
+    border-radius:32px;
+
+    padding:32px;
+
+    backdrop-filter:blur(12px);
+
+}
+
+.clan-list{
+
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+
+    margin-top:30px;
+
+}
+
+.clan-row{
+
+    padding:20px;
+
+    border-radius:24px;
+
+    border:1px solid var(--border-soft);
+
+    background:
+    rgba(255,255,255,.02);
+
+}
+
+.clan-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:14px;
+}
+
+.energy-bar{
+
+    height:12px;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    background:
+    rgba(255,255,255,.06);
+
+}
+
+.energy-fill{
+
+    height:100%;
+
+    border-radius:999px;
+
+    transition:
+    width 1.2s cubic-bezier(.19,1,.22,1);
+
+}
+
+.hearts{
+    background:linear-gradient(90deg,#af4a55,#d67b87);
+}
+
+.diamonds{
+    background:linear-gradient(90deg,#c19a5f,#e3c08f);
+}
+
+.spades{
+    background:linear-gradient(90deg,#6f727a,#b9bec7);
+}
+
+.clubs{
+    background:linear-gradient(90deg,#5f8064,#8fb090);
+}
+
+.log-feed{
+
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+
+    margin-top:28px;
+
+}
+
+.log-item{
+
+    padding:18px;
+
+    border-radius:22px;
+
+    background:
+    rgba(255,255,255,.025);
+
+    border:1px solid var(--border-soft);
+
+    color:var(--text-secondary);
+
+    line-height:1.7;
+
+}
+
+.recharge-panel{
+
+    margin-top:40px;
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+
+}
+
+.amount-btn{
+
+    padding:16px 20px;
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,.03);
+
+    border:1px solid var(--border-soft);
+
+    color:var(--text-primary);
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.amount-btn:hover{
+
+    transform:translateY(-2px);
+
+    border-color:
+    rgba(200,164,111,.4);
+
+}
+
+/* =========================================================
+ARCHIVE PULSE
+========================================================= */
+
+.pulse{
+
+    margin-top:40px;
+
+    padding:28px;
+
+    border-radius:28px;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,.04),
+        rgba(200,164,111,.06)
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+.pulse-grid{
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+
+    margin-top:24px;
+
+}
+
+.pulse-card{
+
+    padding:20px;
+
+    border-radius:20px;
+
+    background:
+    rgba(255,255,255,.025);
+
+    border:1px solid var(--border-soft);
+
+}
+
+/* =========================================================
+MOBILE / IPAD
+========================================================= */
+
+@media(max-width:1100px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .nav-links{
+        display:none;
+    }
+
+    .alert-card{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .pulse-grid{
+        grid-template-columns:1fr;
+    }
+
+    .section{
+        padding-block:90px;
+    }
+
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+    <div class="logo">VowLedger</div>
+
+    <nav class="nav-links">
+        <a href="#">Story</a>
+        <a href="#">Collections</a>
+        <a href="#">Blessings</a>
+        <a href="#">Arena</a>
+        <a href="#">Archive</a>
+    </nav>
+
+    <button class="btn btn-secondary">
+        Founding Season
+    </button>
+</header>
+
+<div class="page-shell reserve-alert">
+
+    <div class="alert-card">
+
+        <div class="alert-left">
+            <div class="eyebrow">
+                Archive Reserve
+            </div>
+
+            <h3 style="font-size:28px;">
+                The Founding Season Is Weakening
+            </h3>
+
+            <p class="body-text">
+                New collections may fade into preservation mode unless the families continue the archive tonight.
+            </p>
+
+            <div class="reserve-meter">
+                <div class="reserve-fill" id="reserveFill"></div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" id="rechargeBtn">
+            Extend The Season
+        </button>
+
+    </div>
+
+</div>
+
+<section class="section">
+
+    <div class="page-shell">
+
+        <div class="eyebrow">
+            Living Archive Reserve
+        </div>
+
+        <h1 class="hero-title" style="margin-top:20px;">
+            The Archive Redistributes Emotional Energy
+        </h1>
+
+        <p class="body-text reading-width" style="max-width:760px; margin-top:28px;">
+            Excess patronage never creates domination. The archive quietly shifts momentum toward forgotten routes, silent collections, and underrepresented clans.
+        </p>
+
+        <div class="grid">
+
+            <!-- LEFT -->
+
+            <div class="card">
+
+                <div class="eyebrow">
+                    Active Clans
+                </div>
+
+                <div class="clan-list" id="clanList"></div>
+
+                <div class="recharge-panel">
+
+                    <button class="amount-btn" data-amount="2000">
+                        ₹2,000 Patronage
+                    </button>
+
+                    <button class="amount-btn" data-amount="5000">
+                        ₹5,000 Patronage
+                    </button>
+
+                    <button class="amount-btn" data-amount="12000">
+                        ₹12,000 Patronage
+                    </button>
+
+                    <button class="amount-btn" data-amount="30000">
+                        ₹30,000 Patronage
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="card">
+
+                <div class="eyebrow">
+                    Archive Movements
+                </div>
+
+                <div class="log-feed" id="logFeed">
+
+                    <div class="log-item">
+                        The Assam Collection gained unusual resonance tonight.
+                    </div>
+
+                    <div class="log-item">
+                        Forgotten rituals quietly resurfaced through elder recordings.
+                    </div>
+
+                    <div class="log-item">
+                        Momentum softened around dominant collections as quieter archives reopened.
+                    </div>
+
+                </div>
+
+                <div class="pulse">
+
+                    <div class="eyebrow">
+                        Emotional Weather
+                    </div>
+
+                    <div class="pulse-grid">
+
+                        <div class="pulse-card">
+                            <h3>♥ Hearts</h3>
+                            <p class="body-text">
+                                Emotional storms fade quickly unless renewed through meaningful discoveries.
+                            </p>
+                        </div>
+
+                        <div class="pulse-card">
+                            <h3>♦ Diamonds</h3>
+                            <p class="body-text">
+                                Excess prestige naturally diffuses toward silent clans and forgotten routes.
+                            </p>
+                        </div>
+
+                        <div class="pulse-card">
+                            <h3>♠ Spades</h3>
+                            <p class="body-text">
+                                Rare archival discoveries persist long after seasonal energy fades.
+                            </p>
+                        </div>
+
+                        <div class="pulse-card">
+                            <h3>♣ Clubs</h3>
+                            <p class="body-text">
+                                Traditions compound slowly through rituals, recipes, and recurring family memory.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+const clans = [
+
+{
+    name:"Bride Side",
+    type:"hearts",
+    energy:62
+},
+
+{
+    name:"Groom Side",
+    type:"diamonds",
+    energy:58
+},
+
+{
+    name:"Assam Route",
+    type:"spades",
+    energy:34
+},
+
+{
+    name:"Kolkata Cousins",
+    type:"clubs",
+    energy:28
+}
+
+];
+
+let reserveLevel = 28;
+
+const clanList = document.getElementById('clanList');
+const reserveFill = document.getElementById('reserveFill');
+const logFeed = document.getElementById('logFeed');
+
+function render(){
+
+    clanList.innerHTML = '';
+
+    clans.forEach(clan => {
+
+        clanList.innerHTML += `
+
+        <div class="clan-row">
+
+            <div class="clan-top">
+                <h3>${clan.name}</h3>
+
+                <span style="color:var(--text-muted)">
+                    ${Math.round(clan.energy)} resonance
+                </span>
+            </div>
+
+            <div class="energy-bar">
+                <div class="energy-fill ${clan.type}"
+                     style="width:${Math.min(clan.energy,100)}%">
+                </div>
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    reserveFill.style.width = reserveLevel + '%';
+
+}
+
+render();
+
+/* =========================================================
+LEAKY REDISTRIBUTION MODEL
+========================================================= */
+
+function rechargeArena(amount){
+
+    reserveLevel += Math.random()*8 + 6;
+
+    if(reserveLevel > 100){
+        reserveLevel = 100;
+    }
+
+    // Select current dominant clan
+    let dominantClan = clans[0];
+
+    // hidden fuzzy ceiling
+    const hiddenCeiling =
+        72 + Math.random()*12;
+
+    // emotional diffusion pool
+    const diffusionFactor =
+        0.35 + Math.random()*0.4;
+
+    const redistributionPool =
+        amount * diffusionFactor;
+
+    const primaryBoost =
+        amount - redistributionPool;
+
+    // dominant clan receives capped gain
+    dominantClan.energy +=
+        Math.min(
+            primaryBoost / 1200,
+            hiddenCeiling - dominantClan.energy
+        );
+
+    // redistribute secretly to underdogs
+    const underdogs =
+        clans.slice(1).sort((a,b)=>a.energy-b.energy);
+
+    underdogs.forEach((clan,index)=>{
+
+        const weight =
+            (underdogs.length-index) /
+            underdogs.length;
+
+        const randomBoost =
+            redistributionPool *
+            weight *
+            (0.15 + Math.random()*0.25);
+
+        clan.energy +=
+            randomBoost / 1800;
+
+    });
+
+    // emotional leakage / decay
+    clans.forEach(clan=>{
+
+        clan.energy *=
+            0.992 + Math.random()*0.006;
+
+        if(clan.energy > 96){
+            clan.energy -=
+                Math.random()*4;
+        }
+
+    });
+
+    addNarrative(amount);
+
+    render();
+
+}
+
+/* =========================================================
+NARRATIVE EVENTS
+========================================================= */
+
+const narratives = [
+
+"The archive shifted attention toward forgotten collections tonight.",
+
+"Silent routes gained unexpected resonance after the latest patronage.",
+
+"Hidden momentum surfaced inside the Assam Route collection.",
+
+"Excess ceremonial energy diffused quietly into underrepresented archives.",
+
+"The Black Vault reopened fragments from an older generation.",
+
+"The archive redistributed emotional pressure across quieter family circles.",
+
+"Rare elder recordings increased long-term archive gravity.",
+
+"Unexpected balance emerged between competing family routes."
+
+];
+
+function addNarrative(amount){
+
+    const text =
+        narratives[
+            Math.floor(
+                Math.random()*narratives.length
+            )
+        ];
+
+    const div =
+        document.createElement('div');
+
+    div.className = 'log-item';
+
+    div.innerHTML = `
+        <strong style="color:var(--text-primary)">
+            ₹${amount.toLocaleString()} patronage received.
+        </strong>
+        <br><br>
+        ${text}
+    `;
+
+    logFeed.prepend(div);
+
+    if(logFeed.children.length > 7){
+        logFeed.removeChild(logFeed.lastChild);
+    }
+
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+document.querySelectorAll('.amount-btn')
+.forEach(btn=>{
+
+    btn.addEventListener('click',()=>{
+
+        const amount =
+            parseInt(btn.dataset.amount);
+
+        rechargeArena(amount);
+
+    });
+
+});
+
+document.getElementById('rechargeBtn')
+.addEventListener('click',()=>{
+
+    rechargeArena(10000);
+
+});
+
+</script>
+
+</body>
+</html>

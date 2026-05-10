@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VowLedger — 99 Founding Reserve Balls</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/themes.css">
+
+<style>
+
+/* =========================================================
+PAGE OVERRIDES
+========================================================= */
+
+body{
+    padding-top:120px;
+}
+
+.site-header{
+
+    position:fixed;
+    top:24px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:min(92%,1320px);
+
+    z-index:1000;
+
+    height:84px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding-inline:28px;
+
+    border-radius:999px;
+
+    backdrop-filter:blur(14px);
+
+    border:1px solid var(--border-soft);
+
+    background:var(--header-bg);
+
+}
+
+.logo{
+    font-family:var(--font-heading);
+    font-size:26px;
+}
+
+.theme-switcher{
+    display:flex;
+    gap:10px;
+}
+
+.theme-btn{
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    border:1px solid var(--border-soft);
+
+}
+
+.hero{
+    padding-bottom:80px;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:48px;
+    align-items:center;
+}
+
+.hero-stat-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.stat-card{
+    padding:28px;
+    border-radius:var(--radius-lg);
+
+    border:1px solid var(--border-soft);
+
+    background:var(--card-bg);
+}
+
+.stat-value{
+    font-size:42px;
+    font-family:var(--font-heading);
+}
+
+.main-layout{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:36px;
+}
+
+.ball-grid{
+
+    display:grid;
+    grid-template-columns:repeat(11,1fr);
+
+    gap:12px;
+
+    margin-top:36px;
+
+}
+
+.reserve-ball{
+
+    aspect-ratio:1/1;
+
+    border-radius:50%;
+
+    position:relative;
+
+    border:1px solid var(--border-soft);
+
+    background:
+    radial-gradient(
+        circle at top,
+        rgba(255,255,255,.16),
+        rgba(255,255,255,.03)
+    );
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    gap:4px;
+
+    overflow:hidden;
+
+    transition:var(--transition-base);
+
+}
+
+.reserve-ball:hover{
+
+    transform:
+    translateY(-4px)
+    scale(1.06);
+
+    border-color:var(--accent);
+
+}
+
+.reserve-ball.active{
+
+    border-color:var(--accent-bright);
+
+    box-shadow:
+    0 10px 50px rgba(0,0,0,.35);
+
+    transform:scale(1.08);
+
+}
+
+.reserve-ball.disabled{
+
+    opacity:.18;
+
+    filter:grayscale(1);
+
+    pointer-events:none;
+
+}
+
+.ball-id{
+    font-size:9px;
+    letter-spacing:.14em;
+    color:var(--text-muted);
+}
+
+.ball-amount{
+    font-size:12px;
+    font-weight:600;
+}
+
+.tier-highlight{
+
+    margin-top:36px;
+
+    display:grid;
+    grid-template-columns:repeat(9,1fr);
+
+    gap:10px;
+
+}
+
+.tier-pill{
+
+    padding:12px 10px;
+
+    border-radius:999px;
+
+    border:1px solid var(--border-soft);
+
+    text-align:center;
+
+    font-size:12px;
+
+    transition:var(--transition-fast);
+
+}
+
+.tier-pill.active{
+
+    background:var(--accent);
+
+    color:#111;
+
+    border-color:var(--accent);
+
+}
+
+.panel-card{
+    min-height:760px;
+}
+
+.donation-box{
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding:20px 24px;
+
+    border-radius:24px;
+
+    border:1px solid var(--border-soft);
+
+    background:rgba(255,255,255,.03);
+
+}
+
+.donation-box input{
+
+    width:100%;
+
+    background:none;
+    border:none;
+    outline:none;
+
+    font-size:44px;
+
+    color:var(--accent-bright);
+
+    font-family:var(--font-heading);
+
+}
+
+.scroll-area{
+
+    max-height:360px;
+
+    overflow:auto;
+
+    padding-right:10px;
+
+}
+
+.scroll-area::-webkit-scrollbar{
+    width:8px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.12);
+    border-radius:999px;
+}
+
+.feature-item{
+
+    padding:18px 0;
+
+    border-bottom:1px solid var(--border-soft);
+
+}
+
+.feature-title{
+
+    color:var(--accent-bright);
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+}
+
+.recent-feed{
+
+    max-height:220px;
+    overflow:auto;
+
+    padding-right:8px;
+}
+
+.recent-item{
+
+    padding:18px;
+
+    border-radius:20px;
+
+    border:1px solid var(--border-soft);
+
+    background:rgba(255,255,255,.03);
+
+    margin-bottom:14px;
+
+}
+
+.reserve-progress{
+
+    height:14px;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,.05);
+
+}
+
+.reserve-fill{
+
+    height:100%;
+
+    width:0%;
+
+    background:var(--accent);
+
+    transition:1s ease;
+
+}
+
+@media(max-width:1100px){
+
+    .hero-grid,
+    .main-layout{
+        grid-template-columns:1fr;
+    }
+
+    .ball-grid{
+        grid-template-columns:repeat(6,1fr);
+    }
+
+    .tier-highlight{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+
+    <div class="logo">
+        VowLedger
+    </div>
+
+    <div class="theme-switcher">
+
+        <button
+            class="theme-btn"
+            onclick="setTheme('theme-estate')"
+            style="background:#c8a46f;"
+        ></button>
+
+        <button
+            class="theme-btn"
+            onclick="setTheme('theme-bengal')"
+            style="background:#d7a35c;"
+        ></button>
+
+        <button
+            class="theme-btn"
+            onclick="setTheme('theme-noir')"
+            style="background:#999;"
+        ></button>
+
+    </div>
+
+</header>
+
+<section class="hero section">
+
+<div class="page-shell hero-grid">
+
+    <div class="stack-xl">
+
+        <div class="stack-md">
+
+            <div class="eyebrow">
+                FOUNDING RESERVE
+            </div>
+
+            <h1 class="hero-title">
+                99 Founding Reserve Balls
+            </h1>
+
+            <p class="body-text reading-width">
+                Each reserve ball unlocks progressively richer emotional infrastructure. Lower tiers awaken participation. Higher tiers create continuity, mythology and heirloom permanence.
+            </p>
+
+        </div>
+
+        <div class="stack-md">
+
+            <div class="reserve-progress">
+                <div class="reserve-fill" id="reserveFill"></div>
+            </div>
+
+            <div class="flex-between">
+                <span class="body-text">
+                    Reserve Activated
+                </span>
+
+                <strong class="money" id="reserveAmount">
+                    ₹0 / ₹5,00,000
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="hero-stat-grid">
+
+        <div class="stat-card">
+            <div class="eyebrow">Family Gift Pool</div>
+            <div class="stat-value money" id="giftPool">
+                ₹0
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="eyebrow">Platform Preservation</div>
+            <div class="stat-value money" id="platformPool">
+                ₹0
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="eyebrow">Stewardship Allocation</div>
+            <div class="stat-value money" id="stewardPool">
+                ₹0
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="eyebrow">Activated Balls</div>
+            <div class="stat-value money" id="ballCount">
+                0 / 99
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<div class="page-shell main-layout">
+
+    <!-- =========================================================
+    LEFT
+    ========================================================= -->
+
+    <div class="card stack-lg">
+
+        <div class="flex-between">
+
+            <div>
+
+                <div class="card-title">
+                    Founding Reserve Matrix
+                </div>
+
+                <div class="body-text" style="margin-top:10px;">
+                    Selecting a reserve ball reveals its tier and the emotional systems activated at that level.
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-secondary"
+                onclick="simulateFunding()"
+            >
+                Simulate Funding
+            </button>
+
+        </div>
+
+        <!-- TIER PILLS -->
+
+        <div class="tier-highlight" id="tierHighlight"></div>
+
+        <!-- BALL GRID -->
+
+        <div
+            class="ball-grid"
+            id="ballGrid"
+        ></div>
+
+    </div>
+
+    <!-- =========================================================
+    RIGHT
+    ========================================================= -->
+
+    <div class="stack-lg">
+
+        <!-- DONATION PANEL -->
+
+        <div class="card panel-card stack-lg">
+
+            <div class="stack-md">
+
+                <div class="card-title">
+                    Reserve Contribution
+                </div>
+
+                <div class="body-text">
+                    Higher tiers activate exponentially richer emotional experiences rather than simply adding more features. :contentReference[oaicite:0]{index=0}
+                </div>
+
+            </div>
+
+            <div class="stack-sm">
+
+                <div class="eyebrow">
+                    Selected Reserve Ball
+                </div>
+
+                <div class="donation-box">
+
+                    <span>₹</span>
+
+                    <input
+                        id="donationInput"
+                        readonly
+                        value="0"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="stack-sm">
+
+                <div class="eyebrow">
+                    Tier Preview
+                </div>
+
+                <div
+                    class="card-title"
+                    id="tierTitle"
+                >
+                    Select A Reserve Ball
+                </div>
+
+                <div
+                    class="body-text"
+                    id="tierDescription"
+                >
+                    Each emotional tier expands the living archive differently.
+                </div>
+
+            </div>
+
+            <!-- FEATURES -->
+
+            <div class="stack-sm">
+
+                <div class="eyebrow">
+                    Unlocks In This Tier
+                </div>
+
+                <div
+                    class="scroll-area"
+                    id="featureList"
+                ></div>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                onclick="fundSelectedBall()"
+            >
+                Fund Reserve Ball
+            </button>
+
+        </div>
+
+        <!-- RECENT -->
+
+        <div class="card stack-md">
+
+            <div class="card-title">
+                Recently Activated
+            </div>
+
+            <div
+                class="recent-feed"
+                id="recentFeed"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<script>
+
+/* =========================================================
+THEMES
+========================================================= */
+
+function setTheme(theme){
+
+    document.body.className = theme;
+
+}
+
+/* =========================================================
+TIER DATA
+========================================================= */
+
+const tiers = [
+
+{
+    id:1,
+    name:"SPARKS",
+    range:"₹100 → ₹1,100",
+    description:"The archive awakens with lightweight emotional participation.",
+    features:[
+        "Guestbook blessings",
+        "Memory prompts",
+        "Voice blessing cards",
+        "Simple family reactions",
+        "Founding contributor wall",
+        "First archive fragments",
+        "Blessing signatures",
+        "Editorial welcome spread",
+        "Story prompts",
+        "Initial clan atmosphere",
+        "Founding chapter activation"
+    ]
+},
+
+{
+    id:2,
+    name:"GATHERINGS",
+    range:"₹1,200 → ₹2,200",
+    description:"Families begin participating together inside the living archive.",
+    features:[
+        "Memory bingo",
+        "Family trivia nights",
+        "Couple timeline unlock",
+        "Clan reaction layer",
+        "Archive route system",
+        "Cross-family prompts",
+        "Shared discovery events",
+        "Photo recovery boards",
+        "Ceremonial contribution reveals",
+        "Story chain reactions",
+        "Momentum commentary"
+    ]
+},
+
+{
+    id:3,
+    name:"DISCOVERIES",
+    range:"₹2,300 → ₹3,300",
+    description:"Families begin excavating forgotten emotional history.",
+    features:[
+        "Assam Collection",
+        "Train journey routes",
+        "Voice archive hunts",
+        "Nickname vaults",
+        "Invitation recovery quests",
+        "Old VHS hunts",
+        "Family artifact restoration",
+        "Elder interview prompts",
+        "Hidden route discoveries",
+        "Memory detective missions",
+        "Collection completion rituals"
+    ]
+},
+
+{
+    id:4,
+    name:"EXPEDITIONS",
+    range:"₹3,400 → ₹4,400",
+    description:"The Arena transforms into a living emotional season.",
+    features:[
+        "Nightly archive events",
+        "Expedition journals",
+        "Live memory reveals",
+        "Collaborative family hunts",
+        "Archive commentary mode",
+        "Cross-generation missions",
+        "Hidden lore activations",
+        "Temporary emotional weather",
+        "Collection powerplays",
+        "Interactive route expansion",
+        "Founding voyage mode"
+    ]
+},
+
+{
+    id:5,
+    name:"RESONANCE",
+    range:"₹4,500 → ₹5,500",
+    description:"The archive starts resurfacing memories emotionally.",
+    features:[
+        "Anniversary resurfacing",
+        "AI memory montages",
+        "Emotional weather engine",
+        "Cross-generational prompts",
+        "Dormant vault reopening",
+        "Hidden archive resurfacing",
+        "Relationship constellation maps",
+        "Voice resurfacing moments",
+        "Archive depth escalation",
+        "Editorial memory sequencing",
+        "Cinematic chapter reveals"
+    ]
+},
+
+{
+    id:6,
+    name:"LEGENDS",
+    range:"₹5,600 → ₹6,600",
+    description:"Family mythology and legendary stories emerge.",
+    features:[
+        "Founder chronicles",
+        "Legendary archive spreads",
+        "Black vault stories",
+        "Oral history capsules",
+        "VHS restoration premieres",
+        "Emotional archetype recognition",
+        "Family mythology timelines",
+        "Rare artifact ceremonies",
+        "Legacy voice preservation",
+        "Documentary narration mode",
+        "Mythic archive sequencing"
+    ]
+},
+
+{
+    id:7,
+    name:"DYNASTY",
+    range:"₹6,700 → ₹7,700",
+    description:"Intergenerational continuity infrastructure begins.",
+    features:[
+        "Future anniversary capsules",
+        "Children's archive layer",
+        "Migration history routes",
+        "Recipe preservation vaults",
+        "Regional dialect recordings",
+        "Family continuity maps",
+        "Elder voice restoration",
+        "Tradition preservation system",
+        "Future generation prompts",
+        "Dynasty archive chapters",
+        "Long-term resurfacing engine"
+    ]
+},
+
+{
+    id:8,
+    name:"CINEMATIC",
+    range:"₹7,800 → ₹8,800",
+    description:"The wedding becomes documentary-scale emotional storytelling.",
+    features:[
+        "Cinematic recap nights",
+        "Interactive chronicles",
+        "Archive soundtrack layer",
+        "Narrated memory routes",
+        "Documentary timeline mode",
+        "Season finale recaps",
+        "Editorial trailer generation",
+        "Emotional montage engine",
+        "Living archive cinema mode",
+        "Founder documentary structure",
+        "21-Day cinematic season"
+    ]
+},
+
+{
+    id:9,
+    name:"FOUNDING LEGACY",
+    range:"₹8,900 → ₹10,000",
+    description:"The archive becomes heirloom continuity infrastructure.",
+    features:[
+        "Hardcover heirloom editions",
+        "Dynasty chronicle generation",
+        "Future children archive system",
+        "Annual resurfacing engine",
+        "Intergenerational memory graph",
+        "Legacy documentary vault",
+        "Elder preservation network",
+        "Living continuity engine",
+        "Family constitution archive",
+        "Permanent emotional infrastructure",
+        "Founding legacy completion"
+    ]
+}
+
+];
+
+/* =========================================================
+BALLS
+========================================================= */
+
+const balls = [];
+let amount = 100;
+
+for(let tier=1; tier<=9; tier++){
+
+    for(let i=1; i<=11; i++){
+
+        balls.push({
+
+            id:balls.length + 1,
+
+            tier:tier,
+
+            amount:amount
+
+        });
+
+        amount += 100;
+
+    }
+
+}
+
+/* last ball adjustment */
+
+balls[98].amount = 10000;
+
+/* =========================================================
+BUILD TIER PILLS
+========================================================= */
+
+const tierWrap =
+document.getElementById('tierHighlight');
+
+tiers.forEach(t => {
+
+    const pill =
+    document.createElement('div');
+
+    pill.className = 'tier-pill';
+
+    pill.id = 'tier-pill-' + t.id;
+
+    pill.innerHTML = `
+        TIER ${t.id}
+    `;
+
+    tierWrap.appendChild(pill);
+
+});
+
+/* =========================================================
+BUILD BALLS
+========================================================= */
+
+const ballGrid =
+document.getElementById('ballGrid');
+
+let selectedBall = null;
+
+balls.forEach(ball => {
+
+    const el =
+    document.createElement('button');
+
+    el.className = 'reserve-ball';
+
+    el.innerHTML = `
+
+        <div class="ball-id">
+            ${ball.id}
+        </div>
+
+        <div class="ball-amount">
+            ₹${ball.amount}
+        </div>
+
+    `;
+
+    el.onclick = () => {
+
+        document
+        .querySelectorAll('.reserve-ball')
+        .forEach(b => b.classList.remove('active'));
+
+        el.classList.add('active');
+
+        selectedBall = {
+            element:el,
+            data:ball
+        };
+
+        selectTier(ball.tier);
+
+        document.getElementById('donationInput')
+        .value =
+        ball.amount.toLocaleString();
+
+    };
+
+    ballGrid.appendChild(el);
+
+});
+
+/* =========================================================
+SELECT TIER
+========================================================= */
+
+function selectTier(id){
+
+    document
+    .querySelectorAll('.tier-pill')
+    .forEach(t => t.classList.remove('active'));
+
+    document
+    .getElementById('tier-pill-' + id)
+    .classList.add('active');
+
+    const tier =
+    tiers.find(t => t.id === id);
+
+    document.getElementById('tierTitle')
+    .innerText = tier.name;
+    // tier.name + " · " + tier.range;
+
+    document.getElementById('tierDescription')
+    .innerText =
+    tier.description;
+
+    const list =
+    document.getElementById('featureList');
+
+    list.innerHTML = '';
+
+    tier.features.forEach(f => {
+
+        const item =
+        document.createElement('div');
+
+        item.className = 'feature-item';
+
+        item.innerHTML = `
+            <div class="feature-title">
+                ${f}
+            </div>
+
+            <div class="small-text">
+                This layer deepens emotional participation and expands the living archive experience.
+            </div>
+        `;
+
+        list.appendChild(item);
+
+    });
+
+}
+
+/* =========================================================
+FUNDING
+========================================================= */
+
+let totalReserve = 0;
+let fundedCount = 0;
+
+let familyPool = 0;
+let platformPool = 0;
+let stewardPool = 0;
+
+function fundSelectedBall(){
+
+    if(!selectedBall) return;
+
+    selectedBall.element.classList.remove('active');
+    selectedBall.element.classList.add('disabled');
+
+    const amount =
+    selectedBall.data.amount;
+
+    totalReserve += amount;
+
+    fundedCount++;
+
+    familyPool += amount * .5;
+    platformPool += amount * .25;
+    stewardPool += amount * .25;
+
+    updateFinance();
+
+    addRecent(selectedBall.data);
+
+    selectedBall = null;
+
+    document.getElementById('donationInput')
+    .value = "0";
+
+}
+
+function updateFinance(){
+
+    document.getElementById('giftPool')
+    .innerText =
+    "₹" + Math.round(familyPool).toLocaleString();
+
+    document.getElementById('platformPool')
+    .innerText =
+    "₹" + Math.round(platformPool).toLocaleString();
+
+    document.getElementById('stewardPool')
+    .innerText =
+    "₹" + Math.round(stewardPool).toLocaleString();
+
+    document.getElementById('ballCount')
+    .innerText =
+    fundedCount + " / 99";
+
+    document.getElementById('reserveAmount')
+    .innerText =
+    "₹" + totalReserve.toLocaleString() +
+    " / ₹5,00,000";
+
+    document.getElementById('reserveFill')
+    .style.width =
+    ((totalReserve / 500000) * 100) + "%";
+
+}
+
+function addRecent(ball){
+
+    const feed =
+    document.getElementById('recentFeed');
+
+    const tier =
+    tiers.find(t => t.id === ball.tier);
+
+    const item =
+    document.createElement('div');
+
+    item.className = 'recent-item';
+
+    item.innerHTML = `
+
+        <div class="feature-title">
+            ₹${ball.amount.toLocaleString()}
+            ·
+            ${tier.name}
+        </div>
+
+        <div class="small-text">
+            Another emotional layer of the archive surfaced tonight.
+        </div>
+
+    `;
+
+    feed.prepend(item);
+
+}
+
+/* =========================================================
+SIMULATE
+========================================================= */
+
+function simulateFunding(){
+
+    const available =
+    [...document.querySelectorAll('.reserve-ball:not(.disabled)')];
+
+    if(!available.length) return;
+
+    const random =
+    available[Math.floor(Math.random()*available.length)];
+
+    random.click();
+
+    setTimeout(() => {
+
+        fundSelectedBall();
+
+    }, 200);
+
+}
+
+</script>
+
+</body>
+</html>

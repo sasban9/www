@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VowLedger — Progressive Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;500;600&family=Hind+Siliguri:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/themes.css">
+
+<style>
+
+.dashboard-shell{
+padding-top:140px;
+padding-bottom:120px;
+}
+
+.phase-nav{
+display:flex;
+gap:12px;
+margin-bottom:40px;
+flex-wrap:wrap;
+}
+
+.phase-btn{
+min-width:64px;
+height:64px;
+border-radius:20px;
+}
+
+.phase{
+display:none;
+}
+
+.phase.active{
+display:block;
+}
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:320px 1fr 320px;
+gap:24px;
+align-items:start;
+}
+
+.action-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+.action-card{
+text-align:left;
+padding:20px;
+border-radius:24px;
+cursor:pointer;
+}
+
+.action-icon{
+font-size:28px;
+margin-bottom:14px;
+}
+
+.feed-item{
+display:flex;
+gap:14px;
+padding-bottom:18px;
+border-bottom:1px solid var(--border-soft);
+}
+
+.feed-dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:var(--accent);
+margin-top:8px;
+flex-shrink:0;
+}
+
+.feature-stage{
+min-height:720px;
+}
+
+.feature-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.feature-card{
+border-radius:24px;
+padding:22px;
+background:var(--card-highlight);
+border:1px solid var(--border-soft);
+}
+
+.collection-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+}
+
+.collection-slot{
+aspect-ratio:1;
+border-radius:18px;
+background:rgba(255,255,255,.03);
+border:1px solid var(--border-soft);
+}
+
+.memory-map{
+min-height:520px;
+position:relative;
+overflow:hidden;
+}
+
+.memory-node{
+position:absolute;
+padding:14px 18px;
+border-radius:999px;
+background:var(--card-bg);
+border:1px solid var(--border-soft);
+backdrop-filter:blur(10px);
+}
+
+.memory-node:nth-child(1){top:12%;left:8%;}
+.memory-node:nth-child(2){top:28%;right:12%;}
+.memory-node:nth-child(3){bottom:20%;left:20%;}
+.memory-node:nth-child(4){bottom:12%;right:18%;}
+
+.phase-hero{
+min-height:72vh;
+display:flex;
+align-items:center;
+}
+
+@media(max-width:1200px){
+
+.dashboard-grid{
+grid-template-columns:1fr;
+}
+
+.feature-stage{
+min-height:auto;
+}
+
+}
+
+@media(max-width:1024px){
+
+.dashboard-shell{
+padding-top:120px;
+}
+
+.page-shell{
+padding-inline:28px;
+}
+
+.phase-btn{
+flex:1;
+}
+
+.feature-grid{
+grid-template-columns:1fr;
+}
+
+.action-grid{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:768px){
+
+.action-grid{
+grid-template-columns:1fr;
+}
+
+.collection-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.phase-btn{
+height:56px;
+border-radius:16px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+
+<div class="logo">
+VowLedger
+</div>
+
+<nav class="nav-links">
+<a href="#">Story</a>
+<a href="#">Archive</a>
+<a href="#">Blessings</a>
+<a href="#">Collections</a>
+<a href="#">Arena</a>
+</nav>
+
+<div class="flex gap-sm">
+
+<select id="themeSwitcher" class="input-field">
+
+<option value="theme-estate">Estate</option>
+<option value="theme-bengal">Bengal</option>
+<option value="theme-noir">Noir</option>
+<option value="theme-journal">Journal</option>
+<option value="theme-garden">Garden</option>
+
+</select>
+
+</div>
+
+</header>
+
+<main class="dashboard-shell">
+
+<div class="page-shell">
+
+<div class="phase-nav">
+
+<button class="btn btn-secondary phase-btn active" data-phase="1">
+Phase 1
+</button>
+
+<button class="btn btn-secondary phase-btn" data-phase="2">
+Phase 2
+</button>
+
+<button class="btn btn-secondary phase-btn" data-phase="3">
+Phase 3
+</button>
+
+<button class="btn btn-secondary phase-btn" data-phase="4">
+Phase 4
+</button>
+
+<button class="btn btn-secondary phase-btn" data-phase="5">
+Phase 5
+</button>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- PHASE 1 -->
+<!-- ===================================================== -->
+
+<section class="phase active" id="phase-1">
+
+<div class="dashboard-grid">
+
+<!-- LEFT -->
+
+<aside class="card stack-lg">
+
+<div class="stack-sm">
+
+<div class="eyebrow">
+Contribute
+</div>
+
+<h2 class="card-title">
+Add A Memory
+</h2>
+
+<p class="body-text">
+What should they remember 20 years from now?
+</p>
+
+</div>
+
+<div class="action-grid">
+
+<button class="action-card card">
+<div class="action-icon">📸</div>
+<div class="stack-xs">
+<div class="action-title">Photograph</div>
+<div class="small-text">Upload one image.</div>
+</div>
+</button>
+
+<button class="action-card card">
+<div class="action-icon">🎙</div>
+<div class="stack-xs">
+<div class="action-title">Blessing</div>
+<div class="small-text">Record a short message.</div>
+</div>
+</button>
+
+</div>
+
+</aside>
+
+<!-- CENTER -->
+
+<section class="card feature-stage stack-lg">
+
+<div class="stack-md">
+
+<div class="eyebrow">
+Tonight’s Archive
+</div>
+
+<h1 class="hero-title">
+Raj & Ananya
+</h1>
+
+<p class="body-text reading-width">
+A cinematic archive of blessings, memories, and emotional continuity.
+</p>
+
+</div>
+
+<div class="feature-grid">
+
+<article class="feature-card stack-sm">
+
+<h3 class="card-title">
+Grandmother’s Blessing
+</h3>
+
+<p class="body-text">
+“May your home always remain noisy with laughter.”
+</p>
+
+<div class="audio-card">
+
+<div class="audio-play">
+▶
+</div>
+
+<div class="waveform"></div>
+
+</div>
+
+</article>
+
+<article class="feature-card stack-sm">
+
+<h3 class="card-title">
+Founding Photograph
+</h3>
+
+<p class="body-text">
+The first surviving image of both families together.
+</p>
+
+</article>
+
+</div>
+
+</section>
+
+<!-- RIGHT -->
+
+<aside class="card stack-lg">
+
+<div class="eyebrow">
+Archive Events
+</div>
+
+<div class="stack-md">
+
+<div class="feed-item">
+
+<div class="feed-dot"></div>
+
+<div class="stack-2xs">
+
+<div class="action-title">
+Another Memory Surfaced Tonight
+</div>
+
+<div class="small-text">
+A school photograph from 2004 was restored.
+</div>
+
+</div>
+
+</div>
+
+<div class="feed-item">
+
+<div class="feed-dot"></div>
+
+<div class="stack-2xs">
+
+<div class="action-title">
+A Blessing Was Added
+</div>
+
+<div class="small-text">
+Voice note received from Guwahati.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- PHASE 2 -->
+<!-- ===================================================== -->
+
+<section class="phase" id="phase-2">
+
+<div class="dashboard-grid">
+
+<aside class="card stack-lg">
+
+<div class="stack-sm">
+
+<div class="eyebrow">
+Collections
+</div>
+
+<h2 class="card-title">
+Family Archive
+</h2>
+
+<p class="body-text">
+The archive begins forming collections and continuity threads.
+</p>
+
+</div>
+
+<div class="collection-grid">
+
+<div class="collection-slot"></div>
+<div class="collection-slot"></div>
+<div class="collection-slot"></div>
+<div class="collection-slot"></div>
+<div class="collection-slot"></div>
+<div class="collection-slot"></div>
+
+</div>
+
+</aside>
+
+<section class="card feature-stage stack-lg">
+
+<div class="stack-md">
+
+<div class="eyebrow">
+Collections
+</div>
+
+<h2 class="display-title">
+The Families Begin Appearing
+</h2>
+
+<p class="body-text reading-width">
+Different relatives quietly shape the emotional atmosphere of the archive.
+</p>
+
+</div>
+
+<div class="feature-grid">
+
+<article class="feature-card stack-sm">
+
+<h3 class="card-title">
+The Assam Collection
+</h3>
+
+<p class="body-text">
+Migration stories, old letters, and train journey memories.
+</p>
+
+<div class="suit-strip">
+<div class="suit-badge">♠</div>
+<div class="suit-badge">♣</div>
+</div>
+
+</article>
+
+<article class="feature-card stack-sm">
+
+<h3 class="card-title">
+Before Smartphones
+</h3>
+
+<p class="body-text">
+Disposable camera scans and cassette recordings resurfaced.
+</p>
+
+<div class="suit-strip">
+<div class="suit-badge">♠</div>
+<div class="suit-badge">♥</div>
+</div>
+
+</article>
+
+</div>
+
+</section>
+
+<aside class="card stack-lg">
+
+<div class="eyebrow">
+Contributors
+</div>
+
+<div class="stack-md">
+
+<div class="stack-xs">
+
+<div class="action-title">
+Archive Hunter ♠
+</div>
+
+<div class="small-text">
+Recovered rare family photographs.
+</div>
+
+</div>
+
+<div class="stack-xs">
+
+<div class="action-title">
+Chaos Cousin ♥
+</div>
+
+<div class="small-text">
+Triggered nostalgia with school memories.
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- PHASE 3 -->
+<!-- ===================================================== -->
+
+<section class="phase" id="phase-3">
+
+<div class="stack-xl">
+
+<div class="stack-md">
+
+<div class="eyebrow">
+Arena
+</div>
+
+<h2 class="display-title">
+Temporary Energy.<br>
+Permanent Meaning.
+</h2>
+
+<p class="body-text reading-width">
+The Arena creates emotional momentum while the Archive preserves what matters later.
+</p>
+
+</div>
+
+<div class="grid-2">
+
+<article class="card stack-md">
+
+<h3 class="card-title">
+🎈 Balloon Burst Bazaar
+</h3>
+
+<p class="body-text">
+Recover forgotten photographs and hidden stories.
+</p>
+
+<div class="suit-strip">
+<div class="suit-badge">♥</div>
+<div class="suit-badge">♠</div>
+</div>
+
+</article>
+
+<article class="card stack-md">
+
+<h3 class="card-title">
+📸 Lost Photo Studio
+</h3>
+
+<p class="body-text">
+Identify mystery people and restore forgotten context.
+</p>
+
+<div class="suit-strip">
+<div class="suit-badge">♣</div>
+<div class="suit-badge">♠</div>
+</div>
+
+</article>
+
+<article class="card stack-md">
+
+<h3 class="card-title">
+🎭 Masked Confession Theatre
+</h3>
+
+<p class="body-text">
+Anonymous stories create suspense and mythology.
+</p>
+
+<div class="suit-strip">
+<div class="suit-badge">♥</div>
+<div class="suit-badge">♦</div>
+</div>
+
+</article>
+
+<article class="card stack-md">
+
+<h3 class="card-title">
+🧳 Expedition Office
+</h3>
+
+<p class="body-text">
+Unlock emotional routes across generations.
+</p>
+
+<div class="suit-strip">
+<div class="suit-badge">♦</div>
+<div class="suit-badge">♠</div>
+</div>
+
+</article>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- PHASE 4 -->
+<!-- ===================================================== -->
+
+<section class="phase" id="phase-4">
+
+<div class="stack-xl">
+
+<div class="stack-md">
+
+<div class="eyebrow">
+Voyages
+</div>
+
+<h2 class="display-title">
+The Archive Opens Territories
+</h2>
+
+<p class="body-text reading-width">
+Collections evolve into emotional maps connecting cities, generations, and histories.
+</p>
+
+</div>
+
+<section class="card memory-map">
+
+<div class="memory-node">
+Silchar Route
+</div>
+
+<div class="memory-node">
+College Years
+</div>
+
+<div class="memory-node">
+Founding Blessings
+</div>
+
+<div class="memory-node">
+Before They Met
+</div>
+
+</section>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- PHASE 5 -->
+<!-- ===================================================== -->
+
+<section class="phase" id="phase-5">
+
+<section class="phase-hero">
+
+<div class="stack-xl">
+
+<div class="stack-md">
+
+<div class="eyebrow">
+Legacy
+</div>
+
+<h2 class="hero-title">
+The Wedding Ends.<br>
+The Archive Continues.
+</h2>
+
+<p class="body-text reading-width">
+A living emotional archive that evolves quietly across generations.
+</p>
+
+</div>
+
+<div class="grid-3">
+
+<article class="card stack-md">
+
+<h3 class="card-title">
+Family Chronicle
+</h3>
+
+<p class="body-text">
+Yearly editorial publications preserving milestones and transitions.
+</p>
+
+</article>
+
+<article class="card stack-md">
+
+<h3 class="card-title">
+Elder Vault
+</h3>
+
+<p class="body-text">
+Voice recordings, migration stories, and oral histories preserved permanently.
+</p>
+
+</article>
+
+<article class="card stack-md">
+
+<h3 class="card-title">
+Future Generations
+</h3>
+
+<p class="body-text">
+Children inherit a searchable emotional timeline of the family.
+</p>
+
+</article>
+
+</div>
+
+<div>
+
+<button class="btn btn-primary">
+Enter The Family Archive
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+</section>
+
+</div>
+
+</main>
+
+<footer class="site-footer">
+
+<div class="page-shell">
+
+<div class="footer-grid">
+
+<div class="stack-sm">
+
+<div class="logo">
+VowLedger
+</div>
+
+<p class="body-text">
+Preserving emotional continuity across generations.
+</p>
+
+</div>
+
+<div class="footer-links">
+<a href="#">Story</a>
+<a href="#">Archive</a>
+<a href="#">Blessings</a>
+</div>
+
+<div class="footer-links">
+<a href="#">Collections</a>
+<a href="#">Arena</a>
+<a href="#">Legacy</a>
+</div>
+
+<div class="footer-links">
+<a href="#">Concierge</a>
+<a href="#">Privacy</a>
+<a href="#">Contact</a>
+</div>
+
+</div>
+
+</div>
+
+</footer>
+
+<script>
+
+const themeSwitcher = document.getElementById('themeSwitcher');
+
+themeSwitcher.addEventListener('change', function(){
+
+document.body.className = this.value;
+
+localStorage.setItem('vowledger-theme', this.value);
+
+});
+
+const savedTheme = localStorage.getItem('vowledger-theme');
+
+if(savedTheme){
+
+document.body.className = savedTheme;
+themeSwitcher.value = savedTheme;
+
+}
+
+const phaseButtons = document.querySelectorAll('.phase-btn');
+const phases = document.querySelectorAll('.phase');
+
+phaseButtons.forEach(button => {
+
+button.addEventListener('click', () => {
+
+const target = button.dataset.phase;
+
+phaseButtons.forEach(btn => btn.classList.remove('btn-primary'));
+phaseButtons.forEach(btn => btn.classList.add('btn-secondary'));
+
+button.classList.remove('btn-secondary');
+button.classList.add('btn-primary');
+
+phases.forEach(phase => phase.classList.remove('active'));
+
+document.getElementById(`phase-${target}`).classList.add('active');
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

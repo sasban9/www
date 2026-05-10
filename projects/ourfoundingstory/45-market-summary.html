@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VowLedger — Seven Phases Arena</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   BASE CSS
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --container:1400px;
+
+    --space-xs:12px;
+    --space-sm:16px;
+    --space-md:24px;
+    --space-lg:40px;
+    --space-xl:72px;
+
+    --radius-md:24px;
+    --radius-lg:32px;
+    --radius-pill:999px;
+
+    --transition:
+    all .5s cubic-bezier(.19,1,.22,1);
+
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+
+    background:var(--bg);
+    color:var(--text-primary);
+
+    font-family:var(--font-body);
+
+    transition:var(--transition);
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+button{
+    border:none;
+    background:none;
+    cursor:pointer;
+    color:inherit;
+    font:inherit;
+}
+
+.page-shell{
+    width:min(100%,var(--container));
+    margin:auto;
+    padding-inline:5%;
+}
+
+.hero-title{
+    font-size:clamp(42px,7vw,88px);
+    line-height:.95;
+    letter-spacing:-0.04em;
+    font-family:var(--font-heading);
+    font-weight:500;
+}
+
+.section-title{
+    font-size:clamp(28px,4vw,52px);
+    line-height:1;
+    font-family:var(--font-heading);
+    font-weight:500;
+}
+
+.card-title{
+    font-size:28px;
+    line-height:1.1;
+    font-family:var(--font-heading);
+    font-weight:500;
+}
+
+.body-text{
+    color:var(--text-secondary);
+    line-height:1.8;
+    font-size:16px;
+}
+
+.eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.3em;
+    font-size:12px;
+    color:var(--accent);
+}
+
+.section{
+    padding:120px 0;
+    border-bottom:1px solid var(--border-soft);
+}
+
+.card{
+    background:var(--card-bg);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius-lg);
+    padding:32px;
+    transition:var(--transition);
+    overflow:hidden;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:32px;
+}
+
+.grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+}
+
+.grid-4{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.stack{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.btn{
+    padding:14px 24px;
+    border-radius:var(--radius-pill);
+    transition:var(--transition);
+}
+
+.btn-primary{
+    background:var(--accent);
+    color:#111;
+}
+
+.btn-secondary{
+    border:1px solid var(--border-soft);
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.site-header{
+
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    backdrop-filter:blur(14px);
+
+    background:var(--header-bg);
+
+    border-bottom:1px solid var(--border-soft);
+}
+
+.header-inner{
+    height:84px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    font-family:var(--font-heading);
+    font-size:28px;
+}
+
+.phase-nav{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.phase-pill{
+    padding:10px 18px;
+    border-radius:999px;
+    border:1px solid var(--border-soft);
+    font-size:13px;
+    color:var(--text-secondary);
+}
+
+.theme-switcher{
+    display:flex;
+    gap:10px;
+}
+
+.theme-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid var(--border-soft);
+}
+
+.hero{
+    padding:120px 0 80px;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:48px;
+    align-items:center;
+}
+
+.hero-panel{
+    min-height:420px;
+}
+
+.hero-stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.stat-card{
+    padding:28px;
+    border-radius:24px;
+    background:var(--card-bg);
+    border:1px solid var(--border-soft);
+}
+
+.stat-value{
+    font-size:42px;
+    font-family:var(--font-heading);
+}
+
+.phase-banner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:42px;
+    gap:24px;
+}
+
+.suit-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.suit{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid var(--border-soft);
+    display:grid;
+    place-items:center;
+    font-size:18px;
+}
+
+.hearts{ background:rgba(255,70,70,.08); }
+.diamonds{ background:rgba(255,190,70,.08); }
+.spades{ background:rgba(120,120,120,.08); }
+.clubs{ background:rgba(70,200,120,.08); }
+
+.progress-bar{
+    height:12px;
+    background:rgba(255,255,255,.05);
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:var(--accent);
+    transition:1s ease;
+}
+
+.money{
+    color:var(--accent-bright);
+    font-weight:600;
+}
+
+.post-card{
+    min-height:260px;
+}
+
+.post-meta{
+    display:flex;
+    justify-content:space-between;
+    color:var(--text-muted);
+    font-size:13px;
+}
+
+.answer-box{
+    margin-top:18px;
+    padding:18px;
+    border-radius:18px;
+    background:rgba(255,255,255,.03);
+}
+
+.leader-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 0;
+    border-bottom:1px solid var(--border-soft);
+}
+
+.energy-box{
+    text-align:center;
+    padding:28px;
+}
+
+.energy-value{
+    font-size:64px;
+    font-family:var(--font-heading);
+}
+
+.clan-card{
+    min-height:340px;
+}
+
+.prize{
+    font-size:44px;
+    font-family:var(--font-heading);
+    color:var(--accent-bright);
+}
+
+.footer-note{
+    padding:80px 0;
+    text-align:center;
+    color:var(--text-muted);
+}
+
+/* =========================================================
+   THEMES
+========================================================= */
+
+.theme-estate{
+
+    --bg:#121110;
+    --bg-soft:#1b1917;
+
+    --text-primary:#f4eee3;
+    --text-secondary:#c8bda8;
+    --text-muted:#8d8377;
+
+    --accent:#c8a46f;
+    --accent-bright:#e0c28a;
+
+    --card-bg:rgba(255,255,255,.03);
+
+    --border-soft:rgba(255,255,255,.08);
+
+    --header-bg:rgba(10,10,10,.7);
+
+    --font-heading:'Playfair Display', serif;
+    --font-body:'Inter', sans-serif;
+}
+
+.theme-bengal{
+
+    --bg:#1a1414;
+    --bg-soft:#241b1b;
+
+    --text-primary:#f4ead9;
+    --text-secondary:#d2bfa2;
+    --text-muted:#97826f;
+
+    --accent:#d7a35c;
+    --accent-bright:#efc68a;
+
+    --card-bg:rgba(255,255,255,.03);
+
+    --border-soft:rgba(255,220,180,.08);
+
+    --header-bg:rgba(20,10,10,.74);
+
+    --font-heading:'Playfair Display', serif;
+    --font-body:'Inter', sans-serif;
+}
+
+.theme-noir{
+
+    --bg:#080808;
+    --bg-soft:#111;
+
+    --text-primary:#f2f2f2;
+    --text-secondary:#bbbbbb;
+    --text-muted:#777;
+
+    --accent:#c9c9c9;
+    --accent-bright:#fff;
+
+    --card-bg:rgba(255,255,255,.025);
+
+    --border-soft:rgba(255,255,255,.08);
+
+    --header-bg:rgba(0,0,0,.78);
+
+    --font-heading:'Playfair Display', serif;
+    --font-body:'Inter', sans-serif;
+}
+
+@media(max-width:1100px){
+
+    .hero-grid,
+    .grid-2,
+    .grid-3,
+    .grid-4{
+        grid-template-columns:1fr;
+    }
+
+    .phase-nav{
+        display:none;
+    }
+
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+    <div class="page-shell header-inner">
+
+        <div class="logo">VowLedger</div>
+
+        <div class="phase-nav">
+            <div class="phase-pill">1 Funding</div>
+            <div class="phase-pill">2 Questions</div>
+            <div class="phase-pill">3 Reactions</div>
+            <div class="phase-pill">4 Answers</div>
+            <div class="phase-pill">5 Ratings</div>
+            <div class="phase-pill">6 Clan Energy</div>
+            <div class="phase-pill">7 Rewards</div>
+        </div>
+
+        <div class="theme-switcher">
+            <button class="theme-btn" onclick="setTheme('theme-estate')" style="background:#c8a46f;"></button>
+            <button class="theme-btn" onclick="setTheme('theme-bengal')" style="background:#d7a35c;"></button>
+            <button class="theme-btn" onclick="setTheme('theme-noir')" style="background:#999;"></button>
+        </div>
+
+    </div>
+</header>
+
+<section class="hero">
+    <div class="page-shell hero-grid">
+
+        <div class="stack">
+            <div class="eyebrow">THE FOUNDING SEASON</div>
+
+            <h1 class="hero-title">
+                Seven Phases Of The Living Wedding Arena
+            </h1>
+
+            <p class="body-text reading-width">
+                Guests fund the family reserve. Young cousins become archive explorers. Questions, stories, memories and clan energy slowly shape the emotional season. The archive grows while the Arena stays alive.
+            </p>
+
+            <div style="display:flex; gap:16px; flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="boostReserve()">
+                    Add ₹10,000 To Reserve
+                </button>
+
+                <button class="btn btn-secondary" onclick="simulateMomentum()">
+                    Simulate Live Momentum
+                </button>
+            </div>
+
+        </div>
+
+        <div class="hero-panel stack">
+
+            <div class="hero-stats">
+
+                <div class="stat-card">
+                    <div class="eyebrow">Family Gift Pool</div>
+                    <div class="stat-value money" id="giftPool1">₹2,40,000</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="eyebrow">Platform Share</div>
+                    <div class="stat-value money" id="platformShare2">₹1,20,000</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="eyebrow">Steward Allocation</div>
+                    <div class="stat-value money" id="stewardShare3">₹1,20,000</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="eyebrow">Living Reserve</div>
+                    <div class="stat-value money" id="reserveTotal">₹80,000</div>
+                </div>
+
+            </div>
+
+            <div class="card stack">
+                <div class="eyebrow">Archive Atmosphere</div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="energyFill"></div>
+                </div>
+
+                <div class="body-text">
+                    The archive grows warmer as more memories, answers, blessings and discoveries surface across the clans.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- =========================================================
+PHASE 1
+========================================================= -->
+
+<section class="section">
+<div class="page-shell">
+
+    <div class="phase-banner">
+        <div>
+            <div class="eyebrow">PHASE 1</div>
+            <h2 class="section-title">Funding The Living Reserve</h2>
+        </div>
+
+        <div class="suit-row">
+            <div class="suit diamonds">♦</div>
+            <div class="suit hearts">♥</div>
+        </div>
+    </div>
+
+    <div class="grid-3">
+
+        <div class="card stack">
+            <div class="card-title">Founding Dinner Table</div>
+            <div class="body-text">
+                “The table where future Diwalis will happen.”
+            </div>
+            <div class="money">₹25,000</div>
+            <button class="btn btn-primary" onclick="contribute(25000)">Fund Chapter</button>
+        </div>
+
+        <div class="card stack">
+            <div class="card-title">Grandparent Oral History</div>
+            <div class="body-text">
+                Sponsor restoration and recording sessions.
+            </div>
+            <div class="money">₹15,000</div>
+            <button class="btn btn-primary" onclick="contribute(15000)">Preserve Voices</button>
+        </div>
+
+        <div class="card stack">
+            <div class="card-title">Founding Voyage Reserve</div>
+            <div class="body-text">
+                Keeps the Arena active for memory quests and collections.
+            </div>
+            <div class="money">₹50,000</div>
+            <button class="btn btn-primary" onclick="contribute(50000)">Extend Season</button>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================================================
+PHASE 2
+========================================================= -->
+
+<section class="section">
+<div class="page-shell">
+
+    <div class="phase-banner">
+        <div>
+            <div class="eyebrow">PHASE 2</div>
+            <h2 class="section-title">Questions & Memory Challenges</h2>
+        </div>
+
+        <div class="suit-row">
+            <div class="suit hearts">♥</div>
+            <div class="suit clubs">♣</div>
+        </div>
+    </div>
+
+    <div class="grid-3">
+
+        <div class="card post-card stack">
+            <div class="post-meta">
+                <span>♥ Hearts</span>
+                <span>Reserve Cost: ₹450</span>
+            </div>
+
+            <div class="card-title">
+                Who predicted this marriage first?
+            </div>
+
+            <div class="body-text">
+                Reveal the earliest family suspicions and proposal lore.
+            </div>
+
+            <button class="btn btn-secondary">Create Memory Poll</button>
+        </div>
+
+        <div class="card post-card stack">
+            <div class="post-meta">
+                <span>♠ Spades</span>
+                <span>Reserve Cost: ₹850</span>
+            </div>
+
+            <div class="card-title">
+                Recover The Oldest Family Photograph
+            </div>
+
+            <div class="body-text">
+                Upload and explain the oldest surviving wedding artifact.
+            </div>
+
+            <button class="btn btn-secondary">Create Archive Quest</button>
+        </div>
+
+        <div class="card post-card stack">
+            <div class="post-meta">
+                <span>♣ Clubs</span>
+                <span>Reserve Cost: ₹600</span>
+            </div>
+
+            <div class="card-title">
+                Which Ritual Must Survive Another Generation?
+            </div>
+
+            <div class="body-text">
+                Capture traditions, recipes and forgotten sayings.
+            </div>
+
+            <button class="btn btn-secondary">Create Continuity Prompt</button>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================================================
+PHASE 3
+========================================================= -->
+
+<section class="section">
+<div class="page-shell">
+
+    <div class="phase-banner">
+        <div>
+            <div class="eyebrow">PHASE 3</div>
+            <h2 class="section-title">Clan Reactions & Emotional Momentum</h2>
+        </div>
+
+        <div class="suit-row">
+            <div class="suit hearts">♥</div>
+            <div class="suit diamonds">♦</div>
+            <div class="suit spades">♠</div>
+            <div class="suit clubs">♣</div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+
+        <div class="card stack">
+            <div class="card-title">
+                “Who cried first during the proposal story?”
+            </div>
+
+            <div class="body-text">
+                Guests can now react using the emotional suit system instead of social media likes.
+            </div>
+
+            <div class="suit-row">
+                <button class="suit hearts">♥</button>
+                <button class="suit diamonds">♦</button>
+                <button class="suit spades">♠</button>
+                <button class="suit clubs">♣</button>
+            </div>
+        </div>
+
+        <div class="card stack">
+            <div class="card-title">
+                “Find the train story connecting both families.”
+            </div>
+
+            <div class="body-text">
+                Cross-family expeditions slowly increase clan resonance.
+            </div>
+
+            <div class="suit-row">
+                <button class="suit hearts">♥</button>
+                <button class="suit diamonds">♦</button>
+                <button class="suit spades">♠</button>
+                <button class="suit clubs">♣</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================================================
+PHASE 4
+========================================================= -->
+
+<section class="section">
+<div class="page-shell">
+
+    <div class="phase-banner">
+        <div>
+            <div class="eyebrow">PHASE 4</div>
+            <h2 class="section-title">Answer Submissions</h2>
+        </div>
+
+        <div class="suit-row">
+            <div class="suit hearts">♥</div>
+            <div class="suit spades">♠</div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+
+        <div class="card stack">
+
+            <div class="card-title">
+                Memory Chain — Darjeeling Trip
+            </div>
+
+            <div class="answer-box">
+                “Rohan fell asleep before the sunrise but Ananya’s father stayed awake telling stories till 4AM.”
+            </div>
+
+            <div class="answer-box">
+                “This was also where the families first discussed the wedding privately.”
+            </div>
+
+        </div>
+
+        <div class="card stack">
+
+            <div class="card-title">
+                Assam Collection — Migration Story
+            </div>
+
+            <div class="answer-box">
+                “Grandfather arrived in Silchar with only one trunk and two handwritten letters.”
+            </div>
+
+            <div class="answer-box">
+                “The original tea garden photograph was recovered tonight.”
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================================================
+PHASE 5
+========================================================= -->
+
+<section class="section">
+<div class="page-shell">
+
+    <div class="phase-banner">
+        <div>
+            <div class="eyebrow">PHASE 5</div>
+            <h2 class="section-title">Best Answers & Resonance Ratings</h2>
+        </div>
+
+        <div class="suit-row">
+            <div class="suit hearts">♥</div>
+            <div class="suit diamonds">♦</div>
+            <div class="suit spades">♠</div>
+            <div class="suit clubs">♣</div>
+        </div>
+    </div>
+
+    <div class="grid-3">
+
+        <div class="card stack">
+            <div class="card-title">Most Emotional Reveal</div>
+
+            <div class="body-text">
+                “The grandfather cassette recovery story.”
+            </div>
+
+            <div class="suit-row">
+                <div class="suit hearts">48</div>
+                <div class="suit diamonds">12</div>
+                <div class="suit spades">66</div>
+                <div class="suit clubs">21</div>
+            </div>
+        </div>
+
+        <div class="card stack">
+            <div class="card-title">Strongest Ritual Memory</div>
+
+            <div class="body-text">
+                “The handwritten Bengali recipe archive.”
+            </div>
+
+            <div class="suit-row">
+                <div class="suit hearts">22</div>
+                <div class="suit diamonds">10</div>
+                <div class="suit spades">44</div>
+                <div class="suit clubs">74</div>
+            </div>
+        </div>
+
+        <div class="card stack">
+            <div class="card-title">Chaos Cousin Moment</div>
+
+            <div class="body-text">
+                “The hidden dance rehearsal footage.”
+            </div>
+
+            <div class="suit-row">
+                <div class="suit hearts">84</div>
+                <div class="suit diamonds">38</div>
+                <div class="suit spades">6</div>
+                <div class="suit clubs">4</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================================================
+PHASE 6
+========================================================= -->
+
+<section class="section">
+<div class="page-shell">
+
+    <div class="phase-banner">
+        <div>
+            <div class="eyebrow">PHASE 6</div>
+            <h2 class="section-title">Clan Energy Momentum</h2>
+        </div>
+
+        <button class="btn btn-primary" onclick="simulateMomentum()">
+            Simulate More Family Activity
+        </button>
+    </div>
+
+    <div class="grid-4">
+
+        <div class="card energy-box clan-card">
+            <div class="eyebrow">Bride Side</div>
+            <div class="energy-value" id="clan1">420</div>
+
+            <div class="suit-row" style="justify-content:center; margin-top:20px;">
+                <div class="suit hearts">♥</div>
+                <div class="suit diamonds">♦</div>
+            </div>
+        </div>
+
+        <div class="card energy-box clan-card">
+            <div class="eyebrow">Groom Side</div>
+            <div class="energy-value" id="clan2">398</div>
+
+            <div class="suit-row" style="justify-content:center; margin-top:20px;">
+                <div class="suit spades">♠</div>
+                <div class="suit clubs">♣</div>
+            </div>
+        </div>
+
+        <div class="card energy-box clan-card">
+            <div class="eyebrow">College Friends</div>
+            <div class="energy-value" id="clan3">310</div>
+
+            <div class="suit-row" style="justify-content:center; margin-top:20px;">
+                <div class="suit hearts">♥</div>
+                <div class="suit diamonds">♦</div>
+            </div>
+        </div>
+
+        <div class="card energy-box clan-card">
+            <div class="eyebrow">Assam Route</div>
+            <div class="energy-value" id="clan4">502</div>
+
+            <div class="suit-row" style="justify-content:center; margin-top:20px;">
+                <div class="suit spades">♠</div>
+                <div class="suit clubs">♣</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================================================
+PHASE 7
+========================================================= -->
+
+<section class="section">
+<div class="page-shell">
+
+    <div class="phase-banner">
+        <div>
+            <div class="eyebrow">PHASE 7</div>
+            <h2 class="section-title">Final Season Rewards</h2>
+        </div>
+
+        <div class="suit-row">
+            <div class="suit diamonds">♦</div>
+            <div class="suit hearts">♥</div>
+        </div>
+    </div>
+
+    <div class="grid-3">
+
+        <div class="card stack">
+            <div class="card-title">Winning Clan</div>
+
+            <div class="prize">Assam Route</div>
+
+            <div class="body-text">
+                Highest archival recovery and emotional resonance.
+            </div>
+
+            <div class="money">Prize Reserve Released: ₹1,20,000</div>
+        </div>
+
+        <div class="card stack">
+            <div class="card-title">Most Active Young Explorer</div>
+
+            <div class="body-text">
+                Aarav — “Archive Hunter”
+            </div>
+
+            <div class="suit-row">
+                <div class="suit hearts">32</div>
+                <div class="suit diamonds">18</div>
+                <div class="suit spades">84</div>
+                <div class="suit clubs">44</div>
+            </div>
+
+            <div class="money">Rewarded: ₹18,000</div>
+        </div>
+
+        <div class="card stack">
+            <div class="card-title">Most Generous Patron</div>
+
+            <div class="leader-row">
+                <span>Gupta Family</span>
+                <span class="money">₹1,50,000</span>
+            </div>
+
+            <div class="leader-row">
+                <span>Mehta Family</span>
+                <span class="money">₹1,10,000</span>
+            </div>
+
+            <div class="leader-row">
+                <span>Banerjee Family</span>
+                <span class="money">₹90,000</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<footer class="footer-note">
+    Arena energy creates participation. The archive preserves meaning. 
+</footer>
+
+<!-- =========================================================
+FOUNDING RESERVE SYSTEM
+99 COINS = ₹5,00,000 TOTAL
+========================================================= -->
+
+<section class="section">
+<div class="page-shell">
+
+    <div class="phase-banner">
+
+        <div>
+            <div class="eyebrow">PHASE 1</div>
+
+            <h2 class="section-title">
+                Founding Reserve Coins
+            </h2>
+
+            <p class="body-text" style="margin-top:18px; max-width:760px;">
+                The living archive begins with 99 ceremonial reserve coins.
+                Every activated coin unlocks another emotional layer of the wedding season.
+            </p>
+        </div>
+
+        <div class="stack" style="align-items:flex-end;">
+
+            <div class="money" style="font-size:30px;">
+                <span id="donatedTotal">₹0</span>
+                /
+                <span id="maxTotal">₹5,00,000</span>
+            </div>
+
+            <div class="body-text">
+                Founding reserve activated
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =========================================================
+    SUMMARY
+    ========================================================= -->
+
+    <div class="grid-4" style="margin-bottom:42px;">
+
+        <div class="stat-card">
+            <div class="eyebrow">Family Gift Pool</div>
+            <div class="stat-value money" id="giftPool">
+                ₹0
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="eyebrow">Platform Preservation</div>
+            <div class="stat-value money" id="platformShare">
+                ₹0
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="eyebrow">Steward Allocation</div>
+            <div class="stat-value money" id="stewardShare">
+                ₹0
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="eyebrow">Coins Activated</div>
+            <div class="stat-value money" id="coinCount">
+                0 / 99
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =========================================================
+    MAIN GRID
+    ========================================================= -->
+
+    <div class="grid-2">
+
+        <!-- LEFT -->
+        <div class="card stack">
+
+            <div class="flex-between">
+
+                <div>
+                    <div class="card-title">
+                        Founding Coin Grid
+                    </div>
+
+                    <div class="body-text" style="margin-top:8px;">
+                        Click any available reserve coin to populate the contribution amount and reveal its unlock.
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary" onclick="simulateRandomDonation()">
+                    Simulate Guest
+                </button>
+
+            </div>
+
+            <div id="coinGrid" class="coin-grid"></div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="stack">
+
+            <div class="card stack">
+
+                <div class="card-title">
+                    Contribution Panel
+                </div>
+
+                <div class="body-text">
+                    Each reserve activation expands the living wedding season.
+                </div>
+
+                <div class="stack-sm">
+
+                    <label class="eyebrow">
+                        Selected Contribution
+                    </label>
+
+                    <div class="donation-box">
+
+                        <span>₹</span>
+
+                        <input
+                            id="donationInput"
+                            value="0"
+                            readonly
+                        />
+
+                    </div>
+
+                </div>
+
+                <div class="unlock-preview">
+
+                    <div class="eyebrow">
+                        Coin Unlock
+                    </div>
+
+                    <div id="unlockTitle" class="unlock-title-large">
+                        Select A Reserve Coin
+                    </div>
+
+                    <div id="unlockDescription" class="body-text">
+                        Each coin activates another emotional system inside the wedding universe.
+                    </div>
+
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="confirmDonation()"
+                >
+                    Activate Founding Coin
+                </button>
+
+            </div>
+
+            <div class="card stack">
+
+                <div class="card-title">
+                    Recently Activated
+                </div>
+
+                <div id="recentUnlocks" class="stack-sm"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<style>
+
+/* =========================================================
+99 COIN SYSTEM
+========================================================= */
+
+.coin-grid{
+
+    display:grid;
+    grid-template-columns:repeat(10,1fr);
+
+    gap:10px;
+
+    margin-top:32px;
+
+}
+
+.coin{
+
+    aspect-ratio:1/1;
+
+    border-radius:50%;
+
+    border:1px solid var(--border-soft);
+
+    background:
+    radial-gradient(
+        circle at top,
+        rgba(255,255,255,.12),
+        rgba(255,255,255,.02)
+    );
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    gap:4px;
+
+    transition:var(--transition);
+
+    overflow:hidden;
+
+}
+
+.coin:hover{
+
+    transform:
+    translateY(-4px)
+    scale(1.04);
+
+    border-color:var(--accent);
+
+}
+
+.coin.active{
+
+    border-color:var(--accent);
+
+    box-shadow:
+    0 10px 40px rgba(0,0,0,.2);
+
+}
+
+.coin.disabled{
+
+    opacity:.22;
+
+    filter:grayscale(1);
+
+    pointer-events:none;
+
+}
+
+.coin-number{
+    font-size:9px;
+    letter-spacing:.1em;
+    color:var(--text-muted);
+}
+
+.coin-amount{
+    font-size:12px;
+    font-weight:600;
+}
+
+.coin.active .coin-amount{
+    color:var(--accent-bright);
+}
+
+.donation-box{
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding:22px;
+
+    border-radius:24px;
+
+    border:1px solid var(--border-soft);
+
+    background:rgba(255,255,255,.03);
+
+}
+
+.donation-box input{
+
+    width:100%;
+
+    background:none;
+    border:none;
+    outline:none;
+
+    color:var(--accent-bright);
+
+    font-size:42px;
+
+    font-family:var(--font-heading);
+
+}
+
+.unlock-preview{
+
+    padding:24px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid var(--border-soft);
+
+}
+
+.unlock-title-large{
+
+    margin-top:12px;
+    margin-bottom:10px;
+
+    font-size:28px;
+    line-height:1.1;
+
+    color:var(--accent-bright);
+
+    font-family:var(--font-heading);
+
+}
+
+.unlock-card{
+
+    padding:18px;
+
+    border-radius:20px;
+
+    border:1px solid var(--border-soft);
+
+    background:rgba(255,255,255,.03);
+
+    animation:fadeIn .4s ease;
+
+}
+
+.unlock-card-title{
+
+    color:var(--accent-bright);
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+
+}
+
+@media(max-width:900px){
+
+    .coin-grid{
+        grid-template-columns:repeat(5,1fr);
+    }
+
+}
+
+</style>
+
+<script>
+
+/* =========================================================
+99 FOUNDING COINS JSON
+TOTAL = ₹5,00,000
+========================================================= */
+
+const reserveCoins = [
+{
+    id:1,
+    amount:100,
+    title:"Archive Candle Lit",
+    description:"The emotional season officially begins."
+},
+{
+    id:2,
+    amount:200,
+    title:"Guestbook Opens",
+    description:"Guests can now leave blessings."
+},
+{
+    id:3,
+    amount:300,
+    title:"Memory Wall Activated",
+    description:"Family memories can now surface publicly."
+},
+{
+    id:4,
+    amount:400,
+    title:"Photo Vault Opens",
+    description:"Old family photographs become uploadable."
+},
+{
+    id:5,
+    amount:500,
+    title:"Voice Blessings Enabled",
+    description:"Guests can now record voice notes."
+},
+{
+    id:6,
+    amount:600,
+    title:"Clan Energy Begins",
+    description:"Bride side and groom side momentum activates."
+},
+{
+    id:7,
+    amount:700,
+    title:"Hearts Arena Opens",
+    description:"Emotional reactions become available."
+},
+{
+    id:8,
+    amount:800,
+    title:"Diamonds Momentum Activates",
+    description:"Ceremonial prestige systems unlock."
+},
+{
+    id:9,
+    amount:900,
+    title:"Spades Archive Opens",
+    description:"Deep family history systems unlock."
+},
+{
+    id:10,
+    amount:1000,
+    title:"Clubs Tradition Vault Opens",
+    description:"Rituals and continuity collections activate."
+}
+];
+
+/* =========================================================
+AUTO GENERATE REMAINING COINS
+========================================================= */
+
+for(let i=11; i<=99; i++){
+
+    reserveCoins.push({
+
+        id:i,
+
+        amount:i === 99
+            ? 14900
+            : 1000 + ((i-10) * 100),
+
+        title:`Collection Unlock ${i}`,
+
+        description:
+        [
+            "New archive route discovered.",
+            "Hidden family collection surfaced.",
+            "Rare elder memory activated.",
+            "Expedition chapter unlocked.",
+            "Memory bingo challenge opened.",
+            "Archive restoration mission activated.",
+            "Clan storytelling night unlocked.",
+            "Dynasty route expanded.",
+            "Ceremonial archive deepened.",
+            "Living reserve expanded."
+        ][i % 10]
+
+    });
+
+}
+
+/* =========================================================
+STATE
+========================================================= */
+
+const coinGrid =
+document.getElementById('coinGrid');
+
+const donationInput =
+document.getElementById('donationInput');
+
+let selectedCoin = null;
+let totalDonation = 0;
+let activeCoins = 0;
+
+// let giftPool = 0;
+// let platform = 0;
+// let steward = 0;
+
+/* =========================================================
+BUILD GRID
+========================================================= */
+
+reserveCoins.forEach(coinData => {
+
+    const coin = document.createElement('button');
+
+    coin.className = 'coin';
+
+    coin.innerHTML = `
+
+        <div class="coin-number">
+            ${coinData.id}
+        </div>
+
+        <div class="coin-amount">
+            ₹${coinData.amount}
+        </div>
+
+    `;
+
+    coin.onclick = () => {
+
+        document
+        .querySelectorAll('.coin')
+        .forEach(c => c.classList.remove('active'));
+
+        coin.classList.add('active');
+
+        selectedCoin = {
+            element:coin,
+            data:coinData
+        };
+
+        donationInput.value =
+        coinData.amount.toLocaleString();
+
+        document.getElementById('unlockTitle').innerText =
+        coinData.title;
+
+        document.getElementById('unlockDescription').innerText =
+        coinData.description;
+
+    };
+
+    coinGrid.appendChild(coin);
+
+});
+
+/* =========================================================
+CONFIRM DONATION
+========================================================= */
+
+function confirmDonation(){
+
+    if(!selectedCoin) return;
+
+    selectedCoin.element.classList.remove('active');
+    selectedCoin.element.classList.add('disabled');
+
+    const amount =
+    selectedCoin.data.amount;
+
+    totalDonation += amount;
+
+    activeCoins++;
+
+    giftPool += amount * 0.5;
+    platform += amount * 0.25;
+    steward += amount * 0.25;
+
+    updateFinance();
+
+    addRecentUnlock(selectedCoin.data);
+
+    selectedCoin = null;
+
+    donationInput.value = "0";
+
+}
+
+/* =========================================================
+RECENT UNLOCKS
+========================================================= */
+
+function addRecentUnlock(data){
+
+    const wrap =
+    document.getElementById('recentUnlocks');
+
+    const item =
+    document.createElement('div');
+
+    item.className = 'unlock-card';
+
+    item.innerHTML = `
+
+        <div class="unlock-card-title">
+            ${data.title}
+        </div>
+
+        <div class="body-text">
+            ${data.description}
+        </div>
+
+    `;
+
+    wrap.prepend(item);
+
+}
+
+/* =========================================================
+SIMULATE RANDOM
+========================================================= */
+
+function simulateRandomDonation(){
+
+    const available =
+    [...document.querySelectorAll('.coin:not(.disabled)')];
+
+    if(!available.length) return;
+
+    const random =
+    available[Math.floor(Math.random()*available.length)];
+
+    random.click();
+
+    setTimeout(() => {
+        confirmDonation();
+    }, 250);
+
+}
+
+/* =========================================================
+UPDATE FINANCE
+========================================================= */
+
+function updateFinance(){
+
+    document.getElementById('donatedTotal').innerText =
+    "₹" + totalDonation.toLocaleString();
+
+    document.getElementById('giftPool').innerText =
+    "₹" + Math.round(giftPool).toLocaleString();
+
+    document.getElementById('platformShare').innerText =
+    "₹" + Math.round(platform).toLocaleString();
+
+    document.getElementById('stewardShare').innerText =
+    "₹" + Math.round(steward).toLocaleString();
+
+    document.getElementById('coinCount').innerText =
+    activeCoins + " / 99";
+
+}
+
+</script>
+
+<script>
+
+let reserve = 80000;
+let giftPool = 0;
+let platform = 0;
+let steward = 0;
+
+function setTheme(theme){
+    document.body.className = theme;
+}
+
+function contribute(amount){
+
+    const familyShare = amount * 0.5;
+    const platformShare = amount * 0.25;
+    const stewardShare = amount * 0.25;
+
+    giftPool += familyShare;
+    platform += platformShare;
+    steward += stewardShare;
+
+    reserve += amount * 0.15;
+
+    updateFinance();
+}
+
+function boostReserve(){
+    reserve += 10000;
+    updateFinance();
+}
+
+function updateFinance1(){
+
+    document.getElementById('giftPool').innerText =
+    "₹" + giftPool.toLocaleString();
+
+    document.getElementById('platformShare').innerText =
+    "₹" + platform.toLocaleString();
+
+    document.getElementById('stewardShare').innerText =
+    "₹" + steward.toLocaleString();
+
+    document.getElementById('reserveTotal').innerText =
+    "₹" + Math.round(reserve).toLocaleString();
+
+    const fill = Math.min(100, reserve / 2000);
+
+    document.getElementById('energyFill').style.width =
+    fill + "%";
+}
+
+function simulateMomentum(){
+
+    const ids = ['clan1','clan2','clan3','clan4'];
+
+    ids.forEach(id => {
+
+        let val = parseInt(
+            document.getElementById(id).innerText
+        );
+
+        val += Math.floor(Math.random() * 60);
+
+        document.getElementById(id).innerText = val;
+
+    });
+
+    reserve += Math.floor(Math.random() * 5000);
+
+    updateFinance();
+}
+
+updateFinance();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VowLedger — Arena Funding Flow</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#121110;
+    color:#f4eee3;
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+}
+
+button,input,textarea,select{
+    font:inherit;
+}
+
+img{
+    display:block;
+    max-width:100%;
+}
+
+/* =========================================================
+THEME
+========================================================= */
+
+:root{
+
+    --bg:#121110;
+    --bg-soft:#1b1917;
+    --bg-card:#201d1a;
+
+    --text:#f4eee3;
+    --muted:#b6ab98;
+
+    --accent:#c8a46f;
+    --accent-2:#e0c28a;
+
+    --border:rgba(255,255,255,.08);
+
+    --radius:28px;
+    --pill:999px;
+
+    --shadow:
+    0 20px 80px rgba(0,0,0,.35);
+
+    --transition:
+    all .5s cubic-bezier(.19,1,.22,1);
+}
+
+/* =========================================================
+LAYOUT
+========================================================= */
+
+body{
+    min-height:100vh;
+}
+
+.page-shell{
+    width:min(100%,1320px);
+    margin:auto;
+    padding-inline:32px;
+}
+
+.section{
+    padding:42px 0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:28px;
+}
+
+.stack{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+.card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:28px;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+}
+
+/* =========================================================
+TYPO
+========================================================= */
+
+.hero-title{
+    font-family:'Playfair Display',serif;
+    font-size:72px;
+    line-height:.95;
+    letter-spacing:-0.04em;
+    margin-bottom:16px;
+}
+
+.section-title{
+    font-family:'Playfair Display',serif;
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.eyebrow{
+    color:var(--accent);
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    font-size:11px;
+    margin-bottom:14px;
+}
+
+.body{
+    color:var(--muted);
+    line-height:1.8;
+}
+
+.mono{
+    font-family:monospace;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.site-header{
+    position:sticky;
+    top:18px;
+    z-index:100;
+    width:min(92%,1280px);
+    margin:24px auto 0;
+    backdrop-filter:blur(14px);
+    background:rgba(12,12,12,.55);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:18px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    font-family:'Playfair Display',serif;
+    font-size:24px;
+}
+
+.nav{
+    display:flex;
+    gap:26px;
+}
+
+.nav a{
+    color:var(--muted);
+    text-decoration:none;
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+.btn{
+    border:none;
+    cursor:pointer;
+    border-radius:999px;
+    padding:15px 26px;
+    transition:var(--transition);
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    background:var(--accent);
+    color:#111;
+}
+
+.btn-secondary{
+    background:transparent;
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+/* =========================================================
+TOP BAR
+========================================================= */
+
+.balance-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.balance-card{
+    border-radius:22px;
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--border);
+    padding:24px;
+}
+
+.balance-card h3{
+    color:var(--muted);
+    font-size:13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+}
+
+.balance-card strong{
+    font-size:34px;
+    font-weight:600;
+}
+
+/* =========================================================
+FORMS
+========================================================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.input{
+    width:100%;
+    background:#181614;
+    border:1px solid var(--border);
+    color:var(--text);
+    border-radius:18px;
+    padding:16px;
+}
+
+textarea.input{
+    min-height:120px;
+    resize:vertical;
+}
+
+.range-wrap{
+    margin-top:12px;
+}
+
+.range{
+    width:100%;
+}
+
+/* =========================================================
+POSTS
+========================================================= */
+
+.feed{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.post{
+    border-radius:24px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.03);
+    overflow:hidden;
+}
+
+.post-top{
+    padding:24px;
+}
+
+.post-type{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    color:var(--accent);
+    margin-bottom:16px;
+}
+
+.post-title{
+    font-size:28px;
+    font-family:'Playfair Display',serif;
+    margin-bottom:12px;
+}
+
+.post-copy{
+    color:var(--muted);
+    line-height:1.8;
+}
+
+.post-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 24px;
+    border-top:1px solid var(--border);
+    background:rgba(255,255,255,.02);
+}
+
+.energy{
+    color:var(--accent-2);
+    font-size:14px;
+}
+
+.post-actions{
+    display:flex;
+    gap:10px;
+}
+
+.pill{
+    padding:10px 14px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--text);
+    cursor:pointer;
+}
+
+/* =========================================================
+RIGHT PANEL
+========================================================= */
+
+.activity{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.activity-item{
+    border-left:2px solid var(--accent);
+    padding-left:16px;
+}
+
+.activity-item p{
+    color:var(--muted);
+    line-height:1.7;
+}
+
+.energy-meter{
+    height:18px;
+    border-radius:999px;
+    overflow:hidden;
+    background:#1a1816;
+    border:1px solid var(--border);
+}
+
+.energy-fill{
+    height:100%;
+    width:50%;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transition:var(--transition);
+}
+
+.leader{
+    display:flex;
+    justify-content:space-between;
+    padding:16px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.suits{
+    display:flex;
+    gap:10px;
+}
+
+.suit{
+    opacity:.8;
+}
+
+/* =========================================================
+MEDIA
+========================================================= */
+
+@media(max-width:1000px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero-title{
+        font-size:52px;
+    }
+
+    .balance-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+    <div class="logo">VowLedger</div>
+
+    <nav class="nav">
+        <a href="#">Archive</a>
+        <a href="#">Arena</a>
+        <a href="#">Collections</a>
+        <a href="#">Blessings</a>
+    </nav>
+
+    <button class="btn btn-primary" id="resetBtn">
+        Reset Season
+    </button>
+</header>
+
+<div class="page-shell">
+
+    <section class="section">
+
+        <div class="eyebrow">
+            Founding Season
+        </div>
+
+        <h1 class="hero-title">
+            Fund The Living Archive
+        </h1>
+
+        <p class="body" style="max-width:760px;">
+            Guests fund the living wedding season. Every contribution quietly powers
+            archive preservation, family quests, memory restoration, and emotional
+            participation. Arena activity consumes reserve energy while meaningful
+            discoveries replenish it.
+        </p>
+
+    </section>
+
+    <section class="section">
+
+        <div class="balance-grid">
+
+            <div class="balance-card">
+                <h3>Total Guest Contributions</h3>
+                <strong id="totalFunding">₹0</strong>
+            </div>
+
+            <div class="balance-card">
+                <h3>Platform Preservation</h3>
+                <strong id="platformReserve">₹0</strong>
+            </div>
+
+            <div class="balance-card">
+                <h3>Arena & Kids Expedition Pool</h3>
+                <strong id="arenaReserve">₹0</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="section grid">
+
+        <!-- LEFT -->
+        <div class="stack">
+
+            <div class="card">
+
+                <div class="eyebrow">
+                    Family Patronage
+                </div>
+
+                <h2 class="section-title">
+                    Add A Contribution
+                </h2>
+
+                <p class="body" style="margin-bottom:28px;">
+                    Contributions are split automatically:
+                    50% supports archive preservation and platform operations,
+                    50% activates the Arena for the younger explorers uncovering
+                    family history.
+                </p>
+
+                <div class="form-grid">
+
+                    <input
+                        type="text"
+                        id="contributorName"
+                        class="input"
+                        placeholder="Contributor Name"
+                    >
+
+                    <input
+                        type="number"
+                        id="contributionAmount"
+                        class="input"
+                        placeholder="Contribution Amount"
+                    >
+
+                </div>
+
+                <div class="range-wrap">
+                    <input type="range" min="1000" max="100000" step="1000" value="10000" class="range" id="fundRange">
+                </div>
+
+                <div style="margin-top:22px;">
+                    <button class="btn btn-primary" id="contributeBtn">
+                        Fund The Season
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="eyebrow">
+                    Arena Creation Engine
+                </div>
+
+                <h2 class="section-title">
+                    Create A Memory Challenge
+                </h2>
+
+                <p class="body" style="margin-bottom:24px;">
+                    Every Arena activity consumes reserve energy. The richer the
+                    interaction, the more energy the archive spends to keep the
+                    emotional season alive.
+                </p>
+
+                <div class="stack">
+
+                    <select id="postType" class="input">
+                        <option value="poll">Poll</option>
+                        <option value="question">Question</option>
+                        <option value="quest">Archive Quest</option>
+                        <option value="memory">Memory Prompt</option>
+                    </select>
+
+                    <input
+                        type="text"
+                        id="postTitle"
+                        class="input"
+                        placeholder="Title"
+                    >
+
+                    <textarea
+                        id="postContent"
+                        class="input"
+                        placeholder="What should the family discover?"
+                    ></textarea>
+
+                    <button class="btn btn-primary" id="createPostBtn">
+                        Open Another Collection
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="feed" id="feed"></div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="stack">
+
+            <div class="card">
+
+                <div class="eyebrow">
+                    Archive Pressure
+                </div>
+
+                <h2 class="section-title">
+                    Living Reserve
+                </h2>
+
+                <p class="body">
+                    The archive breathes through participation. Arena nights,
+                    restoration quests, voice-note collections, and memory hunts
+                    consume seasonal reserve.
+                </p>
+
+                <div style="margin-top:24px;">
+                    <div class="energy-meter">
+                        <div class="energy-fill" id="energyFill"></div>
+                    </div>
+                </div>
+
+                <div style="margin-top:18px;" class="body">
+                    Reserve Energy:
+                    <strong id="energyPercent">0%</strong>
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="eyebrow">
+                    Family Activity
+                </div>
+
+                <h2 class="section-title">
+                    Archive Events
+                </h2>
+
+                <div class="activity" id="activityLog"></div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="eyebrow">
+                    Clan Signatures
+                </div>
+
+                <h2 class="section-title">
+                    Emotional Energy
+                </h2>
+
+                <div id="leaderboard"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+/* =========================================================
+LOCAL STORAGE
+========================================================= */
+
+const STORAGE_KEY = 'vowledger-season-v1';
+
+let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+
+    totalFunding: 0,
+    platformReserve: 0,
+    arenaReserve: 0,
+
+    posts: [],
+    activity: [],
+
+    clans: [
+        {
+            name:'Bride Side',
+            hearts:42,
+            diamonds:26,
+            spades:18,
+            clubs:14
+        },
+        {
+            name:'Groom Side',
+            hearts:28,
+            diamonds:32,
+            spades:44,
+            clubs:22
+        },
+        {
+            name:'Tea Garden Clan',
+            hearts:14,
+            diamonds:12,
+            spades:48,
+            clubs:40
+        }
+    ]
+
+};
+
+/* =========================================================
+JSON FILLER POSTS
+========================================================= */
+
+if(state.posts.length === 0){
+
+    state.posts = [
+
+        {
+            id:Date.now()+1,
+            type:'Archive Quest',
+            title:'Recover The Oldest Wedding Invitation',
+            content:'The archive believes a forgotten invitation from 1987 still survives somewhere in Silchar.',
+            energyCost:4200,
+            interactions:19
+        },
+
+        {
+            id:Date.now()+2,
+            type:'Poll',
+            title:'Who Knew They Would Marry First?',
+            content:'Vote anonymously. The archive opens hidden commentary after enough resonance builds.',
+            energyCost:1700,
+            interactions:42
+        },
+
+        {
+            id:Date.now()+3,
+            type:'Memory Prompt',
+            title:'Find A Recipe That Survived Three Generations',
+            content:'Photograph handwritten recipes, stains included. Emotional realism matters.',
+            energyCost:3200,
+            interactions:11
+        }
+
+    ];
+
+    state.activity = [
+
+        'The Assam Collection reopened tonight.',
+        'A cousin restored a damaged cassette recording.',
+        'Grandmother lore surfaced unexpectedly.',
+        'The archive extended itself by another 7 days.'
+
+    ];
+
+}
+
+/* =========================================================
+SAVE
+========================================================= */
+
+function saveState(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+/* =========================================================
+FORMAT
+========================================================= */
+
+function money(v){
+    return '₹' + v.toLocaleString('en-IN');
+}
+
+/* =========================================================
+RENDER BALANCES
+========================================================= */
+
+function renderBalances(){
+
+    document.getElementById('totalFunding').innerText =
+    money(state.totalFunding);
+
+    document.getElementById('platformReserve').innerText =
+    money(state.platformReserve);
+
+    document.getElementById('arenaReserve').innerText =
+    money(state.arenaReserve);
+
+    const energyPercent =
+    Math.min(100, Math.floor((state.arenaReserve / 500000) * 100));
+
+    document.getElementById('energyFill').style.width =
+    energyPercent + '%';
+
+    document.getElementById('energyPercent').innerText =
+    energyPercent + '%';
+
+}
+
+/* =========================================================
+RENDER POSTS
+========================================================= */
+
+function renderPosts(){
+
+    const feed = document.getElementById('feed');
+
+    feed.innerHTML = '';
+
+    state.posts
+    .slice()
+    .reverse()
+    .forEach(post => {
+
+        const div = document.createElement('div');
+
+        div.className = 'post';
+
+        div.innerHTML = `
+
+            <div class="post-top">
+
+                <div class="post-type">
+                    ${post.type}
+                </div>
+
+                <div class="post-title">
+                    ${post.title}
+                </div>
+
+                <div class="post-copy">
+                    ${post.content}
+                </div>
+
+            </div>
+
+            <div class="post-footer">
+
+                <div class="energy">
+                    Archive Reserve Consumed:
+                    ${money(post.energyCost)}
+                </div>
+
+                <div class="post-actions">
+
+                    <button class="pill interact-btn" data-id="${post.id}">
+                        Resonated · ${post.interactions}
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+        feed.appendChild(div);
+
+    });
+
+    document.querySelectorAll('.interact-btn').forEach(btn => {
+
+        btn.addEventListener('click', () => {
+
+            const id = Number(btn.dataset.id);
+
+            const post = state.posts.find(p => p.id === id);
+
+            post.interactions += 1;
+
+            const dynamicCost =
+            Math.floor(100 + (post.interactions * 70));
+
+            state.arenaReserve -= dynamicCost;
+
+            if(state.arenaReserve < 0){
+                state.arenaReserve = 0;
+            }
+
+            state.activity.unshift(
+                `The archive spent ${money(dynamicCost)} responding to growing resonance around "${post.title}".`
+            );
+
+            saveState();
+
+            renderAll();
+
+        });
+
+    });
+
+}
+
+/* =========================================================
+RENDER ACTIVITY
+========================================================= */
+
+function renderActivity(){
+
+    const wrap = document.getElementById('activityLog');
+
+    wrap.innerHTML = '';
+
+    state.activity
+    .slice(0,8)
+    .forEach(item => {
+
+        const div = document.createElement('div');
+
+        div.className = 'activity-item';
+
+        div.innerHTML = `
+            <p>${item}</p>
+        `;
+
+        wrap.appendChild(div);
+
+    });
+
+}
+
+/* =========================================================
+RENDER LEADERBOARD
+========================================================= */
+
+function renderLeaderboard(){
+
+    const board = document.getElementById('leaderboard');
+
+    board.innerHTML = '';
+
+    state.clans.forEach(clan => {
+
+        const div = document.createElement('div');
+
+        div.className = 'leader';
+
+        div.innerHTML = `
+
+            <div>
+                <strong>${clan.name}</strong>
+            </div>
+
+            <div class="suits">
+                <span class="suit">♥ ${clan.hearts}</span>
+                <span class="suit">♦ ${clan.diamonds}</span>
+                <span class="suit">♠ ${clan.spades}</span>
+                <span class="suit">♣ ${clan.clubs}</span>
+            </div>
+
+        `;
+
+        board.appendChild(div);
+
+    });
+
+}
+
+/* =========================================================
+CREATE CONTRIBUTION
+========================================================= */
+
+document.getElementById('fundRange')
+.addEventListener('input', e => {
+
+    document.getElementById('contributionAmount').value =
+    e.target.value;
+
+});
+
+document.getElementById('contributeBtn')
+.addEventListener('click', () => {
+
+    const name =
+    document.getElementById('contributorName').value || 'Anonymous Patron';
+
+    const amount =
+    Number(document.getElementById('contributionAmount').value);
+
+    if(!amount || amount <= 0){
+        return;
+    }
+
+    const platformCut = Math.floor(amount * 0.5);
+    const arenaCut = Math.floor(amount * 0.5);
+
+    state.totalFunding += amount;
+    state.platformReserve += platformCut;
+    state.arenaReserve += arenaCut;
+
+    state.activity.unshift(
+        `${name} funded ${money(amount)}. The living archive gained new energy tonight.`
+    );
+
+    saveState();
+
+    renderAll();
+
+});
+
+/* =========================================================
+CREATE POSTS
+========================================================= */
+
+document.getElementById('createPostBtn')
+.addEventListener('click', () => {
+
+    const type =
+    document.getElementById('postType').value;
+
+    const title =
+    document.getElementById('postTitle').value;
+
+    const content =
+    document.getElementById('postContent').value;
+
+    if(!title || !content){
+        return;
+    }
+
+    const baseCost =
+    Math.floor(Math.random() * 5000) + 1200;
+
+    state.arenaReserve -= baseCost;
+
+    if(state.arenaReserve < 0){
+        state.arenaReserve = 0;
+    }
+
+    const newPost = {
+
+        id:Date.now(),
+        type:type,
+        title:title,
+        content:content,
+        energyCost:baseCost,
+        interactions:Math.floor(Math.random() * 14)
+
+    };
+
+    state.posts.push(newPost);
+
+    state.activity.unshift(
+        `"${title}" opened another emotional route inside the archive.`
+    );
+
+    saveState();
+
+    renderAll();
+
+});
+
+/* =========================================================
+RESET
+========================================================= */
+
+document.getElementById('resetBtn')
+.addEventListener('click', () => {
+
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+
+});
+
+/* =========================================================
+MASTER RENDER
+========================================================= */
+
+function renderAll(){
+
+    renderBalances();
+    renderPosts();
+    renderActivity();
+    renderLeaderboard();
+
+}
+
+renderAll();
+
+</script>
+
+</body>
+</html>
