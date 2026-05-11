@@ -1,0 +1,453 @@
+/* =========================================================
+   VOWLEDGER THEMES CSS
+   Emotional Atmosphere Layer Only
+========================================================= */
+
+/* =========================================================
+   1. ESTATE
+   Warm Editorial Heritage
+========================================================= */
+
+.theme-estate{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+  --bg-elevated:#211f1d;
+
+  --text-primary:#f4eee3;
+  --text-secondary:#c8bda8;
+  --text-muted:#8e8578;
+
+  --accent:#c8a46f;
+  --accent-bright:#e0c28a;
+
+  --border-soft:
+  rgba(255,255,255,.08);
+
+  --border-strong:
+  rgba(255,255,255,.14);
+
+  --card-bg:
+  rgba(255,255,255,.03);
+
+  --card-highlight:
+  rgba(255,255,255,.06);
+
+  --header-bg:
+  rgba(12,12,12,.55);
+
+  --overlay-dark:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.75),
+    rgba(0,0,0,.15)
+  );
+
+  --shadow-soft:
+  0 10px 40px rgba(0,0,0,.25);
+
+  --shadow-deep:
+  0 24px 80px rgba(0,0,0,.35);
+
+  --font-heading:
+  'Playfair Display', serif;
+
+  --font-body:
+  'Inter', sans-serif;
+
+  --grain-opacity:.035;
+
+}
+
+/* =========================================================
+   2. BENGAL
+   Literary Nostalgia
+========================================================= */
+
+.theme-bengal{
+
+  --bg:#1b1414;
+  --bg-soft:#2a1e1e;
+  --bg-elevated:#322322;
+
+  --text-primary:#f4ead9;
+  --text-secondary:#ccbca4;
+  --text-muted:#9f8d79;
+
+  --accent:#d7a35c;
+  --accent-bright:#e9bf83;
+
+  --border-soft:
+  rgba(255,220,180,.08);
+
+  --border-strong:
+  rgba(255,220,180,.16);
+
+  --card-bg:
+  rgba(255,255,255,.03);
+
+  --card-highlight:
+  rgba(255,255,255,.06);
+
+  --header-bg:
+  rgba(22,14,14,.62);
+
+  --overlay-dark:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.72),
+    rgba(0,0,0,.12)
+  );
+
+  --shadow-soft:
+  0 10px 40px rgba(0,0,0,.28);
+
+  --shadow-deep:
+  0 24px 80px rgba(0,0,0,.42);
+
+  --font-heading:
+  'Cormorant Garamond', serif;
+
+  --font-body:
+  'Hind Siliguri', sans-serif;
+
+  --grain-opacity:.04;
+
+}
+
+/* =========================================================
+   3. NOIR
+   Cinematic Documentary
+========================================================= */
+
+.theme-noir{
+
+  --bg:#090909;
+  --bg-soft:#121212;
+  --bg-elevated:#1a1a1a;
+
+  --text-primary:#f2f2f2;
+  --text-secondary:#b8b8b8;
+  --text-muted:#8c8c8c;
+
+  --accent:#c8c8c8;
+  --accent-bright:#ffffff;
+
+  --border-soft:
+  rgba(255,255,255,.08);
+
+  --border-strong:
+  rgba(255,255,255,.18);
+
+  --card-bg:
+  rgba(255,255,255,.025);
+
+  --card-highlight:
+  rgba(255,255,255,.05);
+
+  --header-bg:
+  rgba(8,8,8,.72);
+
+  --overlay-dark:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.82),
+    rgba(0,0,0,.22)
+  );
+
+  --shadow-soft:
+  0 10px 40px rgba(0,0,0,.45);
+
+  --shadow-deep:
+  0 24px 80px rgba(0,0,0,.62);
+
+  --font-heading:
+  'Playfair Display', serif;
+
+  --font-body:
+  'Inter', sans-serif;
+
+  --grain-opacity:.02;
+
+}
+
+/* =========================================================
+   4. JOURNAL
+   Editorial Magazine
+========================================================= */
+
+.theme-journal{
+
+  --bg:#f7f5ef;
+  --bg-soft:#ece7dd;
+  --bg-elevated:#e3ddd2;
+
+  --text-primary:#151515;
+  --text-secondary:#4d463d;
+  --text-muted:#7c7468;
+
+  --accent:#7b5d3d;
+  --accent-bright:#a27b52;
+
+  --border-soft:
+  rgba(0,0,0,.08);
+
+  --border-strong:
+  rgba(0,0,0,.14);
+
+  --card-bg:
+  rgba(255,255,255,.6);
+
+  --card-highlight:
+  rgba(255,255,255,.8);
+
+  --header-bg:
+  rgba(255,255,255,.72);
+
+  --overlay-dark:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.42),
+    rgba(0,0,0,.04)
+  );
+
+  --shadow-soft:
+  0 10px 40px rgba(0,0,0,.08);
+
+  --shadow-deep:
+  0 24px 80px rgba(0,0,0,.12);
+
+  --font-heading:
+  'Libre Baskerville', serif;
+
+  --font-body:
+  'Source Sans 3', sans-serif;
+
+  --grain-opacity:.02;
+
+}
+
+/* =========================================================
+   5. GARDEN
+   Soft Botanical Romance
+========================================================= */
+
+.theme-garden{
+
+  --bg:#101511;
+  --bg-soft:#18201a;
+  --bg-elevated:#202922;
+
+  --text-primary:#edf0e7;
+  --text-secondary:#bcc5b7;
+  --text-muted:#879082;
+
+  --accent:#c2aa72;
+  --accent-bright:#dfc692;
+
+  --border-soft:
+  rgba(220,240,220,.08);
+
+  --border-strong:
+  rgba(220,240,220,.16);
+
+  --card-bg:
+  rgba(255,255,255,.03);
+
+  --card-highlight:
+  rgba(255,255,255,.06);
+
+  --header-bg:
+  rgba(10,16,11,.62);
+
+  --overlay-dark:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.68),
+    rgba(0,0,0,.1)
+  );
+
+  --shadow-soft:
+  0 10px 40px rgba(0,0,0,.22);
+
+  --shadow-deep:
+  0 24px 80px rgba(0,0,0,.34);
+
+  --font-heading:
+  'Cormorant Garamond', serif;
+
+  --font-body:
+  'Inter', sans-serif;
+
+  --grain-opacity:.03;
+
+}
+
+/* =========================================================
+   GLOBAL THEME APPLICATION
+========================================================= */
+
+body{
+  background:var(--bg);
+  color:var(--text-primary);
+}
+
+body::before{
+  content:"";
+
+  position:fixed;
+  inset:0;
+
+  pointer-events:none;
+  z-index:-1;
+
+  opacity:var(--grain-opacity);
+
+  background-image:
+  radial-gradient(circle at 20% 20%, rgba(255,255,255,.08) 1px, transparent 1px),
+  radial-gradient(circle at 80% 80%, rgba(255,255,255,.05) 1px, transparent 1px);
+
+  background-size:4px 4px;
+}
+
+.body-text{
+  color:var(--text-secondary);
+}
+
+.small-text{
+  color:var(--text-muted);
+}
+
+.eyebrow{
+  color:var(--accent);
+}
+
+.site-header{
+  background:var(--header-bg);
+  border:1px solid var(--border-soft);
+
+  box-shadow:var(--shadow-soft);
+}
+
+.nav-links a{
+  color:var(--text-secondary);
+}
+
+.nav-links a:hover{
+  color:var(--text-primary);
+}
+
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--border-soft);
+
+  box-shadow:var(--shadow-soft);
+}
+
+.card:hover{
+  border-color:var(--border-strong);
+  box-shadow:var(--shadow-deep);
+}
+
+.archive-media img,
+.card-media img{
+  filter:
+  brightness(.9)
+  contrast(1.05)
+  saturate(.95);
+}
+
+.btn-primary{
+  background:var(--accent);
+  color:#111;
+}
+
+.btn-primary:hover{
+  filter:brightness(1.05);
+}
+
+.btn-secondary{
+  border:1px solid var(--border-soft);
+  color:var(--text-primary);
+
+  background:
+  rgba(255,255,255,.02);
+}
+
+.btn-secondary:hover{
+  border-color:var(--border-strong);
+
+  background:
+  rgba(255,255,255,.04);
+}
+
+.input-field,
+.textarea-field{
+  background:var(--card-bg);
+
+  border:
+  1px solid var(--border-soft);
+
+  color:var(--text-primary);
+}
+
+.input-field::placeholder,
+.textarea-field::placeholder{
+  color:var(--text-muted);
+}
+
+.input-field:focus,
+.textarea-field:focus{
+  border-color:var(--accent);
+}
+
+.audio-play{
+  background:var(--accent);
+  color:#111;
+}
+
+.waveform{
+  background:
+  linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.12),
+    transparent
+  );
+}
+
+.suit-badge{
+  border:1px solid var(--border-soft);
+
+  background:
+  rgba(255,255,255,.02);
+}
+
+.site-footer{
+  border-top:
+  1px solid var(--border-soft);
+}
+
+/* =========================================================
+   OPTIONAL ATMOSPHERIC HELPERS
+========================================================= */
+
+.theme-noir .hero-title,
+.theme-cinema .hero-title{
+  text-shadow:
+  0 10px 40px rgba(0,0,0,.45);
+}
+
+.theme-journal .card{
+  backdrop-filter:blur(4px);
+}
+
+.theme-bengal .quote-text{
+  font-style:italic;
+  letter-spacing:.01em;
+}
+
+.theme-estate .card,
+.theme-garden .card{
+  backdrop-filter:blur(8px);
+}

@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MaisonMotif — Emotional Era Timeline</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+
+  min-height:100vh;
+
+  overflow-x:hidden;
+
+  background:var(--bg);
+
+  color:var(--text-primary);
+
+  font-family:var(--font-body);
+
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+
+}
+
+/* =========================================================
+THEME ESTATE
+========================================================= */
+
+:root{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+  --bg-elevated:#211f1d;
+
+  --text-primary:#f4eee3;
+  --text-secondary:#c8bda8;
+  --text-muted:#8e8578;
+
+  --accent:#c8a46f;
+  --accent-bright:#e0c28a;
+
+  --border-soft:
+  rgba(255,255,255,.08);
+
+  --card-bg:
+  rgba(255,255,255,.03);
+
+  --header-bg:
+  rgba(12,12,12,.55);
+
+  --shadow:
+  0 24px 80px rgba(0,0,0,.35);
+
+  --font-heading:
+  'Playfair Display', serif;
+
+  --font-body:
+  'Inter', sans-serif;
+
+  --transition:
+  all .7s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+BACKGROUND
+========================================================= */
+
+.background{
+
+  position:fixed;
+  inset:0;
+
+  background:
+
+  radial-gradient(
+  circle at top left,
+  rgba(200,164,111,.12),
+  transparent 26%),
+
+  radial-gradient(
+  circle at bottom right,
+  rgba(255,255,255,.03),
+  transparent 22%),
+
+  linear-gradient(
+  to bottom,
+  #121110,
+  #171615,
+  #1b1917);
+
+  z-index:-3;
+}
+
+.grain{
+
+  position:fixed;
+  inset:0;
+
+  opacity:.04;
+
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Ccircle cx='12' cy='12' r='1'/%3E%3Ccircle cx='82' cy='36' r='1'/%3E%3Ccircle cx='40' cy='90' r='1'/%3E%3Ccircle cx='124' cy='104' r='1'/%3E%3C/g%3E%3C/svg%3E");
+
+  z-index:-2;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.header{
+
+  position:fixed;
+
+  top:22px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:min(94%,1400px);
+
+  z-index:100;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:18px 24px;
+
+  border-radius:999px;
+
+  background:var(--header-bg);
+
+  backdrop-filter:blur(18px);
+
+  border:1px solid var(--border-soft);
+}
+
+.logo{
+
+  font-family:var(--font-heading);
+
+  font-size:28px;
+
+  letter-spacing:-0.04em;
+}
+
+.logo span{
+  color:var(--accent);
+}
+
+.header-right{
+  display:flex;
+  gap:12px;
+}
+
+.btn{
+
+  border:none;
+
+  cursor:pointer;
+
+  border-radius:999px;
+
+  padding:12px 18px;
+
+  color:var(--text-primary);
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid var(--border-soft);
+
+  transition:var(--transition);
+}
+
+.btn:hover{
+
+  transform:translateY(-2px);
+
+  border-color:rgba(200,164,111,.35);
+}
+
+/* =========================================================
+INTRO
+========================================================= */
+
+.intro{
+
+  width:min(92%,1300px);
+
+  margin:auto;
+
+  padding-top:170px;
+}
+
+.eyebrow{
+
+  color:var(--accent);
+
+  font-size:11px;
+
+  letter-spacing:.28em;
+
+  text-transform:uppercase;
+}
+
+.hero{
+
+  margin-top:18px;
+
+  font-family:var(--font-heading);
+
+  font-size:clamp(54px,8vw,110px);
+
+  line-height:.92;
+
+  letter-spacing:-0.05em;
+
+  max-width:980px;
+}
+
+.sub{
+
+  margin-top:24px;
+
+  max-width:760px;
+
+  color:var(--text-secondary);
+
+  line-height:1.9;
+
+  font-size:17px;
+}
+
+/* =========================================================
+TIMELINE
+========================================================= */
+
+.timeline{
+
+  width:min(92%,980px);
+
+  margin:auto;
+
+  padding-top:90px;
+  padding-bottom:220px;
+
+  position:relative;
+}
+
+.timeline::before{
+
+  content:'';
+
+  position:absolute;
+
+  left:46px;
+  top:0;
+  bottom:0;
+
+  width:1px;
+
+  background:
+  linear-gradient(
+  to bottom,
+  rgba(200,164,111,.25),
+  rgba(200,164,111,.02));
+}
+
+/* =========================================================
+ERA BLOCK
+========================================================= */
+
+.era{
+
+  position:relative;
+
+  margin-bottom:90px;
+
+  opacity:0;
+
+  transform:
+  translateY(60px);
+
+  transition:1s cubic-bezier(.19,1,.22,1);
+}
+
+.era.visible{
+
+  opacity:1;
+
+  transform:
+  translateY(0);
+}
+
+.era-dot{
+
+  position:absolute;
+
+  left:36px;
+  top:10px;
+
+  width:22px;
+  height:22px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(
+  circle at 35% 35%,
+  rgba(255,255,255,.95),
+  rgba(224,194,138,.4));
+
+  box-shadow:
+  0 0 24px rgba(255,255,255,.14),
+  0 0 80px rgba(200,164,111,.18);
+}
+
+.era-inner{
+
+  margin-left:110px;
+}
+
+.era-tag{
+
+  display:inline-flex;
+  align-items:center;
+
+  gap:10px;
+
+  padding:10px 16px;
+
+  border-radius:999px;
+
+  border:1px solid var(--border-soft);
+
+  background:rgba(255,255,255,.03);
+
+  color:var(--accent);
+
+  font-size:11px;
+
+  letter-spacing:.24em;
+
+  text-transform:uppercase;
+}
+
+.era-title{
+
+  margin-top:26px;
+
+  font-family:var(--font-heading);
+
+  font-size:clamp(40px,6vw,70px);
+
+  line-height:.96;
+
+  letter-spacing:-0.04em;
+}
+
+.era-description{
+
+  margin-top:24px;
+
+  color:var(--text-secondary);
+
+  line-height:1.95;
+
+  font-size:17px;
+
+  max-width:760px;
+}
+
+/* =========================================================
+MEMORIES
+========================================================= */
+
+.memory-grid{
+
+  margin-top:38px;
+
+  display:grid;
+
+  gap:20px;
+}
+
+.memory{
+
+  background:var(--card-bg);
+
+  border:1px solid var(--border-soft);
+
+  border-radius:30px;
+
+  padding:28px;
+
+  backdrop-filter:blur(12px);
+
+  transition:var(--transition);
+
+  cursor:pointer;
+}
+
+.memory:hover{
+
+  transform:translateY(-4px);
+
+  border-color:rgba(200,164,111,.28);
+}
+
+.memory-type{
+
+  color:var(--accent);
+
+  font-size:11px;
+
+  letter-spacing:.22em;
+
+  text-transform:uppercase;
+}
+
+.memory-title{
+
+  margin-top:18px;
+
+  font-family:var(--font-heading);
+
+  font-size:34px;
+
+  line-height:1.05;
+}
+
+.memory-body{
+
+  margin-top:18px;
+
+  color:var(--text-secondary);
+
+  line-height:1.9;
+
+  font-size:15px;
+}
+
+.memory-meta{
+
+  margin-top:24px;
+
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.pill{
+
+  padding:10px 14px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid rgba(255,255,255,.05);
+
+  font-size:11px;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+
+  color:var(--text-muted);
+}
+
+/* =========================================================
+TIME TRAVEL BUTTON
+========================================================= */
+
+.time-travel-wrap{
+
+  position:fixed;
+
+  left:50%;
+  bottom:34px;
+
+  transform:translateX(-50%);
+
+  z-index:50;
+}
+
+.time-button{
+
+  width:120px;
+  height:120px;
+
+  border-radius:50%;
+
+  cursor:pointer;
+
+  border:1px solid rgba(200,164,111,.18);
+
+  background:
+
+  radial-gradient(
+  circle at 35% 35%,
+  rgba(255,255,255,.08),
+  rgba(200,164,111,.04));
+
+  backdrop-filter:blur(18px);
+
+  box-shadow:
+  0 0 40px rgba(200,164,111,.10),
+  0 0 140px rgba(0,0,0,.45);
+
+  transition:var(--transition);
+
+  position:relative;
+}
+
+.time-button:hover{
+
+  transform:
+  scale(1.05)
+  translateY(-4px);
+
+  box-shadow:
+  0 0 60px rgba(200,164,111,.16),
+  0 0 160px rgba(0,0,0,.5);
+}
+
+.time-button::before{
+
+  content:'';
+
+  position:absolute;
+
+  inset:12px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(255,255,255,.06);
+}
+
+.time-label{
+
+  position:absolute;
+
+  top:50%;
+  left:50%;
+
+  transform:translate(-50%,-50%);
+
+  text-align:center;
+}
+
+.time-year{
+
+  font-family:var(--font-heading);
+
+  font-size:34px;
+
+  line-height:1;
+}
+
+.time-caption{
+
+  margin-top:8px;
+
+  color:var(--text-muted);
+
+  font-size:10px;
+
+  letter-spacing:.18em;
+
+  text-transform:uppercase;
+}
+
+/* =========================================================
+ADD MODAL
+========================================================= */
+
+.modal{
+
+  position:fixed;
+  inset:0;
+
+  z-index:200;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(0,0,0,.75);
+
+  backdrop-filter:blur(12px);
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-card{
+
+  width:min(760px,92vw);
+
+  background:#171615;
+
+  border:1px solid var(--border-soft);
+
+  border-radius:34px;
+
+  padding:34px;
+}
+
+.modal-title{
+
+  font-family:var(--font-heading);
+
+  font-size:44px;
+}
+
+.modal-sub{
+
+  margin-top:14px;
+
+  color:var(--text-secondary);
+
+  line-height:1.8;
+}
+
+.field{
+
+  width:100%;
+
+  margin-top:18px;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid var(--border-soft);
+
+  border-radius:20px;
+
+  padding:18px;
+
+  color:var(--text-primary);
+
+  font-size:15px;
+}
+
+textarea.field{
+  min-height:120px;
+  resize:vertical;
+}
+
+.modal-actions{
+
+  margin-top:24px;
+
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+  .timeline::before{
+    left:24px;
+  }
+
+  .era-dot{
+    left:14px;
+  }
+
+  .era-inner{
+    margin-left:70px;
+  }
+
+  .memory-title{
+    font-size:28px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+<div class="grain"></div>
+
+<header class="header">
+
+<div class="logo">
+Maison<span>Motif</span>
+</div>
+
+<div class="header-right">
+
+<button class="btn" id="addBtn">
+Add Memory
+</button>
+
+<button class="btn">
+The Archive Deepens
+</button>
+
+</div>
+
+</header>
+
+<section class="intro">
+
+<div class="eyebrow">
+Emotional Era Timeline
+</div>
+
+<div class="hero">
+Most memories are not dates.
+They are eras.
+</div>
+
+<div class="sub">
+The archive moves backward through emotional time — not strict chronology. Families remember life through flood seasons, migration years, rituals, cities, school eras, and moments before everything changed.
+</div>
+
+</section>
+
+<section class="timeline" id="timeline"></section>
+
+<div class="time-travel-wrap">
+
+<button class="time-button" id="timeButton">
+
+<div class="time-label">
+
+<div class="time-year" id="timeYear">
+2026
+</div>
+
+<div class="time-caption">
+Go Deeper
+</div>
+
+</div>
+
+</button>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-card">
+
+<div class="modal-title">
+Add A Memory Worth Preserving
+</div>
+
+<div class="modal-sub">
+Not every memory needs an exact date. Emotional eras are enough.
+</div>
+
+<input
+class="field"
+id="eraInput"
+placeholder="Era (Example: Before Smartphones)"
+>
+
+<input
+class="field"
+id="titleInput"
+placeholder="Memory title"
+>
+
+<textarea
+class="field"
+id="bodyInput"
+placeholder="Memory fragment"
+></textarea>
+
+<input
+class="field"
+id="typeInput"
+placeholder="Memory type"
+>
+
+<div class="modal-actions">
+
+<button class="btn" id="cancelBtn">
+Cancel
+</button>
+
+<button class="btn" id="saveBtn">
+Preserve Memory
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================================================
+LOCAL STORAGE
+========================================================= */
+
+const STORAGE_KEY =
+'maisonmotif-emotional-eras';
+
+const defaultData = [
+
+{
+era:'The Question Years',
+year:2026,
+description:
+'A younger generation begins asking questions nobody had asked before.',
+
+memories:[
+
+{
+type:'Child Discovery',
+title:'Who Is This Person?',
+body:'“Why does this uncle appear beside grandfather in every railway photograph?”',
+tags:['Unknown Relative','Flood Season']
+},
+
+{
+type:'Voice Fragment',
+title:'The Green Suitcase',
+body:'“Inside it were wedding letters, a railway watch, and one recipe notebook.”',
+tags:['Heirloom','Migration']
+}
+
+]
+
+},
+
+{
+era:'Before Smartphones',
+year:2004,
+description:
+'Families still remembered through objects, train journeys, invitation cards, and spoken stories.',
+
+memories:[
+
+{
+type:'Migration Story',
+title:'The Monsoon Transfer',
+body:'“We crossed before sunrise carrying everything we owned.”',
+tags:['Railway Route','Assam']
+},
+
+{
+type:'Found Photograph',
+title:'The Tea Garden Invitation',
+body:'Recovered from an Assam tea chest wrapped inside old newspaper.',
+tags:['Invitation','Tea Garden']
+}
+
+]
+
+},
+
+{
+era:'The Flood Season',
+year:1994,
+description:
+'The archive grows uncertain here. Dates blur. Emotions remain vivid.',
+
+memories:[
+
+{
+type:'Grandmother Recording',
+title:'The River Crossing',
+body:'“I remember the station name, but not the year.”',
+tags:['Oral History','Flood']
+}
+
+]
+
+},
+
+{
+era:'Timeless Family Beliefs',
+year:1978,
+description:
+'Some memories do not belong to time. They become inherited philosophies.',
+
+memories:[
+
+{
+type:'Family Philosophy',
+title:'Before Sunrise',
+body:'“In this family, we always begin before sunrise.”',
+tags:['Family Saying','Continuity']
+},
+
+{
+type:'Ritual Memory',
+title:'No Guest Eats Alone',
+body:'A recurring phrase repeated across multiple wedding generations.',
+tags:['Hospitality','Tradition']
+}
+
+]
+
+}
+
+];
+
+let eras =
+JSON.parse(
+localStorage.getItem(STORAGE_KEY)
+)
+|| defaultData;
+
+function saveData(){
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(eras)
+);
+
+}
+
+/* =========================================================
+STATE
+========================================================= */
+
+let visibleCount = 1;
+
+const timeline =
+document.getElementById('timeline');
+
+const timeYear =
+document.getElementById('timeYear');
+
+/* =========================================================
+RENDER
+========================================================= */
+
+function render(){
+
+timeline.innerHTML = '';
+
+const visible =
+eras
+.sort((a,b)=>b.year-a.year)
+.slice(0,visibleCount);
+
+visible.forEach((era,index)=>{
+
+const block =
+document.createElement('div');
+
+block.className = 'era visible';
+
+block.innerHTML = `
+
+<div class="era-dot"></div>
+
+<div class="era-inner">
+
+<div class="era-tag">
+${era.year}
+</div>
+
+<div class="era-title">
+${era.era}
+</div>
+
+<div class="era-description">
+${era.description}
+</div>
+
+<div class="memory-grid">
+
+${era.memories.map(memory=>`
+
+<div class="memory">
+
+<div class="memory-type">
+${memory.type}
+</div>
+
+<div class="memory-title">
+${memory.title}
+</div>
+
+<div class="memory-body">
+${memory.body}
+</div>
+
+<div class="memory-meta">
+
+${memory.tags.map(tag=>`
+
+<div class="pill">
+${tag}
+</div>
+
+`).join('')}
+
+</div>
+
+</div>
+
+`).join('')}
+
+</div>
+
+</div>
+
+`;
+
+timeline.appendChild(block);
+
+});
+
+if(visible.length){
+
+timeYear.innerText =
+visible[visible.length-1].year;
+
+}
+
+}
+
+/* =========================================================
+TIME BUTTON
+========================================================= */
+
+document
+.getElementById('timeButton')
+.onclick = ()=>{
+
+if(visibleCount < eras.length){
+
+visibleCount++;
+
+render();
+
+window.scrollTo({
+
+top:document.body.scrollHeight,
+behavior:'smooth'
+
+});
+
+}
+
+};
+
+/* =========================================================
+MODAL
+========================================================= */
+
+const modal =
+document.getElementById('modal');
+
+document
+.getElementById('addBtn')
+.onclick = ()=>{
+
+modal.classList.add('active');
+
+};
+
+document
+.getElementById('cancelBtn')
+.onclick = ()=>{
+
+modal.classList.remove('active');
+
+};
+
+/* =========================================================
+SAVE MEMORY
+========================================================= */
+
+document
+.getElementById('saveBtn')
+.onclick = ()=>{
+
+const eraName =
+document.getElementById('eraInput').value.trim();
+
+const title =
+document.getElementById('titleInput').value.trim();
+
+const body =
+document.getElementById('bodyInput').value.trim();
+
+const type =
+document.getElementById('typeInput').value.trim();
+
+if(
+!eraName ||
+!title ||
+!body ||
+!type
+){
+alert('Complete all fields.');
+return;
+}
+
+const existing =
+eras.find(e=>e.era===eraName);
+
+if(existing){
+
+existing.memories.unshift({
+
+type,
+title,
+body,
+tags:['Recently Restored']
+
+});
+
+}else{
+
+eras.unshift({
+
+era:eraName,
+year:new Date().getFullYear(),
+description:
+'A newly surfaced emotional era from the family archive.',
+
+memories:[
+
+{
+type,
+title,
+body,
+tags:['Recently Restored']
+}
+
+]
+
+});
+
+}
+
+saveData();
+
+modal.classList.remove('active');
+
+render();
+
+};
+
+/* =========================================================
+INIT
+========================================================= */
+
+render();
+
+</script>
+
+</body>
+</html>

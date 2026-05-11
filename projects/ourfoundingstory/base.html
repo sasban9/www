@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VowLedger</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   1. RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+
+  background:var(--bg);
+  color:var(--text-primary);
+
+  font-family:var(--font-body);
+
+  transition:var(--transition);
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul{
+  list-style:none;
+}
+
+/* =========================================================
+   2. STRUCTURE VARIABLES
+========================================================= */
+
+:root{
+
+  --container:1320px;
+
+  --space-section:120px;
+  --space-card:28px;
+  --space-gap:24px;
+
+  --radius-card:28px;
+  --radius-pill:999px;
+
+  --header-height:84px;
+
+  --transition:
+  all .6s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+   3. TYPOGRAPHY
+========================================================= */
+
+h1,h2,h3,h4,h5,h6{
+  font-family:var(--font-heading);
+  font-weight:500;
+}
+
+.hero-title{
+
+  font-size:clamp(52px,9vw,110px);
+  line-height:.95;
+
+  letter-spacing:-0.04em;
+
+}
+
+.section-title{
+
+  font-size:clamp(32px,5vw,60px);
+  line-height:1.05;
+
+}
+
+.body-text{
+
+  font-size:17px;
+  line-height:1.85;
+
+  color:var(--text-secondary);
+
+}
+
+.eyebrow{
+
+  font-size:12px;
+
+  letter-spacing:.28em;
+  text-transform:uppercase;
+
+  color:var(--accent);
+
+  margin-bottom:18px;
+
+}
+
+/* =========================================================
+   4. GLOBAL LAYOUT
+========================================================= */
+
+.page-shell{
+
+  width:min(100%,var(--container));
+
+  margin:auto;
+
+  padding-inline:6%;
+
+}
+
+.section{
+  padding-block:var(--space-section);
+}
+
+.grid-2{
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:48px;
+
+}
+
+.grid-3{
+
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:32px;
+
+}
+
+/* =========================================================
+   5. HEADER
+========================================================= */
+
+.site-header{
+
+  position:fixed;
+
+  top:24px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:min(92%,1320px);
+
+  z-index:1000;
+
+  height:var(--header-height);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding-inline:28px;
+
+  border-radius:999px;
+
+  backdrop-filter:blur(14px);
+
+  border:1px solid var(--border-soft);
+
+  background:var(--header-bg);
+
+}
+
+.logo{
+
+  font-family:var(--font-heading);
+
+  font-size:24px;
+
+  letter-spacing:-0.03em;
+
+}
+
+.nav-links{
+
+  display:flex;
+  align-items:center;
+
+  gap:32px;
+
+}
+
+.nav-links a{
+
+  color:var(--text-secondary);
+
+  transition:var(--transition);
+
+}
+
+.nav-links a:hover{
+  color:var(--text-primary);
+}
+
+/* =========================================================
+   6. BUTTONS
+========================================================= */
+
+.btn{
+
+  border:none;
+
+  cursor:pointer;
+
+  padding:16px 30px;
+
+  border-radius:var(--radius-pill);
+
+  transition:var(--transition);
+
+}
+
+.btn-primary{
+
+  background:var(--accent);
+
+  color:#111;
+
+}
+
+.btn-secondary{
+
+  background:transparent;
+
+  border:1px solid var(--border-soft);
+
+  color:var(--text-primary);
+
+}
+
+/* =========================================================
+   7. CARDS
+========================================================= */
+
+.card{
+
+  position:relative;
+
+  padding:var(--space-card);
+
+  border-radius:var(--radius-card);
+
+  border:1px solid var(--border-soft);
+
+  background:var(--card-bg);
+
+  overflow:hidden;
+
+  transition:var(--transition);
+
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.archive-card{
+  min-height:420px;
+}
+
+.archive-media{
+
+  aspect-ratio:4/5;
+
+  border-radius:20px;
+
+  overflow:hidden;
+
+  margin-bottom:20px;
+
+}
+
+.archive-media img{
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  filter:
+  brightness(.9)
+  contrast(1.05)
+  saturate(.95);
+
+}
+
+/* =========================================================
+   8. AUDIO CARD
+========================================================= */
+
+.audio-card{
+
+  display:flex;
+  align-items:center;
+
+  gap:20px;
+
+}
+
+.waveform{
+
+  flex:1;
+
+  height:48px;
+
+  border-radius:999px;
+
+  background:
+  linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.12),
+    transparent
+  );
+
+}
+
+/* =========================================================
+   9. MOTION
+========================================================= */
+
+.reveal{
+
+  opacity:0;
+
+  transform:translateY(60px);
+
+  transition:
+  1.2s cubic-bezier(.19,1,.22,1);
+
+}
+
+.reveal.active{
+
+  opacity:1;
+
+  transform:none;
+
+}
+
+/* =========================================================
+   10. FOOTER STRUCTURE
+========================================================= */
+
+.site-footer{
+
+  position:relative;
+
+  margin-top:140px;
+
+  padding-top:90px;
+  padding-bottom:50px;
+
+  border-top:
+  1px solid var(--border-soft);
+
+  background:
+  linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255,255,255,.015)
+  );
+
+}
+
+.footer-top{
+
+  display:grid;
+
+  grid-template-columns:
+  2fr
+  1fr
+  1fr
+  1fr
+  1fr;
+
+  gap:48px;
+
+  align-items:flex-start;
+
+}
+
+.footer-brand{
+  max-width:420px;
+}
+
+.footer-logo{
+
+  font-family:var(--font-heading);
+
+  font-size:36px;
+  line-height:1;
+
+  margin-bottom:16px;
+
+}
+
+.footer-tagline{
+
+  font-size:12px;
+
+  letter-spacing:.24em;
+  text-transform:uppercase;
+
+  color:var(--accent);
+
+  margin-bottom:28px;
+
+}
+
+.footer-description{
+  margin-bottom:32px;
+}
+
+.footer-seal{
+
+  display:inline-flex;
+  align-items:center;
+
+  min-height:42px;
+
+  padding-inline:20px;
+
+  border-radius:999px;
+
+  border:
+  1px solid var(--border-soft);
+
+  font-size:12px;
+
+  letter-spacing:.16em;
+  text-transform:uppercase;
+
+  color:var(--text-secondary);
+
+}
+
+.footer-column{
+
+  display:flex;
+  flex-direction:column;
+
+  gap:16px;
+
+}
+
+.footer-heading{
+
+  font-size:12px;
+
+  letter-spacing:.24em;
+  text-transform:uppercase;
+
+  color:var(--accent);
+
+  margin-bottom:10px;
+
+}
+
+.footer-column a{
+
+  width:max-content;
+
+  color:var(--text-secondary);
+
+  transition:var(--transition);
+
+}
+
+.footer-column a:hover{
+  color:var(--text-primary);
+}
+
+.footer-quote{
+
+  margin-top:100px;
+
+  padding-top:80px;
+
+  border-top:
+  1px solid var(--border-soft);
+
+}
+
+.footer-quote blockquote{
+
+  max-width:860px;
+
+  font-family:var(--font-heading);
+
+  font-size:clamp(32px,4vw,64px);
+
+  line-height:1.08;
+
+  letter-spacing:-0.03em;
+
+}
+
+.footer-meta{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  gap:24px;
+
+  margin-top:80px;
+
+  padding-top:32px;
+
+  border-top:
+  1px solid var(--border-soft);
+
+}
+
+.footer-meta-left,
+.footer-meta-right{
+
+  display:flex;
+  flex-wrap:wrap;
+
+  gap:24px;
+
+}
+
+.footer-meta span,
+.footer-meta a{
+
+  font-size:13px;
+
+  color:var(--text-muted);
+
+  transition:var(--transition);
+
+}
+
+.footer-meta a:hover{
+  color:var(--text-primary);
+}
+
+/* =========================================================
+   11. MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .footer-top{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .footer-brand{
+    grid-column:span 2;
+  }
+
+}
+
+@media(max-width:1024px){
+
+  .grid-2,
+  .grid-3{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:768px){
+
+  :root{
+    --space-section:80px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .footer-top{
+    grid-template-columns:1fr;
+  }
+
+  .footer-brand{
+    grid-column:auto;
+  }
+
+  .nav-links{
+    display:none;
+  }
+
+  .site-header{
+    height:72px;
+  }
+
+  .site-footer{
+
+    margin-top:100px;
+
+    padding-top:70px;
+
+  }
+
+  .footer-quote{
+
+    margin-top:70px;
+
+    padding-top:60px;
+
+  }
+
+  .footer-meta{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+  }
+
+}
+
+</style>
+
+<style>
+
+/* =========================================================
+   THEME — ESTATE
+========================================================= */
+
+.theme-estate{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+
+  --text-primary:#f4eee3;
+  --text-secondary:#c8bda8;
+  --text-muted:#8b8375;
+
+  --accent:#c8a46f;
+
+  --card-bg:rgba(255,255,255,.03);
+
+  --border-soft:
+  rgba(255,255,255,.08);
+
+  --header-bg:
+  rgba(12,12,12,.55);
+
+  --font-heading:
+  'Playfair Display', serif;
+
+  --font-body:
+  'Inter', sans-serif;
+
+}
+
+/* =========================================================
+   THEME — BENGAL
+========================================================= */
+
+.theme-bengal{
+
+  --bg:#1b1414;
+  --bg-soft:#2a1e1e;
+
+  --text-primary:#f4ead9;
+  --text-secondary:#ccbca4;
+  --text-muted:#96856f;
+
+  --accent:#d7a35c;
+
+  --card-bg:rgba(255,255,255,.03);
+
+  --border-soft:
+  rgba(255,220,180,.08);
+
+  --header-bg:
+  rgba(20,12,12,.55);
+
+  --font-heading:
+  'Cormorant Garamond', serif;
+
+  --font-body:
+  'Inter', sans-serif;
+
+}
+
+/* =========================================================
+   THEME — NOIR
+========================================================= */
+
+.theme-noir{
+
+  --bg:#090909;
+  --bg-soft:#121212;
+
+  --text-primary:#f2f2f2;
+  --text-secondary:#b8b8b8;
+  --text-muted:#7e7e7e;
+
+  --accent:#d0d0d0;
+
+  --card-bg:rgba(255,255,255,.025);
+
+  --border-soft:
+  rgba(255,255,255,.08);
+
+  --header-bg:
+  rgba(0,0,0,.55);
+
+  --font-heading:
+  'Playfair Display', serif;
+
+  --font-body:
+  'Inter', sans-serif;
+
+}
+
+</style>
+
+</head>
+
+<body class="theme-estate">
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="site-header">
+
+  <div class="logo">
+    VowLedger
+  </div>
+
+  <nav class="nav-links">
+    <a href="#">Story</a>
+    <a href="#">Archive</a>
+    <a href="#">Blessings</a>
+    <a href="#">Arena</a>
+  </nav>
+
+  <button class="btn btn-primary">
+    Enter Archive
+  </button>
+
+</header>
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+  <section class="section">
+
+    <div class="page-shell">
+
+      <p class="eyebrow">
+        FOUNDING CHAPTER
+      </p>
+
+      <h1 class="hero-title reveal">
+        The Archive Opens Slowly
+      </h1>
+
+      <p class="body-text reveal" style="max-width:720px;margin-top:24px;">
+        A beautifully preserved emotional universe where families contribute memories,
+        blessings, photographs, rituals, and voices that survive across generations.
+      </p>
+
+    </div>
+
+  </section>
+
+  <section class="section">
+
+    <div class="page-shell grid-3">
+
+      <article class="card archive-card reveal">
+
+        <div class="archive-media">
+          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop" alt="">
+        </div>
+
+        <p class="eyebrow">♠ Spades Archive</p>
+
+        <h3 class="section-title" style="font-size:32px;margin-bottom:18px;">
+          The Assam Collection
+        </h3>
+
+        <p class="body-text">
+          Migration stories, handwritten letters, train journeys, tea garden photographs,
+          and elder memories from Silchar.
+        </p>
+
+      </article>
+
+      <article class="card reveal">
+
+        <p class="eyebrow">♥ Hearts Arena</p>
+
+        <h3 style="font-size:32px;margin-bottom:18px;">
+          Tonight’s Memory Voyages
+        </h3>
+
+        <p class="body-text">
+          Recover a blurry but legendary wedding photograph before midnight.
+        </p>
+
+      </article>
+
+      <article class="card audio-card reveal">
+
+        <div>
+
+          <p class="eyebrow">♣ Clubs Continuity</p>
+
+          <h3 style="margin-bottom:10px;">
+            Grandmother’s Blessing · 02:14
+          </h3>
+
+          <p class="body-text">
+            Recorded from Silchar.
+          </p>
+
+        </div>
+
+        <div class="waveform"></div>
+
+      </article>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="site-footer">
+
+  <div class="page-shell">
+
+    <div class="footer-top">
+
+      <div class="footer-brand">
+
+        <div class="footer-logo">
+          VowLedger
+        </div>
+
+        <p class="footer-tagline">
+          Emotional Continuity Infrastructure
+        </p>
+
+        <p class="footer-description body-text">
+          Preserving stories, rituals, voices, and emotional history
+          across generations through beautifully curated family archives.
+        </p>
+
+        <div class="footer-seal">
+          FOUNDING EDITION · 2026
+        </div>
+
+      </div>
+
+      <div class="footer-column">
+
+        <p class="footer-heading">Archive</p>
+
+        <a href="#">Founding Chapter</a>
+        <a href="#">Family Collections</a>
+        <a href="#">Blessings Vault</a>
+        <a href="#">Editorial Chronicle</a>
+        <a href="#">Time Capsules</a>
+
+      </div>
+
+      <div class="footer-column">
+
+        <p class="footer-heading">Arena</p>
+
+        <a href="#">Memory Voyages</a>
+        <a href="#">Archive Hunts</a>
+        <a href="#">Tonight’s Collections</a>
+        <a href="#">Clan Signatures</a>
+        <a href="#">Season Chronicle</a>
+
+      </div>
+
+      <div class="footer-column">
+
+        <p class="footer-heading">Contributions</p>
+
+        <a href="#">Add A Memory</a>
+        <a href="#">Voice Blessings</a>
+        <a href="#">Family Photographs</a>
+        <a href="#">Ritual Collections</a>
+        <a href="#">Founding Contributions</a>
+
+      </div>
+
+      <div class="footer-column">
+
+        <p class="footer-heading">Legacy</p>
+
+        <a href="#">Anniversary Editions</a>
+        <a href="#">Family Histories</a>
+        <a href="#">Dynasty Archives</a>
+        <a href="#">Oral Histories</a>
+        <a href="#">Heirloom Prints</a>
+
+      </div>
+
+    </div>
+
+    <div class="footer-quote">
+
+      <blockquote>
+        “The wedding lasts a few days.
+        Family continuity can last centuries.”
+      </blockquote>
+
+    </div>
+
+    <div class="footer-meta">
+
+      <div class="footer-meta-left">
+
+        <span>Archive Edition I</span>
+        <span>Emotional Preservation System</span>
+
+      </div>
+
+      <div class="footer-meta-right">
+
+        <a href="#">Privacy</a>
+        <a href="#">Archive Guidelines</a>
+        <a href="#">Family Visibility</a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+<script>
+
+/* =========================================================
+   REVEAL SYSTEM
+========================================================= */
+
+const reveals = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver((entries)=>{
+
+  entries.forEach(entry=>{
+
+    if(entry.isIntersecting){
+      entry.target.classList.add('active');
+    }
+
+  });
+
+},{
+  threshold:0.15
+});
+
+reveals.forEach(el=>observer.observe(el));
+
+/* =========================================================
+   THEME TOGGLER EXAMPLE
+========================================================= */
+
+const themes = [
+  'theme-estate',
+  'theme-bengal',
+  'theme-noir'
+];
+
+let currentTheme = 0;
+
+window.toggleTheme = function(){
+
+  document.body.classList.remove(...themes);
+
+  currentTheme = (currentTheme + 1) % themes.length;
+
+  document.body.classList.add(themes[currentTheme]);
+
+}
+
+</script>
+
+</body>
+</html>

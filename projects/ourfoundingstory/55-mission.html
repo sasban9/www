@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>MaisonMotif — Collaborative Expedition Simulator</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+
+  background:#121110;
+  color:#f4eee3;
+
+  font-family:'Inter',sans-serif;
+
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* =========================================================
+THEME
+========================================================= */
+
+:root{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+
+  --text:#f4eee3;
+  --muted:#8f867a;
+
+  --gold:#c8a46f;
+  --gold-bright:#e0c28a;
+
+  --border:
+  rgba(255,255,255,.08);
+
+  --transition:
+  all .7s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+BACKGROUND
+========================================================= */
+
+.background{
+
+  position:fixed;
+  inset:0;
+
+  background:
+
+  radial-gradient(
+  circle at top left,
+  rgba(200,164,111,.12),
+  transparent 28%),
+
+  radial-gradient(
+  circle at bottom right,
+  rgba(255,255,255,.03),
+  transparent 25%),
+
+  linear-gradient(
+  to bottom,
+  #121110,
+  #171615,
+  #1b1917);
+
+  z-index:-3;
+}
+
+.grain{
+
+  position:fixed;
+  inset:0;
+
+  opacity:.04;
+
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Ccircle cx='12' cy='12' r='1'/%3E%3Ccircle cx='82' cy='36' r='1'/%3E%3Ccircle cx='40' cy='90' r='1'/%3E%3Ccircle cx='124' cy='104' r='1'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.header{
+
+  position:fixed;
+
+  top:22px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:min(94%,1500px);
+
+  z-index:100;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:18px 24px;
+
+  border-radius:999px;
+
+  background:rgba(15,15,15,.68);
+
+  backdrop-filter:blur(18px);
+
+  border:1px solid var(--border);
+}
+
+.logo{
+
+  font-family:'Playfair Display',serif;
+
+  font-size:28px;
+
+  letter-spacing:-0.04em;
+}
+
+.logo span{
+  color:var(--gold);
+}
+
+.controls{
+  display:flex;
+  gap:12px;
+}
+
+button{
+
+  border:none;
+
+  cursor:pointer;
+
+  border-radius:999px;
+
+  padding:12px 18px;
+
+  color:var(--text);
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid var(--border);
+
+  transition:var(--transition);
+}
+
+button:hover{
+
+  transform:translateY(-2px);
+
+  border-color:rgba(200,164,111,.32);
+}
+
+/* =========================================================
+INTRO
+========================================================= */
+
+.intro{
+
+  position:fixed;
+
+  top:120px;
+  left:60px;
+
+  z-index:20;
+
+  max-width:620px;
+}
+
+.eyebrow{
+
+  color:var(--gold);
+
+  font-size:11px;
+
+  letter-spacing:.28em;
+
+  text-transform:uppercase;
+}
+
+.hero{
+
+  margin-top:18px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:clamp(48px,7vw,92px);
+
+  line-height:.92;
+
+  letter-spacing:-0.05em;
+}
+
+.sub{
+
+  margin-top:24px;
+
+  color:var(--muted);
+
+  line-height:1.9;
+
+  font-size:16px;
+}
+
+/* =========================================================
+MAP
+========================================================= */
+
+.viewport{
+
+  position:fixed;
+  inset:0;
+
+  overflow:hidden;
+
+  cursor:grab;
+}
+
+.viewport.dragging{
+  cursor:grabbing;
+}
+
+.map{
+
+  position:absolute;
+
+  width:6000px;
+  height:6000px;
+
+  transform-origin:center center;
+}
+
+/* =========================================================
+HEXES
+========================================================= */
+
+.hex{
+
+  position:absolute;
+
+  width:170px;
+  height:196px;
+
+  clip-path:polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+
+  background:
+  linear-gradient(
+  to bottom,
+  rgba(255,255,255,.05),
+  rgba(255,255,255,.02));
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(10px);
+
+  overflow:hidden;
+
+  transition:var(--transition);
+
+  cursor:pointer;
+}
+
+.hex:hover{
+
+  transform:scale(1.06);
+
+  z-index:30;
+}
+
+.hex.locked{
+
+  opacity:.28;
+  filter:grayscale(.5);
+}
+
+.hex.unlocking{
+
+  animation:pulse 1.2s infinite;
+}
+
+.hex.unlocked{
+
+  background:
+  linear-gradient(
+  to bottom,
+  rgba(200,164,111,.12),
+  rgba(255,255,255,.03));
+
+  box-shadow:
+  0 0 40px rgba(200,164,111,.18);
+}
+
+@keyframes pulse{
+
+  0%,100%{
+    box-shadow:0 0 10px rgba(200,164,111,.08);
+  }
+
+  50%{
+    box-shadow:0 0 50px rgba(200,164,111,.35);
+  }
+
+}
+
+.hex-inner{
+
+  position:absolute;
+  inset:0;
+
+  padding:24px 18px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.hex-tier{
+
+  color:var(--gold);
+
+  font-size:10px;
+
+  letter-spacing:.18em;
+
+  text-transform:uppercase;
+}
+
+.hex-title{
+
+  margin-top:14px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:24px;
+
+  line-height:1.1;
+}
+
+.hex-meta{
+
+  margin-top:12px;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.7;
+}
+
+/* =========================================================
+PARTICIPANTS
+========================================================= */
+
+.participants{
+
+  margin-top:18px;
+
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.member{
+
+  padding:8px 10px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid rgba(255,255,255,.05);
+
+  font-size:10px;
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+
+  color:var(--text);
+}
+
+.member.active{
+
+  background:rgba(200,164,111,.18);
+
+  border-color:rgba(200,164,111,.25);
+
+  color:var(--gold-bright);
+}
+
+/* =========================================================
+LINES
+========================================================= */
+
+svg{
+
+  position:absolute;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  pointer-events:none;
+}
+
+.line{
+
+  stroke:rgba(200,164,111,.14);
+
+  stroke-width:2;
+
+  fill:none;
+}
+
+/* =========================================================
+PANEL
+========================================================= */
+
+.panel{
+
+  position:fixed;
+
+  right:40px;
+  top:140px;
+
+  width:430px;
+
+  z-index:50;
+
+  opacity:0;
+  pointer-events:none;
+
+  transform:translateY(20px);
+
+  transition:var(--transition);
+}
+
+.panel.active{
+
+  opacity:1;
+  pointer-events:auto;
+
+  transform:translateY(0);
+}
+
+.panel-card{
+
+  background:rgba(18,18,18,.84);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid var(--border);
+
+  border-radius:34px;
+
+  padding:30px;
+}
+
+.panel-tier{
+
+  color:var(--gold);
+
+  font-size:11px;
+
+  letter-spacing:.24em;
+
+  text-transform:uppercase;
+}
+
+.panel-title{
+
+  margin-top:18px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:46px;
+
+  line-height:.98;
+}
+
+.panel-description{
+
+  margin-top:22px;
+
+  color:var(--muted);
+
+  line-height:1.9;
+
+  font-size:15px;
+}
+
+.requirements{
+
+  margin-top:26px;
+}
+
+.requirement{
+
+  margin-top:10px;
+
+  padding:14px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid rgba(255,255,255,.05);
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.req-left{
+  font-size:13px;
+}
+
+.req-right{
+
+  color:var(--gold);
+
+  font-size:11px;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+}
+
+.progress{
+
+  margin-top:28px;
+}
+
+.progress-bar{
+
+  width:100%;
+  height:12px;
+
+  border-radius:999px;
+
+  overflow:hidden;
+
+  background:rgba(255,255,255,.05);
+}
+
+.progress-fill{
+
+  height:100%;
+  width:0%;
+
+  background:
+  linear-gradient(
+  to right,
+  var(--gold),
+  var(--gold-bright));
+
+  transition:1s;
+}
+
+.progress-label{
+
+  margin-top:12px;
+
+  color:var(--muted);
+
+  font-size:13px;
+}
+
+.status{
+
+  margin-top:24px;
+
+  padding:16px;
+
+  border-radius:20px;
+
+  background:rgba(200,164,111,.08);
+
+  border:1px solid rgba(200,164,111,.14);
+
+  line-height:1.8;
+
+  color:var(--text);
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+  .panel{
+    left:20px;
+    right:20px;
+    width:auto;
+    top:auto;
+    bottom:20px;
+  }
+
+  .intro{
+    left:24px;
+    right:24px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+<div class="grain"></div>
+
+<header class="header">
+
+<div class="logo">
+Maison<span>Motif</span>
+</div>
+
+<div class="controls">
+
+<button id="simulateBtn">
+Begin Expedition
+</button>
+
+<button id="resetBtn">
+Reset Territory
+</button>
+
+</div>
+
+</header>
+
+<section class="intro">
+
+<div class="eyebrow">
+Collaborative Territory Restoration
+</div>
+
+<div class="hero">
+Some memories require
+entire generations
+to restore.
+</div>
+
+<div class="sub">
+Each territory contains fragmented emotional history. Some require only one witness. Others need elders, cousins, patrons, archivists, and forgotten artifacts to converge before the route stabilizes.
+</div>
+
+</section>
+
+<div class="viewport" id="viewport">
+
+<div class="map" id="map">
+
+<svg id="svg"></svg>
+
+</div>
+
+</div>
+
+<div class="panel" id="panel"></div>
+
+<script>
+
+/* =========================================================
+DATA
+========================================================= */
+
+const nodes = [
+
+{
+id:1,
+tier:'Fragment',
+title:'The Green Suitcase',
+description:'A partially remembered migration artifact connected to flood-season travel.',
+membersNeeded:2,
+progress:0,
+status:'Dormant',
+q:8,
+r:6,
+requirements:[
+'1 elder confirmation',
+'1 artifact photograph'
+],
+contributors:[
+'Grandmother',
+'Chaos Cousin'
+]
+},
+
+{
+id:2,
+tier:'Route',
+title:'The Assam Route',
+description:'A multi-generational migration corridor requiring historical corroboration.',
+membersNeeded:5,
+progress:0,
+status:'Partially Forgotten',
+q:11,
+r:8,
+requirements:[
+'1 migration story',
+'1 railway detail',
+'1 cross-family confirmation',
+'1 ritual memory',
+'1 old photograph'
+],
+contributors:[
+'Archive Hunter',
+'Ritual Steward',
+'Lore Explorer',
+'Founding Witness',
+'Memory Keeper'
+]
+},
+
+{
+id:3,
+tier:'Vault',
+title:'The Missing Companion',
+description:'A legendary unresolved family territory tied to railway journeys and vanished relationships.',
+membersNeeded:8,
+progress:0,
+status:'Historically Unstable',
+q:14,
+r:5,
+requirements:[
+'1 elder recording',
+'1 lost photograph',
+'1 railway witness',
+'1 letter fragment',
+'1 cross-clan resonance',
+'1 migration route',
+'1 timeline stabilization',
+'1 hidden corroboration'
+],
+contributors:[
+'Grandmother',
+'Parents',
+'Cousins',
+'Archive Crew',
+'Chaos Circle',
+'Founding Guild',
+'Quiet Relative',
+'Story Smuggler'
+]
+}
+
+];
+
+/* =========================================================
+HELPERS
+========================================================= */
+
+const HEX_W = 170;
+const HEX_H = 196;
+
+function hexToPixel(q,r){
+
+const x =
+HEX_W * (3/4 * q);
+
+const y =
+HEX_H * (
+r + q/2
+) * .86;
+
+return {x,y};
+
+}
+
+/* =========================================================
+RENDER
+========================================================= */
+
+const map = document.getElementById('map');
+const svg = document.getElementById('svg');
+const panel = document.getElementById('panel');
+
+function render(){
+
+map.querySelectorAll('.hex')
+.forEach(el=>el.remove());
+
+svg.innerHTML='';
+
+nodes.forEach((node,index)=>{
+
+const pos = hexToPixel(node.q,node.r);
+
+const hex =
+document.createElement('div');
+
+hex.className =
+`hex ${node.progress===0 ? 'locked':''}
+${node.progress>0 && node.progress<node.membersNeeded ? 'unlocking':''}
+${node.progress>=node.membersNeeded ? 'unlocked':''}`;
+
+hex.style.left = pos.x + 'px';
+hex.style.top = pos.y + 'px';
+
+hex.innerHTML = `
+
+<div class="hex-inner">
+
+<div class="hex-tier">
+${node.tier}
+</div>
+
+<div class="hex-title">
+${node.title}
+</div>
+
+<div class="hex-meta">
+${node.progress}/${node.membersNeeded}
+perspectives restored
+</div>
+
+<div class="participants">
+
+${node.contributors.map((c,i)=>`
+
+<div class="member ${i<node.progress ? 'active':''}">
+${c}
+</div>
+
+`).join('')}
+
+</div>
+
+</div>
+
+`;
+
+hex.onclick = ()=>showPanel(node);
+
+map.appendChild(hex);
+
+/* CONNECTIONS */
+
+if(index>0){
+
+const prev =
+hexToPixel(
+nodes[index-1].q,
+nodes[index-1].r
+);
+
+svg.innerHTML += `
+
+<line
+class="line"
+x1="${prev.x+85}"
+y1="${prev.y+98}"
+x2="${pos.x+85}"
+y2="${pos.y+98}"
+/>
+
+`;
+
+}
+
+});
+
+}
+
+/* =========================================================
+PANEL
+========================================================= */
+
+function showPanel(node){
+
+panel.classList.add('active');
+
+const percentage =
+(node.progress/node.membersNeeded)*100;
+
+panel.innerHTML = `
+
+<div class="panel-card">
+
+<div class="panel-tier">
+${node.tier} Territory
+</div>
+
+<div class="panel-title">
+${node.title}
+</div>
+
+<div class="panel-description">
+${node.description}
+</div>
+
+<div class="requirements">
+
+${node.requirements.map((r,index)=>`
+
+<div class="requirement">
+
+<div class="req-left">
+${r}
+</div>
+
+<div class="req-right">
+${index < node.progress
+? 'Restored'
+: 'Missing'}
+</div>
+
+</div>
+
+`).join('')}
+
+</div>
+
+<div class="progress">
+
+<div class="progress-bar">
+<div
+class="progress-fill"
+style="width:${percentage}%">
+</div>
+</div>
+
+<div class="progress-label">
+${node.progress}/${node.membersNeeded}
+family perspectives converged
+</div>
+
+</div>
+
+<div class="status">
+
+${node.progress >= node.membersNeeded
+
+? `
+The territory regained historical clarity tonight.
+
+New lineage routes may now emerge from this restored region.
+`
+
+: `
+This territory remains emotionally unstable.
+
+Additional family perspectives may help restore continuity.
+`
+}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+/* =========================================================
+SIMULATION
+========================================================= */
+
+async function simulate(){
+
+for(const node of nodes){
+
+showPanel(node);
+
+for(let i=0;i<node.membersNeeded;i++){
+
+await wait(1200);
+
+node.progress++;
+
+render();
+showPanel(node);
+
+}
+
+await wait(1500);
+
+}
+
+}
+
+function wait(ms){
+
+return new Promise(resolve=>
+setTimeout(resolve,ms)
+);
+
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+document
+.getElementById('simulateBtn')
+.onclick = ()=>{
+
+simulate();
+
+};
+
+document
+.getElementById('resetBtn')
+.onclick = ()=>{
+
+nodes.forEach(n=>n.progress=0);
+
+render();
+
+panel.classList.remove('active');
+
+};
+
+/* =========================================================
+MAP DRAG
+========================================================= */
+
+const viewport =
+document.getElementById('viewport');
+
+let scale = 1;
+
+let pointX = -1100;
+let pointY = -900;
+
+let start = {x:0,y:0};
+
+let dragging = false;
+
+function updateTransform(){
+
+map.style.transform =
+`translate(${pointX}px, ${pointY}px) scale(${scale})`;
+
+}
+
+updateTransform();
+
+viewport.onmousedown = e=>{
+
+dragging = true;
+
+viewport.classList.add('dragging');
+
+start = {
+x:e.clientX - pointX,
+y:e.clientY - pointY
+};
+
+};
+
+window.onmouseup = ()=>{
+
+dragging = false;
+
+viewport.classList.remove('dragging');
+
+};
+
+window.onmousemove = e=>{
+
+if(!dragging) return;
+
+pointX = e.clientX - start.x;
+pointY = e.clientY - start.y;
+
+updateTransform();
+
+};
+
+/* =========================================================
+INIT
+========================================================= */
+
+render();
+
+</script>
+
+</body>
+</html>

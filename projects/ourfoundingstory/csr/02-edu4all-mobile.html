@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educate India — Finding Hidden Talent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Nunito:wght@400;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --soil: #3D2B1F;
+    --bark: #5C3D2E;
+    --terracotta: #C1633A;
+    --terra-light: #E8855A;
+    --saffron: #E8A020;
+    --saffron-light: #F5C85A;
+    --cream: #FDF5E4;
+    --parchment: #F0E6C8;
+    --leaf: #5A7A3A;
+    --leaf-light: #7FA655;
+    --dust: #C9B99A;
+    --smoke: #8C7A65;
+    --white: #FFFDF8;
+  }
+  div{scrollbar-width: none;}
+  html, body {
+    height: 100%;
+    font-family: 'Nunito', sans-serif;
+    background: var(--soil);
+    overflow: hidden;
+  }
+
+  .deck {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1.5rem 5rem;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+    overflow-y: auto;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  .slide.exit {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  .slide-1  { background: radial-gradient(ellipse at 30% 50%, #6B3E26 0%, #3D2B1F 70%); }
+  .slide-2  { background: linear-gradient(160deg, #2D1F14 0%, #4A2E1A 60%, #3D2B1F 100%); }
+  .slide-3  { background: radial-gradient(ellipse at 70% 40%, #5C3D2E 0%, #2D1F14 70%); }
+  .slide-4  { background: linear-gradient(140deg, #1E3020 0%, #2E4A25 50%, #1A2B1C 100%); }
+  .slide-5  { background: radial-gradient(ellipse at 40% 60%, #4A2E1A 0%, #2D1C0E 70%); }
+  .slide-6  { background: linear-gradient(160deg, #3D2B1F 0%, #5C3D2E 60%, #3D2B1F 100%); }
+  .slide-7  { background: radial-gradient(ellipse at 60% 30%, #1E3020 0%, #3D2B1F 70%); }
+  .slide-8  { background: linear-gradient(140deg, #2D1F14 0%, #4A2E1A 80%); }
+  .slide-9  { background: radial-gradient(ellipse at 35% 65%, #1A2B1C 0%, #2D1F14 70%); }
+  .slide-10 { background: linear-gradient(160deg, #5C3D2E 0%, #C1633A 50%, #3D2B1F 100%); }
+
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--saffron), var(--terracotta), var(--saffron));
+  }
+
+  .deco {
+    position: absolute;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+
+  .inner {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Kalam', cursive;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
+    color: var(--saffron);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    opacity: 0.9;
+  }
+
+  h1 {
+    font-family: 'Yeseva One', serif;
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    color: var(--cream);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Yeseva One', serif;
+    font-size: clamp(1.5rem, 4.5vw, 2.6rem);
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+
+  .tagline {
+    font-family: 'Kalam', cursive;
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    color: var(--saffron-light);
+    line-height: 1.6;
+    margin-bottom: 1.4rem;
+    font-weight: 400;
+  }
+
+  .body-text {
+    font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+    color: var(--dust);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--terracotta), var(--saffron));
+    margin: 0.8rem auto 1.2rem;
+    border-radius: 2px;
+  }
+
+  .pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+
+  .pill {
+    background: rgba(193,99,58,0.18);
+    border: 1px solid rgba(193,99,58,0.4);
+    color: var(--parchment);
+    font-size: clamp(0.78rem, 2vw, 0.9rem);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  .pill.leaf {
+    background: rgba(90,122,58,0.2);
+    border-color: rgba(90,122,58,0.45);
+    color: #A8D580;
+  }
+
+  .pill.saffron {
+    background: rgba(232,160,32,0.18);
+    border-color: rgba(232,160,32,0.4);
+    color: var(--saffron-light);
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    text-align: left;
+    margin: 1rem 0;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    color: var(--cream);
+    font-family: 'Yeseva One', serif;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step-text {
+    font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+    color: var(--dust);
+    line-height: 1.55;
+    padding-top: 4px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.8rem;
+    margin: 1rem 0;
+  }
+
+  .mini-card {
+    background: rgba(255,253,248,0.06);
+    border: 1px solid rgba(193,99,58,0.3);
+    border-radius: 12px;
+    padding: 1rem 0.8rem;
+    text-align: center;
+  }
+
+  .mini-card .label {
+    font-family: 'Kalam', cursive;
+    font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+    color: var(--saffron);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .mini-card .value {
+    font-family: 'Yeseva One', serif;
+    font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+    color: var(--cream);
+    line-height: 1.3;
+  }
+
+  .big-quote {
+    font-family: 'Yeseva One', serif;
+    font-size: clamp(1.15rem, 3.5vw, 1.7rem);
+    color: var(--cream);
+    line-height: 1.45;
+    margin: 1rem 0;
+    position: relative;
+    padding: 0 1rem;
+  }
+
+  .big-quote::before {
+    content: '\201C';
+    font-size: 4rem;
+    color: var(--terracotta);
+    opacity: 0.5;
+    position: absolute;
+    top: -1rem;
+    left: -0.3rem;
+    font-family: 'Yeseva One', serif;
+    line-height: 1;
+  }
+
+  .time-block {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.7rem;
+    margin: 1rem 0;
+  }
+
+  .time-card {
+    background: rgba(255,253,248,0.05);
+    border-left: 3px solid var(--terracotta);
+    border-radius: 0 10px 10px 0;
+    padding: 0.7rem 0.9rem;
+    text-align: left;
+  }
+
+  .time-card.leaf-t  { border-color: var(--leaf-light); }
+  .time-card.saff-t  { border-color: var(--saffron); }
+  .time-card.smoke-t { border-color: var(--smoke); }
+
+  .time-label {
+    font-family: 'Kalam', cursive;
+    font-size: 0.78rem;
+    color: var(--saffron);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .time-card.leaf-t  .time-label { color: #A8D580; }
+  .time-card.saff-t  .time-label { color: var(--saffron-light); }
+  .time-card.smoke-t .time-label { color: var(--dust); }
+
+  .time-items {
+    font-size: clamp(0.78rem, 2vw, 0.88rem);
+    color: var(--dust);
+    line-height: 1.6;
+  }
+
+  .highlight-box {
+    background: rgba(193,99,58,0.15);
+    border: 1px solid rgba(193,99,58,0.35);
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+  }
+
+  .highlight-box.leaf-box {
+    background: rgba(90,122,58,0.15);
+    border-color: rgba(90,122,58,0.35);
+  }
+
+  .cta-text {
+    font-family: 'Yeseva One', serif;
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    color: var(--cream);
+    line-height: 1.3;
+    margin-bottom: 1.2rem;
+  }
+
+  .support-ways {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 1rem 0 1.4rem;
+  }
+
+  .support-pill {
+    background: rgba(255,253,248,0.1);
+    border: 1px solid rgba(255,253,248,0.2);
+    color: var(--parchment);
+    font-size: clamp(0.78rem, 2vw, 0.88rem);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  .final-quote {
+    font-family: 'Kalam', cursive;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    color: var(--saffron-light);
+    line-height: 1.7;
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  .nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.9rem 1.5rem;
+    background: rgba(28,18,10,0.92);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(193,99,58,0.25);
+  }
+
+  .nav-btn {
+    background: var(--terracotta);
+    border: none;
+    color: var(--cream);
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+    flex-shrink: 0;
+  }
+
+  .nav-btn:hover { background: var(--terra-light); transform: scale(1.08); }
+  .nav-btn:disabled { background: #4A3525; color: #7A6050; cursor: default; transform: none; }
+
+  .progress-dots { display: flex; gap: 6px; align-items: center; }
+
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(193,99,58,0.3);
+    transition: background 0.3s, transform 0.3s;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+
+  .dot.on { background: var(--saffron); transform: scale(1.35); }
+
+  .slide-counter {
+    font-family: 'Kalam', cursive;
+    font-size: 0.85rem;
+    color: var(--smoke);
+    min-width: 38px;
+    text-align: center;
+  }
+
+  .key-hint {
+    position: fixed;
+    top: 1rem; right: 1rem;
+    font-size: 0.72rem;
+    color: rgba(201,185,154,0.4);
+    font-family: 'Nunito', sans-serif;
+    pointer-events: none;
+  }
+
+  @media (max-width: 480px) {
+    .slide { padding: 1.5rem 1rem 5rem; justify-content: flex-start; padding-top: 2.5rem; }
+    .card-grid { grid-template-columns: 1fr 1fr; }
+    .time-block { grid-template-columns: 1fr; }
+    .key-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- Slide 1 -->
+  <div class="slide slide-1 active" id="s1">
+    <svg class="deco" style="right:-40px;bottom:-40px;width:320px;height:320px;" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="95" fill="none" stroke="#E8A020" stroke-width="1.5"/><circle cx="100" cy="100" r="70" fill="none" stroke="#C1633A" stroke-width="1"/><circle cx="100" cy="100" r="45" fill="none" stroke="#E8A020" stroke-width="0.8"/></svg>
+    <div class="inner">
+      <div class="tag">&#127806; A Movement for India's Children</div>
+      <h1>Educate India</h1>
+      <div class="divider"></div>
+      <div class="tagline">Finding Hidden Talent in Every Village</div>
+      <p class="body-text" style="max-width:520px;margin:0 auto 1.4rem;">A grassroots journey across villages — living with families, discovering extraordinary children, and connecting them to the future they deserve.</p>
+      <div class="pill-list">
+        <span class="pill">Village to Village</span>
+        <span class="pill saffron">Real Stories</span>
+        <span class="pill leaf">Direct Impact</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide slide-2" id="s2">
+    <div class="inner">
+      <div class="tag">The Real India</div>
+      <h2>India's Greatest Untapped Resource</h2>
+      <div class="divider"></div>
+      <p class="body-text">Somewhere in a distant village, a child who could become a doctor, a scientist, an artist — is invisible to the world.</p>
+      <div class="card-grid">
+        <div class="mini-card"><div class="label">The Barrier</div><div class="value">Geography &amp; Poverty</div></div>
+        <div class="mini-card"><div class="label">The Gap</div><div class="value">No Mentorship, No Visibility</div></div>
+        <div class="mini-card"><div class="label">The Problem</div><div class="value">Support Arrives Too Late</div></div>
+        <div class="mini-card"><div class="label">The Failure</div><div class="value">Donors Can't Trust Charities</div></div>
+      </div>
+      <div class="highlight-box">
+        <p class="body-text" style="margin:0;">India has talented children. It has willing donors. It has powerful technology. But it has <strong style="color:var(--saffron-light);">no transparent bridge</strong> connecting them.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide slide-3" id="s3">
+    <div class="inner">
+      <div class="tag">The Answer</div>
+      <h2>A Traveling Discovery &amp; Trust Network</h2>
+      <div class="divider"></div>
+      <p class="body-text">Not a charity office. Not a distant NGO. A real person, walking into real villages, meeting real families — and sharing every moment with you.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Travel village-to-village across India</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Stay with local families — eat what they eat, live how they live</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Visit schools, talk to teachers, find exceptional students</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Publish transparent daily reports — finances, field notes, photos</div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-text">Connect verified children directly to supporters like you</div></div>
+      </div>
+      <div class="tagline" style="margin-top:0.8rem;">Trust is built publicly. Every. Single. Day.</div>
+    </div>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide slide-4" id="s4">
+    <div class="inner">
+      <div class="tag">How It Works Daily</div>
+      <h2>Near Zero-Cost Rural Exploration</h2>
+      <div class="divider"></div>
+      <p class="body-text">The mission survives through community hospitality, not consumption. Your small contribution funds the journey, not a bureaucracy.</p>
+      <div class="time-block">
+        <div class="time-card"><div class="time-label">&#9728; Morning</div><div class="time-items">Schools &amp; student interactions</div></div>
+        <div class="time-card leaf-t"><div class="time-label">&#9729; Afternoon</div><div class="time-items">Family visits &amp; interviews</div></div>
+        <div class="time-card saff-t"><div class="time-label">&#127769; Evening</div><div class="time-items">Livestreams &amp; public updates</div></div>
+        <div class="time-card smoke-t"><div class="time-label">&#127968; Night</div><div class="time-items">Hosted by villagers, ashrams, dharamshalas</div></div>
+      </div>
+      <div class="tagline" style="margin-top:0.8rem;">The mission survives through contribution, not consumption.</div>
+    </div>
+  </div>
+
+  <!-- Slide 5 -->
+  <div class="slide slide-5" id="s5">
+    <div class="inner">
+      <div class="tag">Radical Transparency</div>
+      <h2>Every Rupee. Every Child. Every Day.</h2>
+      <div class="divider"></div>
+      <p class="body-text">No hidden accounts. No quarterly reports. You see exactly where your money goes — the same day it is spent.</p>
+      <div class="card-grid">
+        <div class="mini-card"><div class="label">&#128176; Financial Ledger</div><div class="value">Donations, travel, food — all public</div></div>
+        <div class="mini-card"><div class="label">&#128205; Field Metrics</div><div class="value">Villages visited, students met</div></div>
+        <div class="mini-card"><div class="label">&#9989; Verification</div><div class="value">Teacher &amp; principal testimonials</div></div>
+        <div class="mini-card"><div class="label">&#128196; Evidence</div><div class="value">Student performance records</div></div>
+      </div>
+      <div class="highlight-box leaf-box">
+        <p class="body-text" style="margin:0;font-style:italic;color:#A8D580;">When you donate &#8377;500, you know exactly which village it reached, which child it helped, and what changed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 6 -->
+  <div class="slide slide-6" id="s6">
+    <div class="inner">
+      <div class="tag">Stories That Move People</div>
+      <h2>Authenticity Over Production</h2>
+      <div class="divider"></div>
+      <p class="body-text">Every day, the world sees a village's story — told honestly, with love. No polish, no corporate PR. Just real people, real dreams.</p>
+      <div class="pill-list">
+        <span class="pill">Village Stories</span>
+        <span class="pill saffron">Student Dreams</span>
+        <span class="pill leaf">Family Struggles</span>
+        <span class="pill">Local Heroes</span>
+        <span class="pill saffron">Educational Potential</span>
+      </div>
+      <p class="body-text" style="margin-top:0.6rem;">Published every day on:</p>
+      <div class="pill-list">
+        <span class="pill leaf">&#128241; WhatsApp</span>
+        <span class="pill leaf">&#128172; Telegram</span>
+        <span class="pill leaf">&#128038; X / Twitter</span>
+        <span class="pill leaf">&#9654; YouTube Live</span>
+        <span class="pill leaf">&#128202; Live Dashboard</span>
+      </div>
+      <p class="body-text" style="margin-top:0.8rem;">You don't just donate. You <strong style="color:var(--saffron-light);">journey along.</strong></p>
+    </div>
+  </div>
+
+  <!-- Slide 7 -->
+  <div class="slide slide-7" id="s7">
+    <div class="inner">
+      <div class="tag">Beyond Charity</div>
+      <h2>Real Change That Echoes for Generations</h2>
+      <div class="divider"></div>
+      <div class="big-quote">One educated child can transform an entire village ecosystem.</div>
+      <div class="card-grid" style="margin-top:1rem;">
+        <div class="mini-card"><div class="label">Year 1</div><div class="value">Funded Education</div></div>
+        <div class="mini-card"><div class="label">Year 2–3</div><div class="value">Skill &amp; Mentorship Access</div></div>
+        <div class="mini-card"><div class="label">Year 4+</div><div class="value">Career Opportunities</div></div>
+        <div class="mini-card"><div class="label">Long Term</div><div class="value">Village Role Model</div></div>
+      </div>
+      <div class="tagline" style="margin-top:0.8rem;">Your &#8377;500 today might fund the &#8377;50 lakh doctor of tomorrow.</div>
+    </div>
+  </div>
+
+  <!-- Slide 8 -->
+  <div class="slide slide-8" id="s8">
+    <div class="inner">
+      <div class="tag">Why Trust This?</div>
+      <h2>Trust Through Presence</h2>
+      <div class="divider"></div>
+      <p class="body-text">Most charities have offices in Delhi and Mumbai — and reports that arrive months later. This mission works differently.</p>
+      <div class="card-grid">
+        <div class="mini-card"><div class="label">Traditional NGO</div><div class="value" style="color:#E87A6A;">Distant offices, delayed reports, abstract claims</div></div>
+        <div class="mini-card"><div class="label">This Mission</div><div class="value" style="color:#A8D580;">Real villages, real-time publishing, direct human connection</div></div>
+      </div>
+      <div class="highlight-box">
+        <p class="body-text" style="margin:0;">The founder personally lives in villages. Not an office. Not a boardroom. The mission is lived every single day, in front of you.</p>
+      </div>
+      <div class="tagline" style="margin-top:1rem;">When you watch the livestream, you <em>are</em> there.</div>
+    </div>
+  </div>
+
+  <!-- Slide 9 -->
+  <div class="slide slide-9" id="s9">
+    <div class="inner">
+      <div class="tag">The Bigger Dream</div>
+      <h2>India's Largest Grassroots Talent Map</h2>
+      <div class="divider"></div>
+      <p class="body-text">This is just the beginning. As the mission grows, so does the impact:</p>
+      <div class="pill-list">
+        <span class="pill leaf">Volunteer Discovery Networks</span>
+        <span class="pill saffron">AI Talent Indexing</span>
+        <span class="pill">District Talent Databases</span>
+        <span class="pill leaf">Rural Mentorship Systems</span>
+        <span class="pill saffron">Scholarship Partnerships</span>
+        <span class="pill">University Pipelines</span>
+      </div>
+      <div class="highlight-box leaf-box" style="margin-top:1rem;">
+        <p class="body-text" style="margin:0;color:#A8D580;font-style:italic;">A living archive of India's hidden human potential — built village by village, story by story, with your support.</p>
+      </div>
+      <div class="tagline" style="margin-top:0.8rem;">You are not just a donor. You are a co-founder of this map.</div>
+    </div>
+  </div>
+
+  <!-- Slide 10 -->
+  <div class="slide slide-10" id="s10">
+    <div class="inner" style="max-width:680px;">
+      <div class="tag">&#128591; Join the Journey</div>
+      <div class="cta-text">This Is Not Just a Project.<br>It Is a Movement.</div>
+      <div class="divider"></div>
+      <p class="body-text">A movement of trust. A celebration of overlooked brilliance. A new way for India to find itself.</p>
+      <div class="support-ways">
+        <span class="support-pill">&#128184; Sponsor Travel</span>
+        <span class="support-pill">&#128218; Fund a Student</span>
+        <span class="support-pill">&#128226; Share Stories</span>
+        <span class="support-pill">&#129309; Offer Mentorship</span>
+        <span class="support-pill">&#127979; Connect Schools</span>
+        <span class="support-pill">&#127757; Open Village Networks</span>
+      </div>
+      <div class="final-quote">"Somewhere in a small village, a child capable of changing the future is waiting to be seen. You can be the reason they are found."</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" disabled aria-label="Previous slide">&#8592;</button>
+  <div class="progress-dots" id="dots"></div>
+  <button class="nav-btn" id="nextBtn" aria-label="Next slide">&#8594;</button>
+  <div class="slide-counter" id="counter">1 / 10</div>
+</div>
+
+<div class="key-hint">&#8592; &#8594; keys or swipe to navigate</div>
+
+<script>
+  const total = 10;
+  let current = 1;
+
+  const slides = Array.from({length: total}, (_, i) => document.getElementById('s' + (i + 1)));
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const counter = document.getElementById('counter');
+  const dotsContainer = document.getElementById('dots');
+
+  const dots = Array.from({length: total}, (_, i) => {
+    const b = document.createElement('button');
+    b.className = 'dot' + (i === 0 ? ' on' : '');
+    b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    b.addEventListener('click', () => goTo(i + 1));
+    dotsContainer.appendChild(b);
+    return b;
+  });
+
+  function goTo(n) {
+    if (n < 1 || n > total || n === current) return;
+    slides[current - 1].classList.remove('active');
+    slides[current - 1].classList.add('exit');
+    const old = current - 1;
+    setTimeout(() => slides[old].classList.remove('exit'), 600);
+    current = n;
+    slides[current - 1].classList.add('active');
+    dots.forEach((d, i) => d.classList.toggle('on', i === current - 1));
+    counter.textContent = current + ' / ' + total;
+    prevBtn.disabled = current === 1;
+    nextBtn.disabled = current === total;
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+  });
+
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive: true});
+  document.addEventListener('touchend', e => {
+    const dx = tx - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 45) goTo(dx > 0 ? current + 1 : current - 1);
+  }, {passive: true});
+</script>
+</body>
+</html>

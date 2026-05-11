@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>MaisonMotif — Memory Territory Field</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+
+  background:#121110;
+
+  color:#f4eee3;
+
+  font-family:'Inter',sans-serif;
+
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* =========================================================
+THEME
+========================================================= */
+
+:root{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+  --bg-elevated:#211f1d;
+
+  --text:#f4eee3;
+  --muted:#8f867a;
+
+  --gold:#c8a46f;
+  --gold-bright:#e0c28a;
+
+  --border:
+  rgba(255,255,255,.08);
+
+  --card:
+  rgba(255,255,255,.03);
+
+  --transition:
+  all .7s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+BACKGROUND
+========================================================= */
+
+.background{
+
+  position:fixed;
+  inset:0;
+
+  background:
+
+  radial-gradient(
+  circle at top left,
+  rgba(200,164,111,.10),
+  transparent 28%),
+
+  radial-gradient(
+  circle at bottom right,
+  rgba(255,255,255,.03),
+  transparent 24%),
+
+  linear-gradient(
+  to bottom,
+  #121110,
+  #171615,
+  #1b1917);
+
+  z-index:-3;
+}
+
+.grain{
+
+  position:fixed;
+  inset:0;
+
+  opacity:.04;
+
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Ccircle cx='12' cy='12' r='1'/%3E%3Ccircle cx='82' cy='36' r='1'/%3E%3Ccircle cx='40' cy='90' r='1'/%3E%3Ccircle cx='124' cy='104' r='1'/%3E%3C/g%3E%3C/svg%3E");
+
+  z-index:-2;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.header{
+
+  position:fixed;
+
+  top:22px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:min(94%,1500px);
+
+  z-index:100;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:18px 24px;
+
+  border-radius:999px;
+
+  background:rgba(15,15,15,.68);
+
+  backdrop-filter:blur(18px);
+
+  border:1px solid var(--border);
+}
+
+.logo{
+
+  font-family:'Playfair Display',serif;
+
+  font-size:28px;
+
+  letter-spacing:-0.04em;
+}
+
+.logo span{
+  color:var(--gold);
+}
+
+.header-right{
+  display:flex;
+  gap:12px;
+}
+
+.btn{
+
+  border:none;
+
+  cursor:pointer;
+
+  border-radius:999px;
+
+  padding:12px 18px;
+
+  color:var(--text);
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid var(--border);
+
+  transition:var(--transition);
+}
+
+.btn:hover{
+
+  transform:translateY(-2px);
+
+  border-color:rgba(200,164,111,.32);
+}
+
+/* =========================================================
+INTRO
+========================================================= */
+
+.intro{
+
+  position:fixed;
+
+  top:130px;
+  left:60px;
+
+  z-index:20;
+
+  max-width:620px;
+}
+
+.eyebrow{
+
+  color:var(--gold);
+
+  font-size:11px;
+
+  letter-spacing:.28em;
+
+  text-transform:uppercase;
+}
+
+.hero{
+
+  margin-top:18px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:clamp(48px,7vw,90px);
+
+  line-height:.92;
+
+  letter-spacing:-0.05em;
+}
+
+.sub{
+
+  margin-top:24px;
+
+  color:var(--muted);
+
+  line-height:1.9;
+
+  font-size:16px;
+}
+
+/* =========================================================
+MAP VIEWPORT
+========================================================= */
+
+.viewport{
+
+  position:fixed;
+  inset:0;
+
+  overflow:hidden;
+
+  cursor:grab;
+}
+
+.viewport.dragging{
+  cursor:grabbing;
+}
+
+/* =========================================================
+MAP
+========================================================= */
+
+.map{
+
+  position:absolute;
+
+  width:5000px;
+  height:5000px;
+
+  transform-origin:center center;
+
+  transition:
+  transform .12s linear;
+}
+
+/* =========================================================
+HEX GRID
+========================================================= */
+
+.hex{
+
+  position:absolute;
+
+  width:170px;
+  height:196px;
+
+  clip-path:polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+
+  background:
+
+  linear-gradient(
+  to bottom,
+  rgba(255,255,255,.05),
+  rgba(255,255,255,.02));
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(10px);
+
+  transition:var(--transition);
+
+  cursor:pointer;
+
+  overflow:hidden;
+}
+
+.hex::before{
+
+  content:'';
+
+  position:absolute;
+  inset:1px;
+
+  clip-path:inherit;
+
+  border:1px solid rgba(255,255,255,.05);
+
+}
+
+.hex:hover{
+
+  transform:
+  scale(1.08);
+
+  z-index:40;
+
+  background:
+
+  linear-gradient(
+  to bottom,
+  rgba(200,164,111,.10),
+  rgba(255,255,255,.03));
+
+  box-shadow:
+  0 0 50px rgba(200,164,111,.18);
+}
+
+.hex.empty{
+
+  opacity:.18;
+
+  border-style:dashed;
+}
+
+.hex-content{
+
+  position:absolute;
+  inset:0;
+
+  padding:26px 20px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.hex-era{
+
+  color:var(--gold);
+
+  font-size:10px;
+
+  letter-spacing:.18em;
+
+  text-transform:uppercase;
+}
+
+.hex-title{
+
+  margin-top:14px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:22px;
+
+  line-height:1.1;
+}
+
+.hex-meta{
+
+  margin-top:14px;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.7;
+}
+
+/* =========================================================
+CONNECTIONS
+========================================================= */
+
+svg{
+
+  position:absolute;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  pointer-events:none;
+}
+
+.line{
+
+  fill:none;
+
+  stroke:rgba(200,164,111,.16);
+
+  stroke-width:2;
+
+  stroke-linecap:round;
+}
+
+/* =========================================================
+DETAIL PANEL
+========================================================= */
+
+.panel{
+
+  position:fixed;
+
+  right:40px;
+  top:140px;
+
+  width:420px;
+
+  z-index:60;
+
+  opacity:0;
+  pointer-events:none;
+
+  transform:
+  translateY(20px);
+
+  transition:var(--transition);
+}
+
+.panel.active{
+
+  opacity:1;
+  pointer-events:auto;
+
+  transform:
+  translateY(0);
+}
+
+.panel-card{
+
+  background:rgba(18,18,18,.82);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid var(--border);
+
+  border-radius:34px;
+
+  padding:30px;
+
+  box-shadow:
+  0 30px 100px rgba(0,0,0,.45);
+}
+
+.panel-type{
+
+  color:var(--gold);
+
+  font-size:11px;
+
+  letter-spacing:.24em;
+
+  text-transform:uppercase;
+}
+
+.panel-title{
+
+  margin-top:18px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:48px;
+
+  line-height:.98;
+}
+
+.panel-body{
+
+  margin-top:22px;
+
+  color:var(--text);
+
+  line-height:1.95;
+
+  font-size:15px;
+}
+
+.panel-tags{
+
+  margin-top:26px;
+
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.tag{
+
+  padding:10px 14px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid rgba(255,255,255,.06);
+
+  font-size:11px;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+
+  color:var(--muted);
+}
+
+/* =========================================================
+ZOOM
+========================================================= */
+
+.zoom{
+
+  position:fixed;
+
+  left:40px;
+  bottom:40px;
+
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+
+  z-index:50;
+}
+
+.zoom button{
+
+  width:58px;
+  height:58px;
+
+  border-radius:50%;
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,.04);
+
+  color:var(--text);
+
+  font-size:24px;
+
+  cursor:pointer;
+
+  transition:var(--transition);
+}
+
+.zoom button:hover{
+
+  transform:scale(1.05);
+
+  border-color:rgba(200,164,111,.28);
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+  .panel{
+
+    left:20px;
+    right:20px;
+
+    width:auto;
+
+    top:auto;
+    bottom:20px;
+  }
+
+  .intro{
+    left:24px;
+    right:24px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+<div class="grain"></div>
+
+<header class="header">
+
+<div class="logo">
+Maison<span>Motif</span>
+</div>
+
+<div class="header-right">
+
+<button class="btn" id="addBtn">
+Add Memory
+</button>
+
+<button class="btn">
+The Archive Deepens
+</button>
+
+</div>
+
+</header>
+
+<section class="intro">
+
+<div class="eyebrow">
+Memory Territory Field
+</div>
+
+<div class="hero">
+A family archive should feel
+like a continent.
+</div>
+
+<div class="sub">
+Every hexagon is a memory fragment. Some territories are densely connected. Others remain empty — waiting for future generations to restore forgotten routes, rituals, migrations, and stories.
+</div>
+
+</section>
+
+<div class="viewport" id="viewport">
+
+<div class="map" id="map">
+
+<svg id="svg"></svg>
+
+</div>
+
+</div>
+
+<div class="panel" id="panel"></div>
+
+<div class="zoom">
+
+<button id="zoomIn">+</button>
+<button id="zoomOut">−</button>
+
+</div>
+
+<script>
+
+/* =========================================================
+LOCAL STORAGE
+========================================================= */
+
+const STORAGE_KEY =
+'maisonmotif-hex-field';
+
+const defaultData = {
+
+memories:[
+
+{
+id:1,
+title:'The Flood Season Journey',
+type:'Voice Fragment',
+body:'“There was one green suitcase. Inside it were wedding letters, a railway watch, and your aunt’s recipe notebook.”',
+tags:['Flood Season','Migration'],
+q:8,
+r:5
+},
+
+{
+id:2,
+title:'The Green Suitcase',
+type:'Recovered Photograph',
+body:'Recovered from a damaged monsoon album inside an Assam trunk.',
+tags:['Heirloom','Assam'],
+q:9,
+r:6
+},
+
+{
+id:3,
+title:'Who Is This Person?',
+type:'Child Discovery',
+body:'“Why does this uncle appear beside grandfather in every railway photograph?”',
+tags:['Unknown Relative'],
+q:7,
+r:7
+},
+
+{
+id:4,
+title:'Before Sunrise',
+type:'Family Philosophy',
+body:'“In this family, we always begin before sunrise.”',
+tags:['Family Saying'],
+q:6,
+r:4
+},
+
+{
+id:5,
+title:'The Tea Garden Invitation',
+type:'Ritual Fragment',
+body:'Recovered from an Assam tea chest wrapped in newspaper.',
+tags:['Invitation','Tea Garden'],
+q:10,
+r:4
+}
+
+],
+
+connections:[
+
+[1,2],
+[1,4],
+[2,3]
+
+]
+
+};
+
+let db =
+JSON.parse(localStorage.getItem(STORAGE_KEY))
+|| defaultData;
+
+function saveData(){
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(db)
+);
+
+}
+
+/* =========================================================
+HEX HELPERS
+========================================================= */
+
+const HEX_W = 170;
+const HEX_H = 196;
+
+function hexToPixel(q,r){
+
+const x =
+HEX_W * (3/4 * q);
+
+const y =
+HEX_H * (
+r + q/2
+) * .86;
+
+return {x,y};
+
+}
+
+/* =========================================================
+MAP
+========================================================= */
+
+const map =
+document.getElementById('map');
+
+const svg =
+document.getElementById('svg');
+
+const panel =
+document.getElementById('panel');
+
+function render(){
+
+map.querySelectorAll('.hex')
+.forEach(el=>el.remove());
+
+svg.innerHTML = '';
+
+/* EMPTY FIELD */
+
+for(let q=0;q<22;q++){
+
+for(let r=0;r<18;r++){
+
+const existing =
+db.memories.find(m=>
+m.q===q && m.r===r
+);
+
+if(existing) continue;
+
+const pos =
+hexToPixel(q,r);
+
+const empty =
+document.createElement('div');
+
+empty.className =
+'hex empty';
+
+empty.style.left =
+pos.x + 'px';
+
+empty.style.top =
+pos.y + 'px';
+
+map.appendChild(empty);
+
+}
+
+}
+
+/* CONNECTIONS */
+
+db.connections.forEach(c=>{
+
+const a =
+db.memories.find(m=>m.id===c[0]);
+
+const b =
+db.memories.find(m=>m.id===c[1]);
+
+if(!a || !b) return;
+
+const p1 =
+hexToPixel(a.q,a.r);
+
+const p2 =
+hexToPixel(b.q,b.r);
+
+svg.innerHTML += `
+
+<line
+class="line"
+x1="${p1.x+85}"
+y1="${p1.y+98}"
+x2="${p2.x+85}"
+y2="${p2.y+98}"
+/>
+
+`;
+
+});
+
+/* MEMORIES */
+
+db.memories.forEach(memory=>{
+
+const pos =
+hexToPixel(memory.q,memory.r);
+
+const hex =
+document.createElement('div');
+
+hex.className = 'hex';
+
+hex.style.left =
+pos.x + 'px';
+
+hex.style.top =
+pos.y + 'px';
+
+hex.innerHTML = `
+
+<div class="hex-content">
+
+<div class="hex-era">
+${memory.type}
+</div>
+
+<div class="hex-title">
+${memory.title}
+</div>
+
+<div class="hex-meta">
+${memory.tags.join(' • ')}
+</div>
+
+</div>
+
+`;
+
+hex.onclick = ()=>{
+
+showPanel(memory);
+
+};
+
+map.appendChild(hex);
+
+});
+
+}
+
+render();
+
+/* =========================================================
+DETAIL PANEL
+========================================================= */
+
+function showPanel(memory){
+
+panel.classList.add('active');
+
+panel.innerHTML = `
+
+<div class="panel-card">
+
+<div class="panel-type">
+${memory.type}
+</div>
+
+<div class="panel-title">
+${memory.title}
+</div>
+
+<div class="panel-body">
+${memory.body}
+</div>
+
+<div class="panel-tags">
+
+${memory.tags.map(tag=>`
+
+<div class="tag">
+${tag}
+</div>
+
+`).join('')}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+/* =========================================================
+DRAG
+========================================================= */
+
+const viewport =
+document.getElementById('viewport');
+
+let scale = 1;
+
+let pointX = -1200;
+let pointY = -900;
+
+let start = {x:0,y:0};
+
+let dragging = false;
+
+function updateTransform(){
+
+map.style.transform =
+`translate(${pointX}px, ${pointY}px) scale(${scale})`;
+
+}
+
+updateTransform();
+
+viewport.onmousedown = e=>{
+
+dragging = true;
+
+viewport.classList.add('dragging');
+
+start = {
+x:e.clientX - pointX,
+y:e.clientY - pointY
+};
+
+};
+
+window.onmouseup = ()=>{
+
+dragging = false;
+
+viewport.classList.remove('dragging');
+
+};
+
+window.onmousemove = e=>{
+
+if(!dragging) return;
+
+pointX = e.clientX - start.x;
+pointY = e.clientY - start.y;
+
+updateTransform();
+
+};
+
+/* =========================================================
+ZOOM
+========================================================= */
+
+document
+.getElementById('zoomIn')
+.onclick = ()=>{
+
+scale += .1;
+
+updateTransform();
+
+};
+
+document
+.getElementById('zoomOut')
+.onclick = ()=>{
+
+scale = Math.max(.4, scale-.1);
+
+updateTransform();
+
+};
+
+/* =========================================================
+ADD MEMORY
+========================================================= */
+
+document
+.getElementById('addBtn')
+.onclick = ()=>{
+
+const title =
+prompt('Memory title');
+
+if(!title) return;
+
+const body =
+prompt('Memory fragment');
+
+if(!body) return;
+
+db.memories.push({
+
+id:Date.now(),
+
+title,
+
+body,
+
+type:'Memory Fragment',
+
+tags:['Recently Restored'],
+
+q:Math.floor(Math.random()*20),
+r:Math.floor(Math.random()*16)
+
+});
+
+saveData();
+
+render();
+
+};
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,891 @@
+/* =========================================================
+   VOWLEDGER BASE CSS
+   Structure + Components + Motion
+   NO emotional theming here.
+========================================================= */
+
+/* =========================================================
+   1. RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;scrollbar-width: thin;scrollbar-color:rgba(238, 13, 13, 0.2) transparent;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+
+  background:var(--bg);
+  color:var(--text-primary);
+
+  font-family:var(--font-body);
+
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+
+  transition:
+  background var(--transition-base),
+  color var(--transition-base);
+}
+
+img,
+picture,
+video,
+canvas{
+  display:block;
+  max-width:100%;
+}
+
+svg{
+  display:block;
+}
+
+button,
+input,
+textarea,
+select{
+  border:none;
+  outline:none;
+  background:none;
+  font:inherit;
+  color:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+ul,
+ol{
+  list-style:none;
+}
+
+/* =========================================================
+   2. STRUCTURE TOKENS
+========================================================= */
+
+:root{
+
+  /* widths */
+  --container:1320px;
+  --reading-width:760px;
+
+  /* spacing */
+  --space-3xs:4px;
+  --space-2xs:8px;
+  --space-xs:12px;
+  --space-sm:16px;
+  --space-md:24px;
+  --space-lg:40px;
+  --space-xl:64px;
+  --space-2xl:96px;
+  --space-3xl:120px;
+  --space-4xl:160px;
+
+  /* radii */
+  --radius-xs:10px;
+  --radius-sm:14px;
+  --radius-md:22px;
+  --radius-lg:32px;
+  --radius-xl:44px;
+  --radius-pill:999px;
+
+  /* z-index */
+  --z-header:1000;
+  --z-overlay:1200;
+  --z-modal:1500;
+
+  /* motion */
+  --ease:
+  cubic-bezier(.19,1,.22,1);
+
+  --transition-fast:
+  .3s var(--ease);
+
+  --transition-base:
+  .6s var(--ease);
+
+  --transition-slow:
+  1.2s var(--ease);
+
+  /* layout */
+  --header-height:84px;
+
+  /* shadows */
+  --shadow-soft:
+  0 10px 40px rgba(0,0,0,.12);
+
+  --shadow-deep:
+  0 24px 80px rgba(0,0,0,.18);
+
+}
+
+/* =========================================================
+   3. TYPOGRAPHY
+========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+  font-family:var(--font-heading);
+  font-weight:500;
+  line-height:1;
+}
+
+.hero-title{
+  font-size:clamp(52px,9vw,110px);
+  line-height:.95;
+  letter-spacing:-0.04em;
+}
+
+.display-title{
+  font-size:clamp(42px,7vw,84px);
+  line-height:.98;
+  letter-spacing:-0.03em;
+}
+
+.section-title{
+  font-size:clamp(32px,5vw,60px);
+  line-height:1.05;
+}
+
+.card-title{
+  font-size:clamp(24px,3vw,34px);
+  line-height:1.1;
+}
+
+.body-text{
+  font-size:17px;
+  line-height:1.85;
+  color:var(--text-secondary);
+}
+
+.small-text{
+  font-size:14px;
+  line-height:1.7;
+  color:var(--text-muted);
+}
+
+.caption{
+  font-size:12px;
+  line-height:1.5;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.eyebrow{
+  font-size:12px;
+  line-height:1;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+.quote-text{
+  font-family:var(--font-heading);
+  font-style:italic;
+  line-height:1.4;
+}
+
+/* =========================================================
+   4. GLOBAL LAYOUT
+========================================================= */
+
+.page-shell{
+  width:min(100%,var(--container));
+  margin:auto;
+  padding-inline:6%;
+}
+
+.reading-width{
+  max-width:var(--reading-width);
+}
+
+.section{
+  position:relative;
+  padding-block:var(--space-3xl);
+}
+
+.section-tight{
+  padding-block:var(--space-2xl);
+}
+
+.section-loose{
+  padding-block:var(--space-4xl);
+}
+
+.full-height{
+  min-height:100vh;
+}
+
+.centered{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.text-center{
+  text-align:center;
+}
+
+.text-left{
+  text-align:left;
+}
+
+.text-right{
+  text-align:right;
+}
+
+/* =========================================================
+   5. GRID SYSTEM
+========================================================= */
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+}
+
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:32px;
+}
+
+.grid-4{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+
+.masonry-grid{
+  columns:3 320px;
+  column-gap:32px;
+}
+
+/* =========================================================
+   6. STACK UTILITIES
+========================================================= */
+
+.stack-2xs{
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-2xs);
+}
+
+.stack-xs{
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-xs);
+}
+
+.stack-sm{
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-sm);
+}
+
+.stack-md{
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-md);
+}
+
+.stack-lg{
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-lg);
+}
+
+.stack-xl{
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-xl);
+}
+
+/* =========================================================
+   7. FLEX UTILITIES
+========================================================= */
+
+.flex{
+  display:flex;
+}
+
+.flex-center{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.flex-between{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.flex-wrap{
+  flex-wrap:wrap;
+}
+
+.gap-sm{
+  gap:16px;
+}
+
+.gap-md{
+  gap:24px;
+}
+
+.gap-lg{
+  gap:40px;
+}
+
+/* =========================================================
+   8. HEADER
+========================================================= */
+
+.site-header{
+
+  position:fixed;
+  top:24px;
+  left:50%;
+  transform:translateX(-50%);
+
+  width:min(92%,1320px);
+
+  height:var(--header-height);
+
+  z-index:var(--z-header);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding-inline:28px;
+
+  border-radius:var(--radius-pill);
+
+  backdrop-filter:blur(14px);
+
+  transition:var(--transition-base);
+
+}
+
+.logo{
+  font-size:24px;
+  font-family:var(--font-heading);
+  white-space:nowrap;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:32px;
+}
+
+.nav-links a{
+  position:relative;
+  transition:var(--transition-fast);
+}
+
+.nav-links a::after{
+  content:"";
+
+  position:absolute;
+  left:0;
+  bottom:-8px;
+
+  width:100%;
+  height:1px;
+
+  transform:scaleX(0);
+  transform-origin:left;
+
+  background:currentColor;
+
+  transition:var(--transition-fast);
+}
+
+.nav-links a:hover::after{
+  transform:scaleX(1);
+}
+
+/* =========================================================
+   9. BUTTON SYSTEM
+========================================================= */
+
+.btn{
+
+  position:relative;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:12px;
+
+  min-height:56px;
+
+  padding-inline:30px;
+
+  border-radius:var(--radius-pill);
+
+  white-space:nowrap;
+
+  transition:var(--transition-base);
+
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.btn-primary{}
+
+.btn-secondary{}
+
+.btn-ghost{}
+
+/* =========================================================
+   10. CARD SYSTEM
+========================================================= */
+
+.card{
+
+  position:relative;
+
+  overflow:hidden;
+
+  border-radius:var(--radius-lg);
+
+  padding:var(--space-lg);
+
+  transition:var(--transition-base);
+
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.card-media{
+  position:relative;
+
+  overflow:hidden;
+
+  border-radius:var(--radius-md);
+}
+
+.card-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+
+  transition:1.4s var(--ease);
+}
+
+.card:hover .card-media img{
+  transform:scale(1.03);
+}
+
+/* =========================================================
+   11. ARCHIVE COMPONENTS
+========================================================= */
+
+.archive-card{
+  min-height:420px;
+}
+
+.archive-media{
+  aspect-ratio:4/5;
+  margin-bottom:20px;
+}
+
+.archive-meta{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  margin-top:16px;
+}
+
+.chapter-section{
+  position:relative;
+}
+
+.collection-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:32px;
+}
+
+/* =========================================================
+   12. BLESSING SYSTEM
+========================================================= */
+
+.blessing-card{
+  position:relative;
+}
+
+.quote-block{
+  position:relative;
+  padding-left:40px;
+}
+
+.quote-block::before{
+  content:"“";
+
+  position:absolute;
+  top:-10px;
+  left:0;
+
+  font-size:80px;
+  line-height:1;
+
+  opacity:.15;
+}
+
+/* =========================================================
+   13. AUDIO SYSTEM
+========================================================= */
+
+.audio-card{
+
+  display:flex;
+  align-items:center;
+  gap:20px;
+
+}
+
+.audio-play{
+
+  width:54px;
+  height:54px;
+
+  border-radius:50%;
+
+  display:grid;
+  place-items:center;
+
+  flex-shrink:0;
+
+}
+
+.waveform{
+  flex:1;
+  height:48px;
+
+  border-radius:999px;
+
+  overflow:hidden;
+}
+
+/* =========================================================
+   14. ARENA COMPONENTS
+========================================================= */
+
+.arena-panel{
+  position:relative;
+}
+
+.suit-strip{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.suit-badge{
+
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+
+  display:grid;
+  place-items:center;
+
+  flex-shrink:0;
+
+}
+
+.collection-slot{
+  aspect-ratio:1;
+  border-radius:var(--radius-md);
+}
+
+/* =========================================================
+   15. FORMS
+========================================================= */
+
+.input-group{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.input-field,
+.textarea-field{
+
+  width:100%;
+
+  border-radius:var(--radius-md);
+
+  padding:18px 20px;
+
+  transition:var(--transition-fast);
+
+}
+
+.textarea-field{
+  resize:vertical;
+  min-height:160px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+
+/* =========================================================
+   16. MEDIA TREATMENT
+========================================================= */
+
+.media-cover{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.media-cinematic{
+  filter:
+  brightness(.9)
+  contrast(1.05)
+  saturate(.95);
+}
+
+/* =========================================================
+   17. OVERLAYS
+========================================================= */
+
+.overlay-dark{
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+}
+
+.overlay-gradient{
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+}
+
+/* =========================================================
+   18. MOTION SYSTEM
+========================================================= */
+
+.reveal{
+  opacity:0;
+  transform:translateY(60px);
+
+  transition:var(--transition-slow);
+}
+
+.reveal.active{
+  opacity:1;
+  transform:none;
+}
+
+.fade{
+  transition:opacity var(--transition-base);
+}
+
+.scale-hover{
+  transition:var(--transition-base);
+}
+
+.scale-hover:hover{
+  transform:scale(1.02);
+}
+
+.parallax{
+  will-change:transform;
+}
+
+/* =========================================================
+   19. FOOTER
+========================================================= */
+
+.site-footer{
+
+  position:relative;
+
+  margin-top:120px;
+
+  padding:80px 6%;
+
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:48px;
+}
+
+.footer-links{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* =========================================================
+   20. SPACING UTILITIES
+========================================================= */
+
+.mt-sm{margin-top:16px;}
+.mt-md{margin-top:24px;}
+.mt-lg{margin-top:40px;}
+.mt-xl{margin-top:64px;}
+
+.mb-sm{margin-bottom:16px;}
+.mb-md{margin-bottom:24px;}
+.mb-lg{margin-bottom:40px;}
+.mb-xl{margin-bottom:64px;}
+
+/* =========================================================
+   21. VISIBILITY
+========================================================= */
+
+.hidden{
+  display:none !important;
+}
+
+.desktop-only{
+  display:block;
+}
+
+.mobile-only{
+  display:none;
+}
+
+/* =========================================================
+   22. MOBILE
+========================================================= */
+
+@media(max-width:1200px){
+
+  .grid-4{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:1024px){
+
+  :root{
+    --space-3xl:100px;
+  }
+
+  .grid-2,
+  .grid-3{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:768px){
+
+  :root{
+
+    --space-lg:32px;
+    --space-xl:48px;
+    --space-2xl:72px;
+    --space-3xl:80px;
+
+    --header-height:72px;
+
+  }
+
+  .page-shell{
+    padding-inline:24px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .nav-links{
+    display:none;
+  }
+
+  .site-header{
+    top:14px;
+    width:calc(100% - 20px);
+
+    padding-inline:20px;
+  }
+
+  .section{
+    padding-block:var(--space-2xl);
+  }
+
+  .card{
+    padding:28px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .desktop-only{
+    display:none;
+  }
+
+  .mobile-only{
+    display:block;
+  }
+
+}
+
+@media(max-width:540px){
+
+  .hero-title{
+    font-size:48px;
+  }
+
+  .display-title{
+    font-size:40px;
+  }
+
+  .section-title{
+    font-size:32px;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+}

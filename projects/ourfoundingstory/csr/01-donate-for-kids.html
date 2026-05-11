@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educate India — Finding India's Hidden Talent</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --clay:    #C4714A;
+    --clay-d:  #8B4A2C;
+    --clay-l:  #F0DDD0;
+    --mud:     #6B4C35;
+    --mud-l:   #D4B99A;
+    --straw:   #E8C97A;
+    --straw-d: #A07830;
+    --leaf:    #5A7A45;
+    --leaf-l:  #C8DDB8;
+    --earth:   #3D2B1A;
+    --cream:   #F7F0E6;
+    --cream-d: #EDE3D4;
+    --ink:     #2A1A0E;
+    --smoke:   #9A8878;
+    --white:   #FDFAF6;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lora', Georgia, serif;
+    background: var(--earth);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── SLIDE CONTAINER ── */
+  .deck {
+    width: 100%;
+  }
+
+  .slide {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 3rem 2rem;
+  }
+
+  .slide-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── SLIDE NUMBER ── */
+  .slide-num {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .slide-num::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  /* ── SLIDE THEMES ── */
+
+  /* S1 – Hero / Mission */
+  .s1 {
+    background: var(--earth);
+    color: var(--cream);
+  }
+  .s1 .slide-num { color: var(--straw); }
+  .s1 .hero-tagline {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    line-height: 1.15;
+    font-weight: 700;
+    color: var(--straw);
+    margin-bottom: 1.5rem;
+  }
+  .s1 .hero-tagline span {
+    color: var(--clay-l);
+    font-style: italic;
+  }
+  .s1 .hero-sub {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--mud-l);
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+  }
+  .s1 .vision-box {
+    border-left: 3px solid var(--clay);
+    padding: 1rem 1.5rem;
+    background: rgba(196,113,74,0.12);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--clay-l);
+    max-width: 560px;
+  }
+  /* Decorative diya */
+  .diya-wrap {
+    position: absolute;
+    right: 4%;
+    bottom: 8%;
+    opacity: 0.13;
+    z-index: 1;
+  }
+  .diya-wrap svg { width: 240px; height: 240px; }
+
+  /* S2 – Problem */
+  .s2 { background: var(--cream); color: var(--ink); }
+  .s2 .slide-num { color: var(--clay-d); }
+
+  /* S3 – Solution */
+  .s3 { background: var(--mud); color: var(--cream); }
+  .s3 .slide-num { color: var(--straw); }
+
+  /* S4 – Journey */
+  .s4 { background: var(--cream-d); color: var(--ink); }
+  .s4 .slide-num { color: var(--mud); }
+
+  /* S5 – Transparency */
+  .s5 { background: var(--earth); color: var(--cream); }
+  .s5 .slide-num { color: var(--straw); }
+
+  /* S6 – Content */
+  .s6 { background: var(--leaf); color: var(--white); }
+  .s6 .slide-num { color: var(--leaf-l); }
+
+  /* S7 – Impact */
+  .s7 { background: var(--cream); color: var(--ink); }
+  .s7 .slide-num { color: var(--clay-d); }
+
+  /* S8 – Different */
+  .s8 { background: var(--clay); color: var(--white); }
+  .s8 .slide-num { color: var(--cream-d); }
+
+  /* S9 – Scale */
+  .s9 { background: var(--cream-d); color: var(--ink); }
+  .s9 .slide-num { color: var(--mud); }
+
+  /* S10 – CTA */
+  .s10 { background: var(--earth); color: var(--cream); }
+  .s10 .slide-num { color: var(--straw); }
+
+  /* ── TYPOGRAPHY UTILS ── */
+  .section-label {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .slide-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(1.7rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+  }
+
+  .slide-lead {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    max-width: 620px;
+    margin-bottom: 2rem;
+    opacity: 0.88;
+  }
+
+  /* ── PILL LIST ── */
+  .pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 0.88rem;
+    font-family: 'Libre Baskerville', serif;
+    border: 1.5px solid currentColor;
+    opacity: 0.85;
+  }
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* ── STAT GRID ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    padding: 1.2rem 1rem;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .stat-card .lbl {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.72;
+  }
+
+  /* ── STEP LIST ── */
+  .step-list { list-style: none; margin: 0 0 2rem; padding: 0; }
+  .step-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 28px;
+    opacity: 0.5;
+  }
+
+  /* ── DAY FLOW ── */
+  .day-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .day-block {
+    border-radius: 10px;
+    padding: 1.2rem 1rem;
+  }
+  .day-block .time-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 0.7rem;
+    display: block;
+    opacity: 0.65;
+  }
+  .day-block ul {
+    list-style: none;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    opacity: 0.9;
+  }
+  .day-block ul li::before { content: '· '; }
+
+  /* ── LEDGER TABLE ── */
+  .ledger {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+  .ledger th {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-bottom: 1.5px solid rgba(255,255,255,0.2);
+    opacity: 0.65;
+  }
+  .ledger td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    line-height: 1.4;
+  }
+  .ledger tr:last-child td { border-bottom: none; }
+  .check-ico { color: #8FD97B; font-size: 0.85rem; margin-right: 4px; }
+
+  /* ── VS GRID ── */
+  .vs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 540px) { .vs-grid { grid-template-columns: 1fr; } }
+  .vs-col { border-radius: 10px; padding: 1.4rem; }
+  .vs-col h4 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+  .vs-col ul { list-style: none; font-size: 0.95rem; line-height: 2; }
+  .vs-col ul li::before { margin-right: 6px; }
+  .vs-col.bad ul li::before { content: '✗'; opacity: 0.5; }
+  .vs-col.good ul li::before { content: '✓'; color: #8FD97B; }
+
+  /* ── IMPACT CARDS ── */
+  .impact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .impact-card {
+    border-radius: 10px;
+    padding: 1.2rem 1rem;
+    text-align: center;
+  }
+  .impact-card .icon { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
+  .impact-card p { font-size: 0.88rem; line-height: 1.5; opacity: 0.88; }
+
+  /* ── SCALE ITEMS ── */
+  .scale-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+  .scale-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+    font-size: 0.93rem;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  .scale-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CTA BUTTONS ── */
+  .cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 2rem;
+  }
+  .cta-btn {
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid;
+    transition: transform 0.15s, opacity 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .cta-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .cta-primary { background: var(--straw); color: var(--earth); border-color: var(--straw); }
+  .cta-ghost   { background: transparent; color: var(--cream); border-color: var(--cream); }
+
+  /* ── QUOTE HIGHLIGHT ── */
+  .big-quote {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    line-height: 1.6;
+    border-left: 4px solid var(--straw);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    opacity: 0.92;
+  }
+
+  /* ── DECORATIVE BG PATTERNS ── */
+  .bg-pattern {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.035;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 30px,
+      currentColor 30px,
+      currentColor 31px
+    );
+    pointer-events: none;
+  }
+
+  /* ── PROGRESS NAV ── */
+  .progress-nav {
+    position: fixed;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .pn-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    border: 1.5px solid rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .pn-dot:hover, .pn-dot.active {
+    background: var(--straw);
+    transform: scale(1.3);
+  }
+
+  /* ── DIVIDER ── */
+  .earthy-divider {
+    width: 60px; height: 3px;
+    background: var(--straw);
+    border-radius: 2px;
+    margin: 1.2rem 0 1.8rem;
+  }
+
+  /* ── ANIMATION ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-in:nth-child(2) { transition-delay: 0.1s; }
+  .fade-in:nth-child(3) { transition-delay: 0.2s; }
+  .fade-in:nth-child(4) { transition-delay: 0.3s; }
+  .fade-in:nth-child(5) { transition-delay: 0.4s; }
+
+  /* ── S2 PROBLEM ── */
+  .problem-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 540px) { .problem-cols { grid-template-columns: 1fr; } }
+  .problem-col h4 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 0.8rem;
+  }
+  .problem-col ul {
+    list-style: none;
+    line-height: 2;
+    font-size: 0.95rem;
+  }
+  .problem-col ul li::before { content: '— '; opacity: 0.45; }
+
+  /* ── S6 CONTENT STRATEGY ── */
+  .platform-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+  .p-chip {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.88rem;
+    font-family: 'Libre Baskerville', serif;
+  }
+
+  /* ── FOOTER ACROSS SLIDES ── */
+  .slide-footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(128,100,80,0.25);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.45;
+  }
+
+  /* ── HINDI ACCENT ── */
+  .hindi-accent {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.9em;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV DOTS -->
+<nav class="progress-nav" id="navDots" aria-label="Slide navigation">
+  <!-- filled by JS -->
+</nav>
+
+<div class="deck" id="deck">
+
+  <!-- ═══════════════════ SLIDE 1 — MISSION ═══════════════════ -->
+  <section class="slide s1" id="slide-1">
+    <div class="bg-pattern"></div>
+    <!-- Decorative diya SVG -->
+    <div class="diya-wrap">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="130" rx="60" ry="22" fill="#C4714A"/>
+        <path d="M60 130 Q100 85 140 130" fill="#8B4A2C"/>
+        <ellipse cx="100" cy="108" rx="12" ry="6" fill="#E8C97A"/>
+        <line x1="100" y1="102" x2="100" y2="55" stroke="#E8C97A" stroke-width="2"/>
+        <ellipse cx="100" cy="52" rx="8" ry="13" fill="#FAD878" opacity="0.8"/>
+        <ellipse cx="100" cy="48" rx="4" ry="8" fill="#FFF5CC" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color: var(--straw)">01 / 10 &nbsp; The Mission</div>
+      <h1 class="hero-tagline fade-in">
+        Finding India's<br><span>Hidden Talent</span>
+      </h1>
+      <p class="hero-sub fade-in">
+        A grassroots journey across India's villages — living with families, listening to dreams,
+        and connecting real children with real supporters who care.
+      </p>
+      <div class="earthy-divider fade-in"></div>
+      <blockquote class="big-quote fade-in" style="border-color:var(--clay); color: var(--clay-l)">
+        "No brilliant child should disappear simply because they were born in the wrong village."
+      </blockquote>
+      <div class="slide-footer">Educate India Initiative</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SLIDE 2 — PROBLEM ═══════════════════ -->
+  <section class="slide s2" id="slide-2">
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color: var(--clay-d)">02 / 10 &nbsp; The Problem</div>
+      <span class="section-label" style="color: var(--clay)">India's Greatest Untapped Resource</span>
+      <h2 class="slide-title fade-in">Millions of children are invisible.</h2>
+      <div class="earthy-divider" style="background:var(--clay)"></div>
+      <div class="problem-cols fade-in">
+        <div class="problem-col">
+          <h4>Why they stay hidden</h4>
+          <ul>
+            <li>Born far from cities</li>
+            <li>No money for books</li>
+            <li>No mentor, no guide</li>
+            <li>No internet, no exposure</li>
+            <li>Opportunity never arrives</li>
+          </ul>
+        </div>
+        <div class="problem-col">
+          <h4>The broken system</h4>
+          <ul>
+            <li>Rural brilliance stays local</li>
+            <li>Help arrives too late</li>
+            <li>Donors can't trust old NGOs</li>
+            <li>No transparent bridge</li>
+          </ul>
+        </div>
+      </div>
+      <div class="big-quote fade-in" style="border-color:var(--clay); background: var(--clay-l); border-radius: 0 8px 8px 0;">
+        India has talented children, willing donors, and powerful technology —<br>
+        <strong>but no transparent bridge connecting them.</strong>
+      </div>
+      <div class="slide-footer">Educate India Initiative</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SLIDE 3 — SOLUTION ═══════════════════ -->
+  <section class="slide s3" id="slide-3">
+    <div class="bg-pattern" style="color: var(--cream)"></div>
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color:var(--straw)">03 / 10 &nbsp; The Solution</div>
+      <span class="section-label" style="color:var(--mud-l)">A Traveling Discovery Network</span>
+      <h2 class="slide-title fade-in" style="color:var(--straw)">Real travel. Real trust.<br>Real change.</h2>
+      <div class="earthy-divider"></div>
+      <ol class="step-list fade-in" style="border-color:rgba(255,255,255,0.08)">
+        <li><span class="step-num">1</span><span>Travel village to village across India</span></li>
+        <li><span class="step-num">2</span><span>Stay with local families — live the reality</span></li>
+        <li><span class="step-num">3</span><span>Visit schools, sit with children, hear their dreams</span></li>
+        <li><span class="step-num">4</span><span>Identify extraordinary students with proof</span></li>
+        <li><span class="step-num">5</span><span>Publish daily transparent reports — publicly</span></li>
+        <li><span class="step-num">6</span><span>Connect verified children with supporters like you</span></li>
+      </ol>
+      <p class="slide-lead fade-in" style="color:var(--mud-l)">
+        Because trust is not declared. It is built publicly, daily, in real time.
+      </p>
+      <div class="slide-footer" style="border-color:rgba(255,255,255,0.12)">Educate India Initiative</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SLIDE 4 — JOURNEY ═══════════════════ -->
+  <section class="slide s4" id="slide-4">
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color:var(--mud)">04 / 10 &nbsp; The Journey</div>
+      <span class="section-label" style="color:var(--clay)">Near Zero-Cost Rural Exploration</span>
+      <h2 class="slide-title fade-in">Life in the field,<br>every single day.</h2>
+      <div class="earthy-divider" style="background:var(--clay)"></div>
+      <div class="day-flow fade-in">
+        <div class="day-block" style="background:var(--clay-l); color:var(--earth)">
+          <span class="time-label">🌅 Morning</span>
+          <ul>
+            <li>School visits</li>
+            <li>Student interactions</li>
+            <li>Teacher conversations</li>
+          </ul>
+        </div>
+        <div class="day-block" style="background:var(--mud-l); color:var(--earth)">
+          <span class="time-label">☀️ Afternoon</span>
+          <ul>
+            <li>Family home visits</li>
+            <li>Story documentation</li>
+            <li>Local references</li>
+          </ul>
+        </div>
+        <div class="day-block" style="background:var(--straw); color:var(--earth)">
+          <span class="time-label">🌙 Evening</span>
+          <ul>
+            <li>Livestreams online</li>
+            <li>Public updates</li>
+            <li>Donor Q&amp;A</li>
+          </ul>
+        </div>
+        <div class="day-block" style="background:var(--leaf-l); color:var(--earth)">
+          <span class="time-label">🌒 Night</span>
+          <ul>
+            <li>Hosted by villagers</li>
+            <li>Ashrams, dharamshalas</li>
+            <li>Community trust</li>
+          </ul>
+        </div>
+      </div>
+      <p class="slide-lead fade-in" style="opacity:0.75">
+        This mission survives through <strong>contribution, not consumption.</strong> Every rupee you give goes to children, not to offices.
+      </p>
+      <div class="slide-footer">Educate India Initiative</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SLIDE 5 — TRANSPARENCY ═══════════════════ -->
+  <section class="slide s5" id="slide-5">
+    <div class="bg-pattern" style="color:var(--cream)"></div>
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color:var(--straw)">05 / 10 &nbsp; Transparency</div>
+      <span class="section-label" style="color:var(--mud-l)">Radical Daily Accountability</span>
+      <h2 class="slide-title fade-in" style="color:var(--straw)">You will see every rupee.</h2>
+      <div class="earthy-divider"></div>
+      <p class="slide-lead fade-in" style="color:var(--mud-l)">
+        Every single day the public dashboard shows exactly what was donated, what was spent, and how many children were met.
+      </p>
+      <table class="ledger fade-in">
+        <thead>
+          <tr>
+            <th>What you see daily</th>
+            <th>Type</th>
+            <th>Verification</th>
+          </tr>
+        </thead>
+        <tbody style="color:var(--cream)">
+          <tr>
+            <td>Donations received</td>
+            <td style="opacity:0.6">Financial</td>
+            <td><span class="check-ico">✓</span> Public ledger</td>
+          </tr>
+          <tr>
+            <td>Travel &amp; food costs</td>
+            <td style="opacity:0.6">Financial</td>
+            <td><span class="check-ico">✓</span> Receipts posted</td>
+          </tr>
+          <tr>
+            <td>Student support spending</td>
+            <td style="opacity:0.6">Financial</td>
+            <td><span class="check-ico">✓</span> Named children</td>
+          </tr>
+          <tr>
+            <td>Villages visited, students met</td>
+            <td style="opacity:0.6">Field report</td>
+            <td><span class="check-ico">✓</span> Live updates</td>
+          </tr>
+          <tr>
+            <td>Teacher &amp; principal confirmations</td>
+            <td style="opacity:0.6">Verification</td>
+            <td><span class="check-ico">✓</span> Video / written</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="slide-footer" style="border-color:rgba(255,255,255,0.12)">Educate India Initiative</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SLIDE 6 — CONTENT STRATEGY ═══════════════════ -->
+  <section class="slide s6" id="slide-6">
+    <div class="bg-pattern"></div>
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color:var(--leaf-l)">06 / 10 &nbsp; The Stories</div>
+      <span class="section-label" style="color:var(--leaf-l)">Content That Moves Hearts</span>
+      <h2 class="slide-title fade-in" style="color:white">Raw stories. Real children.<br>Published daily.</h2>
+      <div class="earthy-divider" style="background:var(--straw)"></div>
+      <p class="slide-lead fade-in">
+        Each day brings new stories of village life, student dreams, family struggles, and unsung local heroes.
+        Authentic moments — not polished productions.
+      </p>
+      <div class="pill-list fade-in" style="color:white">
+        <span class="pill">Village stories</span>
+        <span class="pill">Student dreams</span>
+        <span class="pill">Local heroes</span>
+        <span class="pill">Family struggles</span>
+        <span class="pill">Educational potential</span>
+      </div>
+      <p style="font-size:0.88rem; opacity:0.7; margin-bottom:1rem; letter-spacing:0.1em; text-transform:uppercase; font-family:'Libre Baskerville',serif;">Platforms</p>
+      <div class="platform-chips fade-in">
+        <span class="p-chip">📱 WhatsApp Channels</span>
+        <span class="p-chip">✈️ Telegram</span>
+        <span class="p-chip">🐦 X / Twitter</span>
+        <span class="p-chip">📺 YouTube Live</span>
+        <span class="p-chip">📊 Public Dashboard</span>
+      </div>
+      <blockquote class="big-quote fade-in" style="border-color:var(--straw); color:rgba(255,255,255,0.85); margin-bottom:0">
+        "Authenticity over production quality."
+      </blockquote>
+      <div class="slide-footer" style="border-color:rgba(255,255,255,0.15); color:white">Educate India Initiative</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SLIDE 7 — IMPACT ═══════════════════ -->
+  <section class="slide s7" id="slide-7">
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color:var(--clay-d)">07 / 10 &nbsp; The Impact</div>
+      <span class="section-label" style="color:var(--clay)">Beyond Charity</span>
+      <h2 class="slide-title fade-in">One child can change<br>an entire village.</h2>
+      <div class="earthy-divider" style="background:var(--clay)"></div>
+      <div class="impact-cards fade-in">
+        <div class="impact-card" style="background:var(--clay-l)">
+          <span class="icon">📚</span>
+          <p>Funded school education — books, fees, uniforms</p>
+        </div>
+        <div class="impact-card" style="background:var(--straw); color:var(--earth)">
+          <span class="icon">🤝</span>
+          <p>Mentorship from people like you across India</p>
+        </div>
+        <div class="impact-card" style="background:var(--leaf-l)">
+          <span class="icon">🌐</span>
+          <p>Digital exposure to open careers they never imagined</p>
+        </div>
+        <div class="impact-card" style="background:var(--mud-l)">
+          <span class="icon">🏘️</span>
+          <p>A future role model for their whole village</p>
+        </div>
+      </div>
+      <div class="big-quote fade-in" style="border-color:var(--clay); background:var(--clay-l); border-radius:0 8px 8px 0; color:var(--earth)">
+        <strong>One educated child creates a ripple.</strong><br>
+        They come back. They teach. They inspire. The village changes.
+      </div>
+      <div class="slide-footer">Educate India Initiative</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SLIDE 8 — DIFFERENT ═══════════════════ -->
+  <section class="slide s8" id="slide-8">
+    <div class="bg-pattern" style="color:rgba(255,255,255,0.5)"></div>
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color:var(--cream-d)">08 / 10 &nbsp; Why Different</div>
+      <span class="section-label" style="color:rgba(255,255,255,0.65)">Trust Through Presence</span>
+      <h2 class="slide-title fade-in" style="color:white">No office. No overhead.<br>No distance.</h2>
+      <div class="earthy-divider" style="background:var(--earth)"></div>
+      <div class="vs-grid fade-in">
+        <div class="vs-col bad" style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1)">
+          <h4 style="color:rgba(255,255,255,0.5)">Traditional NGOs</h4>
+          <ul style="color:rgba(255,255,255,0.8)">
+            <li>Distant office buildings</li>
+            <li>Hidden operations</li>
+            <li>Reports come months later</li>
+            <li>Abstract impact claims</li>
+            <li>High overhead costs</li>
+          </ul>
+        </div>
+        <div class="vs-col good" style="background:var(--earth); border:2px solid var(--straw)">
+          <h4 style="color:var(--straw)">This Mission</h4>
+          <ul style="color:var(--cream)">
+            <li>Real villages, real presence</li>
+            <li>Live daily publishing</li>
+            <li>Direct human connection</li>
+            <li>Transparent fieldwork</li>
+            <li>You see what you funded</li>
+          </ul>
+        </div>
+      </div>
+      <p class="slide-lead fade-in" style="color:rgba(255,255,255,0.8)">
+        The person running this mission <strong>personally lives the mission every day.</strong> Not from a desk. Not from a city. From the village itself.
+      </p>
+      <div class="slide-footer" style="border-color:rgba(255,255,255,0.15)">Educate India Initiative</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SLIDE 9 — SCALING ═══════════════════ -->
+  <section class="slide s9" id="slide-9">
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color:var(--mud)">09 / 10 &nbsp; The Vision</div>
+      <span class="section-label" style="color:var(--clay)">Scaling With Community</span>
+      <h2 class="slide-title fade-in">India's largest<br>grassroots talent map.</h2>
+      <div class="earthy-divider" style="background:var(--clay)"></div>
+      <p class="slide-lead fade-in">Starting small, growing through trust. Here is where this can lead:</p>
+      <div class="scale-grid fade-in">
+        <div class="scale-item" style="background:var(--clay-l)">
+          <span class="scale-dot" style="background:var(--clay)"></span>
+          Volunteer discovery networks
+        </div>
+        <div class="scale-item" style="background:var(--clay-l)">
+          <span class="scale-dot" style="background:var(--clay)"></span>
+          AI talent indexing across districts
+        </div>
+        <div class="scale-item" style="background:var(--straw)" style="color:var(--earth)">
+          <span class="scale-dot" style="background:var(--straw-d)"></span>
+          Rural mentorship systems
+        </div>
+        <div class="scale-item" style="background:var(--straw)">
+          <span class="scale-dot" style="background:var(--straw-d)"></span>
+          Scholarship &amp; university pipelines
+        </div>
+        <div class="scale-item" style="background:var(--leaf-l)">
+          <span class="scale-dot" style="background:var(--leaf)"></span>
+          District-level talent databases
+        </div>
+        <div class="scale-item" style="background:var(--leaf-l)">
+          <span class="scale-dot" style="background:var(--leaf)"></span>
+          A living archive of hidden potential
+        </div>
+      </div>
+      <p class="slide-lead fade-in" style="opacity:0.7; font-style:italic">
+        It starts with you. One donation, one story, one child.
+      </p>
+      <div class="slide-footer">Educate India Initiative</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SLIDE 10 — CTA ═══════════════════ -->
+  <section class="slide s10" id="slide-10">
+    <div class="bg-pattern" style="color:var(--cream)"></div>
+    <div class="slide-inner">
+      <div class="slide-num fade-in" style="color:var(--straw)">10 / 10 &nbsp; Join the Journey</div>
+      <h2 class="slide-title fade-in" style="color:var(--straw); font-size:clamp(1.8rem,5vw,3.2rem)">
+        Somewhere in a small village,<br>a child is waiting<br>to be seen.
+      </h2>
+      <div class="earthy-divider fade-in"></div>
+      <p class="slide-lead fade-in" style="color:var(--mud-l)">
+        You don't need to be rich. You don't need to travel. <br>
+        A small contribution from a caring person in a town like yours has already changed lives.
+      </p>
+      <div class="pill-list fade-in" style="color:var(--cream)">
+        <span class="pill" style="border-color:var(--straw); color:var(--straw)">💸 Sponsor travel</span>
+        <span class="pill" style="border-color:var(--clay-l); color:var(--clay-l)">📖 Fund a student</span>
+        <span class="pill" style="border-color:var(--leaf-l); color:var(--leaf-l)">🔗 Share stories</span>
+        <span class="pill" style="border-color:var(--mud-l); color:var(--mud-l)">🏫 Connect schools</span>
+        <span class="pill" style="border-color:var(--straw); color:var(--straw)">🤝 Offer mentorship</span>
+      </div>
+      <blockquote class="big-quote fade-in" style="border-color:var(--straw); color:var(--clay-l); font-size:clamp(1rem,2.2vw,1.3rem)">
+        "This is not just a project. It is a movement of trust, a celebration of overlooked brilliance, and a new model for finding India's future."
+      </blockquote>
+      <div class="cta-group fade-in">
+        <span class="cta-btn cta-primary">Donate Now</span>
+        <span class="cta-btn cta-ghost">Follow the Journey</span>
+      </div>
+      <div class="slide-footer" style="border-color:rgba(255,255,255,0.1)">
+        Educate India Initiative &nbsp;·&nbsp; <span class="hindi-accent">शिक्षा से बदलाव</span> &nbsp;(Change Through Education)
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.deck -->
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const navDots = document.getElementById('navDots');
+
+slides.forEach((_, i) => {
+  const d = document.createElement('button');
+  d.className = 'pn-dot';
+  d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+  d.addEventListener('click', () => {
+    slides[i].scrollIntoView({ behavior: 'smooth' });
+  });
+  navDots.appendChild(d);
+});
+
+const dots = navDots.querySelectorAll('.pn-dot');
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const idx = Array.from(slides).indexOf(entry.target);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      entry.target.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+    }
+  });
+}, { threshold: 0.3 });
+
+slides.forEach(s => io.observe(s));
+
+document.addEventListener('DOMContentLoaded', () => {
+  slides[0].querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+  dots[0].classList.add('active');
+});
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  const active = Array.from(dots).findIndex(d => d.classList.contains('active'));
+  if (e.key === 'ArrowDown' && active < slides.length - 1) {
+    slides[active + 1].scrollIntoView({ behavior: 'smooth' });
+  } else if (e.key === 'ArrowUp' && active > 0) {
+    slides[active - 1].scrollIntoView({ behavior: 'smooth' });
+  }
+});
+</script>
+</body>
+</html>

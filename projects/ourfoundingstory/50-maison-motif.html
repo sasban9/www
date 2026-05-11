@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>MaisonMotif — Founding Season</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;scrollbar-width: none;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+
+  background:var(--bg);
+  color:var(--text-primary);
+
+  font-family:var(--font-body);
+
+  transition:all .6s cubic-bezier(.19,1,.22,1);
+}
+
+/* =========================================================
+THEME — ESTATE
+========================================================= */
+
+:root{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+  --bg-elevated:#211f1d;
+
+  --text-primary:#f4eee3;
+  --text-secondary:#c8bda8;
+  --text-muted:#8f867a;
+
+  --accent:#c8a46f;
+  --accent-bright:#e0c28a;
+
+  --border-soft:rgba(255,255,255,.08);
+
+  --card-bg:rgba(255,255,255,.03);
+
+  --header-bg:rgba(12,12,12,.58);
+
+  --shadow:
+  0 20px 60px rgba(0,0,0,.38);
+
+  --font-heading:'Playfair Display',serif;
+  --font-body:'Inter',sans-serif;
+
+  --transition:
+  all .6s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+GLOBAL
+========================================================= */
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+button{
+  font:inherit;
+  border:none;
+  outline:none;
+  cursor:pointer;
+}
+
+.page-shell{
+  width:min(100%,1360px);
+  margin:auto;
+  padding-inline:28px;
+}
+
+.eyebrow{
+  font-size:11px;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+.section-title{
+  font-family:var(--font-heading);
+  font-size:clamp(34px,5vw,64px);
+  line-height:1;
+  letter-spacing:-0.04em;
+}
+
+.body-text{
+  color:var(--text-secondary);
+  line-height:1.9;
+  font-size:16px;
+}
+
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--border-soft);
+  border-radius:32px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.site-header{
+
+  position:sticky;
+  top:18px;
+  z-index:999;
+
+  width:min(95%,1360px);
+  margin:18px auto;
+
+  height:78px;
+
+  background:var(--header-bg);
+
+  border:1px solid var(--border-soft);
+
+  border-radius:999px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding-inline:26px;
+
+  backdrop-filter:blur(20px);
+
+}
+
+.logo{
+  font-family:var(--font-heading);
+  font-size:28px;
+  letter-spacing:-0.03em;
+}
+
+.logo span{
+  color:var(--accent);
+}
+
+.nav{
+  display:flex;
+  gap:28px;
+}
+
+.nav a{
+  color:var(--text-secondary);
+  text-decoration:none;
+  font-size:14px;
+}
+
+.header-btn{
+
+  background:rgba(255,255,255,.06);
+
+  border:1px solid var(--border-soft);
+
+  color:var(--text-primary);
+
+  padding:12px 20px;
+
+  border-radius:999px;
+
+}
+
+/* =========================================================
+HERO
+========================================================= */
+
+.hero{
+  padding:70px 0 50px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:28px;
+}
+
+.hero-left{
+  padding-top:30px;
+}
+
+.hero-title{
+
+  margin-top:18px;
+
+  font-family:var(--font-heading);
+
+  font-size:clamp(56px,8vw,110px);
+
+  line-height:.92;
+  letter-spacing:-0.06em;
+
+}
+
+.hero-copy{
+  margin-top:28px;
+  max-width:720px;
+}
+
+.hero-actions{
+  margin-top:36px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.primary-btn{
+
+  background:var(--accent);
+
+  color:#111;
+
+  padding:16px 28px;
+
+  border-radius:999px;
+
+  font-weight:600;
+
+}
+
+.secondary-btn{
+
+  background:rgba(255,255,255,.05);
+
+  color:var(--text-primary);
+
+  border:1px solid var(--border-soft);
+
+  padding:16px 28px;
+
+  border-radius:999px;
+
+}
+
+.hero-card{
+  position:relative;
+  overflow:hidden;
+  min-height:640px;
+}
+
+.hero-image{
+
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.8),
+    rgba(0,0,0,.15)
+  ),
+
+  url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1800&auto=format&fit=crop');
+
+  background-size:cover;
+  background-position:center;
+
+}
+
+.hero-overlay{
+  position:absolute;
+  inset:auto 0 0 0;
+  padding:34px;
+}
+
+.couple-title{
+  font-family:var(--font-heading);
+  font-size:44px;
+}
+
+.couple-meta{
+  margin-top:12px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+
+/* =========================================================
+FOUNDING GRAPH
+========================================================= */
+
+.graph-section{
+  padding:40px 0 90px;
+}
+
+.graph-card{
+  padding:38px;
+}
+
+.graph-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:30px;
+  flex-wrap:wrap;
+}
+
+.live-pill{
+
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+
+  padding:10px 16px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.05);
+
+  border:1px solid var(--border-soft);
+
+  color:var(--text-secondary);
+
+  margin-top:20px;
+
+}
+
+.live-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--accent);
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:.3;}
+  50%{opacity:1;}
+}
+
+.nodes-grid{
+
+  margin-top:34px;
+
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+
+}
+
+.node{
+
+  position:relative;
+
+  overflow:hidden;
+
+  border-radius:26px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid var(--border-soft);
+
+  min-height:240px;
+
+  padding:24px;
+
+  transition:var(--transition);
+
+}
+
+.node:hover{
+  transform:translateY(-6px);
+}
+
+.node::before{
+
+  content:'';
+
+  position:absolute;
+  inset:0;
+
+  background:
+  radial-gradient(circle at top right,
+  rgba(200,164,111,.16),
+  transparent 40%);
+
+  pointer-events:none;
+
+}
+
+.node-tag{
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+.node-title{
+
+  margin-top:16px;
+
+  font-family:var(--font-heading);
+
+  font-size:32px;
+  line-height:1;
+
+}
+
+.node-copy{
+  margin-top:14px;
+  color:var(--text-secondary);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.node-footer{
+
+  position:absolute;
+  left:24px;
+  right:24px;
+  bottom:22px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+}
+
+.node-status{
+  color:var(--text-muted);
+  font-size:13px;
+}
+
+.node-btn{
+
+  background:rgba(255,255,255,.05);
+
+  border:1px solid var(--border-soft);
+
+  color:var(--text-primary);
+
+  padding:10px 14px;
+
+  border-radius:999px;
+
+  font-size:13px;
+
+}
+
+/* =========================================================
+TASKS
+========================================================= */
+
+.tasks{
+  padding:0 0 90px;
+}
+
+.tasks-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-top:34px;
+}
+
+.task-card{
+  padding:30px;
+  position:relative;
+  overflow:hidden;
+}
+
+.task-card::after{
+
+  content:'';
+
+  position:absolute;
+  top:-80px;
+  right:-80px;
+
+  width:180px;
+  height:180px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(circle,
+  rgba(200,164,111,.12),
+  transparent 70%);
+
+}
+
+.task-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+}
+
+.task-title{
+  font-family:var(--font-heading);
+  font-size:34px;
+  line-height:1;
+}
+
+.task-level{
+  color:var(--accent);
+  font-size:12px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+.task-copy{
+  margin-top:18px;
+  color:var(--text-secondary);
+  line-height:1.8;
+}
+
+.task-list{
+  margin-top:22px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.task-item{
+
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+
+  padding:14px 16px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid var(--border-soft);
+
+}
+
+.task-bullet{
+
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  background:var(--accent);
+
+  margin-top:8px;
+
+  flex-shrink:0;
+
+}
+
+.task-meta{
+  color:var(--text-muted);
+  font-size:13px;
+  margin-top:6px;
+}
+
+/* =========================================================
+99 BALLS
+========================================================= */
+
+.gifting{
+  padding:0 0 100px;
+}
+
+.gift-card{
+  padding:40px;
+}
+
+.gift-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.balls-grid{
+
+  margin-top:40px;
+
+  display:grid;
+  grid-template-columns:repeat(11,1fr);
+
+  gap:12px;
+
+}
+
+.ball{
+
+  aspect-ratio:1/1;
+
+  border-radius:50%;
+
+  border:1px solid var(--border-soft);
+
+  background:rgba(255,255,255,.03);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:var(--text-secondary);
+
+  cursor:pointer;
+
+  transition:var(--transition);
+
+  position:relative;
+
+  overflow:hidden;
+
+}
+
+.ball:hover{
+  transform:translateY(-4px) scale(1.05);
+  border-color:rgba(200,164,111,.45);
+}
+
+.ball.active{
+
+  background:
+  radial-gradient(circle at 30% 30%,
+  rgba(255,255,255,.2),
+  rgba(200,164,111,.24));
+
+  color:var(--text-primary);
+
+  border-color:rgba(200,164,111,.45);
+
+}
+
+.ball.active::after{
+
+  content:'';
+
+  position:absolute;
+  inset:0;
+
+  border-radius:50%;
+
+  box-shadow:
+  inset 0 0 20px rgba(255,255,255,.08),
+  0 0 30px rgba(200,164,111,.22);
+
+}
+
+.gift-summary{
+
+  margin-top:42px;
+
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+
+  gap:18px;
+
+}
+
+.split-card{
+  padding:24px;
+  border-radius:24px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border-soft);
+}
+
+.split-label{
+  color:var(--text-muted);
+  font-size:12px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.split-value{
+  margin-top:14px;
+  font-size:34px;
+  font-weight:700;
+}
+
+.split-copy{
+  margin-top:12px;
+  color:var(--text-secondary);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.total-wrap{
+
+  margin-top:34px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  gap:20px;
+  flex-wrap:wrap;
+
+  padding:24px 28px;
+
+  border-radius:24px;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid var(--border-soft);
+
+}
+
+.total-label{
+  color:var(--text-muted);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:12px;
+}
+
+.total-value{
+  margin-top:10px;
+  font-size:56px;
+  font-weight:700;
+}
+
+.total-copy{
+  color:var(--text-secondary);
+  max-width:700px;
+  line-height:1.8;
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+.footer{
+  padding:0 0 70px;
+}
+
+.footer-card{
+  padding:34px;
+  text-align:center;
+}
+
+.footer-copy{
+  margin-top:18px;
+  color:var(--text-secondary);
+  line-height:1.9;
+  max-width:760px;
+  margin-inline:auto;
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .hero-grid,
+  .tasks-grid{
+    grid-template-columns:1fr;
+  }
+
+  .nodes-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .gift-summary{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:780px){
+
+  .nav{
+    display:none;
+  }
+
+  .nodes-grid{
+    grid-template-columns:1fr;
+  }
+
+  .balls-grid{
+    grid-template-columns:repeat(6,1fr);
+  }
+
+  .gift-summary{
+    grid-template-columns:1fr;
+  }
+
+  .total-value{
+    font-size:42px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+
+  <div class="logo">
+    Maison<span>Motif</span>
+  </div>
+
+  <nav class="nav">
+    <a href="#">Founding Story</a>
+    <a href="#">Collections</a>
+    <a href="#">Blessings</a>
+    <a href="#">Routes</a>
+    <a href="#">Archive</a>
+  </nav>
+
+  <button class="header-btn">
+    Contribute A Memory
+  </button>
+
+</header>
+
+<!-- ======================================================
+HERO
+======================================================= -->
+
+<section class="hero">
+
+  <div class="page-shell">
+
+    <div class="hero-grid">
+
+      <div class="hero-left">
+
+        <div class="eyebrow">
+          The Founding Season
+        </div>
+
+        <h1 class="hero-title">
+          Two family histories are beginning to converge.
+        </h1>
+
+        <p class="body-text hero-copy">
+          MaisonMotif transforms weddings into living emotional archives.
+          Guests contribute stories, blessings, discoveries and heirlooms
+          that slowly reveal deeper collections across generations.
+        </p>
+
+        <div class="hero-actions">
+
+          <button class="primary-btn">
+            Enter The Archive
+          </button>
+
+          <button class="secondary-btn">
+            Open Deeper Collections
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="hero-card card">
+
+        <div class="hero-image"></div>
+
+        <div class="hero-overlay">
+
+          <div class="eyebrow">
+            Founding Union
+          </div>
+
+          <div class="couple-title">
+            Aisha & Arjun
+          </div>
+
+          <div class="couple-meta">
+            Kolkata → Silchar → Delhi<br/>
+            21 Day Founding Season • 184 Contributors • 42 Routes Restored
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+FOUNDING GRAPH
+======================================================= -->
+
+<section class="graph-section">
+
+  <div class="page-shell">
+
+    <div class="graph-card card">
+
+      <div class="graph-top">
+
+        <div>
+
+          <div class="eyebrow">
+            Progressive Discovery
+          </div>
+
+          <h2 class="section-title">
+            The archive is gradually opening itself.
+          </h2>
+
+          <div class="live-pill">
+            <div class="live-dot"></div>
+            Tonight's resonance is unusually strong around migration stories.
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="nodes-grid">
+
+        <div class="node">
+
+          <div class="node-tag">
+            Partially Restored
+          </div>
+
+          <div class="node-title">
+            The Assam Route
+          </div>
+
+          <div class="node-copy">
+            A partially forgotten migration thread involving a flood season journey,
+            one green suitcase and a missing railway photograph.
+          </div>
+
+          <div class="node-footer">
+
+            <div class="node-status">
+              3 fragments missing
+            </div>
+
+            <button class="node-btn">
+              Investigate
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="node">
+
+          <div class="node-tag">
+            Recently Disturbed
+          </div>
+
+          <div class="node-title">
+            Before Smartphones
+          </div>
+
+          <div class="node-copy">
+            Recover disposable camera memories, handwritten letters,
+            cassette recordings and landline-era stories.
+          </div>
+
+          <div class="node-footer">
+
+            <div class="node-status">
+              12 artifacts surfaced
+            </div>
+
+            <button class="node-btn">
+              Explore
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="node">
+
+          <div class="node-tag">
+            Deeper Layer
+          </div>
+
+          <div class="node-title">
+            The Lower Vaults
+          </div>
+
+          <div class="node-copy">
+            Hidden collections quietly emerge when emotional threads begin
+            connecting across multiple generations.
+          </div>
+
+          <div class="node-footer">
+
+            <div class="node-status">
+              Unlocks after resonance
+            </div>
+
+            <button class="node-btn">
+              Descend
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="node">
+
+          <div class="node-tag">
+            Tonight Only
+          </div>
+
+          <div class="node-title">
+            Grandmother Lore Night
+          </div>
+
+          <div class="node-copy">
+            Elder voice fragments are surfacing with unusual prominence tonight.
+            Several forgotten family routes may reconnect.
+          </div>
+
+          <div class="node-footer">
+
+            <div class="node-status">
+              Ends in 04h 18m
+            </div>
+
+            <button class="node-btn">
+              Listen
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+TASKS
+======================================================= -->
+
+<section class="tasks">
+
+  <div class="page-shell">
+
+    <div class="eyebrow">
+      Founding Expeditions
+    </div>
+
+    <h2 class="section-title">
+      Early discoveries quietly reshape the archive.
+    </h2>
+
+    <div class="tasks-grid">
+
+      <div class="task-card card">
+
+        <div class="task-head">
+
+          <div>
+            <div class="task-level">
+              Collection 01
+            </div>
+
+            <div class="task-title">
+              Recover The Oldest Wedding Photograph
+            </div>
+          </div>
+
+        </div>
+
+        <div class="task-copy">
+          The archive believes a pre-1985 wedding photograph still exists
+          somewhere within the extended family collections.
+        </div>
+
+        <div class="task-list">
+
+          <div class="task-item">
+            <div class="task-bullet"></div>
+            <div>
+              Search old trunks, albums and envelopes.
+              <div class="task-meta">
+                Elder resonance increases historical clarity.
+              </div>
+            </div>
+          </div>
+
+          <div class="task-item">
+            <div class="task-bullet"></div>
+            <div>
+              Ask older relatives to identify unknown faces.
+              <div class="task-meta">
+                Cross-generation participation strengthens the route.
+              </div>
+            </div>
+          </div>
+
+          <div class="task-item">
+            <div class="task-bullet"></div>
+            <div>
+              Restore damaged corners or faded handwriting.
+              <div class="task-meta">
+                Additional collections may quietly surface afterward.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="task-card card">
+
+        <div class="task-head">
+
+          <div>
+            <div class="task-level">
+              Collection 02
+            </div>
+
+            <div class="task-title">
+              The Green Suitcase Thread
+            </div>
+          </div>
+
+        </div>
+
+        <div class="task-copy">
+          Several memories appear connected through repeated references
+          to one suitcase carried during a flood season migration.
+        </div>
+
+        <div class="task-list">
+
+          <div class="task-item">
+            <div class="task-bullet"></div>
+            <div>
+              Record grandmother's version of the railway story.
+              <div class="task-meta">
+                Recorded in Silchar • October 1978 fragments detected.
+              </div>
+            </div>
+          </div>
+
+          <div class="task-item">
+            <div class="task-bullet"></div>
+            <div>
+              Search for handwritten transfer letters or luggage tags.
+              <div class="task-meta">
+                Historical route reconstruction may begin.
+              </div>
+            </div>
+          </div>
+
+          <div class="task-item">
+            <div class="task-bullet"></div>
+            <div>
+              Upload any photograph containing the suitcase.
+              <div class="task-meta">
+                The archive may open another hidden route tonight.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+99 BALLS
+======================================================= -->
+
+<section class="gifting">
+
+  <div class="page-shell">
+
+    <div class="gift-card card">
+
+      <div class="gift-top">
+
+        <div>
+
+          <div class="eyebrow">
+            Founding Reserve
+          </div>
+
+          <h2 class="section-title">
+            99 ceremonial contribution spheres.
+          </h2>
+
+        </div>
+
+        <div class="body-text" style="max-width:520px;">
+          Each sphere extends the emotional season differently —
+          from elder voice preservation to archive restoration,
+          cinematic chapters and living family discoveries.
+        </div>
+
+      </div>
+
+      <div class="balls-grid" id="ballsGrid"></div>
+
+      <div class="total-wrap">
+
+        <div>
+
+          <div class="total-label">
+            Current Founding Contribution
+          </div>
+
+          <div class="total-value" id="totalAmount">
+            ₹0
+          </div>
+
+        </div>
+
+        <div class="total-copy">
+          Contributions are softly distributed between the couple’s future,
+          living archive continuity, preservation infrastructure and family stewardship.
+        </div>
+
+      </div>
+
+      <div class="gift-summary">
+
+        <div class="split-card">
+
+          <div class="split-label">
+            Couple Gift
+          </div>
+
+          <div class="split-value" id="coupleSplit">
+            ₹0
+          </div>
+
+          <div class="split-copy">
+            Future home, shared life and founding family goals.
+          </div>
+
+        </div>
+
+        <div class="split-card">
+
+          <div class="split-label">
+            Arena Reserve
+          </div>
+
+          <div class="split-value" id="arenaSplit">
+            ₹0
+          </div>
+
+          <div class="split-copy">
+            Seasonal discoveries, archive expeditions and family routes.
+          </div>
+
+        </div>
+
+        <div class="split-card">
+
+          <div class="split-label">
+            Platform Preservation
+          </div>
+
+          <div class="split-value" id="platformSplit">
+            ₹0
+          </div>
+
+          <div class="split-copy">
+            Cinematic archive generation, preservation and continuity systems.
+          </div>
+
+        </div>
+
+        <div class="split-card">
+
+          <div class="split-label">
+            Steward Fees
+          </div>
+
+          <div class="split-value" id="stewardSplit">
+            ₹0
+          </div>
+
+          <div class="split-copy">
+            Family coordination, elder assistance and collection stewardship.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ======================================================
+FOOTER
+======================================================= -->
+
+<section class="footer">
+
+  <div class="page-shell">
+
+    <div class="footer-card card">
+
+      <div class="eyebrow">
+        MaisonMotif
+      </div>
+
+      <h2 class="section-title">
+        A living house of emotional continuity.
+      </h2>
+
+      <p class="footer-copy">
+        Not a feed. Not a wedding app. Not a collection of uploads.
+        MaisonMotif slowly transforms fragmented memories into family mythology,
+        preserving voices, rituals, routes and emotional patterns across generations.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+
+/* =========================================================
+99 BALL SYSTEM
+========================================================= */
+
+const grid = document.getElementById('ballsGrid');
+
+const totalAmount = document.getElementById('totalAmount');
+
+const coupleSplit = document.getElementById('coupleSplit');
+const arenaSplit = document.getElementById('arenaSplit');
+const platformSplit = document.getElementById('platformSplit');
+const stewardSplit = document.getElementById('stewardSplit');
+
+let activeBalls = 0;
+
+const BALL_VALUE = 1000;
+
+for(let i=1;i<=99;i++){
+
+  const ball = document.createElement('div');
+
+  ball.className = 'ball';
+
+  ball.innerHTML = i;
+
+  ball.addEventListener('click',()=>{
+
+    ball.classList.toggle('active');
+
+    activeBalls =
+      document.querySelectorAll('.ball.active').length;
+
+    updateTotals();
+
+  });
+
+  grid.appendChild(ball);
+
+}
+
+function updateTotals(){
+
+  const total = activeBalls * BALL_VALUE;
+
+  const couple = Math.round(total * .50);
+  const arena = Math.round(total * .20);
+  const platform = Math.round(total * .20);
+  const steward = Math.round(total * .10);
+
+  totalAmount.innerHTML =
+    '₹' + total.toLocaleString('en-IN');
+
+  coupleSplit.innerHTML =
+    '₹' + couple.toLocaleString('en-IN');
+
+  arenaSplit.innerHTML =
+    '₹' + arena.toLocaleString('en-IN');
+
+  platformSplit.innerHTML =
+    '₹' + platform.toLocaleString('en-IN');
+
+  stewardSplit.innerHTML =
+    '₹' + steward.toLocaleString('en-IN');
+
+}
+
+</script>
+
+</body>
+</html>

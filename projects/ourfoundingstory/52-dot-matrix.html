@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>MaisonMotif — Living Memory Matrix</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+
+  min-height:100vh;
+  overflow:hidden;
+
+  background:#0f0f10;
+  color:#f4eee3;
+
+  font-family:'Inter',sans-serif;
+
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* =========================================================
+THEME
+========================================================= */
+
+:root{
+
+  --bg:#0f0f10;
+  --bg-soft:#171718;
+
+  --text:#f4eee3;
+  --muted:#9f9482;
+
+  --gold:#c8a46f;
+  --gold-bright:#e0c28a;
+
+  --border:
+  rgba(255,255,255,.08);
+
+  --card:
+  rgba(255,255,255,.04);
+
+  --transition:
+  all .7s cubic-bezier(.19,1,.22,1);
+
+  --shadow:
+  0 30px 90px rgba(0,0,0,.45);
+
+}
+
+/* =========================================================
+BACKGROUND
+========================================================= */
+
+.background{
+
+  position:fixed;
+  inset:0;
+
+  background:
+  radial-gradient(circle at top left,
+  rgba(200,164,111,.10),
+  transparent 26%),
+
+  radial-gradient(circle at bottom right,
+  rgba(255,255,255,.03),
+  transparent 22%),
+
+  linear-gradient(
+  to bottom,
+  #0f0f10,
+  #121212,
+  #171718);
+
+}
+
+.grid-overlay{
+
+  position:absolute;
+  inset:0;
+
+  background-image:
+  linear-gradient(
+  rgba(255,255,255,.015) 1px,
+  transparent 1px),
+
+  linear-gradient(
+  90deg,
+  rgba(255,255,255,.015) 1px,
+  transparent 1px);
+
+  background-size:48px 48px;
+
+  opacity:.25;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.header{
+
+  position:fixed;
+  top:22px;
+  left:50%;
+  transform:translateX(-50%);
+
+  z-index:100;
+
+  width:min(94%,1500px);
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:18px 24px;
+
+  border-radius:999px;
+
+  border:1px solid var(--border);
+
+  background:rgba(12,12,12,.68);
+
+  backdrop-filter:blur(18px);
+
+}
+
+.logo{
+
+  font-family:'Playfair Display',serif;
+
+  font-size:28px;
+
+  letter-spacing:-0.04em;
+}
+
+.logo span{
+  color:var(--gold);
+}
+
+.header-right{
+  display:flex;
+  gap:12px;
+}
+
+.btn{
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,.04);
+
+  color:var(--text);
+
+  border-radius:999px;
+
+  padding:12px 18px;
+
+  cursor:pointer;
+
+  transition:var(--transition);
+}
+
+.btn:hover{
+
+  transform:translateY(-2px);
+
+  border-color:rgba(200,164,111,.35);
+}
+
+/* =========================================================
+INTRO
+========================================================= */
+
+.intro{
+
+  position:fixed;
+  top:130px;
+  left:60px;
+
+  z-index:10;
+
+  max-width:620px;
+}
+
+.eyebrow{
+
+  color:var(--gold);
+
+  font-size:11px;
+
+  letter-spacing:.28em;
+
+  text-transform:uppercase;
+}
+
+.intro h1{
+
+  margin-top:18px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:clamp(48px,7vw,88px);
+
+  line-height:.92;
+
+  letter-spacing:-0.05em;
+}
+
+.intro p{
+
+  margin-top:24px;
+
+  color:var(--muted);
+
+  line-height:1.9;
+
+  font-size:16px;
+}
+
+/* =========================================================
+MATRIX
+========================================================= */
+
+.matrix{
+
+  position:relative;
+
+  width:100vw;
+  height:100vh;
+}
+
+/* =========================================================
+DOTS
+========================================================= */
+
+.dot{
+
+  position:absolute;
+
+  width:18px;
+  height:18px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(circle at 35% 35%,
+  rgba(255,255,255,.9),
+  rgba(220,210,190,.2));
+
+  border:1px solid rgba(255,255,255,.14);
+
+  cursor:pointer;
+
+  transition:var(--transition);
+
+  box-shadow:
+  0 0 18px rgba(255,255,255,.08),
+  0 0 50px rgba(200,164,111,.08);
+
+}
+
+.dot:hover{
+
+  transform:scale(1.7);
+
+  z-index:100;
+
+  box-shadow:
+  0 0 30px rgba(255,255,255,.22),
+  0 0 90px rgba(200,164,111,.22);
+}
+
+.dot.active{
+
+  transform:scale(1.9);
+
+  background:
+  radial-gradient(circle at 35% 35%,
+  rgba(255,255,255,.98),
+  rgba(224,194,138,.4));
+
+  box-shadow:
+  0 0 40px rgba(255,255,255,.25),
+  0 0 120px rgba(200,164,111,.35);
+}
+
+/* =========================================================
+EMPTY HOLES
+========================================================= */
+
+.hole{
+
+  position:absolute;
+
+  width:18px;
+  height:18px;
+
+  border-radius:50%;
+
+  border:1px dashed rgba(255,255,255,.08);
+
+  opacity:.28;
+
+  transition:var(--transition);
+}
+
+.hole:hover{
+
+  opacity:.7;
+
+  border-color:rgba(200,164,111,.25);
+
+  transform:scale(1.5);
+}
+
+/* =========================================================
+LINES
+========================================================= */
+
+svg{
+
+  position:absolute;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  pointer-events:none;
+}
+
+.line{
+
+  fill:none;
+
+  stroke:rgba(200,164,111,.22);
+
+  stroke-width:1.5;
+
+  stroke-linecap:round;
+
+  opacity:.55;
+}
+
+/* =========================================================
+CARD
+========================================================= */
+
+.card{
+
+  position:fixed;
+
+  right:50px;
+  top:140px;
+
+  width:420px;
+
+  z-index:50;
+
+  background:rgba(20,20,20,.78);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid var(--border);
+
+  border-radius:34px;
+
+  padding:28px;
+
+  box-shadow:var(--shadow);
+
+  opacity:0;
+  pointer-events:none;
+
+  transform:translateY(20px);
+
+  transition:var(--transition);
+}
+
+.card.active{
+
+  opacity:1;
+  pointer-events:auto;
+
+  transform:translateY(0);
+}
+
+.card-type{
+
+  color:var(--gold);
+
+  font-size:11px;
+
+  text-transform:uppercase;
+
+  letter-spacing:.22em;
+}
+
+.card-title{
+
+  margin-top:18px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:42px;
+
+  line-height:1;
+}
+
+.card-body{
+
+  margin-top:20px;
+
+  color:var(--muted);
+
+  line-height:1.9;
+
+  font-size:15px;
+}
+
+.card-connections{
+
+  margin-top:26px;
+}
+
+.connection{
+
+  margin-top:12px;
+
+  padding:14px;
+
+  border:1px solid rgba(255,255,255,.05);
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.02);
+}
+
+.connection-title{
+
+  color:var(--text);
+
+  font-size:14px;
+
+  font-weight:600;
+}
+
+.connection-reason{
+
+  margin-top:8px;
+
+  color:var(--muted);
+
+  line-height:1.7;
+
+  font-size:13px;
+}
+
+.vote-row{
+
+  margin-top:12px;
+
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.vote{
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,.03);
+
+  border-radius:999px;
+
+  padding:8px 12px;
+
+  cursor:pointer;
+
+  transition:var(--transition);
+
+  font-size:12px;
+}
+
+.vote:hover{
+  border-color:rgba(200,164,111,.3);
+}
+
+.vote-count{
+  color:var(--gold);
+  font-size:12px;
+}
+
+/* =========================================================
+MODAL
+========================================================= */
+
+.modal{
+
+  position:fixed;
+  inset:0;
+
+  z-index:200;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(0,0,0,.75);
+
+  backdrop-filter:blur(12px);
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-card{
+
+  width:min(760px,92vw);
+
+  background:#171718;
+
+  border:1px solid var(--border);
+
+  border-radius:34px;
+
+  padding:34px;
+}
+
+.modal-title{
+
+  font-family:'Playfair Display',serif;
+
+  font-size:42px;
+}
+
+.modal-sub{
+
+  margin-top:14px;
+
+  color:var(--muted);
+
+  line-height:1.8;
+}
+
+.search{
+
+  margin-top:24px;
+
+  width:100%;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid var(--border);
+
+  border-radius:20px;
+
+  padding:18px;
+
+  color:var(--text);
+}
+
+.results{
+
+  margin-top:20px;
+
+  max-height:220px;
+
+  overflow:auto;
+}
+
+.result{
+
+  padding:16px;
+
+  border:1px solid rgba(255,255,255,.05);
+
+  border-radius:18px;
+
+  margin-bottom:10px;
+
+  cursor:pointer;
+
+  transition:var(--transition);
+}
+
+.result:hover{
+  border-color:rgba(200,164,111,.3);
+}
+
+.result.active{
+
+  background:rgba(200,164,111,.08);
+
+  border-color:rgba(200,164,111,.35);
+}
+
+.reason{
+
+  margin-top:18px;
+
+  width:100%;
+  min-height:120px;
+
+  resize:none;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid var(--border);
+
+  border-radius:20px;
+
+  padding:18px;
+
+  color:var(--text);
+
+  line-height:1.8;
+}
+
+.modal-actions{
+
+  margin-top:22px;
+
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+  .card{
+    width:calc(100vw - 40px);
+    left:20px;
+    right:20px;
+    top:auto;
+    bottom:20px;
+  }
+
+  .intro{
+    left:24px;
+    right:24px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background">
+<div class="grid-overlay"></div>
+</div>
+
+<header class="header">
+
+<div class="logo">
+Maison<span>Motif</span>
+</div>
+
+<div class="header-right">
+
+<button class="btn" id="addMemoryBtn">
+Add Memory
+</button>
+
+<button class="btn">
+The Archive Deepens
+</button>
+
+</div>
+
+</header>
+
+<section class="intro">
+
+<div class="eyebrow">
+Living Memory Matrix
+</div>
+
+<h1>
+Every memory leaves
+a hole beside it.
+</h1>
+
+<p>
+Hover through the archive to uncover emotional constellations. Some memories are already connected. Others remain unfinished territories waiting for future generations to complete the pattern.
+</p>
+
+</section>
+
+<div class="matrix" id="matrix">
+
+<svg id="svg"></svg>
+
+</div>
+
+<div class="card" id="card"></div>
+
+<div class="modal" id="modal">
+
+<div class="modal-card">
+
+<div class="modal-title">
+Connect Memory
+</div>
+
+<div class="modal-sub">
+Find another artifact and explain why these memories belong together.
+</div>
+
+<input
+class="search"
+id="searchInput"
+placeholder="Search family memories, journeys, rituals..."
+>
+
+<div class="results" id="results"></div>
+
+<textarea
+class="reason"
+id="reason"
+placeholder="Why do these memories belong together?"
+></textarea>
+
+<div class="modal-actions">
+
+<button class="btn" id="cancelBtn">
+Cancel
+</button>
+
+<button class="btn" id="saveBtn">
+Preserve Connection
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================================================
+LOCAL STORAGE
+========================================================= */
+
+const STORAGE_KEY = 'maisonmotif-memory-matrix';
+
+const defaultData = {
+
+posts:[
+
+{
+id:1,
+title:'The Flood Season Journey',
+type:'Voice Fragment',
+body:'“There was one green suitcase. Inside it were wedding letters, a railway watch, and your aunt’s recipe notebook.”',
+x:62,
+y:26
+},
+
+{
+id:2,
+title:'The Green Suitcase',
+type:'Recovered Photograph',
+body:'Recovered from a damaged monsoon album.',
+x:78,
+y:40
+},
+
+{
+id:3,
+title:'Who Is This Person?',
+type:'Child Discovery',
+body:'“Why does this uncle appear beside grandfather in every railway photograph?”',
+x:48,
+y:48
+},
+
+{
+id:4,
+title:'The Tea Garden Invitation',
+type:'Ritual Fragment',
+body:'A handwritten Bengali wedding invitation found inside an Assam tea chest.',
+x:70,
+y:60
+},
+
+{
+id:5,
+title:'The Monsoon Transfer',
+type:'Migration Story',
+body:'“We crossed before sunrise carrying everything we owned.”',
+x:54,
+y:70
+}
+
+],
+
+connections:[
+
+{
+id:100,
+from:1,
+to:2,
+reason:'The same green suitcase appears in both memories.',
+up:18,
+down:1
+},
+
+{
+id:101,
+from:1,
+to:5,
+reason:'Both memories reference the Assam flood-season railway transfer.',
+up:14,
+down:0
+},
+
+{
+id:102,
+from:2,
+to:3,
+reason:'The child’s question reopened the forgotten migration route.',
+up:9,
+down:2
+}
+
+]
+
+};
+
+let db =
+JSON.parse(localStorage.getItem(STORAGE_KEY))
+|| defaultData;
+
+function saveDB(){
+localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+}
+
+/* =========================================================
+STATE
+========================================================= */
+
+const matrix = document.getElementById('matrix');
+const svg = document.getElementById('svg');
+const card = document.getElementById('card');
+
+let activePost = null;
+let connectSource = null;
+let selectedPost = null;
+
+/* =========================================================
+RENDER
+========================================================= */
+
+function render(){
+
+matrix.querySelectorAll('.dot,.hole')
+.forEach(el=>el.remove());
+
+svg.innerHTML = '';
+
+/* LINES */
+
+db.connections.forEach(c=>{
+
+const from =
+db.posts.find(p=>p.id===c.from);
+
+const to =
+db.posts.find(p=>p.id===c.to);
+
+svg.innerHTML += `
+
+<line
+class="line"
+x1="${from.x}%"
+y1="${from.y}%"
+x2="${to.x}%"
+y2="${to.y}%"
+/>
+
+`;
+
+});
+
+/* DOTS */
+
+db.posts.forEach(post=>{
+
+const dot = document.createElement('div');
+
+dot.className =
+'dot ' + (activePost?.id===post.id ? 'active' : '');
+
+dot.style.left = post.x + '%';
+dot.style.top = post.y + '%';
+
+dot.onmouseenter = ()=>{
+showCard(post);
+};
+
+dot.onclick = ()=>{
+showCard(post);
+};
+
+matrix.appendChild(dot);
+
+/* HOLES */
+
+for(let i=0;i<4;i++){
+
+const hole = document.createElement('div');
+
+hole.className = 'hole';
+
+hole.style.left =
+(post.x + (Math.random()*18 - 9)) + '%';
+
+hole.style.top =
+(post.y + (Math.random()*18 - 9)) + '%';
+
+matrix.appendChild(hole);
+
+}
+
+});
+
+}
+
+render();
+
+/* =========================================================
+SHOW CARD
+========================================================= */
+
+function showCard(post){
+
+activePost = post;
+
+const related = db.connections.filter(c=>
+c.from===post.id || c.to===post.id
+);
+
+card.classList.add('active');
+
+card.innerHTML = `
+
+<div class="card-type">
+${post.type}
+</div>
+
+<div class="card-title">
+${post.title}
+</div>
+
+<div class="card-body">
+${post.body}
+</div>
+
+<div style="margin-top:24px;">
+<button class="btn" id="connectBtn">
+Connect Memory
+</button>
+</div>
+
+<div class="card-connections">
+
+${related.map(connection=>{
+
+const targetId =
+connection.from===post.id
+? connection.to
+: connection.from;
+
+const target =
+db.posts.find(p=>p.id===targetId);
+
+return `
+
+<div class="connection">
+
+<div class="connection-title">
+Connected to:
+${target.title}
+</div>
+
+<div class="connection-reason">
+${connection.reason}
+</div>
+
+<div class="vote-row">
+
+<button class="vote up" data-id="${connection.id}">
+Resonated
+</button>
+
+<div class="vote-count">
+${connection.up} Resonance
+</div>
+
+<button class="vote down" data-id="${connection.id}">
+Uncertain
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join('')}
+
+</div>
+
+`;
+
+document
+.getElementById('connectBtn')
+.onclick = ()=>openModal(post);
+
+card.querySelectorAll('.up')
+.forEach(btn=>{
+
+btn.onclick = ()=>{
+
+const id = +btn.dataset.id;
+
+const c =
+db.connections.find(x=>x.id===id);
+
+c.up++;
+
+saveDB();
+
+showCard(activePost);
+
+};
+
+});
+
+card.querySelectorAll('.down')
+.forEach(btn=>{
+
+btn.onclick = ()=>{
+
+const id = +btn.dataset.id;
+
+const c =
+db.connections.find(x=>x.id===id);
+
+c.down++;
+
+saveDB();
+
+showCard(activePost);
+
+};
+
+});
+
+render();
+
+}
+
+/* =========================================================
+MODAL
+========================================================= */
+
+const modal =
+document.getElementById('modal');
+
+function openModal(post){
+
+connectSource = post;
+
+modal.classList.add('active');
+
+renderResults('');
+
+}
+
+document
+.getElementById('cancelBtn')
+.onclick = ()=>{
+
+modal.classList.remove('active');
+
+};
+
+/* =========================================================
+SEARCH
+========================================================= */
+
+function renderResults(query){
+
+const wrap =
+document.getElementById('results');
+
+const filtered =
+db.posts.filter(p=>{
+
+if(p.id===connectSource.id)
+return false;
+
+return (
+p.title.toLowerCase().includes(query.toLowerCase()) ||
+p.body.toLowerCase().includes(query.toLowerCase())
+);
+
+});
+
+wrap.innerHTML = '';
+
+filtered.forEach(post=>{
+
+const div =
+document.createElement('div');
+
+div.className =
+'result ' +
+(selectedPost?.id===post.id
+? 'active'
+: '');
+
+div.innerHTML = `
+
+<div style="
+font-family:'Playfair Display',serif;
+font-size:24px;
+">
+${post.title}
+</div>
+
+<div style="
+margin-top:8px;
+color:var(--muted);
+line-height:1.7;
+font-size:14px;
+">
+${post.body}
+</div>
+
+`;
+
+div.onclick = ()=>{
+
+selectedPost = post;
+
+renderResults(
+document.getElementById('searchInput').value
+);
+
+};
+
+wrap.appendChild(div);
+
+});
+
+}
+
+document
+.getElementById('searchInput')
+.addEventListener('input',e=>{
+
+renderResults(e.target.value);
+
+});
+
+/* =========================================================
+SAVE CONNECTION
+========================================================= */
+
+document
+.getElementById('saveBtn')
+.onclick = ()=>{
+
+const reason =
+document.getElementById('reason').value.trim();
+
+if(!selectedPost || !reason){
+
+alert('Select a memory and explain the connection.');
+
+return;
+}
+
+db.connections.push({
+
+id:Date.now(),
+
+from:connectSource.id,
+to:selectedPost.id,
+
+reason,
+
+up:1,
+down:0
+
+});
+
+saveDB();
+
+modal.classList.remove('active');
+
+document.getElementById('reason').value='';
+
+render();
+
+showCard(connectSource);
+
+};
+
+/* =========================================================
+ADD MEMORY
+========================================================= */
+
+document
+.getElementById('addMemoryBtn')
+.onclick = ()=>{
+
+const title =
+prompt('Memory title');
+
+if(!title) return;
+
+const body =
+prompt('Short emotional fragment');
+
+if(!body) return;
+
+db.posts.push({
+
+id:Date.now(),
+
+title,
+
+body,
+
+type:'Memory Fragment',
+
+x:Math.random()*60 + 25,
+y:Math.random()*55 + 25
+
+});
+
+saveDB();
+
+render();
+
+};
+
+</script>
+
+</body>
+</html>
