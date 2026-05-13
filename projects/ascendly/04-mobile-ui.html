@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ascendly Rural Mobile UI</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Inter,system-ui,sans-serif;
+  background:#eef2f6;
+  color:#111827;
+}
+
+.app{
+  max-width:430px;
+  margin:auto;
+  min-height:100vh;
+  background:white;
+  position:relative;
+  overflow:hidden;
+}
+
+.header{
+  padding:22px 18px 18px;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+}
+
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.header h1{
+  font-size:24px;
+  margin-bottom:6px;
+}
+
+.header p{
+  font-size:14px;
+  color:#cbd5e1;
+  line-height:1.5;
+}
+
+.battery{
+  background:rgba(255,255,255,0.12);
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:12px;
+}
+
+.current-class{
+  margin-top:18px;
+  background:rgba(255,255,255,0.08);
+  border-radius:18px;
+  padding:14px;
+}
+
+.current-class h3{
+  font-size:13px;
+  color:#cbd5e1;
+  margin-bottom:6px;
+}
+
+.current-class strong{
+  font-size:22px;
+}
+
+.memory-strip{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding:14px 18px;
+  background:white;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.memory-strip::-webkit-scrollbar{
+  display:none;
+}
+
+.memory-chip{
+  min-width:max-content;
+  background:#eef2ff;
+  color:#4338ca;
+  padding:10px 14px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.memory-chip:active{
+  transform:scale(0.96);
+}
+
+.section{
+  padding:18px;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.section-title h2{
+  font-size:18px;
+}
+
+.section-title span{
+  font-size:13px;
+  color:#64748b;
+}
+
+.student-list{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.student-card{
+  background:white;
+  border-radius:24px;
+  padding:14px;
+  display:flex;
+  gap:14px;
+  align-items:center;
+  box-shadow:0 6px 18px rgba(15,23,42,0.06);
+  border:2px solid transparent;
+  cursor:pointer;
+  transition:0.25s ease;
+}
+
+.student-card.active{
+  border-color:#2563eb;
+  transform:translateY(-2px);
+}
+
+.student-photo{
+  width:66px;
+  height:66px;
+  border-radius:20px;
+  overflow:hidden;
+  flex-shrink:0;
+  position:relative;
+}
+
+.student-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.status-dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  position:absolute;
+  right:4px;
+  bottom:4px;
+  border:2px solid white;
+}
+
+.student-content{
+  flex:1;
+}
+
+.student-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+
+.student-name{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:4px;
+}
+
+.student-class{
+  color:#64748b;
+  font-size:13px;
+}
+
+.strength-pill{
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:11px;
+  color:white;
+  font-weight:700;
+}
+
+.last-note{
+  margin-top:10px;
+  background:#f8fafc;
+  border-radius:14px;
+  padding:10px;
+  font-size:13px;
+  line-height:1.5;
+  color:#334155;
+}
+
+.quick-actions{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:430px;
+  background:white;
+  border-top:1px solid #e5e7eb;
+  padding:14px 16px 18px;
+}
+
+.action-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+
+.action-btn{
+  border:none;
+  border-radius:18px;
+  padding:14px 8px;
+  color:white;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  transition:0.2s ease;
+}
+
+.action-btn:active{
+  transform:scale(0.96);
+}
+
+.note-panel{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:-100%;
+  background:white;
+  border-radius:28px 28px 0 0;
+  padding:22px 18px 40px;
+  transition:0.35s ease;
+  box-shadow:0 -12px 40px rgba(0,0,0,0.12);
+  z-index:20;
+  max-width:430px;
+  margin:auto;
+}
+
+.note-panel.open{
+  bottom:0;
+}
+
+.note-panel h3{
+  font-size:22px;
+  margin-bottom:6px;
+}
+
+.note-panel p{
+  color:#64748b;
+  font-size:14px;
+  margin-bottom:18px;
+}
+
+.note-box{
+  width:100%;
+  min-height:120px;
+  border:none;
+  background:#f1f5f9;
+  border-radius:20px;
+  padding:16px;
+  resize:none;
+  font-size:15px;
+  line-height:1.5;
+  margin-bottom:16px;
+}
+
+.voice-btn{
+  width:100%;
+  border:none;
+  background:#111827;
+  color:white;
+  border-radius:18px;
+  padding:16px;
+  font-size:15px;
+  font-weight:700;
+  margin-bottom:14px;
+}
+
+.submit-btn{
+  width:100%;
+  border:none;
+  background:#2563eb;
+  color:white;
+  border-radius:18px;
+  padding:18px;
+  font-size:16px;
+  font-weight:700;
+}
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,0.45);
+  opacity:0;
+  pointer-events:none;
+  transition:0.25s;
+}
+
+.overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.bottom-space{
+  height:140px;
+}
+
+@media(max-width:380px){
+  .student-name{
+    font-size:16px;
+  }
+
+  .strength-pill{
+    font-size:10px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="header">
+
+    <div class="header-top">
+      <div>
+        <h1>Ascendly</h1>
+        <p>Preserving moments worth remembering.</p>
+      </div>
+
+      <div class="battery">Offline Ready</div>
+    </div>
+
+    <div class="current-class">
+      <h3>Current Class</h3>
+      <strong>Class 9B • Science</strong>
+    </div>
+
+  </div>
+
+  <div class="memory-strip">
+    <div class="memory-chip">Recent: Aarav</div>
+    <div class="memory-chip">Contribution: Meena</div>
+    <div class="memory-chip">Initiative: Farhan</div>
+    <div class="memory-chip">Absent Earlier</div>
+    <div class="memory-chip">Science Club</div>
+  </div>
+
+  <div class="section">
+
+    <div class="section-title">
+      <h2>Students</h2>
+      <span>Tap a student</span>
+    </div>
+
+    <div class="student-list" id="studentList"></div>
+
+  </div>
+
+  <div class="bottom-space"></div>
+
+  <div class="quick-actions">
+
+    <div class="action-grid">
+      <button class="action-btn" style="background:#16a34a" onclick="selectStrength('Helped Others')">
+        Helped Others
+      </button>
+
+      <button class="action-btn" style="background:#2563eb" onclick="selectStrength('Took Initiative')">
+        Took Initiative
+      </button>
+
+      <button class="action-btn" style="background:#ea580c" onclick="selectStrength('Persisted')">
+        Persisted
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+
+<div class="note-panel" id="notePanel">
+  <h3 id="panelStudent">Aarav S.</h3>
+  <p id="panelStrength">Helped Others</p>
+
+  <textarea class="note-box" id="noteBox" placeholder="Write one short observation..."></textarea>
+
+  <button class="voice-btn">
+    🎤 Record Voice Note
+  </button>
+
+  <button class="submit-btn" onclick="saveObservation()">
+    Save Observation
+  </button>
+</div>
+
+<script>
+
+const students = [
+  {
+    name:'Aarav S.',
+    class:'9B • Science Club',
+    strength:'Initiative',
+    color:'#2563eb',
+    note:'Started peer study group voluntarily.',
+    image:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop'
+  },
+  {
+    name:'Meena',
+    class:'9B • Library Volunteer',
+    strength:'Contribution',
+    color:'#16a34a',
+    note:'Helped classmates after school during exams.',
+    image:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop'
+  },
+  {
+    name:'Farhan',
+    class:'9B • Football Group',
+    strength:'Resilience',
+    color:'#ea580c',
+    note:'Came despite heavy rain and transport issues.',
+    image:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop'
+  },
+  {
+    name:'Pooja K.',
+    class:'9B • Art Team',
+    strength:'Creativity',
+    color:'#9333ea',
+    note:'Created handmade awareness posters for school.',
+    image:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop'
+  },
+  {
+    name:'Kabir',
+    class:'9B • Robotics',
+    strength:'Curiosity',
+    color:'#0891b2',
+    note:'Asked unusually deep questions in science class.',
+    image:'https://images.unsplash.com/photo-1504593811423-6dd665756598?q=80&w=400&auto=format&fit=crop'
+  }
+];
+
+const studentList = document.getElementById('studentList');
+
+let selectedStudent = students[0];
+let selectedStrength = 'Helped Others';
+
+students.forEach((student,index)=>{
+
+  const card = document.createElement('div');
+  card.className = 'student-card';
+
+  if(index===0){
+    card.classList.add('active');
+  }
+
+  card.innerHTML = `
+    <div class="student-photo">
+      <img src="${student.image}" />
+      <div class="status-dot" style="background:${student.color}"></div>
+    </div>
+
+    <div class="student-content">
+
+      <div class="student-top">
+
+        <div>
+          <div class="student-name">${student.name}</div>
+          <div class="student-class">${student.class}</div>
+        </div>
+
+        <div class="strength-pill" style="background:${student.color}">
+          ${student.strength}
+        </div>
+
+      </div>
+
+      <div class="last-note">
+        “${student.note}”
+      </div>
+
+    </div>
+  `;
+
+  card.addEventListener('click',()=>{
+
+    document.querySelectorAll('.student-card')
+      .forEach(el=>el.classList.remove('active'));
+
+    card.classList.add('active');
+
+    selectedStudent = student;
+  });
+
+  studentList.appendChild(card);
+});
+
+function selectStrength(strength){
+
+  selectedStrength = strength;
+
+  document.getElementById('panelStudent').innerText = selectedStudent.name;
+  document.getElementById('panelStrength').innerText = strength;
+
+  document.getElementById('notePanel').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+
+  document.getElementById('noteBox').focus();
+}
+
+function closePanel(){
+
+  document.getElementById('notePanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function saveObservation(){
+
+  const note = document.getElementById('noteBox').value;
+
+  if(note.trim()===''){
+    alert('Please write a short observation.');
+    return;
+  }
+
+  alert(
+    `Saved for ${selectedStudent.name}\n\n${selectedStrength}\n\n"${note}"`
+  );
+
+  document.getElementById('noteBox').value='';
+
+  closePanel();
+}
+
+</script>
+
+</body>
+</html>

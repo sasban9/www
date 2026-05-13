@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ascendly — Dynamic Continuity Profiles</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,system-ui,sans-serif;
+    background:#0b1016;
+    color:#eef4fb;
+    overflow-x:hidden;
+}
+
+.bg{
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at top left, rgba(78,168,222,0.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(87,204,153,0.10), transparent 30%);
+    z-index:-1;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.topbar{
+    margin-bottom:30px;
+}
+
+.select{
+    width:100%;
+    background:#141c25;
+    border:1px solid rgba(255,255,255,0.08);
+    color:white;
+    padding:20px 24px;
+    border-radius:22px;
+    font-size:18px;
+    outline:none;
+    transition:border 0.3s ease, transform 0.3s ease;
+}
+
+.select:focus{
+    border-color:#4ea8de;
+    transform:translateY(-2px);
+}
+
+.panel{
+    background:rgba(18,24,32,0.88);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:30px;
+    padding:34px;
+    backdrop-filter:blur(14px);
+    animation:fadeUp 0.6s ease;
+    min-height:400px;
+}
+
+.header{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    margin-bottom:30px;
+}
+
+.avatar{
+    width:92px;
+    height:92px;
+    border-radius:28px;
+    background:linear-gradient(135deg,#4ea8de,#57cc99);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    font-weight:700;
+    flex-shrink:0;
+}
+
+.meta h1{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.meta p{
+    color:#97a8bb;
+    line-height:1.6;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:16px;
+    margin-bottom:34px;
+}
+
+.stat{
+    background:#151d26;
+    border-radius:20px;
+    padding:22px;
+    transition:transform 0.25s ease;
+}
+
+.stat:hover{
+    transform:translateY(-4px);
+}
+
+.stat h2{
+    font-size:32px;
+    margin-bottom:6px;
+}
+
+.stat span{
+    color:#8da1b4;
+    font-size:14px;
+}
+
+.section-title{
+    font-size:20px;
+    margin-bottom:18px;
+}
+
+.cards{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.card{
+    background:#151d25;
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:22px;
+    padding:22px;
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
+    animation:fadeIn 0.5s ease;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+    background:#1a232d;
+    border-color:rgba(255,255,255,0.10);
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:18px;
+}
+
+.name{
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:5px;
+}
+
+.subtitle{
+    color:#91a3b5;
+    font-size:14px;
+}
+
+.note{
+    margin-top:16px;
+    line-height:1.7;
+    color:#d9e6f2;
+}
+
+.badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:16px;
+}
+
+.badge{
+    background:#223142;
+    padding:8px 13px;
+    border-radius:999px;
+    font-size:12px;
+    color:#dce9f7;
+}
+
+.empty{
+    text-align:center;
+    padding:100px 20px;
+    color:#8092a4;
+    font-size:18px;
+}
+
+.timeline{
+    margin-top:30px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.timeline-item{
+    border-left:2px solid rgba(87,204,153,0.35);
+    padding-left:16px;
+    position:relative;
+}
+
+.timeline-item::before{
+    content:"";
+    position:absolute;
+    left:-6px;
+    top:4px;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#57cc99;
+}
+
+.timeline-year{
+    color:#57cc99;
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.timeline-text{
+    color:#dbe7f2;
+    line-height:1.6;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="container">
+
+    <div class="topbar">
+
+        <select id="entitySelect" class="select">
+            <option value="">Select Student or Teacher</option>
+        </select>
+
+    </div>
+
+    <div id="content" class="panel">
+
+        <div class="empty">
+            Select a teacher or student from the dropdown above.
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================
+   MASTER JSON DATA
+========================= */
+
+const db = {
+
+    teachers: [
+
+        {
+            id:"t1",
+            name:"Meera Sharma",
+            role:"Science Teacher • Jaipur",
+            philosophy:"I notice students who quietly persist and help others.",
+            years:14
+        },
+
+        {
+            id:"t2",
+            name:"Rakesh Verma",
+            role:"Mathematics Teacher • Delhi",
+            philosophy:"Curiosity matters more than confidence.",
+            years:11
+        },
+
+        {
+            id:"t3",
+            name:"Anita Rao",
+            role:"Computer Science Teacher • Pune",
+            philosophy:"Students reveal themselves through projects, not marks.",
+            years:9
+        }
+
+    ],
+
+    students: [
+
+        {
+            id:"s1",
+            name:"Aarav Singh",
+            headline:"Community Builder • Robotics",
+            timeline:[
+                {
+                    year:"2028",
+                    text:"Started peer tutoring group voluntarily."
+                },
+                {
+                    year:"2031",
+                    text:"Led local robotics workshop for younger students."
+                }
+            ]
+        },
+
+        {
+            id:"s2",
+            name:"Meena Patel",
+            headline:"Resilience • Leadership",
+            timeline:[
+                {
+                    year:"2029",
+                    text:"Organized student study circles during flood disruptions."
+                }
+            ]
+        },
+
+        {
+            id:"s3",
+            name:"Farhan Ali",
+            headline:"Craftsmanship • Curiosity",
+            timeline:[
+                {
+                    year:"2030",
+                    text:"Built irrigation prototypes from discarded electronics."
+                }
+            ]
+        }
+
+    ],
+
+    observations:[
+
+        {
+            teacherId:"t1",
+            studentId:"s1",
+            strengths:["Initiative","Contribution"],
+            note:"Started peer science learning group voluntarily after school."
+        },
+
+        {
+            teacherId:"t2",
+            studentId:"s1",
+            strengths:["Leadership","Responsibility"],
+            note:"Stayed back repeatedly to help weaker students before exams."
+        },
+
+        {
+            teacherId:"t3",
+            studentId:"s1",
+            strengths:["Curiosity","Craftsmanship"],
+            note:"Built robotics prototypes independently beyond syllabus."
+        },
+
+        {
+            teacherId:"t1",
+            studentId:"s2",
+            strengths:["Resilience","Leadership"],
+            note:"Continued attending during severe transport disruptions."
+        },
+
+        {
+            teacherId:"t2",
+            studentId:"s2",
+            strengths:["Contribution"],
+            note:"Helped classmates organize revision sessions voluntarily."
+        },
+
+        {
+            teacherId:"t3",
+            studentId:"s3",
+            strengths:["Craftsmanship","Curiosity"],
+            note:"Built low-cost irrigation systems from recycled hardware."
+        }
+
+    ]
+
+};
+
+/* =========================
+   DROPDOWN POPULATION
+========================= */
+
+const select =
+    document.getElementById("entitySelect");
+
+db.teachers.forEach(t=>{
+
+    select.innerHTML += `
+        <option value="teacher-${t.id}">
+            👩‍🏫 ${t.name}
+        </option>
+    `;
+});
+
+db.students.forEach(s=>{
+
+    select.innerHTML += `
+        <option value="student-${s.id}">
+            👨‍🎓 ${s.name}
+        </option>
+    `;
+});
+
+/* =========================
+   EVENT LISTENER
+========================= */
+
+select.addEventListener("change",(e)=>{
+
+    const value = e.target.value;
+
+    if(!value) return;
+
+    const [type,id] = value.split("-");
+
+    if(type === "teacher"){
+        renderTeacher(id);
+    } else {
+        renderStudent(id);
+    }
+
+});
+
+/* =========================
+   RENDER TEACHER
+========================= */
+
+function renderTeacher(id){
+
+    const teacher =
+        db.teachers.find(t=>t.id===id);
+
+    const observations =
+        db.observations.filter(o=>o.teacherId===id);
+
+    const content =
+        document.getElementById("content");
+
+    const uniqueStudents =
+        [...new Set(
+            observations.map(o=>o.studentId)
+        )];
+
+    const initials =
+        teacher.name
+        .split(" ")
+        .map(n=>n[0])
+        .join("");
+
+    const cards =
+        observations.map(obs=>{
+
+            const student =
+                db.students.find(
+                    s=>s.id===obs.studentId
+                );
+
+            return `
+                <div class="card">
+
+                    <div class="row">
+
+                        <div>
+                            <div class="name">
+                                ${student.name}
+                            </div>
+
+                            <div class="subtitle">
+                                ${student.headline}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="badges">
+                        ${obs.strengths
+                            .map(s=>
+                                `<div class="badge">${s}</div>`
+                            ).join("")}
+                    </div>
+
+                    <div class="note">
+                        "${obs.note}"
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
+    content.innerHTML = `
+
+        <div class="header">
+
+            <div class="avatar">
+                ${initials}
+            </div>
+
+            <div class="meta">
+
+                <h1>${teacher.name}</h1>
+
+                <p>
+                    ${teacher.role}
+                </p>
+
+                <p style="margin-top:10px;">
+                    ${teacher.philosophy}
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h2>${teacher.years}</h2>
+                <span>Years Active</span>
+            </div>
+
+            <div class="stat">
+                <h2>${observations.length}</h2>
+                <span>Total Endorsements</span>
+            </div>
+
+            <div class="stat">
+                <h2>${uniqueStudents.length}</h2>
+                <span>Students Observed</span>
+            </div>
+
+        </div>
+
+        <div class="section-title">
+            Students Endorsed
+        </div>
+
+        <div class="cards">
+            ${cards}
+        </div>
+
+    `;
+
+}
+
+/* =========================
+   RENDER STUDENT
+========================= */
+
+function renderStudent(id){
+
+    const student =
+        db.students.find(s=>s.id===id);
+
+    const observations =
+        db.observations.filter(o=>o.studentId===id);
+
+    const content =
+        document.getElementById("content");
+
+    const initials =
+        student.name
+        .split(" ")
+        .map(n=>n[0])
+        .join("");
+
+    const cards =
+        observations.map(obs=>{
+
+            const teacher =
+                db.teachers.find(
+                    t=>t.id===obs.teacherId
+                );
+
+            return `
+                <div class="card">
+
+                    <div class="row">
+
+                        <div>
+                            <div class="name">
+                                ${teacher.name}
+                            </div>
+
+                            <div class="subtitle">
+                                ${teacher.role}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="badges">
+                        ${obs.strengths
+                            .map(s=>
+                                `<div class="badge">${s}</div>`
+                            ).join("")}
+                    </div>
+
+                    <div class="note">
+                        "${obs.note}"
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
+    const timeline =
+        student.timeline
+        .map(t=>`
+            <div class="timeline-item">
+
+                <div class="timeline-year">
+                    ${t.year}
+                </div>
+
+                <div class="timeline-text">
+                    ${t.text}
+                </div>
+
+            </div>
+        `).join("");
+
+    content.innerHTML = `
+
+        <div class="header">
+
+            <div class="avatar">
+                ${initials}
+            </div>
+
+            <div class="meta">
+
+                <h1>${student.name}</h1>
+
+                <p>
+                    ${student.headline}
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h2>${observations.length}</h2>
+                <span>Teacher Endorsements</span>
+            </div>
+
+            <div class="stat">
+                <h2>
+                    ${
+                        observations.reduce(
+                            (a,b)=>
+                                a + b.strengths.length,
+                            0
+                        )
+                    }
+                </h2>
+                <span>Strength Signals</span>
+            </div>
+
+            <div class="stat">
+                <h2>${student.timeline.length}</h2>
+                <span>Growth Moments</span>
+            </div>
+
+        </div>
+
+        <div class="section-title">
+            Teacher Observations
+        </div>
+
+        <div class="cards">
+            ${cards}
+        </div>
+
+        <div class="section-title" style="margin-top:34px;">
+            Growth Timeline
+        </div>
+
+        <div class="timeline">
+            ${timeline}
+        </div>
+
+    `;
+
+}
+
+</script>
+
+</body>
+</html>

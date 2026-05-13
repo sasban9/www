@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ascendly — Progressive Teacher Experience</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+div{scrollbar-width: thin;scrollbar-color: rgb(11, 66, 102) transparent;}
+body{
+    font-family:Inter,system-ui,sans-serif;
+    background:#0b1015;
+    color:white;
+    overflow:hidden;
+}
+
+.app{
+    display:flex;
+    height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:320px;
+    background:#111821;
+    border-right:1px solid rgba(255,255,255,0.06);
+    padding:28px;
+    overflow-y:auto;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#91a0af;
+    line-height:1.6;
+    font-size:14px;
+    margin-bottom:28px;
+}
+
+.stage-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.stage-btn{
+    background:#1a2330;
+    border:1px solid transparent;
+    color:white;
+    padding:18px;
+    border-radius:18px;
+    cursor:pointer;
+    transition:0.25s;
+}
+
+.stage-btn:hover{
+    transform:translateX(6px);
+}
+
+.stage-btn.active{
+    border:1px solid #fff;
+    background:#243142;
+}
+
+.stage-btn h3{
+    font-size:15px;
+    margin-bottom:6px;
+}
+
+.stage-btn p{
+    color:#91a0af;
+    font-size:12px;
+    line-height:1.5;
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    overflow:auto;
+    position:relative;
+    background:
+    radial-gradient(circle at top left,#1a2431 0%,transparent 30%),
+    radial-gradient(circle at bottom right,#111927 0%,transparent 35%),
+    #0a0f14;
+}
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    backdrop-filter:blur(14px);
+    background:rgba(11,16,21,0.82);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    padding:24px 40px;
+}
+
+.topbar h1{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.topbar p{
+    color:#8ea0b2;
+    line-height:1.6;
+    max-width:900px;
+}
+
+/* SCREEN */
+
+.screen{
+    padding:40px;padding-bottom: 240px;
+    display:grid;
+    gap:24px;
+}
+
+.card{
+    background:#131b24;
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:28px;
+    padding:28px;
+    opacity:0;
+    transform:translateY(30px);
+    transition:0.6s ease;
+}
+
+.card.visible{
+    opacity:1;
+    transform:translateY(0px);
+}
+
+.card h2{
+    margin-bottom:18px;
+    font-size:24px;
+}
+
+.card p{
+    color:#9fb0c2;
+    line-height:1.7;
+}
+
+/* HOME */
+
+.home-prompt{
+    font-size:34px;
+    line-height:1.4;
+    margin-bottom:24px;
+}
+
+.primary-btn{
+    display:inline-block;
+    padding:16px 26px;
+    background:white;
+    color:black;
+    border-radius:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+/* MINI DOTS */
+
+.dots{
+    display:flex;
+    gap:10px;
+    margin-top:24px;
+}
+
+.dot{
+    width:14px;
+    height:14px;
+    border-radius:4px;
+    background:#2f3b4a;
+    animation:pulse 2s infinite;
+}
+
+.dot:nth-child(1){ background:#57cc99; }
+.dot:nth-child(2){ background:#ff9f1c; }
+.dot:nth-child(3){ background:#4ea8de; }
+
+@keyframes pulse{
+    0%{ transform:scale(1); opacity:0.7; }
+    50%{ transform:scale(1.25); opacity:1; }
+    100%{ transform:scale(1); opacity:0.7; }
+}
+
+/* FORM */
+
+.student-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+    gap:16px;
+    margin-top:24px;
+}
+
+.student{
+    background:#1c2733;
+    border-radius:18px;
+    padding:18px;
+    text-align:center;
+    transition:0.25s;
+}
+
+.student:hover{
+    transform:translateY(-4px);
+}
+
+.avatar{
+    width:54px;
+    height:54px;
+    border-radius:50%;
+    background:#2e3d4f;
+    margin:auto;
+    margin-bottom:12px;
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:24px;
+}
+
+.tag{
+    background:#1d2935;
+    border-radius:999px;
+    padding:12px 18px;
+    font-size:14px;
+}
+
+.hidden-feature{
+    opacity:0;
+    transform:scale(0.95);
+    pointer-events:none;
+    transition:0.6s;
+    max-height:0;
+    overflow:hidden;
+}
+
+.hidden-feature.visible{
+    opacity:1;
+    transform:scale(1);
+    pointer-events:auto;
+    max-height:1000px;
+}
+
+/* TIMELINE */
+
+.timeline{
+    display:flex;
+    gap:12px;
+    margin-top:24px;
+    flex-wrap:wrap;
+}
+
+.timeline-item{
+    background:#1c2734;
+    border-radius:18px;
+    padding:18px;
+    width:220px;
+}
+
+.timeline-item span{
+    color:#8ea0b2;
+    font-size:12px;
+}
+
+.timeline-item h4{
+    margin-top:8px;
+    margin-bottom:10px;
+}
+
+/* FEATURE GRID */
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:18px;
+    margin-top:24px;
+}
+
+.feature{
+    background:#18222d;
+    border-radius:20px;
+    padding:22px;
+    border:1px solid rgba(255,255,255,0.05);
+}
+
+.feature h4{
+    margin-bottom:10px;
+    font-size:18px;
+}
+
+.feature p{
+    font-size:14px;
+}
+
+/* FLOATING */
+
+.floating-panel{
+    position:fixed;
+    bottom:28px;
+    right:28px;
+    background:#131d27;
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:24px;
+    padding:22px;
+    width:320px;
+    backdrop-filter:blur(20px);
+    box-shadow:0 10px 40px rgba(0,0,0,0.35);
+}
+
+.floating-panel h3{
+    margin-bottom:10px;
+}
+
+.floating-panel p{
+    color:#9fb0c2;
+    line-height:1.6;
+    font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="sidebar">
+
+        <div class="logo">Ascendly</div>
+
+        <div class="subtitle">
+            Progressive teacher experience system.
+            Navigate through the stages to watch
+            the platform slowly reveal deeper capabilities.
+        </div>
+
+        <div class="stage-list">
+
+            <div class="stage-btn active" onclick="showStage(0,this)">
+                <h3>Stage 0 — Invisible Entry</h3>
+                <p>One observation. One sentence. No complexity.</p>
+            </div>
+
+            <div class="stage-btn" onclick="showStage(1,this)">
+                <h3>Stage 1 — Familiarity</h3>
+                <p>Past moments and memory continuity appear.</p>
+            </div>
+
+            <div class="stage-btn" onclick="showStage(2,this)">
+                <h3>Stage 2 — Gentle Expansion</h3>
+                <p>More dimensions and photo uploads unlock.</p>
+            </div>
+
+            <div class="stage-btn" onclick="showStage(3,this)">
+                <h3>Stage 3 — Reflection</h3>
+                <p>Teachers begin seeing their observation patterns.</p>
+            </div>
+
+            <div class="stage-btn" onclick="showStage(4,this)">
+                <h3>Stage 4 — Continuity</h3>
+                <p>Student growth timelines emerge.</p>
+            </div>
+
+            <div class="stage-btn" onclick="showStage(5,this)">
+                <h3>Stage 5 — Teacher Identity</h3>
+                <p>Legacy and contribution layers appear.</p>
+            </div>
+
+            <div class="stage-btn" onclick="showStage(6,this)">
+                <h3>Stage 6 — Advanced Observer</h3>
+                <p>Institutional memory and multi-year continuity.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="topbar">
+
+            <h1 id="stageTitle">
+                Stage 0 — Invisible Entry
+            </h1>
+
+            <p id="stageDescription">
+                The teacher should feel the app barely exists.
+                One observation. No dashboards. No complexity.
+            </p>
+
+        </div>
+
+        <div class="screen">
+
+            <!-- HOME -->
+
+            <div class="card visible">
+
+                <div class="home-prompt">
+                    Good afternoon, Meera.<br><br>
+                    Did any student surprise you this week?
+                </div>
+
+                <div class="primary-btn">
+                    Record Moment
+                </div>
+
+                <div class="dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+
+            </div>
+
+            <!-- STUDENTS -->
+
+            <div class="card visible">
+
+                <h2>Student Selection</h2>
+
+                <p>
+                    Teachers recognize students visually.
+                    The interaction should feel effortless and familiar.
+                </p>
+
+                <div class="student-grid">
+
+                    <div class="student">
+                        <div class="avatar"></div>
+                        Aarav
+                    </div>
+
+                    <div class="student">
+                        <div class="avatar"></div>
+                        Meena
+                    </div>
+
+                    <div class="student">
+                        <div class="avatar"></div>
+                        Farhan
+                    </div>
+
+                    <div class="student">
+                        <div class="avatar"></div>
+                        Pooja
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BASIC TAGS -->
+
+            <div class="card visible">
+
+                <h2>What Stood Out?</h2>
+
+                <div class="tags">
+
+                    <div class="tag">
+                        Helped Others
+                    </div>
+
+                    <div class="tag">
+                        Took Initiative
+                    </div>
+
+                    <div class="tag">
+                        Persisted Through Difficulty
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- STAGE 1 -->
+
+            <div id="feature1" class="card hidden-feature">
+
+                <h2>Past Moments</h2>
+
+                <div class="timeline">
+
+                    <div class="timeline-item">
+                        <span>2 weeks ago</span>
+                        <h4>Aarav</h4>
+                        <p>Stayed after school helping clean classroom.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span>Last Friday</span>
+                        <h4>Meena</h4>
+                        <p>Started peer study group voluntarily.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- STAGE 2 -->
+
+            <div id="feature2" class="card hidden-feature">
+
+                <h2>Expanded Human Dimensions</h2>
+
+                <div class="tags">
+
+                    <div class="tag">Curiosity</div>
+                    <div class="tag">Creativity</div>
+                    <div class="tag">Responsibility</div>
+                    <div class="tag">Leadership</div>
+
+                </div>
+
+                <div style="margin-top:26px;" class="primary-btn">
+                    + Add Photo
+                </div>
+
+            </div>
+
+            <!-- STAGE 3 -->
+
+            <div id="feature3" class="card hidden-feature">
+
+                <h2>Reflection Summary</h2>
+
+                <div class="feature-grid">
+
+                    <div class="feature">
+                        <h4>You Often Notice</h4>
+                        <p>
+                            Contribution • Quiet leadership • Persistence
+                        </p>
+                    </div>
+
+                    <div class="feature">
+                        <h4>Students Not Seen Recently</h4>
+                        <p>
+                            Farhan was last observed 3 months ago.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- STAGE 4 -->
+
+            <div id="feature4" class="card hidden-feature">
+
+                <h2>Student Growth Timeline</h2>
+
+                <div class="timeline">
+
+                    <div class="timeline-item">
+                        <span>2028</span>
+                        <h4>Contribution</h4>
+                        <p>Helped classmates prepare for exams.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span>2029</span>
+                        <h4>Initiative</h4>
+                        <p>Started robotics discussion group.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span>2030</span>
+                        <h4>Leadership</h4>
+                        <p>Led village science exhibition.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- STAGE 5 -->
+
+            <div id="feature5" class="card hidden-feature">
+
+                <h2>Teacher Legacy Layer</h2>
+
+                <div class="feature-grid">
+
+                    <div class="feature">
+                        <h4>Moments You Preserved</h4>
+                        <p>
+                            The science club Aarav runs today
+                            began with your Class 8 observation.
+                        </p>
+                    </div>
+
+                    <div class="feature">
+                        <h4>Contribution Archive</h4>
+                        <p>
+                            148 observations • 38 projects •
+                            11 years active
+                        </p>
+                    </div>
+
+                    <div class="feature">
+                        <h4>Teacher Philosophy</h4>
+                        <p>
+                            “Quiet persistence matters more
+                            than classroom confidence.”
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- STAGE 6 -->
+
+            <div id="feature6" class="card hidden-feature">
+
+                <h2>Institutional Memory Layer</h2>
+
+                <div class="feature-grid">
+
+                    <div class="feature">
+                        <h4>Pattern Continuity</h4>
+                        <p>
+                            Students observed for contribution
+                            later showed high community leadership.
+                        </p>
+                    </div>
+
+                    <div class="feature">
+                        <h4>Multi-Teacher Agreement</h4>
+                        <p>
+                            Strong alignment across teachers
+                            on resilience and initiative signals.
+                        </p>
+                    </div>
+
+                    <div class="feature">
+                        <h4>Alumni Continuity</h4>
+                        <p>
+                            Former students connected adult
+                            public profiles to early growth journey.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="floating-panel">
+
+    <h3>Core UX Principle</h3>
+
+    <p>
+        Complexity is earned, not exposed.
+        The platform should feel like a slowly
+        unfolding memory system, not software
+        demanding compliance.
+    </p>
+
+</div>
+
+<script>
+
+const stages = [
+
+{
+title:"Stage 0 — Invisible Entry",
+description:"One observation. One sentence. No analytics. No pressure."
+},
+
+{
+title:"Stage 1 — Familiarity Layer",
+description:"Past moments and memory continuity begin appearing."
+},
+
+{
+title:"Stage 2 — Gentle Expansion",
+description:"More dimensions and optional uploads slowly unlock."
+},
+
+{
+title:"Stage 3 — Reflection System",
+description:"Teachers begin understanding their own observation patterns."
+},
+
+{
+title:"Stage 4 — Human Continuity Layer",
+description:"Student timelines and longitudinal growth become visible."
+},
+
+{
+title:"Stage 5 — Teacher Identity Layer",
+description:"The platform shifts toward educator legacy and contribution."
+},
+
+{
+title:"Stage 6 — Advanced Observer Layer",
+description:"Institutional memory, continuity, and deep longitudinal signals."
+}
+
+];
+
+function showStage(stage,el){
+
+    document.querySelectorAll(".stage-btn")
+        .forEach(btn=>btn.classList.remove("active"));
+
+    el.classList.add("active");
+
+    document.getElementById("stageTitle")
+        .innerText = stages[stage].title;
+
+    document.getElementById("stageDescription")
+        .innerText = stages[stage].description;
+
+    for(let i=1;i<=6;i++){
+
+        const feature =
+            document.getElementById(`feature${i}`);
+
+        if(i<=stage){
+
+            setTimeout(()=>{
+
+                feature.classList.add("visible");
+
+            },i*120);
+
+        }else{
+
+            feature.classList.remove("visible");
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>

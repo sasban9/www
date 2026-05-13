@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ascendly — Tracking What Marks Cannot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Figtree:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --void: #080c0b;
+  --deep: #0e1512;
+  --surface: #141e1b;
+  --raised: #1c2a26;
+  --border: rgba(255,255,255,0.07);
+  --border-med: rgba(255,255,255,0.12);
+
+  --sage: #7eb89a;
+  --sage-dim: #4a7a62;
+  --sage-glow: rgba(126,184,154,0.15);
+  --amber: #d4a843;
+  --amber-dim: rgba(212,168,67,0.15);
+  --coral: #e8725a;
+  --coral-dim: rgba(232,114,90,0.15);
+  --lavender: #a08ec8;
+  --sky: #6aadcf;
+
+  --text-primary: #eef0ed;
+  --text-secondary: #8fa898;
+  --text-muted: #4a6058;
+
+  --radius: 16px;
+  --radius-sm: 9px;
+  --radius-xs: 5px;
+
+  --transition: 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── RESET ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Figtree', sans-serif;
+  background: var(--void);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── NOISE TEXTURE ────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.5;
+}
+
+/* ─── LAYOUT ──────────────────────────────────────────────── */
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+/* ─── SIDEBAR ─────────────────────────────────────────────── */
+.sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: var(--deep);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.sidebar-logo {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.logo-mark {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--sage);
+  box-shadow: 0 0 12px var(--sage);
+}
+.logo-tagline {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+.sidebar-nav { padding: 1rem 0.75rem; flex: 1; }
+.nav-group-label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  padding: 0 0.75rem;
+  margin: 1rem 0 0.4rem;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.18s;
+  position: relative;
+  margin-bottom: 2px;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.nav-item:hover { background: var(--raised); color: var(--text-primary); }
+.nav-item.active {
+  background: var(--sage-glow);
+  color: var(--sage);
+  border: 1px solid rgba(126,184,154,0.2);
+}
+.nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+.nav-badge {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--sage-dim);
+  color: var(--sage);
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+
+.sidebar-user {
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-av {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sage-dim), #2d6a4f);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.user-name { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+.user-role { font-size: 10px; color: var(--text-muted); }
+.user-school { font-size: 10px; color: var(--text-muted); }
+
+/* ─── MAIN CONTENT ────────────────────────────────────────── */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ─── TOPBAR ──────────────────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0;
+  background: rgba(8,12,11,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+}
+.topbar-title {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.topbar-title em { color: var(--sage); font-style: italic; }
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border-med);
+  color: var(--text-secondary);
+  font-family: 'Figtree', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.btn-ghost:hover { border-color: var(--sage); color: var(--sage); }
+.btn-primary {
+  background: var(--sage);
+  color: var(--deep);
+  border: none;
+  font-family: 'Figtree', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: 0.02em;
+}
+.btn-primary:hover { background: #8ec8a8; transform: translateY(-1px); }
+
+/* ─── VIEWS ───────────────────────────────────────────────── */
+.view {
+  display: none;
+  padding: 2rem;
+  animation: viewIn 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.view.active { display: block; }
+@keyframes viewIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── CARDS ───────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--border-med); }
+.card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-muted);
+}
+.card-body { padding: 1.25rem; }
+
+/* ─── GRIDS ───────────────────────────────────────────────── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+.g32 { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; }
+.g23 { display: grid; grid-template-columns: 1fr 2fr; gap: 1.25rem; }
+
+/* ─── STATS STRIP ──────────────────────────────────────────── */
+.stats-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.stat-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.stat-tile:hover { transform: translateY(-2px); border-color: var(--border-med); }
+.stat-tile::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--tile-accent, var(--sage));
+}
+.stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--tile-accent, var(--sage));
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+.stat-lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500; }
+.stat-sub { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
+
+/* ─── OBSERVATION CARD ─────────────────────────────────────── */
+.obs-card {
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.obs-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--obs-color, var(--sage));
+}
+.obs-card:hover { background: var(--surface); border-color: var(--border-med); transform: translateX(2px); }
+.obs-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
+.obs-student { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.obs-date { font-size: 10px; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+.obs-text { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 6px; }
+.obs-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.dim-tag {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* DIMENSION COLORS */
+.dim-Resilience   { background: rgba(232,114,90,0.15); color: #e8725a; }
+.dim-Initiative   { background: rgba(212,168,67,0.15); color: #d4a843; }
+.dim-Curiosity    { background: rgba(106,173,207,0.15); color: #6aadcf; }
+.dim-Contribution { background: rgba(126,184,154,0.15); color: #7eb89a; }
+.dim-Responsibility { background: rgba(160,142,200,0.15); color: #a08ec8; }
+.dim-Creativity   { background: rgba(232,114,90,0.12); color: #e8a07a; }
+.dim-Leadership   { background: rgba(212,168,67,0.12); color: #c89a3e; }
+
+/* ─── TIMELINE ─────────────────────────────────────────────── */
+.tl { position: relative; padding-left: 24px; }
+.tl::before {
+  content: '';
+  position: absolute;
+  left: 7px; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--sage-dim), transparent);
+}
+.tl-item { position: relative; margin-bottom: 20px; }
+.tl-dot {
+  position: absolute;
+  left: -21px; top: 4px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--dot-color, var(--sage-dim));
+  border: 2px solid var(--void);
+}
+.tl-year-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  margin-top: 16px;
+}
+.tl-entry {
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.tl-entry-title { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
+.tl-entry-text { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+.tl-entry-teacher { font-size: 10px; color: var(--sage-dim); margin-top: 4px; }
+
+/* ─── STRENGTH BARS ────────────────────────────────────────── */
+.strength-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.s-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); width: 110px; flex-shrink: 0; }
+.s-track { flex: 1; height: 4px; background: var(--raised); border-radius: 2px; overflow: hidden; }
+.s-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
+.s-val { font-size: 10px; font-weight: 700; font-family: 'DM Mono', monospace; color: var(--text-muted); width: 24px; text-align: right; }
+
+/* ─── DIMENSION WHEEL (SVG) ────────────────────────────────── */
+.dim-wheel { width: 160px; height: 160px; margin: 0 auto; }
+
+/* ─── CALENDAR DOT GRID ─────────────────────────────────────── */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-top: 8px;
+}
+.cal-day {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: var(--raised);
+  cursor: pointer;
+  transition: transform 0.15s;
+  position: relative;
+}
+.cal-day:hover { transform: scale(1.3); z-index: 2; }
+.cal-day.obs-1 { background: rgba(126,184,154,0.3); }
+.cal-day.obs-2 { background: rgba(126,184,154,0.55); }
+.cal-day.obs-3 { background: var(--sage); }
+.cal-day-label { font-size: 9px; color: var(--text-muted); text-align: center; padding: 2px 0; }
+
+/* ─── STUDENT CHIP ─────────────────────────────────────────── */
+.student-chip { display: flex; align-items: center; gap: 10px; }
+.s-av {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: white; flex-shrink: 0;
+}
+.s-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.s-grade { font-size: 11px; color: var(--text-muted); }
+
+/* ─── PILL ──────────────────────────────────────────────────── */
+.pill {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 9px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.pill-green { background: rgba(126,184,154,0.15); color: var(--sage); }
+.pill-amber { background: rgba(212,168,67,0.15); color: var(--amber); }
+.pill-coral { background: rgba(232,114,90,0.15); color: var(--coral); }
+.pill-lav   { background: rgba(160,142,200,0.15); color: var(--lavender); }
+
+/* ─── SCHOOL VIEW ──────────────────────────────────────────── */
+.culture-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.c-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); width: 150px; flex-shrink: 0; }
+.c-track { flex: 1; height: 6px; background: var(--raised); border-radius: 3px; overflow: hidden; }
+.c-fill { height: 100%; border-radius: 3px; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
+.c-num { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-muted); width: 28px; text-align: right; }
+
+/* ─── ID CARD ───────────────────────────────────────────────── */
+.id-card {
+  background: linear-gradient(135deg, var(--surface), var(--raised));
+  border: 1px solid var(--border-med);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.id-card::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, var(--sage-glow) 0%, transparent 70%);
+}
+.id-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--sage);
+  background: rgba(126,184,154,0.1);
+  border: 1px solid rgba(126,184,154,0.2);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  letter-spacing: 0.08em;
+}
+
+/* ─── QUICK LOG FORM ────────────────────────────────────────── */
+.form-floating {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  z-index: 200;
+}
+.fab {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--sage);
+  border: none;
+  color: var(--deep);
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(126,184,154,0.4);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(126,184,154,0.5); }
+.quick-form {
+  position: absolute;
+  bottom: 64px; right: 0;
+  width: 340px;
+  background: var(--surface);
+  border: 1px solid var(--border-med);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  display: none;
+  animation: popUp 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.quick-form.open { display: block; }
+@keyframes popUp {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.qf-title { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 400; color: var(--text-primary); margin-bottom: 1rem; }
+.qf-title em { color: var(--sage); font-style: italic; }
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'Figtree', sans-serif;
+  font-size: 13px;
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.18s;
+  margin-bottom: 10px;
+}
+.form-input::placeholder { color: var(--text-muted); }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--sage); }
+.form-select option { background: var(--surface); }
+.form-textarea { resize: none; min-height: 70px; }
+.dim-picker { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.dim-pick-btn {
+  font-size: 10px; font-weight: 600;
+  padding: 3px 10px; border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Figtree', sans-serif;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  transition: all 0.15s;
+}
+.dim-pick-btn.sel { border-color: var(--sage); color: var(--sage); background: var(--sage-glow); }
+.submit-obs {
+  width: 100%;
+  background: var(--sage);
+  color: var(--deep);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px;
+  font-family: 'Figtree', sans-serif;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.submit-obs:hover { background: #8ec8a8; }
+
+/* ─── TOAST ────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: 70px; right: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--sage);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  font-size: 13px; font-weight: 500;
+  color: var(--sage);
+  z-index: 500;
+  display: none;
+  animation: toastIn 0.3s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.toast.show { display: flex; align-items: center; gap: 8px; }
+@keyframes toastIn {
+  from { opacity:0; transform: translateX(20px); }
+  to   { opacity:1; transform: translateX(0); }
+}
+
+/* ─── TEACHER PROFILE SPECIFIC ──────────────────────────────── */
+.legacy-score {
+  text-align: center;
+  padding: 1.5rem 0;
+}
+.ls-ring { position: relative; width: 100px; height: 100px; margin: 0 auto 8px; }
+.ls-num {
+  font-family: 'Fraunces', serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--sage);
+  line-height: 1;
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.ls-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+
+/* ─── COHORT ROW ────────────────────────────────────────────── */
+.cohort-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.cohort-row:last-child { border-bottom: none; }
+
+/* ─── ADULT CONTINUITY ───────────────────────────────────────── */
+.then-now {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.then-now:last-child { border-bottom: none; }
+.tn-age { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 2px; }
+.tn-text { font-size: 12px; color: var(--text-secondary); font-style: italic; }
+.tn-arrow { font-size: 16px; color: var(--sage); text-align: center; }
+.tn-now { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+
+/* ─── HOME HERO ─────────────────────────────────────────────── */
+.home-hero {
+  background: linear-gradient(135deg, var(--surface), var(--deep));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.home-hero::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, var(--sage-glow) 0%, transparent 60%);
+}
+.home-hero::after {
+  content: '';
+  position: absolute; bottom: -60px; left: 100px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,168,67,0.06) 0%, transparent 60%);
+}
+.hero-prompt {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.hero-prompt em { color: var(--sage); font-style: italic; }
+.hero-sub { font-size: 13px; color: var(--text-muted); max-width: 400px; line-height: 1.6; }
+
+/* ─── STUDENT PROFILE HERO ───────────────────────────────────── */
+.student-hero {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.student-hero::before {
+  content: '';
+  position: absolute; top: -40px; right: 80px;
+  width: 160px; height: 160px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(126,184,154,0.08) 0%, transparent 70%);
+}
+.sh-av {
+  width: 60px; height: 60px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800; color: white;
+  flex-shrink: 0;
+}
+.sh-name {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 400;
+  letter-spacing: -0.02em; color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.sh-meta { font-size: 12px; color: var(--text-secondary); display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* ─── SCROLLBAR ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: var(--raised); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ─── RESPONSIVE ────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .sidebar { width: 200px; }
+  .stats-strip { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- ═══ SIDEBAR ═══════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark"><span class="logo-dot"></span>Ascendly</div>
+    <div class="logo-tagline">Tracking What Marks Cannot</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-group-label">Overview</div>
+    <button class="nav-item active" data-view="home">
+      <span class="nav-icon">⌂</span> Home
+    </button>
+
+    <div class="nav-group-label">Teacher</div>
+    <button class="nav-item" data-view="log">
+      <span class="nav-icon">✦</span> Log Moment
+      <span class="nav-badge">3 new</span>
+    </button>
+    <button class="nav-item" data-view="teacher">
+      <span class="nav-icon">◎</span> My Profile
+    </button>
+
+    <div class="nav-group-label">Students</div>
+    <button class="nav-item" data-view="students">
+      <span class="nav-icon">◈</span> Student List
+    </button>
+    <button class="nav-item" data-view="profile">
+      <span class="nav-icon">◉</span> Student Profile
+    </button>
+    <button class="nav-item" data-view="calendar">
+      <span class="nav-icon">▦</span> Calendar View
+    </button>
+
+    <div class="nav-group-label">Institution</div>
+    <button class="nav-item" data-view="school">
+      <span class="nav-icon">⬡</span> School Portrait
+    </button>
+    <button class="nav-item" data-view="adult">
+      <span class="nav-icon">⟳</span> Adult Continuity
+    </button>
+  </nav>
+
+  <div class="sidebar-user">
+    <div class="user-av">RS</div>
+    <div>
+      <div class="user-name">Rekha Singh</div>
+      <div class="user-role">Science Teacher</div>
+      <div class="user-school">KV No. 3, Pune</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══════════════════════════════════════════════════ -->
+<div class="main" id="mainArea">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title" id="topbarTitle">Good morning, <em>Rekha</em></div>
+    <div class="topbar-actions">
+      <button class="btn-ghost" onclick="openQuickLog()">+ Quick log</button>
+      <button class="btn-primary" onclick="showView('log')">Log a moment</button>
+    </div>
+  </div>
+
+  <!-- ─────── HOME ─────────────────────────────────── -->
+  <div class="view active" id="view-home">
+    <div class="home-hero">
+      <div class="hero-prompt">Did any student<br><em>surprise you</em> this week?</div>
+      <div class="hero-sub" style="margin-top:12px">Every extraordinary moment you notice deserves to be preserved. It takes 60 seconds.</div>
+      <button class="btn-primary" style="margin-top:20px; padding:10px 24px; font-size:14px;" onclick="showView('log')">Record a moment →</button>
+    </div>
+
+    <div class="stats-strip">
+      <div class="stat-tile" style="--tile-accent:var(--sage)">
+        <div class="stat-num" id="cnt-obs">0</div>
+        <div class="stat-lbl">Observations</div>
+        <div class="stat-sub">this month</div>
+      </div>
+      <div class="stat-tile" style="--tile-accent:var(--amber)">
+        <div class="stat-num" id="cnt-stu">0</div>
+        <div class="stat-lbl">Students noticed</div>
+        <div class="stat-sub">out of 62 total</div>
+      </div>
+      <div class="stat-tile" style="--tile-accent:var(--coral)">
+        <div class="stat-num" id="cnt-dim">7</div>
+        <div class="stat-lbl">Dimensions logged</div>
+        <div class="stat-sub">all 7 active</div>
+      </div>
+      <div class="stat-tile" style="--tile-accent:var(--lavender)">
+        <div class="stat-num" id="cnt-streak">0</div>
+        <div class="stat-lbl">Week streak</div>
+        <div class="stat-sub">keep it going</div>
+      </div>
+    </div>
+
+    <div class="g32">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recent observations</span>
+          <span style="font-size:11px;color:var(--text-muted)" id="obs-count-label"></span>
+        </div>
+        <div class="card-body" id="recentObsList" style="max-height:380px;overflow-y:auto;"></div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:1rem">
+          <div class="card-header"><span class="card-title">Dimension activity</span></div>
+          <div class="card-body" id="dimActivity"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Most noticed this week</span></div>
+          <div class="card-body" id="topStudents"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── LOG MOMENT ──────────────────────────── -->
+  <div class="view" id="view-log">
+    <div style="max-width:560px; margin:0 auto;">
+      <div style="margin-bottom:1.5rem">
+        <div style="font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-0.02em;color:var(--text-primary);margin-bottom:6px">
+          Preserve a <em style="color:var(--sage);font-style:italic">moment</em>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted)">Record what you observed — not an evaluation, a memory.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:6px">Student</div>
+          <select class="form-select" id="log-student" style="margin-bottom:16px">
+            <option value="">Select student…</option>
+          </select>
+
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:6px">What did you notice?</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;font-style:italic">Choose 1–2 dimensions</div>
+          <div class="dim-picker" id="log-dims"></div>
+
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:6px;margin-top:4px">One-line observation</div>
+          <textarea class="form-textarea" id="log-text" placeholder="e.g. "Stayed to help a classmate who was struggling, without being asked."" style="margin-bottom:0"></textarea>
+          <div style="font-size:11px;color:var(--text-muted);margin:4px 0 16px">Be specific. Observed behaviour only — not personality conclusions.</div>
+
+          <button class="submit-obs" onclick="submitLog()" style="font-size:14px;padding:11px">Save this moment →</button>
+        </div>
+      </div>
+
+      <div style="margin-top:1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:10px">What to look for</div>
+        <div id="logGuides" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── TEACHER PROFILE ─────────────────────── -->
+  <div class="view" id="view-teacher">
+    <div class="g32">
+      <div>
+        <!-- hero -->
+        <div class="card" style="margin-bottom:1.25rem">
+          <div class="card-body" style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.25rem">
+            <div class="s-av" style="width:56px;height:56px;background:linear-gradient(135deg,#2a7a72,#4a7a62);font-size:18px">RS</div>
+            <div>
+              <div style="font-family:'Fraunces',serif;font-size:20px;font-weight:400;color:var(--text-primary);letter-spacing:-0.02em">Rekha Singh</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:3px">Science · KV No. 3, Pune · 17 years</div>
+              <div style="display:flex;gap:6px;margin-top:8px" id="teacherPills"></div>
+            </div>
+            <div class="legacy-score">
+              <div class="ls-ring">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--raised)" stroke-width="6"/>
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--sage)" stroke-width="6"
+                    stroke-dasharray="264" stroke-dashoffset="46"
+                    stroke-linecap="round" transform="rotate(-90 50 50)"
+                    style="transition:stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1)"/>
+                </svg>
+                <div class="ls-num">83</div>
+              </div>
+              <div class="ls-label">Legacy Score</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- stats -->
+        <div class="g2" style="margin-bottom:1.25rem">
+          <div class="stat-tile" style="--tile-accent:var(--sage)">
+            <div class="stat-num">847</div>
+            <div class="stat-lbl">Observations</div>
+            <div class="stat-sub">since 2016</div>
+          </div>
+          <div class="stat-tile" style="--tile-accent:var(--amber)">
+            <div class="stat-num">143</div>
+            <div class="stat-lbl">Students</div>
+            <div class="stat-sub">observed deeply</div>
+          </div>
+          <div class="stat-tile" style="--tile-accent:var(--coral)">
+            <div class="stat-num">92%</div>
+            <div class="stat-lbl">Consistency</div>
+            <div class="stat-sub">weekly streaks</div>
+          </div>
+          <div class="stat-tile" style="--tile-accent:var(--lavender)">
+            <div class="stat-num">28</div>
+            <div class="stat-lbl">Alumni stories</div>
+            <div class="stat-sub">acknowledged her</div>
+          </div>
+        </div>
+
+        <!-- observation history -->
+        <div class="card">
+          <div class="card-header"><span class="card-title">Recent observations</span></div>
+          <div class="card-body" id="teacherObsList" style="max-height:280px;overflow-y:auto;"></div>
+        </div>
+      </div>
+
+      <div>
+        <!-- dimension expertise -->
+        <div class="card" style="margin-bottom:1.25rem">
+          <div class="card-header"><span class="card-title">Dimension expertise</span></div>
+          <div class="card-body" id="teacherDimBars"></div>
+        </div>
+
+        <!-- philosophy evolution -->
+        <div class="card" style="margin-bottom:1.25rem">
+          <div class="card-header"><span class="card-title">Philosophy evolution</span></div>
+          <div class="card-body">
+            <div id="philoTimeline" style="display:flex;flex-direction:column;gap:10px"></div>
+          </div>
+        </div>
+
+        <!-- notable moments -->
+        <div class="card">
+          <div class="card-header"><span class="card-title">Most memorable</span></div>
+          <div class="card-body" id="memorableMoments"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── STUDENT LIST ──────────────────────────── -->
+  <div class="view" id="view-students">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+      <div>
+        <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:400;letter-spacing:-0.02em">Class of 2025 — <em style="color:var(--sage);font-style:italic">Grade 9</em></div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:3px">62 students · 847 total observations</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn-ghost" onclick="filterStudents('all')">All</button>
+        <button class="btn-ghost" onclick="filterStudents('active')">Active</button>
+        <button class="btn-ghost" onclick="filterStudents('new')">Needs attention</button>
+      </div>
+    </div>
+    <div class="card">
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px" id="studentTable">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border)">
+              <th style="text-align:left;padding:10px 16px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Student</th>
+              <th style="text-align:left;padding:10px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Top Dimensions</th>
+              <th style="text-align:left;padding:10px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Observations</th>
+              <th style="text-align:left;padding:10px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Last logged</th>
+              <th style="text-align:left;padding:10px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Status</th>
+              <th style="padding:10px"></th>
+            </tr>
+          </thead>
+          <tbody id="studentTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── STUDENT PROFILE ──────────────────────── -->
+  <div class="view" id="view-profile">
+    <div class="student-hero" id="profileHero"></div>
+    <div class="g32">
+      <div>
+        <div class="card" style="margin-bottom:1.25rem">
+          <div class="card-header">
+            <span class="card-title">Growth timeline</span>
+            <span style="font-size:11px;color:var(--text-muted)" id="profileObsCount"></span>
+          </div>
+          <div class="card-body" style="max-height:400px;overflow-y:auto" id="profileTimeline"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:1rem">
+          <div class="card-header"><span class="card-title">Strength profile</span></div>
+          <div class="card-body" id="profileStrengths"></div>
+        </div>
+        <div class="id-card" style="margin-bottom:1rem">
+          <div class="id-num" id="profileId">ASCN-0000-00</div>
+          <div style="font-size:11px;color:var(--text-muted);line-height:1.6">Permanent ID · Survives school transfers · Student owns this record after age 18</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Who is this person becoming?</span></div>
+          <div class="card-body" id="profileNarrative"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── CALENDAR VIEW ──────────────────────────── -->
+  <div class="view" id="view-calendar">
+    <div class="g2">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Observation calendar — Sept 2024</span>
+          <span style="font-size:11px;color:var(--text-muted)">Each dot = a preserved moment</span>
+        </div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px">
+            <div class="cal-day-label">M</div><div class="cal-day-label">T</div>
+            <div class="cal-day-label">W</div><div class="cal-day-label">T</div>
+            <div class="cal-day-label">F</div><div class="cal-day-label">S</div>
+            <div class="cal-day-label">S</div>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div style="display:flex;gap:12px;margin-top:14px;font-size:10px;color:var(--text-muted)">
+            <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--raised);border-radius:2px;display:inline-block"></span>No log</span>
+            <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:rgba(126,184,154,0.3);border-radius:2px;display:inline-block"></span>1 moment</span>
+            <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:rgba(126,184,154,0.55);border-radius:2px;display:inline-block"></span>2–3 moments</span>
+            <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--sage);border-radius:2px;display:inline-block"></span>4+ moments</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:1rem">
+          <div class="card-header"><span class="card-title">September highlights</span></div>
+          <div class="card-body" id="calHighlights" style="max-height:220px;overflow-y:auto"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Past reflections surfaced</span></div>
+          <div class="card-body" id="calReflections"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── SCHOOL PORTRAIT ───────────────────────── -->
+  <div class="view" id="view-school">
+    <div style="margin-bottom:1.5rem">
+      <div style="font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-0.02em;margin-bottom:4px">
+        Kendriya Vidyalaya No. 3, <em style="color:var(--sage);font-style:italic">Pune</em>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted)">Est. 1978 · 1,200 students · 68 teachers · On Ascendly since 2019</div>
+    </div>
+
+    <div class="stats-strip" style="margin-bottom:1.5rem">
+      <div class="stat-tile" style="--tile-accent:var(--sage)">
+        <div class="stat-num">4,821</div>
+        <div class="stat-lbl">Total moments</div>
+        <div class="stat-sub">preserved since 2019</div>
+      </div>
+      <div class="stat-tile" style="--tile-accent:var(--amber)">
+        <div class="stat-num">87%</div>
+        <div class="stat-lbl">Teacher participation</div>
+        <div class="stat-sub">59 of 68 active</div>
+      </div>
+      <div class="stat-tile" style="--tile-accent:var(--coral)">
+        <div class="stat-num">342</div>
+        <div class="stat-lbl">Student-led initiatives</div>
+        <div class="stat-sub">in 5 years</div>
+      </div>
+      <div class="stat-tile" style="--tile-accent:var(--lavender)">
+        <div class="stat-num">91st</div>
+        <div class="stat-lbl">National percentile</div>
+        <div class="stat-sub">contribution culture</div>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:1.25rem">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Culture dimensions</span></div>
+        <div class="card-body" id="schoolCulture"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Initiative patterns</span></div>
+        <div class="card-body" id="schoolInitiatives"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Notable school moments — last 12 months</span></div>
+      <div class="card-body" id="schoolMoments"></div>
+    </div>
+  </div>
+
+  <!-- ─────── ADULT CONTINUITY ──────────────────────── -->
+  <div class="view" id="view-adult">
+    <div style="margin-bottom:1.5rem">
+      <div style="font-family:'Fraunces',serif;font-size:26px;font-weight:400;letter-spacing:-0.02em;margin-bottom:4px">
+        Adult <em style="color:var(--sage);font-style:italic">Continuity</em>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted);max-width:520px;line-height:1.6">
+        Patterns observed early, continued into adulthood. Not prediction — continuity. The student owns this record fully at 18.
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:1.25rem">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Then vs Now — alumni continuity</span></div>
+        <div class="card-body" id="adultThenNow"></div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:1rem">
+          <div class="card-header"><span class="card-title">What transfers at 18</span></div>
+          <div class="card-body" id="transferItems"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">What never transfers</span></div>
+          <div class="card-body" id="neverTransfer"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Alumni acknowledgments to their teachers</span></div>
+      <div class="card-body" id="alumniAcks"></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ─────── QUICK LOG FAB ──────────────────────────────── -->
+<div class="form-floating">
+  <div class="quick-form" id="quickForm">
+    <div class="qf-title">Did something <em>just happen</em>?</div>
+    <select class="form-select" id="qf-student"><option value="">Select student…</option></select>
+    <div class="dim-picker" id="qf-dims"></div>
+    <textarea class="form-textarea" id="qf-text" placeholder="What did you observe?"></textarea>
+    <button class="submit-obs" onclick="submitQuick()">Save →</button>
+  </div>
+  <button class="fab" onclick="toggleQuickLog()" title="Quick log">✦</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✦ Moment preserved</div>
+
+<script>
+/* ═══════════════════════════════════════
+   DATA
+═══════════════════════════════════════ */
+const DIMS = ['Resilience','Initiative','Curiosity','Contribution','Responsibility','Creativity','Leadership'];
+
+const STUDENTS = [
+  { id:'ASCN-7K2M-P9', name:'Arjun Ramesh',    grade:9, initials:'AR', color:'#2a7a72', obs:31, last:'2 days ago',    status:'active',  topDims:['Curiosity','Initiative','Resilience'] },
+  { id:'ASCN-3M8X-Q2', name:'Meera Patel',     grade:9, initials:'MP', color:'#6aadcf', obs:24, last:'4 days ago',    status:'active',  topDims:['Leadership','Contribution','Creativity'] },
+  { id:'ASCN-9P4L-R7', name:'Ravi Kumar',      grade:9, initials:'RK', color:'#d4a843', obs:18, last:'1 week ago',    status:'active',  topDims:['Resilience','Responsibility'] },
+  { id:'ASCN-2T6N-S3', name:'Sunita Jha',      grade:9, initials:'SJ', color:'#a08ec8', obs:12, last:'2 weeks ago',   status:'needs',   topDims:['Creativity'] },
+  { id:'ASCN-5B1K-T6', name:'Pradeep Nair',    grade:9, initials:'PN', color:'#e8725a', obs:28, last:'Yesterday',     status:'active',  topDims:['Initiative','Leadership'] },
+  { id:'ASCN-8J3H-U1', name:'Asha Iyer',       grade:9, initials:'AI', color:'#7eb89a', obs:19, last:'3 days ago',    status:'active',  topDims:['Contribution','Curiosity'] },
+  { id:'ASCN-1Q9F-V4', name:'Vikram Desai',    grade:9, initials:'VD', color:'#c8965a', obs:7,  last:'3 weeks ago',   status:'needs',   topDims:['Resilience'] },
+  { id:'ASCN-6R2D-W8', name:'Leela Sharma',    grade:9, initials:'LS', color:'#2c5f8a', obs:22, last:'5 days ago',    status:'active',  topDims:['Initiative','Creativity','Leadership'] },
+];
+
+const OBSERVATIONS = [
+  { student:'Arjun Ramesh',  initials:'AR', color:'#2a7a72', dims:['Curiosity','Initiative'],  text:'Stayed 40 minutes after class to understand why the experiment gave unexpected results. Not asked — driven by his own need to know.', date:'Nov 18', teacher:'Rekha Singh' },
+  { student:'Meera Patel',   initials:'MP', color:'#6aadcf', dims:['Leadership','Contribution'], text:'Organised a study group for three classmates who missed lessons. Led it herself without telling any teacher.', date:'Nov 17', teacher:'Rekha Singh' },
+  { student:'Pradeep Nair',  initials:'PN', color:'#e8725a', dims:['Resilience'],              text:'Failed his chemistry test but came back the next day with detailed notes where he had reworked every problem he got wrong.', date:'Nov 15', teacher:'Rekha Singh' },
+  { student:'Asha Iyer',     initials:'AI', color:'#7eb89a', dims:['Curiosity','Creativity'],   text:'Asked whether the periodic table could have been arranged differently. The question was original and showed structural thinking rare at this age.', date:'Nov 14', teacher:'Rekha Singh' },
+  { student:'Leela Sharma',  initials:'LS', color:'#2c5f8a', dims:['Initiative','Leadership'],  text:'Independently wrote a proposal to the principal for a school composting programme. Gathered signatures from 30 classmates first.', date:'Nov 12', teacher:'Rekha Singh' },
+  { student:'Ravi Kumar',    initials:'RK', color:'#d4a843', dims:['Responsibility'],           text:'Arrived early to set up lab equipment for three consecutive weeks without being reminded.', date:'Nov 10', teacher:'Rekha Singh' },
+  { student:'Arjun Ramesh',  initials:'AR', color:'#2a7a72', dims:['Creativity'],              text:'Improvised a circuit with a broken component using a piece of foil. The fix worked. The problem-solving was immediate and inventive.', date:'Nov 8', teacher:'Rekha Singh' },
+  { student:'Meera Patel',   initials:'MP', color:'#6aadcf', dims:['Contribution','Resilience'],text:'Her project was disqualified on a technicality. She rebuilt it over one weekend and came back smiling.', date:'Nov 6', teacher:'Rekha Singh' },
+];
+
+const TIMELINE_DATA = {
+  'Arjun Ramesh': [
+    { year:'Grade 9 · 2024', entries:[
+      { title:'District Science Olympiad — Silver', text:'Exceptional thermodynamics reasoning. Asked questions beyond syllabus scope. First competition result at district level.', teacher:'Rekha Singh' },
+      { title:'Self-built water quality sensor', text:'Assembled a pH sensor during summer holidays using salvaged parts. Presented it to class unprompted — his own idea.', teacher:'Anil Patil' },
+    ]},
+    { year:'Grade 8 · 2023', entries:[
+      { title:'Led school environment campaign', text:'Organised 40-student tree planting. Wrote proposal to principal independently. Showed structured initiative.', teacher:'Priya Nair' },
+      { title:'Consistent top-3 in mathematics', text:'Particularly strong in geometry. Helps peers in free periods without being asked.', teacher:'Suresh Kumar' },
+    ]},
+    { year:'Grade 6 · 2021', entries:[
+      { title:'Class captain — two terms', text:'Elected by peers. Resolved a conflict between groups without teacher involvement.', teacher:'Anita Joshi' },
+    ]},
+    { year:'Grade 4 · 2019', entries:[
+      { title:'"Why do plants lean toward light?" — first science fair', text:'Designed a 3-week experiment independently. Won school level. First visible sign of sustained scientific curiosity.', teacher:'Kavita Rao' },
+    ]},
+    { year:'Grade 1 · 2016', entries:[
+      { title:'Asks "why" constantly', text:'Spends free time reading science picture books. Parents report same behaviour at home. Earliest signal.', teacher:'Deepa Menon' },
+    ]},
+  ]
+};
+
+const DIM_WEIGHTS = { Curiosity:91, Initiative:84, Resilience:78, Leadership:60, Contribution:55, Creativity:72, Responsibility:48 };
+
+const GUIDES = [
+  { icon:'✦', title:'Self-initiated moments', desc:'A child who does something without being asked is showing genuine interest. Log it every time.' },
+  { icon:'◈', title:'How they handle failure', desc:'Resilience, frustration, doubling down — this tells more than the final grade.' },
+  { icon:'◉', title:'Questions they ask', desc:'A child who asks "but why does this work?" in Grade 3 is showing scientific temperament.' },
+  { icon:'⟳', title:'Peer dynamics', desc:'Who do classmates go to for help? Who mediates conflicts? Leadership shows early.' },
+];
+
+const PHILO_TIMELINE = [
+  { year:'2016', text:'Started believing marks missed too much. Began noting small moments in a private notebook.' },
+  { year:'2018', text:'Realised her best students were not always her highest scorers. Observation became more systematic.' },
+  { year:'2020', text:'During lockdown, students continued surprising her over video calls. Noted curiosity is format-independent.' },
+  { year:'2022', text:'"I stopped trying to predict potential. I just started describing what I see."' },
+  { year:'2024', text:'After 8 years on Ascendly, believes the record of a student is more valuable than any grade.' },
+];
+
+const NOTABLE_MOMENTS = [
+  { student:'Arjun R.', text:'Refused to accept the "official" answer when his experiment contradicted the textbook. He was right.' },
+  { student:'Meera P.', text:'Taught a 40-minute lesson to her entire class while I was absent. She had not been asked.' },
+  { student:'Leela S.',  text:'At age 13, wrote a 3-page proposal to fix the school drainage problem. It was implemented.' },
+];
+
+const SCHOOL_CULTURE = [
+  { label:'Initiative density',     val:88, color:'var(--sage)' },
+  { label:'Contribution culture',   val:82, color:'var(--amber)' },
+  { label:'Resilience signals',     val:74, color:'var(--coral)' },
+  { label:'Peer collaboration',     val:79, color:'var(--lavender)' },
+  { label:'Self-directed learning', val:66, color:'var(--sky)' },
+];
+
+const SCHOOL_INITIATIVES = [
+  { title:'School FM radio station', lead:'Students · Grade 8–10', year:'2023', pill:'Leadership' },
+  { title:'Rooftop herb garden', lead:'Anita Joshi + Grade 6', year:'2023', pill:'Initiative' },
+  { title:'Blind student tutoring programme', lead:'Meera Patel + 6 volunteers', year:'2024', pill:'Contribution' },
+  { title:'Water audit report to municipal body', lead:'Leela Sharma + science club', year:'2024', pill:'Curiosity' },
+];
+
+const SCHOOL_MOMENTS = [
+  { dims:['Initiative','Leadership'], student:'Priya Menon, Grade 10', text:'Proposed and ran a 3-month financial literacy class for Grade 6. Sourced her own materials.', date:'Oct 2024' },
+  { dims:['Resilience'], student:'Karan Shah, Grade 9', text:'Failed the annual assessment but spent his entire Diwali holiday relearning the topic from scratch. No prompting from anyone.', date:'Sep 2024' },
+  { dims:['Contribution','Curiosity'], student:'Science Club (11 students)', text:'Mapped the school\'s water consumption over 6 months and presented findings to the principal with actionable suggestions.', date:'Aug 2024' },
+];
+
+const THEN_NOW = [
+  { then:'Age 13 — Organised peer tutoring group voluntarily', now:'Age 28 — Runs education non-profit in Jaipur, 3,000 students' },
+  { then:'Age 11 — Kept a notebook of plant observations for 2 years', now:'Age 24 — Research botanist, published 2 papers' },
+  { then:'Age 14 — Mediated a conflict between two friend groups', now:'Age 31 — Mediator at Maharashtra High Court' },
+  { then:'Age 10 — Wrote short stories for the school wall magazine', now:'Age 26 — Published novelist, debut at 24' },
+  { then:'Age 12 — Repaired broken classroom furniture with a toolkit', now:'Age 27 — Runs a sustainable furniture social enterprise' },
+];
+
+const ALUMNI_ACKS = [
+  { name:'Rohan Das, 2011', text:'"You wrote in my record that I ask good questions. I was 9. I became a scientist because someone noticed."', teacher:'Rekha Singh' },
+  { name:'Priya Nair, 2015', text:'"My marks were average. My Ascendly record got me into the fellowship. It showed who I actually was."', teacher:'Kavita Rao' },
+  { name:'Arjun Mehta, 2009', text:'"She noticed me before I noticed myself. That\'s what a great teacher does."', teacher:'Rekha Singh' },
+];
+
+/* ═══════════════════════════════════════
+   RENDER HELPERS
+═══════════════════════════════════════ */
+function dimTag(d) {
+  return `<span class="dim-tag dim-${d}">${d}</span>`;
+}
+function obsCard(o, accent) {
+  return `<div class="obs-card" style="--obs-color:${accent||'var(--sage)'}">
+    <div class="obs-head">
+      <div class="obs-student">${o.student || o.initials}</div>
+      <div class="obs-date">${o.date}</div>
+    </div>
+    <div class="obs-text">${o.text}</div>
+    <div class="obs-tags">${(o.dims||[]).map(dimTag).join('')}</div>
+    ${o.teacher ? `<div style="font-size:10px;color:var(--sage-dim);margin-top:5px">↳ ${o.teacher}</div>` : ''}
+  </div>`;
+}
+
+const dimColors = {
+  Resilience:'var(--coral)', Initiative:'var(--amber)', Curiosity:'var(--sky)',
+  Contribution:'var(--sage)', Responsibility:'var(--lavender)', Creativity:'#e8a07a', Leadership:'var(--amber)'
+};
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+const titles = {
+  home:'Good morning, <em>Rekha</em>',
+  log:'Preserve a Moment',
+  teacher:'Your Teacher Profile',
+  students:'Student List',
+  profile:'Student Profile',
+  calendar:'Calendar Memory View',
+  school:'School Portrait',
+  adult:'Adult Continuity',
+};
+
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => { v.style.display='none'; v.classList.remove('active'); });
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  const v = document.getElementById('view-'+name);
+  if (!v) return;
+  v.style.display = 'block';
+  setTimeout(() => v.classList.add('active'), 10);
+
+  const navBtn = document.querySelector(`[data-view="${name}"]`);
+  if (navBtn) navBtn.classList.add('active');
+
+  document.getElementById('topbarTitle').innerHTML = titles[name] || name;
+  document.getElementById('mainArea').scrollTop = 0;
+
+  if (name === 'profile') renderProfile();
+  if (name === 'calendar') renderCalendar();
+}
+
+document.querySelectorAll('.nav-item[data-view]').forEach(btn => {
+  btn.addEventListener('click', () => showView(btn.dataset.view));
+});
+
+/* ═══════════════════════════════════════
+   HOME VIEW
+═══════════════════════════════════════ */
+function renderHome() {
+  // animated counters
+  animateCount('cnt-obs', 0, 28, 900);
+  animateCount('cnt-stu', 0, 19, 800);
+  animateCount('cnt-streak', 0, 6, 700);
+
+  document.getElementById('obs-count-label').textContent = `${OBSERVATIONS.length} this month`;
+
+  // recent obs
+  document.getElementById('recentObsList').innerHTML = OBSERVATIONS.slice(0,5).map(o => obsCard(o, dimColors[o.dims[0]])).join('');
+
+  // dim activity
+  const dimCounts = {};
+  DIMS.forEach(d => dimCounts[d] = 0);
+  OBSERVATIONS.forEach(o => (o.dims||[]).forEach(d => dimCounts[d]++));
+  const maxC = Math.max(...Object.values(dimCounts));
+  document.getElementById('dimActivity').innerHTML = DIMS.map(d => `
+    <div class="strength-row">
+      <div class="s-label">${d}</div>
+      <div class="s-track"><div class="s-fill" style="width:0;background:${dimColors[d]}" data-w="${(dimCounts[d]/maxC)*100}"></div></div>
+      <div class="s-val">${dimCounts[d]}</div>
+    </div>`).join('');
+
+  // top students
+  const topS = [...STUDENTS].sort((a,b) => b.obs-a.obs).slice(0,4);
+  document.getElementById('topStudents').innerHTML = topS.map(s => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)">
+      <div class="student-chip">
+        <div class="s-av" style="background:${s.color};width:26px;height:26px;font-size:9px">${s.initials}</div>
+        <div class="s-name" style="font-size:12px">${s.name}</div>
+      </div>
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted)">${s.obs} obs</span>
+    </div>`).join('');
+
+  animateBars();
+}
+
+/* ═══════════════════════════════════════
+   LOG VIEW
+═══════════════════════════════════════ */
+function renderLog() {
+  const sel = document.getElementById('log-student');
+  sel.innerHTML = '<option value="">Select student…</option>' + STUDENTS.map(s => `<option>${s.name}</option>`).join('');
+
+  document.getElementById('log-dims').innerHTML = DIMS.map(d =>
+    `<button class="dim-pick-btn" onclick="toggleDim(this)">${d}</button>`).join('');
+
+  document.getElementById('logGuides').innerHTML = GUIDES.map(g => `
+    <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;background:var(--raised);border-radius:var(--radius-sm)">
+      <span style="color:var(--sage);font-size:14px;flex-shrink:0">${g.icon}</span>
+      <div><div style="font-size:12px;font-weight:600;color:var(--text-primary);margin-bottom:2px">${g.title}</div>
+      <div style="font-size:11px;color:var(--text-muted);line-height:1.5">${g.desc}</div></div>
+    </div>`).join('');
+}
+
+function toggleDim(btn) { btn.classList.toggle('sel'); }
+
+function submitLog() {
+  const student = document.getElementById('log-student').value;
+  const text = document.getElementById('log-text').value.trim();
+  if (!student || !text) { showToast('Please select a student and write an observation.', true); return; }
+  const dims = [...document.querySelectorAll('#log-dims .dim-pick-btn.sel')].map(b => b.textContent);
+  const newObs = { student, initials: student.split(' ').map(w=>w[0]).join(''), color:'#7eb89a', dims: dims.length ? dims : ['Curiosity'], text, date:'Just now', teacher:'Rekha Singh' };
+  OBSERVATIONS.unshift(newObs);
+  document.getElementById('log-text').value = '';
+  document.querySelectorAll('#log-dims .dim-pick-btn').forEach(b => b.classList.remove('sel'));
+  showToast('✦ Moment preserved for ' + student);
+  renderHome();
+  showView('home');
+}
+
+/* ═══════════════════════════════════════
+   TEACHER PROFILE
+═══════════════════════════════════════ */
+function renderTeacher() {
+  document.getElementById('teacherPills').innerHTML =
+    ['8 years on Ascendly','847 observations','91st percentile'].map(t =>
+      `<span class="pill pill-green">${t}</span>`).join('');
+
+  document.getElementById('teacherObsList').innerHTML = OBSERVATIONS.slice(0,6).map(o => obsCard(o, dimColors[o.dims[0]])).join('');
+
+  const dimExpert = { Curiosity:92, Initiative:88, Resilience:84, Creativity:71, Contribution:68, Leadership:60, Responsibility:55 };
+  document.getElementById('teacherDimBars').innerHTML = Object.entries(dimExpert).map(([d,v]) => `
+    <div class="strength-row">
+      <div class="s-label">${d}</div>
+      <div class="s-track"><div class="s-fill" style="width:0;background:${dimColors[d]}" data-w="${v}"></div></div>
+      <div class="s-val">${v}</div>
+    </div>`).join('');
+
+  document.getElementById('philoTimeline').innerHTML = PHILO_TIMELINE.map(p => `
+    <div style="display:flex;gap:10px">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--sage-dim);padding-top:2px;flex-shrink:0;width:30px">${p.year}</div>
+      <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;border-left:1px solid var(--border);padding-left:10px">${p.text}</div>
+    </div>`).join('');
+
+  document.getElementById('memorableMoments').innerHTML = NOTABLE_MOMENTS.map(m => `
+    <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+      <div style="font-size:11px;font-weight:600;color:var(--sage-dim);margin-bottom:3px">${m.student}</div>
+      <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;font-style:italic">"${m.text}"</div>
+    </div>`).join('');
+
+  animateBars();
+}
+
+/* ═══════════════════════════════════════
+   STUDENT LIST
+═══════════════════════════════════════ */
+function renderStudentTable(filter) {
+  const rows = filter === 'all' ? STUDENTS
+    : filter === 'needs' ? STUDENTS.filter(s => s.status === 'needs')
+    : STUDENTS.filter(s => s.status === 'active');
+
+  document.getElementById('studentTableBody').innerHTML = rows.map(s => `
+    <tr style="border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s" onclick="openStudent('${s.name}')" onmouseover="this.style.background='var(--raised)'" onmouseout="this.style.background=''">
+      <td style="padding:10px 16px">
+        <div class="student-chip">
+          <div class="s-av" style="background:${s.color}">${s.initials}</div>
+          <div><div class="s-name">${s.name}</div><div class="s-grade">Grade ${s.grade}</div></div>
+        </div>
+      </td>
+      <td style="padding:10px">${s.topDims.slice(0,2).map(dimTag).join(' ')}</td>
+      <td style="padding:10px;font-family:'DM Mono',monospace;font-size:12px;color:var(--sage)">${s.obs}</td>
+      <td style="padding:10px;font-size:12px;color:var(--text-muted)">${s.last}</td>
+      <td style="padding:10px"><span class="pill ${s.status==='active'?'pill-green':'pill-amber'}">${s.status==='active'?'Active':'Needs attention'}</span></td>
+      <td style="padding:10px"><button class="btn-ghost" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();openStudent('${s.name}')">View →</button></td>
+    </tr>`).join('');
+}
+
+function filterStudents(f) { renderStudentTable(f); }
+function openStudent(name) {
+  window._activeStudent = name;
+  showView('profile');
+}
+
+/* ═══════════════════════════════════════
+   STUDENT PROFILE
+═══════════════════════════════════════ */
+function renderProfile() {
+  const name = window._activeStudent || 'Arjun Ramesh';
+  const s = STUDENTS.find(x => x.name === name) || STUDENTS[0];
+
+  document.getElementById('profileHero').innerHTML = `
+    <div class="sh-av" style="background:${s.color}">${s.initials}</div>
+    <div>
+      <div class="sh-name">${s.name}</div>
+      <div class="sh-meta">
+        <span>📍 KV No. 3, Pune</span>
+        <span>📅 Grade ${s.grade}</span>
+        <span>📊 ${s.obs} observations on record</span>
+        <span>🗓 Last logged ${s.last}</span>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px">${s.topDims.map(dimTag).join('')}</div>
+    </div>
+    <div style="text-align:right">
+      <button class="btn-primary" onclick="showView('log')" style="margin-bottom:6px">+ Log moment</button>
+      <div style="font-size:10px;color:var(--text-muted)">for ${s.name}</div>
+    </div>`;
+
+  document.getElementById('profileId').textContent = s.id;
+  document.getElementById('profileObsCount').textContent = `${s.obs} observations`;
+
+  // timeline
+  const tl = TIMELINE_DATA[name] || TIMELINE_DATA['Arjun Ramesh'];
+  let tlHTML = '<div class="tl">';
+  tl.forEach(yr => {
+    tlHTML += `<div class="tl-year-label">${yr.year}</div>`;
+    yr.entries.forEach(e => {
+      tlHTML += `<div class="tl-item"><div class="tl-dot" style="--dot-color:var(--sage)"></div>
+        <div class="tl-entry">
+          <div class="tl-entry-title">${e.title}</div>
+          <div class="tl-entry-text">${e.text}</div>
+          <div class="tl-entry-teacher">↳ ${e.teacher}</div>
+        </div></div>`;
+    });
+  });
+  tlHTML += '</div>';
+  document.getElementById('profileTimeline').innerHTML = tlHTML;
+
+  // strengths
+  document.getElementById('profileStrengths').innerHTML = Object.entries(DIM_WEIGHTS).map(([d,v]) => `
+    <div class="strength-row">
+      <div class="s-label">${d}</div>
+      <div class="s-track"><div class="s-fill" style="width:0;background:${dimColors[d]}" data-w="${v}"></div></div>
+      <div class="s-val">${v}</div>
+    </div>`).join('');
+
+  // narrative
+  document.getElementById('profileNarrative').innerHTML = `
+    <div style="font-family:'Fraunces',serif;font-size:15px;font-style:italic;color:var(--text-secondary);line-height:1.8;margin-bottom:12px">
+      "Someone who asks questions before they are taught to. Who fixes things before being asked. Who sees a problem and starts solving it before checking if it's their job."
+    </div>
+    <div style="font-size:11px;color:var(--text-muted)">Generated from 31 observations across 9 teachers · Updated monthly</div>`;
+
+  animateBars();
+}
+
+/* ═══════════════════════════════════════
+   CALENDAR
+═══════════════════════════════════════ */
+function renderCalendar() {
+  const calData = Array.from({length:30}, (_, i) => {
+    const r = Math.random();
+    return r < 0.35 ? 0 : r < 0.55 ? 1 : r < 0.75 ? 2 : 3;
+  });
+
+  // 3 empty cells for Mon start (Sept 1 is Sunday so shift)
+  const cells = [1,2,0].map(() => `<div class="cal-day"></div>`);
+  calData.forEach((v, i) => {
+    const cls = v===0?'':v===1?'obs-1':v===2?'obs-2':'obs-3';
+    cells.push(`<div class="cal-day ${cls}" title="Sep ${i+1}: ${v} observations"></div>`);
+  });
+  document.getElementById('calGrid').innerHTML = cells.join('');
+
+  document.getElementById('calHighlights').innerHTML = OBSERVATIONS.slice(0,4).map(o => obsCard(o, dimColors[o.dims[0]])).join('');
+
+  document.getElementById('calReflections').innerHTML = [
+    { year:'2022', text:'Arjun built his first science project. The curiosity that day is still visible now.', teacher:'Rekha Singh' },
+    { year:'2021', text:'Meera organised a group without being asked. Two years later, she\'s class president.', teacher:'Priya Nair' },
+  ].map(r => `
+    <div style="padding:10px 12px;background:var(--raised);border-radius:var(--radius-sm);margin-bottom:8px;border-left:2px solid var(--sage-dim)">
+      <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--sage-dim);margin-bottom:4px">Resurfaced from ${r.year}</div>
+      <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;font-style:italic">"${r.text}"</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:4px">— ${r.teacher}</div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════════════
+   SCHOOL
+═══════════════════════════════════════ */
+function renderSchool() {
+  document.getElementById('schoolCulture').innerHTML = SCHOOL_CULTURE.map(c => `
+    <div class="culture-bar">
+      <div class="c-label">${c.label}</div>
+      <div class="c-track"><div class="c-fill" style="width:0;background:${c.color}" data-w="${c.val}"></div></div>
+      <div class="c-num">${c.val}</div>
+    </div>`).join('');
+
+  document.getElementById('schoolInitiatives').innerHTML = SCHOOL_INITIATIVES.map(i => `
+    <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px">
+        <div style="font-size:13px;font-weight:600;color:var(--text-primary)">${i.title}</div>
+        <span class="dim-tag dim-${i.pill}" style="flex-shrink:0;margin-left:6px">${i.pill}</span>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted)">${i.lead} · ${i.year}</div>
+    </div>`).join('');
+
+  document.getElementById('schoolMoments').innerHTML = `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+    ${SCHOOL_MOMENTS.map(m => `
+    <div style="background:var(--raised);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px">
+      <div style="margin-bottom:6px">${(m.dims||[]).map(dimTag).join(' ')}</div>
+      <div style="font-size:11px;font-weight:600;color:var(--sage-dim);margin-bottom:4px">${m.student}</div>
+      <div style="font-size:12px;color:var(--text-secondary);line-height:1.5">${m.text}</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:6px">${m.date}</div>
+    </div>`).join('')}
+  </div>`;
+
+  animateBars();
+}
+
+/* ═══════════════════════════════════════
+   ADULT CONTINUITY
+═══════════════════════════════════════ */
+function renderAdult() {
+  document.getElementById('adultThenNow').innerHTML = THEN_NOW.map(t => `
+    <div class="then-now">
+      <div><div class="tn-age">Age ~12–14 · Observed</div><div class="tn-text">${t.then}</div></div>
+      <div class="tn-arrow">→</div>
+      <div><div class="tn-age">Today · Living it</div><div class="tn-now">${t.now}</div></div>
+    </div>`).join('');
+
+  document.getElementById('transferItems').innerHTML = [
+    'Observed growth moments (positive only)',
+    'Projects and contributions',
+    'Mentorship history',
+    'Strength patterns over time',
+    'Teacher acknowledgments',
+  ].map(t => `<div style="display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text-secondary)"><span style="color:var(--sage)">✓</span>${t}</div>`).join('');
+
+  document.getElementById('neverTransfer').innerHTML = [
+    'Disciplinary records of any kind',
+    '"Weak student" or "slow learner" labels',
+    'Predictive personality conclusions',
+    'Negative teacher observations',
+    'Academic failure records',
+  ].map(t => `<div style="display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text-secondary)"><span style="color:var(--coral)">✕</span>${t}</div>`).join('');
+
+  document.getElementById('alumniAcks').innerHTML = `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+    ${ALUMNI_ACKS.map(a => `
+    <div style="background:var(--raised);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;position:relative">
+      <div style="font-family:'Fraunces',serif;font-size:24px;color:var(--sage-dim);line-height:1;margin-bottom:4px">"</div>
+      <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;font-style:italic;margin-bottom:10px">${a.text}</div>
+      <div style="font-size:11px;font-weight:600;color:var(--text-primary)">${a.name}</div>
+      <div style="font-size:10px;color:var(--sage-dim)">Acknowledges ${a.teacher}</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/* ═══════════════════════════════════════
+   QUICK LOG FAB
+═══════════════════════════════════════ */
+function openQuickLog() {
+  const qf = document.getElementById('quickForm');
+  qf.classList.add('open');
+  const sel = document.getElementById('qf-student');
+  sel.innerHTML = '<option value="">Select student…</option>' + STUDENTS.map(s => `<option>${s.name}</option>`).join('');
+  document.getElementById('qf-dims').innerHTML = DIMS.map(d =>
+    `<button class="dim-pick-btn" onclick="toggleDimQF(this)">${d}</button>`).join('');
+}
+function toggleQuickLog() {
+  const qf = document.getElementById('quickForm');
+  qf.classList.contains('open') ? qf.classList.remove('open') : openQuickLog();
+}
+function toggleDimQF(btn) { btn.classList.toggle('sel'); }
+function submitQuick() {
+  const s = document.getElementById('qf-student').value;
+  const t = document.getElementById('qf-text').value.trim();
+  if (!s || !t) return;
+  const dims = [...document.querySelectorAll('#qf-dims .dim-pick-btn.sel')].map(b => b.textContent);
+  OBSERVATIONS.unshift({ student:s, initials:s.split(' ').map(w=>w[0]).join(''), color:'#7eb89a', dims:dims.length?dims:['Curiosity'], text:t, date:'Just now', teacher:'Rekha Singh' });
+  document.getElementById('quickForm').classList.remove('open');
+  document.getElementById('qf-text').value = '';
+  showToast('✦ Moment preserved for ' + s);
+  renderHome();
+}
+
+/* ═══════════════════════════════════════
+   UTILS
+═══════════════════════════════════════ */
+function animateCount(id, from, to, dur) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const start = performance.now();
+  const step = (now) => {
+    const p = Math.min((now - start) / dur, 1);
+    el.textContent = Math.round(from + (to - from) * easeOut(p));
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+function animateBars() {
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.s-fill[data-w], .c-fill[data-w]').forEach(bar => {
+      const w = bar.dataset.w;
+      bar.style.width = '0';
+      setTimeout(() => { bar.style.width = w + '%'; }, 80);
+    });
+  });
+}
+
+function showToast(msg, err) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.borderColor = err ? 'var(--coral)' : 'var(--sage)';
+  t.style.color = err ? 'var(--coral)' : 'var(--sage)';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* close quick form on outside click */
+document.addEventListener('click', e => {
+  const qf = document.getElementById('quickForm');
+  const fab = document.querySelector('.fab');
+  if (!qf.contains(e.target) && !fab.contains(e.target)) qf.classList.remove('open');
+});
+
+/* ═══════════════════════════════════════
+   INIT
+═══════════════════════════════════════ */
+function init() {
+  renderHome();
+  renderLog();
+  renderTeacher();
+  renderStudentTable('all');
+  renderSchool();
+  renderAdult();
+  window._activeStudent = 'Arjun Ramesh';
+}
+
+init();
+</script>
+</body>
+</html>

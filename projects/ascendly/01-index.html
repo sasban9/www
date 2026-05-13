@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ascendly Teacher Legacy Profile</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#0f1115;
+    color:#f5f5f5;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+.container{
+    width:95%;
+    max-width:1500px;
+    margin:auto;
+    padding-bottom:120px;
+}
+
+/* HEADER */
+
+.hero{
+    position:relative;
+    overflow:hidden;
+    border-radius:28px;
+    margin-top:30px;
+    background:linear-gradient(135deg,#1d2430,#11151b);
+    padding:40px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.hero::after{
+    content:'';
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:radial-gradient(circle,rgba(255,255,255,0.08),transparent);
+    top:-250px;
+    right:-250px;
+}
+
+.hero-top{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:30px;
+}
+
+.teacher-meta{
+    display:flex;
+    gap:25px;
+    align-items:center;
+}
+
+.teacher-photo{
+    width:140px;
+    height:140px;
+    border-radius:24px;
+    background:#232b38;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    color:#999;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.teacher-info h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.teacher-info p{
+    color:#b0b7c3;
+    margin-bottom:8px;
+}
+
+.philosophy{
+    margin-top:25px;
+    padding:20px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.04);
+    max-width:700px;
+    line-height:1.7;
+}
+
+.stats-grid{
+    margin-top:35px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:18px;
+}
+
+.stat-card{
+    background:#171d27;
+    border:1px solid rgba(255,255,255,0.08);
+    padding:22px;
+    border-radius:20px;
+}
+
+.stat-card h2{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.stat-card span{
+    color:#9aa5b5;
+}
+
+/* TABS */
+
+.tabs{
+    display:flex;
+    overflow-x:auto;
+    gap:12px;
+    margin:35px 0;
+    padding-bottom:10px;
+}
+
+.tab-btn{
+    background:#171d27;
+    border:1px solid rgba(255,255,255,0.08);
+    color:white;
+    padding:14px 22px;
+    border-radius:16px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:0.3s;
+}
+
+.tab-btn.active{
+    background:#2b3647;
+}
+
+.phase{
+    display:none;
+}
+
+.phase.active{
+    display:block;
+}
+
+/* SECTION */
+
+.section{
+    margin-bottom:28px;
+    background:#171d27;
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:24px;
+    padding:28px;
+}
+
+.section h2{
+    margin-bottom:22px;
+    font-size:28px;
+}
+
+.section h3{
+    margin-bottom:14px;
+    margin-top:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#11151b;
+    border-radius:20px;
+    padding:20px;
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+.card p{
+    line-height:1.7;
+    color:#bcc5d2;
+}
+
+.badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:14px;
+}
+
+.badge{
+    background:#283245;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:13px;
+}
+
+.placeholder{
+    margin-top:18px;
+    border-radius:18px;
+    height:180px;
+    background:#242d3c;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#8d98a8;
+    font-size:14px;
+}
+
+.timeline{
+    border-left:2px solid rgba(255,255,255,0.1);
+    margin-left:15px;
+    padding-left:25px;
+}
+
+.timeline-item{
+    margin-bottom:28px;
+    position:relative;
+}
+
+.timeline-item::before{
+    content:'';
+    position:absolute;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#8ab4ff;
+    left:-33px;
+    top:5px;
+}
+
+.quote{
+    font-size:20px;
+    line-height:1.8;
+    color:#dce6f7;
+}
+
+.media-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    margin-top:20px;
+}
+
+.media{
+    background:#11151b;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+.media-top{
+    height:180px;
+    background:#263040;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#95a0b1;
+}
+
+.media-bottom{
+    padding:18px;
+}
+
+.footer-note{
+    margin-top:60px;
+    text-align:center;
+    color:#7f8998;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="hero">
+
+<div class="hero-top">
+
+<div>
+
+<div class="teacher-meta">
+
+<div class="teacher-photo">
+Teacher Image
+</div>
+
+<div class="teacher-info">
+<h1>Meera Sharma</h1>
+<p>Science Teacher • 30 Years</p>
+<p>Govt Girls School, Jaipur</p>
+<p>Tracking What Marks Cannot</p>
+</div>
+
+</div>
+
+<div class="philosophy">
+“The students who changed the world were rarely the loudest in class.”
+</div>
+
+</div>
+
+</div>
+
+<div class="stats-grid" id="statsGrid"></div>
+
+</div>
+
+<div class="tabs">
+
+<button class="tab-btn active" data-tab="year1">Year 1</button>
+<button class="tab-btn" data-tab="year2">Years 2–3</button>
+<button class="tab-btn" data-tab="year4">Years 4–5</button>
+<button class="tab-btn" data-tab="year6">Years 6–8</button>
+<button class="tab-btn" data-tab="year9">Years 9–10</button>
+<button class="tab-btn" data-tab="year11">Years 11–15</button>
+<button class="tab-btn" data-tab="year16">Years 16–20</button>
+<button class="tab-btn" data-tab="year21">Years 21–25</button>
+<button class="tab-btn" data-tab="year26">Years 26–29</button>
+<button class="tab-btn" data-tab="year30">Year 30</button>
+
+</div>
+
+<!-- YEAR 1 -->
+
+<div class="phase active" id="year1">
+
+<div class="section">
+<h2>The Observer Begins</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Activity Snapshot</h3>
+<p>28 observations recorded</p>
+<p>14 students observed</p>
+
+<div class="badges">
+<div class="badge">Initiative</div>
+<div class="badge">Contribution</div>
+<div class="badge">Resilience</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Memory Calendar</h3>
+<div class="placeholder">
+Calendar Heatmap Placeholder
+</div>
+</div>
+
+<div class="card">
+<h3>First Observation</h3>
+<p>“Stayed after school voluntarily to help clean flood damage.”</p>
+
+<div class="placeholder">
+Audio Reflection Placeholder
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- YEARS 2-3 -->
+
+<div class="phase" id="year2">
+
+<div class="section">
+<h2>Pattern Recognition Begins</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Observation Consistency</h3>
+<p>Active 32 weeks/year</p>
+<p>Peer support frequently identified</p>
+</div>
+
+<div class="card">
+<h3>Recognition Tendencies</h3>
+
+<div class="badges">
+<div class="badge">Quiet Leadership</div>
+<div class="badge">Persistence</div>
+<div class="badge">Peer Support</div>
+</div>
+
+</div>
+
+<div class="card">
+<h3>Classroom Contributions</h3>
+<ul>
+<li>Science Fair Mentorship</li>
+<li>Flood Relief Volunteer Coordination</li>
+<li>Student Repair Club</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- YEARS 4-5 -->
+
+<div class="phase" id="year4">
+
+<div class="section">
+<h2>Trust Formation Phase</h2>
+
+<div class="media-row">
+
+<div class="media">
+<div class="media-top">Student Story Image</div>
+<div class="media-bottom">
+<h3>Growth Story</h3>
+<p>Observed repeated initiative in a student who later started a tutoring group.</p>
+</div>
+</div>
+
+<div class="media">
+<div class="media-top">Project Video Placeholder</div>
+<div class="media-bottom">
+<h3>Contribution Archive</h3>
+<p>Community cleanup drive and girls science club.</p>
+</div>
+</div>
+
+<div class="media">
+<div class="media-top">Audio Story Placeholder</div>
+<div class="media-bottom">
+<h3>Multi-Teacher Alignment</h3>
+<p>High consistency with peer observations.</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- YEARS 6-8 -->
+
+<div class="phase" id="year6">
+
+<div class="section">
+
+<h2>Institutional Memory Layer</h2>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<h3>2028</h3>
+<p>First student-led village science fair documented.</p>
+</div>
+
+<div class="timeline-item">
+<h3>2029</h3>
+<p>Robotics workshop for girls launched.</p>
+</div>
+
+<div class="timeline-item">
+<h3>2030</h3>
+<p>Flood-relief student coordination project archived.</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- YEARS 9-10 -->
+
+<div class="phase" id="year9">
+
+<div class="section">
+
+<h2>Early Legacy Formation</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Students Later Seen In</h3>
+
+<div class="badges">
+<div class="badge">Engineering</div>
+<div class="badge">Sports</div>
+<div class="badge">Entrepreneurship</div>
+<div class="badge">Public Service</div>
+</div>
+
+</div>
+
+<div class="card">
+<h3>Moments This Teacher Is Proud Of</h3>
+
+<ul>
+<li>Girls robotics workshop</li>
+<li>Rainwater harvesting project</li>
+<li>Peer tutoring circle</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h3>Legacy Gallery</h3>
+
+<div class="placeholder">
+Image / Video Archive Placeholder
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- YEARS 11-15 -->
+
+<div class="phase" id="year11">
+
+<div class="section">
+
+<h2>Mentor Status</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Teacher Mentorship Tree</h3>
+<div class="placeholder">
+Mentorship Tree Visualization
+</div>
+</div>
+
+<div class="card">
+<h3>Philosophy Evolution</h3>
+
+<p><strong>Year 2</strong></p>
+<p>“I focused on confident students.”</p>
+
+<br>
+
+<p><strong>Year 11</strong></p>
+<p>“Quiet persistence mattered more than confidence.”</p>
+
+</div>
+
+<div class="card">
+<h3>Alumni Acknowledgements</h3>
+
+<p>“She noticed my curiosity before anyone else did.”</p>
+
+<br>
+
+<p>“My first science project existed because of her.”</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- YEARS 16-20 -->
+
+<div class="phase" id="year16">
+
+<div class="section">
+
+<h2>Regional Credibility Phase</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Longitudinal Contribution Summary</h3>
+
+<p>1,800 observations</p>
+<p>420 students documented</p>
+<p>180 projects preserved</p>
+
+</div>
+
+<div class="card">
+<h3>Human Development Patterns</h3>
+
+<ul>
+<li>Identifies resilience consistently</li>
+<li>Strong support for peer contribution</li>
+<li>High student continuation into service work</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h3>Regional Showcase</h3>
+
+<div class="placeholder">
+Public Speaking Video Placeholder
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- YEARS 21-25 -->
+
+<div class="phase" id="year21">
+
+<div class="section">
+
+<h2>Historical Continuity Layer</h2>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<h3>2031</h3>
+<p>Student organized village cleanup voluntarily.</p>
+</div>
+
+<div class="timeline-item">
+<h3>2042</h3>
+<p>Same student launched environmental nonprofit.</p>
+</div>
+
+<div class="timeline-item">
+<h3>2049</h3>
+<p>Funded local science lab.</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Patterns Noticed Early</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Contribution</h3>
+<p>Repeated contribution behavior across years.</p>
+</div>
+
+<div class="card">
+<h3>Initiative</h3>
+<p>Self-started leadership visible early.</p>
+</div>
+
+<div class="card">
+<h3>Craftsmanship</h3>
+<p>Long-term maker mindset detected through projects.</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- YEARS 26-29 -->
+
+<div class="phase" id="year26">
+
+<div class="section">
+
+<h2>Elder Educator Phase</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Community Impact Archive</h3>
+
+<ul>
+<li>Scholarship mentorships</li>
+<li>Village science movement</li>
+<li>Inter-school collaboration</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h3>Generations Observed</h3>
+
+<p>Former students now enrolling their own children.</p>
+
+<div class="placeholder">
+Family Legacy Image Placeholder
+</div>
+
+</div>
+
+<div class="card">
+<h3>Teaching Philosophy Archive</h3>
+
+<div class="placeholder">
+Audio Memo Collection
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- YEAR 30 -->
+
+<div class="phase" id="year30">
+
+<div class="section">
+
+<h2>Retirement Legacy Profile</h2>
+
+<p class="quote">
+“A civilization remembers itself through the teachers who preserved the small moments others ignored.”
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Legacy Timeline</h2>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<h3>2028</h3>
+<p>First observation recorded.</p>
+</div>
+
+<div class="timeline-item">
+<h3>2034</h3>
+<p>Student contribution archive launched.</p>
+</div>
+
+<div class="timeline-item">
+<h3>2043</h3>
+<p>Regional mentorship initiative recognized.</p>
+</div>
+
+<div class="timeline-item">
+<h3>2052</h3>
+<p>Retired after 30 years of continuous contribution tracking.</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Historical Contribution Highlights</h2>
+
+<div class="media-row">
+
+<div class="media">
+<div class="media-top">Video Placeholder</div>
+<div class="media-bottom">
+<h3>Flood Relief Initiative</h3>
+</div>
+</div>
+
+<div class="media">
+<div class="media-top">Photo Archive</div>
+<div class="media-bottom">
+<h3>Girls Coding Club</h3>
+</div>
+</div>
+
+<div class="media">
+<div class="media-top">Audio Story</div>
+<div class="media-bottom">
+<h3>Village Science Exhibition</h3>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer-note">
+Ascendly • Tracking Beyond-Syllabus Actions That Reveal Student Potential
+</div>
+
+</div>
+
+<script>
+
+const tabs = document.querySelectorAll('.tab-btn');
+const phases = document.querySelectorAll('.phase');
+
+tabs.forEach(tab => {
+
+    tab.addEventListener('click', () => {
+
+        tabs.forEach(t => t.classList.remove('active'));
+        phases.forEach(p => p.classList.remove('active'));
+
+        tab.classList.add('active');
+
+        document
+            .getElementById(tab.dataset.tab)
+            .classList.add('active');
+    });
+
+});
+
+/* DYNAMIC EVOLVING STATS */
+
+const stats = [
+    {
+        number:'30',
+        label:'Years Teaching'
+    },
+    {
+        number:'4,280',
+        label:'Observations Preserved'
+    },
+    {
+        number:'1,140',
+        label:'Students Documented'
+    },
+    {
+        number:'320',
+        label:'Projects Archived'
+    },
+    {
+        number:'84',
+        label:'Community Initiatives'
+    },
+    {
+        number:'17',
+        label:'Schools Collaborated'
+    }
+];
+
+const statsGrid = document.getElementById('statsGrid');
+
+stats.forEach(stat => {
+
+    const card = document.createElement('div');
+
+    card.className = 'stat-card';
+
+    card.innerHTML = `
+        <h2>${stat.number}</h2>
+        <span>${stat.label}</span>
+    `;
+
+    statsGrid.appendChild(card);
+
+});
+
+</script>
+
+</body>
+</html>

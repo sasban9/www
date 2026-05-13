@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ascendly — 30 Year Teacher Legacy Timeline</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,system-ui,sans-serif;
+    background:#0a0d12;
+    color:white;
+    overflow:hidden;
+}
+
+.app{
+    display:flex;
+    height:100vh;
+    width:100vw;
+}
+
+.sidebar{
+    width:340px;
+    background:#11161d;
+    border-right:1px solid rgba(255,255,255,0.06);
+    padding:28px;
+    overflow-y:auto;
+}
+
+.sidebar h1{
+    font-size:28px;
+    margin-bottom:8px;
+    font-weight:700;
+}
+
+.subtitle{
+    color:#8d98a5;
+    line-height:1.5;
+    font-size:14px;
+    margin-bottom:30px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:28px;
+}
+
+.stat-card{
+    background:#1a212b;
+    border-radius:16px;
+    padding:16px;
+}
+
+.stat-card h3{
+    font-size:26px;
+    margin-bottom:4px;
+}
+
+.stat-card p{
+    color:#97a3b0;
+    font-size:12px;
+}
+
+.legend{
+    margin-top:30px;
+}
+
+.legend h2{
+    margin-bottom:14px;
+    font-size:15px;
+    color:#d5dde6;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:12px;
+    font-size:13px;
+    color:#9aa6b3;
+}
+
+.legend-color{
+    width:14px;
+    height:14px;
+    border-radius:4px;
+}
+
+.main{
+    flex:1;
+    overflow:auto;
+    position:relative;
+    background:
+        radial-gradient(circle at top left,#18202b 0%,transparent 35%),
+        radial-gradient(circle at bottom right,#0d1320 0%,transparent 40%),
+        #090d12;
+}
+
+.timeline-wrapper{
+    padding:40px 60px 120px;
+    min-width:2600px;
+}
+
+.header-row{
+    display:flex;
+    margin-left:70px;
+    margin-bottom:12px;
+}
+
+.week-label{
+    width:14px;
+    margin-right:4px;
+    text-align:center;
+    color:#4f5c69;
+    font-size:8px;
+}
+
+.year-row{
+    display:flex;
+    align-items:center;
+    margin-bottom:4px;
+}
+
+.year-label{
+    width:60px;
+    color:#7f8b99;
+    font-size:12px;
+}
+
+.week-grid{
+    display:flex;
+    gap:4px;
+}
+
+.week-square{
+    width:14px;
+    height:14px;
+    border-radius:3px;
+    background:#1a222c;
+    cursor:pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.3s ease;
+    position:relative;
+}
+
+.week-square:hover{
+    transform:scale(1.8);
+    z-index:3;
+    box-shadow:0 0 14px rgba(255,255,255,0.3);
+}
+
+.week-square.active{
+    outline:2px solid white;
+}
+
+.tooltip{
+    position:absolute;
+    bottom:22px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111820;
+    color:white;
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:11px;
+    white-space:nowrap;
+    display:none;
+}
+
+.week-square:hover .tooltip{
+    display:block;
+}
+
+.panel{
+    position:fixed;
+    top:0;
+    right:-480px;
+    width:480px;
+    height:100vh;
+    background:#121820;
+    border-left:1px solid rgba(255,255,255,0.08);
+    transition:right 0.4s ease;
+    overflow-y:auto;
+    z-index:10;
+}
+
+.panel.open{
+    right:0;
+}
+
+.panel-header{
+    padding:28px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    position:sticky;
+    top:0;
+    background:#121820;
+    z-index:2;
+}
+
+.panel-header h2{
+    font-size:24px;
+    margin-bottom:6px;
+}
+
+.panel-header p{
+    color:#95a2af;
+    font-size:14px;
+}
+
+.close-btn{
+    position:absolute;
+    right:22px;
+    top:20px;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    border:none;
+    background:#1f2731;
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.entries{
+    padding:24px;
+}
+
+.entry{
+    background:#1a212b;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:16px;
+    animation:fadeIn 0.4s ease;
+}
+
+.entry-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.student{
+    font-weight:600;
+    font-size:15px;
+}
+
+.tag{
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:11px;
+    color:white;
+}
+
+.note{
+    line-height:1.6;
+    color:#dbe3ea;
+    font-size:14px;
+}
+
+.year-separator{
+    height:1px;
+    background:rgba(255,255,255,0.08);
+    margin:18px 0;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0px);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="sidebar">
+
+        <h1>30-Year Legacy</h1>
+
+        <div class="subtitle">
+            A visual memory map of a teacher’s entire life work.
+            Every square represents one week of observation,
+            mentorship, contribution, and human continuity.
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3>1590</h3>
+                <p>Weeks Observed</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>4827</h3>
+                <p>Student Moments</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>30</h3>
+                <p>Years Active</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>1142</h3>
+                <p>Students Impacted</p>
+            </div>
+        </div>
+
+        <div class="legend">
+            <h2>Observation Types</h2>
+
+            <div class="legend-item">
+                <div class="legend-color" style="background:#57cc99;"></div>
+                Contribution
+            </div>
+
+            <div class="legend-item">
+                <div class="legend-color" style="background:#4ea8de;"></div>
+                Curiosity
+            </div>
+
+            <div class="legend-item">
+                <div class="legend-color" style="background:#ff9f1c;"></div>
+                Leadership
+            </div>
+
+            <div class="legend-item">
+                <div class="legend-color" style="background:#c77dff;"></div>
+                Creativity
+            </div>
+
+            <div class="legend-item">
+                <div class="legend-color" style="background:#ef476f;"></div>
+                Resilience
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="timeline-wrapper">
+
+            <div class="header-row" id="headerRow"></div>
+
+            <div id="timeline"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="panel" id="panel">
+
+    <div class="panel-header">
+
+        <button class="close-btn" onclick="closePanel()">×</button>
+
+        <h2 id="panelTitle">Year 1 • Week 1</h2>
+
+        <p id="panelSubtitle">
+            5 meaningful observations recorded this week
+        </p>
+
+    </div>
+
+    <div class="entries" id="entries"></div>
+
+</div>
+
+<script>
+
+const colors = {
+    contribution:"#57cc99",
+    curiosity:"#4ea8de",
+    leadership:"#ff9f1c",
+    creativity:"#c77dff",
+    resilience:"#ef476f"
+};
+
+const students = [
+    "Aarav","Meena","Farhan","Pooja","Kabir","Ishita",
+    "Rahul","Zoya","Arjun","Sara","Vikram","Naina"
+];
+
+const notes = [
+    "Stayed after school voluntarily to help clean flood damage.",
+    "Started a peer science learning group without being asked.",
+    "Helped a weaker student prepare for exams consistently.",
+    "Built a working irrigation model from scrap materials.",
+    "Organized cricket equipment and resolved student conflicts.",
+    "Came to school despite severe transport difficulties.",
+    "Asked unusually deep questions during physics practical.",
+    "Mentored younger students during robotics workshop.",
+    "Created handmade posters encouraging community cleanliness.",
+    "Led group project calmly during stressful deadline."
+];
+
+const strengths = Object.keys(colors);
+
+const teacherTimeline = [];
+
+for(let year=1; year<=30; year++){
+
+    const yearData = [];
+
+    for(let week=1; week<=53; week++){
+
+        const entryCount = Math.floor(Math.random()*8);
+
+        const entries = [];
+
+        for(let i=0; i<entryCount; i++){
+
+            const type = strengths[Math.floor(Math.random()*strengths.length)];
+
+            entries.push({
+                student: students[Math.floor(Math.random()*students.length)],
+                type,
+                note: notes[Math.floor(Math.random()*notes.length)]
+            });
+        }
+
+        yearData.push({
+            year,
+            week,
+            entries
+        });
+    }
+
+    teacherTimeline.push(yearData);
+}
+
+const timeline = document.getElementById("timeline");
+const headerRow = document.getElementById("headerRow");
+
+for(let i=1;i<=53;i++){
+
+    const weekLabel = document.createElement("div");
+    weekLabel.className = "week-label";
+    weekLabel.textContent = i;
+
+    headerRow.appendChild(weekLabel);
+}
+
+teacherTimeline.forEach((yearData, yearIndex)=>{
+
+    const row = document.createElement("div");
+    row.className = "year-row";
+
+    const label = document.createElement("div");
+    label.className = "year-label";
+    label.textContent = `Y${yearIndex+1}`;
+
+    const grid = document.createElement("div");
+    grid.className = "week-grid";
+
+    yearData.forEach((weekData)=>{
+
+        const square = document.createElement("div");
+        square.className = "week-square";
+
+        const dominant =
+            weekData.entries[0]
+            ? weekData.entries[0].type
+            : null;
+
+        square.style.background =
+            dominant
+            ? colors[dominant]
+            : "#1a222c";
+
+        square.style.opacity =
+            weekData.entries.length
+            ? Math.min(1,0.35 + weekData.entries.length*0.12)
+            : 0.25;
+
+        const tooltip = document.createElement("div");
+        tooltip.className = "tooltip";
+
+        tooltip.textContent =
+            `${weekData.entries.length} observations`;
+
+        square.appendChild(tooltip);
+
+        square.addEventListener("click",()=>{
+
+            document.querySelectorAll(".week-square")
+                .forEach(el=>el.classList.remove("active"));
+
+            square.classList.add("active");
+
+            openPanel(weekData);
+        });
+
+        grid.appendChild(square);
+    });
+
+    row.appendChild(label);
+    row.appendChild(grid);
+
+    timeline.appendChild(row);
+
+    if(yearIndex !== 29){
+
+        const sep = document.createElement("div");
+        sep.className = "year-separator";
+
+        timeline.appendChild(sep);
+    }
+});
+
+function openPanel(weekData){
+
+    const panel = document.getElementById("panel");
+    const entriesDiv = document.getElementById("entries");
+
+    document.getElementById("panelTitle").innerText =
+        `Year ${weekData.year} • Week ${weekData.week}`;
+
+    document.getElementById("panelSubtitle").innerText =
+        `${weekData.entries.length} meaningful observations`;
+
+    entriesDiv.innerHTML = "";
+
+    if(weekData.entries.length === 0){
+
+        entriesDiv.innerHTML = `
+            <div class="entry">
+                <div class="note">
+                    No observations were recorded this week.
+                </div>
+            </div>
+        `;
+
+    } else {
+
+        weekData.entries.forEach(entry=>{
+
+            const div = document.createElement("div");
+            div.className = "entry";
+
+            div.innerHTML = `
+                <div class="entry-top">
+
+                    <div class="student">
+                        ${entry.student}
+                    </div>
+
+                    <div class="tag"
+                        style="background:${colors[entry.type]}">
+                        ${entry.type}
+                    </div>
+
+                </div>
+
+                <div class="note">
+                    ${entry.note}
+                </div>
+            `;
+
+            entriesDiv.appendChild(div);
+        });
+    }
+
+    panel.classList.add("open");
+}
+
+function closePanel(){
+
+    document.getElementById("panel")
+        .classList.remove("open");
+
+    document.querySelectorAll(".week-square")
+        .forEach(el=>el.classList.remove("active"));
+}
+
+</script>
+
+</body>
+</html>
