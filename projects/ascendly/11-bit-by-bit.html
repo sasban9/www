@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ascendly — Mentor Legacy Evolution</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --bg:#070b11;
+    --panel:#121923;
+    --soft:#1a2430;
+    --text:#edf3fb;
+    --muted:#8b9aaa;
+    --accent:#5fd0ff;
+    --green:#6ce5b1;
+    --purple:#b694ff;
+    --orange:#ffb454;
+}
+
+body{
+    font-family:Inter,system-ui,sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(95,208,255,0.08), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(108,229,177,0.08), transparent 30%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+.container{
+    width:min(1180px,92%);
+    margin:auto;
+    padding:60px 0 140px;
+}
+
+.hero{
+    min-height:88vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.5s ease;
+}
+
+.hero-inner{
+    width:min(680px,100%);
+    text-align:center;
+    animation:fadeUp 0.8s ease;
+}
+
+.logo{
+    font-size:13px;
+    letter-spacing:4px;
+    color:var(--accent);
+    margin-bottom:24px;
+    text-transform:uppercase;
+}
+
+.hero h1{
+    font-size:clamp(42px,7vw,82px);
+    line-height:0.95;
+    margin-bottom:24px;
+    font-weight:700;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:18px;
+    line-height:1.7;
+    margin-bottom:40px;
+}
+
+.form-card{
+    background:rgba(18,25,35,0.72);
+    border:1px solid rgba(255,255,255,0.06);
+    backdrop-filter:blur(14px);
+    border-radius:32px;
+    padding:28px;
+    transition:all 0.4s ease;
+}
+
+.form-grid{
+    display:grid;
+    gap:16px;
+}
+
+.input{
+    width:100%;
+    background:#111720;
+    border:1px solid rgba(255,255,255,0.08);
+    color:white;
+    border-radius:18px;
+    padding:18px 20px;
+    font-size:16px;
+    outline:none;
+}
+
+textarea.input{
+    min-height:120px;
+    resize:none;
+}
+
+.button{
+    border:none;
+    cursor:pointer;
+    border-radius:18px;
+    padding:18px 24px;
+    font-size:16px;
+    font-weight:600;
+    background:linear-gradient(135deg,var(--accent),#6ce5b1);
+    color:#04111d;
+    transition:transform 0.25s ease;
+}
+
+.button:hover{
+    transform:translateY(-2px);
+}
+
+.profile{
+    margin-top:80px;
+    display:none;
+    animation:fadeUp 0.8s ease;
+}
+
+.profile.visible{
+    display:block;
+}
+
+.profile-header{
+    display:grid;
+    grid-template-columns:120px 1fr auto;
+    gap:30px;
+    align-items:center;
+    margin-bottom:40px;
+}
+
+.avatar{
+    width:120px;
+    height:120px;
+    border-radius:34px;
+    background:linear-gradient(135deg,#5fd0ff,#6ce5b1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    font-weight:700;
+    color:#04111d;
+}
+
+.meta h2{
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+.meta p{
+    color:var(--muted);
+    line-height:1.7;
+}
+
+.claim-btn{
+    background:#18222e;
+    border:1px solid rgba(255,255,255,0.08);
+    color:white;
+    padding:16px 22px;
+    border-radius:16px;
+    cursor:pointer;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+    margin-bottom:36px;
+}
+
+.stat{
+    background:var(--panel);
+    border-radius:24px;
+    padding:24px;
+    border:1px solid rgba(255,255,255,0.05);
+}
+
+.stat h3{
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.stat span{
+    color:var(--muted);
+}
+
+.section{
+    margin-top:50px;
+}
+
+.section-title{
+    font-size:24px;
+    margin-bottom:22px;
+}
+
+.memories{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px;
+}
+
+.memory{
+    background:var(--panel);
+    border-radius:24px;
+    padding:22px;
+    border:1px solid rgba(255,255,255,0.05);
+    transition:all 0.25s ease;
+}
+
+.memory:hover{
+    transform:translateY(-3px);
+}
+
+.memory-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:16px;
+}
+
+.student{
+    font-weight:600;
+}
+
+.week{
+    font-size:12px;
+    color:var(--accent);
+}
+
+.memory p{
+    line-height:1.7;
+    color:#dce6f1;
+}
+
+.chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:18px;
+}
+
+.chip{
+    background:#1e2b39;
+    color:#dce9f7;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+}
+
+.timeline{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.timeline-item{
+    border-left:2px solid rgba(95,208,255,0.3);
+    padding-left:18px;
+    position:relative;
+}
+
+.timeline-item::before{
+    content:"";
+    position:absolute;
+    left:-6px;
+    top:5px;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:var(--accent);
+}
+
+.timeline-year{
+    color:var(--accent);
+    font-size:13px;
+    margin-bottom:6px;
+}
+
+.timeline-text{
+    color:#dce5ef;
+    line-height:1.7;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:16px;
+}
+
+.media{
+    height:180px;
+    border-radius:22px;
+    background:
+        linear-gradient(135deg,rgba(95,208,255,0.25),rgba(108,229,177,0.15)),
+        #121923;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#c7d4e2;
+    border:1px solid rgba(255,255,255,0.05);
+}
+/* =========================================
+BOTTOM RIGHT MEMORY POPUP
+========================================= */
+
+.memory-popup{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    width:360px;
+    background:rgba(16,22,30,0.92);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:28px;
+    padding:22px;
+    z-index:999;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+    animation:popupIn 0.6s ease;
+}
+
+.popup-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:18px;
+}
+
+.popup-label{
+    font-size:11px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:#5fd0ff;
+    margin-bottom:6px;
+}
+
+.popup-header h3{
+    font-size:20px;
+    font-weight:600;
+}
+
+.popup-week{
+    background:#141d27;
+    border:1px solid rgba(255,255,255,0.06);
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    color:#dce7f3;
+}
+
+.popup-form{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.popup-input{
+    width:100%;
+    background:#111720;
+    border:1px solid rgba(255,255,255,0.08);
+    color:white;
+    border-radius:16px;
+    padding:15px 16px;
+    font-size:14px;
+    outline:none;
+}
+
+.popup-input:focus{
+    border-color:#5fd0ff;
+}
+
+.popup-textarea{
+    min-height:90px;
+    resize:none;
+}
+
+.popup-submit{
+    border:none;
+    cursor:pointer;
+    border-radius:16px;
+    padding:16px;
+    font-weight:600;
+    font-size:15px;
+    background:
+        linear-gradient(
+            135deg,
+            #5fd0ff,
+            #6ce5b1
+        );
+    color:#071018;
+    transition:all 0.25s ease;
+}
+
+.popup-submit:hover{
+    transform:translateY(-2px);
+}
+
+.popup-footer{
+    display:flex;
+    gap:10px;
+    margin-top:16px;
+}
+
+.popup-nav{
+    flex:1;
+    border:none;
+    cursor:pointer;
+    background:#151f2a;
+    color:white;
+    border-radius:16px;
+    padding:14px;
+    font-size:14px;
+    border:1px solid rgba(255,255,255,0.06);
+    transition:all 0.25s ease;
+}
+
+.popup-nav:hover{
+    transform:translateY(-2px);
+}
+
+.popup-nav.primary{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(95,208,255,0.18),
+            rgba(108,229,177,0.18)
+        );
+    border-color:rgba(95,208,255,0.2);
+}
+
+@keyframes popupIn{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(40px)
+            scale(0.96);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0px)
+            scale(1);
+    }
+}
+
+@media(max-width:700px){
+
+    .memory-popup{
+        width:calc(100vw - 24px);
+        left:12px;
+        right:12px;
+        bottom:12px;
+    }
+
+}
+.network{
+    background:var(--panel);
+    border-radius:32px;
+    padding:40px;
+    overflow:auto;
+}
+
+.graph{
+    min-width:700px;
+    line-height:2.4;
+    font-size:20px;
+    color:#dce5ef;
+}
+
+.footer-float{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    display:flex;
+    gap:12px;
+    z-index:100;
+}
+
+.float-btn{
+    border:none;
+    cursor:pointer;
+    background:#111923;
+    color:white;
+    border-radius:999px;
+    padding:16px 20px;
+    font-weight:600;
+    border:1px solid rgba(255,255,255,0.08);
+    transition:all 0.25s ease;
+}
+
+.float-btn:hover{
+    transform:translateY(-2px);
+}
+
+.week-indicator{
+    position:fixed;
+    top:20px;
+    right:24px;
+    background:#111923;
+    padding:12px 18px;
+    border-radius:999px;
+    color:#dbe6f2;
+    border:1px solid rgba(255,255,255,0.06);
+    font-size:14px;
+    z-index:100;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.fade{
+    animation:fadeUp 0.5s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media(max-width:900px){
+
+    .profile-header{
+        grid-template-columns:1fr;
+    }
+
+    .meta h2{
+        font-size:36px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+<!-- =========================================
+BOTTOM RIGHT MEMORY POPUP
+========================================= -->
+
+<div class="memory-popup" id="memoryPopup">
+
+    <div class="popup-header">
+
+        <div>
+            <div class="popup-label">
+                ASCENDLY
+            </div>
+
+            <h3>
+                Preserve A Mentor
+            </h3>
+        </div>
+
+        <div class="popup-week" id="weekIndicator">
+            Week 1 / 52
+        </div>
+
+    </div>
+
+    <div class="popup-form">
+
+        <input
+            class="popup-input"
+            placeholder="Mentor Name"
+            value="Meera Sharma"
+        />
+
+        <input
+            class="popup-input"
+            placeholder="Institution"
+            value="Govt Girls School, Jaipur"
+        />
+
+        <textarea
+            class="popup-input popup-textarea"
+            placeholder="What did they do that you still remember?"
+        >She stayed after class helping me build my first science project.</textarea>
+
+        <button
+            class="popup-submit"
+            id="preserveBtn"
+        >
+            Preserve This Memory
+        </button>
+
+    </div>
+
+    <div class="popup-footer">
+
+        <button
+            class="popup-nav"
+            id="prevBtn"
+        >
+            ← Previous
+        </button>
+
+        <button
+            class="popup-nav primary"
+            id="nextBtn"
+        >
+            Week 1 → Week 52
+        </button>
+
+    </div>
+
+</div>
+<!-- <div class="week-indicator" id="weekIndicator">
+    Week 1 / 52
+</div> -->
+
+<div class="container">
+
+    <section class="hero" id="hero">
+
+        <div class="hero-inner">
+
+            <div class="logo">
+                ASCENDLY
+            </div>
+
+            <h1>
+                Someone changed your direction.
+            </h1>
+
+            <p>
+                Preserve that moment.
+            </p>
+
+            <!-- <div class="form-card">
+
+                <div class="form-grid">
+
+                    <input
+                        class="input"
+                        placeholder="Mentor Name"
+                        value="Meera Sharma"
+                    />
+
+                    <input
+                        class="input"
+                        placeholder="Institution"
+                        value="Govt Girls School, Jaipur"
+                    />
+
+                    <textarea
+                        class="input"
+                        placeholder="What did they do that you still remember?"
+                    >She stayed after class helping me build my first science project.</textarea>
+
+                    <button class="button" id="preserveBtn">
+                        Preserve This Memory
+                    </button>
+
+                </div>
+
+            </div> -->
+
+        </div>
+
+    </section>
+
+    <section class="profile" id="profile">
+
+        <div class="profile-header">
+
+            <div class="avatar" id="avatar">
+                MS
+            </div>
+
+            <div class="meta">
+
+                <h2 id="mentorName">
+                    Meera Sharma
+                </h2>
+
+                <p id="mentorMeta">
+                    Science Teacher • Jaipur
+                </p>
+
+                <p id="mentorPhilosophy" class="hidden">
+                    Known for encouraging quiet students and independent thinking.
+                </p>
+
+            </div>
+
+            <button class="claim-btn hidden" id="claimBtn">
+                Claim Profile With Email
+            </button>
+
+        </div>
+
+        <div class="stats" id="stats"></div>
+
+        <div class="section hidden" id="rememberedSection">
+
+            <div class="section-title">
+                Most Remembered For
+            </div>
+
+            <div class="chips" id="rememberedChips"></div>
+
+        </div>
+
+        <div class="section">
+
+            <div class="section-title">
+                Student Memories
+            </div>
+
+            <div class="memories" id="memoryGrid"></div>
+
+        </div>
+
+        <div class="section hidden" id="timelineSection">
+
+            <div class="section-title">
+                Legacy Timeline
+            </div>
+
+            <div class="timeline" id="timeline"></div>
+
+        </div>
+
+        <div class="section hidden" id="mediaSection">
+
+            <div class="section-title">
+                Photos, Audio & Projects
+            </div>
+
+            <div class="gallery" id="gallery"></div>
+
+        </div>
+
+        <div class="section hidden" id="impactSection">
+
+            <div class="section-title">
+                Students Later Seen In
+            </div>
+
+            <div class="chips" id="impactChips"></div>
+
+        </div>
+
+        <div class="section hidden" id="networkSection">
+
+            <div class="section-title">
+                Ripple Effects
+            </div>
+
+            <div class="network">
+                <div class="graph" id="graph"></div>
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- <div class="footer-float">
+
+    <button class="float-btn" id="prevBtn">
+        ← Previous
+    </button>
+
+    <button class="float-btn" id="nextBtn">
+        Week 1 → Week 52
+    </button>
+
+</div> -->
+
+<script>
+
+/* ===============================
+   MASTER JSON DATABASE
+================================ */
+
+const db = {
+
+    mentor:{
+        name:"Meera Sharma",
+        institution:"Govt Girls School, Jaipur",
+        role:"Science Teacher • Jaipur",
+        philosophy:
+            "Known for encouraging quiet students and independent thinking."
+    },
+
+    memories:[
+
+        {
+            week:1,
+            student:"Aarav",
+            text:"She stayed after class helping me build my first science project.",
+            tags:["encouraged me"]
+        },
+
+        {
+            week:4,
+            student:"Meena",
+            text:"She noticed I liked building things before anyone else did.",
+            tags:["noticed potential","curiosity"]
+        },
+
+        {
+            week:6,
+            student:"Farhan",
+            text:"She made failure feel survivable after my robotics model broke.",
+            tags:["resilience","helped quietly"]
+        },
+
+        {
+            week:8,
+            student:"Sara",
+            text:"She treated weaker students respectfully.",
+            tags:["safe classroom","belief"]
+        },
+
+        {
+            week:12,
+            student:"Kabir",
+            text:"She encouraged me to apply for engineering.",
+            tags:["direction","encouraged me"]
+        },
+
+        {
+            week:16,
+            student:"Naina",
+            text:"She created peer tutoring circles after school.",
+            tags:["community","initiative"]
+        },
+
+        {
+            week:22,
+            student:"Zoya",
+            text:"She started our first girls robotics workshop.",
+            tags:["leadership","builders"]
+        },
+
+        {
+            week:28,
+            student:"Rahul",
+            text:"She recorded voice notes encouraging us during exams.",
+            tags:["voice","support"]
+        },
+
+        {
+            week:36,
+            student:"Ishita",
+            text:"The confidence she gave me still affects my work today.",
+            tags:["confidence","identity"]
+        },
+
+        {
+            week:44,
+            student:"Arjun",
+            text:"The community science club she started still exists.",
+            tags:["legacy","community"]
+        }
+
+    ],
+
+    timeline:[
+
+        {
+            week:12,
+            year:"2018",
+            text:"Encouraged first student science projects."
+        },
+
+        {
+            week:20,
+            year:"2020",
+            text:"Started peer learning circle."
+        },
+
+        {
+            week:28,
+            year:"2022",
+            text:"Led girls robotics initiative."
+        },
+
+        {
+            week:36,
+            year:"2024",
+            text:"Students influenced now working across startups and research."
+        },
+
+        {
+            week:52,
+            year:"2026",
+            text:"Over 140 preserved memories across 4 institutions."
+        }
+
+    ],
+
+    media:[
+
+        {
+            week:20,
+            type:"📷 Classroom Gallery"
+        },
+
+        {
+            week:24,
+            type:"🎤 Student Audio Tribute"
+        },
+
+        {
+            week:28,
+            type:"📄 Handwritten Letter"
+        },
+
+        {
+            week:32,
+            type:"🎥 Robotics Workshop"
+        },
+
+        {
+            week:40,
+            type:"🛠 Student Projects"
+        }
+
+    ],
+
+    impacts:[
+
+        {
+            week:36,
+            label:"Startups"
+        },
+
+        {
+            week:36,
+            label:"Medicine"
+        },
+
+        {
+            week:36,
+            label:"Teaching"
+        },
+
+        {
+            week:40,
+            label:"Design"
+        },
+
+        {
+            week:44,
+            label:"Public Service"
+        }
+
+    ]
+
+};
+
+/* ===============================
+   STATE
+================================ */
+
+let currentWeek = 1;
+
+/* ===============================
+   ELEMENTS
+================================ */
+
+const profile = document.getElementById("profile");
+const memoryGrid = document.getElementById("memoryGrid");
+const stats = document.getElementById("stats");
+const rememberedSection =
+    document.getElementById("rememberedSection");
+
+const rememberedChips =
+    document.getElementById("rememberedChips");
+
+const timelineSection =
+    document.getElementById("timelineSection");
+
+const timelineEl =
+    document.getElementById("timeline");
+
+const mediaSection =
+    document.getElementById("mediaSection");
+
+const gallery =
+    document.getElementById("gallery");
+
+const impactSection =
+    document.getElementById("impactSection");
+
+const impactChips =
+    document.getElementById("impactChips");
+
+const networkSection =
+    document.getElementById("networkSection");
+
+const graph =
+    document.getElementById("graph");
+
+const weekIndicator =
+    document.getElementById("weekIndicator");
+
+/* ===============================
+   EVENTS
+================================ */
+
+document.getElementById("preserveBtn")
+.addEventListener("click",()=>{
+
+    profile.classList.add("visible");
+
+    renderWeek();
+});
+
+document.getElementById("nextBtn")
+.addEventListener("click",()=>{
+
+    currentWeek += 4;
+
+    if(currentWeek > 52){
+        currentWeek = 52;
+    }
+
+    renderWeek();
+});
+
+document.getElementById("prevBtn")
+.addEventListener("click",()=>{
+
+    currentWeek -= 4;
+
+    if(currentWeek < 1){
+        currentWeek = 1;
+    }
+
+    renderWeek();
+});
+
+/* ===============================
+   RENDER
+================================ */
+
+function renderWeek(){
+
+    weekIndicator.innerText =
+        `Week ${currentWeek} / 52`;
+
+    renderStats();
+    renderMemories();
+    renderRemembered();
+    renderTimeline();
+    renderMedia();
+    renderImpact();
+    renderNetwork();
+    revealAdvancedSections();
+}
+
+/* ===============================
+   STATS
+================================ */
+
+function renderStats(){
+
+    const visibleMemories =
+        db.memories.filter(
+            m=>m.week <= currentWeek
+        );
+
+    const years =
+        Math.max(1,Math.floor(currentWeek/4));
+
+    stats.innerHTML = `
+
+        <div class="stat fade">
+            <h3>${visibleMemories.length}</h3>
+            <span>Memories Preserved</span>
+        </div>
+
+        <div class="stat fade">
+            <h3>${years}</h3>
+            <span>Years Remembered</span>
+        </div>
+
+        <div class="stat fade">
+            <h3>${Math.max(1,Math.floor(currentWeek/3))}</h3>
+            <span>Students Influenced</span>
+        </div>
+
+        <div class="stat fade">
+            <h3>${Math.max(1,Math.floor(currentWeek/6))}</h3>
+            <span>Institutions Connected</span>
+        </div>
+
+    `;
+}
+
+/* ===============================
+   MEMORIES
+================================ */
+
+function renderMemories(){
+
+    const visible =
+        db.memories.filter(
+            m=>m.week <= currentWeek
+        );
+
+    memoryGrid.innerHTML = "";
+
+    visible.forEach(memory=>{
+
+        const div =
+            document.createElement("div");
+
+        div.className = "memory fade";
+
+        div.innerHTML = `
+
+            <div class="memory-top">
+
+                <div class="student">
+                    ${memory.student}
+                </div>
+
+                <div class="week">
+                    Week ${memory.week}
+                </div>
+
+            </div>
+
+            <p>
+                "${memory.text}"
+            </p>
+
+            <div class="chips">
+                ${
+                    memory.tags.map(tag=>
+                        `<div class="chip">${tag}</div>`
+                    ).join("")
+                }
+            </div>
+
+        `;
+
+        memoryGrid.appendChild(div);
+
+    });
+
+}
+
+/* ===============================
+   REMEMBERED THEMES
+================================ */
+
+function renderRemembered(){
+
+    if(currentWeek < 4){
+        rememberedSection.classList.add("hidden");
+        return;
+    }
+
+    rememberedSection.classList.remove("hidden");
+
+    const themes = [
+        "encouragement",
+        "curiosity",
+        "helped quietly",
+        "noticed potential",
+        "safe classroom",
+        "builders",
+        "resilience support"
+    ];
+
+    rememberedChips.innerHTML =
+        themes
+        .slice(0,Math.min(
+            themes.length,
+            Math.floor(currentWeek/6)+2
+        ))
+        .map(theme=>
+            `<div class="chip">${theme}</div>`
+        ).join("");
+}
+
+/* ===============================
+   TIMELINE
+================================ */
+
+function renderTimeline(){
+
+    if(currentWeek < 12){
+        timelineSection.classList.add("hidden");
+        return;
+    }
+
+    timelineSection.classList.remove("hidden");
+
+    const visible =
+        db.timeline.filter(
+            t=>t.week <= currentWeek
+        );
+
+    timelineEl.innerHTML =
+        visible.map(item=>`
+
+            <div class="timeline-item fade">
+
+                <div class="timeline-year">
+                    ${item.year}
+                </div>
+
+                <div class="timeline-text">
+                    ${item.text}
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+/* ===============================
+   MEDIA
+================================ */
+
+function renderMedia(){
+
+    if(currentWeek < 20){
+        mediaSection.classList.add("hidden");
+        return;
+    }
+
+    mediaSection.classList.remove("hidden");
+
+    const visible =
+        db.media.filter(
+            m=>m.week <= currentWeek
+        );
+
+    gallery.innerHTML =
+        visible.map(media=>`
+
+            <div class="media fade">
+                ${media.type}
+            </div>
+
+        `).join("");
+
+}
+
+/* ===============================
+   IMPACT
+================================ */
+
+function renderImpact(){
+
+    if(currentWeek < 36){
+        impactSection.classList.add("hidden");
+        return;
+    }
+
+    impactSection.classList.remove("hidden");
+
+    const visible =
+        db.impacts.filter(
+            i=>i.week <= currentWeek
+        );
+
+    impactChips.innerHTML =
+        visible.map(item=>
+            `<div class="chip">${item.label}</div>`
+        ).join("");
+
+}
+
+/* ===============================
+   NETWORK GRAPH
+================================ */
+
+function renderNetwork(){
+
+    if(currentWeek < 44){
+        networkSection.classList.add("hidden");
+        return;
+    }
+
+    networkSection.classList.remove("hidden");
+
+    graph.innerHTML = `
+
+        Meera Sharma
+        <br/>
+        ↓
+        <br/>
+        Peer Science Club (2019)
+        <br/>
+        ↓
+        <br/>
+        Girls Robotics Initiative (2022)
+        <br/>
+        ↓
+        <br/>
+        Community STEM Workshops
+        <br/>
+        ↓
+        <br/>
+        Former Students → Startups • Research • Public Service
+
+    `;
+}
+
+/* ===============================
+   ADVANCED SECTIONS
+================================ */
+
+function revealAdvancedSections(){
+
+    if(currentWeek >= 12){
+
+        document.getElementById("mentorPhilosophy")
+            .classList.remove("hidden");
+    }
+
+    if(currentWeek >= 52){
+
+        document.getElementById("claimBtn")
+            .classList.remove("hidden");
+    }
+
+}
+
+/* ===============================
+   INITIAL RENDER
+================================ */
+
+renderWeek();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ascendly — Memory Growth Demo</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,system-ui,sans-serif;
+    background:#0b1016;
+    color:#edf3fa;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at top left, rgba(78,168,222,0.15), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(87,204,153,0.12), transparent 30%);
+    z-index:-1;
+}
+
+.container{
+    width:min(1350px,94%);
+    margin:auto;
+    padding:40px 0 80px;
+}
+
+.header{
+    margin-bottom:30px;
+}
+
+.header h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.header p{
+    color:#96a7b8;
+    line-height:1.7;
+    max-width:900px;
+}
+
+.layout{
+    display:grid;
+    grid-template-columns:420px 1fr;
+    gap:24px;
+}
+
+.panel{
+    background:rgba(18,24,32,0.88);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:28px;
+    padding:28px;
+    backdrop-filter:blur(12px);
+}
+
+.section-title{
+    font-size:20px;
+    margin-bottom:18px;
+}
+
+.memory-card{
+    background:#151d26;
+    border-radius:24px;
+    padding:24px;
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+.student{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.student-name{
+    font-size:28px;
+    font-weight:700;
+}
+
+.badge{
+    background:#223142;
+    color:#dce8f5;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:12px;
+}
+
+.initial-note{
+    background:#1a2430;
+    padding:18px;
+    border-radius:18px;
+    line-height:1.7;
+    color:#dfe9f3;
+    margin-bottom:20px;
+}
+
+.timeline{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-top:20px;
+}
+
+.timeline-item{
+    background:#161f29;
+    border-radius:18px;
+    padding:18px;
+    border-left:4px solid #57cc99;
+    animation:fadeIn 0.4s ease;
+}
+
+.timeline-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.timeline-step{
+    font-size:12px;
+    color:#57cc99;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+}
+
+.timeline-time{
+    color:#92a4b7;
+    font-size:12px;
+}
+
+.timeline-content{
+    line-height:1.7;
+    color:#e5edf5;
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:14px;
+}
+
+.tag{
+    background:#243342;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    color:#dce8f5;
+}
+
+.interaction-panel{
+    display:flex;
+    flex-direction:column;
+}
+
+.question-box{
+    background:#151d26;
+    border-radius:24px;
+    padding:24px;
+    margin-bottom:24px;
+}
+
+.question-box h2{
+    margin-bottom:10px;
+    font-size:24px;
+}
+
+.question-box p{
+    color:#93a5b6;
+    line-height:1.7;
+}
+
+.original-memory{
+    margin-top:18px;
+    background:#1b2430;
+    padding:18px;
+    border-radius:18px;
+    line-height:1.7;
+}
+
+.options{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:26px;
+}
+
+.option{
+    background:#1d2a38;
+    border:1px solid rgba(255,255,255,0.06);
+    padding:14px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.25s ease;
+    user-select:none;
+}
+
+.option:hover{
+    transform:translateY(-2px);
+    background:#27384a;
+}
+
+.option.selected{
+    background:#57cc99;
+    color:#07140e;
+    font-weight:700;
+}
+
+.bottom-bar{
+    margin-bottom: 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.progress-wrap{
+    flex:1;
+}
+
+.progress-text{
+    color:#91a4b7;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.progress-bar{
+    width:100%;
+    height:12px;
+    border-radius:999px;
+    background:#17212b;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#4ea8de,#57cc99);
+    transition:width 0.4s ease;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    transition:all 0.25s ease;
+}
+
+.primary-btn{
+    background:linear-gradient(135deg,#4ea8de,#57cc99);
+    color:#071018;
+    font-weight:700;
+    padding:16px 24px;
+    border-radius:18px;
+    font-size:15px;
+}
+
+.primary-btn:hover{
+    transform:translateY(-2px);
+}
+
+.primary-btn:disabled{
+    opacity:0.35;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.summary{
+    margin-top:26px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:14px;
+}
+
+.summary-card{
+    background:#141c25;
+    border-radius:18px;
+    padding:18px;
+}
+
+.summary-card h3{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.summary-card p{
+    color:#92a5b8;
+    font-size:13px;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media(max-width:1000px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Ascendly — Growing Human Memory</h1>
+        <p>
+            A teacher writes one tiny note. Over months, lightweight MCQ reminders slowly transform that note into a rich longitudinal understanding of the student — without forms, scoring, or reporting fatigue.
+        </p>
+    </div>
+
+    <div class="layout">
+
+        <div class="panel">
+
+            <div class="section-title">Student Memory Timeline</div>
+
+            <div class="memory-card">
+
+                <div class="student">
+                    <div class="student-name">Aarav Singh</div>
+                    <div class="badge">Class 8</div>
+                </div>
+
+                <div class="initial-note" id="initialNote">
+                    “Stayed after school helping juniors prepare for exams.”
+                </div>
+
+                <div class="timeline" id="timeline"></div>
+
+                <div class="summary">
+
+                    <div class="summary-card">
+                        <h3 id="signalCount">0</h3>
+                        <p>Behavior Signals</p>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3 id="interactionCount">0</h3>
+                        <p>Memory Interactions</p>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3 id="strengthCount">0</h3>
+                        <p>Emerging Strengths</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel interaction-panel">
+
+            <div class="bottom-bar">
+
+                <div class="progress-wrap">
+                    <div class="progress-text" id="progressText">
+                        Interaction 1 of 10
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <button class="primary-btn" id="nextBtn" disabled>
+                    Save Interaction
+                </button>
+
+            </div>
+
+            <div class="question-box">
+
+                <h2 id="questionTitle">Week 1 Reminder</h2>
+
+                <p id="questionSubtitle">
+                    Recover immediate context while memory is still fresh.
+                </p>
+
+                <div class="original-memory" id="questionPrompt">
+                    What made this moment memorable?
+                </div>
+
+                <div class="options" id="options"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const interactions = [
+
+    {
+        time:"1 Week Later",
+        title:"Week 1 Reminder",
+        subtitle:"Recover immediate context while memory is still fresh.",
+        prompt:"What made this moment memorable?",
+        options:[
+            "Voluntary action",
+            "Helped others",
+            "Unexpected maturity",
+            "Repeated behavior",
+            "Stayed extra time",
+            "Peers respected it"
+        ],
+        selected:[
+            "Voluntary action",
+            "Helped others"
+        ],
+        insight:"Teacher recognized the behavior was voluntary and contribution-oriented.",
+        signals:["Initiative","Contribution"]
+    },
+
+    {
+        time:"2 Weeks Later",
+        title:"Pattern Reminder",
+        subtitle:"Understand whether the behavior repeated naturally.",
+        prompt:"Did you notice similar behavior again?",
+        options:[
+            "Frequently",
+            "Occasionally",
+            "Only once",
+            "In different situations",
+            "Other students noticed too",
+            "Other teachers may notice this"
+        ],
+        selected:[
+            "Frequently",
+            "Other students noticed too"
+        ],
+        insight:"The contribution behavior appears socially visible and recurring.",
+        signals:["Consistency","Peer Trust"]
+    },
+
+    {
+        time:"1 Month Later",
+        title:"Classroom Impact",
+        subtitle:"Recover the social effect of the moment.",
+        prompt:"How did this affect the classroom environment?",
+        options:[
+            "Inspired classmates",
+            "Reduced stress",
+            "Created teamwork",
+            "Improved confidence",
+            "Encouraged participation",
+            "Built trust"
+        ],
+        selected:[
+            "Inspired classmates",
+            "Built trust"
+        ],
+        insight:"The action positively shaped classroom culture and trust.",
+        signals:["Quiet Leadership","Social Stability"]
+    },
+
+    {
+        time:"6 Weeks Later",
+        title:"Responsibility Reminder",
+        subtitle:"Understand whether responsibility appeared naturally.",
+        prompt:"What kind of responsibility did the student show?",
+        options:[
+            "No supervision needed",
+            "Stayed calm under pressure",
+            "Helped weaker students",
+            "Organized others",
+            "Handled difficult tasks",
+            "Continued despite inconvenience"
+        ],
+        selected:[
+            "No supervision needed",
+            "Helped weaker students"
+        ],
+        insight:"The student demonstrated self-directed responsibility.",
+        signals:["Responsibility","Mentorship"]
+    },
+
+    {
+        time:"2 Months Later",
+        title:"Teacher Reflection",
+        subtitle:"Understand why the memory emotionally stayed.",
+        prompt:"Why do you think this stood out to you personally?",
+        options:[
+            "Most students would not do this",
+            "Quiet leadership",
+            "Rare maturity",
+            "Showed empathy",
+            "Unexpected initiative",
+            "Changed how I viewed the student"
+        ],
+        selected:[
+            "Quiet leadership",
+            "Changed how I viewed the student"
+        ],
+        insight:"The teacher’s understanding of the student evolved significantly.",
+        signals:["Identity Shift","Hidden Potential"]
+    },
+
+    {
+        time:"3 Months Later",
+        title:"Continuity Check",
+        subtitle:"Detect whether the pattern appears across contexts.",
+        prompt:"Where else has this behavior appeared?",
+        options:[
+            "Group projects",
+            "Sports/events",
+            "Helping juniors",
+            "Community activities",
+            "Outside classroom",
+            "During stressful periods"
+        ],
+        selected:[
+            "Group projects",
+            "Helping juniors"
+        ],
+        insight:"The behavior extends beyond a single isolated moment.",
+        signals:["Cross-Context Consistency","Collaboration"]
+    },
+
+    {
+        time:"4 Months Later",
+        title:"Peer Trust Layer",
+        subtitle:"Measure social reliability naturally.",
+        prompt:"How do other students respond to this student now?",
+        options:[
+            "Seek help from them",
+            "Trust them during teamwork",
+            "Follow their lead",
+            "Feel calmer around them",
+            "Include them naturally",
+            "Respect their effort"
+        ],
+        selected:[
+            "Seek help from them",
+            "Trust them during teamwork"
+        ],
+        insight:"Peer trust signals are becoming visible.",
+        signals:["Trustworthiness","Collaboration Reliability"]
+    },
+
+    {
+        time:"6 Months Later",
+        title:"Growth Velocity",
+        subtitle:"See whether the student is evolving rapidly.",
+        prompt:"Compared to earlier months, the student now seems:",
+        options:[
+            "More confident",
+            "More proactive",
+            "More helpful",
+            "More self-directed",
+            "More socially influential",
+            "More resilient"
+        ],
+        selected:[
+            "More proactive",
+            "More socially influential"
+        ],
+        insight:"Teacher notices upward developmental momentum.",
+        signals:["Growth Trajectory","Emerging Influence"]
+    },
+
+    {
+        time:"9 Months Later",
+        title:"Future Continuity",
+        subtitle:"Capture early continuity signals without prediction.",
+        prompt:"This student may continue contributing through:",
+        options:[
+            "Mentoring others",
+            "Leading projects",
+            "Community contribution",
+            "Problem solving",
+            "Building initiatives",
+            "Supporting peers"
+        ],
+        selected:[
+            "Mentoring others",
+            "Community contribution"
+        ],
+        insight:"The teacher sees contribution as part of the student’s identity pattern.",
+        signals:["Long-Term Contribution","Community Orientation"]
+    },
+
+    {
+        time:"1 Year Later",
+        title:"Historical Reflection",
+        subtitle:"The original moment now becomes historically meaningful.",
+        prompt:"Looking back after a year, this moment now feels:",
+        options:[
+            "Like an early signal",
+            "More important than expected",
+            "Part of a larger pattern",
+            "Foundational to growth",
+            "Worth preserving permanently",
+            "Representative of the student"
+        ],
+        selected:[
+            "Part of a larger pattern",
+            "Worth preserving permanently"
+        ],
+        insight:"A tiny observation evolved into longitudinal human understanding.",
+        signals:["Longitudinal Continuity","Human Development"]
+    }
+
+];
+
+let currentIndex = 0;
+let selectedOptions = [];
+let totalSignals = [];
+
+const optionsContainer = document.getElementById("options");
+const nextBtn = document.getElementById("nextBtn");
+const timeline = document.getElementById("timeline");
+
+function renderInteraction(){
+
+    const interaction = interactions[currentIndex];
+
+    document.getElementById("questionTitle").innerText = interaction.title;
+    document.getElementById("questionSubtitle").innerText = interaction.subtitle;
+    document.getElementById("questionPrompt").innerText = interaction.prompt;
+
+    document.getElementById("progressText").innerText =
+        `Interaction ${currentIndex + 1} of ${interactions.length}`;
+
+    document.getElementById("progressFill").style.width =
+        `${((currentIndex)/interactions.length)*100}%`;
+
+    optionsContainer.innerHTML = "";
+    selectedOptions = [];
+
+    interaction.options.forEach(option=>{
+
+        const div = document.createElement("div");
+        div.className = "option";
+        div.innerText = option;
+
+        div.addEventListener("click",()=>{
+
+            if(div.classList.contains("selected")){
+
+                div.classList.remove("selected");
+                selectedOptions = selectedOptions.filter(o=>o!==option);
+
+            } else {
+
+                if(selectedOptions.length < 2){
+                    div.classList.add("selected");
+                    selectedOptions.push(option);
+                }
+            }
+
+            nextBtn.disabled = selectedOptions.length === 0;
+
+        });
+
+        optionsContainer.appendChild(div);
+    });
+
+    nextBtn.disabled = true;
+}
+
+function addTimelineItem(interaction){
+
+    interaction.signals.forEach(signal=>{
+        if(!totalSignals.includes(signal)){
+            totalSignals.push(signal);
+        }
+    });
+
+    const div = document.createElement("div");
+    div.className = "timeline-item";
+
+    div.innerHTML = `
+
+        <div class="timeline-top">
+            <div class="timeline-step">${interaction.title}</div>
+            <div class="timeline-time">${interaction.time}</div>
+        </div>
+
+        <div class="timeline-content">
+            ${interaction.insight}
+        </div>
+
+        <div class="tags">
+            ${selectedOptions.map(o=>`<div class="tag">${o}</div>`).join("")}
+            ${interaction.signals.map(s=>`<div class="tag">${s}</div>`).join("")}
+        </div>
+
+    `;
+
+    timeline.prepend(div);
+
+    document.getElementById("signalCount").innerText = totalSignals.length;
+    document.getElementById("interactionCount").innerText = currentIndex + 1;
+    document.getElementById("strengthCount").innerText =
+        [...new Set(totalSignals)].length;
+}
+
+nextBtn.addEventListener("click",()=>{
+
+    const interaction = interactions[currentIndex];
+
+    addTimelineItem(interaction);
+
+    currentIndex++;
+
+    document.getElementById("progressFill").style.width =
+        `${(currentIndex/interactions.length)*100}%`;
+
+    if(currentIndex >= interactions.length){
+
+        document.querySelector(".question-box").innerHTML = `
+
+            <h2 style="margin-bottom:14px;">Longitudinal Memory Complete</h2>
+
+            <p style="line-height:1.8;color:#d9e6f2;">
+                The original one-line note has now evolved into a rich developmental continuity archive.
+                The teacher never filled long forms, scored personality traits, or wrote reports.
+                The understanding emerged gradually through lightweight reflection prompts across time.
+            </p>
+
+            <div class="summary" style="margin-top:30px;">
+
+                <div class="summary-card">
+                    <h3>${totalSignals.length}</h3>
+                    <p>Total Human Signals Detected</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>10</h3>
+                    <p>Low-Friction Interactions</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>1 Year</h3>
+                    <p>Observation Continuity</p>
+                </div>
+
+            </div>
+
+        `;
+
+        nextBtn.style.display = "none";
+
+    } else {
+
+        renderInteraction();
+
+    }
+
+});
+
+renderInteraction();
+
+</script>
+
+</body>
+</html>

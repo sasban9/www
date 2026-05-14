@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ascendly — Whose life still carries evidence that this teacher existed?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ─── TOKENS ──────────────────────────────────────────── */
+:root {
+  --paper:   #f7f2e8;
+  --paper2:  #efe9d8;
+  --paper3:  #e6dfc9;
+  --ink:     #1c1812;
+  --ink2:    #3a3228;
+  --ink3:    #6b5e4a;
+  --ink4:    #a09278;
+  --amber:   #c4883a;
+  --amber2:  #e8b86d;
+  --amber3:  #f5dba0;
+  --rust:    #9e4a2a;
+  --sage:    #4a7a5c;
+  --border:  rgba(100,80,50,0.15);
+  --border2: rgba(100,80,50,0.08);
+  --shadow:  rgba(28,24,18,0.12);
+}
+
+/* ─── RESET ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Lora', Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ─── PAPER TEXTURE OVERLAY ────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: multiply;
+}
+
+/* warm vignette */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, transparent 40%, rgba(28,24,18,0.06) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ─── TYPOGRAPHY ────────────────────────────────────────── */
+.display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+.serif { font-family: 'Lora', Georgia, serif; }
+.mono  { font-family: 'DM Mono', monospace; }
+
+/* ─── NAV ───────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  height: 64px;
+  background: rgba(247,242,232,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+  text-decoration: none;
+}
+.nav-logo-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 8px var(--amber2);
+}
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-link {
+  font-size: 13px;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: var(--ink3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+.nav-cta:hover { background: var(--ink2); transform: translateY(-1px); }
+
+/* ─── HERO ──────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* decorative ruled lines behind hero */
+.hero-lines {
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 39px,
+    rgba(100,80,50,0.06) 39px,
+    rgba(100,80,50,0.06) 40px
+  );
+  pointer-events: none;
+}
+
+/* margin line left */
+.hero-margin {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 11%;
+  width: 1px;
+  background: rgba(180,120,80,0.12);
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  max-width: 900px;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.35s forwards;
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--amber);
+}
+
+.hero-sub-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 3.5vw, 40px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink3);
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.5s forwards;
+  letter-spacing: -0.01em;
+}
+
+/* ─── HERO QUOTE STRIP ──────────────────────────────────── */
+.hero-quote {
+  max-width: 540px;
+  margin: 0 auto 3.5rem;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.65s forwards;
+}
+.hero-quote-text {
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink2);
+  line-height: 1.8;
+  border-left: 2px solid var(--amber2);
+  padding-left: 1.25rem;
+  text-align: left;
+}
+.hero-quote-attr {
+  font-size: 12px;
+  color: var(--ink4);
+  margin-top: 8px;
+  text-align: left;
+  padding-left: 1.25rem;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+}
+
+/* ─── CTA BUTTON ────────────────────────────────────────── */
+.hero-cta-wrap {
+  opacity: 0;
+  animation: fadeUp 0.9s 0.8s forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.btn-write {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-write::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.05) 100%);
+}
+.btn-write:hover {
+  background: var(--amber);
+  color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(196,136,58,0.35);
+}
+.btn-hint {
+  font-size: 12px;
+  color: var(--ink4);
+  font-style: italic;
+}
+
+/* ─── SCROLL INDICATOR ──────────────────────────────────── */
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  opacity: 0;
+  animation: fadeIn 1s 1.4s forwards;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--ink4), transparent);
+  animation: scrollPulse 2s 1.4s infinite;
+}
+.scroll-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  font-family: 'DM Mono', monospace;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.1); }
+}
+
+/* ─── LIVING WALL ───────────────────────────────────────── */
+.section-wall {
+  padding: 6rem 2rem;
+  background: var(--paper2);
+  border-top: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.section-wall::before {
+  content: '';
+  position: absolute; top: 0; bottom: 0; left: 9%;
+  width: 1px;
+  background: rgba(180,120,80,0.1);
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+}
+.section-title em { font-style: italic; color: var(--amber); }
+.section-sub {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink3);
+  text-align: center;
+  max-width: 440px;
+  margin: 0 auto 4rem;
+  line-height: 1.7;
+}
+
+/* TRIBUTE CARDS — masonry-feel waterfall */
+.wall-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  columns: 3;
+  column-gap: 1.5rem;
+}
+@media (max-width: 900px) { .wall-grid { columns: 2; } }
+@media (max-width: 580px) { .wall-grid { columns: 1; } }
+
+.tribute-card {
+  break-inside: avoid;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.tribute-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.25s;
+}
+.tribute-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px var(--shadow);
+}
+
+/* subtle fold corner */
+.tribute-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 24px; height: 24px;
+  background: linear-gradient(225deg, var(--paper2) 50%, transparent 50%);
+}
+
+.tribute-quote-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  line-height: 0.8;
+  color: var(--amber3);
+  margin-bottom: 8px;
+  display: block;
+}
+.tribute-text {
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink2);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+.tribute-divider {
+  width: 24px; height: 1px;
+  background: var(--amber2);
+  margin-bottom: 10px;
+}
+.tribute-student {
+  font-size: 11px;
+  color: var(--ink3);
+  font-family: 'Lora', serif;
+  margin-bottom: 2px;
+}
+.tribute-teacher {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.tribute-school {
+  font-size: 11px;
+  color: var(--ink4);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+}
+.tribute-year {
+  position: absolute;
+  top: 1.25rem; right: 1.25rem;
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  color: var(--ink4);
+  letter-spacing: 0.06em;
+}
+
+/* featured card — large */
+.tribute-card.featured {
+  background: var(--ink);
+  border-color: transparent;
+}
+.tribute-card.featured .tribute-quote-mark { color: rgba(196,136,58,0.3); }
+.tribute-card.featured .tribute-text { color: rgba(247,242,232,0.8); }
+.tribute-card.featured .tribute-teacher { color: var(--amber2); }
+.tribute-card.featured .tribute-student { color: rgba(247,242,232,0.5); }
+.tribute-card.featured .tribute-school  { color: rgba(247,242,232,0.35); }
+.tribute-card.featured .tribute-year    { color: rgba(247,242,232,0.3); }
+.tribute-card.featured::after { background: linear-gradient(225deg, #252015 50%, transparent 50%); }
+
+/* ─── COUNTER STRIP ─────────────────────────────────────── */
+.counter-strip {
+  background: var(--ink);
+  padding: 3rem 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
+  flex-wrap: wrap;
+}
+.counter-item { text-align: center; }
+.counter-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 300;
+  color: var(--amber2);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  display: block;
+}
+.counter-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(247,242,232,0.4);
+  font-family: 'DM Mono', monospace;
+  margin-top: 6px;
+  display: block;
+}
+
+/* ─── HOW IT WORKS ──────────────────────────────────────── */
+.section-how {
+  padding: 7rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.how-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem 4rem;
+  margin-top: 4rem;
+}
+@media (max-width: 640px) { .how-steps { grid-template-columns: 1fr; } }
+
+.how-step { position: relative; }
+.how-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 80px;
+  font-weight: 300;
+  color: var(--amber3);
+  line-height: 1;
+  margin-bottom: 0;
+  letter-spacing: -0.05em;
+  display: block;
+}
+.how-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  margin-top: -8px;
+  letter-spacing: -0.01em;
+}
+.how-body {
+  font-size: 14px;
+  color: var(--ink3);
+  line-height: 1.8;
+  font-style: italic;
+}
+
+/* ─── PHILOSOPHY SECTION ──────────────────────────────── */
+.section-philosophy {
+  background: var(--paper3);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 7rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.philosophy-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+
+.phil-pullquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 2.5rem;
+}
+.phil-pullquote strong {
+  font-weight: 600;
+  font-style: normal;
+  color: var(--rust);
+}
+
+.phil-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-top: 4rem;
+  text-align: left;
+}
+@media (max-width: 700px) { .phil-grid { grid-template-columns: 1fr; } }
+
+.phil-item-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 8px;
+}
+.phil-item-vs {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  color: var(--ink4);
+  margin: 10px 0;
+}
+.phil-item-from {
+  font-size: 13px;
+  color: var(--ink3);
+  text-decoration: line-through;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+.phil-item-to {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* ─── WRITE SECTION ─────────────────────────────────────── */
+.section-write {
+  padding: 7rem 2rem;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.write-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 2.5rem 2.5rem 2rem;
+  margin-top: 3rem;
+  text-align: left;
+  box-shadow: 0 4px 40px var(--shadow);
+  position: relative;
+}
+
+/* paper clip decoration */
+.write-card::before {
+  content: '';
+  position: absolute;
+  top: -14px; left: 48px;
+  width: 2px; height: 28px;
+  background: var(--amber);
+  border-radius: 1px;
+  box-shadow: 5px 0 0 var(--amber);
+}
+
+.write-prompt {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink2);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.write-prompt em { color: var(--amber); font-style: normal; }
+
+.write-field {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  color: var(--ink);
+  padding: 8px 0;
+  margin-bottom: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.write-field::placeholder { color: var(--ink4); font-style: italic; }
+.write-field:focus { border-color: var(--amber); }
+
+.write-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink);
+  padding: 8px 0;
+  margin-bottom: 16px;
+  resize: none;
+  min-height: 90px;
+  outline: none;
+  line-height: 1.8;
+  transition: border-color 0.2s;
+}
+.write-textarea::placeholder { color: var(--ink4); }
+.write-textarea:focus { border-color: var(--amber); }
+
+.write-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  font-family: 'DM Mono', monospace;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.write-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media (max-width: 500px) { .write-row { grid-template-columns: 1fr; } }
+
+.write-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border2);
+}
+.write-privacy {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--ink4);
+}
+.btn-submit {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-submit:hover { background: var(--amber); color: var(--ink); transform: translateY(-1px); }
+
+/* ─── SUBMIT SUCCESS ────────────────────────────────────── */
+.write-success {
+  display: none;
+  text-align: center;
+  padding: 3rem 1rem;
+}
+.write-success.show { display: block; animation: fadeUp 0.6s forwards; }
+.success-icon {
+  font-size: 40px;
+  margin-bottom: 1rem;
+  display: block;
+  animation: gentlePulse 2s infinite;
+}
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.9; }
+}
+.success-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+}
+.success-body {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink3);
+  line-height: 1.8;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+/* ─── LEGACY GRAPH TEASER ───────────────────────────────── */
+.section-graph {
+  background: var(--ink);
+  padding: 7rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.section-graph::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(196,136,58,0.08) 0%, transparent 70%);
+}
+.graph-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(34px, 5vw, 58px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--paper);
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+  line-height: 1.15;
+}
+.graph-sub {
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(247,242,232,0.45);
+  max-width: 400px;
+  margin: 0 auto 4rem;
+  line-height: 1.7;
+}
+
+/* SVG legacy graph — animated dots */
+.graph-svg-wrap {
+  max-width: 700px;
+  margin: 0 auto 4rem;
+  position: relative;
+}
+.graph-svg-wrap svg { width: 100%; height: auto; overflow: visible; }
+
+/* ─── FOOTER ────────────────────────────────────────────── */
+footer {
+  background: var(--paper2);
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.footer-tagline {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--ink4);
+  margin-bottom: 2rem;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 12px;
+  color: var(--ink4);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.06em;
+  flex-wrap: wrap;
+}
+.footer-copy {
+  margin-top: 2rem;
+  font-size: 11px;
+  color: var(--ink4);
+  font-style: italic;
+}
+
+/* ─── ANIMATIONS ────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── FLOATING AMBIENT WORDS ────────────────────────────── */
+.ambient-word {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: rgba(100,80,50,0.06);
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* ─── SCROLLBAR ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <span class="nav-logo-dot"></span>
+    Ascendly
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="#wall">The Wall</a>
+    <a class="nav-link" href="#how">How it works</a>
+    <a class="nav-link" href="#write">Write a tribute</a>
+    <button class="nav-cta" onclick="scrollToWrite()">Remember someone →</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+═════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-lines"></div>
+  <div class="hero-margin"></div>
+
+  <!-- ambient floating words -->
+  <span class="ambient-word" style="font-size:120px;top:8%;left:2%;opacity:1">believe</span>
+  <span class="ambient-word" style="font-size:80px;bottom:15%;right:3%">remember</span>
+  <span class="ambient-word" style="font-size:60px;top:35%;right:6%">seen</span>
+
+  <div class="hero-eyebrow">A living memory of teachers who changed lives</div>
+
+  <h1 class="hero-headline">
+    Whose life still carries<br><em>evidence</em> that this<br>teacher existed?
+  </h1>
+
+  <div class="hero-sub-line">
+    Not stars. Not ratings. Remembered moments.
+  </div>
+
+  <div class="hero-quote">
+    <div class="hero-quote-text">
+      "She wrote in my school record that I ask good questions.
+      I was nine years old. I became a scientist
+      because someone noticed."
+    </div>
+    <div class="hero-quote-attr">— Rohan Das, research scientist · recalling Mrs. Kavita Rao, 1998</div>
+  </div>
+
+  <div class="hero-cta-wrap">
+    <button class="btn-write" onclick="scrollToWrite()">
+      Write one line for your teacher →
+    </button>
+    <span class="btn-hint">Takes 60 seconds. Lasts a lifetime.</span>
+  </div>
+
+  <div class="scroll-hint">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     COUNTER STRIP
+═════════════════════════════════════════════════════ -->
+<div class="counter-strip">
+  <div class="counter-item">
+    <span class="counter-num" data-target="24817">0</span>
+    <span class="counter-label">Moments preserved</span>
+  </div>
+  <div class="counter-item">
+    <span class="counter-num" data-target="6392">0</span>
+    <span class="counter-label">Teachers remembered</span>
+  </div>
+  <div class="counter-item">
+    <span class="counter-num" data-target="38">0</span>
+    <span class="counter-label">Years the longest memory spans</span>
+  </div>
+  <div class="counter-item">
+    <span class="counter-num" data-target="11">0</span>
+    <span class="counter-label">Countries</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     LIVING WALL
+═════════════════════════════════════════════════════ -->
+<section class="section-wall" id="wall">
+  <div class="section-label">The living wall</div>
+  <h2 class="section-title">What people <em>remember</em></h2>
+  <p class="section-sub">Each card is a real moment between a student and the teacher who changed them.</p>
+
+  <div class="wall-grid" id="wallGrid">
+    <!-- Cards injected by JS -->
+  </div>
+
+  <div style="text-align:center;margin-top:2rem">
+    <button class="btn-write" style="font-size:16px;padding:12px 32px" onclick="scrollToWrite()">
+      Add your memory →
+    </button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     HOW IT WORKS
+═════════════════════════════════════════════════════ -->
+<section id="how">
+  <div class="section-how">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title" style="text-align:left">Simple as<br><em>writing a letter</em></h2>
+
+    <div class="how-steps">
+      <div class="how-step">
+        <span class="how-num">01</span>
+        <div class="how-title">Remember the moment</div>
+        <p class="how-body">Close your eyes. Think of the teacher who believed in you before you believed in yourself. Remember the day. The sentence they said. The look they gave you.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-num">02</span>
+        <div class="how-title">Write one line</div>
+        <p class="how-body">Not an essay. Not a review. One line is enough. "She told me I was a writer when no one else did." That's a complete memory. That's worth preserving.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-num">03</span>
+        <div class="how-title">Name them</div>
+        <p class="how-body">A teacher's name, their school, the year. That's all. The memory finds its place in a growing thread of lives this person has quietly changed.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-num">04</span>
+        <div class="how-title">The legacy grows</div>
+        <p class="how-body">Over years, a pattern emerges. Not stars or scores — a graph of lives. Generations of students, linked to one teacher, carrying something forward that money cannot measure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PHILOSOPHY
+═════════════════════════════════════════════════════ -->
+<section class="section-philosophy">
+  <div class="philosophy-inner">
+    <div class="section-label">What we believe</div>
+    <p class="phil-pullquote">
+      Marks measure performance<br>under examination.<br>
+      <strong>Ascendly tracks behaviour<br>across real life.</strong>
+    </p>
+    <p style="font-size:14px;font-style:italic;color:var(--ink3);line-height:1.8">
+      The student who stayed to help a struggling classmate.<br>
+      The one who asked the question the whole class was afraid to ask.<br>
+      The one who failed and came back the next day anyway.<br>
+      <br>
+      These moments disappear. We preserve them.
+    </p>
+
+    <div class="phil-grid" style="max-width:700px;margin:4rem auto 0">
+      <div>
+        <div class="phil-item-label">Not this</div>
+        <div class="phil-item-from">★★★★☆ Great teacher</div>
+        <div class="phil-item-vs">but this</div>
+        <div class="phil-item-to">"She changed how I saw myself."</div>
+      </div>
+      <div>
+        <div class="phil-item-label">Not this</div>
+        <div class="phil-item-from">Rankings &amp; leaderboards</div>
+        <div class="phil-item-vs">but this</div>
+        <div class="phil-item-to">A slowly unfolding legacy.</div>
+      </div>
+      <div>
+        <div class="phil-item-label">Not this</div>
+        <div class="phil-item-from">Annual teacher award</div>
+        <div class="phil-item-vs">but this</div>
+        <div class="phil-item-to">30 years of student lives.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     LEGACY GRAPH TEASER
+═════════════════════════════════════════════════════ -->
+<section class="section-graph">
+  <h2 class="graph-title">One teacher.<br>Generations of lives.</h2>
+  <p class="graph-sub">This is what a legacy looks like when you stop counting stars and start connecting people.</p>
+
+  <div class="graph-svg-wrap">
+    <svg id="legacySvg" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- lines drawn by JS -->
+    </svg>
+  </div>
+
+  <button class="btn-write" onclick="scrollToWrite()" style="background:var(--amber);color:var(--ink)">
+    Add yourself to the graph →
+  </button>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     WRITE TRIBUTE
+═════════════════════════════════════════════════════ -->
+<section id="write">
+  <div class="section-write">
+    <div class="section-label">Write a tribute</div>
+    <h2 class="section-title" style="font-size:clamp(32px,4.5vw,52px)">Think of the one<br><em>teacher who saw you</em></h2>
+    <p style="font-size:14px;font-style:italic;color:var(--ink3);margin-top:0.75rem;line-height:1.7">
+      Before the world noticed. Before you knew yourself.<br>The one who said something that still lives in you.
+    </p>
+
+    <div class="write-card" id="writeCard">
+      <p class="write-prompt">Who was the teacher that <em>changed how you saw yourself?</em></p>
+
+      <div class="write-row">
+        <div>
+          <label class="write-label">Their name</label>
+          <input class="write-field" id="w-teacher" type="text" placeholder="Mrs. Kavita Rao…">
+        </div>
+        <div>
+          <label class="write-label">School / Institution</label>
+          <input class="write-field" id="w-school" type="text" placeholder="KV No. 3, Pune…">
+        </div>
+      </div>
+
+      <div class="write-row" style="margin-bottom:0">
+        <div>
+          <label class="write-label">Approximate year</label>
+          <input class="write-field" id="w-year" type="text" placeholder="1998, mid-90s…">
+        </div>
+        <div>
+          <label class="write-label">Your name (optional)</label>
+          <input class="write-field" id="w-name" type="text" placeholder="Stay anonymous if you wish">
+        </div>
+      </div>
+
+      <div style="margin-top:20px">
+        <label class="write-label">What do you want to say to them?</label>
+        <textarea class="write-textarea" id="w-text"
+          placeholder="One line is enough. "She told me I was a writer before I was one." "He believed I could do mathematics when I didn't." "She stayed late on a Tuesday to help me understand." Just the truth, in your own words."></textarea>
+      </div>
+
+      <div class="write-footer">
+        <span class="write-privacy">✦ Preserved permanently · No account needed</span>
+        <button class="btn-submit" onclick="submitTribute()">Preserve this memory →</button>
+      </div>
+    </div>
+
+    <div class="write-success" id="writeSuccess">
+      <span class="success-icon">✦</span>
+      <div class="success-title">Their memory lives now.</div>
+      <p class="success-body">
+        You've added a thread to the legacy graph.<br>
+        Somewhere, a teacher's impact is now<br>
+        <em>permanently visible in the world.</em>
+      </p>
+      <br>
+      <button class="btn-write" onclick="resetForm()" style="font-size:15px;padding:10px 28px;margin-top:10px">
+        Remember another teacher →
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Ascendly</div>
+  <div class="footer-tagline">Tracking What Marks Cannot</div>
+  <div class="footer-links">
+    <span>For teachers</span>
+    <span>For schools</span>
+    <span>For alumni</span>
+    <span>Privacy</span>
+    <span>About</span>
+  </div>
+  <div class="footer-copy">The legacy graph grows one memory at a time.</div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   DATA — tribute cards
+══════════════════════════════════════════ */
+const TRIBUTES = [
+  {
+    featured: true,
+    text: "She told me I was a writer when I was twelve years old and failing English. I published my first novel at twenty-four. She never knew.",
+    student: "Ananya Krishnan, novelist",
+    teacher: "Mrs. Saraswati Pillai",
+    school: "Chinmaya Vidyalaya, Kochi",
+    year: "1997"
+  },
+  {
+    text: "He stayed after school every Tuesday for a year to help me with maths. I never thanked him. I don't even know if he remembers me. I became an engineer.",
+    student: "Vikram Malhotra",
+    teacher: "Mr. R.K. Sharma",
+    school: "Delhi Public School, R.K. Puram",
+    year: "2003"
+  },
+  {
+    text: "She noticed I was being bullied before I had words for what was happening. She didn't make a scene. She just quietly made me feel seen.",
+    student: "Anonymous",
+    teacher: "Ms. Deepa Nair",
+    school: "Sophia High School, Bengaluru",
+    year: "2009"
+  },
+  {
+    text: "During my worst year, he assigned me a role in the school play that required me to speak confidently in front of 400 people. I've been a public speaker since.",
+    student: "Arjun Mehta",
+    teacher: "Mr. Christopher D'Souza",
+    school: "St. Xavier's, Mumbai",
+    year: "1995"
+  },
+  {
+    text: "She wrote in my report card: 'asks questions that the class needs someone to ask.' That one line changed how I understood myself.",
+    student: "Dr. Rohan Das, Research Scientist",
+    teacher: "Mrs. Rekha Singh",
+    school: "KV No. 3, Pune",
+    year: "1999"
+  },
+  {
+    text: "I handed in a terrible project. She didn't give me a low grade. She gave me a question: 'What would this look like if you cared?' I've never handed in anything careless since.",
+    student: "Pooja Srinivas",
+    teacher: "Ms. Sunita Agarwal",
+    school: "Kendriya Vidyalaya, Hyderabad",
+    year: "2007"
+  },
+  {
+    text: "He once told our class: 'The most important questions don't have answers yet.' I was eleven. That sentence has guided thirty years of research.",
+    student: "Prof. A. Ranganathan, IISc",
+    teacher: "Mr. Balakrishnan Iyer",
+    school: "Jawahar Navodaya Vidyalaya, Tiruchirappalli",
+    year: "1988"
+  },
+  {
+    text: "She called my parents — not because I was failing, but because she saw something in me she wanted them to nurture. I had never been called talented before.",
+    student: "Meera Balan",
+    teacher: "Mrs. Jasmine Thomas",
+    school: "Bhavans Vidya Mandir, Kochi",
+    year: "2001"
+  },
+  {
+    text: "When I said I wanted to be an artist, he didn't laugh. He gave me a room key and told me I could use the art studio on Saturdays.",
+    student: "Siddharth Rao, illustrator",
+    teacher: "Mr. Sunil Bajaj",
+    school: "Modern School, Barakhamba Road",
+    year: "2011"
+  },
+];
+
+const dimColors = ['#c4883a','#4a7a5c','#9e4a2a','#6b5e4a','#a09278'];
+
+/* render wall */
+function renderWall() {
+  const grid = document.getElementById('wallGrid');
+  grid.innerHTML = TRIBUTES.map((t, i) => `
+    <div class="tribute-card ${t.featured ? 'featured' : ''}" style="transition-delay:${i*0.07}s">
+      <span class="tribute-quote-mark">"</span>
+      <div class="tribute-text">${t.text}"</div>
+      <div class="tribute-divider"></div>
+      <div class="tribute-student">${t.student}</div>
+      <div class="tribute-teacher">— ${t.teacher}</div>
+      <div class="tribute-school">${t.school}</div>
+      <div class="tribute-year">${t.year}</div>
+    </div>`).join('');
+
+  /* intersection observer for reveal */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.tribute-card').forEach(c => io.observe(c));
+}
+
+/* ══════════════════════════════════════════
+   COUNTER ANIMATION
+══════════════════════════════════════════ */
+function animateCounters() {
+  const counters = document.querySelectorAll('[data-target]');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = +el.dataset.target;
+      const dur = 1800;
+      const start = performance.now();
+      const step = (now) => {
+        const p = Math.min((now - start) / dur, 1);
+        const val = Math.round(easeOut(p) * target);
+        el.textContent = val.toLocaleString('en-IN');
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      io.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => io.observe(c));
+}
+function easeOut(t) { return 1 - Math.pow(1-t, 3); }
+
+/* ══════════════════════════════════════════
+   LEGACY GRAPH SVG
+══════════════════════════════════════════ */
+function buildLegacyGraph() {
+  const svg = document.getElementById('legacySvg');
+
+  /* central teacher node */
+  const cx = 350, cy = 150;
+  const nodes = [
+    /* teacher */ { x:cx, y:cy, r:14, label:'Mrs. Kavita Rao', sub:'teacher · 1985–2019', primary:true },
+    /* gen1 */ { x:130, y:80,  r:8,  label:'Rohan D.', sub:'Scientist', gen:1 },
+    { x:220, y:50,  r:8,  label:'Ananya K.', sub:'Novelist', gen:1 },
+    { x:310, y:30,  r:8,  label:'Vikram M.', sub:'Engineer', gen:1 },
+    { x:420, y:40,  r:8,  label:'Pooja S.', sub:'Doctor', gen:1 },
+    { x:530, y:70,  r:8,  label:'Arjun M.', sub:'Speaker', gen:1 },
+    { x:600, y:120, r:8,  label:'Meera B.', sub:'Architect', gen:1 },
+    { x:100, y:170, r:8,  label:'Priya N.', sub:'Teacher', gen:1 },
+    { x:580, y:200, r:8,  label:'Dev K.', sub:'Researcher', gen:1 },
+    /* gen2 from Priya — she became a teacher */
+    { x:50, y:260,  r:5,  label:'', sub:'', gen:2, parent:7 },
+    { x:110, y:270, r:5,  label:'', sub:'', gen:2, parent:7 },
+    { x:170, y:265, r:5,  label:'', sub:'', gen:2, parent:7 },
+    /* gen2 from Rohan */
+    { x:80,  y:120, r:5,  label:'', sub:'', gen:2, parent:1 },
+    { x:60,  y:90,  r:5,  label:'', sub:'', gen:2, parent:1 },
+  ];
+
+  const genColors = ['#c4883a','rgba(196,136,58,0.7)','rgba(196,136,58,0.35)'];
+
+  /* draw edges first */
+  nodes.forEach((n, i) => {
+    if (i === 0) return;
+    const src = n.parent !== undefined ? nodes[n.parent] : nodes[0];
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', src.x); line.setAttribute('y1', src.y);
+    line.setAttribute('x2', n.x);   line.setAttribute('y2', n.y);
+    line.setAttribute('stroke', n.gen===1 ? 'rgba(196,136,58,0.25)' : 'rgba(196,136,58,0.12)');
+    line.setAttribute('stroke-width', n.gen===1 ? '1' : '0.5');
+    line.style.strokeDasharray = '1000';
+    line.style.strokeDashoffset = '1000';
+    line.style.transition = `stroke-dashoffset 1.2s ease ${0.3 + i*0.08}s`;
+    svg.appendChild(line);
+    setTimeout(() => line.style.strokeDashoffset = '0', 200);
+  });
+
+  /* draw nodes */
+  nodes.forEach((n, i) => {
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.style.opacity = '0';
+    g.style.transition = `opacity 0.5s ease ${0.5 + i*0.1}s`;
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y);
+    circle.setAttribute('r', n.r);
+    circle.setAttribute('fill', n.primary ? '#c4883a' : genColors[n.gen-1] || 'rgba(196,136,58,0.2)');
+    circle.setAttribute('stroke', 'rgba(196,136,58,0.3)');
+    circle.setAttribute('stroke-width', '1');
+    if (n.primary) {
+      const glow = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      glow.setAttribute('cx', n.x); glow.setAttribute('cy', n.y); glow.setAttribute('r', n.r+8);
+      glow.setAttribute('fill', 'none'); glow.setAttribute('stroke', 'rgba(196,136,58,0.15)');
+      glow.setAttribute('stroke-width', '2');
+      g.appendChild(glow);
+    }
+    g.appendChild(circle);
+
+    if (n.label) {
+      const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      txt.setAttribute('x', n.x); txt.setAttribute('y', n.y - n.r - 5);
+      txt.setAttribute('text-anchor', 'middle');
+      txt.setAttribute('font-size', n.primary ? '10' : '8');
+      txt.setAttribute('fill', 'rgba(247,242,232,0.7)');
+      txt.setAttribute('font-family', 'Lora, serif');
+      txt.textContent = n.label;
+      g.appendChild(txt);
+      if (n.sub) {
+        const sub = document.createElementNS('http://www.w3.org/2000/svg','text');
+        sub.setAttribute('x', n.x); sub.setAttribute('y', n.y - n.r - 15);
+        sub.setAttribute('text-anchor', 'middle');
+        sub.setAttribute('font-size', '7');
+        sub.setAttribute('fill', 'rgba(247,242,232,0.35)');
+        sub.setAttribute('font-family', 'DM Mono, monospace');
+        sub.textContent = n.sub;
+        g.appendChild(sub);
+      }
+    }
+
+    svg.appendChild(g);
+    setTimeout(() => g.style.opacity = '1', 100);
+  });
+}
+
+/* ══════════════════════════════════════════
+   WRITE / SUBMIT
+══════════════════════════════════════════ */
+function scrollToWrite() {
+  document.getElementById('write').scrollIntoView({ behavior:'smooth' });
+  setTimeout(() => document.getElementById('w-teacher').focus(), 600);
+}
+
+function submitTribute() {
+  const teacher = document.getElementById('w-teacher').value.trim();
+  const text    = document.getElementById('w-text').value.trim();
+  if (!teacher || !text) {
+    const field = !teacher ? 'w-teacher' : 'w-text';
+    document.getElementById(field).style.borderColor = '#9e4a2a';
+    setTimeout(() => document.getElementById(field).style.borderColor = '', 1500);
+    return;
+  }
+
+  /* add to wall */
+  const newTribute = {
+    text: text,
+    student: document.getElementById('w-name').value.trim() || 'Anonymous',
+    teacher: teacher,
+    school: document.getElementById('w-school').value.trim() || '—',
+    year: document.getElementById('w-year').value.trim() || 'Recent'
+  };
+  TRIBUTES.unshift(newTribute);
+  renderWall();
+
+  /* show success */
+  document.getElementById('writeCard').style.display = 'none';
+  document.getElementById('writeSuccess').classList.add('show');
+}
+
+function resetForm() {
+  ['w-teacher','w-school','w-year','w-name'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('w-text').value = '';
+  document.getElementById('writeCard').style.display = 'block';
+  document.getElementById('writeSuccess').classList.remove('show');
+}
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+renderWall();
+animateCounters();
+
+/* observe graph section */
+const graphObs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) { buildLegacyGraph(); graphObs.disconnect(); }
+}, { threshold: 0.2 });
+graphObs.observe(document.querySelector('.section-graph'));
+
+/* staggered nav reveal */
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.boxShadow = window.scrollY > 40 ? '0 2px 20px rgba(28,24,18,0.1)' : 'none';
+});
+</script>
+</body>
+</html>

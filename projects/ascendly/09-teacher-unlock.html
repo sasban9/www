@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LegacyGuru — Progressive Teacher Legacy</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,system-ui,sans-serif;
+    background:#0b1016;
+    color:#eef3f8;
+    overflow:hidden;
+}
+
+.app{
+    display:grid;
+    grid-template-columns:420px 1fr;
+    height:100vh;
+}
+
+.left{
+    border-right:1px solid rgba(255,255,255,0.06);
+    background:#111821;
+    overflow-y:auto;
+    padding:28px;
+}
+
+.right{
+    overflow-y:auto;
+    position:relative;
+    background:
+        radial-gradient(circle at top left, rgba(78,168,222,0.14), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(87,204,153,0.12), transparent 28%),
+        #091018;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:22px;
+}
+
+.logo-icon{
+    width:46px;
+    height:46px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#4ea8de,#57cc99);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    color:white;
+}
+
+.logo h1{
+    font-size:28px;
+}
+
+.subtitle{
+    color:#8fa3b7;
+    line-height:1.7;
+    margin-bottom:30px;
+    font-size:14px;
+}
+
+.year-box{
+    background:#151f2a;
+    border-radius:24px;
+    padding:22px;
+    margin-bottom:24px;
+    border:1px solid rgba(255,255,255,0.05);
+}
+
+.year-label{
+    color:#57cc99;
+    font-size:13px;
+    margin-bottom:8px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.year-title{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.year-desc{
+    color:#9bb0c5;
+    line-height:1.7;
+    font-size:14px;
+}
+
+.progress-wrap{
+    margin-top:20px;
+}
+
+.progress-bar{
+    width:100%;
+    height:12px;
+    border-radius:999px;
+    background:#1d2733;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#4ea8de,#57cc99);
+    transition:width 0.5s ease;
+}
+
+.progress-text{
+    margin-top:10px;
+    color:#89a0b6;
+    font-size:13px;
+}
+
+.timeline{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.event-card{
+    background:#161f29;
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:22px;
+    padding:18px;
+    cursor:pointer;
+    transition:all 0.25s ease;
+    opacity:0.45;
+    transform:scale(0.98);
+}
+
+.event-card.active{
+    opacity:1;
+    transform:scale(1);
+    border-color:rgba(87,204,153,0.5);
+    background:#1b2632;
+}
+
+.event-card:hover{
+    transform:translateY(-3px);
+}
+
+.event-month{
+    color:#57cc99;
+    font-size:12px;
+    margin-bottom:8px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.event-title{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.event-desc{
+    color:#91a5b9;
+    line-height:1.6;
+    font-size:14px;
+}
+
+.profile-wrap{
+    padding:40px 48px 120px;
+    max-width:1200px;
+    margin:auto;
+}
+
+.profile-top{
+    display:grid;
+    grid-template-columns:140px 1fr;
+    gap:28px;
+    align-items:center;
+    margin-bottom:36px;
+}
+
+.avatar{
+    width:140px;
+    height:140px;
+    border-radius:34px;
+    background:linear-gradient(135deg,#4ea8de,#57cc99);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:52px;
+    font-weight:800;
+    color:white;
+    overflow:hidden;
+    border:4px solid rgba(255,255,255,0.08);
+    transition:all 0.4s ease;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.profile-meta h2{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.role{
+    color:#57cc99;
+    margin-bottom:12px;
+    font-size:17px;
+}
+
+.bio{
+    color:#9ab0c5;
+    line-height:1.8;
+    max-width:800px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:18px;
+    margin-bottom:36px;
+}
+
+.stat{
+    background:rgba(18,25,34,0.92);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:24px;
+    padding:24px;
+    transition:all 0.35s ease;
+}
+
+.stat:hover{
+    transform:translateY(-4px);
+}
+
+.stat h3{
+    font-size:34px;
+    margin-bottom:6px;
+}
+
+.stat p{
+    color:#8ca2b8;
+    font-size:14px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1.2fr 0.8fr;
+    gap:24px;
+}
+
+.section{
+    background:rgba(18,25,34,0.92);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:28px;
+    padding:28px;
+    margin-bottom:24px;
+    animation:fadeUp 0.5s ease;
+}
+
+.section h3{
+    margin-bottom:22px;
+    font-size:24px;
+}
+
+.memory-list{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.memory{
+    padding:18px;
+    border-radius:20px;
+    background:#18222d;
+    border:1px solid rgba(255,255,255,0.05);
+}
+
+.memory small{
+    color:#57cc99;
+    display:block;
+    margin-bottom:8px;
+    letter-spacing:1px;
+}
+
+.memory p{
+    color:#dce8f4;
+    line-height:1.8;
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:14px;
+}
+
+.tag{
+    padding:8px 14px;
+    border-radius:999px;
+    background:#233243;
+    color:#d8e8f8;
+    font-size:12px;
+}
+
+.media-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.media-card{
+    background:#17202b;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+.media-thumb{
+    height:150px;
+    background:linear-gradient(135deg,#223243,#314a62);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+}
+
+.media-info{
+    padding:16px;
+}
+
+.media-info h4{
+    margin-bottom:8px;
+}
+
+.media-info p{
+    color:#91a4b7;
+    line-height:1.6;
+    font-size:13px;
+}
+
+.audio-card{
+    background:#17202b;
+    border-radius:22px;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:16px;
+}
+
+.play{
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#4ea8de,#57cc99);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.audio-text h4{
+    margin-bottom:6px;
+}
+
+.audio-text p{
+    color:#8ea2b6;
+    font-size:13px;
+}
+
+.quote{
+    font-size:22px;
+    line-height:1.8;
+    color:#dbe8f4;
+    font-weight:300;
+}
+
+.quote-author{
+    margin-top:18px;
+    color:#57cc99;
+}
+
+.unlock{
+    margin-top:18px;
+    padding:16px;
+    border-radius:18px;
+    background:rgba(87,204,153,0.12);
+    color:#9fd9c0;
+    border:1px solid rgba(87,204,153,0.2);
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(14px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0px);
+    }
+}
+
+@media(max-width:1000px){
+    .app{
+        grid-template-columns:1fr;
+    }
+
+    .left{
+        height:45vh;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .profile-top{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+    <div class="left">
+
+        <div class="logo">
+            <div class="logo-icon">LG</div>
+            <div>
+                <h1>LegacyGuru</h1>
+            </div>
+        </div>
+
+        <div class="subtitle">
+            A simulation showing how students slowly preserve the legacy of a teacher over one year through memories, reflections, media, gratitude, and continuity.
+        </div>
+
+        <div class="year-box">
+            <div class="year-label">Teacher Unlock Journey</div>
+            <div class="year-title">Year 1</div>
+            <div class="year-desc">
+                Each student interaction adds emotional and historical depth to the mentor profile. The profile evolves from a simple name into a living archive of human impact.
+            </div>
+
+            <div class="progress-wrap">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">
+                    Month 1 of 12
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline" id="timeline"></div>
+
+    </div>
+
+    <div class="right">
+
+        <div class="profile-wrap">
+
+            <div class="profile-top">
+
+                <div class="avatar" id="avatar">
+                    MS
+                </div>
+
+                <div class="profile-meta">
+                    <h2 id="teacherName">Meera Sharma</h2>
+                    <div class="role" id="teacherRole">Science Teacher • Mentor • Community Builder</div>
+                    <div class="bio" id="teacherBio">
+                        A teacher profile begins with almost nothing. Over time, students slowly preserve memories, turning points, classroom culture, mentorship moments, projects, and long-term influence into a living educational legacy.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="stats" id="stats"></div>
+
+            <div class="grid">
+
+                <div>
+
+                    <div class="section">
+                        <h3>Student Memories</h3>
+                        <div class="memory-list" id="memoryList"></div>
+                    </div>
+
+                    <div class="section" id="mediaSection">
+                        <h3>Rich Media Archive</h3>
+                        <div class="media-grid" id="mediaGrid"></div>
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div class="section">
+                        <h3>Voice Archive</h3>
+                        <div id="audioList"></div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Legacy Reflection</h3>
+                        <div class="quote" id="quoteText">
+                            “A great teacher is often remembered not for information delivered, but for confidence awakened.”
+                        </div>
+                        <div class="quote-author" id="quoteAuthor">
+                            — Former Student Reflection
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Unlocked Layers</h3>
+                        <div id="unlockList"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const phases = [
+
+{
+    month:'Month 1',
+    title:'First Student Referral',
+    desc:'A student writes the first memory about the teacher.',
+    memories:[
+        {
+            month:'January',
+            text:'She stayed after school helping me rebuild my failed science project when I wanted to quit.',
+            tags:['noticed me','encouraged persistence']
+        }
+    ],
+    stats:{
+        referrals:1,
+        memories:1,
+        projects:0,
+        years:0
+    },
+    audio:[],
+    media:[],
+    unlocks:['Basic teacher profile unlocked']
+},
+
+{
+    month:'Month 2',
+    title:'Multiple Students Remember',
+    desc:'Patterns begin emerging across different student stories.',
+    memories:[
+        {
+            month:'February',
+            text:'She treated weaker students with unusual respect and patience.',
+            tags:['helped quietly','safe classroom']
+        }
+    ],
+    stats:{
+        referrals:5,
+        memories:6,
+        projects:0,
+        years:1
+    },
+    audio:[],
+    media:[],
+    unlocks:['Community recognition layer','Teacher philosophy visible publicly']
+},
+
+{
+    month:'Month 3',
+    title:'Teacher Philosophy Emerges',
+    desc:'Students begin describing classroom culture and emotional impact.',
+    memories:[
+        {
+            month:'March',
+            text:'For the first time I felt curiosity was rewarded instead of mocked.',
+            tags:['inspired curiosity','classroom culture']
+        }
+    ],
+    stats:{
+        referrals:11,
+        memories:14,
+        projects:1,
+        years:3
+    },
+    audio:[
+        {
+            title:'Student Voice Reflection',
+            desc:'“She changed how I saw my own potential.”'
+        }
+    ],
+    media:[],
+    unlocks:['Audio reflections enabled']
+},
+
+{
+    month:'Month 4',
+    title:'Projects Begin Appearing',
+    desc:'Students upload photos and project archives connected to the teacher.',
+    memories:[
+        {
+            month:'April',
+            text:'She encouraged our girls robotics group when nobody else took it seriously.',
+            tags:['leadership','builder mentality']
+        }
+    ],
+    stats:{
+        referrals:18,
+        memories:22,
+        projects:4,
+        years:5
+    },
+    audio:[
+        {
+            title:'Parent Appreciation Audio',
+            desc:'“My daughter became fearless in science because of this teacher.”'
+        }
+    ],
+    media:[
+        {
+            icon:'📷',
+            title:'First Robotics Workshop',
+            desc:'Students upload images from a community robotics event guided by the teacher.'
+        }
+    ],
+    unlocks:['Project archive unlocked','Community media uploads enabled']
+},
+
+{
+    month:'Month 5',
+    title:'The Teacher Timeline Forms',
+    desc:'The system begins connecting memories across years.',
+    memories:[
+        {
+            month:'May',
+            text:'She noticed I liked fixing electronics long before I considered engineering.',
+            tags:['noticed early','builder mindset']
+        }
+    ],
+    stats:{
+        referrals:26,
+        memories:31,
+        projects:9,
+        years:7
+    },
+    audio:[
+        {
+            title:'Alumni Reflection',
+            desc:'“She saw patterns in students before the world did.”'
+        }
+    ],
+    media:[
+        {
+            icon:'🎬',
+            title:'Village Science Exhibition',
+            desc:'Video snippets uploaded from a student-led science event.'
+        }
+    ],
+    unlocks:['Timeline continuity enabled']
+},
+
+{
+    month:'Month 6',
+    title:'Public Legacy Signals',
+    desc:'The profile now reflects mentorship patterns rather than popularity.',
+    memories:[
+        {
+            month:'June',
+            text:'She made failure feel survivable. That changed my confidence completely.',
+            tags:['resilience','confidence transfer']
+        }
+    ],
+    stats:{
+        referrals:38,
+        memories:49,
+        projects:14,
+        years:10
+    },
+    audio:[
+        {
+            title:'Teacher Classroom Reflection',
+            desc:'“Quiet persistence matters more than confidence.”'
+        }
+    ],
+    media:[
+        {
+            icon:'📄',
+            title:'Student Magazine Archive',
+            desc:'Digitized copies of student-created publications.'
+        }
+    ],
+    unlocks:['Legacy timeline unlocked','Student-created worlds visible']
+},
+
+{
+    month:'Month 7',
+    title:'Community Impact Layer',
+    desc:'The teacher influence begins extending beyond the classroom.',
+    memories:[
+        {
+            month:'July',
+            text:'Our flood-relief volunteering group started from one conversation she initiated.',
+            tags:['community impact','initiative']
+        }
+    ],
+    stats:{
+        referrals:51,
+        memories:66,
+        projects:22,
+        years:13
+    },
+    audio:[
+        {
+            title:'Community Leader Reflection',
+            desc:'“This teacher normalized contribution and responsibility.”'
+        }
+    ],
+    media:[
+        {
+            icon:'🌍',
+            title:'Flood Relief Initiative',
+            desc:'Student-uploaded media from local community service work.'
+        }
+    ],
+    unlocks:['Community impact archive visible']
+},
+
+{
+    month:'Month 8',
+    title:'Rich Media Legacy',
+    desc:'Voice, video, classroom moments, and events now enrich the teacher profile.',
+    memories:[
+        {
+            month:'August',
+            text:'She created a classroom where asking unusual questions felt normal.',
+            tags:['curiosity','psychological safety']
+        }
+    ],
+    stats:{
+        referrals:73,
+        memories:92,
+        projects:31,
+        years:15
+    },
+    audio:[
+        {
+            title:'Archive Voice Clip',
+            desc:'“The students who changed communities were rarely the loudest.”'
+        }
+    ],
+    media:[
+        {
+            icon:'🎤',
+            title:'Audio Classroom Stories',
+            desc:'Archived stories from classroom turning points and memorable moments.'
+        }
+    ],
+    unlocks:['Voice archive enabled','Media storytelling layer unlocked']
+},
+
+{
+    month:'Month 9',
+    title:'Alumni Continuity Appears',
+    desc:'Former students connect adult achievements to early teacher memories.',
+    memories:[
+        {
+            month:'September',
+            text:'The startup I run today began with the confidence she gave me in Class 8.',
+            tags:['continuity','long-term influence']
+        }
+    ],
+    stats:{
+        referrals:104,
+        memories:121,
+        projects:43,
+        years:18
+    },
+    audio:[
+        {
+            title:'Founder Reflection',
+            desc:'“She encouraged us to build things before we believed we could.”'
+        }
+    ],
+    media:[
+        {
+            icon:'🚀',
+            title:'Then vs Now Stories',
+            desc:'Adult alumni connect present achievements to childhood moments.'
+        }
+    ],
+    unlocks:['Alumni continuity layer enabled']
+},
+
+{
+    month:'Month 10',
+    title:'Teacher Philosophy Archive',
+    desc:'The educator’s worldview evolution becomes visible across decades.',
+    memories:[
+        {
+            month:'October',
+            text:'She constantly reminded us that contribution mattered more than marks.',
+            tags:['values','human development']
+        }
+    ],
+    stats:{
+        referrals:141,
+        memories:164,
+        projects:58,
+        years:22
+    },
+    audio:[
+        {
+            title:'Retrospective Reflection',
+            desc:'“Helping students trust themselves mattered most.”'
+        }
+    ],
+    media:[
+        {
+            icon:'📚',
+            title:'Teaching Philosophy Archive',
+            desc:'Collected reflections across years of mentorship and classroom growth.'
+        }
+    ],
+    unlocks:['Philosophy evolution timeline unlocked']
+},
+
+{
+    month:'Month 11',
+    title:'Institutional Memory Layer',
+    desc:'The profile becomes part of a long-term educational continuity system.',
+    memories:[
+        {
+            month:'November',
+            text:'Generations of students now quote lessons she repeated years ago.',
+            tags:['legacy','institutional memory']
+        }
+    ],
+    stats:{
+        referrals:188,
+        memories:210,
+        projects:77,
+        years:27
+    },
+    audio:[
+        {
+            title:'Former Student Teacher',
+            desc:'“I now teach the way she taught us.”'
+        }
+    ],
+    media:[
+        {
+            icon:'🏫',
+            title:'Generations Observed',
+            desc:'Former students now sending their own children to the same mentor.'
+        }
+    ],
+    unlocks:['Mentorship tree unlocked','Generational continuity visible']
+},
+
+{
+    month:'Month 12',
+    title:'Living Legacy Profile',
+    desc:'The teacher profile becomes a rich archive of human transformation.',
+    memories:[
+        {
+            month:'December',
+            text:'Someone noticed who I was becoming before the world did.',
+            tags:['human continuity','transformational influence']
+        }
+    ],
+    stats:{
+        referrals:250,
+        memories:300,
+        projects:112,
+        years:30
+    },
+    audio:[
+        {
+            title:'Retirement Reflection',
+            desc:'“The students who changed the world were rarely the easiest to measure.”'
+        }
+    ],
+    media:[
+        {
+            icon:'✨',
+            title:'Civilization-Scale Legacy',
+            desc:'A preserved map of projects, people, communities, and lives shaped across decades.'
+        }
+    ],
+    unlocks:['Full legacy archive complete','Historical educational continuity preserved']
+}
+
+];
+
+const timeline = document.getElementById('timeline');
+const memoryList = document.getElementById('memoryList');
+const stats = document.getElementById('stats');
+const mediaGrid = document.getElementById('mediaGrid');
+const audioList = document.getElementById('audioList');
+const unlockList = document.getElementById('unlockList');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const quoteText = document.getElementById('quoteText');
+
+let activeIndex = 0;
+
+phases.forEach((phase,index)=>{
+
+    const card = document.createElement('div');
+    card.className = 'event-card';
+
+    if(index === 0){
+        card.classList.add('active');
+    }
+
+    card.innerHTML = `
+        <div class="event-month">${phase.month}</div>
+        <div class="event-title">${phase.title}</div>
+        <div class="event-desc">${phase.desc}</div>
+    `;
+
+    card.addEventListener('click',()=>{
+        activeIndex = index;
+        render(index);
+
+        document.querySelectorAll('.event-card').forEach(c=>
+            c.classList.remove('active')
+        );
+
+        card.classList.add('active');
+    });
+
+    timeline.appendChild(card);
+
+});
+
+function render(index){
+
+    const phase = phases[index];
+
+    progressFill.style.width = `${((index+1)/phases.length)*100}%`;
+    progressText.innerText = `${phase.month} of 12`;
+
+    stats.innerHTML = `
+
+        <div class="stat">
+            <h3>${phase.stats.referrals}</h3>
+            <p>Student Referrals</p>
+        </div>
+
+        <div class="stat">
+            <h3>${phase.stats.memories}</h3>
+            <p>Preserved Memories</p>
+        </div>
+
+        <div class="stat">
+            <h3>${phase.stats.projects}</h3>
+            <p>Projects Archived</p>
+        </div>
+
+        <div class="stat">
+            <h3>${phase.stats.years}</h3>
+            <p>Years of Continuity</p>
+        </div>
+
+    `;
+
+    memoryList.innerHTML = '';
+
+    for(let i=0;i<=index;i++){
+
+        phases[i].memories.forEach(memory=>{
+
+            const div = document.createElement('div');
+            div.className = 'memory';
+
+            div.innerHTML = `
+                <small>${memory.month}</small>
+                <p>${memory.text}</p>
+                <div class="tags">
+                    ${memory.tags.map(tag=>`<div class="tag">${tag}</div>`).join('')}
+                </div>
+            `;
+
+            memoryList.prepend(div);
+
+        });
+    }
+
+    mediaGrid.innerHTML = '';
+
+    for(let i=0;i<=index;i++){
+
+        phases[i].media.forEach(media=>{
+
+            const card = document.createElement('div');
+            card.className = 'media-card';
+
+            card.innerHTML = `
+                <div class="media-thumb">${media.icon}</div>
+                <div class="media-info">
+                    <h4>${media.title}</h4>
+                    <p>${media.desc}</p>
+                </div>
+            `;
+
+            mediaGrid.prepend(card);
+        });
+    }
+
+    audioList.innerHTML = '';
+
+    for(let i=0;i<=index;i++){
+
+        phases[i].audio.forEach(audio=>{
+
+            const card = document.createElement('div');
+            card.className = 'audio-card';
+
+            card.innerHTML = `
+                <div class="play">▶</div>
+                <div class="audio-text">
+                    <h4>${audio.title}</h4>
+                    <p>${audio.desc}</p>
+                </div>
+            `;
+
+            audioList.prepend(card);
+        });
+    }
+
+    unlockList.innerHTML = '';
+
+    for(let i=0;i<=index;i++){
+
+        phases[i].unlocks.forEach(item=>{
+
+            const div = document.createElement('div');
+            div.className = 'unlock';
+            div.innerText = item;
+
+            unlockList.prepend(div);
+        });
+    }
+
+    const quotes = [
+        '“A teacher is remembered most deeply through lives quietly redirected.”',
+        '“The strongest educational moments are often invisible when they happen.”',
+        '“Students rarely remember marks. They remember how a mentor changed their confidence.”',
+        '“Someone noticed who I was becoming before the world did.”'
+    ];
+
+    quoteText.innerText = quotes[index % quotes.length];
+
+    if(index >= 3){
+        document.getElementById('avatar').innerHTML = '<img src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800&auto=format&fit=crop">';
+    }
+}
+
+render(0);
+
+let autoplay = setInterval(()=>{
+
+    activeIndex++;
+
+    if(activeIndex >= phases.length){
+        activeIndex = 0;
+    }
+
+    render(activeIndex);
+
+    document.querySelectorAll('.event-card').forEach((c,i)=>{
+        c.classList.toggle('active',i===activeIndex);
+    });
+
+},5000);
+
+</script>
+
+</body>
+</html>
