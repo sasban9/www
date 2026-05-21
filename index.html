@@ -144,7 +144,7 @@
         <a href="https://instagram.com/sas_ban"><i class="fa-brands fa-instagram"></i></a> 
     </footer>
     <article style="background: #000;">
-        <a href="/TOP/cv2026.html">2026 UPDATED CV - MENTORING PROFESSIONALS </a>
+        <a href="/TOP/2026.html">2026 UPDATED CV - MENTORING PROFESSIONALS </a>
     </article>
     <section style="background: #222;">
         <a href="https://www.udemy.com/course/2025-start-building-professional-websites-with-chatgpt/" target="_blank"><img src="../img/courses/c1.png" alt=""></a>
@@ -378,6 +378,27 @@
                 style="font-size: 1.5rem;" href="../pages/privacy">privacy</a></h4>
                 <a href="https://sasban.online">&copy; 2025</a>
     </footer>
+<script>
+  const redirectFlag = localStorage.getItem("redirectFlag");
+
+  // FIRST VISIT OR FLAG FALSE
+  if (redirectFlag === null || redirectFlag === "false") {
+
+    // Set flag to true
+    localStorage.setItem("redirectFlag", "true");
+
+    // Redirect to internal page
+    window.location.href = "AutomateIndia.html";
+
+  } else {
+
+    // Flag was true
+    // Update it to false for next visit
+    localStorage.setItem("redirectFlag", "false");
+
+    console.log("No redirect this time.");
+  }
+</script>
 </body>
 
 </html>

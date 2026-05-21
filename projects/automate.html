@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Automation for Your Office — Pitch Booklet</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ══════════════════════════════════════════════
+   SCREEN PREVIEW — shows page boundaries nicely
+   ══════════════════════════════════════════════ */
+@media screen {
+  body {
+    background: #888;
+    padding: 2rem;
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+    margin: 0 auto 2rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+/* ══════════════════════════════════════════════
+   PRINT RULES — clean A4, no browser chrome
+   ══════════════════════════════════════════════ */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+  .page {
+    width: 210mm;
+    height: 297mm;
+    page-break-after: always;
+    page-break-inside: avoid;
+    position: relative;
+    overflow: hidden;
+    box-shadow: none;
+  }
+  .page:last-child { page-break-after: auto; }
+  .no-print { display: none !important; }
+}
+
+/* ══════════════════════════════════════════════
+   DESIGN TOKENS
+   ══════════════════════════════════════════════ */
+:root {
+  --ink:     #0f0e0c;
+  --cream:   #f5f1e8;
+  --cream2:  #ede9dc;
+  --red:     #c8401a;
+  --red-lt:  #f5e8e3;
+  --green:   #1a6c3a;
+  --green-lt:#e3f0e9;
+  --gold:    #b8860b;
+  --gold-lt: #f5edd9;
+  --blue:    #1a4a8a;
+  --blue-lt: #e3ebf5;
+  --muted:   #6b6358;
+  --serif:   'Playfair Display', Georgia, serif;
+  --sans:    'DM Sans', sans-serif;
+}
+
+/* ══════════════════════════════════════════════
+   PRINT BUTTON (screen only)
+   ══════════════════════════════════════════════ */
+.print-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: #1a1a1a;
+  color: white;
+  padding: 0.8rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 999;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+}
+.print-bar button {
+  background: var(--red);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--sans);
+}
+@media print { .print-bar { display: none; } }
+
+/* ══════════════════════════════════════════════
+   SHARED PAGE ELEMENTS
+   ══════════════════════════════════════════════ */
+.page-num {
+  position: absolute;
+  bottom: 8mm;
+  right: 12mm;
+  font-size: 7.5pt;
+  color: #bbb;
+  font-family: var(--sans);
+  letter-spacing: 0.08em;
+}
+.page-brand {
+  position: absolute;
+  bottom: 8mm;
+  left: 12mm;
+  font-size: 7.5pt;
+  color: #bbb;
+  font-family: var(--sans);
+  letter-spacing: 0.04em;
+}
+
+/* Reusable label tag */
+.tag {
+  display: inline-block;
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  border: 0.75pt solid var(--red);
+  padding: 2pt 6pt;
+  margin-bottom: 8pt;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 1 — COVER
+   ══════════════════════════════════════════════ */
+.p1 {
+  background: var(--ink);
+  color: var(--cream);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14mm 14mm 12mm;
+}
+
+.p1-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 9.9mm, rgba(255,255,255,0.025) 9.9mm, rgba(255,255,255,0.025) 10mm),
+    repeating-linear-gradient(90deg, transparent, transparent 9.9mm, rgba(255,255,255,0.025) 9.9mm, rgba(255,255,255,0.025) 10mm);
+}
+
+.p1-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+}
+
+.p1-logo {
+  font-family: var(--serif);
+  font-size: 13pt;
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+}
+
+.p1-badge {
+  background: var(--red);
+  color: white;
+  font-family: var(--sans);
+  font-size: 7.5pt;
+  font-weight: 600;
+  padding: 4pt 10pt;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.p1-body {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10mm 0;
+}
+
+.p1-eyebrow {
+  font-size: 7.5pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 6mm;
+  display: flex;
+  align-items: center;
+  gap: 6pt;
+}
+.p1-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 18pt;
+  height: 1pt;
+  background: var(--red);
+}
+
+.p1 h1 {
+  font-family: var(--serif);
+  font-size: 42pt;
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  margin-bottom: 6mm;
+  max-width: 155mm;
+}
+
+.p1 h1 em {
+  font-style: italic;
+  color: #e8a87c;
+}
+
+.p1-sub {
+  font-size: 11pt;
+  font-weight: 300;
+  color: rgba(245,241,232,0.72);
+  max-width: 120mm;
+  line-height: 1.6;
+  margin-bottom: 10mm;
+}
+
+.p1-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 0.5pt solid rgba(245,241,232,0.15);
+  padding-top: 8mm;
+  position: relative;
+  z-index: 2;
+}
+
+.p1-stat { padding-right: 8mm; }
+.p1-stat .num {
+  font-family: var(--serif);
+  font-size: 20pt;
+  font-weight: 700;
+  color: var(--cream);
+  display: block;
+  line-height: 1.1;
+}
+.p1-stat .lbl {
+  font-size: 7pt;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(245,241,232,0.45);
+  margin-top: 2pt;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 2 — THE BIG MOMENT (Analogy)
+   ══════════════════════════════════════════════ */
+.p2 {
+  background: var(--cream);
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.p2 h2 {
+  font-family: var(--serif);
+  font-size: 28pt;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 4mm;
+  max-width: 145mm;
+}
+
+.p2-sub {
+  font-size: 10pt;
+  color: var(--muted);
+  margin-bottom: 8mm;
+  max-width: 120mm;
+  line-height: 1.6;
+}
+
+.tl {
+  display: grid;
+  grid-template-columns: 1fr 10mm 1fr 10mm 1fr;
+  gap: 0;
+  margin-bottom: 8mm;
+  flex: 1;
+  align-items: stretch;
+}
+
+.tl-node {
+  border: 0.75pt solid rgba(15,14,12,0.14);
+  padding: 5mm 5mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.tl-node.hl {
+  border-color: var(--red);
+  background: #fdf1ed;
+}
+
+.tl-icon { font-size: 18pt; margin-bottom: 3mm; }
+
+.tl-year {
+  font-family: var(--serif);
+  font-size: 22pt;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 2mm;
+}
+.tl-node.hl .tl-year { color: var(--red); }
+
+.tl-title {
+  font-size: 9pt;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 2mm;
+  letter-spacing: 0.01em;
+}
+
+.tl-desc {
+  font-size: 8.5pt;
+  color: var(--muted);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.tl-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14pt;
+  color: rgba(15,14,12,0.25);
+}
+
+.p2-quote {
+  border-left: 3pt solid var(--red);
+  padding: 5mm 7mm;
+  background: #fdf1ed;
+}
+
+.p2-quote p {
+  font-family: var(--serif);
+  font-size: 12.5pt;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 3mm;
+}
+
+.p2-quote span {
+  font-size: 8pt;
+  color: var(--muted);
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 3 — YOUR DAILY PROBLEMS (Pain Points)
+   ══════════════════════════════════════════════ */
+.p3 {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.p3 h2 {
+  font-family: var(--serif);
+  font-size: 26pt;
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--cream);
+  margin-bottom: 3mm;
+  max-width: 150mm;
+}
+
+.p3-sub {
+  font-size: 9.5pt;
+  color: rgba(245,241,232,0.6);
+  margin-bottom: 7mm;
+  max-width: 120mm;
+  line-height: 1.6;
+}
+
+.pain-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1pt;
+  background: rgba(245,241,232,0.07);
+  border: 1pt solid rgba(245,241,232,0.07);
+  flex: 1;
+}
+
+.pain-item {
+  background: var(--ink);
+  padding: 5mm;
+}
+
+.pain-before {
+  font-size: 7pt;
+  font-weight: 600;
+  color: rgba(200,64,26,0.75);
+  text-decoration: line-through;
+  text-decoration-color: rgba(200,64,26,0.35);
+  display: block;
+  margin-bottom: 1.5pt;
+}
+
+.pain-after {
+  font-size: 7pt;
+  font-weight: 600;
+  color: rgba(80,200,120,0.85);
+  display: block;
+  margin-bottom: 4pt;
+}
+
+.pain-item h4 {
+  font-family: var(--serif);
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 3pt;
+  line-height: 1.2;
+}
+
+.pain-item p {
+  font-size: 8pt;
+  color: rgba(245,241,232,0.5);
+  line-height: 1.55;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 4 — WEEK 1 GAINS
+   ══════════════════════════════════════════════ */
+.p4 {
+  background: var(--green-lt);
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 5 — MONTH 1 GAINS
+   ══════════════════════════════════════════════ */
+.p5 {
+  background: var(--gold-lt);
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 6 — 6 MONTHS GAINS
+   ══════════════════════════════════════════════ */
+.p6 {
+  background: var(--red-lt);
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 7 — YEAR 1+ GAINS
+   ══════════════════════════════════════════════ */
+.p7 {
+  background: var(--blue-lt);
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Shared gain page styles */
+.gain-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 6mm;
+  margin-bottom: 8mm;
+}
+
+.gain-period-box {
+  padding: 4mm 6mm;
+  min-width: 28mm;
+  border: 1.5pt solid;
+  flex-shrink: 0;
+}
+
+.p4 .gain-period-box { border-color: var(--green); background: white; }
+.p5 .gain-period-box { border-color: var(--gold); background: white; }
+.p6 .gain-period-box { border-color: var(--red); background: white; }
+.p7 .gain-period-box { border-color: var(--blue); background: white; }
+
+.gain-period-box .period {
+  font-family: var(--serif);
+  font-size: 20pt;
+  font-weight: 900;
+  line-height: 1.0;
+  display: block;
+}
+
+.p4 .gain-period-box .period { color: var(--green); }
+.p5 .gain-period-box .period { color: var(--gold); }
+.p6 .gain-period-box .period { color: var(--red); }
+.p7 .gain-period-box .period { color: var(--blue); }
+
+.gain-period-box .period-unit {
+  font-size: 7pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: block;
+  margin-top: 2pt;
+}
+
+.p4 .gain-period-box .period-unit { color: var(--green); }
+.p5 .gain-period-box .period-unit { color: var(--gold); }
+.p6 .gain-period-box .period-unit { color: var(--red); }
+.p7 .gain-period-box .period-unit { color: var(--blue); }
+
+.gain-headline h2 {
+  font-family: var(--serif);
+  font-size: 22pt;
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 3mm;
+}
+
+.gain-headline p {
+  font-size: 9.5pt;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 110mm;
+}
+
+.gain-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4mm;
+  flex: 1;
+}
+
+.gain-card {
+  background: white;
+  border-radius: 3pt;
+  padding: 5mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.gain-card-icon {
+  font-size: 18pt;
+  margin-bottom: 3mm;
+}
+
+.gain-card h4 {
+  font-family: var(--serif);
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3pt;
+  line-height: 1.2;
+}
+
+.gain-card p {
+  font-size: 8.5pt;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.gain-card .gain-num {
+  margin-top: 5pt;
+  font-family: var(--serif);
+  font-size: 18pt;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.p4 .gain-card .gain-num { color: var(--green); }
+.p5 .gain-card .gain-num { color: var(--gold); }
+.p6 .gain-card .gain-num { color: var(--red); }
+.p7 .gain-card .gain-num { color: var(--blue); }
+
+/* ══════════════════════════════════════════════
+   PAGE 8 — SERVICES (part 1)
+   ══════════════════════════════════════════════ */
+.p8, .p9 {
+  background: white;
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.p8 h2, .p9 h2 {
+  font-family: var(--serif);
+  font-size: 26pt;
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 3mm;
+}
+
+.p8-sub, .p9-sub {
+  font-size: 9.5pt;
+  color: var(--muted);
+  margin-bottom: 7mm;
+  line-height: 1.6;
+}
+
+.svc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3mm;
+  flex: 1;
+}
+
+.svc-row {
+  display: grid;
+  grid-template-columns: 10mm 1fr auto;
+  gap: 4mm;
+  align-items: center;
+  padding: 4mm 5mm;
+  border: 0.75pt solid rgba(15,14,12,0.1);
+  border-left: 3pt solid var(--red);
+}
+
+.svc-icon {
+  font-size: 16pt;
+  text-align: center;
+}
+
+.svc-body {}
+.svc-body h4 {
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 2pt;
+  line-height: 1.2;
+}
+.svc-body p {
+  font-size: 7.5pt;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.svc-meta {
+  text-align: right;
+  flex-shrink: 0;
+  min-width: 28mm;
+}
+.svc-price {
+  display: block;
+  font-size: 8.5pt;
+  font-weight: 700;
+  color: var(--red);
+  white-space: nowrap;
+}
+.svc-days {
+  display: block;
+  font-size: 7pt;
+  color: var(--green);
+  font-weight: 600;
+  margin-top: 2pt;
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 10 — ROI COMPARISON TABLE
+   ══════════════════════════════════════════════ */
+.p10 {
+  background: var(--cream2);
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.p10 h2 {
+  font-family: var(--serif);
+  font-size: 24pt;
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 3mm;
+}
+
+.p10-sub {
+  font-size: 9.5pt;
+  color: var(--muted);
+  margin-bottom: 7mm;
+  line-height: 1.6;
+}
+
+.roi-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8.5pt;
+  font-family: var(--sans);
+  flex: 1;
+}
+
+.roi-table th {
+  text-align: left;
+  padding: 4pt 6pt;
+  font-size: 7pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  border-bottom: 1.5pt solid var(--ink);
+  background: var(--cream2);
+}
+
+.roi-table td {
+  padding: 6pt 6pt;
+  border-bottom: 0.5pt solid rgba(15,14,12,0.1);
+  vertical-align: middle;
+  line-height: 1.45;
+}
+
+.roi-table tr:nth-child(even) td { background: rgba(245,241,232,0.5); }
+
+.roi-table .scenario-name {
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+}
+.roi-table .scenario-sub {
+  font-size: 7pt;
+  color: var(--muted);
+}
+
+.roi-win { color: var(--green); font-weight: 700; }
+.roi-lose { color: var(--red); }
+
+.roi-hl td { background: #fdf1ed !important; border-left: 3pt solid var(--red); }
+
+.roi-summary {
+  margin-top: 6mm;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 5mm 6mm;
+  display: flex;
+  align-items: center;
+  gap: 5mm;
+}
+
+.roi-summary .big {
+  font-family: var(--serif);
+  font-size: 28pt;
+  font-weight: 900;
+  color: #e8a87c;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.roi-summary p {
+  font-size: 9pt;
+  color: rgba(245,241,232,0.8);
+  line-height: 1.55;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 11 — HOW IT WORKS (Process)
+   ══════════════════════════════════════════════ */
+.p11 {
+  background: white;
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.p11 h2 {
+  font-family: var(--serif);
+  font-size: 26pt;
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 3mm;
+}
+
+.p11-sub {
+  font-size: 9.5pt;
+  color: var(--muted);
+  margin-bottom: 10mm;
+  line-height: 1.6;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4mm;
+  flex: 1;
+  align-content: start;
+}
+
+.step {
+  padding: 6mm;
+  border: 0.75pt solid rgba(15,14,12,0.12);
+  position: relative;
+}
+
+.step-num {
+  font-family: var(--serif);
+  font-size: 52pt;
+  font-weight: 900;
+  color: rgba(200,64,26,0.07);
+  position: absolute;
+  top: 2mm;
+  right: 4mm;
+  line-height: 1;
+}
+
+.step h4 {
+  font-family: var(--serif);
+  font-size: 13pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3pt;
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+}
+
+.step p {
+  font-size: 8.5pt;
+  color: var(--muted);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.step-icon {
+  font-size: 20pt;
+  margin-bottom: 3mm;
+  display: block;
+}
+
+.p11-guarantee {
+  margin-top: 7mm;
+  background: var(--cream2);
+  border-left: 3pt solid var(--green);
+  padding: 5mm 6mm;
+}
+
+.p11-guarantee h4 {
+  font-family: var(--serif);
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3pt;
+}
+
+.p11-guarantee p {
+  font-size: 8.5pt;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 12 — QUICK WIN SELECTOR
+   ══════════════════════════════════════════════ */
+.p12 {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 14mm 14mm 12mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.p12 h2 {
+  font-family: var(--serif);
+  font-size: 26pt;
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--cream);
+  margin-bottom: 3mm;
+}
+
+.p12-sub {
+  font-size: 9.5pt;
+  color: rgba(245,241,232,0.6);
+  margin-bottom: 8mm;
+  line-height: 1.6;
+}
+
+.checker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3mm;
+  flex: 1;
+}
+
+.checker-row {
+  display: grid;
+  grid-template-columns: 8mm 1fr auto;
+  align-items: center;
+  gap: 4mm;
+  padding: 4mm 5mm;
+  border: 0.75pt solid rgba(245,241,232,0.1);
+}
+
+.checker-box {
+  width: 14pt;
+  height: 14pt;
+  border: 1.5pt solid rgba(245,241,232,0.3);
+  display: block;
+  flex-shrink: 0;
+}
+
+.checker-text {
+  font-size: 9pt;
+  color: rgba(245,241,232,0.85);
+  line-height: 1.4;
+}
+
+.checker-text strong {
+  display: block;
+  font-size: 9.5pt;
+  color: var(--cream);
+  margin-bottom: 1pt;
+}
+
+.checker-price {
+  font-size: 8.5pt;
+  font-weight: 700;
+  color: #e8a87c;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.p12-note {
+  margin-top: 7mm;
+  padding: 5mm;
+  border: 0.75pt solid rgba(245,241,232,0.15);
+  font-size: 8pt;
+  color: rgba(245,241,232,0.5);
+  line-height: 1.6;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════════
+   PAGE 13 — BACK COVER / CTA
+   ══════════════════════════════════════════════ */
+.p13 {
+  background: var(--red);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 14mm 20mm;
+}
+
+.p13 h2 {
+  font-family: var(--serif);
+  font-size: 36pt;
+  font-weight: 900;
+  line-height: 1.05;
+  color: white;
+  margin-bottom: 6mm;
+}
+
+.p13-sub {
+  font-size: 11pt;
+  color: rgba(255,255,255,0.85);
+  max-width: 110mm;
+  line-height: 1.7;
+  margin-bottom: 12mm;
+}
+
+.p13-contact-box {
+  background: white;
+  padding: 7mm 12mm;
+  margin-bottom: 10mm;
+  min-width: 90mm;
+}
+
+.p13-contact-box .contact-label {
+  font-size: 7.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 3pt;
+}
+
+.p13-contact-box .contact-value {
+  font-family: var(--serif);
+  font-size: 20pt;
+  font-weight: 700;
+  color: var(--red);
+  display: block;
+  line-height: 1.2;
+}
+
+.p13-promise {
+  font-size: 9pt;
+  color: rgba(255,255,255,0.7);
+  max-width: 100mm;
+  line-height: 1.6;
+  border-top: 0.75pt solid rgba(255,255,255,0.25);
+  padding-top: 8mm;
+}
+
+.p13 .page-brand, .p13 .page-num { color: rgba(255,255,255,0.35); }
+
+</style>
+</head>
+<body>
+
+<!-- PRINT BUTTON (screen only) -->
+<div class="print-bar no-print">
+  <span>🖨 AI Automation Pitch Booklet — 13 A4 pages — Open in Chrome for best print results</span>
+  <button onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 1 — COVER
+     ═══════════════════════════════════════════ -->
+<div class="page p1">
+  <div class="p1-grid"></div>
+
+  <div class="p1-top">
+    <span class="p1-logo">AutomateIndia</span>
+    <span class="p1-badge">2026 Edition</span>
+  </div>
+
+  <div class="p1-body">
+    <div class="p1-eyebrow">AI Automation for Small Offices</div>
+    <h1>The <em>internet moment</em> is happening again — and it's bigger.</h1>
+    <p class="p1-sub">In 2000, offices that got a website pulled ahead. In 2026, offices that automate will dominate. Small jobs. Fast delivery. Starting ₹1,000.</p>
+  </div>
+
+  <div class="p1-stats">
+    <div class="p1-stat">
+      <span class="num">₹1K–10K</span>
+      <span class="lbl">Per project</span>
+    </div>
+    <div class="p1-stat">
+      <span class="num">1–2 Days</span>
+      <span class="lbl">Delivery time</span>
+    </div>
+    <div class="p1-stat">
+      <span class="num">Week 1</span>
+      <span class="lbl">You'll notice results</span>
+    </div>
+    <div class="p1-stat">
+      <span class="num">Zero</span>
+      <span class="lbl">Coding from your side</span>
+    </div>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">1</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 2 — THE BIG ANALOGY
+     ═══════════════════════════════════════════ -->
+<div class="page p2">
+  <div class="tag">The Big Picture</div>
+  <h2>You've seen this movie before.</h2>
+  <p class="p2-sub">Every decade, one technology reshapes business. Those who moved early won. This time is no different — except the impact is deeper and faster.</p>
+
+  <div class="tl">
+    <div class="tl-node">
+      <span class="tl-icon">🌐</span>
+      <span class="tl-year">2000</span>
+      <div class="tl-title">The Website Era</div>
+      <p class="tl-desc">Businesses that got online early captured customers. Those without a website looked outdated within 2 years. The divide became permanent.</p>
+    </div>
+    <div class="tl-arrow">→</div>
+    <div class="tl-node">
+      <span class="tl-icon">📱</span>
+      <span class="tl-year">2010</span>
+      <div class="tl-title">The Mobile Era</div>
+      <p class="tl-desc">Smartphones changed how customers found and paid businesses. UPI, WhatsApp, digital menus — those who adapted thrived.</p>
+    </div>
+    <div class="tl-arrow">→</div>
+    <div class="tl-node hl">
+      <span class="tl-icon">🤖</span>
+      <span class="tl-year">2026</span>
+      <div class="tl-title">The Automation Era</div>
+      <p class="tl-desc">AI doesn't just change how you're seen. It changes how much work your team can do in a day. This is bigger. The gap will be wider.</p>
+    </div>
+  </div>
+
+  <div class="p2-quote">
+    <p>"The office that automates in 2026 will have the same unfair advantage that the business with a website had in 2002 — except automation touches every single working day, not just your storefront."</p>
+    <span>The window to move first is open right now. Most of your competitors haven't moved yet.</span>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">2</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 3 — YOUR DAILY PROBLEMS
+     ═══════════════════════════════════════════ -->
+<div class="page p3">
+  <div class="tag" style="color:#e8a87c;border-color:#e8a87c;">What's Costing You Right Now</div>
+  <h2>Everyday problems that automation fixes completely.</h2>
+  <p class="p3-sub">These aren't big problems. They're small, daily ones. But they add up to hours lost, errors made, and money on the table — every single week.</p>
+
+  <div class="pain-grid">
+    <div class="pain-item">
+      <span class="pain-before">Manual, time-consuming</span>
+      <span class="pain-after">✓ Automatic in seconds</span>
+      <h4>Invoice Making</h4>
+      <p>Typing the same invoices every week. One wrong number, one forgotten GST field — and you're calling the client to apologise.</p>
+    </div>
+    <div class="pain-item">
+      <span class="pain-before">Hours every month</span>
+      <span class="pain-after">✓ 2 minutes, auto-done</span>
+      <h4>Monthly Reports</h4>
+      <p>Copying data from 4 different sheets into one summary. Totally manual, totally boring, totally error-prone.</p>
+    </div>
+    <div class="pain-item">
+      <span class="pain-before">Chasing clients awkwardly</span>
+      <span class="pain-after">✓ Automated reminders</span>
+      <h4>Payment Follow-Ups</h4>
+      <p>Remembering who hasn't paid, drafting a polite message, tracking the response. Every. Single. Time.</p>
+    </div>
+    <div class="pain-item">
+      <span class="pain-before">Delayed / missed replies</span>
+      <span class="pain-after">✓ Instant 24/7 response</span>
+      <h4>Customer Queries</h4>
+      <p>Clients message asking for prices, timings, status. Someone has to reply manually each time — or they wait.</p>
+    </div>
+    <div class="pain-item">
+      <span class="pain-before">Data scattered everywhere</span>
+      <span class="pain-after">✓ One live dashboard</span>
+      <h4>Data in Many Places</h4>
+      <p>Stock in one file. Expenses in another. Orders in a third. Getting the full picture takes half a day.</p>
+    </div>
+    <div class="pain-item">
+      <span class="pain-before">Human copy-paste errors</span>
+      <span class="pain-after">✓ Zero errors, always</span>
+      <h4>Costly Mistakes</h4>
+      <p>Wrong name on a proposal. Wrong amount on a quote. A missed decimal point that costs you trust — or money.</p>
+    </div>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">3</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 4 — WEEK 1 GAINS
+     ═══════════════════════════════════════════ -->
+<div class="page p4">
+  <div class="tag" style="color:var(--green);border-color:var(--green);">Your Results</div>
+
+  <div class="gain-header">
+    <div class="gain-period-box">
+      <span class="period">Week 1</span>
+      <span class="period-unit">Days 1–7</span>
+    </div>
+    <div class="gain-headline">
+      <h2>You'll feel the difference immediately.</h2>
+      <p>From the very first day the automation goes live, the gains are tangible. No waiting 6 months for results.</p>
+    </div>
+  </div>
+
+  <div class="gain-cards">
+    <div class="gain-card">
+      <span class="gain-card-icon">⏱</span>
+      <h4>Immediate Time Freed</h4>
+      <p>The first automated task stops taking manual effort from Day 1. Whatever used to take 2 hours now takes 2 minutes — or zero.</p>
+      <span class="gain-num">Day 1</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">✅</span>
+      <h4>Zero Data Entry Errors</h4>
+      <p>That task now runs without human input. No typos, no skipped fields, no wrong totals. The output is always clean.</p>
+      <span class="gain-num">0 errors</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">😌</span>
+      <h4>Staff Relief</h4>
+      <p>Your team stops dreading that repetitive job. The mood shift in the office when a boring task disappears is real and immediate.</p>
+      <span class="gain-num">Happier team</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">⚡</span>
+      <h4>Faster Output to Clients</h4>
+      <p>Invoices, reports, replies — delivered in seconds instead of hours. Clients notice the speed. It looks professional.</p>
+      <span class="gain-num">Same day</span>
+    </div>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">4</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 5 — MONTH 1 GAINS
+     ═══════════════════════════════════════════ -->
+<div class="page p5">
+  <div class="tag" style="color:var(--gold);border-color:var(--gold);">Your Results</div>
+
+  <div class="gain-header">
+    <div class="gain-period-box">
+      <span class="period">Month 1</span>
+      <span class="period-unit">Days 8–30</span>
+    </div>
+    <div class="gain-headline">
+      <h2>The savings become measurable.</h2>
+      <p>By the end of the first month, you'll have hard numbers — hours saved, errors avoided, payments collected faster.</p>
+    </div>
+  </div>
+
+  <div class="gain-cards">
+    <div class="gain-card">
+      <span class="gain-card-icon">🕐</span>
+      <h4>5–10 Hours Saved Per Staff</h4>
+      <p>That's time redirected into actual productive work — client calls, new business, quality checks. Not repetitive data entry.</p>
+      <span class="gain-num">5–10 hrs</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">💼</span>
+      <h4>More Professional Image</h4>
+      <p>Clients receive faster responses, cleaner documents, and consistent follow-ups. They start to see you differently.</p>
+      <span class="gain-num">Noticed by clients</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">💰</span>
+      <h4>Payment Cycles Tighten</h4>
+      <p>Automated reminders go out on time, every time. Fewer late payments. No more awkward "just checking in" calls.</p>
+      <span class="gain-num">Fewer late dues</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">📊</span>
+      <h4>Your Numbers, Instantly</h4>
+      <p>Reports run themselves. You know your sales, expenses, or stock without hunting through three files every time.</p>
+      <span class="gain-num">Always ready</span>
+    </div>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">5</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 6 — 6 MONTHS GAINS
+     ═══════════════════════════════════════════ -->
+<div class="page p6">
+  <div class="tag" style="color:var(--red);border-color:var(--red);">Your Results</div>
+
+  <div class="gain-header">
+    <div class="gain-period-box">
+      <span class="period">6 Months</span>
+      <span class="period-unit">Compounding</span>
+    </div>
+    <div class="gain-headline">
+      <h2>Your office runs like a much bigger team.</h2>
+      <p>With 2–3 automations running, the compound effect kicks in. Same people, dramatically more output.</p>
+    </div>
+  </div>
+
+  <div class="gain-cards">
+    <div class="gain-card">
+      <span class="gain-card-icon">🚀</span>
+      <h4>Double the Output</h4>
+      <p>2–3 automations running means your team handles work that used to need twice the headcount. No new hiring needed.</p>
+      <span class="gain-num">2× capacity</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">📉</span>
+      <h4>Cost Per Task Collapses</h4>
+      <p>Tasks that cost ₹200 in staff time now cost ₹2 in compute. The ROI math becomes staggering in your favour.</p>
+      <span class="gain-num">₹200 → ₹2</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">🔥</span>
+      <h4>Fewer Firefights</h4>
+      <p>Reminders, follow-ups, reports — all running automatically. Nobody's forgetting things. No more end-of-month chaos.</p>
+      <span class="gain-num">Zero dropped balls</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">📈</span>
+      <h4>Ready to Handle Growth</h4>
+      <p>When a big order or busy season comes, you don't scramble. The system scales with the volume without extra stress.</p>
+      <span class="gain-num">Scale with ease</span>
+    </div>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">6</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 7 — YEAR 1+ GAINS
+     ═══════════════════════════════════════════ -->
+<div class="page p7">
+  <div class="tag" style="color:var(--blue);border-color:var(--blue);">Your Results</div>
+
+  <div class="gain-header">
+    <div class="gain-period-box">
+      <span class="period">Year 1+</span>
+      <span class="period-unit">Ongoing advantage</span>
+    </div>
+    <div class="gain-headline">
+      <h2>A permanent structural advantage.</h2>
+      <p>By this point, competitors doing things manually are working harder for the same result. The gap is structural and keeps growing.</p>
+    </div>
+  </div>
+
+  <div class="gain-cards">
+    <div class="gain-card">
+      <span class="gain-card-icon">🏆</span>
+      <h4>Structural Advantage</h4>
+      <p>Competitors are still manually doing what you've automated. The gap grows every month they wait. You moved first.</p>
+      <span class="gain-num">Compounding lead</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">🧠</span>
+      <h4>Staff Does Higher Work</h4>
+      <p>People freed from repetitive tasks become problem-solvers, relationship-builders, and growth contributors.</p>
+      <span class="gain-num">Better team output</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">🧘</span>
+      <h4>Owner Bandwidth</h4>
+      <p>You stop firefighting operations and start building the business. Holidays don't create backlogs. Evenings are yours.</p>
+      <span class="gain-num">Build, not manage</span>
+    </div>
+    <div class="gain-card">
+      <span class="gain-card-icon">📋</span>
+      <h4>Audit-Ready by Default</h4>
+      <p>Every transaction, reminder, and report is logged automatically. GST season and audits become a non-event.</p>
+      <span class="gain-num">Always compliant</span>
+    </div>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">7</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 8 — SERVICES (1 of 2)
+     ═══════════════════════════════════════════ -->
+<div class="page p8">
+  <div class="tag">What We Build</div>
+  <h2>Pick one problem. We solve it in a day.</h2>
+  <p class="p8-sub">Every project is scoped to fit in 1–2 days and priced honestly. No bloated packages, no long contracts.</p>
+
+  <div class="svc-list">
+    <div class="svc-row">
+      <div class="svc-icon">🧾</div>
+      <div class="svc-body">
+        <h4>Auto Invoice Generator</h4>
+        <p>Fill a form, click send — a professional GST invoice reaches the client's inbox and your records automatically. Never type an invoice again.</p>
+      </div>
+      <div class="svc-meta">
+        <span class="svc-price">₹2,000 – ₹4,000</span>
+        <span class="svc-days">✓ 1 day</span>
+      </div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-icon">📊</div>
+      <div class="svc-body">
+        <h4>Monthly Report Dashboard</h4>
+        <p>Sales, expenses, or stock data pulled into one auto-updating dashboard. No more month-end copy-paste marathon across 4 files.</p>
+      </div>
+      <div class="svc-meta">
+        <span class="svc-price">₹3,000 – ₹6,000</span>
+        <span class="svc-days">✓ 1–2 days</span>
+      </div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-icon">💬</div>
+      <div class="svc-body">
+        <h4>WhatsApp Auto-Reply Bot</h4>
+        <p>Answers common questions — pricing, availability, address, hours — automatically. Clients get instant replies even at 2am.</p>
+      </div>
+      <div class="svc-meta">
+        <span class="svc-price">₹2,500 – ₹5,000</span>
+        <span class="svc-days">✓ 1–2 days</span>
+      </div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-icon">📧</div>
+      <div class="svc-body">
+        <h4>Payment Reminder System</h4>
+        <p>Automated polite reminders sent at the right intervals. Fewer awkward calls, faster payments, zero follow-up ever dropped.</p>
+      </div>
+      <div class="svc-meta">
+        <span class="svc-price">₹1,500 – ₹3,000</span>
+        <span class="svc-days">✓ 1 day</span>
+      </div>
+    </div>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">8</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 9 — SERVICES (2 of 2)
+     ═══════════════════════════════════════════ -->
+<div class="page p9">
+  <div class="tag">What We Build</div>
+  <h2>More quick wins for your office.</h2>
+  <p class="p9-sub">Each one takes 1–2 days, works on your existing devices, and needs zero new software skills from your team.</p>
+
+  <div class="svc-list">
+    <div class="svc-row">
+      <div class="svc-icon">📁</div>
+      <div class="svc-body">
+        <h4>PDF / Excel Data Extractor</h4>
+        <p>Upload a bank statement, vendor bill, or scanned form — get a clean, structured spreadsheet out. Eliminate hours of manual data entry every week.</p>
+      </div>
+      <div class="svc-meta">
+        <span class="svc-price">₹2,000 – ₹4,000</span>
+        <span class="svc-days">✓ 1 day</span>
+      </div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-icon">📅</div>
+      <div class="svc-body">
+        <h4>Attendance &amp; Payroll Sheet</h4>
+        <p>Staff marks attendance digitally. Salary calculations, deductions, and payslip summaries happen automatically every month.</p>
+      </div>
+      <div class="svc-meta">
+        <span class="svc-price">₹3,000 – ₹7,000</span>
+        <span class="svc-days">✓ 2 days</span>
+      </div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-icon">📝</div>
+      <div class="svc-body">
+        <h4>Quotation Auto-Builder</h4>
+        <p>Select items from a dropdown, and the quotation formats itself with your branding and gets emailed to the client instantly. No formatting time.</p>
+      </div>
+      <div class="svc-meta">
+        <span class="svc-price">₹2,000 – ₹4,000</span>
+        <span class="svc-days">✓ 1 day</span>
+      </div>
+    </div>
+    <div class="svc-row">
+      <div class="svc-icon">🔧</div>
+      <div class="svc-body">
+        <h4>Custom Workflow Automation</h4>
+        <p>Have a specific repetitive process unique to your business? Describe it to us. We'll figure out the right solution and build it in a day or two.</p>
+      </div>
+      <div class="svc-meta">
+        <span class="svc-price">₹1,000 – ₹10,000</span>
+        <span class="svc-days">✓ 1–2 days</span>
+      </div>
+    </div>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">9</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 10 — ROI TABLE
+     ═══════════════════════════════════════════ -->
+<div class="page p10">
+  <div class="tag">Honest ROI Comparison</div>
+  <h2>What does it actually cost to do nothing?</h2>
+  <p class="p10-sub">Most office owners think automation is an extra expense. The numbers show the opposite — it's the manual work that's expensive.</p>
+
+  <table class="roi-table">
+    <thead>
+      <tr>
+        <th style="width:32%">Scenario</th>
+        <th style="width:18%">Staff time / month</th>
+        <th style="width:14%">Error rate</th>
+        <th style="width:18%">Automation cost</th>
+        <th style="width:18%">Net at 6 months</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <span class="scenario-name">Manual invoicing</span>
+          <span class="scenario-sub">Staff: ~8 hrs/month @ ₹300/hr</span>
+        </td>
+        <td>₹2,400 lost</td>
+        <td>5–10% human errors</td>
+        <td>₹0</td>
+        <td class="roi-lose">−₹14,400</td>
+      </tr>
+      <tr class="roi-hl">
+        <td>
+          <span class="scenario-name">Auto invoice system</span>
+          <span class="scenario-sub">Same task takes 15 mins/month</span>
+        </td>
+        <td>~₹75</td>
+        <td>~0% (system)</td>
+        <td>₹3,000 once</td>
+        <td class="roi-win">+₹11,000 saved</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="scenario-name">Manual payment follow-ups</span>
+          <span class="scenario-sub">30 min × 20 clients = 10 hrs/month</span>
+        </td>
+        <td>₹3,000 lost</td>
+        <td>Some clients missed</td>
+        <td>₹0</td>
+        <td class="roi-lose">−₹18,000</td>
+      </tr>
+      <tr class="roi-hl">
+        <td>
+          <span class="scenario-name">Auto payment reminders</span>
+          <span class="scenario-sub">Zero staff time, 100% coverage</span>
+        </td>
+        <td>~₹0</td>
+        <td>No client skipped</td>
+        <td>₹2,000 once</td>
+        <td class="roi-win">+₹16,000 saved</td>
+      </tr>
+      <tr>
+        <td>
+          <span class="scenario-name">Manual monthly report</span>
+          <span class="scenario-sub">~6 hrs compiling from 4 files</span>
+        </td>
+        <td>₹1,800 lost</td>
+        <td>Formula errors common</td>
+        <td>₹0</td>
+        <td class="roi-lose">−₹10,800</td>
+      </tr>
+      <tr class="roi-hl">
+        <td>
+          <span class="scenario-name">Auto report dashboard</span>
+          <span class="scenario-sub">Updates itself daily</span>
+        </td>
+        <td>~₹0</td>
+        <td>~0%</td>
+        <td>₹4,000 once</td>
+        <td class="roi-win">+₹6,800 saved</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="roi-summary">
+    <span class="big">₹33K+</span>
+    <p>Estimated savings in just 6 months from automating three common office tasks — against a one-time investment of under ₹10,000 total. This math works at every scale.</p>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">10</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 11 — HOW IT WORKS
+     ═══════════════════════════════════════════ -->
+<div class="page p11">
+  <div class="tag">How It Works</div>
+  <h2>As simple as calling a carpenter.</h2>
+  <p class="p11-sub">No jargon. No long discovery meetings. No IT team needed. You describe the problem, we build the fix, it works on your existing devices.</p>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">1</span>
+      <span class="step-icon">🗣</span>
+      <h4>You tell us one problem</h4>
+      <p>What takes the most time? What causes the most errors? One task, clearly described. That's all we need to get started.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <span class="step-icon">🔍</span>
+      <h4>Free audit — 30 minutes</h4>
+      <p>We look at your current process, figure out the right automation approach, and give you a clear fixed price. No surprise costs ever.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <span class="step-icon">⚙️</span>
+      <h4>We build in 1–2 days</h4>
+      <p>No IT team required from your side. We set it up on your systems, test it thoroughly, and hand it over fully working.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <span class="step-icon">✅</span>
+      <h4>It runs by itself</h4>
+      <p>Your staff uses it with zero new technical skills. If anything needs adjusting in the first 30 days, we fix it at no extra charge.</p>
+    </div>
+  </div>
+
+  <div class="p11-guarantee">
+    <h4>Our Commitment to You</h4>
+    <p>Fixed price upfront — no surprises. Built on your existing devices and tools — no new software subscriptions required. If the automation doesn't work as discussed, we fix it or refund. We do not disappear after delivery — we're local, and reachable on WhatsApp.</p>
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">11</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 12 — QUICK WIN SELECTOR
+     ═══════════════════════════════════════════ -->
+<div class="page p12">
+  <div class="tag" style="color:#e8a87c;border-color:#e8a87c;">Which One Is Right for You?</div>
+  <h2>Tick what's painful in your office today.</h2>
+  <p class="p12-sub">No commitment. Just a conversation starter. Tick what feels familiar, and we'll tell you exactly how to fix it — for free.</p>
+
+  <div class="checker-list">
+    <div class="checker-row">
+      <span class="checker-box"></span>
+      <div class="checker-text">
+        <strong>I type invoices manually every week</strong>
+        Wasteful, error-prone, and it always falls on the same person.
+      </div>
+      <span class="checker-price">₹2,000–₹4,000</span>
+    </div>
+    <div class="checker-row">
+      <span class="checker-box"></span>
+      <div class="checker-text">
+        <strong>I spend hours on monthly reports/summaries</strong>
+        Copying data from multiple sheets. Same process, every month.
+      </div>
+      <span class="checker-price">₹3,000–₹6,000</span>
+    </div>
+    <div class="checker-row">
+      <span class="checker-box"></span>
+      <div class="checker-text">
+        <strong>I have to chase clients for payment manually</strong>
+        Awkward calls, forgotten follow-ups, slow cash flow.
+      </div>
+      <span class="checker-price">₹1,500–₹3,000</span>
+    </div>
+    <div class="checker-row">
+      <span class="checker-box"></span>
+      <div class="checker-text">
+        <strong>Customers ask the same questions on WhatsApp all day</strong>
+        Prices, timing, availability. Someone always has to reply.
+      </div>
+      <span class="checker-price">₹2,500–₹5,000</span>
+    </div>
+    <div class="checker-row">
+      <span class="checker-box"></span>
+      <div class="checker-text">
+        <strong>I manually enter data from bills or PDFs into Excel</strong>
+        Bank statements, vendor bills, order forms — all typed in by hand.
+      </div>
+      <span class="checker-price">₹2,000–₹4,000</span>
+    </div>
+    <div class="checker-row">
+      <span class="checker-box"></span>
+      <div class="checker-text">
+        <strong>Attendance and payroll is a monthly headache</strong>
+        Manual tracking, manual calculations, too much room for error.
+      </div>
+      <span class="checker-price">₹3,000–₹7,000</span>
+    </div>
+    <div class="checker-row">
+      <span class="checker-box"></span>
+      <div class="checker-text">
+        <strong>I have a different repetitive task that wastes time</strong>
+        Something specific to my business that I do the same way every time.
+      </div>
+      <span class="checker-price">₹1,000–₹10,000</span>
+    </div>
+  </div>
+
+  <div class="p12-note">
+    This checklist is just to start the conversation. You show us your process — we'll tell you what we can automate, how long it will take, and the exact price. No obligation.
+  </div>
+
+  <span class="page-brand">AutomateIndia · Delhi</span>
+  <span class="page-num">12</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 13 — BACK COVER / CTA
+     ═══════════════════════════════════════════ -->
+<div class="page p13">
+  <h2>Your competitors are moving.<br>Will you move first?</h2>
+
+  <p class="p13-sub">Get a free 30-minute audit of your office workflows. We'll find at least one automation that pays for itself within a week — or we'll tell you honestly there isn't one.</p>
+
+  <div class="p13-contact-box">
+    <span class="contact-label">Call or WhatsApp us now</span>
+    <span class="contact-value">+91 XXXXX XXXXX</span>
+  </div>
+
+  <div class="p13-contact-box" style="margin-top:0;">
+    <span class="contact-label">Email</span>
+    <span class="contact-value" style="font-size:14pt;">hello@automateindia.in</span>
+  </div>
+
+  <p class="p13-promise">Free audit. Fixed prices. Delivered in 1–2 days. Works on your existing devices.<br>No long contracts. Local support. 30-day fix guarantee.</p>
+
+  <span class="page-brand" style="color:rgba(255,255,255,0.35);">AutomateIndia · Delhi · 2026</span>
+  <span class="page-num" style="color:rgba(255,255,255,0.35);">13</span>
+</div>
+
+</body>
+</html>

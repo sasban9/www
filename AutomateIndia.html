@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpFlow — Smart Automation for Delhi Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0c;
+    --ink2: #3a3830;
+    --muted: #7a7668;
+    --bg: #faf8f3;
+    --bg2: #f2efe6;
+    --bg3: #e8e4d8;
+    --accent: #c94a1a;
+    --accent2: #e8843a;
+    --green: #1a5c38;
+    --green-bg: #e4f0e8;
+    --border: #dbd8cc;
+    --white: #ffffff;
+    --card-shadow: 0 2px 16px rgba(15,14,12,0.07);
+  }
+
+  html { scroll-behavior: smooth; scrollbar-width: none;}
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 5vw;
+    background: rgba(250,248,243,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent); color: #fff; border: none;
+    padding: 10px 22px; border-radius: 100px; font-size: 14px;
+    font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer;
+    text-decoration: none; transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: #a83a10; transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 120px 5vw 80px;
+    background: var(--bg);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -60px; right: -80px;
+    width: 420px; height: 420px;
+    background: radial-gradient(circle, rgba(201,74,26,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: floatBlob 8s ease-in-out infinite;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: 40px; left: -100px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(26,92,56,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: floatBlob 10s ease-in-out infinite reverse;
+  }
+  @keyframes floatBlob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(20px, -20px) scale(1.05); }
+    66% { transform: translate(-10px, 15px) scale(0.97); }
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-bg); color: var(--green);
+    font-size: 13px; font-weight: 500; padding: 6px 14px;
+    border-radius: 100px; margin-bottom: 28px;
+    opacity: 0; transform: translateY(12px);
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+  .hero-tag::before { content: '●'; font-size: 9px; }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(38px, 7vw, 76px);
+    line-height: 1.08;
+    max-width: 780px;
+    letter-spacing: -0.5px;
+    opacity: 0; transform: translateY(16px);
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero h1 em { color: var(--accent); font-style: italic; }
+
+  .hero-sub {
+    margin-top: 24px;
+    font-size: clamp(16px, 2.2vw, 19px);
+    color: var(--ink2);
+    max-width: 560px;
+    line-height: 1.65;
+    opacity: 0; transform: translateY(14px);
+    animation: fadeUp 0.7s 0.35s forwards;
+  }
+
+  .hero-actions {
+    margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap;
+    opacity: 0; transform: translateY(14px);
+    animation: fadeUp 0.7s 0.5s forwards;
+  }
+  .btn-primary {
+    background: var(--accent); color: #fff; border: none;
+    padding: 16px 34px; border-radius: 100px; font-size: 16px;
+    font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer;
+    text-decoration: none; transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(201,74,26,0.25);
+    display: inline-block;
+  }
+  .btn-primary:hover { background: #a83a10; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,74,26,0.32); }
+
+  .btn-ghost {
+    background: transparent; color: var(--ink); border: 1.5px solid var(--border);
+    padding: 15px 30px; border-radius: 100px; font-size: 16px;
+    font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer;
+    text-decoration: none; transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--ink2); background: var(--bg2); }
+
+  .hero-stats {
+    margin-top: 56px; display: flex; gap: 36px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px; color: var(--ink);
+  }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  /* ─── SECTION STRUCTURE ─── */
+  section { padding: 80px 5vw; }
+  .section-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .section-heading {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(28px, 4.5vw, 48px);
+    line-height: 1.15; letter-spacing: -0.3px;
+    max-width: 640px;
+  }
+  .section-heading em { font-style: italic; color: var(--accent); }
+  .section-sub {
+    font-size: 17px; color: var(--ink2); max-width: 560px;
+    margin-top: 14px; line-height: 1.65;
+  }
+
+  /* ─── PROBLEM STRIP ─── */
+  .problem-strip {
+    background: var(--ink); color: var(--bg);
+    padding: 60px 5vw;
+  }
+  .problem-strip .section-label { color: var(--accent2); }
+  .problem-strip .section-heading { color: #faf8f3; max-width: 100%; }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px; margin-top: 48px;
+  }
+  .problem-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 24px 20px;
+    transition: background 0.2s;
+  }
+  .problem-card:hover { background: rgba(255,255,255,0.09); }
+  .problem-icon { font-size: 26px; margin-bottom: 14px; }
+  .problem-card h4 { font-size: 15px; font-weight: 600; color: #faf8f3; margin-bottom: 6px; }
+  .problem-card p { font-size: 14px; color: rgba(250,248,243,0.6); line-height: 1.55; }
+
+  /* ─── IMAGE BREAK ─── */
+  .img-break {
+    width: 100%; overflow: hidden;
+    position: relative; height: 44vw;
+  }
+  .img-break-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #e8e4d8 0%, #dbd6c6 50%, #cdc8b4 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px;
+  }
+  .img-desc {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 28px;
+    text-align: center; max-width: 520px;
+  }
+  .img-desc strong { display: block; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .img-desc span { font-size: 13px; color: var(--muted); }
+
+  /* ─── SERVICES GRID ─── */
+  .services-intro { max-width: 900px; margin: 0 auto 56px; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .service-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px 24px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    cursor: default; position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow); border-color: #c8c4b4; }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-emoji { font-size: 28px; margin-bottom: 14px; display: block; }
+  .service-card h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+  .service-card .target { font-size: 12px; font-weight: 500; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .service-card p { font-size: 14px; color: var(--ink2); line-height: 1.6; margin-bottom: 16px; }
+  .service-price {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-bg); color: var(--green);
+    font-size: 13px; font-weight: 600; padding: 5px 12px;
+    border-radius: 100px;
+  }
+
+  /* ─── VISUAL BREAK: SECTORS ─── */
+  .sectors-band {
+    background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 64px 5vw;
+  }
+  .sectors-row {
+    display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px;
+  }
+  .sector-pill {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 100px; padding: 10px 20px;
+    font-size: 14px; font-weight: 500; color: var(--ink2);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    cursor: default;
+  }
+  .sector-pill:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .sector-pill:hover .pill-dot { background: #fff; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+
+  /* ─── PITCH ─── */
+  .pitch-layout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+  }
+  .pitch-quote {
+    border-left: 3px solid var(--accent); padding-left: 24px;
+    font-family: 'Instrument Serif', serif; font-size: clamp(20px, 2.8vw, 26px);
+    color: var(--ink); line-height: 1.45; font-style: italic; margin: 32px 0;
+  }
+  .pitch-steps { display: flex; flex-direction: column; gap: 20px; margin-top: 32px; }
+  .step-row { display: flex; gap: 18px; align-items: flex-start; }
+  .step-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; flex-shrink: 0; margin-top: 2px;
+  }
+  .step-text h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .step-text p { font-size: 14px; color: var(--ink2); line-height: 1.55; }
+
+  .pitch-visual {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 24px; padding: 36px 32px;
+    position: relative; overflow: hidden;
+  }
+  .pitch-visual::after {
+    content: '';
+    position: absolute; bottom: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(201,74,26,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .pitch-visual h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px; margin-bottom: 20px;
+  }
+  .opener-line {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px; margin-bottom: 12px;
+    font-size: 15px; color: var(--ink2); font-style: italic; line-height: 1.55;
+  }
+  .opener-line strong { color: var(--accent); font-style: normal; }
+
+  /* ─── PRICING ─── */
+  .pricing-section { background: var(--bg); }
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px; margin-top: 48px;
+  }
+  .price-card {
+    border: 1.5px solid var(--border); border-radius: 24px; padding: 32px 28px;
+    background: var(--white); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .price-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow); }
+  .price-card.featured {
+    border-color: var(--accent); background: var(--ink);
+    color: var(--bg);
+  }
+  .price-card .tier { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .price-card.featured .tier { color: var(--accent2); }
+  .price-val { font-family: 'Instrument Serif', serif; font-size: 40px; line-height: 1; }
+  .price-val span { font-size: 18px; }
+  .price-desc { font-size: 14px; color: var(--muted); margin: 6px 0 20px; }
+  .price-card.featured .price-desc { color: rgba(250,248,243,0.65); }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .price-features li { font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .price-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .price-card.featured .price-features li::before { color: var(--accent2); }
+  .price-card.featured .price-features li { color: rgba(250,248,243,0.85); }
+
+  /* ─── IMG BREAK 2 ─── */
+  .visual-divider {
+    padding: 0; background: var(--bg3);
+    display: flex; align-items: center; justify-content: center;
+    min-height: 44vw; position: relative; overflow: hidden;
+  }
+  .vd-inner {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 16px; padding: 48px 5vw; text-align: center; max-width: 680px;
+  }
+  .vd-inner .big-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(60px, 12vw, 110px);
+    line-height: 1; color: var(--accent);
+    opacity: 0.12;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    white-space: nowrap; pointer-events: none;
+  }
+  .vd-text { position: relative; z-index: 1; }
+  .vd-text p { font-family: 'Instrument Serif', serif; font-size: clamp(18px, 3vw, 26px); font-style: italic; color: var(--ink2); line-height: 1.5; }
+  .vd-text strong { color: var(--ink); font-style: normal; }
+
+  /* ─── CTA FINAL ─── */
+  .cta-section {
+    background: var(--ink); color: var(--bg);
+    text-align: center; padding: 100px 5vw;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,74,26,0.18) 0%, transparent 65%);
+    border-radius: 50%;
+  }
+  .cta-section .section-label { color: var(--accent2); }
+  .cta-section .section-heading { color: #faf8f3; margin: 0 auto 20px; text-align: center; }
+  .cta-section .section-sub { color: rgba(250,248,243,0.6); margin: 0 auto 44px; text-align: center; }
+  .whatsapp-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #25D366; color: #fff; border: none;
+    padding: 18px 40px; border-radius: 100px; font-size: 17px;
+    font-family: 'DM Sans', sans-serif; font-weight: 600; cursor: pointer;
+    text-decoration: none; transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.3);
+    position: relative; z-index: 1;
+  }
+  .whatsapp-btn:hover { background: #1fb958; transform: translateY(-2px); }
+  .wa-icon { font-size: 20px; }
+  .cta-note { font-size: 13px; color: rgba(250,248,243,0.4); margin-top: 20px; position: relative; z-index: 1; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 28px 5vw;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  footer .nav-logo { font-size: 18px; }
+  footer p { font-size: 13px; color: rgba(250,248,243,0.35); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .pitch-layout { grid-template-columns: 1fr; gap: 40px; }
+    .hero { padding: 100px 5vw 60px; }
+    .hero-stats { gap: 24px; }
+    section { padding: 60px 5vw; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Op<span>Flow</span></a>
+  <a class="nav-cta" href="#contact">Get a Free Demo</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">Serving Connaught Place &amp; Central Delhi</div>
+  <h1>Your business runs on<br><em>WhatsApp &amp; Excel.</em><br>We fix that.</h1>
+  <p class="hero-sub">Lightweight automation systems built in 1–2 days. Reduce missed orders, manual errors, and the daily chaos that costs you money.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="#services">See What We Build →</a>
+    <a class="btn-ghost" href="#contact">Talk to Us</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">20+</div>
+      <div class="stat-label">Ready-to-deploy solutions</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1–2</div>
+      <div class="stat-label">Days to go live</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">₹2k–10k</div>
+      <div class="stat-label">One-time setup cost</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM STRIP -->
+<section class="problem-strip reveal">
+  <div class="section-label">The Problem</div>
+  <h2 class="section-heading">Most CP businesses lose 2–5 hours every single day to avoidable admin.</h2>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-icon">📲</div>
+      <h4>Scattered Messages</h4>
+      <p>Orders and leads buried in WhatsApp, Instagram DMs, calls, and screenshots — all missed.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">📋</div>
+      <h4>Manual Data Entry</h4>
+      <p>Staff typing invoices and stock updates by hand into Excel. Errors. Disputes. Wasted hours.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">😤</div>
+      <h4>No Follow-Up System</h4>
+      <p>Leads die in chat threads. Appointments double-booked. Vendors unpaid. Customers forgotten.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🔒</div>
+      <h4>Zero Visibility</h4>
+      <p>Owners get fragmented WhatsApp updates. No real-time picture of cash, stock, or staff.</p>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE BREAK 1 -->
+<div class="img-break">
+  <div class="img-break-placeholder" style="background: url(https://images.picxy.com/cache/2021/4/2/f6e1b0908fad152a6746a9049cda9dca.jpg) 50% 50%; background-size: cover;">
+    <div class="img-desc" style="opacity:0.1">
+      <strong>📸 Suggested image: Busy Connaught Place inner circle</strong>
+      <span>Aerial or street-level shot of CP blocks — restaurants, offices, and cafés side by side. Warm afternoon light. Shows density and opportunity.</span>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-intro reveal">
+    <div class="section-label">What We Build</div>
+    <h2 class="section-heading">20 automation systems, built for <em>businesses like yours</em></h2>
+    <p class="section-sub">Each solution goes live in 1–2 days. No servers, no complexity — just tools your staff can actually use.</p>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <span class="service-emoji">💬</span>
+      <div class="target">Restaurants · Cafés · Bakeries</div>
+      <h3>WhatsApp Order Management</h3>
+      <p>Structured order form, auto invoice, kitchen queue, and customer database — all from WhatsApp.</p>
+      <div class="service-price">₹5k–25k/month</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">⭐</span>
+      <div class="target">Restaurants · Salons · Clinics</div>
+      <h3>QR Feedback &amp; Review Engine</h3>
+      <p>QR on tables or bills triggers auto Google review requests. Negative feedback routed privately.</p>
+      <div class="service-price">₹3k–8k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">📦</span>
+      <div class="target">Retail · Pharmacy · Café</div>
+      <h3>Inventory Reconciliation Dashboard</h3>
+      <p>Staff logs inward/outward stock. Auto low-stock alerts, daily variance report, theft detection.</p>
+      <div class="service-price">₹5k–12k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🕒</span>
+      <div class="target">Restaurants · Salons · Retail</div>
+      <h3>Staff Attendance + Shift Automation</h3>
+      <p>GPS or QR check-in, shift tracking, overtime calculation, and payroll export. No more disputes.</p>
+      <div class="service-price">₹4k–10k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🧾</span>
+      <div class="target">CA Firms · Distributors</div>
+      <h3>AI Invoice Data Extraction</h3>
+      <p>Upload PDFs or photos. OCR auto-extracts GST fields and exports directly to Sheets or Tally.</p>
+      <div class="service-price">₹6k–15k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">💰</span>
+      <div class="target">Multi-branch Businesses</div>
+      <h3>Daily Cash Flow Consolidator</h3>
+      <p>One dashboard showing UPI, cash, expenses, sales, and pending dues — across all branches, live.</p>
+      <div class="service-price">₹5k–10k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🎯</span>
+      <div class="target">Gyms · Clinics · Travel</div>
+      <h3>Lead Follow-Up CRM</h3>
+      <p>Auto reminders, lead stages, follow-up alerts, and conversion analytics. No lead dies in chat.</p>
+      <div class="service-price">₹5k–12k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">📅</span>
+      <div class="target">Doctors · Salons · Consultants</div>
+      <h3>Smart Appointment Booking</h3>
+      <p>WhatsApp booking, calendar sync, automated reminders, and token queue. Kills double-booking.</p>
+      <div class="service-price">₹4k–10k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">✅</span>
+      <div class="target">Agencies · Law Firms</div>
+      <h3>Employee Task Tracking Dashboard</h3>
+      <p>Daily tasks, completion tracking, delays dashboard, and escalation alerts for managers.</p>
+      <div class="service-price">₹4k–8k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🏪</span>
+      <div class="target">Retailers · Restaurants</div>
+      <h3>Vendor Payment Tracker</h3>
+      <p>Due-date tracking, auto reminders, payment history, and vendor ledger. No missed payments.</p>
+      <div class="service-price">₹3k–7k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">📊</span>
+      <div class="target">Small Offices &amp; Shops</div>
+      <h3>GST + Expense Categorization</h3>
+      <p>Auto-categorize expenses, track GST input, generate monthly reports. CA-ready exports.</p>
+      <div class="service-price">₹4k–9k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🎙️</span>
+      <div class="target">Brokers · Consultants</div>
+      <h3>AI Call Summary System</h3>
+      <p>Record calls, get AI summaries with action items, sync to CRM. Never forget a client detail.</p>
+      <div class="service-price">₹5k–12k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🍽️</span>
+      <div class="target">Quick-Service Restaurants</div>
+      <h3>Kitchen Workflow Screen</h3>
+      <p>Live order queue on a kitchen display. Prep timers, status updates. No more paper tokens.</p>
+      <div class="service-price">₹5k–10k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🏢</span>
+      <div class="target">Coworking · Offices</div>
+      <h3>Smart Visitor Management</h3>
+      <p>QR entry, ID capture, host notifications, and visitor logs. Professional front desk automation.</p>
+      <div class="service-price">₹4k–8k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">📄</span>
+      <div class="target">CA · Legal · Agencies</div>
+      <h3>Document Approval Workflow</h3>
+      <p>Approval stages, e-sign requests, status tracking, version control. No email/WhatsApp loops.</p>
+      <div class="service-price">₹5k–12k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🎤</span>
+      <div class="target">Small Teams &amp; Agencies</div>
+      <h3>AI Meeting Notes + Action Tracker</h3>
+      <p>Record meetings, get AI notes, auto-extract tasks with reminders. Increases accountability.</p>
+      <div class="service-price">₹4k–9k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🧳</span>
+      <div class="target">Sales &amp; Delivery Teams</div>
+      <h3>Smart Expense Claim System</h3>
+      <p>Receipt upload, approval flow, mileage tracking, expense reports. Reduces fraud and admin.</p>
+      <div class="service-price">₹4k–8k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">💌</span>
+      <div class="target">Cafés · Salons · Boutiques</div>
+      <h3>Loyalty + Repeat Customer Engine</h3>
+      <p>Repeat visit tracking, automated offers, birthday campaigns, VIP customer lists.</p>
+      <div class="service-price">₹4k–10k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">📥</span>
+      <div class="target">Businesses on Every Platform</div>
+      <h3>Multi-Platform Message Inbox</h3>
+      <p>Instagram + WhatsApp + Facebook + calls in one place. Customer history, staff assignment.</p>
+      <div class="service-price">₹5k–12k setup</div>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-emoji">🧠</span>
+      <div class="target">Growing Business Owners</div>
+      <h3>AI Business Intelligence Dashboard</h3>
+      <p>Best-selling items, peak hours, staff productivity, profit leaks, and sales forecasting.</p>
+      <div class="service-price">₹8k–20k setup</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTORS BAND -->
+<section class="sectors-band reveal">
+  <div class="section-label">Industries We Serve</div>
+  <h2 class="section-heading">If you're in CP and run a team, we can help.</h2>
+  <div class="sectors-row">
+    <div class="sector-pill"><span class="pill-dot"></span>Restaurants</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Cafés</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Salons</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Clinics</div>
+    <div class="sector-pill"><span class="pill-dot"></span>CA Firms</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Travel Agencies</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Coaching Institutes</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Boutique Retail</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Coworking Spaces</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Law Firms</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Real Estate Brokers</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Pharmacies</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Gyms &amp; Fitness</div>
+    <div class="sector-pill"><span class="pill-dot"></span>Bakeries</div>
+  </div>
+</section>
+
+<!-- IMAGE BREAK 2 -->
+<div class="img-break">
+  <div class="img-break-placeholder" style="background: url(https://thumbs.dreamstime.com/b/small-business-owners-local-dry-cleaning-franchise-reviewing-data-file-johannesburg-south-africa-may-182027613.jpg) 50% 50%;background-size: cover;">
+    <div class="img-desc" style="opacity: 0.1;">
+      <strong>📸 Suggested image: Business owner checking a clean dashboard on phone</strong>
+      <span>Person at a café or shop counter, glancing at a tidy data view on their smartphone. Natural light, relaxed expression — showing ease, not complexity.</span>
+    </div>
+  </div>
+</div>
+
+<!-- PITCH SECTION -->
+<section id="pitch">
+  <div class="pitch-layout">
+    <div class="reveal">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-heading">A 2-minute walk-in conversation starts everything.</h2>
+      <blockquote class="pitch-quote">"Which process wastes the most time every day here?"</blockquote>
+      <p style="color: var(--ink2); font-size: 15px;">That one question opens everything. We listen, identify the biggest pain point, and show you a working demo within 24 hours.</p>
+      <div class="pitch-steps">
+        <div class="step-row">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <h4>Walk-in or WhatsApp</h4>
+            <p>Describe your biggest daily headache — orders, payments, attendance, bookings.</p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <h4>Same-day demo</h4>
+            <p>We show you a working version tailored to your business. No generic decks.</p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <h4>Live in 1–2 days</h4>
+            <p>Built, tested, and handed over with a 15-minute walkthrough for your team.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pitch-visual reveal">
+      <h3>Our Opening Script</h3>
+      <div class="opener-line">
+        "I help businesses remove <strong>repetitive manual work</strong> using lightweight automation. Usually saves 2–5 hours daily and reduces operational mistakes significantly."
+      </div>
+      <div class="opener-line" style="margin-top: 8px;">
+        "Which process wastes the most time here every day?"
+      </div>
+      <p style="font-size: 13px; color: var(--muted); margin-top: 20px;">This positions us differently from every other IT vendor in CP who's selling websites, apps, and SEO. We sell <strong>operational relief</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VISUAL DIVIDER -->
+<div class="visual-divider reveal" style="background: url(https://i.ytimg.com/vi/ehGO4YyDGzs/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLD-9wYNAGR9um-G5awlICH3ApjP2w) 50% 50%;background-size: cover;">
+  <div class="vd-inner">
+    <!-- <div class="big-num">₹20L</div> -->
+    <div class="vd-text">
+      <!-- <p>You can realistically build a <strong>₹5–20 lakh/year automation agency</strong> in Connaught Place starting with just five of these services.</p> -->
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section id="pricing" class="pricing-section">
+  <div class="reveal">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-heading">Simple, transparent, <em>no surprises.</em></h2>
+    <p class="section-sub">All prices are one-time setup unless noted. No hidden retainers.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="tier">Starter</div>
+      <div class="price-val"><span>₹</span>2,000–4,000</div>
+      <p class="price-desc">Simple single-workflow tools</p>
+      <ul class="price-features">
+        <li>QR feedback system</li>
+        <li>Vendor payment tracker</li>
+        <li>Basic attendance sheet</li>
+        <li>Deployed in 1 day</li>
+      </ul>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="tier">Most Popular</div>
+      <div class="price-val"><span>₹</span>5,000–8,000</div>
+      <p class="price-desc">Multi-feature business systems</p>
+      <ul class="price-features">
+        <li>Lead CRM with reminders</li>
+        <li>WhatsApp order management</li>
+        <li>Appointment booking system</li>
+        <li>Staff dashboard + reports</li>
+        <li>Deployed in 1–2 days</li>
+      </ul>
+    </div>
+    <div class="price-card reveal">
+      <div class="tier">Advanced</div>
+      <div class="price-val"><span>₹</span>8,000–20,000</div>
+      <p class="price-desc">AI-powered or multi-branch</p>
+      <ul class="price-features">
+        <li>AI invoice extraction</li>
+        <li>Business intelligence dashboard</li>
+        <li>Multi-branch cash flow</li>
+        <li>Training + onboarding included</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE BREAK 3 -->
+<div class="img-break">
+  <div class="img-break-placeholder" style="background: url(https://dfjx2uxqg3cgi.cloudfront.net/img/photo/104483/104483_tt.jpg?20160502003152) 50% 50%;background-size: cover;">
+    <div class="img-desc" style="opacity: 0.1;">
+      <strong>📸 Suggested image: Laptop showing a clean Google Sheets dashboard</strong>
+      <span>Well-designed spreadsheet or simple web dashboard open on a laptop, on a wooden café table. Shows the "lightweight but powerful" nature of the tools built.</span>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section id="contact" class="cta-section">
+  <div class="section-label">Let's Talk</div>
+  <h2 class="section-heading">Ready to fix the one thing that's wasting your time?</h2>
+  <p class="section-sub">Send us a WhatsApp, describe your biggest daily bottleneck, and we'll show you a working solution within 24 hours.</p>
+  <a class="whatsapp-btn" href="https://wa.me/917019492748?text=Hi%2C%20I%27d%20like%20to%20see%20a%20demo%20for%20my%20business" target="_blank">
+    <span class="wa-icon">💬</span> Chat on WhatsApp
+  </a>
+  <p class="cta-note">Or walk into our office in Connaught Place — we're here daily 10am–7pm</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="nav-logo" href="#" style="color: rgba(250,248,243,0.8);">Op<span>Flow</span></a>
+  <p>Connaught Place, New Delhi · Lightweight automation for real businesses</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, entry.target.dataset.delay || 0);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach((el, i) => {
+    el.dataset.delay = (i % 4) * 60;
+    observer.observe(el);
+  });
+
+  // Staggered service card reveals
+  const cards = document.querySelectorAll('.service-card.reveal, .problem-card');
+  cards.forEach((card, i) => {
+    card.dataset.delay = (i % 3) * 80;
+  });
+
+  // Sector pills hover ripple
+  document.querySelectorAll('.sector-pill').forEach(pill => {
+    pill.addEventListener('mouseenter', () => {
+      pill.style.transform = 'translateY(-2px)';
+    });
+    pill.addEventListener('mouseleave', () => {
+      pill.style.transform = '';
+    });
+  });
+</script>
+</body>
+</html>

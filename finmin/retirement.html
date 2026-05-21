@@ -1,70 +1,566 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retirement Corpus</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corpus Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e0f;
+    --surface: #161618;
+    --surface2: #1e1e21;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --accent: #c8f135;
+    --accent2: #8fba1a;
+    --text: #f0ede8;
+    --muted: #888884;
+    --muted2: #555552;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  html { background: var(--bg); color: var(--text); font-family: var(--font-display); }
+
+  body {
+    min-height: 100vh;
+    padding: 48px 24px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .header {
+    margin-bottom: 56px;
+  }
+  .header-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .header h1 span {
+    color: var(--accent);
+  }
+
+  /* INPUTS */
+  .inputs-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border2);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 2px;
+  }
+  .input-block {
+    background: var(--surface);
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: background 0.2s;
+  }
+  .input-block:hover { background: var(--surface2); }
+  .input-block label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .input-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .input-prefix {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--muted2);
+    line-height: 1;
+  }
+  .input-block input[type="number"] {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    width: 100%;
+    -moz-appearance: textfield;
+  }
+  .input-block input[type="number"]::-webkit-outer-spin-button,
+  .input-block input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .input-block input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent);
+    height: 3px;
+    margin-top: 4px;
+    cursor: pointer;
+  }
+  .range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted2);
+    margin-top: 2px;
+  }
+
+  /* METRICS */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .metric {
+    background: var(--bg);
+    padding: 28px 28px;
+  }
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .metric-value {
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  .metric-value.accent { color: var(--accent); }
+  .metric-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted2);
+    margin-top: 4px;
+  }
+
+  /* CHART */
+  .chart-section {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+  .chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .chart-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .legend {
+    display: flex;
+    gap: 20px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .legend-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 280px;
+  }
+
+  /* TABLE */
+  .table-section {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .table-header {
+    padding: 24px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .table-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .table-scroll { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+  }
+  thead th {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+    padding: 14px 32px;
+    text-align: right;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  thead th:first-child { text-align: left; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody td {
+    padding: 13px 32px;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  tbody td:first-child {
+    text-align: left;
+    color: var(--muted);
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+  }
+  tbody tr:last-child td {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  tbody tr:last-child td:first-child { color: var(--muted); }
+  .growth-cell { color: var(--accent2) !important; }
+
+  /* TOGGLE: flat/growing savings */
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+  .toggle-label { font-family: var(--font-mono); font-size: 16px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .toggle {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    display: inline-block;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; inset: 0;
+    background: var(--muted2);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    left: 3px; top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle input:checked + .toggle-slider { background: var(--accent); }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(16px); }
+
+  @media (max-width: 700px) {
+    .inputs-section { grid-template-columns: 1fr; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .chart-section { padding: 20px; }
+    table { font-size: 14px; }
+    thead th, tbody td { padding: 10px 16px; }
+  }
+</style>
 </head>
-<body class="container">
-    <form action="" id="main-form">
-        <div class="row">
-            <div class="col-lg-3">
-                <label for="multiple">1st Year</label>
-                <input type="number" class="form-control" id="first-year" value=1>
-            </div>
-            <div class="col-lg-3">
-                <label for="multiple">30th Year</label>
-                <input type="number" class="form-control" id="last-year" value="1000">
-            </div>
-            <div class="col-lg-3">
-                <label for="multiple">Compounder</label>
-                <input type="number" class="form-control" id="compounder" value="2.25">
-            </div>
-            <div class="col-lg-3">
-                <label for=""></label><br>
-                <input type="submit" class="btn btn-primary" value="Generate" id="table-gen">
-            </div>
-        </div>
-    </form>
-    <table class="table">
-        <thead><tr>
-            <th>YEAR</th><th>Corpus</th><th>Saving per year</th>
-        </tr></thead>
-        <tbody></tbody>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Financial Projection Tool</div>
+  <h1>Corpus<br><span>Calculator</span></h1>
+</div>
+
+<div class="inputs-section">
+  <div class="input-block">
+    <label>Year 1 saving</label>
+    <div class="input-row">
+      <span class="input-prefix">₹</span>
+      <input type="number" id="saving1" value="100000" min="0" step="5000">
+    </div>
+    <input type="range" id="saving1-range" min="10000" max="2000000" step="5000" value="100000">
+    <div class="range-labels"><span>₹10K</span><span>₹20L</span></div>
+  </div>
+  <div class="input-block">
+    <label>Years of service</label>
+    <div class="input-row">
+      <input type="number" id="years" value="18" min="1" max="60" step="1" style="font-size:32px">
+      <span class="input-prefix" style="font-size:18px; color:var(--muted)">yrs</span>
+    </div>
+    <input type="range" id="years-range" min="1" max="60" step="1" value="30">
+    <div class="range-labels"><span>1</span><span>60</span></div>
+  </div>
+  <div class="input-block">
+    <label>Growth % per year</label>
+    <div class="input-row">
+      <input type="number" id="growth" value="12" min="0" max="50" step="0.5" style="font-size:32px">
+      <span class="input-prefix" style="font-size:18px; color:var(--muted)">%</span>
+    </div>
+    <input type="range" id="growth-range" min="1" max="30" step="0.5" value="12">
+    <div class="range-labels"><span>1%</span><span>30%</span></div>
+  </div>
+</div>
+
+<div style="display:flex;justify-content:flex-end;padding:10px 2px 20px;">
+  <div class="toggle-wrap">
+    <span class="toggle-label">Flat saving</span>
+    <label class="toggle">
+      <input type="checkbox" id="growing-toggle" checked>
+      <span class="toggle-slider"></span>
+    </label>
+    <span class="toggle-label">Growing saving</span>
+  </div>
+</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-label">Final corpus</div>
+    <div class="metric-value accent" id="m-corpus">—</div>
+    <div class="metric-sub" id="m-corpus-raw"></div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Total saved</div>
+    <div class="metric-value" id="m-saved">—</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Wealth created</div>
+    <div class="metric-value" id="m-growth">—</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Growth multiple</div>
+    <div class="metric-value" id="m-mult">—</div>
+    <div class="metric-sub">on total invested</div>
+  </div>
+</div>
+
+<div class="chart-section">
+  <div class="chart-header">
+    <div class="chart-title">Corpus growth over time</div>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-swatch" style="background:#c8f135"></span>Corpus</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:#3a4a1a"></span>Saved (year)</div>
+    </div>
+  </div>
+  <div class="chart-wrap">
+    <canvas id="chart" role="img" aria-label="Bar chart showing corpus value and annual savings over years of service.">Corpus growth over time.</canvas>
+  </div>
+</div>
+
+<div class="table-section">
+  <div class="table-header">
+    <div class="table-title">Year-by-year breakdown</div>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Saved this year</th>
+          <th>Growth earned</th>
+          <th>Corpus (end of year)</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
     </table>
-    <script>
-        const sasban9 = {
-            tbody: document.getElementsByTagName('tbody')[0],
-            firstYear: document.getElementById('first-year'),
-            lastYear: document.getElementById('last-year'),
-            toKilo: (num) => {
-                if(num > 1000000)return Math.floor(num/10000)/100+'M'
-                else if (num > 1000)return Math.floor(num/10)/100+'k'
-                else return num.toFixed(2)
-            },
-            generateTable: () => {
-                let firstYrVal = sasban9.firstYear.value
-                let lastYrVal = sasban9.lastYear.value
-                let multiplier = Math.exp((Math.log(lastYrVal) - Math.log(firstYrVal)) / 30)
-                let tbodyStr = ''
+  </div>
+</div>
 
-                console.log(multiplier)
-                for (i = 1; i <= 30; i++) {
-                    let corpus = Math.floor(Math.pow(multiplier, i) * firstYrVal * 100) / 100
-                    let corpus0 = Math.floor(Math.pow(multiplier, i - 1) * firstYrVal * 100) / 100
-                    tbodyStr += '<tr><td>' + i + '</td><td>' + sasban9.toKilo(corpus) + '</td><td>' + sasban9.toKilo(corpus - corpus0) + '</td></tr>'
-                }
-                sasban9.tbody.innerHTML = tbodyStr
-            }
+<script>
+let chartInstance;
+
+function fmtShort(n) {
+  if (n >= 1e7) return '₹' + (n/1e7).toFixed(2) + ' Cr';
+  if (n >= 1e5) return '₹' + (n/1e5).toFixed(2) + ' L';
+  if (n >= 1e3) return '₹' + (n/1e3).toFixed(1) + ' K';
+  return '₹' + Math.round(n).toLocaleString('en-IN');
+}
+function fmtFull(n) {
+  return '₹' + Math.round(n).toLocaleString('en-IN');
+}
+
+function syncRange(inputId, rangeId) {
+  const inp = document.getElementById(inputId);
+  const rng = document.getElementById(rangeId);
+  inp.addEventListener('input', () => { rng.value = inp.value; calc(); });
+  rng.addEventListener('input', () => { inp.value = rng.value; calc(); });
+}
+
+syncRange('saving1', 'saving1-range');
+syncRange('years', 'years-range');
+syncRange('growth', 'growth-range');
+document.getElementById('growing-toggle').addEventListener('change', calc);
+
+function calc() {
+  const s1 = parseFloat(document.getElementById('saving1').value) || 0;
+  const yrs = Math.max(1, parseInt(document.getElementById('years').value) || 1);
+  const g = parseFloat(document.getElementById('growth').value) / 100 || 0;
+  const growing = document.getElementById('growing-toggle').checked;
+
+  const rows = [];
+  let corpus = 0;
+  let totalSaved = 0;
+  let saving = s1;
+
+  for (let y = 1; y <= yrs; y++) {
+    const growthEarned = corpus * g;
+    corpus = corpus + growthEarned + saving;
+    totalSaved += saving;
+    rows.push({ year: y, saving: Math.round(saving), corpus: Math.round(corpus), growth: Math.round(growthEarned) });
+    if (growing) saving = saving * (1 + g);
+  }
+
+  const finalCorpus = rows[rows.length - 1].corpus;
+  const totalGrowth = finalCorpus - totalSaved;
+
+  document.getElementById('m-corpus').textContent = fmtShort(finalCorpus);
+  document.getElementById('m-corpus-raw').textContent = fmtFull(finalCorpus);
+  document.getElementById('m-saved').textContent = fmtShort(totalSaved);
+  document.getElementById('m-growth').textContent = fmtShort(totalGrowth);
+  document.getElementById('m-mult').textContent = (finalCorpus / totalSaved).toFixed(2) + 'x';
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = rows.map(r =>
+    `<tr>
+      <td>Year ${r.year}</td>
+      <td>${fmtFull(r.saving)}</td>
+      <td class="growth-cell">${fmtFull(r.growth)}</td>
+      <td>${fmtFull(r.corpus)}</td>
+    </tr>`
+  ).join('');
+
+  const labels = rows.map(r => yrs > 20 ? (r.year % 5 === 0 || r.year === 1 ? 'Y' + r.year : '') : 'Y' + r.year);
+  const corpusData = rows.map(r => r.corpus);
+  const savingData = rows.map(r => r.saving);
+
+  if (chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(document.getElementById('chart'), {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => 'Y' + r.year),
+      datasets: [
+        {
+          label: 'Corpus value',
+          data: corpusData,
+          backgroundColor: '#c8f135',
+          borderRadius: 3,
+          yAxisID: 'y'
+        },
+        {
+          label: 'Saved this year',
+          data: savingData,
+          backgroundColor: '#3a4a1a',
+          borderRadius: 3,
+          yAxisID: 'y2'
         }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1e1e21',
+          borderColor: 'rgba(255,255,255,0.12)',
+          borderWidth: 1,
+          titleColor: '#888884',
+          bodyColor: '#f0ede8',
+          titleFont: { family: 'DM Mono', size: 10 },
+          bodyFont: { family: 'DM Mono', size: 12 },
+          callbacks: {
+            label: ctx => ' ' + ctx.dataset.label + ': ' + fmtShort(ctx.raw)
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#555552',
+            font: { family: 'DM Mono', size: 10 },
+            maxTicksLimit: 15,
+            autoSkip: true,
+          },
+          grid: { display: false },
+          border: { color: 'rgba(255,255,255,0.07)' }
+        },
+        y: {
+          position: 'left',
+          ticks: {
+            color: '#888884',
+            font: { family: 'DM Mono', size: 10 },
+            maxTicksLimit: 5,
+            callback: v => fmtShort(v)
+          },
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          border: { display: false }
+        },
+        y2: {
+          position: 'right',
+          ticks: {
+            color: '#888884',
+            font: { family: 'DM Mono', size: 10 },
+            maxTicksLimit: 5,
+            callback: v => fmtShort(v)
+          },
+          grid: { display: false },
+          border: { display: false }
+        }
+      }
+    }
+  });
+}
 
-        document.getElementById('main-form').addEventListener('submit', (e) => {
-            e.preventDefault()
-            sasban9.generateTable()
-        })
-
-        sasban9.generateTable()
-    </script>
+calc();
+</script>
 </body>
 </html>
