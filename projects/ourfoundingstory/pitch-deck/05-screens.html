@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MaisonMotif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500;600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ob:#06050400;--ob1:#080807;--ob2:#0D0C0A;--ob3:#131210;--ch:#1C1A17;--ash:#2A2822;--smoke:#3E3C36;--dust:#7A776C;--parch:#BEB5A0;--ivory:#EDE6D6;--cream:#F5F0E6;
+  --gold:#B8922A;--goldl:#D4AC52;--goldx:#EDD98A;--goldd:rgba(184,146,42,.15);--copper:#9C6B2E;
+  --ln:rgba(184,146,42,.18);--lnd:rgba(184,146,42,.07);
+  --red:#C0392B;--grn:#2E7D52;
+}
+html,body{height:100%;background:#000;font-family:'Jost',sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased;color:var(--ivory);}
+
+/* ── grain ── */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:9999;}
+
+/* ── deck ── */
+.deck{width:100%;height:100dvh;position:relative;overflow:hidden;}
+.slide{position:absolute;inset:0;opacity:0;transform:translateX(40px);transition:opacity .65s cubic-bezier(.4,0,.2,1),transform .65s cubic-bezier(.4,0,.2,1);pointer-events:none;overflow-y:auto;overflow-x:hidden;padding-bottom:50px;}
+.slide.active{opacity:1;transform:translateX(0);pointer-events:all;}
+.slide.exit{opacity:0;transform:translateX(-40px);}
+
+/* ══════════════════════════════════════════
+   S C R E E N   1 — FOUNDING WEDDING HOMEPAGE
+══════════════════════════════════════════ */
+.s1{background:var(--ob1);}
+.s1-hero{
+  position:relative;height:clamp(280px,50vw,420px);overflow:hidden;
+  background:linear-gradient(160deg,#1A1208 0%,#0D0B06 40%,#1A1005 100%);
+}
+.s1-hero-canvas{position:absolute;inset:0;}
+.s1-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,5,4,.1) 0%,rgba(6,5,4,.5) 70%,var(--ob1) 100%);}
+.s1-hero-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(1.2rem,4vw,2.2rem);}
+.s1-season{font-family:'Cormorant SC',serif;font-size:2rem;letter-spacing:.26em;color:var(--goldl);margin-bottom:.5rem;opacity:.8;}
+.s1-couple{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,6vw,3.8rem);line-height:1.05;color:var(--ivory);}
+.s1-couple em{font-style:italic;color:var(--goldx);}
+.s1-date{font-family:'Cormorant SC',serif;font-size:1.65rem;letter-spacing:.2em;color:var(--parch);margin-top:.4rem;opacity:.7;}
+.s1-countdown{
+  display:flex;gap:clamp(.6rem,2vw,1.2rem);padding:clamp(.9rem,3vw,1.4rem) clamp(1.2rem,4vw,2.2rem);
+  border-bottom:1px solid var(--lnd);
+}
+.s1-cd-unit{text-align:center;}
+.s1-cd-num{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.6rem);font-weight:300;color:var(--gold);line-height:1;}
+.s1-cd-lbl{font-family:'Cormorant SC',serif;font-size:1.52rem;letter-spacing:.16em;color:var(--dust);margin-top:.2rem;}
+.s1-cd-sep{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--smoke);align-self:center;line-height:1;margin-top:-.3rem;}
+.s1-blessings{padding:clamp(.8rem,3vw,1.2rem) clamp(1.2rem,4vw,2.2rem);}
+.s1-bl-label{font-family:'Cormorant SC',serif;font-size:1.05rem;letter-spacing:.2em;color:var(--gold);margin-bottom:.7rem;opacity:.65;}
+.s1-bl-row{display:flex;gap:.7rem;overflow-x:auto;scrollbar-width:none;padding-bottom:.3rem;}
+.s1-bl-row::-webkit-scrollbar{display:none;}
+.s1-blessing{
+  flex-shrink:0;background:var(--ch);border:1px solid var(--ln);border-radius:4px;
+  padding:.7rem .9rem;min-width:190px;max-width:220px;
+}
+.s1-bl-name{font-family:'Cormorant SC',serif;font-size:1.58rem;letter-spacing:.14em;color:var(--goldl);margin-bottom:.3rem;}
+.s1-bl-text{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--parch);line-height:1.5;}
+.s1-bl-wave{height:18px;display:flex;align-items:center;gap:1px;margin-top:.5rem;cursor:pointer;}
+.s1-bl-bar{flex:1;background:var(--goldd);border-radius:1px;transition:background .2s;}
+.s1-elder{
+  margin:0 clamp(1.2rem,4vw,2.2rem) .8rem;
+  background:var(--ch);border:1px solid var(--ln);border-radius:6px;padding:1rem;
+  display:flex;align-items:center;gap:.9rem;
+}
+.s1-elder-photo{
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle,#3A2E18,var(--ash));
+  border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.s1-elder-meta{flex:1;}
+.s1-elder-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:var(--ivory);}
+.s1-elder-loc{font-family:'Cormorant SC',serif;font-size:1.1rem;letter-spacing:.14em;color:var(--dust);margin-top:2px;}
+.s1-elder-quote{font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-style:italic;color:var(--parch);line-height:1.45;margin-top:.4rem;}
+.s1-wf{height:20px;display:flex;align-items:center;gap:1.5px;margin-top:.5rem;}
+.s1-wf-b{flex:1;background:var(--goldd);border-radius:1px;min-height:3px;}
+.s1-wf-b.a{background:var(--gold);}
+
+/* ══════════════════════════════════════════
+   S C R E E N   2 — CONTRIBUTION CARDS
+══════════════════════════════════════════ */
+.s2{background:var(--ob2);}
+.s2-top{padding:clamp(1.2rem,4vw,1.8rem) clamp(1.2rem,4vw,2rem) .8rem;border-bottom:1px solid var(--lnd);}
+.s2-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);margin-bottom:.5rem;opacity:.7;}
+.s2-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.4rem,4vw,2.2rem);color:var(--ivory);}
+.s2-cards{padding:clamp(.8rem,3vw,1.2rem) clamp(1.2rem,4vw,2rem);display:flex;flex-direction:column;gap:.8rem;}
+.s2-card{
+  background:var(--ch);border:1px solid var(--ln);border-radius:6px;overflow:hidden;
+  position:relative;
+}
+.s2-card-hero{
+  height:clamp(80px,14vw,120px);position:relative;overflow:hidden;
+}
+.s2-card-body{padding:.9rem 1rem;}
+.s2-card-sponsor{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.18em;color:var(--gold);margin-bottom:.3rem;opacity:.7;}
+.s2-card-name{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.3rem);color:var(--ivory);margin-bottom:.35rem;}
+.s2-card-quote{font-family:'Cormorant Garamond',serif;font-size:.85rem;font-style:italic;color:var(--parch);line-height:1.5;border-left:1px solid var(--gold);padding-left:.7rem;margin:.5rem 0;}
+.s2-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.6rem;}
+.s2-card-amt{font-family:'Cormorant SC',serif;font-size:.7rem;letter-spacing:.12em;color:var(--goldl);}
+.s2-card-wave{height:16px;display:flex;align-items:center;gap:1px;width:80px;}
+.s2-card-bar{flex:1;background:var(--goldd);border-radius:1px;}
+
+/* ══════════════════════════════════════════
+   S C R E E N   3 — ELDER VOICE ARCHIVE
+══════════════════════════════════════════ */
+.s3{background:var(--ob1);}
+.s3-inner{padding:clamp(1.4rem,4vw,2.2rem) clamp(1.2rem,4vw,2rem);}
+.s3-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);margin-bottom:1rem;opacity:.7;}
+.s3-portrait-row{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.2rem;}
+.s3-portrait{
+  width:clamp(70px,16vw,100px);height:clamp(80px,18vw,120px);flex-shrink:0;
+  border-radius:4px;overflow:hidden;position:relative;border:1px solid var(--ln);
+  background:linear-gradient(145deg,#2A2218,#1A1510);
+}
+.s3-portrait-emoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.5rem;opacity:.7;}
+.s3-portrait-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(184,146,42,.03) 3px,rgba(184,146,42,.03) 4px);}
+.s3-meta{flex:1;}
+.s3-name{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3.5vw,1.9rem);color:var(--ivory);margin-bottom:.3rem;}
+.s3-sub{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.16em;color:var(--dust);}
+.s3-lang{display:inline-block;margin-top:.4rem;padding:.2rem .6rem;border:1px solid var(--ln);border-radius:999px;font-size:.58rem;font-family:'Cormorant SC',serif;letter-spacing:.12em;color:var(--goldl);}
+.s3-player{background:var(--ch);border:1px solid var(--ln);border-radius:6px;padding:1rem;margin-bottom:1rem;}
+.s3-wf-full{height:52px;display:flex;align-items:center;gap:2px;margin-bottom:.8rem;cursor:pointer;}
+.s3-wfb{flex:1;background:var(--goldd);border-radius:1px;min-height:4px;transition:background .15s;}
+.s3-wfb.played{background:var(--gold);}
+.s3-controls{display:flex;align-items:center;gap:.8rem;}
+.s3-play{width:32px;height:32px;border-radius:50%;background:var(--gold);border:none;color:var(--ob1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
+.s3-time{font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.12em;color:var(--dust);flex:1;}
+.s3-subtitle{
+  background:var(--ash);border-radius:4px;padding:.8rem .9rem;
+  font-family:'Cormorant Garamond',serif;font-size:clamp(.85rem,2vw,.98rem);font-style:italic;color:var(--ivory);line-height:1.6;
+}
+.s3-threads{margin-top:1rem;}
+.s3-threads-lbl{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.2em;color:var(--gold);margin-bottom:.6rem;opacity:.6;}
+.s3-thread-pill{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:var(--ch);border:1px solid var(--lnd);border-radius:999px;
+  padding:.3rem .7rem;margin:.2rem .25rem;
+  font-size:.72rem;color:var(--parch);
+}
+.s3-thread-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);}
+.s3-reactions{display:flex;gap:.6rem;margin-top:.9rem;}
+.s3-react{background:var(--ch);border:1px solid var(--lnd);border-radius:999px;padding:.3rem .8rem;font-size:.8rem;cursor:pointer;transition:border-color .2s;}
+.s3-react:hover{border-color:var(--gold);}
+
+/* ══════════════════════════════════════════
+   S C R E E N   4 — EXPEDITION GRAPH
+══════════════════════════════════════════ */
+.s4{background:var(--ob2);}
+.s4-header{padding:clamp(1.2rem,4vw,1.8rem) clamp(1.2rem,4vw,2rem) .8rem;border-bottom:1px solid var(--lnd);}
+.s4-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);margin-bottom:.4rem;opacity:.7;}
+.s4-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,4vw,2rem);color:var(--ivory);}
+.s4-status{display:inline-flex;align-items:center;gap:.4rem;margin-top:.4rem;padding:.2rem .7rem;background:rgba(46,125,82,.12);border:1px solid rgba(46,125,82,.3);border-radius:999px;}
+.s4-status-dot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.s4-status-text{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.12em;color:#6DBF94;}
+.s4-graph{padding:clamp(.8rem,3vw,1.2rem) clamp(1.2rem,4vw,2rem);position:relative;}
+.s4-svg-wrap{width:100%;position:relative;}
+.s4-legend{display:flex;gap:1rem;margin-top:.8rem;flex-wrap:wrap;}
+.s4-leg-item{display:flex;align-items:center;gap:.4rem;font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.1em;color:var(--dust);}
+.s4-leg-dot{width:7px;height:7px;border-radius:50%;}
+
+/* ══════════════════════════════════════════
+   S C R E E N   5 — PEARL NECKLACE VIEW
+══════════════════════════════════════════ */
+.s5{background:#050403;}
+.s5-header{padding:clamp(1.2rem,4vw,1.8rem) clamp(1.2rem,4vw,2rem) .6rem;}
+.s5-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);margin-bottom:.4rem;opacity:.7;}
+.s5-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3.5vw,1.9rem);font-style:italic;color:var(--ivory);}
+.s5-canvas-wrap{padding:0 clamp(1.2rem,4vw,2rem);position:relative;}
+.s5-featured{
+  background:var(--ch);border:1px solid var(--gold);border-radius:6px;
+  padding:.9rem 1rem;margin:clamp(.6rem,2vw,1rem) clamp(1.2rem,4vw,2rem);
+}
+.s5-feat-label{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.2em;color:var(--goldx);margin-bottom:.4rem;}
+.s5-feat-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,3vw,1.5rem);color:var(--ivory);margin-bottom:.25rem;}
+.s5-feat-dates{font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.14em;color:var(--goldl);}
+.s5-artifacts{display:flex;gap:.5rem;margin-top:.7rem;flex-wrap:wrap;}
+.s5-artifact{
+  background:var(--ash);border:1px solid var(--lnd);border-radius:3px;
+  padding:.3rem .6rem;font-size:.72rem;color:var(--parch);
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+}
+.s5-threads-list{padding:0 clamp(1.2rem,4vw,2rem) .8rem;}
+.s5-thread-row{
+  display:flex;align-items:center;gap:.8rem;padding:.65rem 0;
+  border-bottom:1px solid var(--lnd);
+}
+.s5-thread-row:last-child{border:none;}
+.s5-tr-pearl{width:10px;height:10px;border-radius:50%;background:var(--ash);border:1px solid var(--smoke);flex-shrink:0;}
+.s5-tr-pearl.active{background:var(--gold);border-color:var(--goldl);box-shadow:0 0 8px rgba(184,146,42,.4);}
+.s5-tr-name{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--parch);flex:1;}
+.s5-tr-count{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.1em;color:var(--dust);}
+
+/* ══════════════════════════════════════════
+   S C R E E N   6 — FOUNDING SEASON OVERVIEW
+══════════════════════════════════════════ */
+.s6{background:var(--ob1);}
+.s6-header{padding:clamp(1.2rem,4vw,1.8rem) clamp(1.2rem,4vw,2rem) .8rem;}
+.s6-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);opacity:.7;margin-bottom:.4rem;}
+.s6-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3.5vw,1.9rem);color:var(--ivory);}
+.s6-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--lnd);border:1px solid var(--lnd);border-radius:4px;overflow:hidden;margin:0 clamp(1.2rem,4vw,2rem) .9rem;}
+.s6-stat{background:var(--ob2);padding:clamp(.7rem,2vw,1rem) .8rem;text-align:center;}
+.s6-stat-num{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:300;color:var(--gold);line-height:1;}
+.s6-stat-lbl{font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.14em;color:var(--dust);margin-top:.2rem;line-height:1.4;}
+.s6-leaderboard{margin:0 clamp(1.2rem,4vw,2rem);}
+.s6-lb-header{display:grid;grid-template-columns:1fr 50px 50px 40px 40px;gap:.4rem;padding:.5rem .7rem;background:var(--ch);border:1px solid var(--lnd);border-radius:4px 4px 0 0;font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.12em;color:var(--dust);}
+.s6-lb-row{display:grid;grid-template-columns:1fr 50px 50px 40px 40px;gap:.4rem;padding:.6rem .7rem;background:var(--ob2);border:1px solid var(--lnd);border-top:none;}
+.s6-lb-row:last-child{border-radius:0 0 4px 4px;}
+.s6-lb-row.top{background:#1A1508;border-left:2px solid var(--gold);}
+.s6-lb-name{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:var(--ivory);}
+.s6-lb-row.top .s6-lb-name{color:var(--goldx);}
+.s6-lb-val{font-family:'Cormorant SC',serif;font-size:.72rem;letter-spacing:.08em;color:var(--parch);text-align:center;align-self:center;}
+.s6-lb-suit{font-size:.85rem;text-align:center;align-self:center;}
+.s6-progress{margin:1rem clamp(1.2rem,4vw,2rem) .5rem;}
+.s6-prog-label{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.16em;color:var(--dust);margin-bottom:.4rem;}
+.s6-prog-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.4rem;}
+.s6-prog-name{font-size:.78rem;color:var(--parch);min-width:130px;}
+.s6-prog-track{flex:1;height:3px;background:var(--ash);border-radius:2px;overflow:hidden;}
+.s6-prog-fill{height:100%;background:var(--gold);border-radius:2px;}
+.s6-prog-num{font-family:'Cormorant SC',serif;font-size:.55rem;color:var(--goldl);min-width:30px;text-align:right;}
+
+/* ══════════════════════════════════════════
+   S C R E E N   7 — FAMILY TIMELINE MAP
+══════════════════════════════════════════ */
+.s7{background:var(--ob2);}
+.s7-layout{display:flex;height:calc(100dvh - 50px);overflow:hidden;}
+.s7-spine{
+  width:clamp(56px,14vw,80px);flex-shrink:0;background:var(--ob1);
+  border-right:1px solid var(--lnd);display:flex;flex-direction:column;
+  overflow-y:auto;scrollbar-width:none;
+}
+.s7-spine::-webkit-scrollbar{display:none;}
+.s7-year{
+  padding:.7rem .5rem;text-align:center;cursor:pointer;
+  border-bottom:1px solid var(--lnd);transition:background .2s;position:relative;
+}
+.s7-year.active-yr{background:#1A1508;border-right:2px solid var(--gold);}
+.s7-year-num{font-family:'Cormorant Garamond',serif;font-size:clamp(.85rem,2vw,1rem);color:var(--dust);}
+.s7-year.active-yr .s7-year-num{color:var(--goldx);}
+.s7-year-dot{width:5px;height:5px;border-radius:50%;background:var(--ash);margin:.3rem auto 0;}
+.s7-year.active-yr .s7-year-dot{background:var(--gold);}
+.s7-main{flex:1;overflow-y:auto;scrollbar-width:none;padding:clamp(1rem,3vw,1.5rem);}
+.s7-main::-webkit-scrollbar{display:none;}
+.s7-yr-header{margin-bottom:.8rem;}
+.s7-yr-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,4vw,2.4rem);font-weight:300;color:var(--ivory);}
+.s7-yr-sub{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.2em;color:var(--gold);opacity:.6;margin-bottom:.6rem;}
+.s7-cards{display:flex;flex-direction:column;gap:.7rem;}
+.s7-entry{
+  background:var(--ob1);border:1px solid var(--lnd);border-radius:4px;padding:.8rem .9rem;
+  display:flex;gap:.8rem;align-items:flex-start;
+}
+.s7-entry-icon{font-size:1.3rem;flex-shrink:0;margin-top:.1rem;}
+.s7-entry-meta{}
+.s7-entry-type{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.16em;color:var(--gold);margin-bottom:.25rem;opacity:.7;}
+.s7-entry-title{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:var(--ivory);margin-bottom:.2rem;}
+.s7-entry-desc{font-size:.78rem;font-weight:300;color:var(--dust);line-height:1.55;}
+.s7-photo-strip{display:flex;gap:.4rem;margin-top:.6rem;overflow-x:auto;scrollbar-width:none;}
+.s7-photo-strip::-webkit-scrollbar{display:none;}
+.s7-photo-thumb{width:52px;height:42px;flex-shrink:0;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;border:1px solid var(--lnd);}
+
+/* ══════════════════════════════════════════
+   S C R E E N   8 — LIVE TONIGHT
+══════════════════════════════════════════ */
+.s8{background:#040302;}
+.s8-header{padding:clamp(1.2rem,4vw,1.8rem) clamp(1.2rem,4vw,2rem) .8rem;}
+.s8-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);opacity:.7;margin-bottom:.3rem;}
+.s8-live-badge{display:inline-flex;align-items:center;gap:.4rem;margin-bottom:.5rem;padding:.25rem .7rem;background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.3);border-radius:999px;}
+.s8-live-dot{width:5px;height:5px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;}
+.s8-live-text{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.14em;color:#E87070;}
+.s8-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3.5vw,2rem);color:var(--ivory);}
+.s8-featured{
+  margin:0 clamp(1.2rem,4vw,2rem) 1rem;
+  background:var(--ch);border:1px solid var(--ln);border-radius:8px;overflow:hidden;
+}
+.s8-feat-visual{
+  height:clamp(100px,18vw,150px);position:relative;
+  background:linear-gradient(160deg,#1A1005,#100C05);
+  display:flex;align-items:center;justify-content:center;font-size:3rem;
+}
+.s8-feat-visual-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent,var(--ch));}
+.s8-feat-body{padding:.9rem 1rem;}
+.s8-feat-tag{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.18em;color:var(--goldl);margin-bottom:.3rem;}
+.s8-feat-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.4rem);color:var(--ivory);margin-bottom:.3rem;}
+.s8-feat-desc{font-size:.8rem;font-weight:300;color:var(--dust);line-height:1.55;}
+.s8-feed{padding:0 clamp(1.2rem,4vw,2rem);}
+.s8-feed-label{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.2em;color:var(--gold);opacity:.6;margin-bottom:.6rem;}
+.s8-feed-item{
+  display:flex;align-items:flex-start;gap:.7rem;padding:.65rem 0;
+  border-bottom:1px solid var(--lnd);
+}
+.s8-feed-item:last-child{border:none;}
+.s8-fi-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.s8-fi-dot.glow-g{background:var(--grn);box-shadow:0 0 5px rgba(46,125,82,.5);}
+.s8-fi-dot.glow-gl{background:var(--gold);box-shadow:0 0 5px rgba(184,146,42,.4);}
+.s8-fi-dot.glow-c{background:var(--copper);box-shadow:0 0 5px rgba(156,107,46,.4);}
+.s8-fi-text{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-style:italic;color:var(--parch);line-height:1.5;}
+.s8-fi-time{font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.1em;color:var(--smoke);margin-top:.2rem;}
+
+/* ══════════════════════════════════════════
+   S C R E E N   9 — HEIRLOOM EXCHANGE
+══════════════════════════════════════════ */
+.s9{background:var(--ob1);}
+.s9-top{padding:clamp(1.2rem,4vw,1.8rem) clamp(1.2rem,4vw,2rem) .8rem;border-bottom:1px solid var(--lnd);}
+.s9-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);opacity:.7;margin-bottom:.4rem;}
+.s9-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3.5vw,1.9rem);color:var(--ivory);}
+.s9-hero-card{
+  margin:clamp(.8rem,3vw,1.2rem) clamp(1.2rem,4vw,2rem);
+  background:var(--ch);border:1px solid var(--gold);border-radius:8px;overflow:hidden;
+}
+.s9-hero-img{
+  height:clamp(140px,24vw,200px);position:relative;
+  background:radial-gradient(circle at 40% 50%,#2A200E 0%,#100D07 70%);
+  display:flex;align-items:center;justify-content:center;font-size:4rem;
+}
+.s9-hero-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,var(--ch) 100%);}
+.s9-hero-badge{
+  position:absolute;top:.8rem;right:.8rem;
+  background:var(--ch);border:1px solid var(--gold);border-radius:3px;
+  padding:.25rem .6rem;font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.12em;color:var(--goldl);
+}
+.s9-hero-body{padding:.9rem 1rem;}
+.s9-hero-route{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.18em;color:var(--goldl);margin-bottom:.3rem;}
+.s9-hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2.8vw,1.5rem);color:var(--ivory);margin-bottom:.4rem;}
+.s9-hero-story{font-family:'Cormorant Garamond',serif;font-size:.85rem;font-style:italic;color:var(--parch);line-height:1.55;margin-bottom:.7rem;}
+.s9-hero-footer{display:flex;align-items:center;justify-content:space-between;}
+.s9-sponsor{font-size:.75rem;font-weight:300;color:var(--dust);}
+.s9-sponsor strong{color:var(--parch);font-weight:400;}
+.s9-cta{background:var(--gold);border:none;color:var(--ob1);font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.14em;padding:.45rem 1rem;border-radius:2px;cursor:pointer;}
+.s9-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;padding:0 clamp(1.2rem,4vw,2rem) .8rem;}
+.s9-mini{background:var(--ch);border:1px solid var(--lnd);border-radius:4px;overflow:hidden;}
+.s9-mini-img{height:60px;background:linear-gradient(135deg,#1A150A,var(--ash));display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+.s9-mini-body{padding:.5rem .6rem;}
+.s9-mini-route{font-family:'Cormorant SC',serif;font-size:.48rem;letter-spacing:.12em;color:var(--gold);opacity:.6;}
+.s9-mini-name{font-family:'Cormorant Garamond',serif;font-size:.82rem;color:var(--parch);margin-top:.15rem;}
+
+/* ══════════════════════════════════════════
+   S C R E E N   10 — FAMILY PERSONA
+══════════════════════════════════════════ */
+.s10{background:var(--ob2);}
+.s10-top{padding:clamp(1.2rem,4vw,1.8rem) clamp(1.2rem,4vw,2rem) .8rem;}
+.s10-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);opacity:.7;margin-bottom:.4rem;}
+.s10-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3.5vw,1.9rem);color:var(--ivory);}
+.s10-cards{padding:0 clamp(1.2rem,4vw,2rem);display:flex;flex-direction:column;gap:.8rem;}
+.s10-persona{
+  background:var(--ch);border:1px solid var(--lnd);border-radius:6px;
+  overflow:hidden;position:relative;
+}
+.s10-persona.featured{border-color:var(--gold);}
+.s10-persona-head{
+  padding:.9rem 1rem;display:flex;align-items:center;gap:.8rem;
+  border-bottom:1px solid var(--lnd);
+}
+.s10-persona.featured .s10-persona-head{background:#16130A;}
+.s10-avatar{
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+  border:1px solid var(--lnd);background:var(--ash);
+}
+.s10-persona.featured .s10-avatar{border-color:var(--gold);background:#2A2010;}
+.s10-persona-meta{flex:1;}
+.s10-persona-suit{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.16em;color:var(--dust);}
+.s10-persona-name{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.3rem);color:var(--ivory);}
+.s10-persona.featured .s10-persona-name{color:var(--goldx);}
+.s10-persona-role{font-size:.72rem;font-weight:300;color:var(--dust);}
+.s10-aura{
+  padding:.15rem .6rem;border-radius:999px;border:1px solid var(--lnd);
+  font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.1em;color:var(--goldl);
+}
+.s10-persona-body{padding:.7rem 1rem;}
+.s10-moments-lbl{font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.16em;color:var(--dust);margin-bottom:.4rem;}
+.s10-moment{font-family:'Cormorant Garamond',serif;font-size:.82rem;font-style:italic;color:var(--parch);padding:.3rem 0;border-bottom:1px solid var(--lnd);}
+.s10-moment:last-child{border:none;}
+.s10-moment-icon{margin-right:.4rem;}
+
+/* ══════════════════════════════════════════
+   S C R E E N   11 — PRINT MAGAZINE
+══════════════════════════════════════════ */
+.s11{background:#0A0906;}
+.s11-top{padding:clamp(1.2rem,4vw,1.8rem) clamp(1.2rem,4vw,2rem) .8rem;border-bottom:1px solid var(--lnd);}
+.s11-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);opacity:.7;margin-bottom:.4rem;}
+.s11-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3.5vw,1.9rem);color:var(--ivory);}
+.s11-spread{margin:clamp(.8rem,3vw,1.2rem) clamp(1.2rem,4vw,2rem);display:flex;flex-direction:column;gap:.8rem;}
+.s11-cover{
+  background:linear-gradient(160deg,#1A1410,#0D0A06);
+  border:1px solid var(--gold);border-radius:6px;overflow:hidden;padding:0;
+  position:relative;
+}
+.s11-cover-img{height:clamp(160px,28vw,220px);background:linear-gradient(135deg,#2A200E,#1A1208);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.s11-cover-img-emoji{font-size:4rem;opacity:.5;}
+.s11-cover-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(13,10,6,.95) 100%);}
+.s11-cover-content{position:absolute;bottom:0;left:0;right:0;padding:1rem 1.1rem;}
+.s11-masthead{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.28em;color:var(--gold);opacity:.6;margin-bottom:.3rem;}
+.s11-cover-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,3.5vw,1.8rem);font-weight:300;color:var(--ivory);line-height:1.1;}
+.s11-cover-season{font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.16em;color:var(--goldl);margin-top:.3rem;}
+.s11-pages{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+.s11-page{background:var(--ch);border:1px solid var(--lnd);border-radius:4px;overflow:hidden;}
+.s11-page-img{height:70px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+.s11-page-img.pg1{background:linear-gradient(135deg,#1A140A,#2A2010);}
+.s11-page-img.pg2{background:linear-gradient(135deg,#0A1410,#102018);}
+.s11-page-body{padding:.6rem .7rem;}
+.s11-page-type{font-family:'Cormorant SC',serif;font-size:.48rem;letter-spacing:.14em;color:var(--gold);opacity:.6;margin-bottom:.2rem;}
+.s11-page-title{font-family:'Cormorant Garamond',serif;font-size:.85rem;color:var(--parch);font-style:italic;line-height:1.35;}
+.s11-quote-spread{
+  background:var(--ash);border:1px solid var(--lnd);border-radius:4px;padding:.9rem 1rem;
+  font-family:'Cormorant Garamond',serif;font-size:clamp(.9rem,2.2vw,1.1rem);font-style:italic;
+  color:var(--ivory);line-height:1.6;border-left:2px solid var(--gold);
+}
+
+/* ══════════════════════════════════════════
+   S C R E E N   12 — FAMILY IDENTITY ENGINE
+══════════════════════════════════════════ */
+.s12{background:#030302;}
+.s12-inner{padding:clamp(1.4rem,4vw,2.2rem) clamp(1.2rem,4vw,2rem);}
+.s12-eyebrow{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;color:var(--gold);opacity:.7;margin-bottom:.5rem;}
+.s12-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.3rem,3.5vw,2rem);color:var(--ivory);margin-bottom:.3rem;line-height:1.15;}
+.s12-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.85rem,2vw,1rem);color:var(--dust);margin-bottom:1.2rem;}
+.s12-motifs{background:var(--ch);border:1px solid var(--gold);border-radius:6px;overflow:hidden;margin-bottom:.9rem;}
+.s12-motifs-head{background:#16130A;padding:.7rem 1rem;border-bottom:1px solid var(--gold);display:flex;align-items:center;justify-content:space-between;}
+.s12-motifs-title{font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.2em;color:var(--goldx);}
+.s12-motifs-ai{font-family:'Cormorant SC',serif;font-size:.48rem;letter-spacing:.12em;color:var(--dust);display:flex;align-items:center;gap:.3rem;}
+.s12-ai-dot{width:4px;height:4px;border-radius:50%;background:var(--grn);animation:pulse 2s infinite;}
+.s12-motif-list{padding:.3rem 0;}
+.s12-motif-row{
+  display:flex;align-items:center;gap:.9rem;padding:.6rem 1rem;
+  border-bottom:1px solid var(--lnd);
+}
+.s12-motif-row:last-child{border:none;}
+.s12-motif-icon{font-size:1.1rem;flex-shrink:0;}
+.s12-motif-name{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:var(--ivory);flex:1;}
+.s12-motif-bar{height:2px;width:60px;background:var(--ash);border-radius:1px;overflow:hidden;}
+.s12-motif-fill{height:100%;background:var(--gold);border-radius:1px;}
+.s12-detected{background:var(--ob2);border:1px solid var(--lnd);border-radius:6px;padding:1rem;display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+.s12-det-cell{text-align:center;}
+.s12-det-num{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,4vw,2.2rem);color:var(--gold);font-weight:300;line-height:1;}
+.s12-det-lbl{font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.14em;color:var(--dust);margin-top:.2rem;line-height:1.4;}
+.s12-final{
+  margin-top:.9rem;text-align:center;
+  font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.28em;color:var(--gold);opacity:.5;
+}
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+  padding:.65rem 1.5rem;
+  background:rgba(4,3,2,.97);backdrop-filter:blur(16px);
+  border-top:1px solid var(--lnd);display: none;
+}
+.nav-btn{
+  background:transparent;border:1px solid var(--ash);color:var(--dust);
+  font-size:.8rem;width:30px;height:30px;border-radius:2px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.nav-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold);}
+.nav-btn:disabled{opacity:.2;cursor:default;}
+.ndots{display:flex;gap:4px;align-items:center;}
+.ndot{width:5px;height:5px;border-radius:50%;background:var(--ash);border:none;cursor:pointer;padding:0;transition:background .3s,transform .3s;}
+.ndot.on{background:var(--gold);transform:scale(1.35);}
+.nctr{font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.16em;color:var(--smoke);min-width:34px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ═══ 1 ═══ FOUNDING WEDDING HOMEPAGE -->
+<div class="slide s1 active" id="s1">
+  <div class="s1-hero">
+    <canvas class="s1-hero-canvas" id="heroCanvas"></canvas>
+    <div class="s1-overlay"></div>
+    <div class="s1-hero-content">
+      <div class="s1-season">Founding Season &nbsp;·&nbsp; Day 08 &nbsp;·&nbsp; Winter Archive 2024</div>
+      <div class="s1-couple">Arjun &amp; <em>Meera</em></div>
+      <div class="s1-date">November 23, 2024 &nbsp;·&nbsp; Kolkata</div>
+    </div>
+  </div>
+  <div class="s1-countdown">
+    <div class="s1-cd-unit"><div class="s1-cd-num">14</div><div class="s1-cd-lbl">Days</div></div>
+    <div class="s1-cd-sep">·</div>
+    <div class="s1-cd-unit"><div class="s1-cd-num">06</div><div class="s1-cd-lbl">Hours</div></div>
+    <div class="s1-cd-sep">·</div>
+    <div class="s1-cd-unit"><div class="s1-cd-num">42</div><div class="s1-cd-lbl">Minutes</div></div>
+    <div class="s1-cd-sep">·</div>
+    <div class="s1-cd-unit"><div class="s1-cd-num">18</div><div class="s1-cd-lbl">Seconds</div></div>
+  </div>
+  <div class="s1-blessings">
+    <div class="s1-bl-label">Floating Blessings</div>
+    <div class="s1-bl-row">
+      <div class="s1-blessing">
+        <div class="s1-bl-name">Kamala Devi · Dadi</div>
+        <div class="s1-bl-text">"May your home always smell of cardamom and old books."</div>
+        <div class="s1-bl-wave" id="blw1"></div>
+      </div>
+      <div class="s1-blessing">
+        <div class="s1-bl-name">Mausumi Mashi · Kolkata</div>
+        <div class="s1-bl-text">"You are the thread that mends our oldest cloth."</div>
+        <div class="s1-bl-wave" id="blw2"></div>
+      </div>
+      <div class="s1-blessing">
+        <div class="s1-bl-name">Ratan Kaka · Silchar</div>
+        <div class="s1-bl-text">"Your grandfather would have sung for three days."</div>
+        <div class="s1-bl-wave" id="blw3"></div>
+      </div>
+    </div>
+  </div>
+  <div class="s1-elder">
+    <div class="s1-elder-photo">👵</div>
+    <div class="s1-elder-meta">
+      <div class="s1-elder-name">Kamala Devi, 84</div>
+      <div class="s1-elder-loc">Recorded in Silchar · Assamese · 2 min 14 sec</div>
+      <div class="s1-elder-quote">"The monsoon I got married, the river rose three feet in one night..."</div>
+      <div class="s1-wf" id="s1wf"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 2 ═══ CONTRIBUTION CARDS -->
+<div class="slide s2" id="s2">
+  <div class="s2-top">
+    <div class="s2-eyebrow">Archive Contributions · 47 Received</div>
+    <div class="s2-title">What the family is gifting</div>
+  </div>
+  <div class="s2-cards">
+    <div class="s2-card">
+      <div class="s2-card-hero" style="background:linear-gradient(135deg,#1A1408,#2A1E08);display:flex;align-items:center;justify-content:center;font-size:3.5rem;">🪑</div>
+      <div class="s2-card-body">
+        <div class="s2-card-sponsor">Sponsored by · Mausumi Mashi &amp; Family</div>
+        <div class="s2-card-name">First Home Dining Table</div>
+        <div class="s2-card-quote">"This table will host future Diwalis. Every grandchild will eat here."</div>
+        <div class="s2-card-footer">
+          <div class="s2-card-amt">₹ 42,000 · Contributed</div>
+          <div class="s2-card-wave" id="cw1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="s2-card">
+      <div class="s2-card-hero" style="background:linear-gradient(135deg,#0A1410,#101A10);display:flex;align-items:center;justify-content:center;font-size:3.5rem;">🌙</div>
+      <div class="s2-card-body">
+        <div class="s2-card-sponsor">Sponsored by · Anand Chacha · Mumbai</div>
+        <div class="s2-card-name">Kerala Honeymoon Journey</div>
+        <div class="s2-card-quote">"Every great love story needs a beginning that the archive will remember."</div>
+        <div class="s2-card-footer">
+          <div class="s2-card-amt">₹ 85,000 · Contributed</div>
+          <div class="s2-card-wave" id="cw2"></div>
+        </div>
+      </div>
+    </div>
+    <div class="s2-card">
+      <div class="s2-card-hero" style="background:linear-gradient(135deg,#1A0A08,#2A1008);display:flex;align-items:center;justify-content:center;font-size:3.5rem;">📿</div>
+      <div class="s2-card-body">
+        <div class="s2-card-sponsor">Sponsored by · The Silchar Cousins</div>
+        <div class="s2-card-name">Nani's Coral Necklace · Restored</div>
+        <div class="s2-card-quote">"It has survived four migrations. It deserves to survive four more."</div>
+        <div class="s2-card-footer">
+          <div class="s2-card-amt">₹ 18,500 · Contributed</div>
+          <div class="s2-card-wave" id="cw3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 3 ═══ ELDER VOICE ARCHIVE -->
+<div class="slide s3" id="s3">
+  <div class="s3-inner">
+    <div class="s3-eyebrow">Elder Voice Archive · 73 Recordings</div>
+    <div class="s3-portrait-row">
+      <div class="s3-portrait">
+        <div class="s3-portrait-emoji">👵</div>
+        <div class="s3-portrait-scan"></div>
+      </div>
+      <div class="s3-meta">
+        <div class="s3-name">Kamala Devi</div>
+        <div class="s3-sub">Born 1940 · Silchar, Assam</div>
+        <div class="s3-lang">Recorded in Assamese</div>
+      </div>
+    </div>
+    <div class="s3-player">
+      <div class="s3-wf-full" id="s3wf"></div>
+      <div class="s3-controls">
+        <button class="s3-play" id="s3play">▶</button>
+        <div class="s3-time" id="s3time">0:00 · 2:14</div>
+      </div>
+    </div>
+    <div class="s3-subtitle">"The monsoon I got married, the river rose three feet in one night. Your grandfather carried me across on his back, and said — 'This is practice.' I didn't understand until the children came."</div>
+    <div class="s3-threads">
+      <div class="s3-threads-lbl">Connected Memory Threads</div>
+      <span class="s3-thread-pill"><div class="s3-thread-dot"></div>The Green Suitcase · 1978</span>
+      <span class="s3-thread-pill"><div class="s3-thread-dot"></div>Monsoon Letters</span>
+      <span class="s3-thread-pill"><div class="s3-thread-dot"></div>Railway Journeys</span>
+      <span class="s3-thread-pill"><div class="s3-thread-dot"></div>Before Sunrise Departures</span>
+    </div>
+    <div class="s3-reactions">
+      <div class="s3-react">🕯️ 24</div>
+      <div class="s3-react">💛 41</div>
+      <div class="s3-react">🌿 18</div>
+      <div class="s3-react">✦ Preserve</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 4 ═══ EXPEDITION GRAPH -->
+<div class="slide s4" id="s4">
+  <div class="s4-header">
+    <div class="s4-eyebrow">Family Expedition System</div>
+    <div class="s4-title">Assam Route · Four Generations</div>
+    <div class="s4-status">
+      <div class="s4-status-dot"></div>
+      <div class="s4-status-text">Partially Restored · 8 of 12 Fragments</div>
+    </div>
+  </div>
+  <div class="s4-graph">
+    <div class="s4-svg-wrap"><svg id="expSvg" width="100%" viewBox="0 0 700 310" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="s4-legend">
+      <div class="s4-leg-item"><div class="s4-leg-dot" style="background:var(--gold);box-shadow:0 0 6px rgba(184,146,42,.5);"></div>Recovered</div>
+      <div class="s4-leg-item"><div class="s4-leg-dot" style="background:var(--ash);border:1px solid var(--smoke);"></div>Missing Fragment</div>
+      <div class="s4-leg-item"><div class="s4-leg-dot" style="background:var(--grn);box-shadow:0 0 6px rgba(46,125,82,.4);"></div>Active Route</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 5 ═══ PEARL NECKLACE VIEW -->
+<div class="slide s5" id="s5">
+  <div class="s5-header">
+    <div class="s5-eyebrow">Pearl Necklace · Memory Intelligence</div>
+    <div class="s5-title">Hidden motifs across generations</div>
+  </div>
+  <div class="s5-canvas-wrap"><svg id="pearlSvg" width="100%" viewBox="0 0 700 200" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="s5-featured">
+    <div class="s5-feat-label">Active Thread · AI Detected</div>
+    <div class="s5-feat-title">The Green Suitcase</div>
+    <div class="s5-feat-dates">1978 → 1991 → 2019 → 2026</div>
+    <div class="s5-artifacts">
+      <div class="s5-artifact">Voice note · Kamala Devi · 1978</div>
+      <div class="s5-artifact">Wedding photo · 1991</div>
+      <div class="s5-artifact">Cousin's memory · 2019</div>
+      <div class="s5-artifact">Archive link · 2026</div>
+    </div>
+  </div>
+  <div class="s5-threads-list">
+    <div class="s5-thread-row"><div class="s5-tr-pearl active"></div><div class="s5-tr-name">The Green Suitcase</div><div class="s5-tr-count">4 generations · 6 artifacts</div></div>
+    <div class="s5-thread-row"><div class="s5-tr-pearl active"></div><div class="s5-tr-name">Before Sunrise Departures</div><div class="s5-tr-count">3 generations · 9 mentions</div></div>
+    <div class="s5-thread-row"><div class="s5-tr-pearl"></div><div class="s5-tr-name">Handwritten Recipes</div><div class="s5-tr-count">2 generations · 4 artifacts</div></div>
+    <div class="s5-thread-row"><div class="s5-tr-pearl"></div><div class="s5-tr-name">Flood Season Stories</div><div class="s5-tr-count">4 generations · 11 fragments</div></div>
+  </div>
+</div>
+
+<!-- ═══ 6 ═══ FOUNDING SEASON OVERVIEW -->
+<div class="slide s6" id="s6">
+  <div class="s6-header">
+    <div class="s6-eyebrow">Founding Season · Winter 2024</div>
+    <div class="s6-title">Family Participation Overview</div>
+  </div>
+  <div class="s6-stats">
+    <div class="s6-stat"><div class="s6-stat-num">27</div><div class="s6-stat-lbl">Routes Restored</div></div>
+    <div class="s6-stat"><div class="s6-stat-num">73</div><div class="s6-stat-lbl">Elder Voice Notes</div></div>
+    <div class="s6-stat"><div class="s6-stat-num">42</div><div class="s6-stat-lbl">Cross-Gen Expeditions</div></div>
+  </div>
+  <div class="s6-leaderboard">
+    <div class="s6-lb-header"><span>Clan</span><span style="text-align:center;">♥</span><span style="text-align:center;">♦</span><span style="text-align:center;">♠</span><span style="text-align:center;">♣</span></div>
+    <div class="s6-lb-row top"><div class="s6-lb-name">Chaos Cousins</div><div class="s6-lb-val">1114</div><div class="s6-lb-val">480</div><div class="s6-lb-val">92</div><div class="s6-lb-suit">♣</div></div>
+    <div class="s6-lb-row"><div class="s6-lb-name">The Silchar Branch</div><div class="s6-lb-val">892</div><div class="s6-lb-val">310</div><div class="s6-lb-val">67</div><div class="s6-lb-suit">♥</div></div>
+    <div class="s6-lb-row"><div class="s6-lb-name">Mumbai Elders</div><div class="s6-lb-val">741</div><div class="s6-lb-val">220</div><div class="s6-lb-val">44</div><div class="s6-lb-suit">♦</div></div>
+    <div class="s6-lb-row"><div class="s6-lb-name">The Undertakers</div><div class="s6-lb-val">503</div><div class="s6-lb-val">180</div><div class="s6-lb-val">28</div><div class="s6-lb-suit">♠</div></div>
+  </div>
+  <div class="s6-progress">
+    <div class="s6-prog-label">Route Restoration Progress</div>
+    <div class="s6-prog-row"><span class="s6-prog-name">Assam Migration Route</span><div class="s6-prog-track"><div class="s6-prog-fill" style="width:67%"></div></div><span class="s6-prog-num">67%</span></div>
+    <div class="s6-prog-row"><span class="s6-prog-name">Railway Journey 1963</span><div class="s6-prog-track"><div class="s6-prog-fill" style="width:45%"></div></div><span class="s6-prog-num">45%</span></div>
+    <div class="s6-prog-row"><span class="s6-prog-name">Flood Season Archive</span><div class="s6-prog-track"><div class="s6-prog-fill" style="width:82%"></div></div><span class="s6-prog-num">82%</span></div>
+  </div>
+</div>
+
+<!-- ═══ 7 ═══ FAMILY TIMELINE MAP -->
+<div class="slide s7" id="s7">
+  <div class="s7-layout">
+    <div class="s7-spine">
+      <div class="s7-year"><div class="s7-year-num">1948</div><div class="s7-year-dot"></div></div>
+      <div class="s7-year"><div class="s7-year-num">1963</div><div class="s7-year-dot"></div></div>
+      <div class="s7-year"><div class="s7-year-num">1978</div><div class="s7-year-dot"></div></div>
+      <div class="s7-year active-yr"><div class="s7-year-num">1994</div><div class="s7-year-dot"></div></div>
+      <div class="s7-year"><div class="s7-year-num">2004</div><div class="s7-year-dot"></div></div>
+      <div class="s7-year"><div class="s7-year-num">2016</div><div class="s7-year-dot"></div></div>
+      <div class="s7-year"><div class="s7-year-num">2024</div><div class="s7-year-dot"></div></div>
+    </div>
+    <div class="s7-main">
+      <div class="s7-yr-header">
+        <div class="s7-yr-sub">Archive · 1994</div>
+        <div class="s7-yr-title">The Year of Migrations</div>
+      </div>
+      <div class="s7-cards">
+        <div class="s7-entry">
+          <div class="s7-entry-icon">🚂</div>
+          <div class="s7-entry-meta">
+            <div class="s7-entry-type">Railway Journey</div>
+            <div class="s7-entry-title">Guwahati to Kolkata · Night Train</div>
+            <div class="s7-entry-desc">Baba carried the green suitcase. It took three trains and a ferry. The children slept through the Brahmaputra crossing.</div>
+            <div class="s7-photo-strip">
+              <div class="s7-photo-thumb" style="background:linear-gradient(135deg,#1A1208,#2A1A08);">🌙</div>
+              <div class="s7-photo-thumb" style="background:linear-gradient(135deg,#0A100A,#101810);">🌿</div>
+              <div class="s7-photo-thumb" style="background:linear-gradient(135deg,#1A0A08,#280E08);">🎋</div>
+            </div>
+          </div>
+        </div>
+        <div class="s7-entry">
+          <div class="s7-entry-icon">🏠</div>
+          <div class="s7-entry-meta">
+            <div class="s7-entry-type">First Home</div>
+            <div class="s7-entry-title">Salt Lake, Kolkata · Block CF</div>
+            <div class="s7-entry-desc">The new flat smelled of fresh paint and possibility. Dadi cried. Ma cooked khichdi on a portable stove while the gas connection was pending.</div>
+          </div>
+        </div>
+        <div class="s7-entry">
+          <div class="s7-entry-icon">📜</div>
+          <div class="s7-entry-meta">
+            <div class="s7-entry-type">Missing Fragment</div>
+            <div class="s7-entry-title">Letters from Silchar · Unrecovered</div>
+            <div class="s7-entry-desc">12 letters written during the transition remain unlocated. The Silchar cousins are searching.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 8 ═══ LIVE TONIGHT -->
+<div class="slide s8" id="s8">
+  <div class="s8-header">
+    <div class="s8-eyebrow">The Archive · Live Activity</div>
+    <div class="s8-live-badge"><div class="s8-live-dot"></div><div class="s8-live-text">Live Tonight</div></div>
+    <div class="s8-title">Grandmother Lore Night</div>
+  </div>
+  <div class="s8-featured">
+    <div class="s8-feat-visual">
+      🌙
+      <div class="s8-feat-visual-overlay"></div>
+    </div>
+    <div class="s8-feat-body">
+      <div class="s8-feat-tag">Featured Event · Tonight 9 PM</div>
+      <div class="s8-feat-title">Grandmother Lore Night</div>
+      <div class="s8-feat-desc">The elders gather to speak. New voice fragments are added live. The archive deepens in real time. Twelve cousins have already joined from four cities.</div>
+    </div>
+  </div>
+  <div class="s8-feed">
+    <div class="s8-feed-label">Archive Activity · Live</div>
+    <div class="s8-feed-item">
+      <div class="s8-fi-dot glow-g"></div>
+      <div>
+        <div class="s8-fi-text">The Assam Collection gained resonance — 3 new voice fragments linked</div>
+        <div class="s8-fi-time">4 minutes ago</div>
+      </div>
+    </div>
+    <div class="s8-feed-item">
+      <div class="s8-fi-dot glow-gl"></div>
+      <div>
+        <div class="s8-fi-text">Priya Didi restored a 1984 wedding invitation card from Silchar</div>
+        <div class="s8-fi-time">12 minutes ago</div>
+      </div>
+    </div>
+    <div class="s8-feed-item">
+      <div class="s8-fi-dot glow-c"></div>
+      <div>
+        <div class="s8-fi-text">The archive reopened a forgotten route — Dibrugarh, 1989</div>
+        <div class="s8-fi-time">31 minutes ago</div>
+      </div>
+    </div>
+    <div class="s8-feed-item">
+      <div class="s8-fi-dot glow-gl"></div>
+      <div>
+        <div class="s8-fi-text">A cousin identified the green suitcase in the 1978 railway photograph</div>
+        <div class="s8-fi-time">1 hour ago</div>
+      </div>
+    </div>
+    <div class="s8-feed-item">
+      <div class="s8-fi-dot glow-g"></div>
+      <div>
+        <div class="s8-fi-text">Kamala Devi's monsoon fragment linked to 3 new memory threads</div>
+        <div class="s8-fi-time">2 hours ago</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 9 ═══ HEIRLOOM EXCHANGE -->
+<div class="slide s9" id="s9">
+  <div class="s9-top">
+    <div class="s9-eyebrow">Heirloom Exchange · 14 Objects</div>
+    <div class="s9-title">Family objects with memory</div>
+  </div>
+  <div class="s9-hero-card">
+    <div class="s9-hero-img">
+      ⌚
+      <div class="s9-hero-img-overlay"></div>
+      <div class="s9-hero-badge">Archive Object</div>
+    </div>
+    <div class="s9-hero-body">
+      <div class="s9-hero-route">Silchar → Kolkata Route · 1978</div>
+      <div class="s9-hero-name">Grandfather's Railway Watch</div>
+      <div class="s9-hero-story">"He set it 10 minutes fast his entire life. Said it was the only way to catch a train in Assam. Every departure we ever made, this watch was wrong — and we were always on time."</div>
+      <div class="s9-hero-footer">
+        <div class="s9-sponsor">Preservation Sponsor: <strong>The Silchar Cousins</strong></div>
+        <button class="s9-cta">Preserve</button>
+      </div>
+    </div>
+  </div>
+  <div class="s9-grid">
+    <div class="s9-mini">
+      <div class="s9-mini-img">📜</div>
+      <div class="s9-mini-body"><div class="s9-mini-route">Silchar · 1984</div><div class="s9-mini-name">Wedding Invitation · Handwritten</div></div>
+    </div>
+    <div class="s9-mini">
+      <div class="s9-mini-img">🌿</div>
+      <div class="s9-mini-body"><div class="s9-mini-route">Guwahati · 1963</div><div class="s9-mini-name">Nani's Recipe Notebook</div></div>
+    </div>
+    <div class="s9-mini">
+      <div class="s9-mini-img">📿</div>
+      <div class="s9-mini-body"><div class="s9-mini-route">Shillong · 1995</div><div class="s9-mini-name">Coral Necklace · Restored</div></div>
+    </div>
+    <div class="s9-mini">
+      <div class="s9-mini-img">🎋</div>
+      <div class="s9-mini-body"><div class="s9-mini-route">Assam · 1948</div><div class="s9-mini-name">Bamboo Prayer Box</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 10 ═══ FAMILY PERSONA -->
+<div class="slide s10" id="s10">
+  <div class="s10-top">
+    <div class="s10-eyebrow">Family Identity Layer</div>
+    <div class="s10-title">Your archive persona</div>
+  </div>
+  <div class="s10-cards">
+    <div class="s10-persona featured">
+      <div class="s10-persona-head">
+        <div class="s10-avatar">🃏</div>
+        <div class="s10-persona-meta">
+          <div class="s10-persona-suit">♣ Clubs · Active</div>
+          <div class="s10-persona-name">The Chaos Cousin</div>
+          <div class="s10-persona-role">Connector of Lost Threads · Season Rank #1</div>
+        </div>
+        <div class="s10-aura">♥ Resonance Strong Tonight</div>
+      </div>
+      <div class="s10-persona-body">
+        <div class="s10-moments-lbl">Legendary Moments</div>
+        <div class="s10-moment"><span class="s10-moment-icon">⚡</span>First to identify the green suitcase in the 1978 photograph</div>
+        <div class="s10-moment"><span class="s10-moment-icon">🌿</span>Recovered the Dibrugarh 1989 route fragment</div>
+        <div class="s10-moment"><span class="s10-moment-icon">🎙</span>Convinced Dadi to record the monsoon story</div>
+      </div>
+    </div>
+    <div class="s10-persona">
+      <div class="s10-persona-head">
+        <div class="s10-avatar">📜</div>
+        <div class="s10-persona-meta">
+          <div class="s10-persona-suit">♠ Spades · Rare</div>
+          <div class="s10-persona-name">The Archive Undertaker</div>
+          <div class="s10-persona-role">Keeper Of Lost Histories</div>
+        </div>
+        <div class="s10-aura">Dormant · 3 Missions Open</div>
+      </div>
+      <div class="s10-persona-body">
+        <div class="s10-moments-lbl">Assigned Missions</div>
+        <div class="s10-moment"><span class="s10-moment-icon">🔍</span>Locate the 12 missing Silchar letters · 1994</div>
+        <div class="s10-moment"><span class="s10-moment-icon">🎙</span>Interview Ratan Kaka before December</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 11 ═══ PRINT MAGAZINE -->
+<div class="slide s11" id="s11">
+  <div class="s11-top">
+    <div class="s11-eyebrow">Print Archive · Limited Edition</div>
+    <div class="s11-title">The Founding Season Journal</div>
+  </div>
+  <div class="s11-spread">
+    <div class="s11-cover">
+      <div class="s11-cover-img">
+        <div class="s11-cover-img-emoji">🌙</div>
+        <div class="s11-cover-overlay"></div>
+        <div class="s11-cover-content">
+          <div class="s11-masthead">MaisonMotif · Print Archive</div>
+          <div class="s11-cover-title">Arjun &amp; Meera<br>The Founding Season</div>
+          <div class="s11-cover-season">Winter 2024 · Edition I of III · 120 Copies</div>
+        </div>
+      </div>
+    </div>
+    <div class="s11-pages">
+      <div class="s11-page">
+        <div class="s11-page-img pg1">👵</div>
+        <div class="s11-page-body"><div class="s11-page-type">Elder Archive</div><div class="s11-page-title">Kamala Devi on the monsoon, 1963</div></div>
+      </div>
+      <div class="s11-page">
+        <div class="s11-page-img pg2">🚂</div>
+        <div class="s11-page-body"><div class="s11-page-type">Family Route</div><div class="s11-page-title">The Assam Migration Fully Mapped</div></div>
+      </div>
+      <div class="s11-page">
+        <div class="s11-page-img" style="background:linear-gradient(135deg,#1A0A08,#280E08);">⌚</div>
+        <div class="s11-page-body"><div class="s11-page-type">Heirloom Story</div><div class="s11-page-title">Grandfather's Watch · Always Fast</div></div>
+      </div>
+      <div class="s11-page">
+        <div class="s11-page-img" style="background:linear-gradient(135deg,#0E0E0A,#181608);">✦</div>
+        <div class="s11-page-body"><div class="s11-page-type">AI Discovery</div><div class="s11-page-title">The Green Suitcase Thread Revealed</div></div>
+      </div>
+    </div>
+    <div class="s11-quote-spread">"Every family has a story that deserves to be printed on paper heavy enough to last a hundred years. This is that paper."</div>
+  </div>
+</div>
+
+<!-- ═══ 12 ═══ FAMILY IDENTITY ENGINE -->
+<div class="slide s12" id="s12">
+  <div class="s12-inner">
+    <div class="s12-eyebrow">Family Identity Engine · AI Analysis</div>
+    <div class="s12-title">Recurring Family Motifs</div>
+    <div class="s12-sub">Detected across 4 generations of archive material</div>
+    <div class="s12-motifs">
+      <div class="s12-motifs-head">
+        <div class="s12-motifs-title">Motif Intelligence · Active</div>
+        <div class="s12-motifs-ai"><div class="s12-ai-dot"></div>AI Analysis Running</div>
+      </div>
+      <div class="s12-motif-list">
+        <div class="s12-motif-row"><div class="s12-motif-icon">🚂</div><div class="s12-motif-name">Railway Journeys</div><div class="s12-motif-bar"><div class="s12-motif-fill" style="width:92%"></div></div></div>
+        <div class="s12-motif-row"><div class="s12-motif-icon">🧳</div><div class="s12-motif-name">The Green Suitcase</div><div class="s12-motif-bar"><div class="s12-motif-fill" style="width:78%"></div></div></div>
+        <div class="s12-motif-row"><div class="s12-motif-icon">🌅</div><div class="s12-motif-name">Before Sunrise Departures</div><div class="s12-motif-bar"><div class="s12-motif-fill" style="width:65%"></div></div></div>
+        <div class="s12-motif-row"><div class="s12-motif-icon">🌧️</div><div class="s12-motif-name">Flood Season Stories</div><div class="s12-motif-bar"><div class="s12-motif-fill" style="width:58%"></div></div></div>
+        <div class="s12-motif-row"><div class="s12-motif-icon">📝</div><div class="s12-motif-name">Handwritten Recipes</div><div class="s12-motif-bar"><div class="s12-motif-fill" style="width:44%"></div></div></div>
+      </div>
+    </div>
+    <div class="s12-detected">
+      <div class="s12-det-cell"><div class="s12-det-num">4</div><div class="s12-det-lbl">Generations Analysed</div></div>
+      <div class="s12-det-cell"><div class="s12-det-num">63</div><div class="s12-det-lbl">Artifacts Linked</div></div>
+      <div class="s12-det-cell"><div class="s12-det-num">11</div><div class="s12-det-lbl">Voice Fragments</div></div>
+      <div class="s12-det-cell"><div class="s12-det-num">3</div><div class="s12-det-lbl">Migration Routes</div></div>
+    </div>
+    <div class="s12-final">This Is Not Media Storage &nbsp;·&nbsp; This Is Family Identity Infrastructure</div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" disabled>&#8592;</button>
+  <div class="ndots" id="ndots"></div>
+  <button class="nav-btn" id="nextBtn">&#8594;</button>
+  <div class="nctr" id="nctr">1 · 12</div>
+</div>
+
+<script>
+/* ── Navigation ── */
+const TOTAL=12, slides=Array.from({length:TOTAL},(_,i)=>document.getElementById('s'+(i+1)));
+let cur=1;
+const prev=document.getElementById('prevBtn'), next=document.getElementById('nextBtn'), nctr=document.getElementById('nctr');
+const ndots=Array.from({length:TOTAL},(_,i)=>{const b=document.createElement('button');b.className='ndot'+(i===0?' on':'');b.onclick=()=>go(i+1);document.getElementById('ndots').appendChild(b);return b;});
+function go(n){if(n<1||n>TOTAL||n===cur)return;slides[cur-1].classList.remove('active');slides[cur-1].classList.add('exit');const old=cur-1;setTimeout(()=>slides[old].classList.remove('exit'),700);cur=n;slides[cur-1].classList.add('active');ndots.forEach((d,i)=>d.classList.toggle('on',i===cur-1));nctr.textContent=cur+' · '+TOTAL;prev.disabled=cur===1;next.disabled=cur===TOTAL;}
+prev.onclick=()=>go(cur-1);next.onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')go(cur+1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(cur-1);});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});document.addEventListener('touchend',e=>{const dx=tx-e.changedTouches[0].clientX;if(Math.abs(dx)>40)go(dx>0?cur+1:cur-1);},{passive:true});
+
+/* ── Hero canvas (S1) ── */
+(function(){
+  const c=document.getElementById('heroCanvas');if(!c)return;
+  const r=c.parentElement;c.width=r.offsetWidth;c.height=r.offsetHeight;
+  const ctx=c.getContext('2d');
+  const stars=Array.from({length:60},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:.5+Math.random()*1.5,o:.1+Math.random()*.5}));
+  stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(184,146,42,${s.o})`;ctx.fill();});
+  // warm gradient wash
+  const g=ctx.createRadialGradient(c.width*.3,c.height*.6,10,c.width*.3,c.height*.6,c.width*.7);
+  g.addColorStop(0,'rgba(184,100,20,.18)');g.addColorStop(1,'transparent');
+  ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);
+})();
+
+/* ── Wave bars helper ── */
+function makeWave(id,count,playedFrac){
+  const el=document.getElementById(id);if(!el)return;
+  const heights=[30,55,80,65,95,70,45,85,60,40,75,90,50,65,80,35,70,55,90,45,60,80,40,75,50,85,30,65,90,55,70,40,80,60,45,95,35,65];
+  for(let i=0;i<count;i++){const b=document.createElement('div');b.className='s3-wfb'+(playedFrac&&i<count*playedFrac?' played':'');b.style.height=heights[i%heights.length]+'%';el.appendChild(b);}
+}
+function makeSmallWave(id,cls){
+  const el=document.getElementById(id);if(!el)return;
+  for(let i=0;i<14;i++){const b=document.createElement('div');b.className=cls;b.style.height=Math.max(18,Math.floor(Math.random()*100))+'%';b.style.animationDuration=(.7+Math.random()*.8).toFixed(2)+'s';b.style.animationDelay=(Math.random()*1).toFixed(2)+'s';el.appendChild(b);}
+}
+// S3 waveform
+makeWave('s3wf',36,.38);
+// S1 waveform
+(function(){const el=document.getElementById('s1wf');if(!el)return;const h=[20,40,65,80,55,90,70,45,85,60,40,75,95,50,30,65];h.forEach((v,i)=>{const b=document.createElement('div');b.className='s1-wf-b'+(i>=4&&i<=10?' a':'');b.style.height=v+'%';el.appendChild(b);});})();
+// Blessing wave bars
+['blw1','blw2','blw3'].forEach(id=>makeSmallWave(id,'s1-bl-bar'));
+// Contribution wave bars
+['cw1','cw2','cw3'].forEach(id=>{const el=document.getElementById(id);if(!el)return;for(let i=0;i<12;i++){const b=document.createElement('div');b.className='s2-card-bar';b.style.height=Math.max(20,Math.floor(Math.random()*100))+'%';b.style.animationDuration=(.8+Math.random()*.8).toFixed(2)+'s';b.style.animationDelay=(Math.random()*.8).toFixed(2)+'s';el.appendChild(b);}});
+
+/* ── S3 Play button ── */
+let s3playing=false,s3prog=0,s3int=null;
+const s3playBtn=document.getElementById('s3play'),s3timeEl=document.getElementById('s3time');
+if(s3playBtn){s3playBtn.addEventListener('click',()=>{s3playing=!s3playing;s3playBtn.textContent=s3playing?'⏸':'▶';if(s3playing){s3int=setInterval(()=>{s3prog=Math.min(s3prog+.004,1);const sec=Math.round(s3prog*134);s3timeEl.textContent=Math.floor(sec/60)+':'+(sec%60<10?'0':'')+sec%60+' · 2:14';document.querySelectorAll('#s3wf .s3-wfb').forEach((b,i)=>{b.classList.toggle('played',i<36*s3prog);});if(s3prog>=1){clearInterval(s3int);s3playing=false;s3playBtn.textContent='▶';}},80);}else clearInterval(s3int);});}
+
+/* ── Expedition Graph SVG (S4) ── */
+(function(){
+  const svg=document.getElementById('expSvg');if(!svg)return;
+  const nodes=[
+    {id:'n1',x:60, y:60, label:'Silchar',  sub:'1948',recovered:true},
+    {id:'n2',x:160,y:140,label:'Guwahati', sub:'1963',recovered:true},
+    {id:'n3',x:260,y:60, label:'Tezpur',   sub:'1971',recovered:false},
+    {id:'n4',x:360,y:140,label:'Jorhat',   sub:'1982',recovered:true},
+    {id:'n5',x:460,y:55, label:'Dibrugarh',sub:'1989',recovered:false},
+    {id:'n6',x:560,y:140,label:'Shillong', sub:'1995',recovered:true},
+    {id:'n7',x:640,y:60, label:'Kolkata',  sub:'2024',recovered:true,active:true},
+  ];
+  const edges=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[1,3],[3,5]];
+  let h='';
+  // edges
+  edges.forEach(([a,b])=>{const na=nodes[a],nb=nodes[b];const rec=na.recovered&&nb.recovered;h+=`<line x1="${na.x}" y1="${na.y}" x2="${nb.x}" y2="${nb.y}" stroke="${rec?'rgba(184,146,42,.35)':'rgba(60,55,45,.3)'}" stroke-width="${rec?1.5:1}" stroke-dasharray="${rec?'none':'5 4'}"/>`;});
+  // nodes
+  nodes.forEach(n=>{
+    const col=n.active?'#2E7D52':n.recovered?'#B8922A':'#3A3830';
+    const glow=n.active?'0 0 12px rgba(46,125,82,.6)':n.recovered?'0 0 8px rgba(184,146,42,.4)':'none';
+    h+=`<circle cx="${n.x}" cy="${n.y}" r="${n.active?10:7}" fill="${col}" filter="${glow?'url(#gf)':''}"/>`;
+    if(n.active) h+=`<circle cx="${n.x}" cy="${n.y}" r="14" fill="none" stroke="#2E7D52" stroke-width="1" opacity=".35"/>`;
+    h+=`<text x="${n.x}" y="${n.y+22}" text-anchor="middle" font-family="Cormorant SC,serif" font-size="11" fill="${n.recovered?'#D4AC52':'#5A5548'}" letter-spacing="1">${n.label}</text>`;
+    h+=`<text x="${n.x}" y="${n.y+36}" text-anchor="middle" font-family="Cormorant SC,serif" font-size="9" fill="${n.recovered?'#7A776C':'#3E3C36'}">${n.sub}</text>`;
+    if(!n.recovered) h+=`<text x="${n.x}" y="${n.y-14}" text-anchor="middle" font-family="Cormorant SC,serif" font-size="8" fill="#5A5548">MISSING</text>`;
+  });
+  svg.innerHTML=`<defs><filter id="gf"><feGaussianBlur stdDeviation="3"/></filter></defs>`+h;
+})();
+
+/* ── Pearl SVG (S5) ── */
+(function(){
+  const svg=document.getElementById('pearlSvg');if(!svg)return;
+  const threads=[
+    {y:40, color:'#B8922A',opacity:1, nodes:[{x:60,r:9,label:'1978'},{x:160,r:6,label:'1984'},{x:280,r:11,label:'1991'},{x:420,r:6,label:'2004'},{x:540,r:8,label:'2019'},{x:640,r:12,label:'2026'}],name:'The Green Suitcase'},
+    {y:105,color:'#7A6030',opacity:.65,nodes:[{x:90,r:6},{x:220,r:8},{x:360,r:6},{x:490,r:9},{x:610,r:6}],name:'Before Sunrise Departures'},
+    {y:165,color:'#4A4030',opacity:.35,nodes:[{x:120,r:5},{x:250,r:7},{x:390,r:5},{x:510,r:8},{x:640,r:5}],name:'Flood Season Stories'},
+  ];
+  let h='<defs><filter id="pg"><feGaussianBlur stdDeviation="4"/></filter></defs>';
+  threads.forEach(t=>{
+    // thread
+    const pts=t.nodes.map(n=>n.x+','+t.y).join(' ');
+    h+=`<polyline points="${pts}" fill="none" stroke="${t.color}" stroke-width="1" stroke-dasharray="3 5" opacity="${t.opacity*.5}"/>`;
+    // pearls
+    t.nodes.forEach((n,i)=>{
+      const glow=t.opacity===1&&(i===0||i===2||i===t.nodes.length-1);
+      if(glow) h+=`<circle cx="${n.x}" cy="${t.y}" r="${n.r+5}" fill="${t.color}" opacity=".12" filter="url(#pg)"/>`;
+      h+=`<circle cx="${n.x}" cy="${t.y}" r="${n.r}" fill="${t.color}" opacity="${t.opacity}" stroke="${t.color}" stroke-width="${glow?2:.5}" stroke-opacity=".6"/>`;
+      if(n.label) h+=`<text x="${n.x}" y="${t.y-n.r-5}" text-anchor="middle" font-family="Cormorant SC,serif" font-size="8" fill="${t.color}" opacity="${t.opacity*.8}" letter-spacing="0.5">${n.label}</text>`;
+    });
+    h+=`<text x="25" y="${t.y+4}" font-family="Cormorant SC,serif" font-size="8" fill="${t.color}" opacity="${t.opacity*.6}" letter-spacing="0.5">${t.name}</text>`;
+  });
+  svg.innerHTML=h;
+})();
+
+/* ── Countdown live ── */
+(function tick(){
+  const el=document.querySelectorAll('.s1-cd-num');if(!el.length)return;
+  const t=new Date();
+  const rem=new Date('2024-11-23T09:00:00');const diff=Math.max(0,rem-t)/1000;
+  const d=Math.floor(diff/86400),h=Math.floor((diff%86400)/3600),m=Math.floor((diff%3600)/60),s=Math.floor(diff%60);
+  if(el[0]) el[0].textContent=String(d).padStart(2,'0');
+  if(el[1]) el[1].textContent=String(h).padStart(2,'0');
+  if(el[2]) el[2].textContent=String(m).padStart(2,'0');
+  if(el[3]) el[3].textContent=String(s).padStart(2,'0');
+  setTimeout(tick,1000);
+})();
+</script>
+</body>
+</html>

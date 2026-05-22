@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MaisonMotif — Investor Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#C9A84C;--gold-light:#E8D5A3;--gold-dim:#8A6A28;
+  --gold-faint:rgba(201,168,76,0.08);--gold-faint2:rgba(201,168,76,0.12);
+  --ivory:#F4EFE4;--ivory-dim:#B8AFA0;
+  --charcoal:#0E0C0A;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Montserrat',sans-serif;
+  --slide-w:390px;
+  --slide-h:calc(var(--slide-w) * 16 / 9);
+}
+
+html,body{
+  width:100%;height:100%;
+  background:#060504;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sans);
+  color:var(--ivory);
+}
+
+/* ── PHONE FRAME ── */
+.phone{
+  width:var(--slide-w);
+  height:var(--slide-h);
+  max-height:100vh;
+  max-width:calc(100vh * 9/16);
+  position:relative;
+  overflow:hidden;
+  background:var(--charcoal);
+  border-radius:36px;
+  box-shadow:0 0 0 1px rgba(201,168,76,0.15), 0 40px 80px rgba(0,0,0,0.7);
+}
+
+/* on very small screens just fill the viewport */
+@media(max-width:420px){
+  .phone{width:100vw;height:calc(100vw*16/9);max-height:100vh;border-radius:0;box-shadow:none;}
+}
+
+/* ── DECK & SLIDES ── */
+.deck{width:100%;height:100%;position:relative;overflow:hidden;}
+
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  padding:40px 28px 56px;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.55s ease,transform 0.55s cubic-bezier(.4,0,.2,1);
+  transform:translateY(24px);
+  overflow:hidden;
+}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.slide.out-up{opacity:0;transform:translateY(-24px);}
+.slide.out-down{opacity:0;transform:translateY(24px);}
+
+/* grid texture */
+.slide::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 40%,rgba(201,168,76,0.04) 0%,transparent 70%),
+    repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(201,168,76,0.013) 40px,rgba(201,168,76,0.013) 41px),
+    repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(201,168,76,0.013) 40px,rgba(201,168,76,0.013) 41px);
+  pointer-events:none;z-index:0;
+}
+.slide>*{position:relative;z-index:1;}
+
+/* corners */
+.c-tl,.c-br{position:absolute;width:24px;height:24px;border-color:rgba(201,168,76,0.3);border-style:solid;}
+.c-tl{top:14px;left:14px;border-width:1px 0 0 1px;}
+.c-br{bottom:14px;right:14px;border-width:0 1px 1px 0;}
+
+/* slide number */
+.snum{
+  position:absolute;bottom:18px;right:20px;
+  font-family:var(--sans);font-size:8px;letter-spacing:2.5px;
+  color:var(--gold-dim);font-weight:300;text-transform:uppercase;
+}
+
+/* ── STAGGER ANIMATION ── */
+.slide.active .stagger>*{animation:fadeUp 0.5s ease forwards;opacity:0;}
+.slide.active .stagger>*:nth-child(1){animation-delay:.10s;}
+.slide.active .stagger>*:nth-child(2){animation-delay:.20s;}
+.slide.active .stagger>*:nth-child(3){animation-delay:.30s;}
+.slide.active .stagger>*:nth-child(4){animation-delay:.40s;}
+.slide.active .stagger>*:nth-child(5){animation-delay:.50s;}
+.slide.active .stagger>*:nth-child(6){animation-delay:.60s;}
+.slide.active .stagger>*:nth-child(7){animation-delay:.70s;}
+.slide.active .stagger>*:nth-child(8){animation-delay:.80s;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+.pulse{animation:pulse 3s ease-in-out infinite;}
+
+/* ── TYPE ── */
+.eyebrow{
+  font-family:var(--sans);font-size:8px;font-weight:400;
+  letter-spacing:3.5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:14px;text-align:center;
+}
+h1.hero{
+  font-family:var(--serif);font-size:52px;font-weight:300;
+  line-height:1.05;text-align:center;color:var(--ivory);
+  letter-spacing:-0.5px;
+}
+h1.hero em{font-style:italic;color:var(--gold);}
+
+h2.stitle{
+  font-family:var(--serif);font-size:26px;font-weight:300;
+  text-align:center;color:var(--ivory);line-height:1.2;
+  margin-bottom:20px;
+}
+h2.stitle em{font-style:italic;color:var(--gold);}
+
+.qtext{
+  font-family:var(--serif);font-size:19px;font-weight:300;
+  font-style:italic;color:var(--ivory);line-height:1.5;
+  text-align:center;
+}
+.qtext em{color:var(--gold);font-style:normal;}
+
+/* ── RULE ── */
+.rule{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto;}
+.rule.wide{width:100px;}
+
+/* ── SECTION LABEL ── */
+.sec-lbl{
+  font-family:var(--sans);font-size:8px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:10px;
+}
+
+/* ── BULLET LIST ── */
+.blist{list-style:none;display:flex;flex-direction:column;gap:8px;width:100%;}
+.blist li{
+  display:flex;align-items:baseline;gap:10px;
+  font-family:var(--serif);font-size:15px;font-weight:300;
+  color:var(--ivory-dim);line-height:1.3;
+}
+.blist li::before{content:'—';color:rgba(201,168,76,0.4);flex-shrink:0;font-size:11px;}
+.blist li strong{color:var(--gold-light);font-weight:400;}
+
+/* ── TAGS ── */
+.tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+.tag{
+  font-family:var(--sans);font-size:7.5px;font-weight:300;
+  letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--ivory-dim);border:1px solid rgba(201,168,76,0.2);
+  padding:5px 11px;
+}
+.tag.gold{color:var(--gold);border-color:rgba(201,168,76,0.45);}
+.tag.no{color:rgba(184,175,160,0.4);border-color:rgba(255,255,255,0.07);text-decoration:line-through;}
+
+/* ── TABLE ── */
+.ltable{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:10px;}
+.ltable th{
+  font-weight:300;letter-spacing:2px;text-transform:uppercase;font-size:7.5px;
+  color:var(--gold);padding:8px 10px;
+  border-bottom:1px solid rgba(201,168,76,0.3);text-align:left;
+}
+.ltable td{
+  padding:9px 10px;color:var(--ivory-dim);font-weight:300;
+  border-bottom:1px solid rgba(255,255,255,0.045);
+}
+.ltable td.ac{color:var(--gold-light);font-weight:400;}
+.ltable tr:last-child td{border-bottom:none;}
+.ltable tr.total td{color:var(--gold);border-top:1px solid rgba(201,168,76,0.28);border-bottom:none;font-weight:400;}
+
+/* ── MINI CARDS (2-col grid) ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;}
+.mcard{
+  background:var(--gold-faint);
+  border:1px solid rgba(201,168,76,0.18);
+  padding:14px 12px;text-align:center;position:relative;
+}
+.mcard::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:1px;background:var(--gold);}
+.mcard-val{font-family:var(--serif);font-size:20px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:4px;}
+.mcard-lbl{font-family:var(--sans);font-size:7.5px;font-weight:300;letter-spacing:1.8px;text-transform:uppercase;color:var(--ivory-dim);}
+.mcard-sub{font-family:var(--serif);font-size:10px;font-weight:300;color:rgba(184,175,160,0.5);margin-top:4px;font-style:italic;}
+.mcard.accent{border-color:rgba(201,168,76,0.5);background:var(--gold-faint2);}
+.mcard.accent .mcard-lbl{color:var(--gold);}
+
+/* ── LADDER ── */
+.ladder{display:flex;flex-direction:column;align-items:center;width:100%;}
+.lstep{
+  background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.18);
+  width:100%;padding:10px 14px;text-align:center;
+  font-family:var(--serif);font-size:14px;font-weight:300;color:var(--ivory);
+}
+.lstep.hl{background:rgba(201,168,76,0.11);border-color:var(--gold);color:var(--gold-light);}
+.larrow{font-size:9px;color:rgba(201,168,76,0.35);padding:2px 0;line-height:1;}
+
+/* ── STAT ROW ── */
+.srow{display:flex;justify-content:center;gap:0;width:100%;}
+.sitem{flex:1;text-align:center;padding:0 6px;}
+.sitem+.sitem{border-left:1px solid rgba(201,168,76,0.15);}
+.snum-val{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--gold);line-height:1;}
+.snum-lbl{font-family:var(--sans);font-size:7px;font-weight:300;letter-spacing:1.8px;text-transform:uppercase;color:var(--ivory-dim);margin-top:4px;}
+
+/* ── FUND BARS ── */
+.fund-rows{display:flex;flex-direction:column;gap:9px;width:100%;}
+.fund-row{display:flex;align-items:center;gap:10px;}
+.fund-label{font-family:var(--sans);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ivory-dim);width:130px;flex-shrink:0;}
+.fund-bar-wrap{flex:1;height:1.5px;background:rgba(255,255,255,0.07);}
+.fund-bar{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));}
+.fund-pct{font-family:var(--sans);font-size:8px;color:var(--gold);width:26px;text-align:right;flex-shrink:0;}
+
+/* ── DIVIDER LINE ── */
+.hdiv{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.2),transparent);}
+
+/* ── TWO-COL TEXT ── */
+.tcol{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;width:100%;}
+.tcol-lbl{font-family:var(--sans);font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+
+/* ── NAV DOTS (right side) ── */
+.nav{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:7px;z-index:20;
+}
+.dot{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(201,168,76,0.2);
+  cursor:pointer;border:none;padding:0;
+  transition:background .3s,transform .3s;
+}
+.dot.active{background:var(--gold);transform:scale(1.6);}
+
+/* ── SWIPE HINT ── */
+.swipe-hint{
+  position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
+  font-family:var(--sans);font-size:7px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(201,168,76,0.3);white-space:nowrap;
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+<div class="deck" id="deck">
+
+<!-- ═══ SLIDE 1 — COVER ═══ -->
+<div class="slide active" id="s0">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">Investor Pitch · 2025</p>
+    <h1 class="hero">Maison<em>Motif</em></h1>
+    <div class="rule wide" style="margin:16px auto 14px"></div>
+    <p style="font-family:var(--serif);font-size:13px;font-weight:300;letter-spacing:2.5px;text-transform:uppercase;color:var(--ivory-dim);text-align:center;line-height:1.8">Emotional Continuity<br>Infrastructure For Families</p>
+    <div style="height:24px"></div>
+    <div style="border-left:1px solid var(--gold);padding:8px 20px;width:100%">
+      <p class="qtext" style="font-size:16px;text-align:left">"Instagram captures attention.<br>MaisonMotif captures <em>legacy.</em>"</p>
+    </div>
+    <div style="height:20px"></div>
+    <div class="tags">
+      <span class="tag gold">Indian Weddings</span>
+      <span class="tag gold">NRI Families</span>
+      <span class="tag gold">Legacy Households</span>
+    </div>
+  </div>
+  <span class="snum">01 / 10</span>
+</div>
+
+<!-- ═══ SLIDE 2 — PROBLEM ═══ -->
+<div class="slide" id="s1">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">The Problem</p>
+    <h2 class="stitle">More memories than ever.<br><em>Zero emotional continuity.</em></h2>
+    <div class="hdiv" style="margin-bottom:16px"></div>
+    <p class="sec-lbl">Where memories disappear</p>
+    <ul class="blist" style="margin-bottom:16px">
+      <li>WhatsApp chats &amp; Google Drives</li>
+      <li>Instagram stories</li>
+      <li>Forgotten hard disks</li>
+      <li>Envelopes &amp; UPI transfers</li>
+    </ul>
+    <div class="hdiv" style="margin-bottom:16px"></div>
+    <p class="sec-lbl">The spend without permanence</p>
+    <div class="srow">
+      <div class="sitem">
+        <div class="snum-val">₹1Cr+</div>
+        <div class="snum-lbl">Wedding spend</div>
+      </div>
+      <div class="sitem">
+        <div class="snum-val">₹20L</div>
+        <div class="snum-lbl">Photography spend</div>
+      </div>
+      <div class="sitem">
+        <div class="snum-val">0</div>
+        <div class="snum-lbl">Becomes heritage</div>
+      </div>
+    </div>
+  </div>
+  <span class="snum">02 / 10</span>
+</div>
+
+<!-- ═══ SLIDE 3 — SOLUTION ═══ -->
+<div class="slide" id="s2">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">The Solution</p>
+    <h2 class="stitle">Weddings become<br><em>living family archives.</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-bottom:16px">
+      <div>
+        <p class="sec-lbl" style="margin-bottom:8px">During</p>
+        <ul class="blist" style="font-size:13px;gap:6px">
+          <li>Luxury microsite</li>
+          <li>Emotional gifting</li>
+          <li>Voice blessings</li>
+          <li>Memory collection</li>
+          <li>Editorial stories</li>
+        </ul>
+      </div>
+      <div>
+        <p class="sec-lbl" style="margin-bottom:8px">After</p>
+        <ul class="blist" style="font-size:13px;gap:6px">
+          <li>Cinematic archive</li>
+          <li>Heirloom magazine</li>
+          <li>Anniversary resurface</li>
+          <li>Family continuity</li>
+          <li>Generational vault</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hdiv" style="margin-bottom:14px"></div>
+    <p class="qtext" style="font-size:15px;font-style:italic;color:var(--gold-light)">"Temporary wedding media →<br>permanent emotional heritage."</p>
+  </div>
+  <span class="snum">03 / 10</span>
+</div>
+
+<!-- ═══ SLIDE 4 — DIFFERENTIATION ═══ -->
+<div class="slide" id="s3">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">Why This Is Different</p>
+    <h2 class="stitle">Not social media. Not SaaS.<br><em>Emotional infrastructure.</em></h2>
+    <table class="ltable" style="margin-bottom:16px">
+      <thead>
+        <tr><th>Every Platform</th><th>MaisonMotif</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Temporary attention</td><td class="ac">Permanent archive</td></tr>
+        <tr><td>Likes &amp; followers</td><td class="ac">Family memory</td></tr>
+        <tr><td>Generic gifting</td><td class="ac">Narrative contribution</td></tr>
+        <tr><td>Feed addiction</td><td class="ac">Emotional continuity</td></tr>
+        <tr><td>Transactional</td><td class="ac">Meaningful participation</td></tr>
+      </tbody>
+    </table>
+    <div style="border-left:1px solid var(--gold);padding:8px 16px;width:100%">
+      <p class="qtext" style="font-size:14px;text-align:left">The wedding is <em>customer acquisition.</em><br>The archive is <em>retention.</em><br>Emotional continuity is <em>the moat.</em></p>
+    </div>
+  </div>
+  <span class="snum">04 / 10</span>
+</div>
+
+<!-- ═══ SLIDE 5 — PRODUCT ═══ -->
+<div class="slide" id="s4">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">Product Experience</p>
+    <h2 class="stitle">A <em>luxury editorial documentary.</em><br>Familiar before users learn it.</h2>
+    <p class="sec-lbl" style="margin-bottom:8px">Four experience layers</p>
+    <div class="ladder" style="margin-bottom:16px">
+      <div class="lstep hl">Couple Story Microsite</div>
+      <div class="larrow">↓</div>
+      <div class="lstep">Blessings &amp; Memories Archive</div>
+      <div class="larrow">↓</div>
+      <div class="lstep">Expeditions &amp; Collections</div>
+      <div class="larrow">↓</div>
+      <div class="lstep hl">Printed Heirloom Magazine</div>
+    </div>
+    <div class="hdiv" style="margin-bottom:12px"></div>
+    <p class="sec-lbl" style="margin-bottom:8px">Participation mechanics</p>
+    <div class="tags">
+      <span class="tag">Memory Bingo</span>
+      <span class="tag">Archive Quests</span>
+      <span class="tag">Memory Chains</span>
+      <span class="tag">Arena vs Archive</span>
+      <span class="tag">Expeditions</span>
+    </div>
+  </div>
+  <span class="snum">05 / 10</span>
+</div>
+
+<!-- ═══ SLIDE 6 — REVENUE STREAMS ═══ -->
+<div class="slide" id="s5">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">Revenue From Day One</p>
+    <h2 class="stitle">Four streams.<br><em>No ads. No virality.</em></h2>
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="mcard">
+        <div class="mcard-val">₹50K<br><span style="font-size:12px">→₹10L+</span></div>
+        <div class="mcard-lbl">Founding Packages</div>
+        <div class="mcard-sub">Signature · Heritage · Dynasty</div>
+      </div>
+      <div class="mcard">
+        <div class="mcard-val" style="font-size:15px;line-height:1.3">Transaction<br>Margin</div>
+        <div class="mcard-lbl">Registry &amp; Contributions</div>
+        <div class="mcard-sub">Home · Honeymoon · Heirloom</div>
+      </div>
+      <div class="mcard">
+        <div class="mcard-val" style="font-size:15px;line-height:1.3">White<br>Glove</div>
+        <div class="mcard-lbl">Concierge Services</div>
+        <div class="mcard-sub">Elder interviews · Story extraction</div>
+      </div>
+      <div class="mcard accent">
+        <div class="mcard-val" style="font-size:15px;line-height:1.3">Revenue<br>Share</div>
+        <div class="mcard-lbl">Planner Stewardship</div>
+        <div class="mcard-sub">Organizers → Archive Stewards</div>
+      </div>
+    </div>
+    <div class="tags">
+      <span class="tag no">Advertising</span>
+      <span class="tag no">Influencers</span>
+      <span class="tag no">Social Virality</span>
+    </div>
+  </div>
+  <span class="snum">06 / 10</span>
+</div>
+
+<!-- ═══ SLIDE 7 — REVENUE ENGINE ═══ -->
+<div class="slide" id="s6">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">Revenue Engine</p>
+    <h2 class="stitle">Three scenarios.<br><em>All within reach.</em></h2>
+    <table class="ltable" style="margin-bottom:16px">
+      <thead>
+        <tr><th>Scenario</th><th>Weddings/Mo</th><th>Avg. Revenue</th><th>Annual</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Low</td><td>10</td><td>₹1L</td><td class="ac">₹1.2Cr</td></tr>
+        <tr><td>Mid</td><td>50</td><td>₹2.5L</td><td class="ac">₹15Cr</td></tr>
+        <tr class="total"><td>High</td><td>200</td><td>₹5L</td><td>₹120Cr</td></tr>
+      </tbody>
+    </table>
+    <div class="hdiv" style="margin-bottom:14px"></div>
+    <p class="sec-lbl" style="margin-bottom:8px">High-margin upsells</p>
+    <div class="tags" style="margin-bottom:10px">
+      <span class="tag">Heirloom books</span>
+      <span class="tag">Documentaries</span>
+      <span class="tag">AI yearbooks</span>
+      <span class="tag">Oral history</span>
+    </div>
+    <p class="sec-lbl" style="margin-bottom:8px">Recurring subscriptions</p>
+    <div class="tags">
+      <span class="tag">Anniversaries</span>
+      <span class="tag">Elder archives</span>
+      <span class="tag">Dynasty memberships</span>
+    </div>
+  </div>
+  <span class="snum">07 / 10</span>
+</div>
+
+<!-- ═══ SLIDE 8 — THE MOAT ═══ -->
+<div class="slide" id="s7">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">The Moat</p>
+    <h2 class="stitle">What becomes<br><em>impossible to copy.</em></h2>
+    <div class="grid2" style="margin-bottom:16px">
+      <div class="mcard">
+        <div class="mcard-val" style="font-size:14px;line-height:1.3">Emotional<br>Memory Graph</div>
+        <div class="mcard-sub" style="font-size:9px">Voices · Relationships · Rituals · Timelines</div>
+      </div>
+      <div class="mcard">
+        <div class="mcard-val" style="font-size:14px;line-height:1.3">Emotional<br>Operations</div>
+        <div class="mcard-sub" style="font-size:9px">Elder onboarding · Editorial pacing</div>
+      </div>
+      <div class="mcard">
+        <div class="mcard-val" style="font-size:14px;line-height:1.3">Symbolic<br>Grammar</div>
+        <div class="mcard-sub" style="font-size:9px">52-Card system · Arena · Archive</div>
+      </div>
+      <div class="mcard accent">
+        <div class="mcard-val" style="font-size:14px;line-height:1.3">Long-Term<br>Retention</div>
+        <div class="mcard-sub" style="font-size:9px">Decades of resurfacing</div>
+      </div>
+    </div>
+    <div class="hdiv" style="margin-bottom:14px"></div>
+    <p style="font-family:var(--serif);font-size:17px;font-weight:300;font-style:italic;color:var(--gold-light);text-align:center">This creates family mythology infrastructure.</p>
+  </div>
+  <span class="snum">08 / 10</span>
+</div>
+
+<!-- ═══ SLIDE 9 — MARKET ═══ -->
+<div class="slide" id="s8">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">Market Expansion</p>
+    <h2 class="stitle">Weddings are the entry.<br><em>Family legacy is the market.</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;width:100%;margin-bottom:14px">
+      <div>
+        <p class="sec-lbl" style="margin-bottom:8px">Initial wedge</p>
+        <ul class="blist" style="font-size:12px;gap:6px">
+          <li>Destination weddings</li>
+          <li>NRI weddings</li>
+          <li><strong>₹20L–₹5Cr</strong> spend</li>
+        </ul>
+      </div>
+      <div>
+        <p class="sec-lbl" style="margin-bottom:8px">Expansion</p>
+        <ul class="blist" style="font-size:12px;gap:6px">
+          <li>Anniversaries</li>
+          <li>Memorials</li>
+          <li>Dynasty chronicles</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hdiv" style="margin-bottom:14px"></div>
+    <p class="sec-lbl" style="margin-bottom:8px">Every family eventually owns</p>
+    <div class="ladder">
+      <div class="lstep hl">A living archive</div>
+      <div class="larrow">↓</div>
+      <div class="lstep">Elder voices · Family timeline</div>
+      <div class="larrow">↓</div>
+      <div class="lstep hl">Cultural memory vault</div>
+    </div>
+    <div style="height:10px"></div>
+    <p style="font-family:var(--serif);font-size:13px;font-style:italic;color:var(--ivory-dim);text-align:center">The emotional OS for modern families.</p>
+  </div>
+  <span class="snum">09 / 10</span>
+</div>
+
+<!-- ═══ SLIDE 10 — THE ASK ═══ -->
+<div class="slide" id="s9">
+  <div class="c-tl"></div><div class="c-br"></div>
+  <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+    <p class="eyebrow">The Ask</p>
+    <h2 class="stitle">Raising <em>₹1 Crore.</em></h2>
+    <p class="sec-lbl" style="margin-bottom:10px">Use of funds</p>
+    <div class="fund-rows" style="margin-bottom:16px">
+      <div class="fund-row"><span class="fund-label">MVP Product Build</span><div class="fund-bar-wrap"><div class="fund-bar" style="width:30%"></div></div><span class="fund-pct">30%</span></div>
+      <div class="fund-row"><span class="fund-label">Concierge &amp; Operations</span><div class="fund-bar-wrap"><div class="fund-bar" style="width:25%"></div></div><span class="fund-pct">25%</span></div>
+      <div class="fund-row"><span class="fund-label">Planner Partnerships</span><div class="fund-bar-wrap"><div class="fund-bar" style="width:20%"></div></div><span class="fund-pct">20%</span></div>
+      <div class="fund-row"><span class="fund-label">Archive Infrastructure</span><div class="fund-bar-wrap"><div class="fund-bar" style="width:15%"></div></div><span class="fund-pct">15%</span></div>
+      <div class="fund-row"><span class="fund-label">Brand &amp; Editorial</span><div class="fund-bar-wrap"><div class="fund-bar" style="width:10%"></div></div><span class="fund-pct">10%</span></div>
+    </div>
+    <div class="hdiv" style="margin-bottom:14px"></div>
+    <p class="sec-lbl" style="margin-bottom:8px">18-month goals</p>
+    <div class="srow" style="margin-bottom:16px">
+      <div class="sitem"><div class="snum-val">500+</div><div class="snum-lbl">Premium weddings</div></div>
+      <div class="sitem"><div class="snum-val">50K+</div><div class="snum-lbl">Family participants</div></div>
+    </div>
+    <div style="border-top:1px solid var(--gold);padding-top:14px;width:100%;text-align:center">
+      <p class="qtext" style="font-size:16px">"The wedding lasts a week.<br>The archive lasts <em>generations.</em>"</p>
+    </div>
+  </div>
+  <span class="snum">10 / 10</span>
+</div>
+
+</div><!-- /deck -->
+
+<!-- nav dots -->
+<nav class="nav" id="nav"></nav>
+<p class="swipe-hint" id="hint">↑ ↓ swipe to navigate</p>
+
+</div><!-- /phone -->
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const navEl  = document.getElementById('nav');
+const hint   = document.getElementById('hint');
+let cur = 0, busy = false;
+
+slides.forEach((_,i) => {
+  const d = document.createElement('button');
+  d.className = 'dot' + (i===0?' active':'');
+  d.setAttribute('aria-label','Slide '+(i+1));
+  d.onclick = () => go(i);
+  navEl.appendChild(d);
+});
+
+// hide hint after first interaction
+function hideHint(){ hint.style.opacity='0'; hint.style.transition='opacity .4s'; }
+
+function go(n){
+  if(n===cur||busy) return;
+  hideHint();
+  busy = true;
+  const dir = n > cur ? 'out-up' : 'out-down';
+  slides[cur].classList.add(dir);
+  slides[cur].classList.remove('active');
+  navEl.children[cur].classList.remove('active');
+  slides[n].classList.add('active');
+  navEl.children[n].classList.add('active');
+  cur = n;
+  setTimeout(()=>{ slides.forEach(s=>{ s.classList.remove('out-up'); s.classList.remove('out-down'); }); busy=false; }, 600);
+}
+
+// keyboard
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowRight') go(Math.min(cur+1,slides.length-1));
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft') go(Math.max(cur-1,0));
+});
+
+// touch swipe (vertical)
+let ty=0, tx2=0;
+document.addEventListener('touchstart', e=>{ ty=e.touches[0].clientY; tx2=e.touches[0].clientX; },{passive:true});
+document.addEventListener('touchend', e=>{
+  const dy = e.changedTouches[0].clientY - ty;
+  const dx = e.changedTouches[0].clientX - tx2;
+  if(Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40){
+    go(dy < 0 ? Math.min(cur+1,slides.length-1) : Math.max(cur-1,0));
+  }
+},{passive:true});
+
+// mouse wheel
+let wt = 0;
+document.addEventListener('wheel', e=>{
+  const now = Date.now();
+  if(now-wt < 600) return;
+  wt = now;
+  go(e.deltaY > 0 ? Math.min(cur+1,slides.length-1) : Math.max(cur-1,0));
+},{passive:true});
+</script>
+</body>
+</html>

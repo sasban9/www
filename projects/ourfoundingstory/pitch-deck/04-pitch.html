@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MaisonMotif — Private Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+SC:wght@300;400;600&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --obsidian:#080807;
+  --deep:#0F0F0D;
+  --charcoal:#1A1916;
+  --ash:#2C2B27;
+  --smoke:#4A4840;
+  --dust:#7A776E;
+  --parchment:#C8BEA8;
+  --ivory:#EDE8DC;
+  --cream:#F7F3EA;
+  --gold:#B8922A;
+  --gold-l:#D4AC52;
+  --gold-xl:#EDD98A;
+  --gold-dim:rgba(184,146,42,0.18);
+  --copper:#9C6B2E;
+  --line:rgba(184,146,42,0.2);
+  --line-s:rgba(184,146,42,0.08);
+}
+
+html,body{
+  height:100%;
+  background:var(--obsidian);
+  font-family:'Jost',sans-serif;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+  color:var(--ivory);
+  cursor:default;
+}
+
+/* ── Deck shell ── */
+.deck{
+  width:100%;
+  height:100dvh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* ── Grain overlay ── */
+.deck::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.028;
+  pointer-events:none;
+  z-index:999;
+}
+
+/* ── Slides ── */
+.slide{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:stretch;
+  padding-bottom:52px;
+  opacity:0;
+  transform:translateY(32px) scale(0.99);
+  transition:opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+.slide.active{opacity:1;transform:translateY(0) scale(1);pointer-events:all;}
+.slide.exit{opacity:0;transform:translateY(-32px) scale(0.99);}
+
+/* Backgrounds */
+.s1{background:var(--obsidian);}
+.s2{background:var(--deep);}
+.s3{background:#0A0908;}
+.s4{background:#0D0B09;}
+.s5{background:var(--obsidian);}
+.s6{background:var(--deep);}
+.s7{background:#0A0908;}
+.s8{background:#0D0B09;}
+.s9{background:var(--obsidian);}
+.s10{background:var(--deep);}
+.s11{background:#0A0908;}
+.s12{background:var(--obsidian);}
+
+/* Top rule */
+.slide::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-l) 50%, var(--gold) 70%, transparent 100%);
+  opacity:0.5;
+}
+
+/* ── Shell / inner layout ── */
+.shell{
+  width:100%;
+  max-width:860px;
+  margin:0 auto;
+  padding:clamp(2rem,5vw,3.5rem) clamp(1.4rem,5vw,3rem) 0.5rem;
+}
+
+/* ── Slide index label ── */
+.lozenge{
+  font-family:'Cormorant SC',serif;
+  font-size:0.62rem;
+  letter-spacing:0.22em;
+  color:var(--gold);
+  margin-bottom:1.6rem;
+  display:flex;
+  align-items:center;
+  gap:0.8rem;
+  opacity:0.7;
+}
+.lozenge::before{
+  content:'';
+  width:28px;height:1px;
+  background:var(--gold);
+  opacity:0.5;
+}
+
+/* ── Display headline ── */
+.display{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size:clamp(2.2rem,5.5vw,4.2rem);
+  line-height:1.08;
+  letter-spacing:-0.01em;
+  color:var(--ivory);
+  margin-bottom:1.4rem;
+}
+.display em{font-style:italic;color:var(--gold-xl);}
+
+.headline{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
+  font-size:clamp(1.6rem,4vw,2.9rem);
+  line-height:1.12;
+  color:var(--ivory);
+  margin-bottom:1rem;
+}
+.headline em{font-style:italic;color:var(--gold-xl);}
+
+.subhead{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.1rem,2.5vw,1.5rem);
+  font-weight:300;
+  font-style:italic;
+  color:var(--parchment);
+  line-height:1.45;
+  margin-bottom:1.2rem;
+}
+
+.body{
+  font-size:clamp(0.82rem,1.8vw,0.92rem);
+  font-weight:300;
+  color:var(--dust);
+  line-height:1.8;
+  letter-spacing:0.02em;
+}
+
+.caption{
+  font-family:'Cormorant SC',serif;
+  font-size:0.62rem;
+  letter-spacing:0.2em;
+  color:var(--smoke);
+  margin-top:0.4rem;
+}
+
+/* ── Gold rule ── */
+.rule{
+  width:32px;height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  margin:1.2rem 0;
+}
+
+/* ── Pull quote ── */
+.pull{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1rem,2.5vw,1.35rem);
+  font-style:italic;
+  font-weight:300;
+  color:var(--ivory);
+  border-left:1px solid var(--gold);
+  padding:0.2rem 0 0.2rem 1.2rem;
+  margin:1.4rem 0;
+  line-height:1.6;
+}
+
+/* ── Split screen (S1) ── */
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:3px;
+  overflow:hidden;
+  margin:1.6rem 0;
+}
+.split-panel{
+  background:var(--charcoal);
+  padding:1.2rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+}
+.split-panel.archive-side{background:#111009;}
+.photo-thumb{
+  height:52px;
+  border-radius:2px;
+  background:var(--ash);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+  position:relative;
+  overflow:hidden;
+}
+.photo-thumb::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 60%,rgba(184,146,42,0.08));
+}
+.archive-spread{
+  background:linear-gradient(160deg,#1A160E,#111009);
+  border-radius:2px;
+  padding:0.8rem;
+  border:1px solid var(--line-s);
+  flex:1;
+}
+.spread-line{
+  height:6px;
+  background:var(--ash);
+  border-radius:1px;
+  margin-bottom:6px;
+}
+.spread-line:last-child{width:60%;background:var(--gold-dim);}
+.panel-label{
+  font-family:'Cormorant SC',serif;
+  font-size:0.58rem;
+  letter-spacing:0.18em;
+  color:var(--dust);
+}
+
+/* ── Cascade flow (S2) ── */
+.cascade{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  margin:1.4rem 0;
+  max-width:420px;
+}
+.cascade-row{
+  display:flex;
+  align-items:center;
+  gap:0.9rem;
+  padding:0.6rem 0;
+  border-bottom:1px solid var(--line-s);
+}
+.cascade-row:last-child{border:none;}
+.c-num{
+  font-family:'Cormorant SC',serif;
+  font-size:0.6rem;
+  letter-spacing:0.12em;
+  color:var(--gold);
+  min-width:20px;
+  opacity:0.6;
+}
+.c-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(0.95rem,2vw,1.15rem);
+  font-weight:300;
+  color:var(--ivory);
+}
+.c-arrow{
+  font-size:0.6rem;
+  color:var(--gold);
+  opacity:0.4;
+  margin-left:auto;
+}
+
+/* ── Microsite preview (S3) ── */
+.microsite{
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+  background:#0C0A08;
+  margin:1.4rem 0;
+}
+.ms-header{
+  background:#111009;
+  padding:1rem 1.2rem;
+  border-bottom:1px solid var(--line-s);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.ms-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;
+  font-style:italic;
+  color:var(--ivory);
+}
+.ms-date{font-family:'Cormorant SC',serif;font-size:0.58rem;letter-spacing:0.15em;color:var(--dust);}
+.ms-body{padding:1rem 1.2rem;display:grid;grid-template-columns:3fr 2fr;gap:0.8rem;}
+.ms-text-block{display:flex;flex-direction:column;gap:0.5rem;}
+.ms-text-line{height:7px;background:var(--ash);border-radius:1px;}
+.ms-text-line:nth-child(2){width:85%;}
+.ms-text-line:nth-child(3){width:70%;}
+.ms-text-line:nth-child(4){width:90%;background:var(--gold-dim);}
+.ms-sidebar{display:flex;flex-direction:column;gap:0.5rem;}
+.ms-img{height:60px;background:linear-gradient(135deg,var(--ash),#1A160E);border-radius:2px;}
+.ms-blessing{
+  border:1px solid var(--line-s);
+  border-radius:2px;
+  padding:0.5rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.72rem;
+  font-style:italic;
+  color:var(--dust);
+  line-height:1.5;
+}
+
+/* ── Contribution cards (S4) ── */
+.contrib-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:0.7rem;
+  margin:1.3rem 0;
+}
+.contrib-card{
+  background:var(--charcoal);
+  border:1px solid var(--line-s);
+  border-radius:4px;
+  padding:1rem;
+  position:relative;
+  overflow:hidden;
+  transition:border-color 0.3s;
+}
+.contrib-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:var(--gold);opacity:0.25;
+}
+.cc-icon{font-size:1.1rem;margin-bottom:0.5rem;}
+.cc-name{
+  font-family:'Cormorant SC',serif;
+  font-size:0.68rem;
+  letter-spacing:0.14em;
+  color:var(--gold);
+  margin-bottom:0.3rem;
+}
+.cc-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.85rem;
+  font-style:italic;
+  color:var(--parchment);
+  line-height:1.4;
+  margin-bottom:0.5rem;
+}
+.cc-wave{
+  height:24px;
+  display:flex;align-items:center;gap:1px;
+  margin-top:0.5rem;
+}
+.wave-bar{
+  flex:1;
+  background:var(--gold-dim);
+  border-radius:1px;
+  animation:waveAnim 1.2s ease-in-out infinite alternate;
+}
+@keyframes waveAnim{from{transform:scaleY(0.3);}to{transform:scaleY(1);}}
+
+/* ── Waveform UI (S5) ── */
+.waveform-card{
+  background:#0C0A07;
+  border:1px solid var(--line);
+  border-radius:6px;
+  overflow:hidden;
+  margin:1.4rem 0;
+}
+.wf-top{
+  background:#111009;
+  padding:0.9rem 1.2rem;
+  border-bottom:1px solid var(--line-s);
+  display:flex;
+  align-items:center;
+  gap:1rem;
+}
+.wf-photo{
+  width:44px;height:44px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#2A240E,var(--ash));
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;
+  border:1px solid var(--line);
+}
+.wf-meta{flex:1;}
+.wf-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;
+  font-style:italic;
+  color:var(--ivory);
+}
+.wf-loc{font-family:'Cormorant SC',serif;font-size:0.58rem;letter-spacing:0.14em;color:var(--dust);margin-top:2px;}
+.wf-body{padding:1.2rem;}
+.wf-bars{
+  display:flex;align-items:center;gap:2px;height:50px;margin-bottom:0.8rem;
+}
+.wf-b{
+  flex:1;
+  background:var(--gold-dim);
+  border-radius:1px;
+  min-height:4px;
+  transition:background 0.2s;
+}
+.wf-b.active-wf{background:var(--gold);}
+.wf-subtitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.88rem;
+  font-style:italic;
+  color:var(--parchment);
+  line-height:1.55;
+  border-top:1px solid var(--line-s);
+  padding-top:0.8rem;
+}
+
+/* ── Expedition graph (S6) ── */
+.expedition{
+  background:var(--charcoal);
+  border:1px solid var(--line-s);
+  border-radius:6px;
+  padding:1.2rem;
+  margin:1.3rem 0;
+  position:relative;
+  overflow:hidden;
+}
+.exp-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0.6rem;
+  position:relative;
+}
+.exp-node{
+  background:#111009;
+  border:1px solid var(--line-s);
+  border-radius:3px;
+  padding:0.6rem 0.5rem;
+  text-align:center;
+  position:relative;
+}
+.exp-node.recovered{border-color:rgba(184,146,42,0.4);background:#16130A;}
+.exp-node.missing{border-color:rgba(80,70,60,0.3);opacity:0.45;}
+.en-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--ash);
+  margin:0 auto 0.35rem;
+}
+.exp-node.recovered .en-dot{background:var(--gold);}
+.en-name{font-family:'Cormorant SC',serif;font-size:0.58rem;letter-spacing:0.1em;color:var(--dust);}
+.exp-node.recovered .en-name{color:var(--gold);}
+.exp-connector{
+  position:absolute;
+  top:50%;left:0;right:0;
+  height:1px;
+  background:repeating-linear-gradient(90deg,var(--gold) 0,var(--gold) 4px,transparent 4px,transparent 8px);
+  opacity:0.15;
+  pointer-events:none;
+}
+
+/* ── Pearl thread (S7) ── */
+.pearl-field{
+  position:relative;
+  height:180px;
+  margin:1.2rem 0;
+}
+.pearl-field svg{position:absolute;inset:0;width:100%;height:100%;}
+
+/* ── Cultural grid (S8) ── */
+.ritual-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:0.7rem;
+  margin:1.2rem 0;
+}
+.ritual-card{
+  background:var(--charcoal);
+  border:1px solid var(--line-s);
+  border-radius:4px;
+  padding:0.9rem 0.8rem;
+  text-align:center;
+}
+.ritual-card.highlight{
+  border-color:rgba(184,146,42,0.35);
+  background:#16130A;
+}
+.rc-icon{font-size:1.3rem;margin-bottom:0.4rem;}
+.rc-name{
+  font-family:'Cormorant SC',serif;
+  font-size:0.6rem;
+  letter-spacing:0.14em;
+  color:var(--dust);
+  margin-bottom:0.25rem;
+}
+.rc-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.78rem;
+  font-style:italic;
+  color:var(--parchment);
+  line-height:1.35;
+}
+
+/* ── Lifecycle (S9) ── */
+.lifecycle{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  margin:1.3rem 0;
+  border:1px solid var(--line-s);
+  border-radius:4px;
+  overflow:hidden;
+}
+.lc-row{
+  display:flex;
+  align-items:stretch;
+  border-bottom:1px solid var(--line-s);
+}
+.lc-row:last-child{border:none;}
+.lc-num{
+  font-family:'Cormorant SC',serif;
+  font-size:0.6rem;
+  letter-spacing:0.1em;
+  color:var(--gold);
+  min-width:40px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--charcoal);
+  border-right:1px solid var(--line-s);
+  padding:0.75rem 0;
+}
+.lc-content{
+  flex:1;
+  padding:0.75rem 1rem;
+  background:#0C0A08;
+}
+.lc-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(0.9rem,2vw,1.05rem);
+  color:var(--ivory);
+  margin-bottom:0.2rem;
+}
+.lc-sub{
+  font-size:0.75rem;
+  font-weight:300;
+  color:var(--smoke);
+  letter-spacing:0.04em;
+}
+.lc-dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--ash);
+  align-self:center;
+  margin-right:1rem;
+  flex-shrink:0;
+}
+.lc-row.active-lc .lc-dot{background:var(--gold);}
+.lc-row.active-lc .lc-title{color:var(--gold-xl);}
+.lc-row.active-lc .lc-content{background:#16130A;}
+
+/* ── Revenue ecosystem (S10) ── */
+.revenue-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:0.7rem;
+  margin:1.2rem 0;
+}
+.rev-card{
+  background:var(--charcoal);
+  border:1px solid var(--line-s);
+  border-radius:4px;
+  padding:0.9rem 0.8rem;
+  position:relative;
+}
+.rev-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:var(--gold);opacity:0;
+  transition:opacity 0.3s;
+}
+.rev-card:hover::before{opacity:0.3;}
+.rv-name{
+  font-family:'Cormorant SC',serif;
+  font-size:0.62rem;
+  letter-spacing:0.14em;
+  color:var(--gold);
+  margin-bottom:0.35rem;
+}
+.rv-desc{
+  font-size:0.78rem;
+  font-weight:300;
+  color:var(--dust);
+  line-height:1.5;
+}
+
+/* ── Moat layers (S11) ── */
+.moat-layers{
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+  margin:1.2rem 0;
+}
+.moat-layer{
+  display:flex;
+  align-items:center;
+  gap:0.8rem;
+  padding:0.65rem 0.9rem;
+  background:var(--charcoal);
+  border-left:2px solid var(--ash);
+  border-radius:0 3px 3px 0;
+  transition:border-color 0.3s;
+}
+.moat-layer:nth-child(1){border-color:var(--gold);background:#16130A;}
+.moat-layer:nth-child(2){border-color:var(--gold-l);opacity:0.9;}
+.moat-layer:nth-child(3){border-color:var(--copper);opacity:0.8;}
+.moat-layer:nth-child(4){opacity:0.65;}
+.moat-layer:nth-child(5){opacity:0.55;}
+.moat-layer:nth-child(6){opacity:0.45;}
+.moat-layer:nth-child(7){opacity:0.35;}
+.ml-label{
+  font-family:'Cormorant SC',serif;
+  font-size:0.65rem;
+  letter-spacing:0.14em;
+  color:var(--parchment);
+  flex:1;
+}
+.ml-desc{
+  font-size:0.75rem;
+  font-weight:300;
+  color:var(--smoke);
+  text-align:right;
+  font-style:italic;
+}
+
+/* ── Closing archive map (S12) ── */
+.archive-map{
+  position:relative;
+  height:clamp(140px,28vw,220px);
+  margin:1.4rem 0;
+  border:1px solid var(--line-s);
+  border-radius:4px;
+  overflow:hidden;
+  background:#080806;
+}
+.archive-map svg{width:100%;height:100%;}
+.map-overlay{
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(8,8,6,0.8) 100%);
+}
+.final-cta{
+  font-family:'Cormorant SC',serif;
+  font-size:clamp(0.65rem,1.5vw,0.78rem);
+  letter-spacing:0.3em;
+  color:var(--gold);
+  text-align:center;
+  margin-top:1.2rem;
+  opacity:0.7;
+}
+
+/* ── Nav ── */
+.nav{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:1.2rem;
+  padding:0.7rem 1.5rem;
+  background:rgba(6,5,4,0.97);
+  backdrop-filter:blur(16px);
+  border-top:1px solid var(--line-s);
+}
+
+.nav-btn{
+  background:transparent;
+  border:1px solid var(--ash);
+  color:var(--dust);
+  font-family:'Jost',sans-serif;
+  font-size:0.75rem;
+  width:32px;height:32px;
+  border-radius:2px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;
+}
+.nav-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold);}
+.nav-btn:disabled{opacity:0.2;cursor:default;}
+
+.dots{display:flex;gap:5px;align-items:center;}
+.dot{
+  width:5px;height:5px;
+  border-radius:50%;
+  background:var(--ash);
+  border:none;cursor:pointer;padding:0;
+  transition:background 0.3s, transform 0.3s, width 0.3s;
+}
+.dot.on{background:var(--gold);transform:scale(1.3);}
+
+.slide-ctr{
+  font-family:'Cormorant SC',serif;
+  font-size:0.6rem;
+  letter-spacing:0.18em;
+  color:var(--smoke);
+  min-width:36px;
+  text-align:center;
+}
+
+/* ── Responsive ── */
+@media(max-width:600px){
+  .shell{padding:1.6rem 1.1rem 0.3rem;}
+  .slide{padding-bottom:48px;}
+  .split{grid-template-columns:1fr;}
+  .exp-grid{grid-template-columns:repeat(2,1fr);}
+  .contrib-grid{grid-template-columns:1fr 1fr;}
+  .revenue-grid{grid-template-columns:1fr 1fr;}
+  .ritual-grid{grid-template-columns:1fr 1fr;}
+  .ms-body{grid-template-columns:1fr;}
+}
+@media(max-width:380px){
+  .contrib-grid{grid-template-columns:1fr;}
+  .revenue-grid{grid-template-columns:1fr;}
+  .ritual-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ═══ SCREEN 1 ═══ -->
+<div class="slide s1 active" id="s1">
+<div class="shell">
+  <div class="lozenge">I &mdash; The Opening</div>
+  <div class="display">Families have never<br>created more memories.<br><em>Yet emotional continuity<br>is collapsing.</em></div>
+  <div class="split">
+    <div class="split-panel">
+      <div class="panel-label">The Default State</div>
+      <div class="photo-thumb">📱</div>
+      <div class="photo-thumb">💾</div>
+      <div class="photo-thumb">🗂️</div>
+    </div>
+    <div class="split-panel archive-side">
+      <div class="panel-label">The MaisonMotif Archive</div>
+      <div class="archive-spread">
+        <div class="spread-line"></div>
+        <div class="spread-line"></div>
+        <div class="spread-line"></div>
+        <div class="spread-line"></div>
+      </div>
+    </div>
+  </div>
+  <div class="subhead">"MaisonMotif transforms fleeting family moments into living heritage."</div>
+</div>
+</div>
+
+<!-- ═══ SCREEN 2 ═══ -->
+<div class="slide s2" id="s2">
+<div class="shell">
+  <div class="lozenge">II &mdash; Category Definition</div>
+  <div class="display">Not a wedding website.<br><em>A living family archive.</em></div>
+  <div class="rule"></div>
+  <div class="cascade">
+    <div class="cascade-row"><div class="c-num">01</div><div class="c-label">The Wedding</div><div class="c-arrow">&#x25B6;</div></div>
+    <div class="cascade-row"><div class="c-num">02</div><div class="c-label">Memories Gathered</div><div class="c-arrow">&#x25B6;</div></div>
+    <div class="cascade-row"><div class="c-num">03</div><div class="c-label">Contributions from Family</div><div class="c-arrow">&#x25B6;</div></div>
+    <div class="cascade-row"><div class="c-num">04</div><div class="c-label">Collections &amp; Objects</div><div class="c-arrow">&#x25B6;</div></div>
+    <div class="cascade-row"><div class="c-num">05</div><div class="c-label">Family Identity Emerges</div><div class="c-arrow">&#x25B6;</div></div>
+    <div class="cascade-row" style="border:none;"><div class="c-num" style="color:var(--gold-xl);">06</div><div class="c-label" style="color:var(--gold-xl);">Generational Continuity</div><div class="c-arrow" style="color:var(--gold);">&#x2605;</div></div>
+  </div>
+  <div class="pull">"The wedding is the ignition point. The archive becomes the legacy."</div>
+</div>
+</div>
+
+<!-- ═══ SCREEN 3 ═══ -->
+<div class="slide s3" id="s3">
+<div class="shell">
+  <div class="lozenge">III &mdash; The Experience</div>
+  <div class="headline">The experience feels like<br><em>a private editorial documentary.</em></div>
+  <div class="rule"></div>
+  <div class="microsite">
+    <div class="ms-header">
+      <div class="ms-title">Arjun &amp; Meera — November 2024</div>
+      <div class="ms-date">Private Archive</div>
+    </div>
+    <div class="ms-body">
+      <div class="ms-text-block">
+        <div class="ms-text-line"></div>
+        <div class="ms-text-line"></div>
+        <div class="ms-text-line"></div>
+        <div class="ms-text-line"></div>
+      </div>
+      <div class="ms-sidebar">
+        <div class="ms-img"></div>
+        <div class="ms-blessing">"May your home always smell of cardamom and old books." &mdash; Dadi</div>
+      </div>
+    </div>
+  </div>
+  <p class="body" style="text-align:center;font-style:italic;">Not social media. &nbsp;Not SaaS. &nbsp;Not crowdfunding.</p>
+</div>
+</div>
+
+<!-- ═══ SCREEN 4 ═══ -->
+<div class="slide s4" id="s4">
+<div class="shell">
+  <div class="lozenge">IV &mdash; Emotional Contributions</div>
+  <div class="headline">Guests contribute<br><em>meaning, not just money.</em></div>
+  <div class="rule"></div>
+  <div class="contrib-grid">
+    <div class="contrib-card">
+      <div class="cc-icon">🌙</div>
+      <div class="cc-name">Honeymoon</div>
+      <div class="cc-desc">A journey to begin the story together</div>
+      <div class="cc-wave" id="w1"></div>
+    </div>
+    <div class="contrib-card">
+      <div class="cc-icon">🏡</div>
+      <div class="cc-name">First Home</div>
+      <div class="cc-desc">The space where rituals are born</div>
+      <div class="cc-wave" id="w2"></div>
+    </div>
+    <div class="contrib-card">
+      <div class="cc-icon">🪑</div>
+      <div class="cc-name">Family Dining Table</div>
+      <div class="cc-desc">Where future Diwalis will happen</div>
+      <div class="cc-wave" id="w3"></div>
+    </div>
+    <div class="contrib-card">
+      <div class="cc-icon">📿</div>
+      <div class="cc-name">Heirloom Restoration</div>
+      <div class="cc-desc">Returning an object to its meaning</div>
+      <div class="cc-wave" id="w4"></div>
+    </div>
+  </div>
+  <div class="pull">"A dining table is not furniture. It is where future Diwalis will happen."</div>
+</div>
+</div>
+
+<!-- ═══ SCREEN 5 ═══ -->
+<div class="slide s5" id="s5">
+<div class="shell">
+  <div class="lozenge">V &mdash; The Elder Moment</div>
+  <div class="display">One day these<br>voices become<br><em>priceless.</em></div>
+  <div class="rule"></div>
+  <div class="waveform-card">
+    <div class="wf-top">
+      <div class="wf-photo">👵</div>
+      <div class="wf-meta">
+        <div class="wf-name">Kamala Devi &mdash; Grandmother</div>
+        <div class="wf-loc">Recorded in Silchar &nbsp;&#183;&nbsp; November 2018</div>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-bars" id="wfbars"></div>
+      <div class="wf-subtitle">"Meera, you remind me of the jasmine that grew outside our old house in Shillong. Stubborn, fragrant, impossible to ignore. Your grandfather would have adored you."</div>
+    </div>
+  </div>
+  <p class="body">MaisonMotif preserves accents, pauses, stories, and emotional inheritance — the things that disappear first.</p>
+</div>
+</div>
+
+<!-- ═══ SCREEN 6 ═══ -->
+<div class="slide s6" id="s6">
+<div class="shell">
+  <div class="lozenge">VI &mdash; The Family Expedition</div>
+  <div class="headline">Families don't post content.<br><em>They reconstruct history.</em></div>
+  <div class="rule"></div>
+  <div class="expedition">
+    <div class="caption" style="margin-bottom:0.8rem;">Assam Route &mdash; 4 Generations &mdash; 12 Fragments</div>
+    <div class="exp-connector"></div>
+    <div class="exp-grid">
+      <div class="exp-node recovered"><div class="en-dot"></div><div class="en-name">Silchar 1948</div></div>
+      <div class="exp-node recovered"><div class="en-dot"></div><div class="en-name">Guwahati 1963</div></div>
+      <div class="exp-node missing"><div class="en-dot"></div><div class="en-name">Tezpur 1971</div></div>
+      <div class="exp-node recovered"><div class="en-dot"></div><div class="en-name">Jorhat 1982</div></div>
+      <div class="exp-node missing"><div class="en-dot"></div><div class="en-name">Dibrugarh 1989</div></div>
+      <div class="exp-node recovered"><div class="en-dot"></div><div class="en-name">Shillong 1995</div></div>
+      <div class="exp-node missing"><div class="en-dot"></div><div class="en-name">Kolkata 2003</div></div>
+      <div class="exp-node recovered"><div class="en-dot"></div><div class="en-name">Mumbai 2024</div></div>
+    </div>
+    <div style="display:flex;gap:1.2rem;margin-top:0.9rem;">
+      <div style="display:flex;align-items:center;gap:0.4rem;"><div style="width:6px;height:6px;border-radius:50%;background:var(--gold);"></div><span class="caption">Recovered</span></div>
+      <div style="display:flex;align-items:center;gap:0.4rem;"><div style="width:6px;height:6px;border-radius:50%;background:var(--ash);"></div><span class="caption">Missing Fragment</span></div>
+    </div>
+  </div>
+  <div class="pull">"The archive gradually opens itself."</div>
+</div>
+</div>
+
+<!-- ═══ SCREEN 7 ═══ -->
+<div class="slide s7" id="s7">
+<div class="shell">
+  <div class="lozenge">VII &mdash; The Pearl Necklaces</div>
+  <div class="headline"><em>MaisonMotif discovers<br>hidden family motifs.</em></div>
+  <div class="rule"></div>
+  <div class="pearl-field">
+    <svg id="pearlSvg" viewBox="0 0 800 180" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+  <div class="body" style="background:var(--charcoal);border:1px solid var(--line-s);border-radius:3px;padding:0.9rem 1rem;margin:0.4rem 0;font-style:italic;color:var(--parchment);font-family:'Cormorant Garamond',serif;font-size:clamp(0.88rem,2vw,1rem);line-height:1.6;">
+    "The archive detected recurring references to the green suitcase across 4 decades — mentioned by the grandmother in 1978, photographed at the 1991 wedding, described in a cousin's voice note in 2019."
+  </div>
+  <p class="body">Connected memories. Recurring objects. Migration routes. Family phrases. MaisonMotif surfaces what no one knew they shared.</p>
+</div>
+</div>
+
+<!-- ═══ SCREEN 8 ═══ -->
+<div class="slide s8" id="s8">
+<div class="shell">
+  <div class="lozenge">VIII &mdash; Cultural Participation</div>
+  <div class="headline">Built on familiar<br><em>Indian emotional rituals.</em></div>
+  <div class="rule"></div>
+  <div class="ritual-grid">
+    <div class="ritual-card highlight"><div class="rc-icon">🎵</div><div class="rc-name">Antakshari</div><div class="rc-desc">Songs that unlock memory</div></div>
+    <div class="ritual-card"><div class="rc-icon">📦</div><div class="rc-name">Treasure Hunt</div><div class="rc-desc">Archive fragment discovery</div></div>
+    <div class="ritual-card highlight"><div class="rc-icon">🖼️</div><div class="rc-name">Family Album</div><div class="rc-desc">Collection restoration</div></div>
+    <div class="ritual-card"><div class="rc-icon">🗺️</div><div class="rc-name">Family Routes</div><div class="rc-desc">Migration mapped visually</div></div>
+    <div class="ritual-card"><div class="rc-icon">🎪</div><div class="rc-name">Mela Energy</div><div class="rc-desc">Cousin explorations</div></div>
+    <div class="ritual-card highlight"><div class="rc-icon">🏏</div><div class="rc-name">IPL Logic</div><div class="rc-desc">Archive leaderboards</div></div>
+  </div>
+  <p class="body" style="text-align:center;">None of this looks like gamification. <em>All of it feels like family.</em></p>
+</div>
+</div>
+
+<!-- ═══ SCREEN 9 ═══ -->
+<div class="slide s9" id="s9">
+<div class="shell">
+  <div class="lozenge">IX &mdash; The Long-Term Lifecycle</div>
+  <div class="display">The wedding ends.<br><em>The archive continues.</em></div>
+  <div class="rule"></div>
+  <div class="lifecycle">
+    <div class="lc-row active-lc">
+      <div class="lc-num">I</div>
+      <div class="lc-content">
+        <div class="lc-title">Wedding &amp; Ignition</div>
+        <div class="lc-sub">Archive created, family onboarded, first contributions</div>
+      </div>
+      <div class="lc-dot"></div>
+    </div>
+    <div class="lc-row">
+      <div class="lc-num">II</div>
+      <div class="lc-content">
+        <div class="lc-title">First Home</div>
+        <div class="lc-sub">New objects enter the archive. Blessings attached.</div>
+      </div>
+      <div class="lc-dot"></div>
+    </div>
+    <div class="lc-row">
+      <div class="lc-num">III</div>
+      <div class="lc-content">
+        <div class="lc-title">Parenthood</div>
+        <div class="lc-sub">A new generation becomes part of the family record</div>
+      </div>
+      <div class="lc-dot"></div>
+    </div>
+    <div class="lc-row">
+      <div class="lc-num">IV</div>
+      <div class="lc-content">
+        <div class="lc-title">Family Rituals &amp; Festivals</div>
+        <div class="lc-sub">Annual capsules. Recurring memory threads.</div>
+      </div>
+      <div class="lc-dot"></div>
+    </div>
+    <div class="lc-row">
+      <div class="lc-num">V</div>
+      <div class="lc-content">
+        <div class="lc-title">Anniversary Capsules</div>
+        <div class="lc-sub">Sealed memories opened across decades</div>
+      </div>
+      <div class="lc-dot"></div>
+    </div>
+    <div class="lc-row" style="border:none;">
+      <div class="lc-num" style="color:var(--gold-xl);">&#8734;</div>
+      <div class="lc-content" style="background:#16130A;">
+        <div class="lc-title" style="color:var(--gold-xl);">Generational Archive</div>
+        <div class="lc-sub">The family becomes a living institution</div>
+      </div>
+      <div class="lc-dot" style="background:var(--gold);"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ SCREEN 10 ═══ -->
+<div class="slide s10" id="s10">
+<div class="shell">
+  <div class="lozenge">X &mdash; Business Model</div>
+  <div class="headline"><em>MaisonMotif monetizes<br>emotional participation.</em></div>
+  <div class="rule"></div>
+  <div class="revenue-grid">
+    <div class="rev-card"><div class="rv-name">Archive Subscription</div><div class="rv-desc">Ongoing preservation &amp; access layers</div></div>
+    <div class="rev-card"><div class="rv-name">Concierge Layer</div><div class="rv-desc">White-glove archiving &amp; curation services</div></div>
+    <div class="rev-card"><div class="rv-name">Print Editions</div><div class="rv-desc">Bound archive volumes, heirloom quality</div></div>
+    <div class="rev-card"><div class="rv-name">Preservation Upgrades</div><div class="rv-desc">Long-form digital &amp; physical protection</div></div>
+    <div class="rev-card"><div class="rv-name">Heirloom Exchange</div><div class="rv-desc">Curated marketplace for family objects</div></div>
+    <div class="rev-card"><div class="rv-name">Stewardship Layer</div><div class="rv-desc">Estate-level multi-generation management</div></div>
+  </div>
+  <p class="body" style="text-align:center;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:clamp(0.9rem,2vw,1rem);">Multiple recurring revenue streams — all rooted in emotional continuation, not feature upsell.</p>
+</div>
+</div>
+
+<!-- ═══ SCREEN 11 ═══ -->
+<div class="slide s11" id="s11">
+<div class="shell">
+  <div class="lozenge">XI &mdash; The Defensibility</div>
+  <div class="headline">The moat is not the website.<br><em>It is the emotional<br>operating system.</em></div>
+  <div class="rule"></div>
+  <div class="moat-layers">
+    <div class="moat-layer"><div class="ml-label">Emotional Grammar</div><div class="ml-desc">the language families speak inside</div></div>
+    <div class="moat-layer"><div class="ml-label">Collections &amp; Objects</div><div class="ml-desc">physical anchors in digital form</div></div>
+    <div class="moat-layer"><div class="ml-label">Family Motifs (AI)</div><div class="ml-desc">patterns invisible to the family itself</div></div>
+    <div class="moat-layer"><div class="ml-label">Archive Intelligence</div><div class="ml-desc">grows deeper with every year</div></div>
+    <div class="moat-layer"><div class="ml-label">Ritual Participation</div><div class="ml-desc">built into cultural behavior</div></div>
+    <div class="moat-layer"><div class="ml-label">Concierge Infrastructure</div><div class="ml-desc">high-trust human layer</div></div>
+    <div class="moat-layer"><div class="ml-label">Intergenerational Graph</div><div class="ml-desc">unreplicable over time</div></div>
+  </div>
+  <div class="pull" style="margin-top:0.8rem;">"Instagram captures attention. MaisonMotif captures identity."</div>
+</div>
+</div>
+
+<!-- ═══ SCREEN 12 ═══ -->
+<div class="slide s12" id="s12">
+<div class="shell">
+  <div class="lozenge">XII &mdash; The Final Vision</div>
+  <div class="display">Every family<br>leaves patterns.<br><em>MaisonMotif<br>preserves them.</em></div>
+  <div class="archive-map">
+    <svg id="archiveMapSvg" viewBox="0 0 800 200" preserveAspectRatio="xMidYMid slice"></svg>
+    <div class="map-overlay"></div>
+  </div>
+  <p class="body" style="text-align:center;margin-bottom:0.6rem;">We are building emotional continuity infrastructure for modern families.</p>
+  <div class="final-cta">The Archive Has Only Begun.</div>
+</div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" disabled>&#8592;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" id="nextBtn">&#8594;</button>
+  <div class="slide-ctr" id="ctr">I / XII</div>
+</div>
+
+<script>
+const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+const N = 12;
+let cur = 1;
+
+const slides = Array.from({length:N},(_,i)=>document.getElementById('s'+(i+1)));
+const prev = document.getElementById('prevBtn');
+const next = document.getElementById('nextBtn');
+const ctr  = document.getElementById('ctr');
+const dotsEl = document.getElementById('dots');
+
+const dots = Array.from({length:N},(_,i)=>{
+  const b=document.createElement('button');
+  b.className='dot'+(i===0?' on':'');
+  b.setAttribute('aria-label','Screen '+(i+1));
+  b.onclick=()=>go(i+1);
+  dotsEl.appendChild(b);
+  return b;
+});
+
+function go(n){
+  if(n<1||n>N||n===cur) return;
+  slides[cur-1].classList.remove('active');
+  slides[cur-1].classList.add('exit');
+  const old=cur-1;
+  setTimeout(()=>slides[old].classList.remove('exit'),700);
+  cur=n;
+  slides[cur-1].classList.add('active');
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur-1));
+  ctr.textContent=ROMAN[cur-1]+' / XII';
+  prev.disabled=cur===1;
+  next.disabled=cur===N;
+}
+
+prev.onclick=()=>go(cur-1);
+next.onclick=()=>go(cur+1);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(cur+1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(cur-1);
+});
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dx=tx-e.changedTouches[0].clientX;
+  if(Math.abs(dx)>40) go(dx>0?cur+1:cur-1);
+},{passive:true});
+
+/* ── Wave bars ── */
+['w1','w2','w3','w4'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el) return;
+  for(let i=0;i<18;i++){
+    const b=document.createElement('div');
+    b.className='wave-bar';
+    b.style.height=Math.max(18,Math.floor(Math.random()*100))+'%';
+    b.style.animationDelay=(Math.random()*1.2).toFixed(2)+'s';
+    b.style.animationDuration=(0.8+Math.random()*0.7).toFixed(2)+'s';
+    el.appendChild(b);
+  }
+});
+
+/* ── Waveform bars ── */
+(function(){
+  const el=document.getElementById('wfbars');
+  if(!el) return;
+  const heights=[20,35,55,80,65,90,70,45,85,60,40,75,95,50,30,65,80,45,60,90,70,35,55,80,65,40,75,50,90,60,45,85,30,70,55,95,40,60];
+  heights.forEach((h,i)=>{
+    const b=document.createElement('div');
+    b.className='wf-b'+(i>=8&&i<=22?' active-wf':'');
+    b.style.height=h+'%';
+    el.appendChild(b);
+  });
+})();
+
+/* ── Pearl SVG ── */
+(function(){
+  const svg=document.getElementById('pearlSvg');
+  if(!svg) return;
+  const W=800,H=180;
+  const threads=[
+    {y:40, nodes:[120,200,290,380,500,620,710], label:'The Green Suitcase'},
+    {y:90, nodes:[80,180,310,430,560,680],      label:'Cardamom Mornings'},
+    {y:140,nodes:[150,260,370,490,600,730],     label:'Monsoon Letters'},
+  ];
+  let html='';
+  threads.forEach((t,ti)=>{
+    const opacity=ti===0?1:ti===1?0.6:0.35;
+    const color=ti===0?'#B8922A':ti===1?'#7A6030':'#3A3020';
+    // thread line
+    if(t.nodes.length>1){
+      const pts=t.nodes.map(x=>x+','+t.y).join(' ');
+      html+=`<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="0.8" stroke-dasharray="4 3" opacity="${opacity*0.6}"/>`;
+    }
+    // pearls
+    t.nodes.forEach((x,ni)=>{
+      const r=ni===0||ni===t.nodes.length-1?7:5;
+      const fill=ni===Math.floor(t.nodes.length/2)?'#B8922A':color;
+      html+=`<circle cx="${x}" cy="${t.y}" r="${r}" fill="${fill}" opacity="${opacity}" stroke="#B8922A" stroke-width="${ni===Math.floor(t.nodes.length/2)?1.5:0.5}" stroke-opacity="0.4"/>`;
+    });
+    // label
+    html+=`<text x="${t.nodes[0]-8}" y="${t.y-12}" font-family="Cormorant SC,serif" font-size="8" fill="#B8922A" opacity="${opacity*0.7}" letter-spacing="1">${t.label}</text>`;
+  });
+  svg.innerHTML=html;
+})();
+
+/* ── Archive map SVG ── */
+(function(){
+  const svg=document.getElementById('archiveMapSvg');
+  if(!svg) return;
+  let html='<rect width="800" height="200" fill="#080806"/>';
+  // grid
+  for(let x=0;x<=800;x+=40) html+=`<line x1="${x}" y1="0" x2="${x}" y2="200" stroke="#B8922A" stroke-width="0.3" opacity="0.06"/>`;
+  for(let y=0;y<=200;y+=40) html+=`<line x1="0" y1="${y}" x2="800" y2="${y}" stroke="#B8922A" stroke-width="0.3" opacity="0.06"/>`;
+  // constellation dots
+  const pts=[[100,60],[180,130],[250,80],[320,150],[420,60],[500,110],[580,70],[660,140],[740,90],[300,40],[450,160],[620,40]];
+  pts.forEach(([x,y])=>{
+    const r=1.5+Math.random()*2.5;
+    html+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#B8922A" opacity="${0.3+Math.random()*0.5}"/>`;
+  });
+  // connecting threads
+  for(let i=0;i<pts.length-1;i++){
+    const [x1,y1]=pts[i],[x2,y2]=pts[i+1];
+    html+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#B8922A" stroke-width="0.5" opacity="0.12"/>`;
+  }
+  // center glow
+  html+=`<radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#B8922A" stop-opacity="0.08"/><stop offset="100%" stop-color="#B8922A" stop-opacity="0"/></radialGradient>`;
+  html+=`<rect width="800" height="200" fill="url(#glow)"/>`;
+  svg.innerHTML=html;
+})();
+</script>
+</body>
+</html>

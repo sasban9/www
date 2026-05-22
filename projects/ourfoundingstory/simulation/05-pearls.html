@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>MaisonMotif — Pearl Necklaces</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  overflow:hidden;
+  background:#0f0f10;
+  color:#f4eee3;
+  font-family:'Inter',sans-serif;
+}
+
+/* =========================================================
+THEME
+========================================================= */
+
+:root{
+
+  --bg:#0f0f10;
+  --bg-soft:#171718;
+
+  --text:#f4eee3;
+  --muted:#a69a87;
+
+  --gold:#c8a46f;
+  --gold-bright:#e0c28a;
+
+  --border:
+  rgba(255,255,255,.08);
+
+  --shadow:
+  0 30px 80px rgba(0,0,0,.45);
+
+  --radius:28px;
+
+  --transition:
+  all .7s cubic-bezier(.19,1,.22,1);
+
+}
+
+/* =========================================================
+BACKGROUND
+========================================================= */
+
+.background{
+
+  position:fixed;
+  inset:0;
+
+  background:
+  radial-gradient(circle at top left,
+  rgba(200,164,111,.12),
+  transparent 28%),
+
+  radial-gradient(circle at bottom right,
+  rgba(255,255,255,.03),
+  transparent 25%),
+
+  linear-gradient(
+  to bottom,
+  #0f0f10,
+  #121212,
+  #171718);
+
+}
+
+.stars{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+}
+
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:rgba(255,255,255,.6);
+
+  animation:twinkle linear infinite;
+}
+
+@keyframes twinkle{
+
+  0%,100%{
+    opacity:.2;
+    transform:scale(.7);
+  }
+
+  50%{
+    opacity:1;
+    transform:scale(1.2);
+  }
+
+}
+
+/* =========================================================
+LAYOUT
+========================================================= */
+
+.page{
+
+  position:relative;
+  z-index:10;
+
+  width:100%;
+  height:100vh;
+
+  display:flex;
+  flex-direction:column;
+
+}
+
+.header{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:24px 32px;
+
+}
+
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  letter-spacing:-0.03em;
+}
+
+.logo span{
+  color:var(--gold);
+}
+
+.controls{
+  display:flex;
+  gap:12px;
+}
+
+button{
+
+  border:none;
+  cursor:pointer;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid var(--border);
+
+  color:var(--text);
+
+  padding:12px 18px;
+
+  border-radius:999px;
+
+  transition:var(--transition);
+
+}
+
+button:hover{
+  transform:translateY(-2px);
+  border-color:rgba(200,164,111,.35);
+}
+
+.hero{
+
+  padding:10px 32px 0;
+  max-width:900px;
+
+}
+
+.eyebrow{
+
+  color:var(--gold);
+
+  letter-spacing:.28em;
+  text-transform:uppercase;
+
+  font-size:11px;
+
+}
+
+.hero h1{
+
+  margin-top:16px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:clamp(44px,7vw,90px);
+
+  line-height:.92;
+  letter-spacing:-0.05em;
+
+}
+
+.hero p{
+
+  margin-top:24px;
+
+  max-width:700px;
+
+  color:var(--muted);
+
+  line-height:1.9;
+
+  font-size:16px;
+
+}
+
+/* =========================================================
+CANVAS AREA
+========================================================= */
+
+.scene{
+
+  position:relative;
+  flex:1;
+
+  overflow:hidden;
+
+}
+
+/* =========================================================
+THREADS
+========================================================= */
+
+svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+.thread{
+
+  fill:none;
+
+  stroke:url(#goldGradient);
+
+  stroke-width:2.2;
+
+  opacity:.45;
+
+  stroke-linecap:round;
+
+  stroke-dasharray:1200;
+  stroke-dashoffset:1200;
+
+  animation:drawThread 4s forwards;
+
+}
+
+@keyframes drawThread{
+
+  to{
+    stroke-dashoffset:0;
+  }
+
+}
+
+/* =========================================================
+PEARLS
+========================================================= */
+
+.pearl{
+
+  position:absolute;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(circle at 35% 35%,
+  rgba(255,255,255,.95),
+  rgba(220,210,190,.22));
+
+  border:1px solid rgba(255,255,255,.16);
+
+  backdrop-filter:blur(10px);
+
+  box-shadow:
+  0 0 30px rgba(255,255,255,.08),
+  0 0 80px rgba(200,164,111,.12);
+
+  transition:var(--transition);
+
+  cursor:pointer;
+
+  animation:
+  float 8s ease-in-out infinite;
+
+}
+
+.pearl:hover{
+
+  transform:scale(1.08);
+  z-index:50;
+
+  box-shadow:
+  0 0 40px rgba(255,255,255,.18),
+  0 0 120px rgba(200,164,111,.24);
+
+}
+
+.pearl.small{
+  width:20px;
+  height:20px;
+}
+
+.pearl.medium{
+  width:38px;
+  height:38px;
+}
+
+.pearl.large{
+  width:62px;
+  height:62px;
+}
+
+.pearl.anchor{
+  width:88px;
+  height:88px;
+}
+
+.pearl::after{
+
+  content:'';
+
+  position:absolute;
+
+  inset:-8px;
+
+  border-radius:50%;
+
+  border:1px solid rgba(200,164,111,.12);
+
+}
+
+@keyframes float{
+
+  0%,100%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-10px);
+  }
+
+}
+
+/* =========================================================
+BROKEN THREAD
+========================================================= */
+
+.broken{
+
+  stroke-dasharray:8 18;
+  opacity:.12;
+
+}
+
+.restore-flash{
+
+  animation:restoreFlash 2s ease;
+
+}
+
+@keyframes restoreFlash{
+
+  0%{
+    opacity:.05;
+  }
+
+  50%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:.45;
+  }
+
+}
+
+/* =========================================================
+TOOLTIPS
+========================================================= */
+
+.tooltip{
+
+  position:absolute;
+
+  width:320px;
+
+  background:rgba(18,18,18,.92);
+
+  border:1px solid var(--border);
+
+  border-radius:28px;
+
+  padding:22px;
+
+  backdrop-filter:blur(20px);
+
+  box-shadow:var(--shadow);
+
+  pointer-events:none;
+
+  opacity:0;
+
+  transform:translateY(10px);
+
+  transition:var(--transition);
+
+  z-index:100;
+
+}
+
+.tooltip.show{
+
+  opacity:1;
+  transform:translateY(0);
+
+}
+
+.tooltip .type{
+
+  color:var(--gold);
+
+  font-size:11px;
+
+  text-transform:uppercase;
+
+  letter-spacing:.18em;
+
+}
+
+.tooltip h3{
+
+  margin-top:12px;
+
+  font-family:'Playfair Display',serif;
+
+  font-size:32px;
+
+  line-height:1;
+
+}
+
+.tooltip p{
+
+  margin-top:16px;
+
+  line-height:1.8;
+
+  color:var(--muted);
+
+  font-size:14px;
+
+}
+
+/* =========================================================
+STATUS
+========================================================= */
+
+.status{
+
+  position:absolute;
+
+  bottom:28px;
+  left:32px;
+
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+
+}
+
+.pill{
+
+  padding:12px 16px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid var(--border);
+
+  color:var(--muted);
+
+  font-size:13px;
+
+}
+
+/* =========================================================
+IPAD
+========================================================= */
+
+@media(max-width:1024px){
+
+  .hero{
+    padding-inline:24px;
+  }
+
+  .header{
+    padding-inline:24px;
+  }
+
+  .tooltip{
+    width:260px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background">
+
+  <div class="stars" id="stars"></div>
+
+</div>
+
+<div class="page">
+
+  <header class="header">
+
+    <div class="logo">
+      Maison<span>Motif</span>
+    </div>
+
+    <div class="controls">
+
+      <button id="restoreBtn">
+        Restore Broken Strand
+      </button>
+
+      <button id="extendBtn">
+        Extend Necklace
+      </button>
+
+    </div>
+
+  </header>
+
+  <section class="hero">
+
+    <div class="eyebrow">
+      Emotional Continuity Infrastructure
+    </div>
+
+    <h1>
+      Pearl Necklaces<br>
+      Of Family Memory
+    </h1>
+
+    <p>
+      Memories no longer exist as isolated uploads.
+      Voice notes, heirlooms, photographs, rituals, and forgotten stories
+      become connected strands that slowly evolve across generations.
+    </p>
+
+  </section>
+
+  <div class="scene">
+
+    <svg id="threads">
+
+      <defs>
+
+        <linearGradient id="goldGradient"
+        x1="0%" y1="0%"
+        x2="100%" y2="100%">
+
+          <stop offset="0%"
+          stop-color="#5a482b"/>
+
+          <stop offset="50%"
+          stop-color="#c8a46f"/>
+
+          <stop offset="100%"
+          stop-color="#f1d2a3"/>
+
+        </linearGradient>
+
+      </defs>
+
+    </svg>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <div class="status">
+
+      <div class="pill">
+        ♠ The Green Suitcase Necklace
+      </div>
+
+      <div class="pill">
+        5 Connected Artifacts
+      </div>
+
+      <div class="pill">
+        2 Broken Routes Remaining
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+STARS
+========================================================= */
+
+const stars = document.getElementById('stars');
+
+for(let i=0;i<120;i++){
+
+  const star = document.createElement('div');
+
+  star.className = 'star';
+
+  star.style.left = Math.random()*100 + '%';
+  star.style.top = Math.random()*100 + '%';
+
+  star.style.animationDuration =
+  (4 + Math.random()*8) + 's';
+
+  stars.appendChild(star);
+
+}
+
+/* =========================================================
+DATA
+========================================================= */
+
+const pearls = [
+
+{
+  id:1,
+  x:18,
+  y:56,
+  size:'anchor',
+  type:'Recovered Artifact',
+  title:'The Green Suitcase',
+  text:'Recovered from an attic trunk in Silchar. Contained railway letters, invitation cards, and a damaged cassette.',
+  thread:1
+},
+
+{
+  id:2,
+  x:34,
+  y:40,
+  size:'large',
+  type:'Voice Fragment',
+  title:'Flood Season Journey',
+  text:'Grandmother described crossing the river during flood season while migrating toward Kolkata.',
+  thread:1
+},
+
+{
+  id:3,
+  x:48,
+  y:60,
+  size:'medium',
+  type:'Child Curiosity',
+  title:'Why Was It Hidden?',
+  text:'A younger cousin asked why the suitcase was never opened after 1978.',
+  thread:1
+},
+
+{
+  id:4,
+  x:62,
+  y:36,
+  size:'large',
+  type:'Recovered Photograph',
+  title:'The Railway Platform',
+  text:'A damaged train platform photograph revealed the suitcase beside grandfather.',
+  thread:1
+},
+
+{
+  id:5,
+  x:78,
+  y:54,
+  size:'anchor',
+  type:'Migration Route',
+  title:'The Kolkata Years',
+  text:'The archive reconstructed the migration route connecting Assam, Malda, and Kolkata.',
+  thread:1
+},
+
+{
+  id:6,
+  x:28,
+  y:76,
+  size:'small',
+  type:'Recipe Fragment',
+  title:'Monsoon Curry Notebook',
+  text:'A handwritten recipe notebook was discovered inside the suitcase.',
+  thread:2
+},
+
+{
+  id:7,
+  x:52,
+  y:80,
+  size:'medium',
+  type:'Audio Restoration',
+  title:'Cassette Playback',
+  text:'The damaged monsoon cassette was digitally restored.',
+  thread:2
+},
+
+{
+  id:8,
+  x:72,
+  y:74,
+  size:'small',
+  type:'Lost Invitation',
+  title:'1984 Wedding Card',
+  text:'Recovered from the tea chest archive.',
+  thread:2
+}
+
+];
+
+/* =========================================================
+CREATE PEARLS
+========================================================= */
+
+const scene = document.querySelector('.scene');
+const tooltip = document.getElementById('tooltip');
+
+pearls.forEach((p,index)=>{
+
+  const pearl = document.createElement('div');
+
+  pearl.className =
+  `pearl ${p.size}`;
+
+  pearl.style.left = p.x + '%';
+  pearl.style.top = p.y + '%';
+
+  pearl.style.animationDelay =
+  (index * .3) + 's';
+
+  pearl.dataset.title = p.title;
+  pearl.dataset.text = p.text;
+  pearl.dataset.type = p.type;
+
+  pearl.addEventListener('mouseenter',(e)=>{
+
+    tooltip.innerHTML = `
+
+      <div class="type">
+        ${p.type}
+      </div>
+
+      <h3>
+        ${p.title}
+      </h3>
+
+      <p>
+        ${p.text}
+      </p>
+
+    `;
+
+    tooltip.classList.add('show');
+
+    tooltip.style.left =
+    (e.pageX + 20) + 'px';
+
+    tooltip.style.top =
+    (e.pageY - 80) + 'px';
+
+  });
+
+  pearl.addEventListener('mouseleave',()=>{
+
+    tooltip.classList.remove('show');
+
+  });
+
+  scene.appendChild(pearl);
+
+});
+
+/* =========================================================
+THREADS
+========================================================= */
+
+const svg = document.getElementById('threads');
+
+function drawThread(a,b,broken=false){
+
+  const p1 = pearls.find(p=>p.id===a);
+  const p2 = pearls.find(p=>p.id===b);
+
+  const x1 = window.innerWidth * (p1.x/100);
+  const y1 = window.innerHeight * (p1.y/100);
+
+  const x2 = window.innerWidth * (p2.x/100);
+  const y2 = window.innerHeight * (p2.y/100);
+
+  const curveX =
+  (x1+x2)/2;
+
+  const curveY =
+  Math.min(y1,y2)-120;
+
+  const path =
+  document.createElementNS(
+  "http://www.w3.org/2000/svg",
+  "path"
+  );
+
+  path.setAttribute(
+  "d",
+  `M ${x1} ${y1}
+   Q ${curveX} ${curveY}
+   ${x2} ${y2}`
+  );
+
+  path.setAttribute(
+  "class",
+  broken
+  ? "thread broken"
+  : "thread"
+  );
+
+  svg.appendChild(path);
+
+  return path;
+
+}
+
+const activeThreads = [
+
+drawThread(1,2),
+drawThread(2,3),
+drawThread(3,4,true),
+drawThread(4,5),
+
+drawThread(6,7),
+drawThread(7,8,true)
+
+];
+
+/* =========================================================
+RESTORE THREAD
+========================================================= */
+
+const restoreBtn =
+document.getElementById('restoreBtn');
+
+restoreBtn.addEventListener('click',()=>{
+
+  const broken =
+  document.querySelector('.broken');
+
+  if(broken){
+
+    broken.classList.remove('broken');
+    broken.classList.add('restore-flash');
+
+  }
+
+});
+
+/* =========================================================
+EXTEND NECKLACE
+========================================================= */
+
+const extendBtn =
+document.getElementById('extendBtn');
+
+extendBtn.addEventListener('click',()=>{
+
+  const newPearl =
+  document.createElement('div');
+
+  newPearl.className =
+  'pearl medium';
+
+  newPearl.style.left = '88%';
+  newPearl.style.top = '42%';
+
+  newPearl.innerHTML = '';
+
+  scene.appendChild(newPearl);
+
+  const p1 =
+  pearls.find(p=>p.id===5);
+
+  const x1 =
+  window.innerWidth * (p1.x/100);
+
+  const y1 =
+  window.innerHeight * (p1.y/100);
+
+  const x2 =
+  window.innerWidth * .88;
+
+  const y2 =
+  window.innerHeight * .42;
+
+  const path =
+  document.createElementNS(
+  "http://www.w3.org/2000/svg",
+  "path"
+  );
+
+  path.setAttribute(
+  "d",
+  `M ${x1} ${y1}
+   Q ${(x1+x2)/2} ${y1-100}
+   ${x2} ${y2}`
+  );
+
+  path.setAttribute(
+  "class",
+  "thread"
+  );
+
+  svg.appendChild(path);
+
+  extendBtn.disabled = true;
+  extendBtn.innerText =
+  'New Route Revealed';
+
+});
+
+/* =========================================================
+RESPONSIVE REDRAW
+========================================================= */
+
+window.addEventListener('resize',()=>{
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="goldGradient"
+      x1="0%" y1="0%"
+      x2="100%" y2="100%">
+        <stop offset="0%"
+        stop-color="#5a482b"/>
+        <stop offset="50%"
+        stop-color="#c8a46f"/>
+        <stop offset="100%"
+        stop-color="#f1d2a3"/>
+      </linearGradient>
+    </defs>
+  `;
+
+  drawThread(1,2);
+  drawThread(2,3);
+  drawThread(3,4,true);
+  drawThread(4,5);
+
+  drawThread(6,7);
+  drawThread(7,8,true);
+
+});
+
+</script>
+
+</body>
+</html>

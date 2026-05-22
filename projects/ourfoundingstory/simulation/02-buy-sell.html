@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MaisonMotif — Day 1 Heirloom Exchange</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;scrollbar-width: thin;scrollbar-color:rgba(238, 13, 13, 0.2) transparent;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text-primary);
+  transition:.6s cubic-bezier(.19,1,.22,1);
+}
+
+button,input{
+  font:inherit;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+/* =========================================================
+BASE TOKENS
+========================================================= */
+
+:root{
+
+  --container:1400px;
+
+  --radius-sm:14px;
+  --radius-md:24px;
+  --radius-lg:34px;
+  --radius-pill:999px;
+
+  --space-xs:8px;
+  --space-sm:14px;
+  --space-md:22px;
+  --space-lg:34px;
+  --space-xl:52px;
+
+  --transition:
+  all .6s cubic-bezier(.19,1,.22,1);
+
+  --font-heading:'Playfair Display', serif;
+  --font-body:'Inter', sans-serif;
+
+}
+
+/* =========================================================
+THEMES
+========================================================= */
+
+body.theme-estate{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+  --bg-elevated:#211f1d;
+
+  --text-primary:#f4eee3;
+  --text-secondary:#c8bda8;
+  --text-muted:#8f867a;
+
+  --accent:#c8a46f;
+  --accent-bright:#e0c28a;
+
+  --border-soft:rgba(255,255,255,.08);
+
+  --card-bg:rgba(255,255,255,.03);
+
+  --header-bg:rgba(12,12,12,.55);
+
+  --shadow:
+  0 20px 60px rgba(0,0,0,.35);
+
+}
+
+body.theme-noir{
+
+  --bg:#090909;
+  --bg-soft:#121212;
+  --bg-elevated:#181818;
+
+  --text-primary:#f2f2f2;
+  --text-secondary:#b7b7b7;
+  --text-muted:#7e7e7e;
+
+  --accent:#d6d6d6;
+  --accent-bright:#ffffff;
+
+  --border-soft:rgba(255,255,255,.08);
+
+  --card-bg:rgba(255,255,255,.025);
+
+  --header-bg:rgba(8,8,8,.75);
+
+  --shadow:
+  0 20px 60px rgba(0,0,0,.55);
+
+}
+
+body.theme-bengal{
+
+  --bg:#1b1414;
+  --bg-soft:#261b1b;
+  --bg-elevated:#312222;
+
+  --text-primary:#f4ead9;
+  --text-secondary:#ccbca4;
+  --text-muted:#98846f;
+
+  --accent:#d7a35c;
+  --accent-bright:#f1c37d;
+
+  --border-soft:rgba(255,220,180,.08);
+
+  --card-bg:rgba(255,255,255,.03);
+
+  --header-bg:rgba(20,14,14,.7);
+
+  --shadow:
+  0 20px 60px rgba(0,0,0,.45);
+
+}
+
+body.theme-journal{
+
+  --bg:#f5f1e8;
+  --bg-soft:#ece4d8;
+  --bg-elevated:#e4dacb;
+
+  --text-primary:#181513;
+  --text-secondary:#564f46;
+  --text-muted:#847a6e;
+
+  --accent:#8d6640;
+  --accent-bright:#b78659;
+
+  --border-soft:rgba(0,0,0,.08);
+
+  --card-bg:rgba(255,255,255,.6);
+
+  --header-bg:rgba(255,255,255,.75);
+
+  --shadow:
+  0 20px 60px rgba(0,0,0,.08);
+
+}
+
+/* =========================================================
+GLOBAL
+========================================================= */
+
+.page-shell{
+  width:min(100%,var(--container));
+  margin:auto;
+  padding-inline:24px;
+}
+
+.site-header{
+
+  position:sticky;
+  top:18px;
+  z-index:999;
+
+  width:min(96%,1400px);
+  margin:20px auto;
+
+  height:74px;
+
+  backdrop-filter:blur(18px);
+
+  background:var(--header-bg);
+
+  border:1px solid var(--border-soft);
+
+  border-radius:999px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding-inline:24px;
+
+}
+
+.logo{
+  font-family:var(--font-heading);
+  font-size:24px;
+  letter-spacing:-0.03em;
+}
+
+.logo span{
+  color:var(--accent);
+}
+
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.theme-switcher{
+  background:var(--card-bg);
+  border:1px solid var(--border-soft);
+  border-radius:999px;
+  padding:10px 14px;
+  color:var(--text-primary);
+}
+
+.hero{
+  padding:40px 0 24px;
+}
+
+.eyebrow{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.28em;
+  color:var(--accent);
+  margin-bottom:18px;
+}
+
+.hero-title{
+  font-family:var(--font-heading);
+  font-size:clamp(44px,7vw,84px);
+  line-height:.95;
+  letter-spacing:-0.04em;
+  max-width:900px;
+}
+
+.hero-sub{
+  margin-top:20px;
+  max-width:760px;
+  line-height:1.8;
+  color:var(--text-secondary);
+  font-size:16px;
+}
+
+.stats-grid{
+  margin-top:34px;
+
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.stat-card{
+  background:var(--card-bg);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius-md);
+  padding:22px;
+  box-shadow:var(--shadow);
+}
+
+.stat-label{
+  color:var(--text-muted);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+}
+
+.stat-value{
+  margin-top:10px;
+  font-size:34px;
+  font-weight:600;
+}
+
+.stat-sub{
+  margin-top:8px;
+  color:var(--text-secondary);
+  font-size:13px;
+}
+
+.main-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:20px;
+  padding:28px 0 60px;
+}
+
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.section-head{
+  padding:26px 26px 0;
+}
+
+.section-title{
+  font-family:var(--font-heading);
+  font-size:34px;
+  line-height:1;
+}
+
+.section-copy{
+  margin-top:12px;
+  color:var(--text-secondary);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.market-grid{
+  padding:24px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+  max-height:920px;
+  overflow:auto;
+}
+
+.market-item{
+  position:relative;
+  background:var(--bg-soft);
+  border:1px solid var(--border-soft);
+  border-radius:26px;
+  overflow:hidden;
+  transition:var(--transition);
+}
+
+.market-item:hover{
+  transform:translateY(-3px);
+}
+
+.item-image{
+  height:180px;
+  background:
+  linear-gradient(
+  135deg,
+  rgba(255,255,255,.04),
+  rgba(255,255,255,.01));
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:62px;
+}
+
+.suit-badge{
+  position:absolute;
+  top:14px;
+  right:14px;
+
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+  background:rgba(0,0,0,.45);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:20px;
+}
+
+.item-body{
+  padding:18px;
+}
+
+.item-title{
+  font-family:var(--font-heading);
+  font-size:24px;
+  line-height:1.1;
+}
+
+.item-story{
+  margin-top:10px;
+  color:var(--text-secondary);
+  font-size:13px;
+  line-height:1.7;
+  min-height:70px;
+}
+
+.item-meta{
+  margin-top:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.item-price{
+  font-size:24px;
+  font-weight:700;
+  color:var(--accent-bright);
+}
+
+.item-role{
+  font-size:12px;
+  color:var(--text-muted);
+}
+
+.seller{
+  margin-top:12px;
+  font-size:13px;
+  color:var(--text-secondary);
+}
+
+.seller strong{
+  color:var(--text-primary);
+}
+
+.purchase-tag{
+
+  position:absolute;
+  inset:auto 14px 14px auto;
+
+  background:var(--accent);
+  color:#111;
+
+  border-radius:999px;
+
+  padding:8px 14px;
+
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+
+  opacity:0;
+  transform:translateY(10px);
+
+}
+
+.purchase-tag.active{
+  opacity:1;
+  transform:translateY(0);
+  transition:.5s;
+}
+
+.activity-panel{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+.live-feed{
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  overflow:auto;
+  max-height:860px;
+}
+
+.feed-item{
+  background:var(--bg-soft);
+  border:1px solid var(--border-soft);
+  border-radius:22px;
+  padding:16px;
+  opacity:0;
+  transform:translateY(14px);
+  animation:feedIn .5s forwards;
+}
+
+@keyframes feedIn{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.feed-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.feed-user{
+  font-weight:600;
+}
+
+.feed-time{
+  font-size:11px;
+  color:var(--text-muted);
+}
+
+.feed-text{
+  margin-top:10px;
+  color:var(--text-secondary);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.feed-money{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.money-box{
+  background:rgba(255,255,255,.03);
+  border-radius:16px;
+  padding:12px;
+}
+
+.money-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--text-muted);
+}
+
+.money-value{
+  margin-top:8px;
+  font-weight:700;
+  font-size:18px;
+}
+
+.timeline{
+  margin-top:16px;
+  border-top:1px solid var(--border-soft);
+  padding-top:16px;
+}
+
+.energy-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.energy-box{
+  padding:14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.03);
+  text-align:center;
+}
+
+.energy-icon{
+  font-size:22px;
+}
+
+.energy-value{
+  margin-top:8px;
+  font-size:24px;
+  font-weight:700;
+}
+
+.energy-label{
+  margin-top:6px;
+  font-size:11px;
+  color:var(--text-muted);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.footer-note{
+  margin-top:18px;
+  color:var(--text-muted);
+  line-height:1.7;
+  font-size:13px;
+}
+
+.glow{
+  animation:pulse 1.4s ease;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+  100%{transform:scale(1);}
+}
+
+@media(max-width:1100px){
+
+  .main-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:720px){
+
+  .market-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero-title{
+    font-size:54px;
+  }
+
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+
+  <div class="logo">
+    Maison<span>Motif</span>
+  </div>
+
+  <div class="header-right">
+
+    <select class="theme-switcher" id="themeSwitcher">
+      <option value="theme-estate">Estate</option>
+      <option value="theme-noir">Noir</option>
+      <option value="theme-bengal">Bengal</option>
+      <option value="theme-journal">Journal</option>
+    </select>
+
+  </div>
+
+</header>
+
+<div class="page-shell">
+
+  <section class="hero">
+
+    <div class="eyebrow">
+      DAY 01 • FOUNDING HEIRLOOM EXCHANGE
+    </div>
+
+    <h1 class="hero-title">
+      Junior Archive Hunters Uncovered Forgotten Family Artifacts
+    </h1>
+
+    <p class="hero-sub">
+      123 participants joined tonight’s living heirloom exchange. Younger relatives uncovered forgotten family objects, handwritten notes, train-route memories, old invitations, cassette recordings and ritual artifacts while senior patrons quietly sponsored preservation and acquisition.
+    </p>
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-label">Active Participants</div>
+        <div class="stat-value" id="usersCount">123</div>
+        <div class="stat-sub">Mixed-generation participation</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Artifacts Preserved</div>
+        <div class="stat-value" id="artifactCount">0</div>
+        <div class="stat-sub">Recovered family heirlooms</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Seller Earnings</div>
+        <div class="stat-value" id="sellerTotal">₹0</div>
+        <div class="stat-sub">70% distributed to discoverers</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Archive Preservation</div>
+        <div class="stat-value" id="platformTotal">₹0</div>
+        <div class="stat-sub">30% continuity infrastructure</div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="main-grid">
+
+    <div class="card">
+
+      <div class="section-head">
+
+        <div class="eyebrow">
+          Tonight's Discoveries
+        </div>
+
+        <h2 class="section-title">
+          Living Heirloom Exchange
+        </h2>
+
+        <p class="section-copy">
+          Every artifact carries story value instead of resale value. Junior archive hunters discover and surface emotionally significant family objects while senior patrons sponsor preservation, restoration and continuity.
+        </p>
+
+      </div>
+
+      <div class="market-grid" id="marketGrid"></div>
+
+    </div>
+
+    <div class="card activity-panel">
+
+      <div class="section-head">
+
+        <div class="eyebrow">
+          Seasonal Activity
+        </div>
+
+        <h2 class="section-title">
+          Archive Pulse
+        </h2>
+
+        <p class="section-copy">
+          Live emotional activity from Day 01 of the Founding Season.
+        </p>
+
+      </div>
+
+      <div class="live-feed" id="feed"></div>
+
+      <div class="section-head timeline">
+
+        <div class="energy-grid">
+
+          <div class="energy-box">
+            <div class="energy-icon">♥</div>
+            <div class="energy-value" id="hearts">148</div>
+            <div class="energy-label">Hearts</div>
+          </div>
+
+          <div class="energy-box">
+            <div class="energy-icon">♦</div>
+            <div class="energy-value" id="diamonds">121</div>
+            <div class="energy-label">Diamonds</div>
+          </div>
+
+          <div class="energy-box">
+            <div class="energy-icon">♠</div>
+            <div class="energy-value" id="spades">204</div>
+            <div class="energy-label">Spades</div>
+          </div>
+
+          <div class="energy-box">
+            <div class="energy-icon">♣</div>
+            <div class="energy-value" id="clubs">166</div>
+            <div class="energy-label">Clubs</div>
+          </div>
+
+        </div>
+
+        <div class="footer-note">
+          “The archive leaned heavily toward ancestral recovery tonight.”
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+
+const items = [
+
+{
+emoji:"⌚",
+suit:"♠",
+title:"Grandfather's Railway Watch",
+story:"Carried during the Silchar–Kolkata route between 1978 and 1984. Recovered from a locked wooden trunk.",
+seller:"Rhea • Archive Scout",
+buyer:"Prabir Kaku",
+price:18500
+},
+
+{
+emoji:"📼",
+suit:"♠",
+title:"Lost Wedding Cassette",
+story:"A damaged recording from the parents' 1991 wedding discovered behind old photo albums.",
+seller:"Ishaan • Memory Dealer",
+buyer:"Madhumita Pishi",
+price:12400
+},
+
+{
+emoji:"🧾",
+suit:"♣",
+title:"Recipe Motif — 1986",
+story:"Handwritten family sweets and winter recipes preserved by grandmother over three decades.",
+seller:"Naina • Ritual Keeper",
+buyer:"Ranjit Kaku",
+price:9600
+},
+
+{
+emoji:"🚂",
+suit:"♥",
+title:"Darjeeling Train Journal",
+story:"A pocket diary filled with cousin stories, sketches and tea-stall memories from a monsoon journey.",
+seller:"Kabir • Chaos Cousin",
+buyer:"Arup Dadu",
+price:14200
+},
+
+{
+emoji:"📸",
+suit:"♠",
+title:"Tea Garden Photograph Box",
+story:"Recovered photographs from the Assam tea estate before the relocation years.",
+seller:"Tara • Expedition Scout",
+buyer:"Bina Mashi",
+price:22300
+},
+
+{
+emoji:"💌",
+suit:"♥",
+title:"Hidden Proposal Letter",
+story:"A folded handwritten note discovered inside an engineering notebook from college years.",
+seller:"Avi • Story Smuggler",
+buyer:"Sharmila Pishi",
+price:17600
+},
+
+{
+emoji:"🎻",
+suit:"♣",
+title:"Ritual Music Recording",
+story:"Traditional wedding songs recorded during a rainstorm in 1988.",
+seller:"Ritwik • Voice Carrier",
+buyer:"Nandita Dida",
+price:13200
+},
+
+{
+emoji:"🪔",
+suit:"♦",
+title:"Founding Diwali Lamp",
+story:"The first brass lamp lit after the families moved into their Kolkata home.",
+seller:"Meera • Chronicle Builder",
+buyer:"Sanjay Kaku",
+price:10900
+}
+
+];
+
+const feedMessages = [
+
+"Tonight’s archive uncovered a forgotten migration story.",
+"A cousin restored a damaged invitation card from 1984.",
+"Grandmother lore unexpectedly resurfaced tonight.",
+"The Assam Collection gained two new fragments.",
+"An elder recording created unusual resonance.",
+"Cross-family preservation activity increased.",
+"The archive quietly reopened a hidden route.",
+"A ritual artifact was authenticated by three elders.",
+"A rare train memory triggered a 12-story chain.",
+"The Black Vault surfaced another handwritten note."
+
+];
+
+const marketGrid = document.getElementById("marketGrid");
+const feed = document.getElementById("feed");
+
+let sellerTotal = 0;
+let platformTotal = 0;
+let artifactCount = 0;
+
+items.forEach((item,index)=>{
+
+const sellerShare = Math.floor(item.price * .7);
+const platformShare = Math.floor(item.price * .3);
+
+const card = document.createElement("div");
+card.className = "market-item";
+
+card.innerHTML = `
+
+<div class="item-image">
+
+  <div>${item.emoji}</div>
+
+  <div class="suit-badge">
+    ${item.suit}
+  </div>
+
+</div>
+
+<div class="item-body">
+
+  <div class="item-title">
+    ${item.title}
+  </div>
+
+  <div class="item-story">
+    ${item.story}
+  </div>
+
+  <div class="item-meta">
+
+    <div>
+      <div class="item-price">
+        ₹${item.price.toLocaleString()}
+      </div>
+      <div class="item-role">
+        Living Heirloom Artifact
+      </div>
+    </div>
+
+  </div>
+
+  <div class="seller">
+    Discovered by <strong>${item.seller}</strong>
+  </div>
+
+</div>
+
+<div class="purchase-tag">
+  Preserved Tonight
+</div>
+
+`;
+
+marketGrid.appendChild(card);
+
+setTimeout(()=>{
+
+card.classList.add("glow");
+
+const tag = card.querySelector(".purchase-tag");
+tag.classList.add("active");
+
+artifactCount++;
+
+sellerTotal += sellerShare;
+platformTotal += platformShare;
+
+document.getElementById("artifactCount").innerText = artifactCount;
+
+document.getElementById("sellerTotal").innerText =
+`₹${sellerTotal.toLocaleString()}`;
+
+document.getElementById("platformTotal").innerText =
+`₹${platformTotal.toLocaleString()}`;
+
+const feedItem = document.createElement("div");
+feedItem.className = "feed-item";
+
+feedItem.innerHTML = `
+
+<div class="feed-top">
+
+  <div class="feed-user">
+    ${item.buyer}
+  </div>
+
+  <div class="feed-time">
+    DAY 01
+  </div>
+
+</div>
+
+<div class="feed-text">
+
+  Sponsored preservation of
+  <strong>${item.title}</strong>
+  discovered by ${item.seller}.
+
+  ${feedMessages[
+  Math.floor(Math.random()*feedMessages.length)
+  ]}
+
+</div>
+
+<div class="feed-money">
+
+  <div class="money-box">
+
+    <div class="money-label">
+      Discoverer Allocation
+    </div>
+
+    <div class="money-value">
+      ₹${sellerShare.toLocaleString()}
+    </div>
+
+  </div>
+
+  <div class="money-box">
+
+    <div class="money-label">
+      Preservation Share
+    </div>
+
+    <div class="money-value">
+      ₹${platformShare.toLocaleString()}
+    </div>
+
+  </div>
+
+</div>
+
+`;
+
+feed.prepend(feedItem);
+
+const hearts = document.getElementById("hearts");
+const diamonds = document.getElementById("diamonds");
+const spades = document.getElementById("spades");
+const clubs = document.getElementById("clubs");
+
+hearts.innerText =
+parseInt(hearts.innerText) + Math.floor(Math.random()*10);
+
+diamonds.innerText =
+parseInt(diamonds.innerText) + Math.floor(Math.random()*8);
+
+spades.innerText =
+parseInt(spades.innerText) + Math.floor(Math.random()*14);
+
+clubs.innerText =
+parseInt(clubs.innerText) + Math.floor(Math.random()*11);
+
+},1000 + index*1600);
+
+});
+
+/* =========================================================
+THEME SWITCHER
+========================================================= */
+
+const switcher =
+document.getElementById("themeSwitcher");
+
+switcher.addEventListener("change",(e)=>{
+
+document.body.className =
+e.target.value;
+
+});
+
+</script>
+
+</body>
+</html>

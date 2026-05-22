@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MaisonMotif — Day 1 Simulation</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+    font-family:var(--font-body);
+    background:var(--bg);
+    color:var(--text-primary);
+    transition:.5s ease;
+}
+
+/* =========================================================
+BASE TOKENS
+========================================================= */
+
+:root{
+    --container:1400px;
+
+    --space-xs:10px;
+    --space-sm:16px;
+    --space-md:24px;
+    --space-lg:36px;
+    --space-xl:64px;
+
+    --radius-sm:16px;
+    --radius-md:24px;
+    --radius-lg:32px;
+
+    --transition:
+    all .6s cubic-bezier(.19,1,.22,1);
+
+    --header-height:78px;
+}
+
+/* =========================================================
+THEMES
+========================================================= */
+
+.theme-estate{
+    --bg:#121110;
+    --bg-soft:#1b1917;
+    --bg-card:#1f1d1b;
+
+    --text-primary:#f4eee3;
+    --text-secondary:#c8bda8;
+    --text-muted:#8f8579;
+
+    --accent:#c8a46f;
+    --accent-bright:#e0c28a;
+
+    --border:rgba(255,255,255,.08);
+
+    --font-heading:'Playfair Display',serif;
+    --font-body:'Inter',sans-serif;
+}
+
+.theme-noir{
+    --bg:#090909;
+    --bg-soft:#121212;
+    --bg-card:#171717;
+
+    --text-primary:#f2f2f2;
+    --text-secondary:#bdbdbd;
+    --text-muted:#818181;
+
+    --accent:#d8d8d8;
+    --accent-bright:#ffffff;
+
+    --border:rgba(255,255,255,.08);
+
+    --font-heading:'Playfair Display',serif;
+    --font-body:'Inter',sans-serif;
+}
+
+.theme-bengal{
+    --bg:#1a1414;
+    --bg-soft:#241b1b;
+    --bg-card:#2d2222;
+
+    --text-primary:#f4ead9;
+    --text-secondary:#ccbca4;
+    --text-muted:#978674;
+
+    --accent:#d6a35c;
+    --accent-bright:#eac07f;
+
+    --border:rgba(255,220,180,.08);
+
+    --font-heading:'Playfair Display',serif;
+    --font-body:'Inter',sans-serif;
+}
+
+.theme-journal{
+    --bg:#f4efe6;
+    --bg-soft:#ece4d7;
+    --bg-card:#ffffff;
+
+    --text-primary:#171717;
+    --text-secondary:#52493d;
+    --text-muted:#786d61;
+
+    --accent:#7f5f3e;
+    --accent-bright:#aa7f55;
+
+    --border:rgba(0,0,0,.08);
+
+    --font-heading:'Playfair Display',serif;
+    --font-body:'Inter',sans-serif;
+}
+
+/* =========================================================
+TYPOGRAPHY
+========================================================= */
+
+h1,h2,h3,h4{
+    font-family:var(--font-heading);
+    font-weight:500;
+    line-height:1;
+}
+
+.hero-title{
+    font-size:clamp(42px,6vw,82px);
+    line-height:.92;
+    letter-spacing:-0.04em;
+}
+
+.section-title{
+    font-size:clamp(24px,4vw,46px);
+    line-height:1.05;
+}
+
+.body{
+    font-size:15px;
+    line-height:1.8;
+    color:var(--text-secondary);
+}
+
+.eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.3em;
+    font-size:11px;
+    color:var(--accent);
+}
+
+/* =========================================================
+LAYOUT
+========================================================= */
+
+.page-shell{
+    width:min(100%,var(--container));
+    margin:auto;
+    padding-inline:24px;
+}
+
+.section{
+    padding:100px 0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:24px;
+}
+
+.grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.stack{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.site-header{
+    position:fixed;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(94%,1400px);
+    height:var(--header-height);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding-inline:24px;
+
+    border-radius:999px;
+
+    background:rgba(0,0,0,.35);
+    backdrop-filter:blur(18px);
+
+    border:1px solid var(--border);
+
+    z-index:1000;
+}
+
+.logo{
+    font-size:24px;
+    font-family:var(--font-heading);
+}
+
+.theme-switcher{
+    display:flex;
+    gap:10px;
+}
+
+.theme-btn{
+    border:none;
+    cursor:pointer;
+    padding:10px 16px;
+    border-radius:999px;
+    background:var(--bg-card);
+    color:var(--text-primary);
+    border:1px solid var(--border);
+    transition:var(--transition);
+}
+
+/* =========================================================
+CARDS
+========================================================= */
+
+.card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:22px;
+    transition:var(--transition);
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.metric{
+    font-size:38px;
+    font-family:var(--font-heading);
+}
+
+.metric-label{
+    color:var(--text-muted);
+    font-size:13px;
+    margin-top:6px;
+}
+
+.hero-card{
+    min-height:260px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+}
+
+.live-feed{
+    height:620px;
+    overflow:auto;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding-right:6px;
+}
+
+.feed-item{
+    padding:14px;
+    border-radius:18px;
+    background:rgba(255,255,255,.02);
+    border:1px solid var(--border);
+    animation:fadeIn .5s ease;
+}
+
+.feed-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:6px;
+}
+
+.feed-name{
+    font-weight:600;
+}
+
+.feed-time{
+    color:var(--text-muted);
+    font-size:12px;
+}
+
+.feed-body{
+    color:var(--text-secondary);
+    font-size:14px;
+    line-height:1.6;
+}
+
+.suits{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.suit-card{
+    text-align:center;
+    padding:18px;
+    border-radius:24px;
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--border);
+}
+
+.suit-icon{
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.energy{
+    font-size:28px;
+    font-family:var(--font-heading);
+}
+
+.collection{
+    padding:16px;
+    border-radius:18px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.02);
+}
+
+.progress{
+    margin-top:12px;
+    width:100%;
+    height:10px;
+    background:rgba(255,255,255,.06);
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:var(--accent);
+    transition:1s ease;
+}
+
+.activity-log{
+    height:260px;
+    overflow:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.log{
+    padding:10px 12px;
+    border-radius:14px;
+    background:rgba(255,255,255,.03);
+    border:1px solid var(--border);
+    font-size:13px;
+    color:var(--text-secondary);
+}
+
+.donation-highlight{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.donation-amount{
+    font-size:32px;
+    font-family:var(--font-heading);
+    color:var(--accent-bright);
+}
+
+.footer-note{
+    color:var(--text-muted);
+    text-align:center;
+    margin-top:50px;
+    line-height:1.8;
+}
+
+/* =========================================================
+ANIMATIONS
+========================================================= */
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================================================
+IPAD COMPACT
+========================================================= */
+
+@media(max-width:1024px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .grid-3{
+        grid-template-columns:1fr;
+    }
+
+    .suits{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero-title{
+        font-size:54px;
+    }
+
+    .live-feed{
+        height:420px;
+    }
+
+}
+
+</style>
+</head>
+
+<body class="theme-estate">
+
+<header class="site-header">
+    <div class="logo">MaisonMotif</div>
+
+    <div class="theme-switcher">
+        <button class="theme-btn" onclick="switchTheme('theme-estate')">Estate</button>
+        <button class="theme-btn" onclick="switchTheme('theme-noir')">Noir</button>
+        <button class="theme-btn" onclick="switchTheme('theme-bengal')">Bengal</button>
+        <button class="theme-btn" onclick="switchTheme('theme-journal')">Journal</button>
+    </div>
+</header>
+
+<main class="page-shell">
+
+<section class="section">
+
+<div class="grid">
+
+<div class="stack">
+
+<div class="card hero-card">
+<div class="eyebrow">Founding Season · Day 01</div>
+
+<h1 class="hero-title">
+The Archive<br>
+Awakens
+</h1>
+
+<p class="body" style="max-width:700px;margin-top:18px;">
+100 simulated guests are contributing memories, blessings, discoveries, voice notes,
+rituals, sponsorships and archive restorations in real-time.
+</p>
+</div>
+
+<div class="suits">
+
+<div class="suit-card">
+<div class="suit-icon">♥</div>
+<div class="energy" id="heartEnergy">0</div>
+<div class="metric-label">Emotional Resonance</div>
+</div>
+
+<div class="suit-card">
+<div class="suit-icon">♦</div>
+<div class="energy" id="diamondEnergy">0</div>
+<div class="metric-label">Ceremonial Momentum</div>
+</div>
+
+<div class="suit-card">
+<div class="suit-icon">♠</div>
+<div class="energy" id="spadeEnergy">0</div>
+<div class="metric-label">Archival Depth</div>
+</div>
+
+<div class="suit-card">
+<div class="suit-icon">♣</div>
+<div class="energy" id="clubEnergy">0</div>
+<div class="metric-label">Traditions & Continuity</div>
+</div>
+
+</div>
+
+<div class="grid-3">
+
+<div class="card">
+<div class="metric" id="usersCount">0</div>
+<div class="metric-label">Active Contributors</div>
+</div>
+
+<div class="card">
+<div class="metric" id="donationTotal">₹0</div>
+<div class="metric-label">Living Reserve</div>
+</div>
+
+<div class="card">
+<div class="metric" id="artifactsCount">0</div>
+<div class="metric-label">Artifacts Preserved</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="donation-highlight">
+<div>
+<div class="eyebrow">Tonight's Emotional Weather</div>
+<h2 style="margin-top:10px;">
+Grandmother Lore Night
+</h2>
+</div>
+
+<div class="donation-amount" id="largestDonation">
+₹0
+</div>
+</div>
+
+<p class="body" style="margin-top:18px;">
+The archive currently leans toward elder recordings,
+migration stories, handwritten letters and forgotten rituals.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="eyebrow">Collections Opening Tonight</div>
+
+<div class="stack" style="margin-top:20px;">
+
+<div class="collection">
+<div style="display:flex;justify-content:space-between;">
+<div>The Assam Collection</div>
+<div id="assamPercent">0%</div>
+</div>
+
+<div class="progress">
+<div class="progress-fill" id="assamFill"></div>
+</div>
+</div>
+
+<div class="collection">
+<div style="display:flex;justify-content:space-between;">
+<div>Before Smartphones</div>
+<div id="phonePercent">0%</div>
+</div>
+
+<div class="progress">
+<div class="progress-fill" id="phoneFill"></div>
+</div>
+</div>
+
+<div class="collection">
+<div style="display:flex;justify-content:space-between;">
+<div>Parents Before Marriage</div>
+<div id="parentsPercent">0%</div>
+</div>
+
+<div class="progress">
+<div class="progress-fill" id="parentsFill"></div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="stack">
+
+<div class="card">
+<div class="eyebrow">Live Participation Stream</div>
+
+<div class="live-feed" id="feed"></div>
+</div>
+
+<div class="card">
+
+<div class="eyebrow">Archive Operations</div>
+
+<div class="activity-log" id="activityLog" style="margin-top:20px;"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer-note">
+This simulation demonstrates emotionally paced participation,
+editorial archive interactions, symbolic suit momentum,
+collection restoration, seasonal reserve activity and cinematic contribution flows.
+</div>
+
+</section>
+
+</main>
+
+<script>
+
+const feed = document.getElementById("feed");
+const activityLog = document.getElementById("activityLog");
+
+const names = [
+"Ananya","Rohit","Mitali","Saswata","Arjun","Neha","Aditi","Kabir",
+"Ishaan","Riya","Tanmoy","Megha","Sagnik","Rahul","Piu","Karan",
+"Dev","Ankita","Pritha","Aarav","Ritwik","Nandini","Soham","Pallavi"
+];
+
+const actions = [
+"uploaded a school memory",
+"recorded grandfather's migration story",
+"funded archive restoration",
+"unlocked a hidden route",
+"preserved an elder blessing",
+"found a handwritten recipe",
+"restored a damaged photo",
+"opened a nostalgia chain",
+"submitted a voice fragment",
+"revealed a cousin memory",
+"sponsored a family collection",
+"added a wedding artifact",
+"completed a memory bingo",
+"preserved a ritual recording"
+];
+
+const activityNotes = [
+"Legacy Impact Rising",
+"Hidden Route Resonated",
+"Archive Energy Shifted",
+"Founding Momentum Increased",
+"Emotional Density Deepened",
+"Rare Artifact Restored",
+"Clan Atmosphere Changed",
+"Cross-Family Resonance Detected"
+];
+
+let users = 0;
+let donation = 0;
+let artifacts = 0;
+
+let heart = 0;
+let diamond = 0;
+let spade = 0;
+let club = 0;
+
+let assam = 0;
+let phone = 0;
+let parents = 0;
+
+function rand(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function addFeed(){
+
+    users = Math.min(users + 1,100);
+
+    const donationValue =
+    [499,999,1500,2500,5000,1100,750,2200][Math.floor(Math.random()*8)];
+
+    donation += donationValue;
+
+    artifacts += Math.floor(Math.random()*4)+1;
+
+    heart += Math.floor(Math.random()*20);
+    diamond += Math.floor(Math.random()*18);
+    spade += Math.floor(Math.random()*22);
+    club += Math.floor(Math.random()*17);
+
+    assam = Math.min(100,assam + Math.random()*4);
+    phone = Math.min(100,phone + Math.random()*3);
+    parents = Math.min(100,parents + Math.random()*5);
+
+    const item = document.createElement("div");
+    item.className = "feed-item";
+
+    item.innerHTML = `
+    <div class="feed-top">
+        <div class="feed-name">${rand(names)}</div>
+        <div class="feed-time">just now</div>
+    </div>
+
+    <div class="feed-body">
+        ${rand(actions)} · Contributed ₹${donationValue.toLocaleString()}
+    </div>
+    `;
+
+    feed.prepend(item);
+
+    if(feed.children.length > 40){
+        feed.removeChild(feed.lastChild);
+    }
+
+    const log = document.createElement("div");
+    log.className = "log";
+    log.textContent = rand(activityNotes);
+
+    activityLog.prepend(log);
+
+    if(activityLog.children.length > 22){
+        activityLog.removeChild(activityLog.lastChild);
+    }
+
+    document.getElementById("usersCount").textContent = users;
+    document.getElementById("donationTotal").textContent =
+    "₹" + donation.toLocaleString();
+
+    document.getElementById("artifactsCount").textContent =
+    artifacts;
+
+    document.getElementById("largestDonation").textContent =
+    "₹" + Math.max(5000,donationValue).toLocaleString();
+
+    document.getElementById("heartEnergy").textContent = heart;
+    document.getElementById("diamondEnergy").textContent = diamond;
+    document.getElementById("spadeEnergy").textContent = spade;
+    document.getElementById("clubEnergy").textContent = club;
+
+    document.getElementById("assamFill").style.width = assam + "%";
+    document.getElementById("phoneFill").style.width = phone + "%";
+    document.getElementById("parentsFill").style.width = parents + "%";
+
+    document.getElementById("assamPercent").textContent =
+    Math.floor(assam) + "%";
+
+    document.getElementById("phonePercent").textContent =
+    Math.floor(phone) + "%";
+
+    document.getElementById("parentsPercent").textContent =
+    Math.floor(parents) + "%";
+
+}
+
+function switchTheme(theme){
+    document.body.className = theme;
+}
+
+let count = 0;
+
+const interval = setInterval(()=>{
+
+    addFeed();
+
+    count++;
+
+    if(count >= 100){
+        clearInterval(interval);
+    }
+
+},350);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recurring Emotional Economy — Investor Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D5A3;
+    --gold-dim: #8A6A28;
+    --ivory: #F4EFE4;
+    --ivory-dim: #B8AFA0;
+    --charcoal: #0E0C0A;
+    --charcoal-2: #161410;
+    --charcoal-3: #201E1A;
+    --charcoal-4: #2A2721;
+    --off-white: #E8E2D8;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Montserrat', sans-serif;
+  }
+
+  html, body {
+    width: 100%; height: 100%; overflow: hidden;
+    background: var(--charcoal);
+    color: var(--ivory);
+    font-family: var(--sans);
+  }
+
+  .deck {
+    width: 100%; height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 60px 80px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(20px);
+    overflow: hidden;
+  }
+
+  .slide.active {
+    opacity: 1; pointer-events: all;
+    transform: translateY(0);
+  }
+
+  .slide.out {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  /* Background texture */
+  .slide::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 50%, rgba(201,168,76,0.04) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(201,168,76,0.015) 60px, rgba(201,168,76,0.015) 61px),
+      repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(201,168,76,0.015) 60px, rgba(201,168,76,0.015) 61px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .slide > * { position: relative; z-index: 1; }
+
+  /* Gold rule */
+  .rule {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 32px;
+  }
+  .rule.wide {
+    width: 120px;
+  }
+
+  /* Slide number */
+  .slide-num {
+    position: absolute; bottom: 32px; right: 40px;
+    font-family: var(--sans); font-size: 10px; letter-spacing: 3px;
+    color: var(--gold-dim); font-weight: 300;
+    text-transform: uppercase;
+  }
+
+  /* Corner ornament */
+  .corner-tl, .corner-br {
+    position: absolute;
+    width: 40px; height: 40px;
+    border-color: rgba(201,168,76,0.3);
+    border-style: solid;
+  }
+  .corner-tl { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+  .corner-br { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
+
+  /* Typography */
+  .eyebrow {
+    font-family: var(--sans); font-size: 10px; font-weight: 400;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+    text-align: center;
+  }
+
+  h1.hero {
+    font-family: var(--serif); font-size: clamp(40px, 5vw, 68px);
+    font-weight: 300; line-height: 1.1; text-align: center;
+    color: var(--ivory); letter-spacing: -0.5px;
+    max-width: 900px;
+  }
+
+  h1.hero em {
+    font-style: italic; color: var(--gold);
+  }
+
+  h2.section-title {
+    font-family: var(--serif); font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 300; text-align: center;
+    color: var(--ivory); line-height: 1.2;
+    max-width: 800px; margin-bottom: 40px;
+  }
+
+  h2.section-title em {
+    font-style: italic; color: var(--gold);
+  }
+
+  .subtitle {
+    font-family: var(--sans); font-size: 13px; font-weight: 200;
+    letter-spacing: 2px; color: var(--ivory-dim);
+    text-align: center; margin-top: 24px;
+    text-transform: uppercase;
+  }
+
+  .body-text {
+    font-family: var(--serif); font-size: 20px; font-weight: 300;
+    color: var(--ivory-dim); text-align: center; line-height: 1.8;
+    max-width: 700px;
+  }
+
+  /* Big number display */
+  .big-number {
+    font-family: var(--serif); font-size: clamp(56px, 8vw, 110px);
+    font-weight: 300; color: var(--gold); letter-spacing: -2px;
+    line-height: 1; text-align: center;
+  }
+
+  .big-number-label {
+    font-family: var(--sans); font-size: 11px; font-weight: 300;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--ivory-dim); margin-top: 12px; text-align: center;
+  }
+
+  /* Table */
+  .luxury-table {
+    border-collapse: collapse;
+    font-family: var(--sans); font-size: 13px;
+    width: 100%; max-width: 680px;
+  }
+
+  .luxury-table th {
+    font-weight: 300; letter-spacing: 3px; text-transform: uppercase;
+    font-size: 10px; color: var(--gold); padding: 10px 20px;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    text-align: left;
+  }
+
+  .luxury-table td {
+    padding: 14px 20px; color: var(--ivory-dim); font-weight: 300;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    letter-spacing: 0.5px;
+  }
+
+  .luxury-table td.accent { color: var(--gold-light); font-weight: 400; }
+
+  .luxury-table tr:last-child td { border-bottom: none; }
+
+  /* Cards grid */
+  .cards {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    justify-content: center; width: 100%;
+    max-width: 960px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 28px 24px;
+    flex: 1; min-width: 180px; max-width: 240px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+
+  .card-value {
+    font-family: var(--serif); font-size: 36px; font-weight: 300;
+    color: var(--gold); line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .card-label {
+    font-family: var(--sans); font-size: 10px; font-weight: 300;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--ivory-dim);
+  }
+
+  .card-sub {
+    font-family: var(--serif); font-size: 13px; font-weight: 300;
+    color: rgba(184,175,160,0.6); margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* Flow / ladder */
+  .ladder {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 0;
+    max-width: 480px; width: 100%;
+  }
+
+  .ladder-step {
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.2);
+    width: 100%; padding: 14px 24px;
+    text-align: center;
+    font-family: var(--serif); font-size: 17px; font-weight: 300;
+    color: var(--ivory);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .ladder-step.highlight {
+    background: rgba(201,168,76,0.12);
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+
+  .ladder-arrow {
+    font-family: var(--sans); font-size: 10px;
+    color: rgba(201,168,76,0.4); letter-spacing: 1px;
+    padding: 4px 0;
+    line-height: 1;
+  }
+
+  /* Split layout */
+  .split {
+    display: flex; gap: 60px; align-items: center;
+    justify-content: center; width: 100%; max-width: 1000px;
+  }
+
+  .split-left, .split-right {
+    flex: 1; max-width: 420px;
+  }
+
+  .split-divider {
+    width: 1px; height: 200px;
+    background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.3), transparent);
+    flex-shrink: 0;
+  }
+
+  /* Stat row */
+  .stat-row {
+    display: flex; gap: 48px; justify-content: center;
+    flex-wrap: wrap; margin-top: 16px;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-num {
+    font-family: var(--serif); font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300; color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: var(--sans); font-size: 9px; font-weight: 300;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--ivory-dim); margin-top: 6px;
+  }
+
+  /* Quote block */
+  .quote-block {
+    border-left: 1px solid var(--gold);
+    padding: 12px 32px;
+    max-width: 700px;
+    text-align: left;
+  }
+
+  .quote-text {
+    font-family: var(--serif); font-size: clamp(22px, 2.5vw, 32px);
+    font-weight: 300; font-style: italic;
+    color: var(--ivory); line-height: 1.5;
+  }
+
+  /* Warning block */
+  .warning-box {
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 24px 36px; max-width: 680px;
+    text-align: center; margin-top: 8px;
+  }
+
+  .warning-label {
+    font-family: var(--sans); font-size: 9px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .warning-items {
+    display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
+  }
+
+  .warning-item {
+    font-family: var(--serif); font-size: 16px; font-weight: 300;
+    color: rgba(184,175,160,0.7); font-style: italic;
+    position: relative; padding-left: 14px;
+  }
+
+  .warning-item::before {
+    content: '×';
+    position: absolute; left: 0;
+    color: rgba(201,168,76,0.5); font-style: normal;
+  }
+
+  .do-items {
+    display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .do-item {
+    font-family: var(--serif); font-size: 16px; font-weight: 300;
+    color: var(--gold-light); font-style: italic;
+    position: relative; padding-left: 16px;
+  }
+
+  .do-item::before {
+    content: '+';
+    position: absolute; left: 0;
+    color: var(--gold); font-style: normal;
+  }
+
+  /* Nav dots */
+  .nav {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 100;
+  }
+
+  .dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(201,168,76,0.25);
+    cursor: pointer; transition: background 0.3s, transform 0.3s;
+  }
+
+  .dot.active { background: var(--gold); transform: scale(1.4); }
+
+  /* Arrow keys hint */
+  .key-hint {
+    position: fixed; bottom: 28px; left: 40px;
+    font-family: var(--sans); font-size: 9px; font-weight: 300;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(201,168,76,0.3); z-index: 100;
+  }
+
+  /* Stagger animation for child elements */
+  .slide.active .stagger > * {
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .slide.active .stagger > *:nth-child(1) { animation-delay: 0.15s; }
+  .slide.active .stagger > *:nth-child(2) { animation-delay: 0.28s; }
+  .slide.active .stagger > *:nth-child(3) { animation-delay: 0.41s; }
+  .slide.active .stagger > *:nth-child(4) { animation-delay: 0.54s; }
+  .slide.active .stagger > *:nth-child(5) { animation-delay: 0.67s; }
+  .slide.active .stagger > *:nth-child(6) { animation-delay: 0.80s; }
+  .slide.active .stagger > *:nth-child(7) { animation-delay: 0.93s; }
+  .slide.active .stagger > *:nth-child(8) { animation-delay: 1.06s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Gold shimmer on hero title */
+  @keyframes shimmer {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.75; }
+  }
+
+  .gold-shimmer { animation: shimmer 4s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" id="slide-0">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0">
+      <p class="eyebrow">Investor Narrative</p>
+      <div class="rule wide"></div>
+      <h1 class="hero">We operate a <em>recurring<br>emotional economy</em><br>around Indian family participation.</h1>
+      <div class="rule wide" style="margin-top:36px;margin-bottom:0"></div>
+      <p class="subtitle">Not wedding websites &nbsp;·&nbsp; Participation infrastructure</p>
+    </div>
+    <span class="slide-num">01 / 10</span>
+  </div>
+
+  <!-- SLIDE 2: CONSOLIDATION -->
+  <div class="slide" id="slide-1">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+      <p class="eyebrow">The Insight</p>
+      <h2 class="section-title">Every Indian wedding already has an<br><em>emotional economy.</em> We consolidate it.</h2>
+      <table class="luxury-table">
+        <thead>
+          <tr>
+            <th>Existing Spend</th>
+            <th>Emotional Role</th>
+            <th>We Replace With</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Decorations</td><td class="accent">Spectacle</td><td>Living archive</td></tr>
+          <tr><td>Photography</td><td class="accent">Memory capture</td><td>Seasonal chronicle</td></tr>
+          <tr><td>Gifting</td><td class="accent">Social signaling</td><td>Blessing systems</td></tr>
+          <tr><td>Planners</td><td class="accent">Coordination</td><td>Organizer network</td></tr>
+          <tr><td>Games</td><td class="accent">Engagement</td><td>Quests & collections</td></tr>
+          <tr><td>Albums</td><td class="accent">Preservation</td><td>Generational archive</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <span class="slide-num">02 / 10</span>
+  </div>
+
+  <!-- SLIDE 3: REVENUE ENGINE -->
+  <div class="slide" id="slide-2">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:900px">
+      <p class="eyebrow">Core Revenue Engine</p>
+      <h2 class="section-title">Two streams.<br><em>One continuous relationship.</em></h2>
+      <div class="split">
+        <div class="split-left" style="text-align:center">
+          <p style="font-family:var(--sans);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Stream 01</p>
+          <p style="font-family:var(--serif);font-size:26px;font-weight:300;color:var(--ivory);margin-bottom:10px">Founding Setup</p>
+          <p style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--gold)">₹25K – ₹1L</p>
+          <p style="font-family:var(--sans);font-size:11px;font-weight:200;letter-spacing:1px;color:var(--ivory-dim);margin-top:12px;line-height:1.8">Microsite · Archive · Collections<br>Blessing systems · Editorial layouts</p>
+        </div>
+        <div class="split-divider"></div>
+        <div class="split-right" style="text-align:center">
+          <p style="font-family:var(--sans);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Stream 02</p>
+          <p style="font-family:var(--serif);font-size:26px;font-weight:300;color:var(--ivory);margin-bottom:10px">Founding Reserve</p>
+          <p style="font-family:var(--serif);font-size:40px;font-weight:300;color:var(--gold)">Ongoing</p>
+          <p style="font-family:var(--sans);font-size:11px;font-weight:200;letter-spacing:1px;color:var(--ivory-dim);margin-top:12px;line-height:1.8">Arena recharge · Archive seasons<br>Quests · Restoration · Expeditions</p>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num">03 / 10</span>
+  </div>
+
+  <!-- SLIDE 4: MID-TIER EXAMPLE -->
+  <div class="slide" id="slide-3">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:900px">
+      <p class="eyebrow">Unit Economics</p>
+      <h2 class="section-title">A mid-tier wedding.<br><em>₹1.4 lakh platform revenue.</em></h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card-value">₹50K</div>
+          <div class="card-label">Founding Setup</div>
+          <div class="card-sub">initial onboarding</div>
+        </div>
+        <div class="card">
+          <div class="card-value">120</div>
+          <div class="card-label">Active Participants</div>
+          <div class="card-sub">avg. ₹1,500 reserve</div>
+        </div>
+        <div class="card">
+          <div class="card-value">₹1.8L</div>
+          <div class="card-label">Reserve Pool</div>
+          <div class="card-sub">120 × ₹1,500</div>
+        </div>
+        <div class="card" style="border-color:rgba(201,168,76,0.5);background:rgba(201,168,76,0.07)">
+          <div class="card-value" style="font-size:28px">₹1.4L</div>
+          <div class="card-label" style="color:var(--gold)">Platform Revenue</div>
+          <div class="card-sub">setup + 50% reserve</div>
+        </div>
+      </div>
+      <p class="body-text" style="font-size:14px;margin-top:24px">Without print products, documentaries, subscriptions, or concierge.</p>
+    </div>
+    <span class="slide-num">04 / 10</span>
+  </div>
+
+  <!-- SLIDE 5: SCALE IT -->
+  <div class="slide" id="slide-4">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0">
+      <p class="eyebrow">Scale</p>
+      <h2 class="section-title">10 weddings a month.<br><em>Very achievable in premium urban India.</em></h2>
+      <div class="stat-row">
+        <div class="stat-item">
+          <div class="stat-num">₹1.4L</div>
+          <div class="stat-label">Per wedding</div>
+        </div>
+        <div class="stat-item" style="display:flex;align-items:center">
+          <span style="font-family:var(--serif);font-size:32px;color:var(--gold-dim);padding:0 8px">×</span>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">10</div>
+          <div class="stat-label">Weddings / month</div>
+        </div>
+        <div class="stat-item" style="display:flex;align-items:center">
+          <span style="font-family:var(--serif);font-size:32px;color:var(--gold-dim);padding:0 8px">=</span>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num gold-shimmer" style="color:var(--gold)">₹14L</div>
+          <div class="stat-label">Monthly revenue</div>
+        </div>
+      </div>
+      <div class="rule wide" style="margin-top:36px;margin-bottom:20px"></div>
+      <div class="big-number gold-shimmer">₹1.68 Cr</div>
+      <p class="big-number-label">Annualized — without premium weddings or subscriptions</p>
+    </div>
+    <span class="slide-num">05 / 10</span>
+  </div>
+
+  <!-- SLIDE 6: LUXURY WEDDING -->
+  <div class="slide" id="slide-5">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:840px">
+      <p class="eyebrow">Premium Tier</p>
+      <h2 class="section-title">One luxury wedding.<br><em>₹14.5 lakh. From one ecosystem.</em></h2>
+      <div class="cards" style="max-width:760px">
+        <div class="card">
+          <div class="card-value">₹2L</div>
+          <div class="card-label">Setup Fee</div>
+          <div class="card-sub">destination / NRI</div>
+        </div>
+        <div class="card">
+          <div class="card-value">500</div>
+          <div class="card-label">Guests</div>
+          <div class="card-sub">avg. ₹5,000 reserve</div>
+        </div>
+        <div class="card">
+          <div class="card-value">₹25L</div>
+          <div class="card-label">Total Reserve Pool</div>
+          <div class="card-sub">platform 50%</div>
+        </div>
+        <div class="card" style="border-color:rgba(201,168,76,0.5);background:rgba(201,168,76,0.07)">
+          <div class="card-value" style="font-size:28px">₹14.5L</div>
+          <div class="card-label" style="color:var(--gold)">One Wedding Revenue</div>
+          <div class="card-sub">this is where investors pay attention</div>
+        </div>
+      </div>
+      <p class="body-text" style="font-size:15px;margin-top:28px;font-style:italic">
+        Families already spend crores emotionally.<br>We redirect existing spending — we don't create new spending.
+      </p>
+    </div>
+    <span class="slide-num">06 / 10</span>
+  </div>
+
+  <!-- SLIDE 7: LTV / LIFECYCLE -->
+  <div class="slide" id="slide-6">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%">
+      <p class="eyebrow">Lifecycle Revenue</p>
+      <h2 class="section-title">The wedding is only <em>customer acquisition.</em></h2>
+      <div class="ladder">
+        <div class="ladder-step highlight">Wedding Setup</div>
+        <div class="ladder-arrow">↓</div>
+        <div class="ladder-step">Founding Reserve</div>
+        <div class="ladder-arrow">↓</div>
+        <div class="ladder-step">Archive Seasons</div>
+        <div class="ladder-arrow">↓</div>
+        <div class="ladder-step">Anniversary Chapters</div>
+        <div class="ladder-arrow">↓</div>
+        <div class="ladder-step">Family Chronicle · Births · Reunions</div>
+        <div class="ladder-arrow">↓</div>
+        <div class="ladder-step highlight">Generational Archive Membership</div>
+      </div>
+      <p class="body-text" style="font-size:14px;margin-top:28px">LTV becomes enormous. The family never leaves.</p>
+    </div>
+    <span class="slide-num">07 / 10</span>
+  </div>
+
+  <!-- SLIDE 8: SUBSCRIPTION -->
+  <div class="slide" id="slide-7">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0">
+      <p class="eyebrow">Subscription Layer</p>
+      <h2 class="section-title">₹1 crore ARR.<br><em>Only 1,000 retained families.</em></h2>
+      <div class="stat-row" style="margin-bottom:28px">
+        <div class="stat-item">
+          <div class="stat-num">1,000</div>
+          <div class="stat-label">Families retained</div>
+        </div>
+        <div class="stat-item" style="display:flex;align-items:center">
+          <span style="font-family:var(--serif);font-size:32px;color:var(--gold-dim);padding:0 8px">×</span>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">₹999</div>
+          <div class="stat-label">Per month</div>
+        </div>
+        <div class="stat-item" style="display:flex;align-items:center">
+          <span style="font-family:var(--serif);font-size:32px;color:var(--gold-dim);padding:0 8px">=</span>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num gold-shimmer" style="color:var(--gold)">₹1 Cr</div>
+          <div class="stat-label">ARR</div>
+        </div>
+      </div>
+      <div class="rule wide"></div>
+      <p class="body-text" style="margin-top:20px">
+        That is tiny scale for India.<br>
+        <span style="font-size:16px;color:var(--gold)">The organizer network drives CAC to near zero.</span>
+      </p>
+      <p class="body-text" style="font-size:14px;margin-top:12px;font-style:italic">
+        100 active organizers × 2 weddings/month = 200 weddings/month<br>
+        At ₹75K platform revenue = ₹1.5 crore/month before subscriptions.
+      </p>
+    </div>
+    <span class="slide-num">08 / 10</span>
+  </div>
+
+  <!-- SLIDE 9: MARKET SIZE -->
+  <div class="slide" id="slide-8">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0">
+      <p class="eyebrow">Market Opportunity</p>
+      <h2 class="section-title">We need <em>0.01%</em> of Indian weddings.</h2>
+      <div class="stat-row" style="gap:56px;margin-bottom:32px">
+        <div class="stat-item">
+          <div class="stat-num">1 Cr+</div>
+          <div class="stat-label">Weddings in India / year</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">0.01%</div>
+          <div class="stat-label">Premium target</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">1,000</div>
+          <div class="stat-label">Weddings to capture</div>
+        </div>
+      </div>
+      <div class="rule wide"></div>
+      <div class="big-number gold-shimmer" style="margin-top:28px">₹15 Cr</div>
+      <p class="big-number-label">Annual revenue · ₹1.5L avg per wedding · No ads · No marketplace · No social media scale</p>
+    </div>
+    <span class="slide-num">09 / 10</span>
+  </div>
+
+  <!-- SLIDE 10: PITCH LINES -->
+  <div class="slide" id="slide-9">
+    <div class="corner-tl"></div>
+    <div class="corner-br"></div>
+    <div class="stagger" style="display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:900px">
+      <p class="eyebrow">The Investor Line</p>
+      <div class="quote-block" style="margin-bottom:28px">
+        <p class="quote-text">"We are converting temporary wedding spending into <span style="color:var(--gold)">recurring emotional infrastructure revenue.</span>"</p>
+      </div>
+      <div class="quote-block" style="margin-bottom:36px">
+        <p class="quote-text">"The wedding is <span style="color:var(--gold)">customer acquisition.</span> The family archive is <span style="color:var(--gold)">retention.</span>"</p>
+      </div>
+      <div class="warning-box">
+        <p class="warning-label">Do Not Overpitch</p>
+        <div class="warning-items">
+          <span class="warning-item">MMORPG mechanics</span>
+          <span class="warning-item">Clan systems</span>
+          <span class="warning-item">Economy complexity</span>
+          <span class="warning-item">Symbolic layers</span>
+        </div>
+        <div class="do-items">
+          <span class="do-item">Beautiful archive</span>
+          <span class="do-item">Family participation</span>
+          <span class="do-item">Living continuity</span>
+          <span class="do-item">Recurring emotional economy</span>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num">10 / 10</span>
+  </div>
+
+</div>
+
+<!-- Navigation dots -->
+<nav class="nav" id="nav" aria-label="Slide navigation"></nav>
+<p class="key-hint">← → Navigate</p>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const navEl = document.getElementById('nav');
+  let current = 0;
+  let animating = false;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    d.addEventListener('click', () => goTo(i));
+    navEl.appendChild(d);
+  });
+
+  function goTo(n) {
+    if (n === current || animating) return;
+    animating = true;
+    const prev = slides[current];
+    const next = slides[n];
+    prev.classList.add('out');
+    prev.classList.remove('active');
+    next.classList.add('active');
+    navEl.children[current].classList.remove('active');
+    navEl.children[n].classList.add('active');
+    current = n;
+    setTimeout(() => {
+      prev.classList.remove('out');
+      animating = false;
+    }, 750);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(Math.min(current + 1, slides.length - 1));
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(Math.max(current - 1, 0));
+  });
+
+  let touchX = 0;
+  document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? Math.min(current + 1, slides.length - 1) : Math.max(current - 1, 0));
+  });
+</script>
+</body>
+</html>

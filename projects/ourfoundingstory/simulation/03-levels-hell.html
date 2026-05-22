@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MaisonMotif — Archive Descent Prototype</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#0f0f10;
+  --bg-soft:#171718;
+  --bg-card:#1d1d1f;
+
+  --text:#f5f1ea;
+  --muted:#9f9788;
+
+  --gold:#c8a46f;
+
+  --border:rgba(255,255,255,.08);
+
+  --radius:28px;
+
+  --shadow:
+  0 20px 60px rgba(0,0,0,.35);
+
+  --transition:
+  all .6s cubic-bezier(.19,1,.22,1);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
+
+.page{
+  width:min(1400px,92%);
+  margin:auto;
+  padding:40px 0 120px;
+}
+
+.hero{
+  text-align:center;
+  padding:80px 0 60px;
+}
+
+.eyebrow{
+  color:var(--gold);
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  font-size:11px;
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,8vw,110px);
+  line-height:.92;
+  letter-spacing:-0.05em;
+}
+
+.hero p{
+  max-width:760px;
+  margin:28px auto 0;
+  line-height:1.9;
+  color:var(--muted);
+  font-size:17px;
+}
+
+.surface-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+
+.top-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:24px;
+}
+
+.section{
+  padding:34px;
+}
+
+.section h2{
+  font-family:'Playfair Display',serif;
+  font-size:42px;
+  line-height:1;
+  margin-bottom:16px;
+}
+
+.section p{
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.simple-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:30px;
+}
+
+.action{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:24px;
+  transition:var(--transition);
+}
+
+.action:hover{
+  transform:translateY(-4px);
+}
+
+.action .icon{
+  font-size:34px;
+  margin-bottom:14px;
+}
+
+.action h3{
+  font-size:20px;
+  margin-bottom:10px;
+}
+
+.action p{
+  font-size:14px;
+}
+
+.memory-wall{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.memory{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;
+}
+
+.memory small{
+  color:var(--gold);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size:10px;
+}
+
+.memory p{
+  margin-top:10px;
+  line-height:1.7;
+}
+
+.descent-zone{
+  margin-top:60px;
+  text-align:center;
+}
+
+.descend-btn{
+  border:none;
+  cursor:pointer;
+
+  padding:18px 38px;
+  border-radius:999px;
+
+  background:var(--gold);
+  color:#111;
+
+  font-weight:600;
+  font-size:16px;
+
+  transition:var(--transition);
+}
+
+.descend-btn:hover{
+  transform:scale(1.03);
+}
+
+.depth-container{
+  position:relative;
+  margin-top:40px;
+}
+
+.depth-line{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:2px;
+  height:100%;
+  background:linear-gradient(
+    to bottom,
+    rgba(200,164,111,.5),
+    transparent
+  );
+}
+
+.depth{
+  position:relative;
+  width:min(100%,950px);
+  margin:80px auto;
+  opacity:0;
+  transform:translateY(60px) scale(.95);
+  transition:var(--transition);
+  pointer-events:none;
+}
+
+.depth.active{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+}
+
+.depth-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:32px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+
+.depth-header{
+  padding:28px 32px;
+  border-bottom:1px solid var(--border);
+}
+
+.depth-level{
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.22em;
+  font-size:11px;
+}
+
+.depth-title{
+  font-family:'Playfair Display',serif;
+  font-size:48px;
+  margin-top:14px;
+}
+
+.depth-copy{
+  margin-top:18px;
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.depth-content{
+  padding:30px;
+}
+
+.collection-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.collection{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:24px;
+}
+
+.collection h4{
+  font-size:24px;
+  margin-bottom:12px;
+  font-family:'Playfair Display',serif;
+}
+
+.collection ul{
+  padding-left:18px;
+}
+
+.collection li{
+  margin:8px 0;
+  color:var(--muted);
+}
+
+.route-map{
+  margin-top:20px;
+  padding:24px;
+  border-radius:24px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+}
+
+.route{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin:14px 0;
+  flex-wrap:wrap;
+}
+
+.node{
+  padding:10px 16px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.03);
+}
+
+.arrow{
+  color:var(--gold);
+}
+
+.footer-note{
+  text-align:center;
+  color:var(--muted);
+  margin-top:100px;
+  line-height:1.8;
+}
+
+@media(max-width:980px){
+
+  .top-grid{
+    grid-template-columns:1fr;
+  }
+
+  .simple-actions{
+    grid-template-columns:1fr;
+  }
+
+  .collection-grid{
+    grid-template-columns:1fr;
+  }
+
+  .depth-title{
+    font-size:38px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <section class="hero">
+
+    <div class="eyebrow">
+      Emotional Continuity Infrastructure
+    </div>
+
+    <h1>
+      A Beautiful Wedding Archive<br>
+      On The Surface
+    </h1>
+
+    <p>
+      Most guests simply add memories, blessings, and photographs.
+      But for curious cousins, historians, and lore-hunters,
+      the archive slowly opens deeper emotional territories.
+    </p>
+
+  </section>
+
+  <section class="top-grid">
+
+    <div class="surface-card">
+
+      <div class="section">
+
+        <h2>
+          The Mainstream Experience
+        </h2>
+
+        <p>
+          Most families never need to understand clans, routes,
+          emotional suits, mythology systems, or expedition mechanics.
+          The surface should feel simple, cinematic, warm, and emotionally obvious.
+        </p>
+
+        <div class="simple-actions">
+
+          <div class="action">
+            <div class="icon">📸</div>
+            <h3>Add A Memory</h3>
+            <p>
+              Upload a photograph, blessing, story, or voice note.
+            </p>
+          </div>
+
+          <div class="action">
+            <div class="icon">🕯️</div>
+            <h3>Explore The Archive</h3>
+            <p>
+              Browse preserved moments from the family history.
+            </p>
+          </div>
+
+          <div class="action">
+            <div class="icon">🎁</div>
+            <h3>Support The Couple</h3>
+            <p>
+              Contribute toward the future story of the family.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="surface-card">
+
+      <div class="section">
+
+        <h2>
+          Featured Tonight
+        </h2>
+
+        <div class="memory-wall">
+
+          <div class="memory">
+            <small>Recovered In Silchar</small>
+            <p>
+              “Your grandfather carried this railway watch during the 1978 Assam route.”
+            </p>
+          </div>
+
+          <div class="memory">
+            <small>Voice Fragment</small>
+            <p>
+              “One day you’ll replay this blessing and realize how young we all sounded.”
+            </p>
+          </div>
+
+          <div class="memory">
+            <small>Founding Story</small>
+            <p>
+              “The first dining table contribution has been completed tonight.”
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="descent-zone">
+
+    <button class="descend-btn" id="descendBtn">
+      The Archive Deepens
+    </button>
+
+  </section>
+
+  <section class="depth-container">
+
+    <div class="depth-line"></div>
+
+    <!-- LEVEL 1 -->
+    <div class="depth" id="depth1">
+
+      <div class="depth-card">
+
+        <div class="depth-header">
+
+          <div class="depth-level">
+            Discovery Layer
+          </div>
+
+          <div class="depth-title">
+            Hidden Collections Surface
+          </div>
+
+          <div class="depth-copy">
+            The archive begins revealing incomplete family albums,
+            forgotten routes, and missing historical fragments.
+          </div>
+
+        </div>
+
+        <div class="depth-content">
+
+          <div class="collection-grid">
+
+            <div class="collection">
+              <h4>♠ The Assam Collection</h4>
+
+              <ul>
+                <li>Missing tea garden photograph</li>
+                <li>Migration story fragment</li>
+                <li>Train journey memory</li>
+                <li>Grandmother recording</li>
+              </ul>
+            </div>
+
+            <div class="collection">
+              <h4>♣ Before Smartphones</h4>
+
+              <ul>
+                <li>Disposable camera photo</li>
+                <li>Landline memory</li>
+                <li>Cassette restoration</li>
+                <li>First family television story</li>
+              </ul>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- LEVEL 2 -->
+    <div class="depth" id="depth2">
+
+      <div class="depth-card">
+
+        <div class="depth-header">
+
+          <div class="depth-level">
+            Expedition Layer
+          </div>
+
+          <div class="depth-title">
+            The Family Graph Expands
+          </div>
+
+          <div class="depth-copy">
+            Now the archive behaves like emotional archaeology.
+            Completing one route reveals deeper forgotten territories.
+          </div>
+
+        </div>
+
+        <div class="depth-content">
+
+          <div class="route-map">
+
+            <div class="route">
+              <div class="node">Grandparents Era</div>
+              <div class="arrow">→</div>
+              <div class="node">The Assam Route</div>
+              <div class="arrow">→</div>
+              <div class="node">The Kolkata Years</div>
+            </div>
+
+            <div class="route">
+              <div class="node">School Memories</div>
+              <div class="arrow">→</div>
+              <div class="node">College Years</div>
+              <div class="arrow">→</div>
+              <div class="node">How They Met</div>
+            </div>
+
+            <div class="route">
+              <div class="node">Founding Wedding</div>
+              <div class="arrow">→</div>
+              <div class="node">Future Family Archive</div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- LEVEL 3 -->
+    <div class="depth" id="depth3">
+
+      <div class="depth-card">
+
+        <div class="depth-header">
+
+          <div class="depth-level">
+            Mythology Layer
+          </div>
+
+          <div class="depth-title">
+            Family Personas Emerge
+          </div>
+
+          <div class="depth-copy">
+            Deep contributors slowly gain symbolic archetypes,
+            emotional signatures, and legendary family identities.
+          </div>
+
+        </div>
+
+        <div class="depth-content">
+
+          <div class="collection-grid">
+
+            <div class="collection">
+              <h4>♥ Chaos Cousin</h4>
+
+              <ul>
+                <li>Triggers memory chains</li>
+                <li>Revives forgotten stories</li>
+                <li>Specialty: emotional momentum</li>
+              </ul>
+            </div>
+
+            <div class="collection">
+              <h4>♠ Archive Hunter</h4>
+
+              <ul>
+                <li>Finds rare family artifacts</li>
+                <li>Unlocks hidden routes</li>
+                <li>Specialty: ancestral recovery</li>
+              </ul>
+            </div>
+
+            <div class="collection">
+              <h4>♣ Ritual Keeper</h4>
+
+              <ul>
+                <li>Preserves traditions</li>
+                <li>Explains forgotten customs</li>
+                <li>Specialty: continuity</li>
+              </ul>
+            </div>
+
+            <div class="collection">
+              <h4>♦ Golden Steward</h4>
+
+              <ul>
+                <li>Funds archive preservation</li>
+                <li>Supports family participation</li>
+                <li>Specialty: ceremonial momentum</li>
+              </ul>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <div class="footer-note">
+    The surface remains simple.<br>
+    The depth remains optional.<br><br>
+
+    Most families experience a beautiful archive.<br>
+    Curious users discover an emotional civilization underneath.
+  </div>
+
+</div>
+
+<script>
+
+const btn = document.getElementById('descendBtn');
+
+const depths = [
+  document.getElementById('depth1'),
+  document.getElementById('depth2'),
+  document.getElementById('depth3')
+];
+
+let level = 0;
+
+btn.addEventListener('click', () => {
+
+  if(level < depths.length){
+
+    depths[level].classList.add('active');
+    depths[level].scrollIntoView({
+      behavior:'smooth',
+      block:'center'
+    });
+
+    level++;
+
+    const labels = [
+      'Descend Further',
+      'Open The Lower Vaults',
+      'The Archive Deepens Again'
+    ];
+
+    if(level < labels.length){
+      btn.innerText = labels[level];
+    }else{
+      btn.innerText = 'The Deepest Layer Has Surfaced';
+      btn.disabled = true;
+      btn.style.opacity = '.6';
+    }
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>

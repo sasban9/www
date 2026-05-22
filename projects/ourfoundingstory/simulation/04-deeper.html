@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MaisonMotif — Archive × Arena Prototype</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+  --bg:#121110;
+  --bg-soft:#1b1917;
+  --bg-card:#211f1d;
+
+  --text:#f4eee3;
+  --muted:#a09583;
+
+  --accent:#c8a46f;
+  --accent-bright:#e0c28a;
+
+  --border:rgba(255,255,255,.08);
+
+  --radius-sm:18px;
+  --radius-md:26px;
+  --radius-lg:36px;
+  --radius-pill:999px;
+
+  --shadow:
+  0 20px 60px rgba(0,0,0,.35);
+
+  --transition:
+  all .6s cubic-bezier(.19,1,.22,1);
+
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
+
+.page{
+  width:min(100%,1450px);
+  margin:auto;
+  padding:18px;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.header{
+
+  position:sticky;
+  top:16px;
+  z-index:100;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:18px 24px;
+
+  border-radius:999px;
+
+  background:rgba(18,17,16,.72);
+  backdrop-filter:blur(18px);
+
+  border:1px solid var(--border);
+
+  margin-bottom:24px;
+
+}
+
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  letter-spacing:-0.04em;
+}
+
+.logo span{
+  color:var(--accent);
+}
+
+.day-pill{
+  padding:10px 18px;
+  border-radius:999px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  font-size:13px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+/* =========================================================
+HERO
+========================================================= */
+
+.hero{
+  padding:30px 6px 38px;
+}
+
+.eyebrow{
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:.28em;
+  font-size:11px;
+}
+
+.hero-title{
+  margin-top:18px;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(46px,7vw,88px);
+  line-height:.92;
+  letter-spacing:-0.05em;
+  max-width:900px;
+}
+
+.hero-copy{
+  margin-top:24px;
+  max-width:760px;
+  line-height:1.85;
+  color:var(--muted);
+}
+
+/* =========================================================
+TABS
+========================================================= */
+
+.tabs{
+  display:flex;
+  gap:14px;
+  margin:20px 0 26px;
+}
+
+.tab-btn{
+  border:none;
+  cursor:pointer;
+
+  padding:14px 24px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.04);
+
+  color:var(--text);
+
+  border:1px solid var(--border);
+
+  transition:var(--transition);
+
+  font-weight:600;
+}
+
+.tab-btn.active{
+  background:var(--accent);
+  color:#111;
+}
+
+/* =========================================================
+PANELS
+========================================================= */
+
+.panel{
+  display:none;
+}
+
+.panel.active{
+  display:block;
+}
+
+/* =========================================================
+ARCHIVE
+========================================================= */
+
+.archive-grid{
+
+  columns:3 320px;
+  column-gap:20px;
+
+}
+
+.archive-card{
+
+  break-inside:avoid;
+
+  background:var(--bg-card);
+
+  border:1px solid var(--border);
+
+  border-radius:var(--radius-lg);
+
+  margin-bottom:20px;
+
+  overflow:hidden;
+
+  box-shadow:var(--shadow);
+
+  transition:var(--transition);
+
+}
+
+.archive-card:hover{
+  transform:translateY(-4px);
+}
+
+.archive-cover{
+
+  height:180px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:62px;
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.01)
+  );
+
+  position:relative;
+
+}
+
+.suit{
+  position:absolute;
+  top:14px;
+  right:14px;
+
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(0,0,0,.45);
+
+  font-size:20px;
+}
+
+.archive-body{
+  padding:24px;
+}
+
+.archive-meta{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+.archive-title{
+  margin-top:14px;
+  font-family:'Playfair Display',serif;
+  font-size:32px;
+  line-height:1.05;
+}
+
+.archive-text{
+  margin-top:16px;
+  color:var(--muted);
+  line-height:1.8;
+  font-size:14px;
+}
+
+.archive-footer{
+  margin-top:22px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  color:var(--muted);
+
+  font-size:12px;
+}
+
+.tag{
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+}
+
+/* =========================================================
+ARENA
+========================================================= */
+
+.arena-layout{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:22px;
+}
+
+.arena-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+
+.section-head{
+  padding:28px 28px 0;
+}
+
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:42px;
+  line-height:1;
+}
+
+.section-copy{
+  margin-top:14px;
+  color:var(--muted);
+  line-height:1.8;
+  font-size:14px;
+}
+
+.task-list{
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.task{
+  padding:22px;
+  border-radius:24px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+
+  transition:var(--transition);
+}
+
+.task.done{
+  opacity:.55;
+  transform:scale(.98);
+}
+
+.task-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.task-title{
+  font-size:20px;
+  font-weight:600;
+}
+
+.task-type{
+  color:var(--accent);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.18em;
+}
+
+.task-copy{
+  margin-top:14px;
+  color:var(--muted);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.task-footer{
+  margin-top:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.task-btn{
+  border:none;
+  cursor:pointer;
+
+  padding:12px 18px;
+
+  border-radius:999px;
+
+  background:var(--accent);
+  color:#111;
+
+  font-weight:600;
+
+  transition:var(--transition);
+}
+
+.task-btn:hover{
+  transform:scale(1.04);
+}
+
+.energy{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.live-feed{
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  max-height:950px;
+  overflow:auto;
+}
+
+.feed-item{
+  padding:18px;
+  border-radius:22px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.03);
+
+  animation:appear .7s ease;
+}
+
+.feed-time{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.feed-text{
+  margin-top:10px;
+  line-height:1.7;
+  color:var(--muted);
+  font-size:14px;
+}
+
+@keyframes appear{
+
+  from{
+    opacity:0;
+    transform:translateY(14px);
+  }
+
+  to{
+    opacity:1;
+    transform:none;
+  }
+
+}
+
+/* =========================================================
+IPAD
+========================================================= */
+
+@media(max-width:1100px){
+
+  .archive-grid{
+    columns:2 300px;
+  }
+
+  .arena-layout{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:760px){
+
+  .archive-grid{
+    columns:1;
+  }
+
+  .tabs{
+    flex-wrap:wrap;
+  }
+
+  .hero-title{
+    font-size:52px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <header class="header">
+
+    <div class="logo">
+      Maison<span>Motif</span>
+    </div>
+
+    <div class="day-pill">
+      Founding Season — Day 01
+    </div>
+
+  </header>
+
+  <section class="hero">
+
+    <div class="eyebrow">
+      Emotional Continuity Infrastructure
+    </div>
+
+    <div class="hero-title">
+      Arena Creates Momentum.<br>
+      Archive Preserves Meaning.
+    </div>
+
+    <div class="hero-copy">
+      Tasks completed inside the Arena slowly become permanent family artifacts
+      inside the Archive. The experience feels cinematic, editorial, and emotionally
+      alive — not like a social media feed. 
+    </div>
+
+  </section>
+
+  <div class="tabs">
+
+    <button class="tab-btn active" data-tab="archive">
+      Archive
+    </button>
+
+    <button class="tab-btn" data-tab="arena">
+      Arena
+    </button>
+
+  </div>
+
+  <!-- =========================================================
+  ARCHIVE TAB
+  ========================================================= -->
+
+  <section class="panel active" id="archivePanel">
+
+    <div class="archive-grid" id="archiveGrid"></div>
+
+  </section>
+
+  <!-- =========================================================
+  ARENA TAB
+  ========================================================= -->
+
+  <section class="panel" id="arenaPanel">
+
+    <div class="arena-layout">
+
+      <div class="arena-card">
+
+        <div class="section-head">
+
+          <div class="section-title">
+            Live Expeditions
+          </div>
+
+          <div class="section-copy">
+            Families collaboratively complete emotionally meaningful discovery tasks.
+            Completing Arena activities permanently surfaces new artifacts inside the Archive. 
+          </div>
+
+        </div>
+
+        <div class="task-list" id="taskList"></div>
+
+      </div>
+
+      <div class="arena-card">
+
+        <div class="section-head">
+
+          <div class="section-title">
+            Seasonal Resonance
+          </div>
+
+          <div class="section-copy">
+            The system quietly amplifies emotional depth, discovery diversity,
+            and cross-generational participation instead of raw activity. 
+          </div>
+
+        </div>
+
+        <div class="live-feed" id="feed"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+
+/* =========================================================
+ARCHIVE DATA
+========================================================= */
+
+const archivePosts = [
+
+{
+  type:"Voice Fragment",
+  suit:"♠",
+  icon:"🎙️",
+  title:"Recorded In Silchar",
+  text:"Grandmother described the flood season wedding journey from Assam to Kolkata in 1978.",
+  meta:"Recovered Tonight",
+  footer:"Permanent Archive",
+  tag:"Elder Voice"
+},
+
+{
+  type:"Founding Blessing",
+  suit:"♥",
+  icon:"🕯️",
+  title:"The Dining Table Letter",
+  text:"“May future Diwalis begin at this table.” — handwritten blessing attached to the first family contribution.",
+  meta:"Featured Tonight",
+  footer:"Blessing Circle",
+  tag:"Ceremonial"
+},
+
+{
+  type:"Memory Discovery",
+  suit:"♣",
+  icon:"📜",
+  title:"Recipe Restoration",
+  text:"An aunt recovered the handwritten fish curry recipe used during three generations of weddings.",
+  meta:"Continuity Collection",
+  footer:"Family Rituals",
+  tag:"Tradition"
+},
+
+{
+  type:"Archive Route",
+  suit:"♠",
+  icon:"🚂",
+  title:"The Assam Route",
+  text:"The archive reconstructed the railway migration timeline using tickets, photos, and oral histories.",
+  meta:"Partially Restored",
+  footer:"Migration Memory",
+  tag:"Historical"
+}
+
+];
+
+/* =========================================================
+TASKS
+========================================================= */
+
+const tasks = [
+
+{
+  id:1,
+  type:"Archive Hunt",
+  title:"Recover The Oldest Wedding Photograph",
+  copy:"Find a pre-1995 family wedding image hidden in albums, trunks, or WhatsApp groups.",
+  energy:"♠ archival resonance rising",
+  reward:{
+    title:"The Forgotten Weddings",
+    post:{
+      type:"Recovered Artifact",
+      suit:"♠",
+      icon:"📸",
+      title:"A Wedding From 1984 Resurfaced",
+      text:"A damaged photograph from an uncle’s wedding was restored and added to the permanent archive.",
+      meta:"Recently Restored",
+      footer:"Forgotten Weddings Collection",
+      tag:"Archive"
+    }
+  }
+},
+
+{
+  id:2,
+  type:"Voice Expedition",
+  title:"Record An Elder Laughing",
+  copy:"Capture an unscripted voice fragment from a grandparent or elder relative.",
+  energy:"♥ emotional atmosphere deepening",
+  reward:{
+    title:"Voice Vault",
+    post:{
+      type:"Voice Fragment",
+      suit:"♥",
+      icon:"🎧",
+      title:"A Grandfather’s Laugh Was Preserved",
+      text:"A spontaneous family conversation became one of the most resonant recordings of the evening.",
+      meta:"Voice Archive",
+      footer:"Founding Season",
+      tag:"Emotional"
+    }
+  }
+},
+
+{
+  id:3,
+  type:"Discovery Route",
+  title:"Find A Forgotten Invitation Card",
+  copy:"Recover a wedding invitation from an older generation and attach its story.",
+  energy:"♣ continuity signatures rising",
+  reward:{
+    title:"Invitation Vault",
+    post:{
+      type:"Recovered Ritual",
+      suit:"♣",
+      icon:"💌",
+      title:"Invitation Card From 1991 Found",
+      text:"The card revealed forgotten family names, rituals, and ceremonial traditions.",
+      meta:"Recently Preserved",
+      footer:"Ritual Continuity",
+      tag:"Tradition"
+    }
+  }
+}
+
+];
+
+/* =========================================================
+RENDER ARCHIVE
+========================================================= */
+
+const archiveGrid = document.getElementById('archiveGrid');
+
+function renderArchive(){
+
+  archiveGrid.innerHTML = '';
+
+  archivePosts.forEach(post => {
+
+    archiveGrid.innerHTML += `
+
+      <article class="archive-card">
+
+        <div class="archive-cover">
+
+          <div>${post.icon}</div>
+
+          <div class="suit">
+            ${post.suit}
+          </div>
+
+        </div>
+
+        <div class="archive-body">
+
+          <div class="archive-meta">
+            ${post.meta}
+          </div>
+
+          <div class="archive-title">
+            ${post.title}
+          </div>
+
+          <div class="archive-text">
+            ${post.text}
+          </div>
+
+          <div class="archive-footer">
+
+            <div>${post.footer}</div>
+
+            <div class="tag">
+              ${post.tag}
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  });
+
+}
+
+renderArchive();
+
+/* =========================================================
+RENDER TASKS
+========================================================= */
+
+const taskList = document.getElementById('taskList');
+
+function renderTasks(){
+
+  taskList.innerHTML = '';
+
+  tasks.forEach(task => {
+
+    taskList.innerHTML += `
+
+      <div class="task" id="task-${task.id}">
+
+        <div class="task-head">
+
+          <div>
+            <div class="task-type">
+              ${task.type}
+            </div>
+
+            <div class="task-title">
+              ${task.title}
+            </div>
+          </div>
+
+        </div>
+
+        <div class="task-copy">
+          ${task.copy}
+        </div>
+
+        <div class="task-footer">
+
+          <div class="energy">
+            ${task.energy}
+          </div>
+
+          <button class="task-btn"
+            onclick="completeTask(${task.id})">
+
+            Complete Task
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+renderTasks();
+
+/* =========================================================
+LIVE FEED
+========================================================= */
+
+const feed = document.getElementById('feed');
+
+function addFeed(message){
+
+  const item = document.createElement('div');
+
+  item.className = 'feed-item';
+
+  item.innerHTML = `
+
+    <div class="feed-time">
+      LIVE RESONANCE
+    </div>
+
+    <div class="feed-text">
+      ${message}
+    </div>
+
+  `;
+
+  feed.prepend(item);
+
+}
+
+addFeed("♠ ancestral resonance unusually strong tonight.");
+addFeed("The archive quietly opened another hidden collection.");
+addFeed("A forgotten migration route has resurfaced.");
+
+/* =========================================================
+COMPLETE TASK
+========================================================= */
+
+function completeTask(id){
+
+  const task = tasks.find(t => t.id === id);
+
+  if(!task) return;
+
+  document
+    .getElementById(`task-${id}`)
+    .classList.add('done');
+
+  archivePosts.unshift(task.reward.post);
+
+  renderArchive();
+
+  addFeed(`
+    ${task.reward.title} has surfaced inside the Archive.
+  `);
+
+  addFeed(`
+    Legacy impact rising across cross-generational routes.
+  `);
+
+  /* unlock next hidden task */
+
+  if(tasks.length < 6){
+
+    const hiddenTasks = [
+
+      {
+        id:Math.random(),
+        type:"Memory Chain",
+        title:"Who Knew Before They Did?",
+        copy:"Collect stories from relatives who suspected the marriage first.",
+        energy:"♥ emotional momentum increasing"
+      },
+
+      {
+        id:Math.random(),
+        type:"Route Reconstruction",
+        title:"Trace The Kolkata Years",
+        copy:"Rebuild a family timeline from migration memories and photographs.",
+        energy:"♠ historical routes resurfacing"
+      },
+
+      {
+        id:Math.random(),
+        type:"Continuity Ritual",
+        title:"Record A Family Saying",
+        copy:"Capture a phrase repeated across generations.",
+        energy:"♣ continuity signatures stabilizing"
+      }
+
+    ];
+
+    const next = hiddenTasks.shift();
+
+    if(next){
+
+      tasks.push(next);
+
+      renderTasks();
+
+      addFeed(`
+        A deeper expedition route has opened inside the Arena.
+      `);
+
+    }
+
+  }
+
+}
+
+/* =========================================================
+TABS
+========================================================= */
+
+const buttons = document.querySelectorAll('.tab-btn');
+
+buttons.forEach(btn => {
+
+  btn.addEventListener('click', () => {
+
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.panel')
+      .forEach(panel => panel.classList.remove('active'));
+
+    if(btn.dataset.tab === 'archive'){
+      document.getElementById('archivePanel').classList.add('active');
+    }else{
+      document.getElementById('arenaPanel').classList.add('active');
+    }
+
+  });
+
+});
+
+</script>
+
+</body>
+</html>
