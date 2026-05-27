@@ -1,0 +1,1387 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Mirror — AI-Powered Career Discovery for Teens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1f3d;
+    --navy-mid: #172a50;
+    --navy-light: #1e3566;
+    --saffron: #f4961a;
+    --saffron-light: #fbb954;
+    --cream: #fdf6ec;
+    --cream-dark: #f5e9d4;
+    --white: #ffffff;
+    --text-muted: #8a9ab8;
+    --green: #2dca72;
+    --red-soft: #ff6b6b;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --radius: 16px;
+    --radius-sm: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--navy);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(253, 246, 236, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(244, 150, 26, 0.15);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: var(--navy);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-logo .dot {
+    width: 10px; height: 10px;
+    background: var(--saffron);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .nav-cta {
+    background: var(--saffron);
+    color: var(--navy);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+
+  .nav-cta:hover { background: var(--saffron-light); transform: scale(1.03); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 110px 24px 80px;
+    text-align: center;
+  }
+
+  .hero-bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(244,150,26,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-bg-circle.c1 { width: 700px; height: 700px; top: -200px; left: -200px; }
+  .hero-bg-circle.c2 { width: 500px; height: 500px; bottom: -100px; right: -100px; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(244,150,26,0.15);
+    border: 1px solid rgba(244,150,26,0.3);
+    color: var(--saffron-light);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 50px;
+    margin-bottom: 28px;
+    animation: fadeDown 0.7s ease both;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 7vw, 4.8rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    max-width: 820px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--saffron);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 24px auto 0;
+    font-weight: 400;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 40px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--saffron);
+    color: var(--navy);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 16px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(244,150,26,0.4);
+  }
+  .btn-primary:hover { background: var(--saffron-light); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(244,150,26,0.5); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 16px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.4); }
+
+  .hero-image-placeholder {
+    width: 100%;
+    max-width: 900px;
+    margin: 56px auto 0;
+    aspect-ratio: 16/7;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border: 1.5px dashed rgba(244,150,26,0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: rgba(244,150,26,0.5);
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    animation: fadeUp 0.9s 0.4s ease both;
+  }
+
+  .placeholder-icon { font-size: 2.5rem; opacity: 0.5; }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    background: var(--saffron);
+    padding: 22px 24px;
+    overflow: hidden;
+  }
+
+  .stats-inner {
+    display: flex;
+    gap: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 32px;
+    border-right: 1.5px solid rgba(15,31,61,0.2);
+    color: var(--navy);
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.75;
+    max-width: 80px;
+    line-height: 1.3;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 80px 24px;
+    position: relative;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--saffron);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  h2.section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--navy);
+    max-width: 640px;
+  }
+
+  h2.section-title.light { color: var(--white); }
+
+  .section-body {
+    font-size: 1.05rem;
+    color: #445870;
+    max-width: 580px;
+    margin-top: 18px;
+  }
+
+  /* ── PROBLEM ── */
+  .problem-section { background: var(--cream); }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 52px;
+  }
+
+  .problem-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 32px;
+    border: 1.5px solid var(--cream-dark);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .problem-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(15,31,61,0.08); }
+
+  .problem-card .card-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+  }
+
+  .icon-red { background: #fff0f0; }
+  .icon-amber { background: #fff7e6; }
+  .icon-blue { background: #eef4ff; }
+  .icon-green { background: #edfff5; }
+
+  .problem-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .problem-card p { font-size: 0.93rem; color: #6b7c93; line-height: 1.65; }
+
+  .problem-image-placeholder {
+    margin-top: 52px;
+    width: 100%;
+    aspect-ratio: 16/5;
+    border-radius: var(--radius);
+    background: var(--cream-dark);
+    border: 2px dashed #d4c4a8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #b09878;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .howitworks-section { background: var(--navy); }
+
+  .steps-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 52px;
+    position: relative;
+  }
+
+  .steps-row::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+    z-index: 0;
+  }
+
+  .step-card {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 28px 22px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .step-card:hover { background: rgba(244,150,26,0.08); border-color: rgba(244,150,26,0.3); }
+
+  .step-num {
+    width: 52px; height: 52px;
+    background: var(--saffron);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--navy);
+    margin: 0 auto 18px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .step-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .step-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── PROMPTS DEMO ── */
+  .prompts-section { background: var(--cream); }
+
+  .prompts-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+    margin-top: 52px;
+  }
+
+  .prompt-list { display: flex; flex-direction: column; gap: 16px; }
+
+  .prompt-bubble {
+    background: var(--white);
+    border-radius: 16px 16px 16px 4px;
+    padding: 18px 22px;
+    border: 1.5px solid var(--cream-dark);
+    font-size: 0.95rem;
+    color: var(--navy);
+    line-height: 1.55;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    transition: transform 0.2s;
+  }
+
+  .prompt-bubble:hover { transform: translateX(4px); border-color: var(--saffron); }
+  .prompt-bubble strong { color: var(--saffron); }
+
+  .archetype-panel {
+    background: var(--navy);
+    border-radius: var(--radius);
+    padding: 32px;
+    position: sticky;
+    top: 100px;
+  }
+
+  .archetype-panel h3 {
+    font-family: var(--font-display);
+    color: var(--saffron);
+    font-size: 1rem;
+    margin-bottom: 22px;
+    font-style: italic;
+  }
+
+  .archetype-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .archetype-row:last-child { border-bottom: none; }
+
+  .archetype-name {
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .archetype-name .emoji { font-size: 1rem; }
+
+  .archetype-bar-wrap {
+    width: 120px;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .archetype-bar {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--saffron);
+    transition: width 1s ease;
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .compare-section { background: var(--cream-dark); }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 48px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(15,31,61,0.1);
+  }
+
+  .compare-table th {
+    padding: 20px 28px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .compare-table th:first-child {
+    background: #e8e0d4;
+    color: #7a6e5f;
+    text-align: left;
+  }
+
+  .compare-table th:last-child {
+    background: var(--navy);
+    color: var(--saffron);
+    text-align: center;
+  }
+
+  .compare-table th:nth-child(2) {
+    background: #f5ece0;
+    color: #8a7a69;
+    text-align: center;
+  }
+
+  .compare-table td {
+    padding: 18px 28px;
+    font-size: 0.92rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .compare-table td:first-child { background: #faf5ef; color: #666; }
+  .compare-table td:nth-child(2) { background: #fdf8f2; color: #b09878; text-align: center; font-size: 1.1rem; }
+  .compare-table td:last-child { background: #f0f4ff; color: var(--navy); text-align: center; font-size: 1.1rem; }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  /* ── WEEKLY REPORT ── */
+  .report-section { background: var(--navy); }
+
+  .report-card {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 36px;
+    max-width: 720px;
+    margin: 48px auto 0;
+  }
+
+  .report-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .report-header h3 {
+    font-family: var(--font-display);
+    color: var(--white);
+    font-size: 1.3rem;
+  }
+
+  .report-week {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.05);
+    padding: 6px 14px;
+    border-radius: 50px;
+  }
+
+  .report-section-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--saffron);
+    margin: 22px 0 12px;
+  }
+
+  .pattern-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .pattern-tag {
+    background: rgba(244,150,26,0.12);
+    border: 1px solid rgba(244,150,26,0.25);
+    color: var(--saffron-light);
+    font-size: 0.82rem;
+    padding: 6px 14px;
+    border-radius: 50px;
+  }
+
+  .archetype-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .archetype-pill {
+    background: rgba(255,255,255,0.07);
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .risk-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+  .risk-list li {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .risk-list li::before {
+    content: '▲';
+    color: var(--red-soft);
+    font-size: 0.65rem;
+    flex-shrink: 0;
+  }
+
+  /* ── PRICING ── */
+  .pricing-section { background: var(--cream); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 52px;
+    align-items: start;
+  }
+
+  .price-card {
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(244,150,26,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .price-badge {
+    display: inline-block;
+    background: var(--saffron);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+  }
+
+  .price-amount {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .price-currency {
+    font-size: 1.8rem;
+    vertical-align: super;
+    color: var(--saffron);
+  }
+
+  .price-period {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  .price-features {
+    list-style: none;
+    margin: 28px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .price-features li {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .price-features li::before {
+    content: '✓';
+    background: rgba(244,150,26,0.2);
+    color: var(--saffron);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── QR / PAYMENT ── */
+  .payment-panel {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 36px;
+    border: 2px solid var(--cream-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .payment-panel h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--navy);
+    text-align: center;
+  }
+
+  .qr-frame {
+    width: 200px;
+    height: 200px;
+    border: 3px solid var(--navy);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  /* Actual QR code pattern (decorative placeholder) */
+  .qr-inner {
+    width: 170px;
+    height: 170px;
+    display: grid;
+    grid-template-columns: repeat(17, 1fr);
+    grid-template-rows: repeat(17, 1fr);
+    gap: 1px;
+  }
+
+  .qr-label {
+    font-size: 0.8rem;
+    color: #999;
+    font-family: var(--font-mono);
+    text-align: center;
+  }
+
+  .upi-id {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .upi-id .copy-btn {
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: var(--font-body);
+  }
+
+  .upi-id .copy-btn:hover { background: var(--saffron); color: var(--navy); }
+
+  .wa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #25D366;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 16px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    width: 100%;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+  }
+  .wa-btn:hover { background: #1ebe5c; transform: translateY(-2px); }
+
+  .wa-icon { font-size: 1.3rem; }
+
+  /* ── FINAL CTA ── */
+  .final-cta {
+    background: var(--navy);
+    text-align: center;
+    padding: 100px 24px;
+  }
+
+  .final-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    color: var(--white);
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.15;
+  }
+
+  .final-cta h2 em { color: var(--saffron); font-style: italic; }
+
+  .final-cta p {
+    color: var(--text-muted);
+    margin: 20px auto 40px;
+    max-width: 480px;
+    font-size: 1rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080f1e;
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  footer a { color: var(--saffron); text-decoration: none; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    section { padding: 60px 20px; }
+
+    .problem-grid { grid-template-columns: 1fr; }
+    .steps-row { grid-template-columns: 1fr 1fr; }
+    .steps-row::before { display: none; }
+    .prompts-layout { grid-template-columns: 1fr; }
+    .archetype-panel { position: static; }
+    .compare-table { font-size: 0.82rem; }
+    .compare-table th, .compare-table td { padding: 14px 16px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .stat-item { padding: 6px 18px; }
+    .stat-item:nth-child(3) { border-right: none; }
+    .stat-item:nth-child(4) { border-right: none; }
+  }
+
+  @media (max-width: 480px) {
+    .steps-row { grid-template-columns: 1fr; }
+    nav { padding: 14px 18px; }
+    .nav-logo { font-size: 1.2rem; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--saffron); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><span class="dot"></span> Career Mirror</a>
+  <a href="https://wa.me/917019492748" target="_blank" class="nav-cta">Chat on WhatsApp</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+
+  <div class="hero-tag">🇮🇳 Grades 9–12 · AI-Powered · Only ₹999</div>
+
+  <h1>Help Your Teen Discover What Career <em>Actually</em> Fits Them</h1>
+
+  <p class="hero-sub">Daily AI-guided journaling that builds a behavioral map of your child's strengths, interests, and future career fit — over time, not in a single test.</p>
+
+  <div class="hero-actions">
+    <a href="https://wa.me/917019492748" target="_blank" class="btn-primary">
+      💬 Chat on WhatsApp
+    </a>
+    <a href="#how-it-works" class="btn-ghost">See how it works ↓</a>
+  </div>
+
+  <div class="hero-image-placeholder" style="background: url(https://www.kiwifamilies.co.nz/wp-content/uploads/2024/10/journal-prompts-for-teens.jpg) 50% 50%;background-size: cover;">
+    
+    <!-- <div class="placeholder-icon">🖼️</div> -->
+    <!-- <div><img src="https://www.kiwifamilies.co.nz/wp-content/uploads/2024/10/journal-prompts-for-teens.jpg" style="max-height: 340px;" alt=""></div> -->
+    <!-- <div style="opacity:0.6">Replace this placeholder with a real image</div> -->
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div>
+        <div class="stat-num">₹999</div>
+        <div class="stat-label">one-time access</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-num">5–10</div>
+        <div class="stat-label">mins daily</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-num">8</div>
+        <div class="stat-label">career archetypes mapped</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div>
+        <div class="stat-num">Weekly</div>
+        <div class="stat-label">AI insight reports</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">// The Problem</div>
+      <h2 class="section-title">Most students choose careers blindly.</h2>
+      <p class="section-body">Schools teach exams, subjects, and marks. But rarely teach self-awareness, career fit, or how different careers actually feel. So students make life-changing decisions with very little real understanding.</p>
+    </div>
+
+    <div class="problem-grid reveal">
+      <div class="problem-card">
+        <div class="card-icon icon-red">😰</div>
+        <h3>₹2–5 Lakh on Coaching</h3>
+        <p>Parents spend enormous sums on coaching and tuition — yet most students still don't know what kind of work actually suits them.</p>
+      </div>
+      <div class="problem-card">
+        <div class="card-icon icon-amber">📋</div>
+        <h3>One-Time Aptitude Tests</h3>
+        <p>A 30-minute test cannot capture behavioral patterns that evolve over months. Static snapshots fail to reveal who your child is becoming.</p>
+      </div>
+      <div class="problem-card">
+        <div class="card-icon icon-blue">🎯</div>
+        <h3>Prestige Over Fit</h3>
+        <p>Students optimize for perceived status — Engineering, Medicine, MBA — without asking what their actual strengths and energy patterns suggest.</p>
+      </div>
+      <div class="problem-card">
+        <div class="card-icon icon-green">🌐</div>
+        <h3>The Future Has Changed</h3>
+        <p>The new economy rewards adaptability, proof-of-work, communication, and AI fluency — not just degrees on a resume.</p>
+      </div>
+    </div>
+
+    <div class="problem-image-placeholder reveal" style="background: url(https://static.toiimg.com/thumb/msid-122275522,imgsize-611481,width-400,height-225,resizemode-72/122275522.jpg) 50% 50%;background-size: cover;">
+      <!-- <div style="font-size:2rem">🖼️</div> -->
+      <!-- <div>[ Image: Confused student at a crossroads / career stress visual ]</div> -->
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="howitworks-section" id="how-it-works">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">// How It Works</div>
+      <h2 class="section-title light">A daily AI reflection system.</h2>
+      <p class="section-body" style="color:var(--text-muted)">Four simple steps. Compounding intelligence over time.</p>
+    </div>
+
+    <div class="steps-row reveal">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Daily Journaling Prompts</h3>
+        <p>Your teen answers 3–5 guided questions about what energized them, bored them, or sparked curiosity that day.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>AI Detects Patterns</h3>
+        <p>Over weeks, the AI notices behavioral clusters — builder signals, analytical thinking, creative tendencies, leadership moments.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Career Archetypes Emerge</h3>
+        <p>The system maps patterns to 8 career archetypes: Builders, Distributors, Operators, Analysts, Closers, Creators, Educators, Industrialists.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Weekly AI Reports</h3>
+        <p>Parents and students receive a clear, evolving weekly report showing strengths, career suggestions, and growth areas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DAILY PROMPTS -->
+<section class="prompts-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">// Daily Prompts</div>
+      <h2 class="section-title">Questions that reveal who your child really is.</h2>
+      <p class="section-body">Not random questions. Carefully designed behavioral prompts that build a picture over time.</p>
+    </div>
+
+    <div class="prompts-layout reveal">
+      <div class="prompt-list">
+        <div class="prompt-bubble">💡 <strong>What made you curious today?</strong> Was there something you couldn't stop thinking about?</div>
+        <div class="prompt-bubble">⚡ <strong>What task drained your energy?</strong> What did you find repetitive or boring?</div>
+        <div class="prompt-bubble">📺 <strong>What YouTube topic did you binge?</strong> Your internet behavior reveals hidden strengths.</div>
+        <div class="prompt-bubble">🔧 <strong>Did you enjoy solving, explaining, organizing, or designing today?</strong> Which felt most natural?</div>
+        <div class="prompt-bubble">⏱️ <strong>What activity made time disappear?</strong> What were you doing when you lost track of the clock?</div>
+        <div class="prompt-bubble">🌟 <strong>What kind of people do you admire?</strong> What qualities in others do you want to develop?</div>
+        <div class="prompt-bubble">😤 <strong>What frustrated you today?</strong> Often, frustration reveals what you deeply care about.</div>
+      </div>
+
+      <div class="archetype-panel">
+        <h3>Sample Pattern Detection</h3>
+        <div class="report-section-title">Archetype Fit (Week 8)</div>
+        <div class="archetype-row">
+          <span class="archetype-name"><span class="emoji">🔬</span> Analyst</span>
+          <div class="archetype-bar-wrap"><div class="archetype-bar" style="width:88%"></div></div>
+        </div>
+        <div class="archetype-row">
+          <span class="archetype-name"><span class="emoji">🎨</span> Creator</span>
+          <div class="archetype-bar-wrap"><div class="archetype-bar" style="width:74%"></div></div>
+        </div>
+        <div class="archetype-row">
+          <span class="archetype-name"><span class="emoji">📚</span> Educator</span>
+          <div class="archetype-bar-wrap"><div class="archetype-bar" style="width:62%"></div></div>
+        </div>
+        <div class="archetype-row">
+          <span class="archetype-name"><span class="emoji">⚙️</span> Builder</span>
+          <div class="archetype-bar-wrap"><div class="archetype-bar" style="width:51%"></div></div>
+        </div>
+        <div class="archetype-row">
+          <span class="archetype-name"><span class="emoji">📣</span> Distributor</span>
+          <div class="archetype-bar-wrap"><div class="archetype-bar" style="width:39%"></div></div>
+        </div>
+        <div class="archetype-row">
+          <span class="archetype-name"><span class="emoji">🏗️</span> Operator</span>
+          <div class="archetype-bar-wrap"><div class="archetype-bar" style="width:28%"></div></div>
+        </div>
+        <p style="font-size:0.78rem; color:var(--text-muted); margin-top:20px;">Patterns update every week as more data is added.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="compare-section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">// What Makes This Different</div>
+      <h2 class="section-title">Not another career test.</h2>
+      <p class="section-body">Traditional counseling takes a snapshot. Career Mirror builds a behavioral picture over months.</p>
+    </div>
+
+    <div class="reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Traditional Counseling</th>
+            <th>Career Mirror ✨</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Analysis Method</td>
+            <td>❌ One-time aptitude test</td>
+            <td>✅ Continuous behavioral analysis</td>
+          </tr>
+          <tr>
+            <td>Advice Type</td>
+            <td>❌ Generic, static</td>
+            <td>✅ Personalized & evolving</td>
+          </tr>
+          <tr>
+            <td>Focus</td>
+            <td>❌ Degrees and marks</td>
+            <td>✅ Strengths & value creation</td>
+          </tr>
+          <tr>
+            <td>Accuracy</td>
+            <td>❌ Snapshot-based</td>
+            <td>✅ Improves over time</td>
+          </tr>
+          <tr>
+            <td>Modern Careers</td>
+            <td>❌ Exam-centric paths only</td>
+            <td>✅ Future-centric, AI-era aware</td>
+          </tr>
+          <tr>
+            <td>Cost</td>
+            <td>❌ ₹10,000 – ₹50,000+</td>
+            <td>✅ Just ₹999</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- WEEKLY REPORT -->
+<section class="report-section">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">// Weekly AI Report</div>
+      <h2 class="section-title light" style="max-width:100%">What parents receive every week.</h2>
+      <p style="color:var(--text-muted); margin-top:14px; font-size:1rem">A clear, readable summary of your child's behavioral patterns, strengths, and career direction.</p>
+    </div>
+
+    <div class="report-card reveal">
+      <div class="report-header">
+        <h3>Your Child This Week</h3>
+        <span class="report-week">Week 8 · Sample Report</span>
+      </div>
+
+      <div class="report-section-title">Dominant Patterns Detected</div>
+      <div class="pattern-tags">
+        <span class="pattern-tag">Strong analytical curiosity</span>
+        <span class="pattern-tag">High independent learning</span>
+        <span class="pattern-tag">Visual creativity</span>
+        <span class="pattern-tag">Avoids repetitive tasks</span>
+        <span class="pattern-tag">Enjoys explaining concepts</span>
+        <span class="pattern-tag">Entrepreneurial curiosity</span>
+      </div>
+
+      <div class="report-section-title">Possible Career Archetypes</div>
+      <div class="archetype-pills">
+        <span class="archetype-pill">🔬 Analyst</span>
+        <span class="archetype-pill">🎨 Creator</span>
+        <span class="archetype-pill">📚 Educator</span>
+      </div>
+
+      <div class="report-section-title">Suggested Career Explorations</div>
+      <div class="pattern-tags">
+        <span class="pattern-tag" style="background:rgba(45,202,114,0.1); border-color:rgba(45,202,114,0.25); color:#2dca72">Data Analyst</span>
+        <span class="pattern-tag" style="background:rgba(45,202,114,0.1); border-color:rgba(45,202,114,0.25); color:#2dca72">Product Designer</span>
+        <span class="pattern-tag" style="background:rgba(45,202,114,0.1); border-color:rgba(45,202,114,0.25); color:#2dca72">Education Creator</span>
+        <span class="pattern-tag" style="background:rgba(45,202,114,0.1); border-color:rgba(45,202,114,0.25); color:#2dca72">AI Workflow Architect</span>
+      </div>
+
+      <div class="report-section-title">Areas to Watch</div>
+      <ul class="risk-list">
+        <li>Inconsistent execution — starts projects but needs support completing them</li>
+        <li>Overthinking instead of shipping — perfectionism may slow progress</li>
+        <li>Avoiding public visibility — communication skills need deliberate practice</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">// Get Started Today</div>
+      <h2 class="section-title" style="max-width:100%; text-align:center">One decision. ₹999.</h2>
+      <p class="section-body" style="margin:14px auto 0; text-align:center">No subscriptions. No pressure. Just a clear first step toward career self-awareness.</p>
+    </div>
+
+    <div class="pricing-grid reveal">
+      <!-- Price Card -->
+      <div class="price-card">
+        <div class="price-badge">V1 — Starter Access</div>
+        <div class="price-amount"><span class="price-currency">₹</span>999</div>
+        <div class="price-period">one-time payment · instant access</div>
+        <ul class="price-features">
+          <li>Guided daily journaling prompts</li>
+          <li>Career archetype mapping (8 types)</li>
+          <li>AI pattern detection over time</li>
+          <li>Weekly AI insight summaries</li>
+          <li>Strength pattern detection</li>
+          <li>Career suggestions & fit analysis</li>
+          <li>Reflection dashboard</li>
+        </ul>
+        <a href="https://wa.me/917019492748" target="_blank" class="btn-primary" style="width:100%; justify-content:center;">
+          💬 Chat to Get Started
+        </a>
+
+        <div style="margin-top:20px; padding-top:18px; border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:0.78rem; color:var(--text-muted); text-align:center;">Coming next: Parent dashboard, school integration, portfolio builder</p>
+        </div>
+      </div>
+
+      <!-- Payment Panel -->
+      <div class="payment-panel">
+        <h3>Pay ₹999 via UPI</h3>
+        <p style="font-size:0.85rem; color:#888; text-align:center;">Scan the QR code below or use the UPI ID to pay directly.</p>
+        <img src="https://sasban.online/sas-upi.jpg" style="max-width: 300px;width: 100%;" alt="">
+
+        <!-- UPI QR CODE - REPLACE SRC WITH YOUR ACTUAL QR -->
+        <div class="qr-frame" style="border-radius:16px; overflow:hidden; position:relative; display:none; align-items:center; justify-content:center; flex-direction:column; gap:8px; padding:10px;">
+          <!-- PLACEHOLDER: Replace this div with an <img src="your-qr.png"> -->
+          <div style="
+            width:170px; height:170px;
+            background: repeating-linear-gradient(0deg, #0f1f3d 0px, #0f1f3d 5px, transparent 5px, transparent 10px),
+                        repeating-linear-gradient(90deg, #0f1f3d 0px, #0f1f3d 5px, transparent 5px, transparent 10px);
+            border-radius:8px;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            position:relative;
+          ">
+            <div style="position:absolute; inset:0; display:none; grid-template:1fr/1fr; align-items:center; justify-items:center; background:white; border-radius:6px;">
+              <div style="background:white; width:100%; height:100%; border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:12px;">
+                <!-- QR corner squares simulation -->
+                <div style="width:100%; display:none; grid-template-columns:1fr 1fr 1fr; gap:4px; flex:1;">
+                  <div style="border:3px solid #0f1f3d; border-radius:4px; aspect-ratio:1; display:flex; align-items:center; justify-content:center;"><div style="width:50%; height:50%; background:#0f1f3d; border-radius:2px;"></div></div>
+                  <div style="display:none; grid-template-columns:repeat(3,1fr); gap:2px; padding:2px;">
+                    <div style="background:#0f1f3d; border-radius:1px;"></div><div></div><div style="background:#0f1f3d; border-radius:1px;"></div>
+                    <div></div><div style="background:#f4961a; border-radius:1px;"></div><div></div>
+                    <div style="background:#0f1f3d; border-radius:1px;"></div><div></div><div style="background:#0f1f3d; border-radius:1px;"></div>
+                  </div>
+                  <div style="border:3px solid #0f1f3d; border-radius:4px; aspect-ratio:1; display:flex; align-items:center; justify-content:center;"><div style="width:50%; height:50%; background:#0f1f3d; border-radius:2px;"></div></div>
+                </div>
+                <div style="font-family:var(--font-mono); font-size:0.55rem; color:#888; text-align:center; line-height:1.4;">
+                  ⚠️ Replace with actual<br>UPI QR code image
+                </div>
+                <div style="font-size:1.5rem;">🔲</div>
+                <div style="border:3px solid #0f1f3d; border-radius:4px; width:35%; aspect-ratio:1; display:flex; align-items:center; justify-content:center; align-self:flex-start;"><div style="width:50%; height:50%; background:#0f1f3d; border-radius:2px;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="qr-label">Scan with any UPI app · GPay, PhonePe, Paytm</div> -->
+
+        <div class="upi-id">
+          <span id="upi-text">azure.saswata@okaxis</span>
+          <button class="copy-btn" onclick="copyUPI()">Copy</button>
+        </div>
+
+        <div style="text-align:center; font-size:0.78rem; color:#999; padding: 0 8px;">
+          After payment, send screenshot on WhatsApp to get access within minutes.
+        </div>
+
+        <a href="https://wa.me/917019492748?text=Hi%2C%20I%20just%20paid%20%E2%82%B9100%20for%20Career%20Mirror.%20Here%27s%20my%20payment%20screenshot." target="_blank" class="wa-btn">
+          <span class="wa-icon">💬</span> Send Payment on WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Don't let your child make <em>permanent career decisions</em> with temporary self-awareness.</h2>
+  <p>Start the AI-powered self-discovery project today. Only ₹999.</p>
+  <a href="https://wa.me/917019492748" target="_blank" class="btn-primary" style="font-size:1.1rem; padding:18px 40px;">
+    💬 Chat on WhatsApp to Start
+  </a>
+
+  <div style="margin-top:56px; opacity:0.15; font-family:var(--font-display); font-size:1rem; letter-spacing:0.3em; text-transform:uppercase; color:white;">
+    Career Mirror &nbsp;·&nbsp; AI Career Discovery &nbsp;·&nbsp; Grades 9–12
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Career Mirror &nbsp;·&nbsp; Made with ❤️ for Indian teenagers &nbsp;·&nbsp; <a href="https://wa.me/917019492748">Contact on WhatsApp</a></p>
+  <p style="margin-top:8px; font-size:0.75rem;">Questions? Chat with us at <a href="https://wa.me/917019492748">+91 70194 92748</a></p>
+</footer>
+
+<script>
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // ── COPY UPI ──
+  function copyUPI() {
+    const upiId = document.getElementById('upi-text').textContent;
+    navigator.clipboard.writeText(upiId).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied!';
+      btn.style.background = '#2dca72';
+      btn.style.color = '#fff';
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 2000);
+    });
+  }
+
+  // ── ANIMATE ARCHETYPE BARS ON SCROLL ──
+  const barsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.archetype-bar').forEach(bar => {
+          const w = bar.style.width;
+          bar.style.width = '0%';
+          setTimeout(() => { bar.style.width = w; }, 100);
+        });
+        barsObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.archetype-panel').forEach(el => barsObserver.observe(el));
+
+  // ── SMOOTH NAV LINKS ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
