@@ -1,0 +1,534 @@
+<!-- Full rebuild with left 33% text / right 67% 3-column photo wall, opposite direction parallax
+Full rebuild with left 33% text / right 67% 3-column photo wall, opposite direction parallax
+
+Full rebuild with left 33% text / right 67% 3-column photo wall, opposite direction parallax
+bash
+
+cat > /mnt/user-data/outputs/travel-parallax-slideshow.html << 'HTMLEOF' -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wanderlust — A Journey Through the World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@100;300;400&family=Playfair+Display:ital,wght@0,400;1,400;1,700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#c9a96e;--gold-light:#e8d5a8;--cream:#f5f0e8;
+  --dark:#0a0908;--dark2:#15120e;--muted:rgba(255,255,255,0.35);
+  --left:33%;--right:67%;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--dark);color:var(--cream);cursor:none}
+
+/* ── CURSOR ── */
+#cursor{position:fixed;z-index:9999;width:10px;height:10px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s}
+#cursor.expand{width:32px;height:32px;background:rgba(201,169,110,.1)}
+
+/* ── LEFT PANEL (foreground slides) ── */
+#left-panel{
+  position:fixed;left:0;top:0;
+  width:var(--left);height:100vh;
+  overflow:hidden;
+  z-index:10;
+  /* subtle gradient separator */
+  border-right:1px solid rgba(201,169,110,.1);
+}
+/* dark bg for left panel so text is always readable */
+#left-panel::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to right, rgba(10,9,8,.96) 70%, rgba(10,9,8,.7) 100%);
+  z-index:0;pointer-events:none;
+}
+
+#fg-track{
+  position:absolute;left:0;top:0;width:100%;
+  will-change:transform;
+  transition:transform 1.3s cubic-bezier(.77,0,.175,1);
+  z-index:1;
+}
+
+.slide{
+  width:100%;height:100vh;
+  display:flex;align-items:center;
+  padding:0 10% 0 12%;
+}
+.slide-content{width:100%;max-width:100%}
+
+.slide-meta{display:flex;align-items:center;gap:12px;margin-bottom:22px;opacity:0;transform:translateY(14px);transition:opacity .8s .18s ease,transform .8s .18s ease}
+.slide-chapter{font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:9px;letter-spacing:.44em;text-transform:uppercase;color:var(--gold)}
+.meta-line{width:28px;height:1px;background:var(--gold);opacity:.45}
+.slide-number{font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:9px;letter-spacing:.2em;color:var(--muted)}
+
+.slide-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,4.2vw,3.8rem);line-height:1.06;color:var(--cream);margin-bottom:10px;opacity:0;transform:translateY(20px);transition:opacity .9s .33s ease,transform .9s .33s ease}
+.slide-title em{font-style:italic;font-weight:300;color:var(--gold-light)}
+
+.slide-subtitle{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(.85rem,1.4vw,1.1rem);color:var(--gold);margin-bottom:18px;opacity:0;transform:translateY(16px);transition:opacity .8s .5s ease,transform .8s .5s ease}
+
+.slide-rule{display:flex;align-items:center;gap:8px;margin-bottom:18px;opacity:0;transition:opacity .8s .58s ease}
+.slide-rule::before,.slide-rule::after{content:'';flex:0 0 22px;height:1px;background:var(--gold);opacity:.35}
+.diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);opacity:.65}
+
+.slide-body{font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:clamp(.72rem,1.05vw,.85rem);letter-spacing:.07em;line-height:1.9;color:rgba(245,240,232,.58);margin-bottom:24px;opacity:0;transform:translateY(10px);transition:opacity .8s .7s ease,transform .8s .7s ease}
+
+.slide-tags{display:flex;gap:8px;flex-wrap:wrap;opacity:0;transform:translateY(8px);transition:opacity .7s .86s ease,transform .7s .86s ease}
+.slide-tag{font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,110,.25);padding:4px 10px}
+
+.slide.active .slide-meta,.slide.active .slide-title,.slide.active .slide-subtitle,
+.slide.active .slide-rule,.slide.active .slide-body,.slide.active .slide-tags{opacity:1;transform:translateY(0)}
+
+/* ── RIGHT PANEL (photo wall) ── */
+#right-panel{
+  position:fixed;right:0;top:0;
+  width:var(--right);height:100vh;
+  overflow:hidden;
+  z-index:1;
+}
+
+#bg-canvas{
+  position:absolute;
+  left:0;top:-4000px;width:100%;
+  /* height set by JS */
+  will-change:transform;
+  display:flex;
+  gap:4px;
+  align-items:flex-start;
+  padding:4px;
+}
+
+/* three equal columns */
+.col{
+  flex:1 1 0;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.photo-tile{
+  width:100%;
+  overflow:hidden;
+  flex-shrink:0;
+  background:var(--dark2);
+}
+
+.photo-tile img{
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+  filter:brightness(.55) saturate(.8);
+  transition:filter .6s ease;
+}
+
+.photo-tile:hover img{ filter:brightness(.72) saturate(1); }
+
+/* placeholder for tiles without img */
+.photo-tile-ph{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:9px;
+  letter-spacing:.28em;text-transform:uppercase;color:rgba(245,240,232,.18);
+}
+.photo-tile-ph svg{width:32px;height:32px;fill:none;stroke:rgba(245,240,232,.15);stroke-width:.8}
+
+/* thin dark gradient on right panel edges */
+#right-panel::before{
+  content:'';position:absolute;left:0;top:0;width:40px;height:100%;
+  background:linear-gradient(to right,rgba(10,9,8,.5),transparent);
+  z-index:2;pointer-events:none;
+}
+#right-panel::after{
+  content:'';position:absolute;top:0;bottom:0;right:0;width:0;height:100%;
+  z-index:2;pointer-events:none;
+}
+
+/* ── UI CHROME ── */
+#progress-bar{position:fixed;bottom:0;left:0;height:2px;background:var(--gold);width:0%;z-index:100;transition:width 1.2s cubic-bezier(.77,0,.175,1);box-shadow:0 0 6px rgba(201,169,110,.35)}
+
+#slide-counter{position:fixed;bottom:22px;left:calc(var(--left) - 80px);z-index:100;font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:10px;letter-spacing:.22em;color:var(--muted);display:flex;align-items:center;gap:6px}
+#slide-counter .cur{font-weight:300;color:var(--gold);font-size:13px}
+
+/* nav arrows inside left panel */
+.nav-btn{position:fixed;z-index:200;background:none;border:none;cursor:none;padding:12px;display:flex;align-items:center;justify-content:center}
+.nav-btn:disabled{opacity:.15;pointer-events:none}
+#nav-prev{bottom:52px;left:10%}
+#nav-next{bottom:52px;left:calc(10% + 52px)}
+.nav-btn svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1;transition:stroke .2s,transform .2s}
+.nav-btn:hover svg{stroke:var(--gold-light);transform:scale(1.15)}
+
+#site-title{position:fixed;top:24px;left:12%;z-index:100;font-family:'IM Fell English',serif;font-size:17px;letter-spacing:.08em;color:var(--gold);opacity:.9}
+#site-title span{font-style:italic;font-size:10px;font-family:'Josefin Sans',sans-serif;font-weight:100;letter-spacing:.36em;text-transform:uppercase;color:var(--muted);display:block;margin-top:2px}
+
+/* vertical dots inside left panel */
+#slide-dots{position:fixed;left:5%;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:6px;align-items:center}
+.dot{width:3px;height:3px;border-radius:50%;background:rgba(201,169,110,.2);transition:background .4s,transform .4s;cursor:pointer}
+.dot.active{background:var(--gold);transform:scale(1.7)}
+
+#hint{position:fixed;bottom:22px;left:12%;font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);opacity:1;transition:opacity 1s;z-index:100}
+#hint.hidden{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- LEFT: text slides -->
+<div id="left-panel">
+  <div id="fg-track"></div>
+</div>
+
+<!-- RIGHT: photo wall -->
+<div id="right-panel">
+  <div id="bg-canvas">
+    <div class="col" id="col0"></div>
+    <div class="col" id="col1"></div>
+    <div class="col" id="col2"></div>
+  </div>
+</div>
+
+<button class="nav-btn" id="nav-prev" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+<button class="nav-btn" id="nav-next" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+
+<div id="progress-bar"></div>
+<div id="slide-counter"><span class="cur" id="cc">01</span><span style="opacity:.3">/</span><span>25</span></div>
+<div id="slide-dots"></div>
+<div id="site-title">Wanderlust<span>A Journey Through the World</span></div>
+<div id="hint">↑ ↓ keys · scroll · swipe</div>
+
+<script>
+const TOTAL = 25;
+const PARALLAX = 0.4;
+
+const IMG_URLS = [
+    
+    "https://sasban.online/yearbook/2024/pic12.jpg",
+    "https://sasban.online/img/family/20260316.png",
+    "https://tds.indianeagle.com/wp-content/uploads/2022/08/tips-to-visit-goa-01.png",
+    "https://sasban.online/yearbook/2023/pic2.jpg",
+    "https://sasban.online/yearbook/2022/car3.jpg",
+    "https://sasban.online/yearbook/2022/pic31.jpg",
+    "https://sasban.online/yearbook/2024/pic15.jpg",
+    "https://img.indianholidaytrip.com/blog/2025/nov/Img_6725_202452132230_Shillong_Tour.webp?h=240",
+    "https://holidaymaa.com/wp-content/uploads/2024/09/Places-to-visit-in-Coorg.jpg",
+    "https://sasban.online/yearbook/2022/pic24.jpg",
+  "https://i.ytimg.com/vi/IR4gQ0yE6r0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDwN48IG9InpuGGYdPqeRAE5MP8Mg",
+  "https://images.contentstack.io/v3/assets/blt06f605a34f1194ff/bltf66826625a3e736f/66f8115c7f9ae22587945b7c/BCC-2024-EXPLORER-AMSTERDAM-WINTER-GUIDE-HEADER_MOBILE.jpg?fit=crop&disable=upscale&auto=webp&quality=60&crop=smart",
+  "https://sasban.online/yearbook/2017/pic51.jpg",
+  "https://www.royalcaribbean.com/media-assets/pmc/content/dam/shore-x/barcelona-bcn/br05-barcelona-city-and-city-center-transfer/stock-photo-view-of-barcelona-from-the-park-at-sunrise-734963035.jpg?w=1440",
+  "https://sasban.online/img/family/ghibli1.png",
+  "https://i.ytimg.com/vi/KyC_mKy7Zf8/maxresdefault.jpg",
+  "https://i.ytimg.com/vi/tQC7qjZDkoU/hqdefault.jpg",
+  "https://sasban.online/yearbook/2017/pic1.jpg",
+  "https://sasban.online/img/family/pic9.jpg",
+  "https://sasban.online/img/family/pic1.jpg",
+  "https://sasban.online/yearbook/2021/pic14.jpg",
+  "https://i.ytimg.com/vi/2Ti_QzP6hI8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAU4u6dAdzu7TYyhA23FLnYKW0xRQ",
+  "https://sasban.online/img/mohawk.jpg",
+  "https://sasban.online/yearbook/2021/pic23.jpg",
+  "https://i.ytimg.com/vi/IQWV3qCCnDQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDnK0DsODJ0czdyue0Y0b8pvBM0HA",
+  "https://sasban.online/yearbook/2020/pic3.jpg",
+  "https://sasban.online/yearbook/2021/pic5.jpg",
+  "https://sasban.online/img/family/pic5.jpg",
+  "https://sasban.online/img/family/sas-bas-sab.jpg",
+  "https://sasban.online/yearbook/2018/pic42.jpg",
+  "https://sasban.online/img/sasban/20240506.jpg",
+  "https://sasban.online/img/sasban/20241004.jpg",
+  "https://sasban.online/img/sasban/20241010.jpg",
+  "https://sasban.online/img/sasban/20240410.jpg",
+  "https://sasban.online/yearbook/2022/pic21.jpg",
+  "https://sasban.online/yearbook/2022/pic61.jpg",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMjWMydZnqLyqNu9msCMpZzyOv0Nna7PplZkUMhCOgIGyBjp5ooxn5z=w1308-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMuxcej9lB1wlMJ3ZTAIMj1b6wcuS9emVW5rO7KAGVxNzuXiKoOSc8k=w1293-h970-s-no-gm?authuser=0",
+  "https://photos.fife.usercontent.google.com/pw/AP1GczMPix-1DykMO3j0uozs71OiqqCXYeB8E2XqEZ36Dh9-fQLZ18Kftkroyg=w768-h960-s-no-gm?authuser=0",
+];
+
+// Seeded RNG for reproducible heights
+function seededRand(seed){
+  let s=seed;
+  return ()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; };
+}
+const rng = seededRand(7);
+
+const SLIDES = [
+  {ch:"Prologue",     title:"The World <em>Awaits</em>",         sub:"Begin where the road loses itself",          body:"Every journey starts with a single breath — a moment of stillness before the world opens up. Pack light, dream heavy, and let the horizon be your compass.",                                                           tags:["Wanderlust","Origin","First Step"]},
+  {ch:"Chapter I",   title:"Lost in <em>Patagonia</em>",         sub:"Where the wind writes the maps",             body:"The Torres del Paine rise like cathedral spires from the Patagonian steppe. Here, weather changes faster than your plans, and the land demands full surrender.",                                                   tags:["Patagonia","Hiking","Wilderness"]},
+  {ch:"Chapter I",   title:"Across the <em>Andes</em>",          sub:"High roads and lower expectations",          body:"Altitude strips away pretense. At 4,000 metres the air thins, the ego dissolves, and what remains is pure presence on ancient stone paths once walked by the Inca.",                                               tags:["Andes","Altitude","Inca Trail"]},
+  {ch:"Chapter I",   title:"<em>Tierra</em> del Fuego",          sub:"The uttermost part of the earth",            body:"Ushuaia sits at the end of everything. Glaciers calve into cold grey channels, and the sky performs a slow drama of cloud, light, and absolute silence.",                                                         tags:["Ushuaia","Glaciers","Solitude"]},
+  {ch:"Chapter II",  title:"The <em>Sahara</em> Speaks",         sub:"A thousand miles of golden silence",         body:"Before dawn the desert holds its breath. Then light arrives and the dunes ignite — amber, copper, rose — each grain a million years in the making.",                                                              tags:["Sahara","Desert","Sand Dunes"]},
+  {ch:"Chapter II",  title:"Nights in <em>Marrakech</em>",       sub:"Where spice and colour collide",             body:"The Djemaa el-Fna transforms at dusk. Snake charmers, storytellers, and smoke from a hundred braziers conspire to make time irrelevant in the best possible way.",                                              tags:["Morocco","Medina","Night Market"]},
+  {ch:"Chapter II",  title:"<em>Wadi Rum</em>",                  sub:"Mars on Earth",                              body:"Lawrence called it vast, echoing, god-like. Red sandstone towers soar from silence, and Bedouin fires at night make the Milky Way feel close enough to touch.",                                                  tags:["Jordan","Desert","Stargazing"]},
+  {ch:"Chapter III", title:"Dawn over <em>Varanasi</em>",        sub:"Where every sunrise is a prayer",            body:"The Ganges carries everything: ash, marigolds, laughter, grief. To watch the morning aarti from a wooden boat is to feel time fold back on itself into something eternal.",                                    tags:["India","Ganges","Spirituality"]},
+  {ch:"Chapter III", title:"Tea Gardens of <em>Darjeeling</em>", sub:"A mist that tastes of bergamot",             body:"Rows of tea bushes climb steep hillsides like green contour lines. The Himalayas, when they reveal themselves through cloud, look like a rumour you finally believe.",                                           tags:["Darjeeling","Tea","Himalayas"]},
+  {ch:"Chapter III", title:"<em>Kyoto</em> in Autumn",           sub:"Red leaves and slow afternoons",             body:"Maple trees in Arashiyama turn the light blood-orange. The temples ask for silence; the raked gravel gardens ask for patience. Both offer a rare and quiet reward.",                                             tags:["Japan","Autumn","Temples"]},
+  {ch:"Chapter IV",  title:"Islands of <em>Faroe</em>",          sub:"Clouds that live inside the mountains",      body:"The Faroe Islands refuse to be photographed honestly. Waterfalls fall into the Atlantic from impossible cliffs, and the green is a colour that has no name in English.",                                      tags:["Faroe Islands","Nordic","Cliffs"]},
+  {ch:"Chapter IV",  title:"<em>Iceland</em> in January",        sub:"Fire, ice, and the northern lights",         body:"The aurora borealis appears without announcement, a curtain of green and violet pulled across a black sky. You stand in the cold and understand why ancients built gods.",                                       tags:["Iceland","Aurora","Winter"]},
+  {ch:"Chapter IV",  title:"Scottish <em>Highlands</em>",        sub:"Moorland, mist, and melancholy beauty",      body:"The glens hold weather like memory. Every loch reflects a different sky, every stone wall tells of hands that placed it carefully, long before you arrived to admire it.",                                   tags:["Scotland","Highlands","Moors"]},
+  {ch:"Chapter V",   title:"Amazon <em>Awakening</em>",          sub:"The lungs of the earth breathe loudly",      body:"Before 5am the jungle announces itself: frogs, birds, something enormous moving through dark water. The biodiversity is not a fact here — it is a presence, pressing in on all sides.",                     tags:["Amazon","Rainforest","Biodiversity"]},
+  {ch:"Chapter V",   title:"Galápagos <em>Drift</em>",           sub:"Where evolution is still happening",         body:"Blue-footed boobies perform their absurd courtship dance. Marine iguanas sneeze salt into the wind. On these islands the distance between us and our origins is almost nothing.",                             tags:["Galápagos","Wildlife","Evolution"]},
+  {ch:"Chapter V",   title:"The <em>Pantanal</em>",              sub:"The world's greatest wetland",               body:"Jaguars hunt capybara on river banks lit by afternoon gold. This is the largest tropical wetland on earth — a place where water and life have negotiated a perfect arrangement.",                            tags:["Pantanal","Jaguar","Wetlands"]},
+  {ch:"Chapter VI",  title:"Crossing the <em>Gobi</em>",         sub:"Empty roads into deeper quiet",              body:"The Gobi asks only that you endure. Endless gravel plains, dust devils, and then — improbably — a field of sand dunes that glow orange at the end of a long, relentless day.",                            tags:["Gobi","Mongolia","Desert Road"]},
+  {ch:"Chapter VI",  title:"<em>Tbilisi</em> at Midnight",       sub:"Ancient city, warm bread, cold wine",        body:"Georgian wine is poured into clay vessels buried underground for thousands of years. The old town is carved into a cliff, and the people stay awake long after the tourists sleep.",                         tags:["Georgia","Caucasus","Wine"]},
+  {ch:"Chapter VI",  title:"The <em>Silk Road</em>",             sub:"Trading in stories, not just silk",          body:"Samarkand's Registan was once the crossroads of the known world. The tilework still shimmers blue-green in the morning sun, a testament to beauty as a form of ambition.",                                 tags:["Uzbekistan","Silk Road","History"]},
+  {ch:"Chapter VII", title:"<em>Namib</em> Desert Coast",        sub:"Where dunes meet the cold Atlantic",         body:"Sossusvlei at sunrise: dunes cast shadows five times their height. Dead camelthorn trees stand in a white clay pan, perfectly preserved, silhouettes against a burning orange world.",                     tags:["Namibia","Dunes","Sossusvlei"]},
+  {ch:"Chapter VII", title:"Gorilla Trek in <em>Bwindi</em>",    sub:"A meeting you won't forget",                 body:"After three hours climbing through dense jungle you find them — a family at rest. The silverback glances at you once. That is enough.",                                                                          tags:["Uganda","Gorillas","Jungle Trek"]},
+  {ch:"Chapter VII", title:"<em>Zanzibar</em> Stone Town",       sub:"Carved doors and ocean air",                 body:"The alleyways of Stone Town are a maze of carved wooden doors, each one a century of ornate craftsmanship. The call to prayer and the smell of cloves drift through the same warm air.",                  tags:["Zanzibar","Tanzania","Stone Town"]},
+  {ch:"Chapter VIII",title:"Above the <em>Clouds</em>",          sub:"A window seat is always worth it",           body:"At 35,000 feet the earth becomes abstract — river deltas like silver capillaries, mountain ranges like crumpled paper, cities like embers.",                                                                  tags:["Flight","Perspective","Aerial"]},
+  {ch:"Chapter VIII",title:"Coming <em>Home</em>",               sub:"The last arrival is the sweetest",           body:"Every homecoming is also a departure — from the person you were when you left. You return with stories your language doesn't quite have words for, and eyes that see the familiar as strange.",           tags:["Return","Home","Reflection"]},
+  {ch:"Epilogue",    title:"The <em>Next</em> Horizon",          sub:"The road has no final destination",          body:"There are 195 countries, 7,000 languages, and a lifetime of roads not yet taken. Travel isn't a list to complete — it is a way of remaining curious, awake, and alive to the world.",                   tags:["Epilogue","Wanderlust","Infinite"]},
+];
+
+// ── Build 3-column photo wall ─────────────────────────────────────────────────
+// Each column gets ~34 images, random heights between 200–480px, same full column width
+const VH = window.innerHeight;
+const cols = [
+  document.getElementById('col0'),
+  document.getElementById('col1'),
+  document.getElementById('col2'),
+];
+
+// Assign images round-robin across columns, randomise heights
+const heights = []; // store per-image height for total calculation
+for (let i = 0; i < 100; i++) {
+  const colIdx = i % 3;
+  // varied height: portrait-ish or landscape-ish, no overlap
+  const h = Math.round(220 + rng() * 300); // 220–520px
+  heights.push(h);
+
+  const tile = document.createElement('div');
+  tile.className = 'photo-tile';
+  tile.style.height = h + 'px';
+
+  const img = document.createElement('img');
+  img.src = IMG_URLS[i];
+  img.alt = '';
+  img.loading = 'lazy';
+  tile.appendChild(img);
+  cols[colIdx].appendChild(tile);
+}
+
+// ── Calculate bg-canvas total height for parallax math ───────────────────────
+// We need: bgTotalH so that when fg has scrolled (TOTAL-1)*VH downward (slides going up),
+// bg scrolls (TOTAL-1)*VH*PARALLAX in the opposite direction (downward).
+// bg starts at translateY(0) and goes to translateY(+(TOTAL-1)*VH*PARALLAX).
+// So bg needs to extend above the viewport by that amount.
+// Simplest: offset bg-canvas top by -startOffset, and scroll it down from there.
+
+const bgCanvas = document.getElementById('bg-canvas');
+
+// ── Foreground slides ─────────────────────────────────────────────────────────
+const fgTrack = document.getElementById('fg-track');
+fgTrack.style.height = (TOTAL * 100) + 'vh';
+
+const dotsEl = document.getElementById('slide-dots');
+SLIDES.forEach((d, i) => {
+  const slide = document.createElement('div');
+  slide.className = 'slide' + (i === 0 ? ' active' : '');
+  slide.style.top = (i * 100) + 'vh';
+  slide.innerHTML = `
+    <div class="slide-content">
+      <div class="slide-meta">
+        <span class="slide-chapter">${d.ch}</span>
+        <span class="meta-line"></span>
+        <span class="slide-number">${String(i+1).padStart(2,'0')} / 25</span>
+      </div>
+      <h2 class="slide-title">${d.title}</h2>
+      <p class="slide-subtitle">${d.sub}</p>
+      <div class="slide-rule"><div class="diamond"></div></div>
+      <p class="slide-body">${d.body}</p>
+      <div class="slide-tags">${d.tags.map(t=>`<span class="slide-tag">${t}</span>`).join('')}</div>
+    </div>`;
+  fgTrack.appendChild(slide);
+
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goTo(i));
+  dotsEl.appendChild(dot);
+});
+
+const slideEls = document.querySelectorAll('.slide');
+const dotEls   = document.querySelectorAll('.dot');
+
+// ── Parallax state ────────────────────────────────────────────────────────────
+let current     = 0;
+let isAnimating = false;
+let bgCurrentY  = 0;
+let bgTargetY   = 0;
+let rafId       = null;
+
+// bg scrolls DOWN (positive translateY) as slides advance (fg goes up)
+// fg slide 0 → bgY = 0
+// fg slide N → bgY = +N * VH * PARALLAX
+function getBgTarget(idx) {
+  return idx * VH * PARALLAX;
+}
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function animateBg() {
+  const diff = bgTargetY - bgCurrentY;
+  if (Math.abs(diff) < 0.08) {
+    bgCurrentY = bgTargetY;
+    bgCanvas.style.transform = `translateY(${bgCurrentY}px)`;
+    rafId = null;
+    return;
+  }
+  bgCurrentY = lerp(bgCurrentY, bgTargetY, 0.065);
+  bgCanvas.style.transform = `translateY(${bgCurrentY}px)`;
+  rafId = requestAnimationFrame(animateBg);
+}
+
+function goTo(idx) {
+  if (isAnimating || idx === current || idx < 0 || idx >= TOTAL) return;
+  isAnimating = true;
+
+  slideEls[current].classList.remove('active');
+  dotEls[current].classList.remove('active');
+  current = idx;
+
+  // FG goes UP
+  fgTrack.style.transform = `translateY(-${current * 100}vh)`;
+
+  // BG goes DOWN at 40% rate
+  bgTargetY = getBgTarget(current);
+  if (!rafId) rafId = requestAnimationFrame(animateBg);
+
+  slideEls[current].classList.add('active');
+  dotEls[current].classList.add('active');
+  document.getElementById('cc').textContent = String(current+1).padStart(2,'0');
+  document.getElementById('progress-bar').style.width = ((current+1)/TOTAL*100)+'%';
+  document.getElementById('nav-prev').disabled = current === 0;
+  document.getElementById('nav-next').disabled = current === TOTAL - 1;
+  document.getElementById('hint').classList.add('hidden');
+
+  setTimeout(() => { isAnimating = false; }, 1350);
+}
+
+// Controls
+document.getElementById('nav-prev').addEventListener('click', () => goTo(current-1));
+document.getElementById('nav-next').addEventListener('click', () => goTo(current+1));
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowDown'||e.key==='ArrowRight') goTo(current+1);
+  if (e.key==='ArrowUp'||e.key==='ArrowLeft')    goTo(current-1);
+});
+
+let touchY = 0;
+document.addEventListener('touchstart', e=>{ touchY=e.touches[0].clientY; },{passive:true});
+document.addEventListener('touchend', e=>{
+  const dy = touchY - e.changedTouches[0].clientY;
+  if (Math.abs(dy)>40) goTo(dy>0 ? current+1 : current-1);
+},{passive:true});
+
+let wCool = false;
+document.addEventListener('wheel', e=>{
+  if(wCool) return; wCool=true;
+  goTo(e.deltaY>0 ? current+1 : current-1);
+  setTimeout(()=>{wCool=false;},1500);
+},{passive:true});
+
+// Cursor
+const cursorEl = document.getElementById('cursor');
+document.addEventListener('mousemove', e=>{
+  cursorEl.style.left=e.clientX+'px';
+  cursorEl.style.top=e.clientY+'px';
+});
+document.querySelectorAll('button,.dot').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cursorEl.classList.add('expand'));
+  el.addEventListener('mouseleave',()=>cursorEl.classList.remove('expand'));
+});
+
+// Init
+document.getElementById('nav-prev').disabled = true;
+document.getElementById('progress-bar').style.width = (1/TOTAL*100)+'%';
+bgCanvas.style.transform = 'translateY(0px)';
+</script>
+</body>
+</html>

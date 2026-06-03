@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wanderlust — A Journey Through the World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@100;300;400&family=Playfair+Display:ital,wght@0,400;1,400;1,700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#c9a96e;--gold-light:#e8d5a8;--cream:#f5f0e8;
+  --dark:#0a0908;--dark2:#15120e;--muted:rgba(255,255,255,0.32);
+  /* column widths: 40 20 20 20 = 100 */
+  --c0:40%;--c1:20%;--c2:20%;--c3:20%;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--dark);color:var(--cream);cursor:none}
+
+/* ── CURSOR ── */
+#cursor{position:fixed;z-index:9999;width:10px;height:10px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;pointer-events:none}
+#cursor.expand{width:30px;height:30px;background:rgba(201,169,110,.1)}
+
+/* ── LAYOUT: 4 fixed columns side by side ── */
+#layout{position:fixed;inset:0;display:flex;}
+
+/* ── COLUMN 0: text slides (40%) ── */
+#col0{
+  width:var(--c0);height:100vh;
+  overflow:hidden;position:relative;flex-shrink:0;
+  border-right:1px solid rgba(201,169,110,.08);
+  z-index:10;
+}
+#col0::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(to right,rgba(10,9,8,.97) 65%,rgba(10,9,8,.72) 100%);
+}
+#fg-track{
+  position:absolute;left:0;top:0;width:100%;z-index:1;
+  will-change:transform;
+  transition:transform 1.25s cubic-bezier(.77,0,.175,1);
+}
+.slide{
+  width:100%;height:100vh;
+  display:flex;align-items:center;
+  padding:0 8% 0 10%;
+}
+.slide-content{width:100%}
+
+.slide-meta{display:flex;align-items:center;gap:12px;margin-bottom:20px;opacity:0;transform:translateY(14px);transition:opacity .8s .18s ease,transform .8s .18s ease}
+.slide-chapter{font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:9px;letter-spacing:.44em;text-transform:uppercase;color:var(--gold)}
+.meta-line{width:26px;height:1px;background:var(--gold);opacity:.4;flex-shrink:0}
+.slide-number{font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:9px;letter-spacing:.2em;color:var(--muted)}
+
+.slide-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,3.8vw,3.6rem);line-height:1.06;color:var(--cream);margin-bottom:9px;opacity:0;transform:translateY(18px);transition:opacity .9s .32s ease,transform .9s .32s ease}
+.slide-title em{font-style:italic;font-weight:300;color:var(--gold-light)}
+
+.slide-subtitle{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(.82rem,1.3vw,1.05rem);color:var(--gold);margin-bottom:16px;opacity:0;transform:translateY(14px);transition:opacity .8s .48s ease,transform .8s .48s ease}
+
+.slide-rule{display:flex;align-items:center;gap:8px;margin-bottom:16px;opacity:0;transition:opacity .8s .56s ease}
+.slide-rule::before,.slide-rule::after{content:'';flex:0 0 20px;height:1px;background:var(--gold);opacity:.35}
+.diamond{width:4px;height:4px;background:var(--gold);transform:rotate(45deg);opacity:.65}
+
+.slide-body{font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:clamp(.7rem,1vw,.82rem);letter-spacing:.07em;line-height:1.9;color:rgba(245,240,232,.56);margin-bottom:22px;opacity:0;transform:translateY(10px);transition:opacity .8s .68s ease,transform .8s .68s ease}
+
+.slide-tags{display:flex;gap:7px;flex-wrap:wrap;opacity:0;transform:translateY(7px);transition:opacity .7s .84s ease,transform .7s .84s ease}
+.slide-tag{font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,169,110,.24);padding:4px 9px}
+
+.slide.active .slide-meta,.slide.active .slide-title,.slide.active .slide-subtitle,
+.slide.active .slide-rule,.slide.active .slide-body,.slide.active .slide-tags{opacity:1;transform:translateY(0)}
+
+/* ── PHOTO COLUMNS 1,2,3 ── */
+.photo-col{
+  height:100vh;
+  overflow:hidden;
+  position:relative;
+  flex-shrink:0;
+}
+#col1{width:var(--c1);border-left:2px solid rgba(10,9,8,1)}
+#col2{width:var(--c2);border-left:2px solid rgba(10,9,8,1);}
+#col3{width:var(--c3);border-left:2px solid rgba(10,9,8,1)}
+
+.photo-track{
+  position:absolute;
+  left:0;top:-6000px;
+  width:100%;
+  /* height set by JS */
+  will-change:transform;
+  /* NO css transition — rAF lerp drives it smoothly */
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+/* Each image fills the full column width, natural height (no crop) */
+.photo-track img{
+  width:100%;
+  height:auto;
+  display:block;
+  flex-shrink:0;
+  filter:brightness(.58) saturate(.78);
+}
+
+/* ── UI CHROME ── */
+#progress-bar{position:fixed;bottom:0;left:0;height:2px;background:var(--gold);width:0%;z-index:200;transition:width 1.2s cubic-bezier(.77,0,.175,1);box-shadow:0 0 6px rgba(201,169,110,.35)}
+
+#slide-counter{position:fixed;bottom:20px;left:2%;z-index:200;font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:10px;letter-spacing:.22em;color:var(--muted);display:flex;align-items:center;gap:6px}
+#slide-counter .cur{font-weight:300;color:var(--gold);font-size:13px}
+
+.nav-btn{position:fixed;z-index:200;background:none;border:none;cursor:none;padding:10px;display:flex;align-items:center;justify-content:center}
+.nav-btn:disabled{opacity:.15;pointer-events:none}
+#nav-prev{bottom:48px;left:3%}
+#nav-next{bottom:48px;left:calc(3% + 46px)}
+.nav-btn svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:1;transition:stroke .2s,transform .2s}
+.nav-btn:hover svg{stroke:var(--gold-light);transform:scale(1.15)}
+
+#site-title{position:fixed;top:22px;left:4%;z-index:200;font-family:'IM Fell English',serif;font-size:16px;letter-spacing:.08em;color:var(--gold);opacity:.9}
+#site-title span{font-style:italic;font-size:9px;font-family:'Josefin Sans',sans-serif;font-weight:100;letter-spacing:.36em;text-transform:uppercase;color:var(--muted);display:block;margin-top:2px}
+
+#slide-dots{position:fixed;left:1.5%;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:6px;align-items:center}
+.dot{width:3px;height:3px;border-radius:50%;background:rgba(201,169,110,.2);transition:background .4s,transform .4s;cursor:pointer}
+.dot.active{background:var(--gold);transform:scale(1.7)}
+
+#hint{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-family:'Josefin Sans',sans-serif;font-weight:100;font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);opacity:1;transition:opacity 1s;z-index:200}
+#hint.hidden{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<div id="layout">
+  <!-- Col 0: text slides -->
+  <div id="col0">
+    <div id="fg-track"></div>
+  </div>
+  <!-- Col 1: photos scroll DOWN 25% -->
+  <div class="photo-col" id="col1">
+    <div class="photo-track" id="pt1"></div>
+  </div>
+  <!-- Col 2: photos scroll UP 30% -->
+  <div class="photo-col" id="col2">
+    <div class="photo-track" id="pt2" style="top:50px"></div>
+  </div>
+  <!-- Col 3: photos scroll DOWN 25% -->
+  <div class="photo-col" id="col3">
+    <div class="photo-track" id="pt3"></div>
+  </div>
+</div>
+
+<button class="nav-btn" id="nav-prev" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+<button class="nav-btn" id="nav-next" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>
+
+<div id="progress-bar"></div>
+<div id="slide-counter"><span class="cur" id="cc">01</span><span style="opacity:.3">/</span><span>25</span></div>
+<div id="slide-dots"></div>
+<div id="site-title">Wanderlust<span>A Journey Through the World</span></div>
+<div id="hint">↑ ↓ keys · scroll · swipe</div>
+
+<script>
+const TOTAL = 25;
+const VH = window.innerHeight;
+
+// Per-column parallax ratio (fraction of 100vh per slide advance)
+// Col0 (text): moves -100vh (handled by CSS transition)
+// Col1: +25vh per slide (scrolls DOWN)  → positive translateY
+// Col2: -30vh per slide (scrolls UP)    → negative translateY
+// Col3: +25vh per slide (scrolls DOWN)  → positive translateY
+const COL_RATE = [null, 0.25, -0.30, 0.25];
+
+// ── IMAGE URLS (100, cycling 3) ───────────────────────────────────────────────
+const IMG_URLS = [
+  
+    "https://sasban.online/yearbook/2024/pic12.jpg",
+    "https://holidaymaa.com/wp-content/uploads/2024/09/Places-to-visit-in-Coorg.jpg",
+    "https://sasban.online/img/family/20260316.png",
+    "https://tds.indianeagle.com/wp-content/uploads/2022/08/tips-to-visit-goa-01.png",
+    "https://sasban.online/yearbook/2023/pic2.jpg",
+    "https://sasban.online/yearbook/2022/car3.jpg",
+    "https://sasban.online/yearbook/2022/pic31.jpg",
+    "https://sasban.online/yearbook/2024/pic15.jpg",
+    "https://img.indianholidaytrip.com/blog/2025/nov/Img_6725_202452132230_Shillong_Tour.webp?h=240",
+    "https://sasban.online/yearbook/2022/pic24.jpg",
+  "https://i.ytimg.com/vi/IR4gQ0yE6r0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDwN48IG9InpuGGYdPqeRAE5MP8Mg",
+  "https://images.contentstack.io/v3/assets/blt06f605a34f1194ff/bltf66826625a3e736f/66f8115c7f9ae22587945b7c/BCC-2024-EXPLORER-AMSTERDAM-WINTER-GUIDE-HEADER_MOBILE.jpg?fit=crop&disable=upscale&auto=webp&quality=60&crop=smart",
+  "img/travels/dubai1.png",
+  "https://holidaymaa.com/wp-content/uploads/2024/09/Places-to-visit-in-Coorg.jpg",
+  "https://sasban.online/yearbook/2017/pic51.jpg",
+  "img/travels/dubai2.png",
+  "img/sasban/20151003.png",
+  "img/travels/dubai5.png",
+  "https://sasban.online/yearbook/2024/pic12.jpg",
+    "https://sasban.online/img/family/20260316.png",
+    "https://tds.indianeagle.com/wp-content/uploads/2022/08/tips-to-visit-goa-01.png",
+    "https://sasban.online/yearbook/2023/pic2.jpg",
+    "https://sasban.online/yearbook/2022/car3.jpg",
+    "https://sasban.online/yearbook/2022/pic31.jpg",
+    "https://sasban.online/yearbook/2024/pic15.jpg",
+    "https://img.indianholidaytrip.com/blog/2025/nov/Img_6725_202452132230_Shillong_Tour.webp?h=240",
+    "https://sasban.online/yearbook/2022/pic24.jpg",
+  "https://images.contentstack.io/v3/assets/blt06f605a34f1194ff/bltf66826625a3e736f/66f8115c7f9ae22587945b7c/BCC-2024-EXPLORER-AMSTERDAM-WINTER-GUIDE-HEADER_MOBILE.jpg?fit=crop&disable=upscale&auto=webp&quality=60&crop=smart",
+  "img/travels/dubai1.png",
+  "https://sasban.online/yearbook/2017/pic51.jpg",
+  "img/travels/dubai2.png",
+  "img/sasban/20151003.png",
+  "img/travels/dubai5.png",
+
+  
+  "https://www.royalcaribbean.com/media-assets/pmc/content/dam/shore-x/barcelona-bcn/br05-barcelona-city-and-city-center-transfer/stock-photo-view-of-barcelona-from-the-park-at-sunrise-734963035.jpg?w=1440",
+  "https://sasban.online/img/family/ghibli1.png",
+//   "https://i.ytimg.com/vi/KyC_mKy7Zf8/maxresdefault.jpg",
+  "https://sasban.online/yearbook/2017/pic1.jpg",
+  "https://sasban.online/img/family/pic9.jpg",
+  "https://sasban.online/img/family/pic1.jpg",
+  "https://sasban.online/yearbook/2021/pic14.jpg",
+  "https://sasban.online/img/mohawk.jpg",
+  "https://sasban.online/yearbook/2021/pic23.jpg",
+  "https://i.ytimg.com/vi/IQWV3qCCnDQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDnK0DsODJ0czdyue0Y0b8pvBM0HA",
+  "./img/travels/dubai1.png",
+  "https://www.royalcaribbean.com/media-assets/pmc/content/dam/shore-x/barcelona-bcn/br05-barcelona-city-and-city-center-transfer/stock-photo-view-of-barcelona-from-the-park-at-sunrise-734963035.jpg?w=1440",
+  "https://sasban.online/img/family/ghibli1.png",
+  "https://sasban.online/yearbook/2017/pic1.jpg",
+  "https://sasban.online/img/family/pic9.jpg",
+  "https://sasban.online/img/family/pic1.jpg",
+  "https://sasban.online/yearbook/2021/pic14.jpg",
+  "https://i.ytimg.com/vi/tQC7qjZDkoU/hqdefault.jpg",
+  "https://sasban.online/img/mohawk.jpg",
+  "https://sasban.online/yearbook/2021/pic23.jpg",
+  "https://i.ytimg.com/vi/IQWV3qCCnDQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDnK0DsODJ0czdyue0Y0b8pvBM0HA",
+  "./img/travels/dubai1.png",
+  "https://i.ytimg.com/vi/IQWV3qCCnDQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDnK0DsODJ0czdyue0Y0b8pvBM0HA",
+  "./img/travels/dubai1.png",
+  "https://www.royalcaribbean.com/media-assets/pmc/content/dam/shore-x/barcelona-bcn/br05-barcelona-city-and-city-center-transfer/stock-photo-view-of-barcelona-from-the-park-at-sunrise-734963035.jpg?w=1440",
+  "https://sasban.online/img/family/ghibli1.png",
+  "https://sasban.online/yearbook/2017/pic1.jpg",
+  "https://sasban.online/img/family/pic9.jpg",
+  "https://sasban.online/img/family/pic1.jpg",
+  "https://sasban.online/yearbook/2021/pic14.jpg",
+  "https://i.ytimg.com/vi/tQC7qjZDkoU/hqdefault.jpg",
+  "https://sasban.online/img/mohawk.jpg",
+  "https://sasban.online/yearbook/2021/pic23.jpg",
+  "https://i.ytimg.com/vi/IQWV3qCCnDQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDnK0DsODJ0czdyue0Y0b8pvBM0HA",
+  "./img/travels/dubai1.png",
+
+
+  "./img/travels/dubai3.png",
+  "https://sasban.online/yearbook/2020/pic3.jpg",
+  "https://sasban.online/yearbook/2021/pic5.jpg",
+  "https://sasban.online/img/family/pic5.jpg",
+  "https://sasban.online/img/family/sas-bas-sab.jpg",
+  "https://sasban.online/yearbook/2018/pic42.jpg",
+  "https://i.ytimg.com/vi/tQC7qjZDkoU/hqdefault.jpg",
+  "https://sasban.online/img/sasban/20240506.jpg",
+  "https://sasban.online/img/sasban/20241004.jpg",
+  "https://sasban.online/img/sasban/20241010.jpg",
+  "https://sasban.online/img/sasban/20240410.jpg",
+  "https://sasban.online/yearbook/2022/pic21.jpg",
+  "https://sasban.online/yearbook/2022/pic61.jpg",
+  "img/sasban/20240929.jpg",
+  "img/sasban/20250330.png",
+  "https://i.ytimg.com/vi/2Ti_QzP6hI8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAU4u6dAdzu7TYyhA23FLnYKW0xRQ",
+  "img/sasban/20250803.png",
+  "img/travels/dubai4.png","./img/travels/dubai3.png",
+  "https://sasban.online/yearbook/2020/pic3.jpg",
+  "https://sasban.online/yearbook/2021/pic5.jpg",
+  "https://sasban.online/img/family/pic5.jpg",
+  "https://sasban.online/img/family/sas-bas-sab.jpg",
+  "https://sasban.online/yearbook/2018/pic42.jpg",
+  "https://i.ytimg.com/vi/KyC_mKy7Zf8/maxresdefault.jpg",
+  "https://sasban.online/img/sasban/20240506.jpg",
+  "https://sasban.online/img/sasban/20241004.jpg",
+  "https://sasban.online/img/sasban/20241010.jpg",
+  "https://sasban.online/img/sasban/20240410.jpg",
+  "https://sasban.online/yearbook/2022/pic21.jpg",
+  "https://sasban.online/yearbook/2022/pic61.jpg",
+  "img/sasban/20240929.jpg",
+  "img/sasban/20250330.png",
+  "https://i.ytimg.com/vi/2Ti_QzP6hI8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAU4u6dAdzu7TYyhA23FLnYKW0xRQ",
+  "img/sasban/20250803.png",
+  "img/travels/dubai4.png",
+  "img/travels/dubai4.png",
+  "img/travels/dubai4.png",
+  "img/travels/dubai4.png",
+];
+
+// ── Build photo columns ───────────────────────────────────────────────────────
+// Col1 gets images 0–32, Col2 gets 33–65, Col3 gets 66–99
+// Each col: 33 or 34 images, full column width, natural height (width:100%, height:auto)
+const colImgCounts = [33, 33, 34]; // total 100
+const colImgStart  = [0, 33, 66];
+const trackEls     = [
+  document.getElementById('pt1'),
+  document.getElementById('pt2'),
+  document.getElementById('pt3'),
+];
+
+trackEls.forEach((track, ci) => {
+  const start = colImgStart[ci];
+  const count = colImgCounts[ci];
+  for (let i = 0; i < count; i++) {
+    const img = document.createElement('img');
+    img.src = IMG_URLS[start + i];
+    img.alt = '';
+    img.loading = i < 4 ? 'eager' : 'lazy'; // first few load immediately
+    track.appendChild(img);
+  }
+});
+
+// ── Parallax state for 3 photo columns ───────────────────────────────────────
+// On each slide advance (slide goes up by 100vh), photo tracks move by rate * VH:
+//   Col1: +0.25 * VH  (DOWN)
+//   Col2: -0.30 * VH  (UP)
+//   Col3: +0.25 * VH  (DOWN)
+// We use rAF lerp for smooth motion independently of CSS transition on fg
+
+const tracks = [
+  { el: document.getElementById('pt1'), rate:  0.25, cur: 0, target: 0 },
+  { el: document.getElementById('pt2'), rate: -0.30, cur: 0, target: 0 },
+  { el: document.getElementById('pt3'), rate:  0.25, cur: 0, target: 0 },
+];
+
+let rafId = null;
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function animateTracks() {
+  let allDone = true;
+  tracks.forEach(t => {
+    const diff = t.target - t.cur;
+    if (Math.abs(diff) < 0.08) {
+      t.cur = t.target;
+    } else {
+      t.cur = lerp(t.cur, t.target, 0.065);
+      allDone = false;
+    }
+    t.el.style.transform = `translateY(${t.cur}px)`;
+  });
+  if (allDone) { rafId = null; return; }
+  rafId = requestAnimationFrame(animateTracks);
+}
+
+// ── Foreground slides ─────────────────────────────────────────────────────────
+const SLIDES = [
+  {ch:"Prologue",     title:"The World <em>Awaits</em>",         sub:"Begin where the road loses itself",          body:"Every journey starts with a single breath — a moment of stillness before the world opens up. Pack light, dream heavy, and let the horizon be your compass.",                                                           tags:["Wanderlust","Origin","First Step"]},
+  {ch:"Chapter I",   title:"Lost in <em>Patagonia</em>",         sub:"Where the wind writes the maps",             body:"The Torres del Paine rise like cathedral spires from the Patagonian steppe. Here, weather changes faster than your plans, and the land demands full surrender.",                                                   tags:["Patagonia","Hiking","Wilderness"]},
+  {ch:"Chapter I",   title:"Across the <em>Andes</em>",          sub:"High roads and lower expectations",          body:"Altitude strips away pretense. At 4,000 metres the air thins, the ego dissolves, and what remains is pure presence on ancient stone paths once walked by the Inca.",                                               tags:["Andes","Altitude","Inca Trail"]},
+  {ch:"Chapter I",   title:"<em>Tierra</em> del Fuego",          sub:"The uttermost part of the earth",            body:"Ushuaia sits at the end of everything. Glaciers calve into cold grey channels, and the sky performs a slow drama of cloud, light, and absolute silence.",                                                         tags:["Ushuaia","Glaciers","Solitude"]},
+  {ch:"Chapter II",  title:"The <em>Sahara</em> Speaks",         sub:"A thousand miles of golden silence",         body:"Before dawn the desert holds its breath. Then light arrives and the dunes ignite — amber, copper, rose — each grain a million years in the making.",                                                              tags:["Sahara","Desert","Sand Dunes"]},
+  {ch:"Chapter II",  title:"Nights in <em>Marrakech</em>",       sub:"Where spice and colour collide",             body:"The Djemaa el-Fna transforms at dusk. Snake charmers, storytellers, and smoke from a hundred braziers conspire to make time irrelevant in the best possible way.",                                              tags:["Morocco","Medina","Night Market"]},
+  {ch:"Chapter II",  title:"<em>Wadi Rum</em>",                  sub:"Mars on Earth",                              body:"Lawrence called it vast, echoing, god-like. Red sandstone towers soar from silence, and Bedouin fires at night make the Milky Way feel close enough to touch.",                                                  tags:["Jordan","Desert","Stargazing"]},
+  {ch:"Chapter III", title:"Dawn over <em>Varanasi</em>",        sub:"Where every sunrise is a prayer",            body:"The Ganges carries everything: ash, marigolds, laughter, grief. To watch the morning aarti from a wooden boat is to feel time fold back on itself into something eternal.",                                    tags:["India","Ganges","Spirituality"]},
+  {ch:"Chapter III", title:"Tea Gardens of <em>Darjeeling</em>", sub:"A mist that tastes of bergamot",             body:"Rows of tea bushes climb steep hillsides like green contour lines. The Himalayas, when they reveal themselves through cloud, look like a rumour you finally believe.",                                           tags:["Darjeeling","Tea","Himalayas"]},
+  {ch:"Chapter III", title:"<em>Kyoto</em> in Autumn",           sub:"Red leaves and slow afternoons",             body:"Maple trees in Arashiyama turn the light blood-orange. The temples ask for silence; the raked gravel gardens ask for patience. Both offer a rare and quiet reward.",                                             tags:["Japan","Autumn","Temples"]},
+  {ch:"Chapter IV",  title:"Islands of <em>Faroe</em>",          sub:"Clouds that live inside the mountains",      body:"The Faroe Islands refuse to be photographed honestly. Waterfalls fall into the Atlantic from impossible cliffs, and the green is a colour that has no name in English.",                                      tags:["Faroe Islands","Nordic","Cliffs"]},
+  {ch:"Chapter IV",  title:"<em>Iceland</em> in January",        sub:"Fire, ice, and the northern lights",         body:"The aurora borealis appears without announcement, a curtain of green and violet pulled across a black sky. You stand in the cold and understand why ancients built gods.",                                       tags:["Iceland","Aurora","Winter"]},
+  {ch:"Chapter IV",  title:"Scottish <em>Highlands</em>",        sub:"Moorland, mist, and melancholy beauty",      body:"The glens hold weather like memory. Every loch reflects a different sky, every stone wall tells of hands that placed it carefully, long before you arrived to admire it.",                                   tags:["Scotland","Highlands","Moors"]},
+  {ch:"Chapter V",   title:"Amazon <em>Awakening</em>",          sub:"The lungs of the earth breathe loudly",      body:"Before 5am the jungle announces itself: frogs, birds, something enormous moving through dark water. The biodiversity is not a fact here — it is a presence, pressing in on all sides.",                     tags:["Amazon","Rainforest","Biodiversity"]},
+  {ch:"Chapter V",   title:"Galápagos <em>Drift</em>",           sub:"Where evolution is still happening",         body:"Blue-footed boobies perform their absurd courtship dance. Marine iguanas sneeze salt into the wind. On these islands the distance between us and our origins is almost nothing.",                             tags:["Galápagos","Wildlife","Evolution"]},
+  {ch:"Chapter V",   title:"The <em>Pantanal</em>",              sub:"The world's greatest wetland",               body:"Jaguars hunt capybara on river banks lit by afternoon gold. This is the largest tropical wetland on earth — a place where water and life have negotiated a perfect arrangement.",                            tags:["Pantanal","Jaguar","Wetlands"]},
+  {ch:"Chapter VI",  title:"Crossing the <em>Gobi</em>",         sub:"Empty roads into deeper quiet",              body:"The Gobi asks only that you endure. Endless gravel plains, dust devils, and then — improbably — a field of sand dunes that glow orange at the end of a long, relentless day.",                            tags:["Gobi","Mongolia","Desert Road"]},
+  {ch:"Chapter VI",  title:"<em>Tbilisi</em> at Midnight",       sub:"Ancient city, warm bread, cold wine",        body:"Georgian wine is poured into clay vessels buried underground for thousands of years. The old town is carved into a cliff, and the people stay awake long after the tourists sleep.",                         tags:["Georgia","Caucasus","Wine"]},
+  {ch:"Chapter VI",  title:"The <em>Silk Road</em>",             sub:"Trading in stories, not just silk",          body:"Samarkand's Registan was once the crossroads of the known world. The tilework still shimmers blue-green in the morning sun, a testament to beauty as a form of ambition.",                                 tags:["Uzbekistan","Silk Road","History"]},
+  {ch:"Chapter VII", title:"<em>Namib</em> Desert Coast",        sub:"Where dunes meet the cold Atlantic",         body:"Sossusvlei at sunrise: dunes cast shadows five times their height. Dead camelthorn trees stand in a white clay pan, perfectly preserved, silhouettes against a burning orange world.",                     tags:["Namibia","Dunes","Sossusvlei"]},
+  {ch:"Chapter VII", title:"Gorilla Trek in <em>Bwindi</em>",    sub:"A meeting you won't forget",                 body:"After three hours climbing through dense jungle you find them — a family at rest. The silverback glances at you once. That is enough.",                                                                          tags:["Uganda","Gorillas","Jungle Trek"]},
+  {ch:"Chapter VII", title:"<em>Zanzibar</em> Stone Town",       sub:"Carved doors and ocean air",                 body:"The alleyways of Stone Town are a maze of carved wooden doors, each one a century of ornate craftsmanship. The call to prayer and the smell of cloves drift through the same warm air.",                  tags:["Zanzibar","Tanzania","Stone Town"]},
+  {ch:"Chapter VIII",title:"Above the <em>Clouds</em>",          sub:"A window seat is always worth it",           body:"At 35,000 feet the earth becomes abstract — river deltas like silver capillaries, mountain ranges like crumpled paper, cities like embers.",                                                                  tags:["Flight","Perspective","Aerial"]},
+  {ch:"Chapter VIII",title:"Coming <em>Home</em>",               sub:"The last arrival is the sweetest",           body:"Every homecoming is also a departure — from the person you were when you left. You return with stories your language doesn't quite have words for, and eyes that see the familiar as strange.",           tags:["Return","Home","Reflection"]},
+  {ch:"Epilogue",    title:"The <em>Next</em> Horizon",          sub:"The road has no final destination",          body:"There are 195 countries, 7,000 languages, and a lifetime of roads not yet taken. Travel isn't a list to complete — it is a way of remaining curious, awake, and alive to the world.",                   tags:["Epilogue","Wanderlust","Infinite"]},
+];
+
+const fgTrack = document.getElementById('fg-track');
+fgTrack.style.height = (TOTAL * 100) + 'vh';
+
+const dotsEl = document.getElementById('slide-dots');
+SLIDES.forEach((d, i) => {
+  const slide = document.createElement('div');
+  slide.className = 'slide' + (i === 0 ? ' active' : '');
+  slide.style.top = (i * 100) + 'vh';
+  slide.innerHTML = `
+    <div class="slide-content">
+      <div class="slide-meta">
+        <span class="slide-chapter">${d.ch}</span>
+        <span class="meta-line"></span>
+        <span class="slide-number">${String(i+1).padStart(2,'0')} / 25</span>
+      </div>
+      <h2 class="slide-title">${d.title}</h2>
+      <p class="slide-subtitle">${d.sub}</p>
+      <div class="slide-rule"><div class="diamond"></div></div>
+      <p class="slide-body">${d.body}</p>
+      <div class="slide-tags">${d.tags.map(t=>`<span class="slide-tag">${t}</span>`).join('')}</div>
+    </div>`;
+  fgTrack.appendChild(slide);
+
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goTo(i));
+  dotsEl.appendChild(dot);
+});
+
+const slideEls = document.querySelectorAll('.slide');
+const dotEls   = document.querySelectorAll('.dot');
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+let current     = 0;
+let isAnimating = false;
+
+function goTo(idx) {
+  if (isAnimating || idx === current || idx < 0 || idx >= TOTAL) return;
+  isAnimating = true;
+
+  slideEls[current].classList.remove('active');
+  dotEls[current].classList.remove('active');
+  current = idx;
+
+  // Col0 (text): CSS transition, moves UP
+  fgTrack.style.transform = `translateY(-${current * 100}vh)`;
+
+  // Photo cols: rAF lerp to target
+  tracks.forEach(t => {
+    t.target = t.rate * current * VH;
+  });
+  if (!rafId) rafId = requestAnimationFrame(animateTracks);
+
+  slideEls[current].classList.add('active');
+  dotEls[current].classList.add('active');
+  document.getElementById('cc').textContent = String(current+1).padStart(2,'0');
+  document.getElementById('progress-bar').style.width = ((current+1)/TOTAL*100)+'%';
+  document.getElementById('nav-prev').disabled = current === 0;
+  document.getElementById('nav-next').disabled = current === TOTAL - 1;
+  document.getElementById('hint').classList.add('hidden');
+
+  setTimeout(() => { isAnimating = false; }, 1300);
+}
+
+document.getElementById('nav-prev').addEventListener('click', () => goTo(current-1));
+document.getElementById('nav-next').addEventListener('click', () => goTo(current+1));
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowDown'||e.key==='ArrowRight') goTo(current+1);
+  if (e.key==='ArrowUp'||e.key==='ArrowLeft')    goTo(current-1);
+});
+
+let touchY = 0;
+document.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, {passive:true});
+document.addEventListener('touchend', e => {
+  const dy = touchY - e.changedTouches[0].clientY;
+  if (Math.abs(dy) > 40) goTo(dy > 0 ? current+1 : current-1);
+}, {passive:true});
+
+let wCool = false;
+document.addEventListener('wheel', e => {
+  if (wCool) return; wCool = true;
+  goTo(e.deltaY > 0 ? current+1 : current-1);
+  setTimeout(() => { wCool = false; }, 1400);
+}, {passive:true});
+
+// Cursor
+const cursorEl = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursorEl.style.left = e.clientX + 'px';
+  cursorEl.style.top  = e.clientY + 'px';
+});
+document.querySelectorAll('button,.dot').forEach(el => {
+  el.addEventListener('mouseenter', () => cursorEl.classList.add('expand'));
+  el.addEventListener('mouseleave', () => cursorEl.classList.remove('expand'));
+});
+
+// Init
+document.getElementById('nav-prev').disabled = true;
+document.getElementById('progress-bar').style.width = (1/TOTAL*100)+'%';
+</script>
+</body>
+</html>
