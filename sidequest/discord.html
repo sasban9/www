@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidequest — The Curiosity Graph</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,700;12..96,800;12..96,900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#09090c;
+  --ink-2:#111318;
+  --ink-3:#181c24;
+  --paper:#f0ecde;
+  --acid:#b8f542;
+  --acid-glow:rgba(184,245,66,0.22);
+  --acid-dim:#7aab22;
+  --amber:#ff9340;
+  --amber-glow:rgba(255,147,64,0.22);
+  --violet:#a896ff;
+  --violet-glow:rgba(168,150,255,0.2);
+  --cyan:#42e8d4;
+  --cyan-glow:rgba(66,232,212,0.2);
+  --rose:#ff5e7a;
+  --line:rgba(240,236,222,0.1);
+  --line-mid:rgba(240,236,222,0.18);
+  --line-bright:rgba(240,236,222,0.32);
+  --display:"Bricolage Grotesque",sans-serif;
+  --mono:"Space Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--display);
+  font-size:16px;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+
+/* ── GLOBAL TEXTURE ── */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:300;opacity:0.04;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.scanlines{position:fixed;inset:0;pointer-events:none;z-index:299;opacity:0.03;
+  background:repeating-linear-gradient(0deg,#fff 0,transparent 1px,transparent 4px);}
+
+/* ── AMBIENT BLOBS ── */
+.ambience{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(110px);
+  animation:drift 30s ease-in-out infinite;}
+.b1{width:500px;height:500px;background:var(--acid);opacity:.14;top:-150px;left:-180px;animation-duration:32s;}
+.b2{width:450px;height:450px;background:var(--violet);opacity:.16;top:45%;right:-200px;animation-duration:27s;animation-delay:-6s;}
+.b3{width:420px;height:420px;background:var(--amber);opacity:.12;bottom:-180px;left:25%;animation-duration:35s;animation-delay:-13s;}
+.b4{width:350px;height:350px;background:var(--cyan);opacity:.1;top:20%;left:40%;animation-duration:22s;animation-delay:-3s;}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(60px,50px) scale(1.1);}66%{transform:translate(-50px,80px) scale(0.9);}}
+
+/* ── LAYOUT ── */
+.z1{position:relative;z-index:1;}
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+::selection{background:var(--acid);color:var(--ink);}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 28px;
+  backdrop-filter:blur(16px) saturate(1.6);
+  background:rgba(9,9,12,0.5);
+  border-bottom:1px solid var(--line);
+}
+.logo{font-family:var(--mono);font-weight:700;font-size:1rem;
+  letter-spacing:.04em;display:flex;align-items:center;gap:9px;}
+.logo .dot{width:9px;height:9px;border-radius:50%;background:var(--acid);
+  box-shadow:0 0 10px var(--acid);animation:blink 1.8s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-link{font-family:var(--mono);font-size:.8rem;color:rgba(240,236,222,.55);text-decoration:none;letter-spacing:.06em;
+  transition:color .2s ease;}
+.nav-link:hover{color:var(--paper);}
+.nav-cta{font-family:var(--mono);font-size:.82rem;font-weight:700;
+  color:var(--ink);background:var(--acid);padding:9px 20px;border-radius:100px;
+  text-decoration:none;border:1px solid var(--acid);
+  transition:transform .25s,box-shadow .25s;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(184,245,66,.35);}
+
+/* ── SECTIONS ── */
+section{padding:120px 0;position:relative;z-index:1;}
+section.tight{padding:80px 0;}
+.kicker{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--acid-dim);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.kicker::before{content:"";width:22px;height:1px;background:var(--acid-dim);}
+h2.section-title{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:900;letter-spacing:-.02em;line-height:1.06;max-width:840px;}
+.section-sub{margin-top:18px;max-width:620px;color:rgba(240,236,222,.65);font-size:clamp(1rem,1.8vw,1.15rem);}
+
+/* ── SCROLL REVEALS ── */
+.r{opacity:0;transform:translateY(36px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
+.r.in{opacity:1;transform:none;}
+.r[data-d="1"]{transition-delay:.1s;}
+.r[data-d="2"]{transition-delay:.2s;}
+.r[data-d="3"]{transition-delay:.3s;}
+.r[data-d="4"]{transition-delay:.4s;}
+.r[data-d="5"]{transition-delay:.5s;}
+
+/* ─────────────────────────────────────────
+   HERO BRIDGE — "Discord is not the product"
+───────────────────────────────────────── */
+.bridge-hero{
+  min-height:100svh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:140px 28px 80px;
+  position:relative;z-index:1;
+  overflow:hidden;
+}
+.bridge-hero canvas{
+  position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.55;
+}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--violet);border:1px solid rgba(168,150,255,.4);border-radius:100px;
+  padding:7px 18px;display:inline-flex;align-items:center;gap:9px;margin-bottom:32px;
+  background:rgba(168,150,255,.07);
+  opacity:0;animation:rise .9s ease forwards .1s;
+}
+.bridge-hero h1{
+  font-size:clamp(2.8rem,7vw,6rem);font-weight:900;line-height:1.0;letter-spacing:-.025em;
+  max-width:1050px;
+  opacity:0;animation:rise 1s ease forwards .25s;
+}
+.bridge-hero h1 .acid{color:var(--acid);}
+.bridge-hero h1 .strike{text-decoration:line-through;text-decoration-color:var(--rose);
+  text-decoration-thickness:3px;color:rgba(240,236,222,.4);}
+.bridge-hero h1 .violet{color:var(--violet);font-style:italic;}
+.bridge-sub{margin-top:28px;max-width:640px;font-size:clamp(1.05rem,2vw,1.2rem);
+  color:rgba(240,236,222,.7);
+  opacity:0;animation:rise .9s ease forwards .42s;}
+.bridge-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:.72rem;color:rgba(240,236,222,.35);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:bob 2s ease-in-out infinite;}
+.bridge-scroll .vline{width:1px;height:30px;background:linear-gradient(var(--paper),transparent);}
+@keyframes rise{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
+
+/* ─────────────────────────────────────────
+   ENGINE — "Every signal"
+───────────────────────────────────────── */
+.engine-grid{
+  margin-top:64px;display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:20px;overflow:hidden;
+}
+.engine-row{display:contents;}
+.engine-cell{
+  background:var(--ink);padding:38px 32px;
+  display:flex;flex-direction:column;gap:12px;
+  transition:background .35s ease;
+  position:relative;overflow:hidden;
+}
+.engine-cell:hover{background:var(--ink-2);}
+.engine-cell::before{
+  content:attr(data-n);position:absolute;right:20px;top:16px;
+  font-family:var(--mono);font-size:3.6rem;font-weight:700;
+  color:rgba(240,236,222,.04);pointer-events:none;
+}
+.engine-tag{
+  font-family:var(--mono);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--acid-dim);
+}
+.engine-cell h3{font-size:clamp(1.1rem,2vw,1.4rem);font-weight:800;}
+.engine-cell p{color:rgba(240,236,222,.6);font-size:.96rem;}
+.signal-stream{
+  display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;
+}
+.sig-chip{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;
+  padding:4px 10px;border-radius:100px;
+  border:1px solid var(--line-mid);color:rgba(240,236,222,.55);
+  animation:chipFade 4s ease-in-out infinite;
+}
+.sig-chip:nth-child(2){animation-delay:.5s;}
+.sig-chip:nth-child(3){animation-delay:1s;}
+.sig-chip:nth-child(4){animation-delay:1.5s;}
+.sig-chip:nth-child(5){animation-delay:2s;}
+.sig-chip:nth-child(6){animation-delay:2.5s;}
+@keyframes chipFade{0%,100%{opacity:.45;}50%{opacity:1;border-color:var(--acid-dim);color:var(--paper);}}
+
+/* ─────────────────────────────────────────
+   DEMO — Arjun's curiosity graph
+───────────────────────────────────────── */
+.demo-wrap{
+  margin-top:70px;border:1px solid var(--line-mid);border-radius:24px;
+  overflow:hidden;background:var(--ink-2);
+}
+.demo-header{
+  padding:22px 28px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;
+  background:var(--ink-3);
+}
+.demo-dot{width:10px;height:10px;border-radius:50%;}
+.demo-dot.r{background:#ff5f57;}
+.demo-dot.y{background:#febc2e;}
+.demo-dot.g{background:#28c840;}
+.demo-label{font-family:var(--mono);font-size:.8rem;color:rgba(240,236,222,.45);margin-left:8px;}
+.demo-body{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;
+}
+.demo-left{padding:40px 36px;border-right:1px solid var(--line);}
+.demo-student{font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--cyan-glow);color:var(--cyan);}
+.demo-name{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;margin-top:8px;}
+.demo-meta{font-family:var(--mono);font-size:.82rem;color:rgba(240,236,222,.45);margin-top:6px;}
+
+.interests{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+.int-tag{
+  padding:8px 14px;border-radius:12px;
+  font-size:.9rem;font-weight:600;
+  background:rgba(240,236,222,.07);border:1px solid rgba(240,236,222,.15);
+  display:flex;align-items:center;gap:7px;
+  transition:all .4s ease;
+  cursor:default;
+}
+.int-tag .emoji{font-size:1.1rem;}
+.int-tag:hover{background:rgba(184,245,66,.12);border-color:var(--acid-dim);color:var(--paper);}
+
+.arrow-connector{
+  display:flex;align-items:center;justify-content:center;
+  padding:28px 0;position:relative;
+}
+.arrow-line{
+  position:relative;width:60px;height:2px;background:linear-gradient(90deg,var(--acid),transparent);
+}
+.arrow-line::after{content:"▶";position:absolute;right:-10px;top:50%;transform:translateY(-50%);
+  font-size:.8rem;color:var(--acid);}
+
+.demo-right{padding:40px 36px;}
+.insight-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);}
+.insight-title{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:900;margin-top:8px;color:var(--violet);}
+.insight-def{margin-top:10px;color:rgba(240,236,222,.62);font-size:.95rem;}
+
+.why-block{margin-top:24px;padding:18px;border-left:2px solid var(--acid);background:rgba(184,245,66,.05);border-radius:0 10px 10px 0;}
+.why-block p{font-size:.92rem;color:rgba(240,236,222,.72);}
+
+.career-branch{margin-top:28px;}
+.branch-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;}
+.branches{display:flex;flex-wrap:wrap;gap:9px;}
+.branch-chip{
+  padding:8px 14px;border-radius:100px;
+  font-family:var(--mono);font-size:.8rem;
+  background:rgba(255,147,64,.1);border:1px solid rgba(255,147,64,.35);
+  color:var(--amber);
+  transition:all .3s ease;
+}
+.branch-chip:hover{background:rgba(255,147,64,.2);transform:translateY(-2px);}
+
+/* ─────────────────────────────────────────
+   AI vs HUMAN
+───────────────────────────────────────── */
+.roles-grid{margin-top:60px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.role-card{
+  padding:32px;border:1px solid var(--line);border-radius:18px;
+  background:var(--ink-2);position:relative;overflow:hidden;
+  transition:transform .35s ease,border-color .35s ease;
+}
+.role-card:hover{transform:translateY(-5px);border-color:var(--line-mid);}
+.role-card::before{
+  content:"";position:absolute;inset:0;opacity:0;transition:opacity .35s ease;
+  background:radial-gradient(circle at 50% 0%,var(--glow,rgba(184,245,66,.12)),transparent 60%);
+}
+.role-card:hover::before{opacity:1;}
+.role-card.ai{--glow:rgba(184,245,66,.14);}
+.role-card.human{--glow:rgba(168,150,255,.12);}
+.role-card.pro{--glow:rgba(255,147,64,.12);}
+.role-icon{font-size:2rem;margin-bottom:16px;}
+.role-type{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(240,236,222,.4);}
+.role-name{font-size:1.3rem;font-weight:800;margin-top:6px;}
+.role-desc{margin-top:12px;font-size:.9rem;color:rgba(240,236,222,.6);}
+.role-pct{font-family:var(--mono);font-size:2.4rem;font-weight:700;margin-top:18px;color:var(--acid);}
+.role-card.human .role-pct{color:var(--violet);}
+.role-card.pro .role-pct{color:var(--amber);}
+
+/* ─────────────────────────────────────────
+   ARCHETYPES
+───────────────────────────────────────── */
+.archetypes-intro{margin-top:16px;max-width:680px;color:rgba(240,236,222,.65);font-size:clamp(1rem,1.8vw,1.1rem);}
+.archetype-grid{margin-top:52px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.arch-card{
+  border:1px solid var(--line);border-radius:16px;padding:24px 20px;
+  background:linear-gradient(155deg,var(--ink-2),var(--ink));
+  cursor:pointer;transition:all .35s cubic-bezier(.16,1,.3,1);
+  position:relative;overflow:hidden;
+}
+.arch-card::after{
+  content:"";position:absolute;inset:0;opacity:0;transition:opacity .35s ease;
+  background:radial-gradient(circle at 30% 20%,var(--c,rgba(184,245,66,.2)),transparent 60%);
+}
+.arch-card:hover{transform:translateY(-6px) scale(1.02);border-color:var(--line-mid);}
+.arch-card:hover::after{opacity:1;}
+.arch-glyph{font-size:1.7rem;}
+.arch-name{font-size:1.05rem;font-weight:800;margin-top:12px;}
+.arch-tagline{font-size:.84rem;color:rgba(240,236,222,.5);margin-top:6px;}
+.arch-careers{
+  margin-top:14px;display:none;flex-wrap:wrap;gap:6px;
+}
+.arch-card:hover .arch-careers{display:flex;}
+.arch-career{font-family:var(--mono);font-size:.7rem;padding:3px 8px;border-radius:100px;
+  background:rgba(240,236,222,.08);color:rgba(240,236,222,.6);}
+
+/* ─────────────────────────────────────────
+   TIMELINE — Longitudinal onboarding
+───────────────────────────────────────── */
+.timeline{margin-top:64px;position:relative;padding-left:48px;}
+.timeline::before{
+  content:"";position:absolute;left:10px;top:0;bottom:0;width:2px;
+  background:linear-gradient(var(--acid),var(--violet),var(--amber));
+}
+.tl-item{
+  position:relative;margin-bottom:0;padding:32px 0 32px 24px;
+  border-bottom:1px solid var(--line);
+}
+.tl-item:last-child{border-bottom:none;}
+.tl-dot{
+  position:absolute;left:-43px;top:36px;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--ink);border:2px solid var(--line-mid);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .4s ease;
+}
+.tl-item.in .tl-dot{border-color:var(--acid);box-shadow:0 0 14px var(--acid-glow);}
+.tl-dot span{width:8px;height:8px;border-radius:50%;background:rgba(240,236,222,.3);transition:background .4s ease;}
+.tl-item.in .tl-dot span{background:var(--acid);}
+.tl-when{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--acid-dim);}
+.tl-title{font-size:clamp(1.15rem,2.5vw,1.5rem);font-weight:800;margin-top:8px;}
+.tl-body{margin-top:10px;color:rgba(240,236,222,.62);font-size:.96rem;max-width:580px;}
+.tl-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+.tl-tag{font-family:var(--mono);font-size:.72rem;padding:4px 10px;border-radius:100px;
+  background:rgba(66,232,212,.08);border:1px solid rgba(66,232,212,.25);color:var(--cyan);}
+
+/* ─────────────────────────────────────────
+   PARENT SECTION
+───────────────────────────────────────── */
+.parent-layout{
+  margin-top:60px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:start;
+}
+.report-mock{
+  border:1px solid var(--line-mid);border-radius:20px;overflow:hidden;
+  background:var(--ink-2);
+}
+.report-header{
+  background:var(--ink-3);padding:18px 22px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.report-title-bar{font-family:var(--mono);font-size:.78rem;color:rgba(240,236,222,.55);}
+.report-badge{font-family:var(--mono);font-size:.7rem;padding:4px 10px;border-radius:100px;
+  background:rgba(184,245,66,.12);border:1px solid rgba(184,245,66,.3);color:var(--acid);}
+.report-body{padding:26px 22px;display:flex;flex-direction:column;gap:18px;}
+.report-row{display:flex;flex-direction:column;gap:6px;}
+.report-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(240,236,222,.38);}
+.report-val{font-size:.96rem;font-weight:600;}
+.strength-bar{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+.str-item{display:flex;align-items:center;gap:12px;font-size:.88rem;}
+.str-name{flex:0 0 120px;color:rgba(240,236,222,.7);}
+.str-track{flex:1;height:6px;background:var(--ink-3);border-radius:100px;overflow:hidden;}
+.str-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--acid),var(--cyan));
+  transform:scaleX(0);transform-origin:left;transition:transform 1.4s cubic-bezier(.16,1,.3,1);}
+.strength-bar.in .str-fill{transform:scaleX(1);}
+.str-pct{font-family:var(--mono);font-size:.72rem;color:rgba(240,236,222,.45);flex:0 0 36px;text-align:right;}
+
+.next-exp{display:flex;flex-direction:column;gap:8px;}
+.exp-item{display:flex;align-items:center;gap:10px;font-size:.88rem;color:rgba(240,236,222,.7);}
+.exp-item::before{content:"→";color:var(--amber);font-family:var(--mono);}
+
+.parent-copy h3{font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:800;}
+.parent-copy p{margin-top:14px;color:rgba(240,236,222,.65);font-size:.98rem;}
+.parent-wins{margin-top:28px;display:flex;flex-direction:column;gap:14px;}
+.parent-win{display:flex;align-items:flex-start;gap:12px;font-size:.96rem;}
+.win-ico{flex:none;width:28px;height:28px;border-radius:8px;
+  background:rgba(184,245,66,.1);border:1px solid rgba(184,245,66,.25);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;margin-top:2px;}
+
+/* ─────────────────────────────────────────
+   PRICING REFRAME — ₹100 Sprint
+───────────────────────────────────────── */
+.sprint-wrap{
+  margin-top:64px;border:1px solid var(--line-mid);border-radius:24px;
+  overflow:hidden;display:grid;grid-template-columns:1fr 1fr;
+}
+.sprint-left{
+  padding:48px 44px;
+  background:radial-gradient(circle at 0% 100%,rgba(184,245,66,.1),var(--ink-2));
+}
+.sprint-price-label{font-family:var(--mono);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(240,236,222,.4);}
+.sprint-amount{font-size:clamp(4rem,8vw,6rem);font-weight:900;color:var(--acid);line-height:1;}
+.sprint-amount sup{font-size:1.8rem;}
+.sprint-name{font-size:1.6rem;font-weight:800;margin-top:10px;}
+.sprint-duration{font-family:var(--mono);font-size:.85rem;color:rgba(240,236,222,.45);margin-top:6px;}
+.sprint-list{margin-top:30px;display:flex;flex-direction:column;gap:14px;}
+.sprint-item{display:flex;align-items:flex-start;gap:12px;}
+.sprint-check{flex:none;width:22px;height:22px;border-radius:50%;
+  background:var(--acid);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;margin-top:2px;}
+.sprint-item-text{font-size:.96rem;color:rgba(240,236,222,.82);}
+.sprint-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-weight:700;font-size:1rem;
+  color:var(--ink);background:var(--acid);
+  padding:17px 32px;border-radius:100px;text-decoration:none;
+  margin-top:34px;
+  transition:transform .25s,box-shadow .25s;
+  border:1px solid var(--acid);
+}
+.sprint-cta:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(184,245,66,.38);}
+
+.sprint-right{padding:48px 40px;border-left:1px solid var(--line);}
+.sprint-right h3{font-size:1.4rem;font-weight:800;}
+.sprint-right p{margin-top:12px;color:rgba(240,236,222,.6);font-size:.96rem;}
+.proof-metric{
+  margin-top:28px;padding:20px;border:1px solid var(--line);border-radius:14px;
+  background:var(--ink-3);
+}
+.metric-num{font-size:2.8rem;font-weight:900;color:var(--amber);font-family:var(--mono);}
+.metric-desc{font-size:.88rem;color:rgba(240,236,222,.55);margin-top:4px;}
+
+.trust-row{margin-top:24px;display:flex;flex-direction:column;gap:12px;}
+.trust-item{display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:rgba(240,236,222,.6);}
+.trust-ico{color:var(--violet);}
+
+/* ─────────────────────────────────────────
+   SUCCESS OUTCOMES
+───────────────────────────────────────── */
+.outcomes{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden;}
+.outcome-cell{background:var(--ink);padding:36px 28px;transition:background .3s ease;}
+.outcome-cell:hover{background:var(--ink-2);}
+.outcome-quote{font-size:clamp(1rem,1.8vw,1.15rem);font-weight:600;line-height:1.5;}
+.outcome-quote .hl{color:var(--acid);}
+.outcome-who{font-family:var(--mono);font-size:.78rem;color:rgba(240,236,222,.38);margin-top:14px;}
+
+/* ─────────────────────────────────────────
+   FINAL CTA
+───────────────────────────────────────── */
+.final{
+  text-align:center;padding:140px 0 100px;
+  position:relative;z-index:1;
+}
+.final h2{margin:0 auto;font-size:clamp(2.2rem,5.5vw,4.4rem);font-weight:900;letter-spacing:-.02em;max-width:900px;}
+.final h2 .acid{color:var(--acid);}
+.final-sub{margin-top:22px;color:rgba(240,236,222,.6);font-size:clamp(1rem,1.8vw,1.15rem);}
+.final-actions{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:44px;}
+.btn-primary{
+  font-family:var(--mono);font-weight:700;font-size:1rem;
+  color:var(--ink);background:var(--acid);text-decoration:none;
+  padding:17px 32px;border-radius:100px;border:1px solid var(--acid);
+  transition:transform .25s,box-shadow .25s;display:inline-flex;align-items:center;gap:10px;
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(184,245,66,.38);}
+.btn-ghost{
+  font-family:var(--mono);font-weight:700;font-size:1rem;
+  color:var(--paper);text-decoration:none;
+  padding:17px 28px;border-radius:100px;border:1px solid var(--line-bright);
+  transition:border-color .25s,background .25s;display:inline-flex;align-items:center;gap:10px;
+}
+.btn-ghost:hover{border-color:var(--paper);background:rgba(240,236,222,.06);}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:38px 0;position:relative;z-index:1;}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+footer p{font-family:var(--mono);font-size:.78rem;color:rgba(240,236,222,.35);}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .archetype-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:900px){
+  .engine-grid{grid-template-columns:1fr;}
+  .demo-body{grid-template-columns:1fr;}
+  .demo-left{border-right:none;border-bottom:1px solid var(--line);}
+  .roles-grid{grid-template-columns:1fr;}
+  .parent-layout{grid-template-columns:1fr;}
+  .sprint-wrap{grid-template-columns:1fr;}
+  .sprint-right{border-left:none;border-top:1px solid var(--line);}
+  .outcomes{grid-template-columns:1fr;}
+  .archetype-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .archetype-grid{grid-template-columns:1fr 1fr;}
+  .timeline{padding-left:36px;}
+  .timeline::before{left:8px;}
+  .tl-dot{left:-33px;}
+  section{padding:80px 0;}
+  .bridge-hero h1{font-size:clamp(2.4rem,9vw,2.8rem);}
+}
+@media(max-width:380px){
+  body{font-size:15px;}
+  .archetype-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="scanlines"></div>
+<div class="ambience">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="blob b4"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><span class="dot"></span>SIDEQUEST</div>
+  <div class="nav-right">
+    <a href="./" class="nav-link">← Page 1</a>
+    <a href="#sprint" class="nav-cta">Start Mapping — ₹100</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     HERO BRIDGE
+════════════════════════════════════════════════ -->
+<header class="bridge-hero">
+  <canvas id="graphCanvas"></canvas>
+  <div class="hero-eyebrow">The product under the product</div>
+  <h1>Discord is the <span class="strike">product.</span><br>The <span class="acid">Curiosity Graph</span> is the<br><span class="violet">real invention.</span></h1>
+  <p class="bridge-sub">Every community eventually becomes noise. What lasts is a living, breathing map of how a specific mind learns — built over months, not quizzes.</p>
+  <div class="bridge-scroll"><span>KEEP READING</span><span class="vline"></span></div>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     THE ENGINE
+════════════════════════════════════════════════ -->
+<section class="z1">
+  <div class="wrap">
+    <div class="kicker r">The engine</div>
+    <h2 class="section-title r">Every signal you give<br>becomes a data point.</h2>
+    <p class="section-sub r">Not from a single quiz you take once and forget. From months of real behaviour — inside guilds, in conversations, in projects, in what you come back to and what you quietly abandon.</p>
+
+    <div class="engine-grid r" data-d="2">
+      <div class="engine-cell" data-n="01">
+        <div class="engine-tag">Passive signals</div>
+        <h3>What you gravitate toward</h3>
+        <p>Which channels you visit without being told to. How long you stay. What you ask unprompted at 11pm.</p>
+        <div class="signal-stream">
+          <span class="sig-chip">#guild-robotics</span>
+          <span class="sig-chip">3h session</span>
+          <span class="sig-chip">asked 7 Qs</span>
+          <span class="sig-chip">#read-this-article</span>
+          <span class="sig-chip">bookmarked</span>
+          <span class="sig-chip">came back next day</span>
+        </div>
+      </div>
+      <div class="engine-cell" data-n="02">
+        <div class="engine-tag">Active signals</div>
+        <h3>What you choose to build</h3>
+        <p>Projects started. Projects abandoned. Projects that took twice as long as expected because you couldn't stop.</p>
+        <div class="signal-stream">
+          <span class="sig-chip">Built a tracking dashboard</span>
+          <span class="sig-chip">Dropped graphic design</span>
+          <span class="sig-chip">Rewrote same project 3x</span>
+        </div>
+      </div>
+      <div class="engine-cell" data-n="03">
+        <div class="engine-tag">Social signals</div>
+        <h3>Who you help and who you follow</h3>
+        <p>You teach others what you know. You silently follow people who are further ahead in a specific direction. Both are signals.</p>
+        <div class="signal-stream">
+          <span class="sig-chip">Explained ML to peers</span>
+          <span class="sig-chip">Followed 4 finance mentors</span>
+          <span class="sig-chip">Started a study pod</span>
+        </div>
+      </div>
+      <div class="engine-cell" data-n="04">
+        <div class="engine-tag">Abandonment signals</div>
+        <h3>What you leave behind (equally valuable)</h3>
+        <p>Dropping a guild after 2 weeks is not failure — it's data. The AI treats exits as refinements, not mistakes.</p>
+        <div class="signal-stream">
+          <span class="sig-chip">Left #guild-law after 10d</span>
+          <span class="sig-chip">Tried & dropped: photography</span>
+          <span class="sig-chip">Never returned to finance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     DEMO: ARJUN
+════════════════════════════════════════════════ -->
+<section class="z1 tight">
+  <div class="wrap">
+    <div class="kicker r">Proof of concept</div>
+    <h2 class="section-title r">Let us show you the inference.<br>Meet Arjun.</h2>
+    <p class="section-sub r">14 years old, class 9, Delhi. No idea what he wants to do. Here's what Sidequest's AI saw after watching him for 8 weeks.</p>
+
+    <div class="demo-wrap r" data-d="2">
+      <div class="demo-header">
+        <div class="demo-dot r"></div>
+        <div class="demo-dot y"></div>
+        <div class="demo-dot g"></div>
+        <span class="demo-label">Curiosity Graph — Student Profile View · Week 8</span>
+      </div>
+      <div class="demo-body">
+        <div class="demo-left">
+          <div class="demo-student">Student profile</div>
+          <div class="demo-name">Arjun M.</div>
+          <div class="demo-meta">Class 9 · Delhi · Joined 8 weeks ago</div>
+          <p style="margin-top:14px;font-size:.9rem;color:rgba(240,236,222,.5);">What Arjun said he was interested in:</p>
+          <div class="interests">
+            <div class="int-tag"><span class="emoji">🎮</span>Minecraft</div>
+            <div class="int-tag"><span class="emoji">🗺️</span>Maps & Geography</div>
+            <div class="int-tag"><span class="emoji">🏎️</span>Formula 1</div>
+            <div class="int-tag"><span class="emoji">🌆</span>Cities: Skylines</div>
+            <div class="int-tag"><span class="emoji">♟️</span>Chess</div>
+          </div>
+          <p style="margin-top:20px;font-size:.82rem;font-style:italic;color:rgba(240,236,222,.38);font-family:var(--mono);">↑ This is what any quiz would stop at.</p>
+        </div>
+        <div class="demo-right">
+          <div class="insight-label">AI conclusion — 8 weeks of observation</div>
+          <div class="insight-title">Systems Thinker</div>
+          <div class="insight-def">Arjun's mind naturally models how interacting parts create emergent outcomes. He is not interested in objects — he is interested in how they connect.</div>
+
+          <div class="why-block">
+            <p><strong style="color:var(--acid);">Why?</strong> Minecraft → he builds infrastructure, not aesthetics. F1 → he watches strategy, not crashes. Cities: Skylines → 3 failed cities before he understood traffic flow. Chess → end-game only after calculating 6 moves ahead. This is a coherent cognitive pattern, not a coincidence.</p>
+          </div>
+
+          <div class="career-branch">
+            <div class="branch-label">Suggested career paths — not because he's "good at it," but because he'll stay curious</div>
+            <div class="branches">
+              <span class="branch-chip">Urban Planning</span>
+              <span class="branch-chip">Logistics & Ops</span>
+              <span class="branch-chip">Operations Research</span>
+              <span class="branch-chip">Supply Chain</span>
+              <span class="branch-chip">Industrial Engineering</span>
+              <span class="branch-chip">Game Design</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     AI vs HUMAN vs PROFESSIONAL
+════════════════════════════════════════════════ -->
+<section class="z1">
+  <div class="wrap">
+    <div class="kicker r">Who does what</div>
+    <h2 class="section-title r">"Mentor" is not a bottleneck.<br>It's the final mile.</h2>
+    <p class="section-sub r">We are not trying to get 100,000 students 100,000 mentors who each do everything. The AI carries the heavy work. Humans add what no algorithm can.</p>
+
+    <div class="roles-grid r" data-d="2">
+      <div class="role-card ai">
+        <div class="role-icon">🧠</div>
+        <div class="role-type">Layer 1</div>
+        <div class="role-name">The AI</div>
+        <div class="role-desc">Watches, listens, detects patterns. Builds and refines the Curiosity Graph over months. Never judges a "wrong" interest. Surfaces emerging cognitive archetypes without asking.</div>
+        <div class="role-pct">~90%</div>
+        <div style="font-family:var(--mono);font-size:.72rem;color:rgba(240,236,222,.35);margin-top:4px;">of discovery work</div>
+      </div>
+      <div class="role-card human">
+        <div class="role-icon">🧭</div>
+        <div class="role-type">Layer 2</div>
+        <div class="role-name">The Mentor</div>
+        <div class="role-desc">Reviews the AI's pattern conclusions. Asks the questions the AI can't — "Does this feel right to you?" Validates or challenges the graph. Adds emotional context the algorithm misses.</div>
+        <div class="role-pct" style="color:var(--violet);">1 per 40</div>
+        <div style="font-family:var(--mono);font-size:.72rem;color:rgba(240,236,222,.35);margin-top:4px;">students. Scalable by design.</div>
+      </div>
+      <div class="role-card pro">
+        <div class="role-icon">🏗️</div>
+        <div class="role-type">Layer 3</div>
+        <div class="role-name">The Professional</div>
+        <div class="role-desc">Monthly live AMA matched to guild clusters. Not generic career advice — targeted to students already showing signals in that direction. Reality-checks the map with lived experience.</div>
+        <div class="role-pct" style="color:var(--amber);">Monthly</div>
+        <div style="font-family:var(--mono);font-size:.72rem;color:rgba(240,236,222,.35);margin-top:4px;">per archetype cluster</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ARCHETYPES
+════════════════════════════════════════════════ -->
+<section class="z1">
+  <div class="wrap">
+    <div class="kicker r">The twelve archetypes</div>
+    <h2 class="section-title r">Careers are temporary.<br>Thinking styles last decades.</h2>
+    <p class="archetypes-intro r">Sidequest doesn't slot students into career labels. It discovers their <em>cognitive identity</em> — the consistent pattern in how they think and engage. Careers then branch naturally from that identity. Hover a card to see where each archetype leads.</p>
+
+    <div class="archetype-grid r" data-d="2">
+      <div class="arch-card" style="--c:rgba(184,245,66,.18)">
+        <div class="arch-glyph">🔨</div>
+        <div class="arch-name">The Builder</div>
+        <div class="arch-tagline">Makes things exist that didn't</div>
+        <div class="arch-careers">
+          <span class="arch-career">Engineering</span><span class="arch-career">Product</span><span class="arch-career">Architecture</span><span class="arch-career">Manufacturing</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(255,147,64,.18)">
+        <div class="arch-glyph">📖</div>
+        <div class="arch-name">The Storyteller</div>
+        <div class="arch-tagline">Turns complexity into narrative</div>
+        <div class="arch-careers">
+          <span class="arch-career">Journalism</span><span class="arch-career">Law</span><span class="arch-career">Marketing</span><span class="arch-career">Film</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(168,150,255,.18)">
+        <div class="arch-glyph">🔍</div>
+        <div class="arch-name">The Investigator</div>
+        <div class="arch-tagline">Can't rest until it makes sense</div>
+        <div class="arch-careers">
+          <span class="arch-career">Research</span><span class="arch-career">Finance</span><span class="arch-career">Medicine</span><span class="arch-career">Detective work</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(66,232,212,.18)">
+        <div class="arch-glyph">🤝</div>
+        <div class="arch-name">The Negotiator</div>
+        <div class="arch-tagline">Finds the deal nobody else saw</div>
+        <div class="arch-careers">
+          <span class="arch-career">Business</span><span class="arch-career">Diplomacy</span><span class="arch-career">HR</span><span class="arch-career">Sales</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(255,94,122,.18)">
+        <div class="arch-glyph">✏️</div>
+        <div class="arch-name">The Designer</div>
+        <div class="arch-tagline">Feels when something is wrong before explaining why</div>
+        <div class="arch-careers">
+          <span class="arch-career">UX</span><span class="arch-career">Fashion</span><span class="arch-career">Typography</span><span class="arch-career">Industrial Design</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(184,245,66,.14)">
+        <div class="arch-glyph">⚗️</div>
+        <div class="arch-name">The Scientist</div>
+        <div class="arch-tagline">Trusts evidence, questions everything else</div>
+        <div class="arch-careers">
+          <span class="arch-career">Physics</span><span class="arch-career">Biology</span><span class="arch-career">Data Science</span><span class="arch-career">Psychology</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(255,147,64,.14)">
+        <div class="arch-glyph">⚙️</div>
+        <div class="arch-name">The Operator</div>
+        <div class="arch-tagline">Makes systems actually run</div>
+        <div class="arch-careers">
+          <span class="arch-career">Ops</span><span class="arch-career">Logistics</span><span class="arch-career">Urban Planning</span><span class="arch-career">Military</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(168,150,255,.14)">
+        <div class="arch-glyph">🎓</div>
+        <div class="arch-name">The Teacher</div>
+        <div class="arch-tagline">Only feels satisfied when others understand</div>
+        <div class="arch-careers">
+          <span class="arch-career">Education</span><span class="arch-career">Content</span><span class="arch-career">Coaching</span><span class="arch-career">Policy</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(66,232,212,.14)">
+        <div class="arch-glyph">🎭</div>
+        <div class="arch-name">The Performer</div>
+        <div class="arch-tagline">Comes alive with an audience</div>
+        <div class="arch-careers">
+          <span class="arch-career">Theatre</span><span class="arch-career">Politics</span><span class="arch-career">Sales</span><span class="arch-career">Broadcasting</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(255,94,122,.14)">
+        <div class="arch-glyph">♟️</div>
+        <div class="arch-name">The Strategist</div>
+        <div class="arch-tagline">Three moves ahead, always</div>
+        <div class="arch-careers">
+          <span class="arch-career">Consulting</span><span class="arch-career">Finance</span><span class="arch-career">Policy</span><span class="arch-career">Game Theory</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(184,245,66,.18)">
+        <div class="arch-glyph">🌱</div>
+        <div class="arch-name">The Creator</div>
+        <div class="arch-tagline">Needs to put something new into the world every week</div>
+        <div class="arch-careers">
+          <span class="arch-career">Art</span><span class="arch-career">Music</span><span class="arch-career">Writing</span><span class="arch-career">Startups</span>
+        </div>
+      </div>
+      <div class="arch-card" style="--c:rgba(255,147,64,.18)">
+        <div class="arch-glyph">🧭</div>
+        <div class="arch-name">The Explorer</div>
+        <div class="arch-tagline">Gets bored when the frontier closes</div>
+        <div class="arch-careers">
+          <span class="arch-career">Research</span><span class="arch-career">Geopolitics</span><span class="arch-career">Anthropology</span><span class="arch-career">VC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TIMELINE
+════════════════════════════════════════════════ -->
+<section class="z1">
+  <div class="wrap">
+    <div class="kicker r">Onboarding timeline</div>
+    <h2 class="section-title r">This is not a quiz.<br>It's a slow revelation.</h2>
+    <p class="section-sub r">The biggest thing wrong with career tests is that they assume 15 minutes of self-report can outsmart months of actual behaviour. We don't believe that.</p>
+
+    <div class="timeline">
+      <div class="tl-item r">
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-when">Week 1</div>
+        <div class="tl-title">Observe. Don't perform.</div>
+        <div class="tl-body">You get dropped into the server. No quiz. No form. Just explore — any guild, any channel, any conversation. The AI watches quietly. This week is deliberately unstructured.</div>
+        <div class="tl-tags"><span class="tl-tag">No pressure</span><span class="tl-tag">Open exploration</span><span class="tl-tag">Passive observation begins</span></div>
+      </div>
+      <div class="tl-item r" data-d="1">
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-when">Week 2</div>
+        <div class="tl-title">First experiment. Low stakes.</div>
+        <div class="tl-body">Your mentor suggests one micro-project (2-3 hours, your own pace). Not to assess you — to give you something concrete to react to. Your reaction is the data point.</div>
+        <div class="tl-tags"><span class="tl-tag">First mentor touchpoint</span><span class="tl-tag">One micro-project</span><span class="tl-tag">Reaction tracked</span></div>
+      </div>
+      <div class="tl-item r" data-d="2">
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-when">Week 3–4</div>
+        <div class="tl-title">Build something inside a guild.</div>
+        <div class="tl-body">You pick a guild that's pulling you and do a real deliverable with peers. It doesn't have to be good. How you work — the iteration pattern, what you get stuck on, what you finish first — is more valuable than the output.</div>
+        <div class="tl-tags"><span class="tl-tag">Peer collaboration</span><span class="tl-tag">Process > output</span><span class="tl-tag">First archetype signal emerges</span></div>
+      </div>
+      <div class="tl-item r" data-d="3">
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-when">Month 2</div>
+        <div class="tl-title">Pattern detection begins.</div>
+        <div class="tl-body">Enough data now. The AI surfaces three possible archetypes with confidence scores. Your mentor reviews them. You sit with it — agree, push back, ignore it. All reactions are valid.</div>
+        <div class="tl-tags"><span class="tl-tag">First Curiosity Graph draft</span><span class="tl-tag">Archetype confidence scores</span><span class="tl-tag">Mentor validation session</span></div>
+      </div>
+      <div class="tl-item r" data-d="4">
+        <div class="tl-dot"><span></span></div>
+        <div class="tl-when">Month 3 onwards</div>
+        <div class="tl-title">Confidence grows. The map sharpens.</div>
+        <div class="tl-body">Every week adds resolution. The Curiosity Graph doesn't expire. By Month 6 it knows you better than a year of formal schooling. By Month 12 it's an asset that follows you into college admissions, career conversations, and beyond.</div>
+        <div class="tl-tags"><span class="tl-tag">Growing confidence score</span><span class="tl-tag">Parent report unlocks</span><span class="tl-tag">Personalised next steps</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PARENT SECTION
+════════════════════════════════════════════════ -->
+<section class="z1">
+  <div class="wrap">
+    <div class="kicker r">For parents</div>
+    <h2 class="section-title r">You're not buying screen time.<br>You're buying a map.</h2>
+    <p class="section-sub r">Parents pay. Parents deserve more than "your child joined a Discord server." Here's what arrives in your inbox every month.</p>
+
+    <div class="parent-layout">
+      <div class="report-mock r" data-d="1">
+        <div class="report-header">
+          <span class="report-title-bar">Monthly Curiosity Report — Arjun M. · Month 3</span>
+          <span class="report-badge">Parent View</span>
+        </div>
+        <div class="report-body">
+          <div class="report-row">
+            <div class="report-label">Emerging archetype</div>
+            <div class="report-val">Systems Thinker <span style="font-family:var(--mono);font-size:.8rem;color:var(--acid);">82% confidence</span></div>
+          </div>
+          <div class="report-row">
+            <div class="report-label">Emerging strengths</div>
+            <div class="strength-bar" id="strBar">
+              <div class="str-item">
+                <span class="str-name">Pattern recognition</span>
+                <div class="str-track"><div class="str-fill" style="width:91%"></div></div>
+                <span class="str-pct">91%</span>
+              </div>
+              <div class="str-item">
+                <span class="str-name">Systems thinking</span>
+                <div class="str-track"><div class="str-fill" style="width:84%"></div></div>
+                <span class="str-pct">84%</span>
+              </div>
+              <div class="str-item">
+                <span class="str-name">Strategic planning</span>
+                <div class="str-track"><div class="str-fill" style="width:73%"></div></div>
+                <span class="str-pct">73%</span>
+              </div>
+              <div class="str-item">
+                <span class="str-name">Verbal storytelling</span>
+                <div class="str-track"><div class="str-fill" style="width:38%"></div></div>
+                <span class="str-pct">38%</span>
+              </div>
+            </div>
+          </div>
+          <div class="report-row">
+            <div class="report-label">This month's project</div>
+            <div class="report-val">Modelled a bus route redesign for South Delhi using open data</div>
+          </div>
+          <div class="report-row">
+            <div class="report-label">Mentor observation</div>
+            <div class="report-val" style="font-size:.9rem;color:rgba(240,236,222,.65);font-style:italic;">"Arjun initiates questions, doesn't wait to be asked. He stayed an extra 40 minutes in the ops session this week. I didn't suggest it."</div>
+          </div>
+          <div class="report-row">
+            <div class="report-label">Suggested next experiences</div>
+            <div class="next-exp">
+              <div class="exp-item">Visit the Delhi Metro planning office — a reader exists there who'd host 3 students</div>
+              <div class="exp-item">Read: The Death and Life of Great American Cities (abridged)</div>
+              <div class="exp-item">Try the Operations Research intro quest in #guild-engineering</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="parent-copy r" data-d="2">
+        <h3>This is not a progress report. It's a portrait.</h3>
+        <p>Schools tell you marks. Sidequest tells you <em>how</em> your child's mind works — what they're naturally good at, what bores them despite pressure to stay interested, and what makes them stay 40 minutes past the bell.</p>
+        <p style="margin-top:14px;">That knowledge, collected over years, doesn't just help with college applications. It changes how you have conversations at home.</p>
+        <div class="parent-wins">
+          <div class="parent-win">
+            <div class="win-ico">📊</div>
+            <span>Monthly curiosity report with emerging strengths and pattern confidence scores</span>
+          </div>
+          <div class="parent-win">
+            <div class="win-ico">💬</div>
+            <span>Mentor observations written in plain language, not jargon</span>
+          </div>
+          <div class="parent-win">
+            <div class="win-ico">🗺️</div>
+            <span>Suggested real-world experiences — not more screen time</span>
+          </div>
+          <div class="parent-win">
+            <div class="win-ico">🔒</div>
+            <span>No access to private conversations. Digest only. Always opt-in.</span>
+          </div>
+          <div class="parent-win">
+            <div class="win-ico">📈</div>
+            <span>Longitudinal graph that grows each month — not a snapshot that expires</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PRICING REFRAME — ₹100 SPRINT
+════════════════════════════════════════════════ -->
+<section id="sprint" class="z1">
+  <div class="wrap">
+    <div class="kicker r">What ₹100 actually buys</div>
+    <h2 class="section-title r">Not "a Discord community." <br> A 30-day Curiosity Mapping Sprint.</h2>
+    <p class="section-sub r">We renamed it because the name changes what you expect, and what you expect changes whether you show up.</p>
+
+    <div class="sprint-wrap r" data-d="2">
+      <div class="sprint-left">
+        <div class="sprint-price-label">Founding member price</div>
+        <div class="sprint-amount"><sup>₹</sup>100</div>
+        <div class="sprint-name">The Curiosity Mapping Sprint</div>
+        <div class="sprint-duration">30 days · lifetime access · no recurring fees</div>
+        <div class="sprint-list">
+          <div class="sprint-item">
+            <div class="sprint-check">✓</div>
+            <div class="sprint-item-text">4-week structured onboarding — observe, experiment, build, reflect</div>
+          </div>
+          <div class="sprint-item">
+            <div class="sprint-check">✓</div>
+            <div class="sprint-item-text">Mentor match at end of Week 1 (based on behaviour, not quiz)</div>
+          </div>
+          <div class="sprint-item">
+            <div class="sprint-check">✓</div>
+            <div class="sprint-item-text">First Curiosity Graph report — your top 3 emerging archetypes</div>
+          </div>
+          <div class="sprint-item">
+            <div class="sprint-check">✓</div>
+            <div class="sprint-item-text">Guild placement matched to archetype signals</div>
+          </div>
+          <div class="sprint-item">
+            <div class="sprint-check">✓</div>
+            <div class="sprint-item-text">Parent curiosity digest at end of Day 30</div>
+          </div>
+          <div class="sprint-item">
+            <div class="sprint-check">✓</div>
+            <div class="sprint-item-text">Lifetime access to continue building your Curiosity Graph after Sprint</div>
+          </div>
+        </div>
+        <a href="#" class="sprint-cta">Start My Sprint — ₹100 ⚡</a>
+      </div>
+      <div class="sprint-right">
+        <h3>Why so cheap, genuinely?</h3>
+        <p>We are building toward 100,000 students. The Curiosity Graph becomes more powerful the more students feed it — pattern recognition improves, archetype confidence improves, career path matching improves. The ₹100 isn't covering our costs. It's filtering for students who want to actually show up.</p>
+
+        <div class="proof-metric">
+          <div class="metric-num">7 days</div>
+          <div class="metric-desc">Full refund. No form. No questions. If the Sprint doesn't feel different from anything you've tried before by Day 7, reply to any email and we refund immediately.</div>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-item"><span class="trust-ico">🔒</span> Age-verified pods. Moderated 24/7 by trained moderators.</div>
+          <div class="trust-item"><span class="trust-ico">✅</span> Mentors background-checked before matching.</div>
+          <div class="trust-item"><span class="trust-ico">👁️</span> Parent digest is always opt-in. Private chats are always private.</div>
+          <div class="trust-item"><span class="trust-ico">🇮🇳</span> Built for Indian students. All content, mentors, and context are India-first.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SUCCESS OUTCOMES
+════════════════════════════════════════════════ -->
+<section class="z1 tight">
+  <div class="wrap">
+    <div class="kicker r">What success looks like</div>
+    <h2 class="section-title r">How does a student know<br>the Sprint worked?</h2>
+
+    <div class="outcomes r" data-d="2">
+      <div class="outcome-cell">
+        <div class="outcome-quote">"I discovered <span class="hl">three careers I'd never heard of</span> — and understood immediately why they'd suit how I think."</div>
+        <div class="outcome-who">MEASURABLE WIN #1</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-quote">"I finally <span class="hl">eliminated four paths</span> I thought I wanted — not because someone told me to, but because I tried them and felt nothing."</div>
+        <div class="outcome-who">MEASURABLE WIN #2</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-quote">"I <span class="hl">built my first project</span> in a field I'd never touched — and wanted to continue on my own, without being asked."</div>
+        <div class="outcome-who">MEASURABLE WIN #3</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-quote">"I met <span class="hl">people obsessed with the same things</span> as me — not just the same subjects, but the same way of thinking."</div>
+        <div class="outcome-who">MEASURABLE WIN #4</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-quote">"I now know <span class="hl">exactly what to explore next.</span> Not a vague direction — a specific next step with a reason."</div>
+        <div class="outcome-who">MEASURABLE WIN #5</div>
+      </div>
+      <div class="outcome-cell">
+        <div class="outcome-quote">"My parents stopped asking 'what do you want to be?' because the <span class="hl">monthly report said it better</span> than I ever could."</div>
+        <div class="outcome-who">MEASURABLE WIN #6</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FINAL CTA
+════════════════════════════════════════════════ -->
+<section class="final z1">
+  <div class="wrap r">
+    <div class="kicker" style="justify-content:center;">The real question</div>
+    <h2>Every child deserves<br>a <span class="acid">Curiosity Twin.</span></h2>
+    <p class="final-sub">An intelligence that has watched them for years — remembers every project, every obsession, every question, every abandoned hobby — and knows them better than any standardised test ever will.</p>
+    <div class="final-actions">
+      <a href="#" class="btn-primary">Start the Sprint — ₹100 ⚡</a>
+      <a href="./" class="btn-ghost">← Back to Page 1</a>
+    </div>
+    <p style="margin-top:24px;font-family:var(--mono);font-size:.78rem;color:rgba(240,236,222,.3);">31,402 founding sprint slots claimed · 68,598 remaining</p>
+  </div>
+</section>
+
+<footer class="z1">
+  <div class="wrap footer-inner">
+    <p>SIDEQUEST © 2026 · The Curiosity Graph · A new kind of student intelligence</p>
+    <p>Not a coaching class · Not a test · Not another quiz</p>
+  </div>
+</footer>
+
+<script>
+/* ── ANIMATED GRAPH CANVAS (hero) ── */
+const canvas = document.getElementById('graphCanvas');
+const ctx = canvas.getContext('2d');
+let nodes = [], W, H, animFrame;
+
+function resizeCanvas(){
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+
+function initNodes(){
+  nodes = [];
+  const count = Math.floor((W * H) / 22000);
+  for(let i=0;i<Math.max(count,18);i++){
+    nodes.push({
+      x: Math.random()*W,
+      y: Math.random()*H,
+      vx: (Math.random()-.5)*0.55,
+      vy: (Math.random()-.5)*0.55,
+      r: Math.random()*3+1.5,
+      hue: [184,168,255,66,232,255][Math.floor(Math.random()*6)],
+      sat:[245,150,255,245,212,147][Math.floor(Math.random()*6)],
+      lit:[66,255,255,120,212,64][Math.floor(Math.random()*6)],
+    });
+  }
+}
+
+function drawGraph(){
+  ctx.clearRect(0,0,W,H);
+  const R = 180;
+  for(let i=0;i<nodes.length;i++){
+    for(let j=i+1;j<nodes.length;j++){
+      const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<R){
+        const alpha = (1-dist/R)*0.35;
+        ctx.beginPath();
+        ctx.strokeStyle=`rgba(184,245,66,${alpha})`;
+        ctx.lineWidth=0.6;
+        ctx.moveTo(nodes[i].x,nodes[i].y);
+        ctx.lineTo(nodes[j].x,nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  nodes.forEach(n=>{
+    ctx.beginPath();
+    const grad = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*3);
+    grad.addColorStop(0,`rgba(184,245,66,0.9)`);
+    grad.addColorStop(1,`rgba(184,245,66,0)`);
+    ctx.fillStyle=grad;
+    ctx.arc(n.x,n.y,n.r*3,0,Math.PI*2);
+    ctx.fill();
+    n.x+=n.vx; n.y+=n.vy;
+    if(n.x<0||n.x>W) n.vx*=-1;
+    if(n.y<0||n.y>H) n.vy*=-1;
+  });
+  animFrame = requestAnimationFrame(drawGraph);
+}
+
+window.addEventListener('resize',()=>{ resizeCanvas(); initNodes(); });
+resizeCanvas(); initNodes(); drawGraph();
+
+/* ── SCROLL REVEALS ── */
+const rEls = document.querySelectorAll('.r');
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:0.1});
+rEls.forEach(el=>io.observe(el));
+
+/* ── STRENGTH BAR TRIGGER ── */
+const strBar = document.getElementById('strBar');
+const barObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); barObs.unobserve(e.target); }
+  });
+},{threshold:0.4});
+if(strBar) barObs.observe(strBar);
+
+/* ── TIMELINE DOTS TRIGGER ── */
+const tlItems = document.querySelectorAll('.tl-item');
+const tlObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); }
+  });
+},{threshold:0.3});
+tlItems.forEach(el=>tlObs.observe(el));
+</script>
+
+</body>
+</html>

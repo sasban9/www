@@ -1,0 +1,628 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidequest — Find the XP School Forgot to Give You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800;12..96,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0c0d10;
+    --ink-2:#15171c;
+    --ink-3:#1c1f26;
+    --paper:#f4f1e9;
+    --acid:#c8ff4d;
+    --acid-dim:#8fb83a;
+    --amber:#ff9d3d;
+    --violet:#9d8cff;
+    --cyan:#5fe3d8;
+    --line:rgba(244,241,233,0.12);
+    --line-bright:rgba(244,241,233,0.28);
+    --display: "Bricolage Grotesque", sans-serif;
+    --mono: "Space Mono", monospace;
+    --fs-base: 16px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;scrollbar-width: none;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--display);
+    font-size:var(--fs-base);
+    line-height:1.5;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ---------- texture layer ---------- */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:200;
+    opacity:0.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .scanlines{
+    position:fixed; inset:0; pointer-events:none; z-index:199; opacity:0.035;
+    background:repeating-linear-gradient(0deg, #fff 0px, transparent 1px, transparent 3px);
+  }
+
+  .glow-field{
+    position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .blob{
+    position:absolute; border-radius:50%; filter:blur(90px); opacity:0.35;
+    animation:drift 22s ease-in-out infinite;
+  }
+  .blob.b1{width:480px;height:480px; background:var(--acid); top:-120px; left:-100px; animation-duration:26s;}
+  .blob.b2{width:420px;height:420px; background:var(--violet); top:40%; right:-140px; animation-duration:19s; animation-delay:-4s;}
+  .blob.b3{width:380px;height:380px; background:var(--amber); bottom:-160px; left:30%; animation-duration:24s; animation-delay:-9s;}
+  @keyframes drift{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    33%{ transform:translate(60px,40px) scale(1.12); }
+    66%{ transform:translate(-40px,70px) scale(0.92); }
+  }
+
+  section,header,footer{ position:relative; z-index:1; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 28px; }
+
+  ::selection{ background:var(--acid); color:var(--ink); }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    backdrop-filter:blur(14px);
+    background:rgba(12,13,16,0.55);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-family:var(--mono); font-weight:700; font-size:1.05rem;
+    letter-spacing:0.02em; display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{ width:9px;height:9px;border-radius:50%; background:var(--acid); box-shadow:0 0 12px var(--acid); animation:pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:0.4; transform:scale(0.7);} }
+  .nav-cta{
+    font-family:var(--mono); font-size:0.85rem; font-weight:700;
+    color:var(--ink); background:var(--acid);
+    padding:9px 18px; border-radius:100px; text-decoration:none;
+    border:1px solid var(--acid);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .nav-cta:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(200,255,77,0.35); }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    min-height:100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:140px 28px 80px;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:0.85rem; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--acid); border:1px solid rgba(200,255,77,0.4); border-radius:100px;
+    padding:7px 16px; display:inline-flex; align-items:center; gap:8px; margin-bottom:28px;
+    opacity:0; animation:rise 0.8s ease forwards 0.1s;
+    background:rgba(200,255,77,0.06);
+  }
+  h1.hero-title{
+    font-size:clamp(2.6rem, 7vw, 5.6rem);
+    font-weight:900; line-height:1.02; letter-spacing:-0.02em;
+    max-width:980px;
+    opacity:0; animation:rise 0.9s ease forwards 0.25s;
+  }
+  h1.hero-title .accent{
+    color:var(--acid);
+    font-style:italic;
+    font-weight:800;
+    position:relative;
+    display:inline-block;
+  }
+  h1.hero-title .strike{
+    text-decoration:line-through;
+    text-decoration-color:var(--amber);
+    text-decoration-thickness:3px;
+    color:rgba(244,241,233,0.45);
+  }
+  .hero-sub{
+    margin-top:26px; max-width:620px; font-size:clamp(1.05rem,2vw,1.25rem);
+    color:rgba(244,241,233,0.72); font-weight:400;
+    opacity:0; animation:rise 0.9s ease forwards 0.4s;
+  }
+  .hero-actions{
+    margin-top:42px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center; align-items:center;
+    opacity:0; animation:rise 0.9s ease forwards 0.55s;
+  }
+  .btn-primary{
+    font-family:var(--mono); font-weight:700; font-size:1rem;
+    background:var(--acid); color:var(--ink); text-decoration:none;
+    padding:16px 30px; border-radius:100px; border:1px solid var(--acid);
+    display:inline-flex; align-items:center; gap:10px;
+    transition:transform .25s ease, box-shadow .25s ease;
+    position:relative; overflow:hidden;
+  }
+  .btn-primary:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 12px 32px rgba(200,255,77,0.4); }
+  .btn-ghost{
+    font-family:var(--mono); font-weight:700; font-size:1rem;
+    color:var(--paper); text-decoration:none;
+    padding:16px 26px; border-radius:100px; border:1px solid var(--line-bright);
+    transition:border-color .25s ease, background .25s ease;
+  }
+  .btn-ghost:hover{ border-color:var(--paper); background:rgba(244,241,233,0.06); }
+
+  .price-tag{
+    font-family:var(--mono); font-size:0.85rem; color:rgba(244,241,233,0.5);
+    margin-top:18px;
+    opacity:0; animation:rise 0.9s ease forwards 0.7s;
+  }
+  .price-tag strong{ color:var(--amber); }
+
+  @keyframes rise{ from{ opacity:0; transform:translateY(22px);} to{ opacity:1; transform:translateY(0);} }
+
+  .scroll-hint{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+    font-family:var(--mono); font-size:0.75rem; color:rgba(244,241,233,0.4);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    animation:bob 2s ease-in-out infinite;
+  }
+  .scroll-hint .line{ width:1px; height:32px; background:linear-gradient(var(--paper), transparent); }
+  @keyframes bob{ 0%,100%{ transform:translate(-50%,0);} 50%{ transform:translate(-50%,8px);} }
+
+  /* ---------- marquee ---------- */
+  .marquee{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:var(--ink-2);
+    padding:16px 0; overflow:hidden; white-space:nowrap;
+  }
+  .marquee-track{
+    display:inline-flex; gap:48px; animation:scroll-left 26s linear infinite;
+  }
+  .marquee span{
+    font-family:var(--mono); font-size:0.95rem; letter-spacing:0.04em;
+    color:rgba(244,241,233,0.55);
+  }
+  .marquee span.hi{ color:var(--acid); }
+  @keyframes scroll-left{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(40px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- section shell ---------- */
+  section{ padding:110px 0; }
+  .kicker{
+    font-family:var(--mono); font-size:0.8rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--acid-dim); margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .kicker::before{ content:""; width:24px; height:1px; background:var(--acid-dim); }
+  h2{
+    font-size:clamp(2rem,4.2vw,3.2rem); font-weight:800; letter-spacing:-0.01em; line-height:1.08;
+    max-width:780px;
+  }
+  .section-sub{
+    margin-top:18px; max-width:600px; color:rgba(244,241,233,0.68); font-size:1.05rem;
+  }
+
+  /* ---------- problem section ---------- */
+  .problem-grid{
+    margin-top:60px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:18px; overflow:hidden;
+  }
+  .problem-card{
+    background:var(--ink); padding:34px 28px; transition:background .3s ease;
+  }
+  .problem-card:hover{ background:var(--ink-2); }
+  .problem-card .num{ font-family:var(--mono); color:var(--amber); font-size:0.85rem; }
+  .problem-card h3{ font-size:1.25rem; margin-top:14px; font-weight:700; }
+  .problem-card p{ margin-top:10px; color:rgba(244,241,233,0.62); font-size:0.96rem; }
+
+  /* ---------- how it works ---------- */
+  .flow{
+    margin-top:64px; display:flex; flex-direction:column; gap:0;
+  }
+  .flow-step{
+    display:grid; grid-template-columns:90px 1fr; gap:28px; align-items:start;
+    padding:36px 0; border-top:1px solid var(--line); position:relative;
+  }
+  .flow-step:last-child{ border-bottom:1px solid var(--line); }
+  .flow-num{
+    font-family:var(--mono); font-size:2.4rem; font-weight:700; color:transparent;
+    -webkit-text-stroke:1.5px rgba(244,241,233,0.35);
+    transition:all .4s ease;
+  }
+  .flow-step:hover .flow-num{ -webkit-text-stroke:1.5px var(--acid); color:var(--acid); transform:translateX(6px); }
+  .flow-body h3{ font-size:1.4rem; font-weight:700; }
+  .flow-body p{ margin-top:10px; color:rgba(244,241,233,0.66); max-width:560px; }
+  .flow-tag{
+    font-family:var(--mono); font-size:0.78rem; color:var(--cyan);
+    border:1px solid rgba(95,227,216,0.4); padding:4px 10px; border-radius:100px;
+    display:inline-block; margin-top:14px; background:rgba(95,227,216,0.06);
+  }
+
+  /* ---------- career tracks (marquee cards) ---------- */
+  .tracks{
+    margin-top:56px; display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px;
+  }
+  .track-card{
+    border:1px solid var(--line); border-radius:16px; padding:26px 22px;
+    background:linear-gradient(155deg, var(--ink-2), var(--ink));
+    position:relative; overflow:hidden;
+    transition:transform .35s ease, border-color .35s ease;
+  }
+  .track-card::after{
+    content:""; position:absolute; inset:0; opacity:0; transition:opacity .35s ease;
+    background:radial-gradient(circle at 30% 20%, rgba(200,255,77,0.18), transparent 60%);
+  }
+  .track-card:hover{ transform:translateY(-6px); border-color:var(--line-bright); }
+  .track-card:hover::after{ opacity:1; }
+  .track-emoji{ font-size:1.8rem; }
+  .track-card h4{ margin-top:14px; font-size:1.1rem; font-weight:700; }
+  .track-card p{ margin-top:8px; font-size:0.88rem; color:rgba(244,241,233,0.58); }
+
+  /* ---------- pricing ---------- */
+  .pricing-wrap{
+    margin-top:60px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;
+  }
+  .price-card{
+    border:1px solid var(--line-bright); border-radius:24px; padding:44px 38px;
+    background:radial-gradient(circle at 80% 0%, rgba(200,255,77,0.08), var(--ink-2));
+    position:relative; overflow:hidden;
+  }
+  .price-card::before{
+    content:"₹"; position:absolute; right:-30px; top:-50px; font-size:14rem; font-weight:900;
+    color:rgba(244,241,233,0.03); font-family:var(--display);
+  }
+  .price-amount{ font-size:4.2rem; font-weight:900; line-height:1; color:var(--acid); }
+  .price-amount sup{ font-size:1.6rem; top:-1.8em; }
+  .price-period{ font-family:var(--mono); color:rgba(244,241,233,0.5); margin-top:6px; font-size:0.95rem;}
+  .price-list{ margin-top:30px; display:flex; flex-direction:column; gap:14px; }
+  .price-list li{ list-style:none; display:flex; gap:12px; align-items:flex-start; font-size:0.98rem; color:rgba(244,241,233,0.82); }
+  .price-list .check{ color:var(--ink); background:var(--acid); width:20px; height:20px; flex:none; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:900; margin-top:2px;}
+  .price-card .btn-primary{ width:100%; justify-content:center; margin-top:32px; }
+
+  .price-side h3{ font-size:1.6rem; font-weight:800; }
+  .price-side p{ margin-top:14px; color:rgba(244,241,233,0.66); }
+  .reassure{
+    margin-top:24px; display:flex; gap:14px; align-items:center;
+    font-family:var(--mono); font-size:0.85rem; color:rgba(244,241,233,0.5);
+    border-left:2px solid var(--amber); padding-left:14px;
+  }
+
+  /* ---------- testimonial strip ---------- */
+  .quote-strip{
+    margin-top:80px; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:50px 0; display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+  }
+  .quote{ padding:0 30px; border-left:1px solid var(--line); }
+  .quote:first-child{ border-left:none; padding-left:0; }
+  .quote p{ font-size:1.05rem; line-height:1.55; }
+  .quote .who{ margin-top:16px; font-family:var(--mono); font-size:0.8rem; color:var(--acid-dim); }
+
+  /* ---------- faq ---------- */
+  .faq-list{ margin-top:50px; max-width:760px; }
+  .faq-item{
+    border-top:1px solid var(--line); padding:24px 0; cursor:pointer;
+  }
+  .faq-item:last-child{ border-bottom:1px solid var(--line); }
+  .faq-q{
+    display:flex; justify-content:space-between; align-items:center; gap:20px;
+    font-size:1.1rem; font-weight:700;
+  }
+  .faq-q .plus{
+    font-family:var(--mono); font-size:1.4rem; color:var(--acid); transition:transform .3s ease; flex:none;
+  }
+  .faq-item.open .plus{ transform:rotate(45deg); }
+  .faq-a{
+    max-height:0; overflow:hidden; transition:max-height .4s ease, opacity .3s ease, margin-top .3s ease;
+    color:rgba(244,241,233,0.65); opacity:0; font-size:0.98rem;
+  }
+  .faq-item.open .faq-a{ max-height:240px; opacity:1; margin-top:14px; }
+
+  /* ---------- final cta ---------- */
+  .final-cta{
+    text-align:center; padding:130px 0 100px;
+    position:relative;
+  }
+  .final-cta h2{ margin:0 auto; }
+  .final-cta .btn-primary{ font-size:1.1rem; padding:20px 40px; margin-top:38px; }
+  .seat-counter{
+    margin-top:20px; font-family:var(--mono); font-size:0.85rem; color:rgba(244,241,233,0.5);
+  }
+  .bar-track{
+    width:240px; height:6px; background:var(--ink-3); border-radius:100px; margin:14px auto 0;
+    overflow:hidden; border:1px solid var(--line);
+  }
+  .bar-fill{
+    height:100%; width:31%; background:linear-gradient(90deg, var(--amber), var(--acid));
+    border-radius:100px; animation:fillbar 1.6s ease forwards 0.3s; transform-origin:left; transform:scaleX(0);
+  }
+  @keyframes fillbar{ to{ transform:scaleX(1); } }
+
+  footer{
+    border-top:1px solid var(--line); padding:40px 0; 
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  }
+  footer p{ font-family:var(--mono); font-size:0.8rem; color:rgba(244,241,233,0.4); }
+
+  /* ---------- floating discord glyphs ---------- */
+  .floaters{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .floater{
+    position:absolute; font-family:var(--mono); font-size:0.85rem; color:rgba(244,241,233,0.18);
+    animation:float-up linear infinite;
+  }
+  @keyframes float-up{
+    from{ transform:translateY(0) rotate(0deg); opacity:0; }
+    10%{ opacity:1; }
+    90%{ opacity:1; }
+    to{ transform:translateY(-700px) rotate(8deg); opacity:0; }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .problem-grid{ grid-template-columns:1fr; }
+    .pricing-wrap{ grid-template-columns:1fr; }
+    .quote-strip{ grid-template-columns:1fr; gap:30px; }
+    .quote{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:24px; }
+    .quote:first-child{ border-top:none; padding-top:0; }
+  }
+  @media (max-width:600px){
+    :root{ --fs-base:15px; }
+    .hero-actions{ flex-direction:column; width:100%; }
+    .btn-primary,.btn-ghost{ width:100%; text-align:center; justify-content:center; }
+    .flow-step{ grid-template-columns:50px 1fr; gap:16px; }
+    .flow-num{ font-size:1.6rem; }
+    section{ padding:80px 0; }
+  }
+  @media (max-width:380px){
+    :root{ --fs-base:14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="scanlines"></div>
+<div class="glow-field">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<nav>
+  <div class="logo"><span class="dot"></span>SIDEQUEST</div>
+  <a href="#join" class="nav-cta">Join — ₹100</a>
+</nav>
+
+<header class="hero">
+  <div class="floaters" id="floaters"></div>
+  <div class="eyebrow">● 100,000 students · ages 13–18 · one server</div>
+  <h1 class="hero-title">
+    School teaches you to <span class="strike">score marks.</span><br>
+    We teach you to <span class="accent">find your game.</span>
+  </h1>
+  <p class="hero-sub">A Discord world where 13–18 year-olds get matched with a mentor, dropped into a career-mapped guild, and turn "what do I even want to do" into a quest you actually look forward to.</p>
+  <div class="hero-actions">
+    <a href="#join" class="btn-primary">⚡ Get Your Mentor — ₹100<span></span></a>
+    <a href="#how" class="btn-ghost">See how it works</a>
+  </div>
+  <div class="price-tag">One-time <strong>₹100</strong> · lifetime access · no recurring fees</div>
+  <div class="scroll-hint"><span>SCROLL</span><span class="line"></span></div>
+</header>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>FIND YOUR ARC</span><span class="hi">★</span><span>BEAT THE BOREDOM</span><span class="hi">★</span><span>14 CAREER GUILDS</span><span class="hi">★</span><span>PEER-LED, MENTOR-GUIDED</span><span class="hi">★</span><span>STAY CURIOUS</span><span class="hi">★</span><span>FIND YOUR ARC</span><span class="hi">★</span><span>BEAT THE BOREDOM</span><span class="hi">★</span><span>14 CAREER GUILDS</span><span class="hi">★</span><span>PEER-LED, MENTOR-GUIDED</span><span class="hi">★</span><span>STAY CURIOUS</span><span class="hi">★</span>
+  </div>
+</div>
+
+<section id="problem">
+  <div class="wrap reveal">
+    <div class="kicker">The actual problem</div>
+    <h2>Marks went up. Curiosity went to zero.</h2>
+    <p class="section-sub">Somewhere between class 8 and the board exams, "learning" quietly turned into "scoring." Nobody planned it that way — it just happened.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="num">01</div>
+        <h3>Rote beats curious</h3>
+        <p>The kid who memorizes the textbook outscores the kid who actually wants to understand it. The system rewards the wrong instinct.</p>
+      </div>
+      <div class="problem-card">
+        <div class="num">02</div>
+        <h3>No map past "get into college"</h3>
+        <p>"Engineer," "doctor," "CA" — three answers for a hundred different humans. Nobody's shown the terrain in between.</p>
+      </div>
+      <div class="problem-card">
+        <div class="num">03</div>
+        <h3>Alone with the burnout</h3>
+        <p>Friends are competitors. Parents are anxious. There's no peer space to just say "I'm losing interest and I don't know why."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap reveal">
+    <div class="kicker">How sidequest works</div>
+    <h2>Four steps from "stuck" to "stuck on something good."</h2>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-body">
+          <h3>You join the server</h3>
+          <p>₹100, two minutes, done. You land in onboarding — not a wall of 40 channels you'll never open.</p>
+          <span class="flow-tag">#start-here</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-body">
+          <h3>You get a real mentor match</h3>
+          <p>A short interest scan — not a personality quiz — pairs you with a mentor and a starting guild based on what actually pulls your attention, not your marksheet.</p>
+          <span class="flow-tag">1:1 + small-group mentoring</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-body">
+          <h3>You drop into a career-mapped guild</h3>
+          <p>Design, biotech, finance, games, climate, media, robotics, law, and more — each guild is a living channel cluster where peers and mentors trade quests, not lectures.</p>
+          <span class="flow-tag">14 guilds, growing</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-body">
+          <h3>You gamify the boring parts</h3>
+          <p>XP for finishing a side-project, badges for trying a guild outside your comfort zone, leaderboards that reward curiosity streaks — not test scores.</p>
+          <span class="flow-tag">Weekly quests + seasonal events</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tracks">
+  <div class="wrap reveal">
+    <div class="kicker">Career guilds</div>
+    <h2>Pick a world. Switch anytime. Nobody's locking you in at 15.</h2>
+    <div class="tracks">
+      <div class="track-card"><div class="track-emoji">🎮</div><h4>Game Design</h4><p>Build, break, ship tiny games with people who actually play them.</p></div>
+      <div class="track-card"><div class="track-emoji">🧬</div><h4>BioTech & Health</h4><p>From dissecting frogs to dissecting why mRNA vaccines work.</p></div>
+      <div class="track-card"><div class="track-emoji">📈</div><h4>Finance & Markets</h4><p>Paper-trade, argue about crypto, learn why compound interest is wild.</p></div>
+      <div class="track-card"><div class="track-emoji">⚖️</div><h4>Law & Policy</h4><p>Mock trials, debate rooms, real cases broken down by mentors.</p></div>
+      <div class="track-card"><div class="track-emoji">🛰️</div><h4>Robotics & Hardware</h4><p>Arduino chaos, drone builds, the smell of solder you'll never forget.</p></div>
+      <div class="track-card"><div class="track-emoji">🎬</div><h4>Media & Film</h4><p>Edit reels, write scripts, get roasted gently by people who care.</p></div>
+      <div class="track-card"><div class="track-emoji">🌍</div><h4>Climate & Sustainability</h4><p>Real projects, real data, zero greenwashing.</p></div>
+      <div class="track-card"><div class="track-emoji">🧠</div><h4>Psych & Human Behaviour</h4><p>Why do we do what we do — turns out it's a whole career.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap reveal">
+    <div class="kicker">Membership</div>
+    <h2>One number. No upsells, no surprise renewals.</h2>
+
+    <div class="pricing-wrap">
+      <div class="price-card">
+        <div class="price-amount"><sup>₹</sup>100</div>
+        <div class="price-period">one-time · lifetime server access</div>
+        <ul class="price-list">
+          <li><span class="check">✓</span>Mentor match + onboarding quest</li>
+          <li><span class="check">✓</span>Access to all 14 career guilds</li>
+          <li><span class="check">✓</span>XP, badges, leaderboards, seasonal events</li>
+          <li><span class="check">✓</span>Peer pods of 6–8 students, same age band</li>
+          <li><span class="check">✓</span>Monthly live AMAs with working professionals</li>
+          <li><span class="check">✓</span>Parent-visible progress digest (opt-in)</li>
+        </ul>
+        <a href="#" class="btn-primary">Join Sidequest now ⚡</a>
+      </div>
+      <div class="price-side">
+        <h3>Why charge ₹100 at all?</h3>
+        <p>Free servers die. A small entry fee filters for students who actually want to show up — and funds real human mentors, not bots reading a script.</p>
+        <div class="reassure">Safety-first: age-verified pods, moderated 24/7, mentors background-checked, parents can request visibility anytime.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="quote-strip wrap reveal">
+  <div class="quote">
+    <p>"I joined for the gaming guild and ended up genuinely considering biotech. Nobody told me that was even a path."</p>
+    <div class="who">— Class 10, Pune</div>
+  </div>
+  <div class="quote">
+    <p>"It's the first place where 'I don't know what I want to do' is a normal thing to say out loud."</p>
+    <div class="who">— Class 11, Kolkata</div>
+  </div>
+  <div class="quote">
+    <p>"My mentor isn't trying to sell me a course. She just asks good questions and lets me figure it out."</p>
+    <div class="who">— Class 9, Hyderabad</div>
+  </div>
+</div>
+
+<section id="faq">
+  <div class="wrap reveal">
+    <div class="kicker">Questions</div>
+    <h2>Before you ask your parents for the ₹100</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q"><span>Is this safe for a 13-year-old?</span><span class="plus">+</span></div>
+        <div class="faq-a">Every pod is age-banded, every channel is moderated round the clock, and mentors go through a verification and background check before they're matched with students.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Does this replace school or tuition?</span><span class="plus">+</span></div>
+        <div class="faq-a">No — this runs alongside school. It's the curiosity layer school doesn't have time for, not a substitute for your syllabus.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>What if I don't know which guild I want?</span><span class="plus">+</span></div>
+        <div class="faq-a">That's exactly what the onboarding quest is for — it's built for "I have no idea," not just for students who already know.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Can parents see what's happening?</span><span class="plus">+</span></div>
+        <div class="faq-a">Yes, optionally — students can enable a monthly progress digest that goes to a parent email, with zero access to private conversations.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Is the ₹100 refundable?</span><span class="plus">+</span></div>
+        <div class="faq-a">Yes — full refund within 7 days if it's not for you, no questions asked.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap reveal">
+    <div class="kicker" style="justify-content:center;">Limited founding cohort</div>
+    <h2 style="max-width:100%;">Ready to find the side of yourself school never asked about?</h2>
+    <a href="#" class="btn-primary">Join Sidequest — ₹100 ⚡</a>
+    <div class="seat-counter">31,402 / 100,000 founding seats claimed</div>
+    <div class="bar-track"><div class="bar-fill"></div></div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p>SIDEQUEST © 2026 · A mentoring guild, not a coaching class</p>
+  <p>Made for students who score well and still wonder "is that it?"</p>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{ threshold:0.12 });
+  revealEls.forEach(el=>io.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    item.addEventListener('click', ()=>{
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+      if(!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Floating glyphs in hero
+  const glyphs = ['#guild-design','#guild-biotech','XP +12','🔥 streak','#mentor-pod','quest complete','#guild-finance','level up','#peer-room'];
+  const floaterHost = document.getElementById('floaters');
+  for(let i=0;i<10;i++){
+    const el = document.createElement('span');
+    el.className='floater';
+    el.textContent = glyphs[i % glyphs.length];
+    el.style.left = (Math.random()*92)+'%';
+    el.style.bottom = '-40px';
+    el.style.animationDuration = (10 + Math.random()*10)+'s';
+    el.style.animationDelay = (Math.random()*8)+'s';
+    floaterHost.appendChild(el);
+  }
+</script>
+
+</body>
+</html>

@@ -20,7 +20,7 @@
     --accent-teal: #2A6B5E;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scrollbar-width: none;}
 
   body {
     font-family: 'DM Sans', sans-serif;
@@ -444,7 +444,7 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 3rem;
+    gap: 5rem;
     align-items: center;
   }
   .about-avatar {
@@ -714,6 +714,52 @@
   }
   .cta-btn-white:hover { border-color: var(--ink); transform: translateY(-2px); }
 
+  /* ── WHY 9900 ── */
+  .why9900 {
+    background: var(--paper-warm);
+    color: var(--ink);
+  }
+  .why9900-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .why9900 .section-label { color: var(--accent-teal); }
+  .why9900 .section-title { color: var(--ink); }
+  .why9900 .section-title em { color: var(--accent-teal); }
+  .reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .reason-card {
+    background: white;
+    padding: 2rem 1.5rem;
+    border-left: 3px solid var(--gold);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .reason-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(15,12,8,0.1); }
+  .reason-icon {
+    font-size: 1.4rem;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    display: block;
+    line-height: 1;
+  }
+  .reason-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  .reason-desc {
+    font-size: 0.88rem;
+    color: #5A4F40;
+    line-height: 1.7;
+  }
+  @media (max-width: 900px) { .reasons-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .reasons-grid { grid-template-columns: 1fr; } }
+
   /* ── FOOTER ── */
   footer {
     background: #080604;
@@ -912,12 +958,12 @@
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="about-inner reveal">
-    <div class="about-avatar">S</div>
+    <div class="about-avatar"><img src="./sasban.jpg" alt="" style="max-width:220px"></div>
     <div>
       <p class="section-label">Your Guide</p>
-      <p class="about-name">Sasban</p>
+      <p class="about-name">Saswata Banerjee</p>
       <p class="about-role">Technologist · Educator · Udemy Instructor</p>
-      <p class="about-bio">With a B.Tech from IIT Kharagpur and over a decade navigating startups, enterprise, and education, I've seen what happens when career choices are made with data — and when they aren't. This course is built from everything I wish parents had done when I was in school, distilled into a practical system any family can follow.</p>
+      <p class="about-bio">With a B.Tech from IIT Kharagpur and an MS from Portugal, I've worked at Samsung, built and scaled startups, risen to CTO — and spent years watching smart people end up in careers that don't fit them. I built this course because I know what a well-chosen path looks like, and what a poorly-chosen one costs. When you work with me directly, I bring my own AI automation workflows and agents to the table — parsing live job market signals to match your teen's documented strengths against where the economy is actually heading.</p>
       <div class="credential-pills">
         <span class="pill">IIT Kharagpur · ECE</span>
         <span class="pill">Udemy Instructor</span>
@@ -945,6 +991,7 @@
           <li>All templates & trackers</li>
           <li>Grade 9–12 framework guide</li>
           <li>Career pathway library</li>
+          <li>New updates every month</li>
           <li>Lifetime access</li>
         </ul>
         <a href="#" class="price-btn price-btn-outline">Enroll Now — ₹499</a>
@@ -953,18 +1000,72 @@
         <div class="featured-badge">Recommended</div>
         <p class="price-plan">1-on-1 Mentorship</p>
         <div class="price-amount"><span class="price-currency">₹</span>9,900</div>
-        <p class="price-desc">Everything in the course, plus direct work with me to build a personalised map for your teen.</p>
+        <p class="price-desc">Direct work with me. Your teen's data cross-referenced against live job market intelligence — not generic advice.</p>
         <ul class="price-features">
           <li>Everything in Self-Guided</li>
-          <li>3 live sessions with Sasban</li>
-          <li>Personalised activity analysis</li>
-          <li>Custom career report</li>
-          <li>WhatsApp support (30 days)</li>
+          <li>52 live sessions with Sasban</li>
+          <li>Activity data analysed by AI agents</li>
+          <li>Live job market signal matching</li>
+          <li>Custom career clarity report</li>
+          <li>WhatsApp support (1 year)</li>
+          <li>Limited seats — 5 families/week</li>
         </ul>
         <a href="#" class="price-btn price-btn-solid">Work With Me — ₹9,900</a>
       </div>
     </div>
     <p style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--muted); text-align: center;">All prices in Indian Rupees. One-time payment, no subscription.</p>
+  </div>
+</section>
+
+<!-- WHY 9900 -->
+<section class="why9900">
+  <div class="why9900-inner">
+    <div class="reveal" style="text-align:center; margin-bottom: 3.5rem;">
+      <p class="section-label">Why ₹9,900</p>
+      <h2 class="section-title" style="margin: 0 auto;">This isn't coaching.<br>It's <em>intelligence work.</em></h2>
+    </div>
+    <div class="reasons-grid reveal">
+
+      <div class="reason-card">
+        <div class="reason-icon">⟳</div>
+        <h3 class="reason-title">Live Job Market Data</h3>
+        <p class="reason-desc">I run your teen's interest and strength profile through my own AI agents and automation workflows — pulling live hiring signals, salary trajectories, emerging role trends, and skill demand patterns from across the market. You don't get a textbook suggestion. You get a direction the economy is actually moving toward.</p>
+      </div>
+
+      <div class="reason-card">
+        <div class="reason-icon">◈</div>
+        <h3 class="reason-title">My Track Record, Not a Template</h3>
+        <p class="reason-desc">IIT Kharagpur. International MS. Samsung. Multiple startups. CTO. I've navigated nearly every fork in the road the Indian career landscape offers. When I read your teen's data, I'm not pattern-matching against a textbook — I'm drawing on a lived understanding of where paths actually lead.</p>
+      </div>
+
+      <div class="reason-card">
+        <div class="reason-icon">◎</div>
+        <h3 class="reason-title">Accountability That Makes It Real</h3>
+        <p class="reason-desc">Parents who pay ₹499 start strong and drift. The families who commit to working with me directly — knowing someone is reviewing the data and expecting progress — are the ones who actually build the four-year picture. The price creates the accountability.</p>
+      </div>
+
+      <div class="reason-card">
+        <div class="reason-icon">△</div>
+        <h3 class="reason-title">The Cost of Getting It Wrong</h3>
+        <p class="reason-desc">One year of private engineering college costs ₹1.5–3 lakh. One year of a career your child hates costs far more than that. ₹9,900 to avoid both — invested before the decision, not after — is not an expense. It's the cheapest insurance you'll buy in your parenting decade.</p>
+      </div>
+
+      <div class="reason-card">
+        <div class="reason-icon">◇</div>
+        <h3 class="reason-title">Limited to 500 Families per year</h3>
+        <p class="reason-desc">This work takes real time. I can only add 5-10 new families a week with the depth this requires. The price reflects that scarcity — and protects the quality of what every family receives.</p>
+      </div>
+
+      <div class="reason-card">
+        <div class="reason-icon">♦</div>
+        <h3 class="reason-title">Peace of Mind Has Real Value</h3>
+        <p class="reason-desc">Every parent who works with me walks away knowing they did everything they could. Not hoping. Not guessing. Knowing. That feeling — that you gave your child every possible advantage before the most consequential decision of their teenage years — is worth something money can barely measure.</p>
+      </div>
+
+    </div>
+    <div class="reveal" style="text-align:center; margin-top: 3rem;">
+      <p style="font-size: 0.85rem; color: var(--muted); font-style: italic; max-width: 480px; margin: 0 auto; line-height: 1.7;">Most career counsellors charge ₹5,000–15,000 for a single session based on gut feel. This gives you three sessions, a live data-backed report, and a month of continued support.</p>
+    </div>
   </div>
 </section>
 

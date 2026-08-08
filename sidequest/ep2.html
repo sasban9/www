@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Episode 2 — The Biggest Advantage Rich Cities Have</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream:#F4F1E6;
+  --navy:#0D1B3E;
+  --orange:#E84E1B;
+  --orange-light:rgba(232,78,27,0.1);
+  --blue:#1A3FE8;
+  --blue-light:rgba(26,63,232,0.1);
+  --green:#1B6E3C;
+  --green-light:rgba(27,110,60,0.1);
+  --gold:#C8940A;
+  --warm:#8B4513;
+  --rule:rgba(13,27,62,0.18);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --mono:'Space Mono',monospace;
+  --slide-ink:var(--navy);
+  --slide-bg:var(--cream);
+  --slide-accent:var(--orange);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;}
+body{
+  font-family:var(--serif);
+  background:var(--cream);
+  color:var(--navy);
+  /* subtle dot-grid: map paper feel */
+  background-image:radial-gradient(circle, rgba(13,27,62,0.07) 1.2px, transparent 1.2px);
+  background-size:28px 28px;
+  transition:background-color 0.7s ease;
+}
+
+/* ── AMBIENT GRADIENT MESH ── */
+#mesh{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:1;}
+
+/* ── GRAIN ── */
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.038;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* ── STAGE ── */
+#stage{
+  position:fixed;inset:0;z-index:10;
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(24px,4vw,72px);
+  padding-bottom:clamp(60px,8vh,80px);
+}
+#slide{width:100%;max-width:1240px;position:relative;}
+.slide-inner{
+  width:100%;min-height:75vh;
+  display:flex;flex-direction:column;
+  align-items:var(--align,flex-start);
+  justify-content:center;
+  gap:clamp(14px,2.5vh,32px);
+  text-align:var(--talign,left);
+}
+.centered .slide-inner{--align:center;--talign:center;}
+
+/* ── CHROME ── */
+#topBar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 28px 0;pointer-events:none;
+}
+#epLabel{font-family:var(--mono);font-size:clamp(13px,1.2vw,15px);
+  letter-spacing:.2em;text-transform:uppercase;color:var(--navy);opacity:0.38;}
+#counter{font-family:var(--mono);font-size:clamp(13px,1.2vw,15px);
+  color:var(--navy);opacity:0.32;}
+
+/* ── PROGRESS BAR ── */
+#progress{
+  position:fixed;top:0;left:0;z-index:60;height:3px;
+  background:var(--slide-accent);
+  transition:width 0.5s cubic-bezier(0.16,1,0.3,1), background 0.6s ease;
+}
+
+/* ── DOTS ── */
+#dots{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  z-index:50;display:none;gap:6px;align-items:center;
+}
+.dot{width:5px;height:5px;border-radius:50%;
+  background:rgba(13,27,62,0.25);transition:all 0.4s ease;cursor:pointer;}
+.dot.active{width:20px;height:5px;border-radius:3px;background:var(--slide-accent);}
+
+/* ── DARK SLIDE OVERRIDES ── */
+body.dark #epLabel,body.dark #counter{color:var(--cream);}
+body.dark .dot{background:rgba(244,241,230,0.28);}
+body.dark .dot.active{background:var(--slide-accent);}
+body.dark #progress{background:var(--cream);}
+
+/* ── ELEMENT ANIMATION SYSTEM ── */
+.el{opacity:0;will-change:opacity,transform;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:none;}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-28px);}to{opacity:1;transform:none;}}
+@keyframes wipeRight{from{clip-path:inset(0 100% 0 0);}to{clip-path:inset(0 0% 0 0);}}
+@keyframes wipeUp{from{clip-path:inset(100% 0 0 0);}to{clip-path:inset(0 0 0 0);}}
+@keyframes fromLeft{from{opacity:0;transform:translateX(-48px);}to{opacity:1;transform:none;}}
+@keyframes fromRight{from{opacity:0;transform:translateX(48px);}to{opacity:1;transform:none;}}
+@keyframes scaleSoft{from{opacity:0;transform:scale(0.88);}to{opacity:1;transform:scale(1);}}
+@keyframes drawBorder{from{clip-path:inset(0 100% 100% 0);}to{clip-path:inset(0 0 0 0);}}
+@keyframes boldStamp{0%{opacity:0;transform:scale(1.12);}40%{opacity:1;transform:scale(1.01);}100%{opacity:1;transform:scale(1);}}
+@keyframes riseItalic{from{opacity:0;transform:translateY(48px) skewY(2deg);}to{opacity:1;transform:none;}}
+@keyframes countNum{from{opacity:0;transform:translateY(40px) scale(0.6);}to{opacity:1;transform:none;}}
+@keyframes strikeAnim{from{text-decoration-color:transparent;}to{text-decoration-color:var(--orange);}}
+
+.el.enter{animation-fill-mode:both;animation-timing-function:cubic-bezier(0.16,1,0.3,1);}
+.el.exit{animation-fill-mode:both;animation-timing-function:ease;animation-duration:0.28s;}
+.el.exit.to-next{animation:fadeUp 0.28s ease reverse forwards;}
+.el.exit.to-prev{animation:fadeDown 0.28s ease reverse forwards;}
+
+.el[data-anim="fadeUp"].enter{animation-name:fadeUp;}
+.el[data-anim="fadeDown"].enter{animation-name:fadeDown;}
+.el[data-anim="wipeRight"].enter{animation-name:wipeRight;animation-timing-function:ease!important;}
+.el[data-anim="wipeUp"].enter{animation-name:wipeUp;}
+.el[data-anim="fromLeft"].enter{animation-name:fromLeft;}
+.el[data-anim="fromRight"].enter{animation-name:fromRight;}
+.el[data-anim="scale"].enter{animation-name:scaleSoft;}
+.el[data-anim="stamp"].enter{animation-name:boldStamp;}
+.el[data-anim="rise"].enter{animation-name:riseItalic;}
+.el[data-anim="count"].enter{animation-name:countNum;}
+
+/* ── TYPOGRAPHY ── */
+.episode-kicker{
+  font-family:var(--mono);font-size:clamp(13px,1.3vw,16px);
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--slide-accent);display:flex;align-items:center;gap:12px;
+}
+.episode-kicker::before{content:"";display:inline-block;width:32px;height:2px;background:currentColor;}
+
+.display{
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(48px,8.5vw,118px);
+  font-weight:300;line-height:0.95;letter-spacing:-.01em;
+}
+.headline{
+  font-family:var(--serif);
+  font-size:clamp(34px,5.5vw,78px);
+  font-weight:700;line-height:1.05;letter-spacing:-.02em;
+}
+.subhead{
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(24px,3.5vw,50px);
+  font-weight:300;line-height:1.15;
+}
+.body-copy{
+  font-family:var(--serif);
+  font-size:clamp(19px,2.3vw,30px);
+  font-weight:300;line-height:1.6;
+  opacity:0.8;max-width:760px;
+}
+.mono-label{
+  font-family:var(--mono);font-size:clamp(13px,1.3vw,16px);
+  letter-spacing:.14em;text-transform:uppercase;opacity:0.45;
+}
+.pullquote{
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:clamp(28px,4.8vw,68px);
+  line-height:1.15;letter-spacing:-.01em;
+  border-left:4px solid var(--slide-accent);
+  padding-left:clamp(20px,3vw,44px);
+  max-width:900px;
+}
+.big-number{
+  font-family:var(--mono);font-weight:700;
+  font-size:clamp(80px,16vw,220px);
+  line-height:1;letter-spacing:-.04em;
+  color:var(--slide-accent);
+}
+
+/* ── RULE ── */
+.h-rule{height:1px;background:var(--rule);width:100%;max-width:600px;}
+.h-rule.full{max-width:none;}
+.h-rule.thick{height:3px;background:var(--slide-accent);max-width:80px;}
+
+/* ── COLOR ACCENTS ── */
+.orange{color:var(--orange);}
+.blue{color:var(--blue);}
+.green{color:var(--green);}
+.gold{color:var(--gold);}
+.navy{color:var(--navy);}
+.cream{color:var(--cream);}
+.muted{opacity:0.35;}
+.strike{text-decoration:line-through;text-decoration-color:var(--orange);text-decoration-thickness:3px;}
+
+/* ── CHIP / TAG ── */
+.chip-row{display:flex;flex-wrap:wrap;gap:clamp(8px,1.5vw,16px);margin-top:4px;}
+.chip{
+  font-family:var(--mono);font-size:clamp(13px,1.2vw,16px);
+  padding:8px 18px;border-radius:4px;
+  border:1.5px solid currentColor;display:inline-flex;align-items:center;gap:8px;
+  letter-spacing:.04em;
+}
+.chip.orange{border-color:var(--orange);color:var(--orange);background:rgba(232,78,27,0.06);}
+.chip.blue{border-color:var(--blue);color:var(--blue);background:rgba(26,63,232,0.06);}
+.chip.green{border-color:var(--green);color:var(--green);background:rgba(27,110,60,0.06);}
+.chip.navy{border-color:var(--navy);color:var(--navy);background:rgba(13,27,62,0.06);}
+
+/* ── SPLIT LAYOUT ── */
+.split{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;width:100%;border:1.5px solid var(--rule);border-radius:4px;overflow:hidden;
+}
+.split-side{padding:clamp(28px,4vw,56px);}
+.split-side.left{border-right:1.5px solid var(--rule);}
+.split-label{
+  font-family:var(--mono);font-size:clamp(13px,1.2vw,15px);
+  letter-spacing:.2em;text-transform:uppercase;margin-bottom:clamp(12px,2vh,24px);
+  opacity:0.5;display:flex;align-items:center;gap:8px;
+}
+.split-label::before{content:"";width:16px;height:1px;background:currentColor;}
+
+/* ── LOOP SLIDE (School → Coaching...) ── */
+.loop-chain{
+  display:flex;flex-direction:column;gap:clamp(6px,1.5vh,16px);
+  align-items:flex-start;
+}
+.loop-item{
+  display:flex;align-items:center;gap:clamp(12px,2vw,24px);
+}
+.loop-word{
+  font-size:clamp(28px,4.5vw,64px);font-weight:700;letter-spacing:-.02em;
+}
+.loop-arrow{
+  font-family:var(--mono);font-size:clamp(18px,2vw,26px);opacity:0.3;
+}
+
+/* ── ACCESS LIST ── */
+.access-list{display:flex;flex-direction:column;gap:clamp(10px,2vh,22px);max-width:720px;}
+.access-item{
+  display:grid;grid-template-columns:clamp(36px,4vw,52px) 1fr;
+  gap:clamp(14px,2vw,24px);align-items:start;
+  padding-bottom:clamp(10px,2vh,22px);
+  border-bottom:1px solid var(--rule);
+}
+.access-item:last-child{border-bottom:none;padding-bottom:0;}
+.access-num{
+  font-family:var(--mono);font-size:clamp(13px,1.2vw,16px);
+  color:var(--slide-accent);font-weight:700;padding-top:6px;
+  letter-spacing:.04em;
+}
+.access-text{font-family:var(--serif);font-size:clamp(19px,2.5vw,32px);font-weight:600;}
+.access-sub{font-family:var(--serif);font-size:clamp(16px,1.8vw,22px);font-weight:300;
+  font-style:italic;opacity:0.6;margin-top:4px;}
+
+/* ── COMPARE BOXES ── */
+.compare-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,3vw,36px);width:100%;
+}
+.compare-box{
+  padding:clamp(22px,3.5vh,44px) clamp(20px,3vw,40px);
+  border-radius:4px;
+}
+.compare-box.a{background:rgba(232,78,27,0.07);border:1.5px solid rgba(232,78,27,0.25);}
+.compare-box.b{background:rgba(26,63,232,0.07);border:1.5px solid rgba(26,63,232,0.25);}
+.compare-box h3{font-size:clamp(22px,3vw,40px);font-weight:700;margin-bottom:10px;}
+.compare-box p{font-size:clamp(16px,1.8vw,22px);font-weight:300;font-style:italic;opacity:0.7;line-height:1.4;}
+
+/* ── CAREER CARD GRID ── */
+.career-list{display:flex;flex-direction:column;gap:clamp(10px,2vh,20px);max-width:820px;}
+.career-row{
+  display:flex;align-items:baseline;gap:clamp(14px,2vw,28px);
+  padding-bottom:clamp(10px,2vh,20px);border-bottom:1px solid var(--rule);
+}
+.career-row:last-child{border-bottom:none;}
+.career-index{font-family:var(--mono);font-size:clamp(13px,1.2vw,15px);
+  color:var(--slide-accent);opacity:0.6;flex:0 0 28px;}
+.career-name{font-size:clamp(20px,2.8vw,36px);font-weight:700;flex:1;}
+.career-tag{font-family:var(--mono);font-size:clamp(12px,1vw,14px);
+  letter-spacing:.1em;text-transform:uppercase;opacity:0.4;}
+
+/* ── BIG STATEMENT BOXES ── */
+.statement-box{
+  border:3px solid var(--slide-accent);border-radius:4px;
+  padding:clamp(28px,5vh,60px) clamp(28px,5vw,72px);
+  max-width:960px;position:relative;
+}
+.statement-box::before{
+  content:attr(data-label);position:absolute;top:-14px;left:32px;
+  font-family:var(--mono);font-size:clamp(12px,1.1vw,14px);letter-spacing:.2em;text-transform:uppercase;
+  background:var(--slide-bg);color:var(--slide-accent);padding:2px 12px;
+}
+
+/* ── DARK VARIANT OVERRIDES ── */
+.slide-dark{
+  --slide-bg:var(--navy);--slide-ink:var(--cream);--rule:rgba(244,241,230,0.14);
+}
+body.dark{
+  background-color:var(--navy);
+  background-image:radial-gradient(circle, rgba(244,241,230,0.04) 1.2px, transparent 1.2px);
+}
+body.dark .dot{background:rgba(244,241,230,0.25);}
+body.dark #epLabel,body.dark #counter{color:var(--cream);opacity:0.32;}
+
+/* ── ORANGE BLOCK VARIANT ── */
+.slide-orange{--slide-bg:#E84E1B;--slide-ink:var(--cream);--rule:rgba(244,241,230,0.2);}
+body.orange{
+  background-color:var(--orange);
+  background-image:radial-gradient(circle, rgba(244,241,230,0.06) 1.2px, transparent 1.2px);
+}
+body.orange .dot{background:rgba(244,241,230,0.32);}
+body.orange .dot.active{background:var(--cream);}
+body.orange #epLabel,body.orange #counter{color:var(--cream);opacity:0.5;}
+body.orange #progress{background:var(--cream);}
+
+/* ── GREEN BLOCK VARIANT ── */
+body.green-mode{
+  background-color:var(--green);
+  background-image:radial-gradient(circle, rgba(244,241,230,0.05) 1.2px, transparent 1.2px);
+}
+body.green-mode .dot{background:rgba(244,241,230,0.3);}
+body.green-mode .dot.active{background:var(--cream);}
+body.green-mode #epLabel,body.green-mode #counter{color:var(--cream);opacity:0.45;}
+body.green-mode #progress{background:var(--cream);}
+
+/* ── SIDEQUEST CLOSE ── */
+.sq-wordmark{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(48px,9vw,130px);
+  letter-spacing:-.02em;line-height:0.9;
+  background:linear-gradient(135deg,var(--orange) 0%,var(--gold) 50%,var(--orange) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+/* ── CHAPTER MARKER ── */
+.chapter{
+  display:inline-flex;align-items:center;gap:14px;
+  border:1.5px solid var(--slide-accent);border-radius:2px;
+  padding:8px 20px;
+  font-family:var(--mono);font-size:clamp(13px,1.2vw,15px);
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--slide-accent);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .split{grid-template-columns:1fr;}
+  .split-side.left{border-right:none;border-bottom:1.5px solid var(--rule);}
+  .compare-row{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  #stage{padding:20px 20px 60px;}
+  .loop-chain{gap:clamp(4px,1vh,10px);}
+  .display{font-size:clamp(40px,11vw,60px);}
+  .headline{font-size:clamp(28px,8vw,42px);}
+  .pullquote{padding-left:clamp(14px,4vw,24px);}
+}
+@media(max-width:380px){
+  .headline{font-size:26px;}
+  .display{font-size:36px;}
+  .body-copy{font-size:17px;}
+}
+</style>
+</head>
+<body>
+
+<div id="mesh"></div>
+<div class="grain"></div>
+<div id="progress"></div>
+
+<div id="topBar">
+  <div id="epLabel">Sidequest · Ep. 2</div>
+  <div id="counter">01 / 40</div>
+</div>
+
+<div id="stage">
+  <div id="slide"></div>
+</div>
+
+<div id="dots"></div>
+
+<script>
+/* ══════════ AMBIENT MESH ══════════ */
+const mesh = document.getElementById('mesh');
+let t = 0;
+const orbs = [
+  {x:15,y:20,r:45,c:'255,180,80',spd:0.0008,ox:0,oy:0},
+  {x:80,y:75,r:50,c:'100,130,255',spd:0.0006,ox:0,oy:0},
+  {x:50,y:50,r:38,c:'255,220,120',spd:0.0011,ox:0,oy:0},
+  {x:10,y:80,r:32,c:'80,180,120',spd:0.0009,ox:0,oy:0},
+  {x:90,y:15,r:36,c:'220,100,60',spd:0.0007,ox:0,oy:0},
+];
+function animMesh(){
+  t++;
+  let css = '';
+  orbs.forEach((o,i)=>{
+    const x = o.x + Math.sin(t*o.spd*(i+1)*0.7+i*2)*12;
+    const y = o.y + Math.cos(t*o.spd*(i+1)*1.1+i*1.3)*10;
+    css += `radial-gradient(circle at ${x}% ${y}%, rgba(${o.c},0.12) 0%, transparent ${o.r}%), `;
+  });
+  mesh.style.background = css.slice(0,-2);
+  requestAnimationFrame(animMesh);
+}
+animMesh();
+
+/* ══════════ SLIDES ══════════ */
+const slides = [
+
+/* 1 — TITLE */
+{bg:'dark', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el episode-kicker cream" data-anim="fadeDown" data-delay="0" style="justify-content:center;--slide-accent:#C8940A;">Episode 2</div>
+  <div class="el display cream" data-anim="rise" data-delay="1" style="font-size:clamp(44px,7.5vw,108px);">The Biggest Advantage</div>
+  <div class="el headline cream" data-anim="wipeRight" data-delay="3" style="color:#E84E1B;font-size:clamp(36px,6vw,88px);">Rich Cities Have</div>
+  <div class="el mono-label" data-anim="fadeUp" data-delay="6" style="color:rgba(244,241,230,0.4);justify-self:center;">A study in exposure</div>
+</div>`},
+
+/* 2 — THE COMMON BELIEF */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0">Opening</div>
+  <div class="el subhead" data-anim="rise" data-delay="1" style="max-width:820px;">When people think about why students from<br><strong>Bengaluru, Delhi, Mumbai</strong> or <strong>Hyderabad</strong><br>seem to have an advantage,<br>they usually say...</div>
+</div>`},
+
+/* 3 — BETTER SCHOOLS */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0">Common belief #1</div>
+  <div class="el display muted" data-anim="stamp" data-delay="1">"They have<br><em>better schools.</em>"</div>
+</div>`},
+
+/* 4 — RICHER PARENTS */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0">Common belief #2</div>
+  <div class="el display muted" data-anim="stamp" data-delay="1">"They have<br><em>richer parents.</em>"</div>
+</div>`},
+
+/* 5 — NOT THE BIGGEST ADVANTAGE */
+{bg:'orange', accent:'cream',
+html:`<div class="slide-inner">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0" style="color:rgba(244,241,230,0.55);">But here's the thing</div>
+  <div class="el display cream" data-anim="rise" data-delay="1">I don't think that's the biggest advantage <em>anymore.</em></div>
+</div>`},
+
+/* 6 — KNOWLEDGE IS FREE */
+{bg:'cream', accent:'blue',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0" style="--slide-accent:var(--blue);">The new reality</div>
+  <div class="el headline" data-anim="wipeRight" data-delay="1">Today almost every student has access to</div>
+  <div class="el chip-row" data-anim="fadeUp" data-delay="3">
+    <span class="chip blue">▷ YouTube</span>
+    <span class="chip blue">⌂ ChatGPT</span>
+    <span class="chip blue">✦ Online Courses</span>
+  </div>
+  <div class="el body-copy" data-anim="fadeUp" data-delay="5">Knowledge is no longer locked behind city walls.</div>
+</div>`},
+
+/* 7 — SO IF KNOWLEDGE IS FREE */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el display" data-anim="rise" data-delay="0">So if knowledge<br>is becoming <em>free...</em></div>
+  <div class="el h-rule thick" data-anim="wipeRight" data-delay="3" style="margin:0 auto;"></div>
+  <div class="el subhead muted" data-anim="fadeUp" data-delay="4">Why do students from Tier-1 cities<br>still discover exciting careers<br>much earlier?</div>
+</div>`},
+
+/* 8 — THE ANSWER */
+{bg:'dark', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0" style="color:rgba(244,241,230,0.4);">The answer</div>
+  <div class="el display cream" data-anim="rise" data-delay="2" style="font-size:clamp(40px,7vw,102px);">The answer<br><em style="color:rgba(244,241,230,0.3);">surprised me.</em></div>
+</div>`},
+
+/* 9 — EXPOSURE REVEAL */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el subhead muted" data-anim="fadeUp" data-delay="0">It isn't <span class="strike">education.</span></div>
+  <div class="el display orange" data-anim="wipeRight" data-delay="2">It's <em>exposure.</em></div>
+  <div class="el h-rule" data-anim="wipeRight" data-delay="5"></div>
+  <div class="el body-copy" data-anim="fadeUp" data-delay="6">The city isn't giving students better knowledge.<br>It's giving them better encounters.</div>
+</div>`},
+
+/* 10 — TWO STUDENTS CHAPTER */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el chapter" data-anim="scale" data-delay="0">The Story</div>
+  <div class="el display" data-anim="rise" data-delay="2">Imagine<br><em>two students.</em></div>
+</div>`},
+
+/* 11 — STUDENT PROFILES SPLIT */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0">Two students. Same year.</div>
+  <div class="el split" data-anim="scale" data-delay="1">
+    <div class="split-side left">
+      <div class="split-label orange">Student A</div>
+      <div class="headline" style="font-size:clamp(24px,3.5vw,48px);">Bengaluru.</div>
+      <div class="body-copy" style="margin-top:10px;font-size:clamp(16px,1.8vw,22px);">Lives in a metro city. School 10 minutes from a tech park.</div>
+    </div>
+    <div class="split-side">
+      <div class="split-label blue">Student B</div>
+      <div class="headline" style="font-size:clamp(24px,3.5vw,48px);">Small town.</div>
+      <div class="body-copy" style="margin-top:10px;font-size:clamp(16px,1.8vw,22px);">Lives two hours from the nearest major city.</div>
+    </div>
+  </div>
+</div>`},
+
+/* 12 — THE EQUAL START */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0">The equal start</div>
+  <div class="el compare-row" data-anim="fadeUp" data-delay="1">
+    <div class="compare-box a">
+      <h3 style="color:var(--orange);">Student A</h3>
+      <p>Equally intelligent. Scores 90%.<br>Has a smartphone.</p>
+    </div>
+    <div class="compare-box b">
+      <h3 style="color:var(--blue);">Student B</h3>
+      <p>Equally intelligent. Scores 90%.<br>Has a smartphone.</p>
+    </div>
+  </div>
+  <div class="el subhead muted" data-anim="fadeUp" data-delay="4" style="font-size:clamp(20px,2.5vw,32px);">Now let's look at what happens<br>over one year.</div>
+</div>`},
+
+/* 13 — CITY STUDENT YEAR */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0">The Bengaluru student's year</div>
+  <div class="el career-list" data-anim="fadeUp" data-delay="1">
+    <div class="career-row"><span class="career-index">01</span><span class="career-name">Attends a startup meetup — 10 minutes away</span></div>
+    <div class="career-row"><span class="career-index">02</span><span class="career-name">A cousin introduces them to someone at a gaming company</span></div>
+    <div class="career-row"><span class="career-index">03</span><span class="career-name">School invites a product designer for Career Day</span></div>
+    <div class="career-row"><span class="career-index">04</span><span class="career-name">Visits a robotics lab during a school trip</span></div>
+    <div class="career-row"><span class="career-index">05</span><span class="career-name">Participates in a hackathon</span></div>
+  </div>
+</div>`},
+
+/* 14 — NAMES HEARD */
+{bg:'cream', accent:'blue',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0" style="--slide-accent:var(--blue);">Words they heard</div>
+  <div class="el subhead" data-anim="rise" data-delay="1">They hear unfamiliar names.</div>
+  <div class="el chip-row" data-anim="fadeUp" data-delay="3">
+    <span class="chip blue">UX Design</span>
+    <span class="chip blue">Data Science</span>
+    <span class="chip blue">Product Management</span>
+    <span class="chip blue">Robotics Engineering</span>
+  </div>
+</div>`},
+
+/* 15 — NOW THEY KNOW */
+{bg:'dark', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0" style="color:rgba(244,241,230,0.4);">The shift</div>
+  <div class="el subhead cream" data-anim="fadeUp" data-delay="1">They don't necessarily<br><em>choose</em> those careers.</div>
+  <div class="el display cream" data-anim="wipeRight" data-delay="3" style="color:var(--orange);">But now they<br>know they <em>exist.</em></div>
+</div>`},
+
+/* 16 — SMALL TOWN LOOP */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0">The small town student's year</div>
+  <div class="el loop-chain" data-anim="fromLeft" data-delay="1">
+    <div class="loop-item"><span class="loop-word">School</span><span class="loop-arrow">→</span></div>
+    <div class="loop-item"><span class="loop-word">Coaching</span><span class="loop-arrow">→</span></div>
+    <div class="loop-item"><span class="loop-word">Homework</span><span class="loop-arrow">→</span></div>
+    <div class="loop-item"><span class="loop-word">Tuition</span><span class="loop-arrow">→</span></div>
+    <div class="loop-item"><span class="loop-word">Home</span><span class="loop-arrow">→</span></div>
+    <div class="loop-item"><span class="loop-word orange">Repeat.</span></div>
+  </div>
+</div>`},
+
+/* 17 — NOBODY */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0">The missing encounters</div>
+  <div class="el career-list" data-anim="fadeUp" data-delay="1">
+    <div class="career-row"><span class="career-index muted">—</span><span class="career-name muted strike">Nobody around them is a game designer</span></div>
+    <div class="career-row"><span class="career-index muted">—</span><span class="career-name muted strike">Nobody builds AI products</span></div>
+    <div class="career-row"><span class="career-index muted">—</span><span class="career-name muted strike">Nobody works in animation</span></div>
+    <div class="career-row"><span class="career-index muted">—</span><span class="career-name muted strike">Nobody develops satellites</span></div>
+    <div class="career-row"><span class="career-index muted">—</span><span class="career-name muted strike">Nobody creates electric vehicles</span></div>
+  </div>
+</div>`},
+
+/* 18 — SMALLER WORLD */
+{bg:'orange', accent:'cream',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0" style="color:rgba(244,241,230,0.55);">The conclusion</div>
+  <div class="el display cream" data-anim="rise" data-delay="1">It's not that they're<br><em style="color:rgba(244,241,230,0.5);">less talented.</em></div>
+  <div class="el h-rule" data-anim="wipeRight" data-delay="4" style="background:rgba(244,241,230,0.3);margin:0 auto;"></div>
+  <div class="el headline cream" data-anim="fadeUp" data-delay="5">Their world is<br>simply <em>smaller.</em></div>
+</div>`},
+
+/* 19 — CHAPTER: REAL GAP */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el chapter" data-anim="scale" data-delay="0">The Real Gap</div>
+  <div class="el display" data-anim="rise" data-delay="2">For years,<br>we believed the wrong thing.</div>
+</div>`},
+
+/* 20 — OLD BELIEF: INFORMATION */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0">The old assumption</div>
+  <div class="el pullquote" data-anim="fromLeft" data-delay="1">"For years, we believed<br>the gap was access to<br><em>information.</em>"</div>
+</div>`},
+
+/* 21 — TRUE TWENTY YEARS AGO */
+{bg:'cream', accent:'gold',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el subhead" data-anim="rise" data-delay="0">That was true</div>
+  <div class="el display gold" data-anim="wipeRight" data-delay="1" style="--slide-accent:var(--gold);">twenty years<br><em>ago.</em></div>
+</div>`},
+
+/* 22 — TODAY INFORMATION IS EVERYWHERE */
+{bg:'dark', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0" style="color:rgba(244,241,230,0.4);">Today</div>
+  <div class="el display cream" data-anim="stamp" data-delay="1">Information<br>is <em style="color:var(--orange);">everywhere.</em></div>
+</div>`},
+
+/* 23 — REAL GAP CHANGED */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el headline muted" data-anim="fadeUp" data-delay="0" style="font-weight:300;">The real gap</div>
+  <div class="el display" data-anim="wipeRight" data-delay="1">has <em>changed.</em></div>
+  <div class="el h-rule thick" data-anim="wipeRight" data-delay="4"></div>
+</div>`},
+
+/* 24 — ACCESS TO PEOPLE */
+{bg:'dark', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el display cream" data-anim="rise" data-delay="0">It's access<br>to <em style="color:var(--orange);">people.</em></div>
+</div>`},
+
+/* 25 — THE FIVE ACCESSES */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0">What rich cities actually give</div>
+  <div class="el access-list" data-anim="fadeUp" data-delay="1">
+    <div class="access-item"><span class="access-num">01</span><div><div class="access-text">Access to <em>people</em></div><div class="access-sub">Humans doing work you haven't imagined</div></div></div>
+    <div class="access-item"><span class="access-num">02</span><div><div class="access-text">Access to <em>conversations</em></div><div class="access-sub">Casual, unplanned, impossible to replicate</div></div></div>
+    <div class="access-item"><span class="access-num">03</span><div><div class="access-text">Access to <em>communities</em></div><div class="access-sub">People building things you didn't know existed</div></div></div>
+    <div class="access-item"><span class="access-num">04</span><div><div class="access-text">Access to <em>role models</em></div><div class="access-sub">Proof that a certain life is possible</div></div></div>
+    <div class="access-item"><span class="access-num">05</span><div><div class="access-text">Access to <em>seeing</em></div><div class="access-sub">What different careers actually look like, daily</div></div></div>
+  </div>
+</div>`},
+
+/* 26 — CAN'T DREAM */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el pullquote" data-anim="fromLeft" data-delay="0" style="font-size:clamp(26px,4.5vw,64px);">"You can't dream about becoming something<br>you've never even<br><em>heard of.</em>"</div>
+</div>`},
+
+/* 27 — UNKNOWN CAREERS */
+{bg:'cream', accent:'blue',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0" style="--slide-accent:var(--blue);">Careers nobody introduced</div>
+  <div class="el career-list" data-anim="fadeUp" data-delay="1">
+    <div class="career-row"><span class="career-index">?</span><span class="career-name">Supply Chain Designer</span><span class="career-tag">Never mentioned</span></div>
+    <div class="career-row"><span class="career-index">?</span><span class="career-name">UX Researcher</span><span class="career-tag">Never mentioned</span></div>
+    <div class="career-row"><span class="career-index">?</span><span class="career-name">Robotics Safety Engineer</span><span class="career-tag">Never mentioned</span></div>
+    <div class="career-row"><span class="career-index">?</span><span class="career-name">Climate Data Scientist</span><span class="career-tag">Never mentioned</span></div>
+  </div>
+  <div class="el body-copy" data-anim="fadeUp" data-delay="4">Not because those careers aren't amazing.<br><em>Because nobody ever introduced them.</em></div>
+</div>`},
+
+/* 28 — AMBITION LIMITED */
+{bg:'orange', accent:'cream',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el display cream" data-anim="rise" data-delay="0" style="font-size:clamp(36px,6vw,88px);">Your ambition<br>is limited by your</div>
+  <div class="el headline" data-anim="stamp" data-delay="3" style="color:var(--navy);font-size:clamp(44px,8vw,110px);letter-spacing:-.03em;">EXPOSURE.</div>
+</div>`},
+
+/* 29 — CHAPTER: WHY IT MATTERS */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el chapter" data-anim="scale" data-delay="0">Why This Matters</div>
+  <div class="el display" data-anim="rise" data-delay="2" style="font-size:clamp(38px,6vw,90px);">This is exactly<br>why so many students say...</div>
+</div>`},
+
+/* 30 — I DON'T KNOW */
+{bg:'dark', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el display cream" data-anim="rise" data-delay="0" style="font-size:clamp(40px,7vw,100px);">"I don't know<br>what I'm<br><em style="color:var(--orange);">interested in.</em>"</div>
+</div>`},
+
+/* 31 — NOT AMBITION */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el compare-row" data-anim="fadeUp" data-delay="0">
+    <div class="compare-box a"><h3 style="color:rgba(13,27,62,0.35);text-decoration:line-through;text-decoration-color:var(--orange);">Lacking ambition</h3><p>They know what they want.</p></div>
+    <div class="compare-box b" style="background:rgba(27,110,60,0.07);border-color:rgba(27,110,60,0.25);"><h3 style="color:var(--green);">Lacking experiences</h3><p>The map is simply too small.</p></div>
+  </div>
+</div>`},
+
+/* 32 — CUISINE METAPHOR */
+{bg:'cream', accent:'gold',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0" style="--slide-accent:var(--gold);">Think of it this way</div>
+  <div class="el subhead" data-anim="rise" data-delay="1">Imagine asking a child<br>to choose their favourite cuisine...</div>
+  <div class="el display" data-anim="wipeRight" data-delay="3" style="font-size:clamp(32px,5vw,72px);">when they've only ever<br>tasted <em style="color:var(--gold);">rice and dal.</em></div>
+  <div class="el body-copy" data-anim="fadeUp" data-delay="6">Would that be a fair question?<br><strong>Of course not.</strong></div>
+</div>`},
+
+/* 33 — YET THAT'S WHAT WE DO */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el body-copy" data-anim="fadeUp" data-delay="0">Yet that's exactly what we do with careers.</div>
+  <div class="el headline" data-anim="wipeRight" data-delay="2">We ask fourteen-year-olds<br>to decide their future<br>after showing them only</div>
+  <div class="el display orange" data-anim="stamp" data-delay="5">five or six<br><em>professions.</em></div>
+</div>`},
+
+/* 34 — NOT GUIDANCE */
+{bg:'dark', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el subhead cream muted" data-anim="fadeUp" data-delay="0">That's not</div>
+  <div class="el headline cream" data-anim="fromLeft" data-delay="1">career guidance.</div>
+  <div class="el h-rule" data-anim="wipeRight" data-delay="3" style="background:rgba(244,241,230,0.2);margin:0 auto;"></div>
+  <div class="el display" data-anim="rise" data-delay="4" style="color:var(--orange);">That's career<br><em>guessing.</em></div>
+</div>`},
+
+/* 35 — CHAPTER: CLOSING */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el chapter" data-anim="scale" data-delay="0">The Next Step</div>
+  <div class="el display" data-anim="rise" data-delay="2" style="font-size:clamp(36px,6vw,86px);">The next revolution<br>in education won't be<br><em>better lectures.</em></div>
+</div>`},
+
+/* 36 — PHYSICSWALLAH */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0">Already solved</div>
+  <div class="el pullquote" data-anim="fromLeft" data-delay="1" style="font-size:clamp(24px,4vw,58px);">"PhysicsWallah solved that<br>problem <em>beautifully.</em>"</div>
+  <div class="el body-copy" data-anim="fadeUp" data-delay="4">Great lectures are no longer scarce.<br>Access to people, mentors and real-world<br>conversations still is.</div>
+</div>`},
+
+/* 37 — EQUAL EXPOSURE */
+{bg:'green-mode', accent:'cream',
+html:`<div class="slide-inner">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0" style="color:rgba(244,241,230,0.5);">The real revolution</div>
+  <div class="el display cream" data-anim="rise" data-delay="1">Giving every student —<br>Mumbai <em>or</em> small village —</div>
+  <div class="el headline cream" data-anim="wipeRight" data-delay="3" style="font-size:clamp(28px,4.5vw,64px);">the same exposure to careers,<br>mentors, communities<br>and real-world projects.</div>
+</div>`},
+
+/* 38 — TALENT EVERYWHERE */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el statement-box" data-anim="scale" data-delay="0" data-label="The core insight">
+    <div class="el headline" data-anim="fadeUp" data-delay="2">Talent is <em>everywhere.</em></div>
+    <div class="el h-rule" data-anim="wipeRight" data-delay="4" style="margin:24px auto;"></div>
+    <div class="el display orange" data-anim="rise" data-delay="5" style="font-size:clamp(36px,6vw,84px);">Exposure <em>isn't.</em></div>
+  </div>
+</div>`},
+
+/* 39 — POSTCODE */
+{bg:'dark', accent:'orange',
+html:`<div class="slide-inner centered" style="--align:center;--talign:center;">
+  <div class="el mono-label" data-anim="fadeDown" data-delay="0" style="color:rgba(244,241,230,0.4);">The outcome</div>
+  <div class="el display cream" data-anim="rise" data-delay="1" style="font-size:clamp(36px,6vw,86px);">And once we fix that...</div>
+  <div class="el subhead" data-anim="fadeUp" data-delay="3" style="color:var(--orange);font-size:clamp(22px,3.5vw,50px);">Millions of children will finally<br>dream beyond the limits<br>of their <em>postcode.</em></div>
+</div>`},
+
+/* 40 — SIDEQUEST CTA */
+{bg:'cream', accent:'orange',
+html:`<div class="slide-inner">
+  <div class="el episode-kicker" data-anim="fadeDown" data-delay="0">Building this future</div>
+  <div class="el sq-wordmark" data-anim="rise" data-delay="1">Sidequest.</div>
+  <div class="el body-copy" data-anim="fadeUp" data-delay="3">A curiosity-mapping community for students ages 13–18.<br>Equal exposure. Real mentors. ₹100 to start.</div>
+  <div class="el chip-row" data-anim="fadeUp" data-delay="5">
+    <span class="chip orange">→ Next: Why parents suggest only 5 careers</span>
+  </div>
+</div>`},
+
+];
+
+/* ══════════ ACCENT MAP ══════════ */
+const accentVars = {
+  orange:'#E84E1B', blue:'#1A3FE8', green:'#1B6E3C',
+  gold:'#C8940A', cream:'#F4F1E6', navy:'#0D1B3E'
+};
+
+/* ══════════ DOTS ══════════ */
+const dotsEl = document.getElementById('dots');
+const progressEl = document.getElementById('progress');
+let current = 0, animating = false, dir = 1;
+
+function buildDots(){
+  dotsEl.innerHTML='';
+  slides.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='dot'+(i===0?' active':'');
+    d.onclick=()=>goTo(i);
+    dotsEl.appendChild(d);
+  });
+}
+
+function updateChrome(i){
+  document.getElementById('counter').textContent =
+    String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+  progressEl.style.width = ((i+1)/slides.length*100)+'%';
+  dotsEl.querySelectorAll('.dot').forEach((d,idx)=>{
+    d.classList.toggle('active',idx===i);
+  });
+}
+
+/* ══════════ RENDER ══════════ */
+const slideEl = document.getElementById('slide');
+
+function setTheme(s){
+  const bg = s.bg||'cream';
+  const accent = s.accent||'orange';
+  document.body.className = bg==='dark'?'dark':bg==='orange'?'orange':bg==='green-mode'?'green-mode':'';
+  const accentColor = accentVars[accent]||accentVars.orange;
+  document.documentElement.style.setProperty('--slide-accent', accentColor);
+  // progress bar
+  if(bg==='dark'||bg==='orange'||bg==='green-mode'){
+    progressEl.style.background = accentColor==='#F4F1E6'?'rgba(244,241,230,0.6)':accentColor;
+  } else {
+    progressEl.style.background = accentColor;
+  }
+}
+
+function renderSlide(idx){
+  const s = slides[idx];
+  setTheme(s);
+  updateChrome(idx);
+  slideEl.innerHTML = s.html;
+  const els = slideEl.querySelectorAll('.el');
+  els.forEach(el=>{
+    const delay = parseFloat(el.dataset.delay||0)*130;
+    const dur = 750;
+    el.style.animationDuration = dur+'ms';
+    setTimeout(()=>el.classList.add('enter'), delay);
+  });
+}
+
+function goTo(idx){
+  if(animating||idx<0||idx>=slides.length||idx===current) return;
+  animating=true;
+  dir = idx>current?1:-1;
+  const cls = dir>0?'to-next':'to-prev';
+  slideEl.querySelectorAll('.el.enter').forEach(el=>el.classList.add('exit',cls));
+  setTimeout(()=>{
+    current=idx;
+    renderSlide(idx);
+    setTimeout(()=>animating=false,150);
+  },260);
+}
+
+/* ══════════ INPUT ══════════ */
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();goTo(current+1);}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();goTo(current-1);}
+});
+let tx=0,ty=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){dx<0?goTo(current+1):goTo(current-1);}
+});
+
+/* ══════════ INIT ══════════ */
+buildDots();
+renderSlide(0);
+</script>
+</body>
+</html>
