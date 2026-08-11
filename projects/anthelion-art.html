@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Viewing Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0b0a08;
+    --ink-deep:#050504;
+    --cream:#f3ecdf;
+    --cream-dim:#c9c0ae;
+    --gold:#c9a668;
+    --gold-bright:#e3c383;
+    --line:rgba(243,236,223,0.14);
+    --floor-desktop:16px;
+    --floor-mobile:13px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;
+    scrollbar-width: none;
+}
+  html,body{
+    width:100%;height:100%;
+    background:var(--ink);
+    color:var(--cream);
+    font-family:'Work Sans',sans-serif;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold);color:var(--ink);}
+
+  /* ---------- ambient dust ---------- */
+  #dust{position:fixed;inset:0;z-index:2;pointer-events:none;mix-blend-mode:screen;opacity:0.55;}
+
+  /* ---------- grain + vignette ---------- */
+  #grain{
+    position:fixed;inset:0;z-index:5;pointer-events:none;opacity:0.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grainShift 1s steps(4) infinite;
+  }
+  @keyframes grainShift{0%{transform:translate(0,0)}25%{transform:translate(-1%,1%)}50%{transform:translate(1%,-1%)}75%{transform:translate(-1%,-1%)}100%{transform:translate(0,0)}}
+  #vignette{
+    position:fixed;inset:0;z-index:4;pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+  }
+
+  /* ---------- stage ---------- */
+  #stage{
+    position:fixed;inset:0;z-index:1;
+    display:flex;align-items:center;justify-content:center;
+    perspective:1400px;
+  }
+  .art-frame{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;transform:scale(1.05);
+    transition:opacity 1.1s cubic-bezier(.22,.68,0,1), transform 1.6s cubic-bezier(.22,.68,0,1);
+    pointer-events:none;
+  }
+  .art-frame.active{opacity:1;transform:scale(1);pointer-events:auto;}
+  .art-frame.leaving{opacity:0;transform:scale(0.97);}
+
+  .art-image{
+    position:relative;
+    width:min(72vw,900px);
+    height:min(78vh,900px);
+    border-radius:2px;
+    box-shadow:0 40px 100px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(243,236,223,0.06);
+    overflow:hidden;
+    background-size:cover;background-position:center;
+    animation:kenburns 22s ease-in-out infinite alternate;
+    will-change:transform;
+  }
+  @keyframes kenburns{
+    0%{transform:scale(1) translate(0,0);}
+    100%{transform:scale(1.08) translate(-1.2%,1%);}
+  }
+  .art-image::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%);
+  }
+  .art-initial{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Bodoni Moda',serif;
+    font-style:italic;
+    font-size:clamp(120px,20vw,260px);
+    color:rgba(243,236,223,0.18);
+    letter-spacing:-0.02em;
+    user-select:none;
+  }
+
+  /* ---------- caption block ---------- */
+  #caption{
+    position:absolute;
+    left:6vw;bottom:7vh;
+    z-index:3;
+    max-width:min(38vw,480px);
+    pointer-events:none;
+  }
+  .cap-eyebrow{
+    position:relative;
+    display:flex;align-items:center;gap:10px;
+    font-size:max(var(--floor-desktop),0.72vw);
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .cap-eyebrow .rule{
+    width:0;height:1px;background:var(--gold);
+    animation:drawRule 0.9s cubic-bezier(.22,.68,0,1) forwards;
+    animation-delay:0.15s;
+  }
+  @keyframes drawRule{to{width:28px;}}
+  .cap-eyebrow span.txt{opacity:0;transform:translateY(6px);animation:riseIn 0.6s cubic-bezier(.22,.68,0,1) forwards;animation-delay:0.3s;}
+
+  .cap-title{
+    font-family:'Bodoni Moda',serif;
+    font-weight:500;
+    font-style:italic;
+    font-size:clamp(var(--floor-desktop), 4.2vw, 58px);
+    line-height:1.04;
+    margin-bottom:10px;
+    color:var(--cream);
+  }
+  .cap-title .word{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(24px) rotateX(35deg);
+    transform-origin:bottom;
+    animation:wordRise 0.8s cubic-bezier(.22,.68,0,1) forwards;
+  }
+  @keyframes wordRise{to{opacity:1;transform:translateY(0) rotateX(0);}}
+
+  .cap-meta{
+    font-size:max(var(--floor-desktop),0.95vw);
+    color:var(--cream-dim);
+    font-weight:400;
+    letter-spacing:0.01em;
+    margin-bottom:18px;
+    opacity:0;animation:riseIn 0.7s cubic-bezier(.22,.68,0,1) forwards;
+    animation-delay:0.55s;
+  }
+  .cap-meta b{color:var(--cream);font-weight:500;}
+
+  .cap-price{
+    display:inline-flex;align-items:baseline;gap:8px;
+    font-family:'Bodoni Moda',serif;
+    font-size:clamp(calc(var(--floor-desktop) + 2px), 1.6vw, 26px);
+    color:var(--gold-bright);
+    opacity:0;
+    animation:priceIn 0.7s cubic-bezier(.34,1.4,.4,1) forwards;
+    animation-delay:0.7s;
+  }
+  .cap-price small{
+    font-family:'Work Sans',sans-serif;
+    font-size:max(var(--floor-desktop),0.72vw);
+    color:var(--cream-dim);
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+  }
+  @keyframes priceIn{0%{opacity:0;transform:translateY(10px) scale(0.9);}60%{opacity:1;transform:translateY(-2px) scale(1.03);}100%{opacity:1;transform:translateY(0) scale(1);}}
+  @keyframes riseIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+  /* ---------- progress dashes (minimal) ---------- */
+  #progress{
+    position:absolute;right:6vw;bottom:7vh;z-index:3;
+    display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+  }
+  #progress .count{
+    font-size:max(var(--floor-desktop),0.75vw);
+    color:var(--cream-dim);
+    letter-spacing:0.1em;
+    font-variant-numeric:tabular-nums;
+  }
+  #progress .track{
+    width:120px;height:1px;background:var(--line);position:relative;
+  }
+  #progress .fill{
+    position:absolute;left:0;top:0;height:1px;background:var(--gold);
+    transition:width 0.7s cubic-bezier(.22,.68,0,1);
+  }
+
+  /* ---------- edge click zones (invisible) ---------- */
+  .edge{
+    position:absolute;top:0;bottom:0;width:14%;z-index:3;
+    cursor:pointer;
+  }
+  .edge.left{left:0;}
+  .edge.right{right:0;}
+
+  /* ---------- catalog toggle ---------- */
+  #catalogToggle{
+    position:absolute;top:6vh;right:6vw;z-index:6;
+    display:flex;align-items:center;gap:10px;
+    background:none;border:none;cursor:pointer;
+    color:var(--cream-dim);
+    font-family:'Work Sans',sans-serif;
+    font-size:max(var(--floor-desktop),0.72vw);
+    letter-spacing:0.14em;text-transform:uppercase;
+    opacity:0.7;
+    transition:opacity 0.4s ease, color 0.4s ease;
+  }
+  #catalogToggle:hover{opacity:1;color:var(--cream);}
+  #catalogToggle .grid-icon{
+    width:16px;height:16px;
+    display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;
+  }
+  #catalogToggle .grid-icon span{background:currentColor;border-radius:1px;}
+
+  #uiLayer{
+    transition:opacity 0.6s ease;
+  }
+  #uiLayer.idle{opacity:0;}
+
+  /* ---------- catalog overlay ---------- */
+  #catalog{
+    position:fixed;inset:0;z-index:20;
+    background:rgba(5,4,4,0.88);
+    backdrop-filter:blur(18px);
+    opacity:0;pointer-events:none;
+    transition:opacity 0.5s ease;
+    overflow-y:auto;
+    padding:9vh 6vw 6vh;
+  }
+  #catalog.open{opacity:1;pointer-events:auto;}
+  #catalog h2{
+    font-family:'Bodoni Moda',serif;font-style:italic;font-weight:500;
+    font-size:clamp(28px,4vw,44px);
+    margin-bottom:6px;
+    opacity:0;transform:translateY(14px);
+  }
+  #catalog.open h2{animation:riseIn 0.6s cubic-bezier(.22,.68,0,1) forwards;}
+  #catalog .sub{
+    color:var(--cream-dim);
+    font-size:max(var(--floor-desktop),13px);
+    letter-spacing:0.05em;
+    margin-bottom:5vh;
+    opacity:0;transform:translateY(10px);
+  }
+  #catalog.open .sub{animation:riseIn 0.6s cubic-bezier(.22,.68,0,1) forwards;animation-delay:0.1s;}
+
+  .cat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:34px 26px;
+  }
+  .cat-item{
+    cursor:pointer;
+    opacity:0;
+    transform:translateY(26px);
+    animation:riseIn 0.55s cubic-bezier(.22,.68,0,1) forwards;
+  }
+  .cat-thumb{
+    width:100%;aspect-ratio:4/5;
+    border-radius:2px;position:relative;overflow:hidden;
+    background-size:cover;background-position:center;
+    box-shadow:0 14px 34px -12px rgba(0,0,0,0.6);
+    transition:transform 0.45s cubic-bezier(.22,.68,0,1), box-shadow 0.45s ease;
+  }
+  .cat-thumb::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,0.5) 100%);
+  }
+  .cat-thumb .cat-initial{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Bodoni Moda',serif;font-style:italic;
+    font-size:clamp(40px,7vw,70px);color:rgba(243,236,223,0.22);
+  }
+  .cat-item:hover .cat-thumb{transform:translateY(-6px) scale(1.02);box-shadow:0 22px 46px -14px rgba(0,0,0,0.7);}
+  .cat-item.current .cat-thumb{box-shadow:0 0 0 1.5px var(--gold), 0 22px 46px -14px rgba(0,0,0,0.7);}
+  .cat-label{margin-top:12px;}
+  .cat-label .t{
+    font-family:'Bodoni Moda',serif;font-style:italic;font-weight:500;
+    font-size:max(var(--floor-desktop),15px);
+  }
+  .cat-label .a{
+    font-size:max(var(--floor-mobile),13px);
+    color:var(--cream-dim);margin-top:2px;
+  }
+  .cat-label .p{
+    font-size:max(var(--floor-mobile),13px);
+    color:var(--gold);margin-top:4px;
+    font-family:'Bodoni Moda',serif;
+  }
+
+  #closeCatalog{
+    position:absolute;top:6vh;right:6vw;z-index:21;
+    background:none;border:1px solid var(--line);color:var(--cream);
+    width:40px;height:40px;border-radius:50%;
+    cursor:pointer;font-size:16px;
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color 0.3s ease, transform 0.3s ease;
+  }
+  #closeCatalog:hover{border-color:var(--gold);transform:rotate(90deg);}
+
+  /* ---------- hint ---------- */
+  #hint{
+    position:absolute;left:50%;top:6vh;z-index:3;
+    transform:translateX(-50%);
+    font-size:max(var(--floor-desktop),13px);
+    letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--cream-dim);
+    opacity:0.55;
+    display:flex;gap:18px;
+  }
+  #hint kbd{
+    border:1px solid var(--line);border-radius:3px;
+    padding:1px 7px;font-family:'Work Sans',sans-serif;
+    font-size:max(var(--floor-mobile),12px);
+    color:var(--cream-dim);
+  }
+
+  /* ---------- responsive floors ---------- */
+  @media (max-width:768px){
+    :root{--floor-desktop:13px;}
+    #caption{max-width:82vw;left:6vw;bottom:12vh;}
+    .art-image{width:88vw;height:56vh;}
+    #progress{right:6vw;bottom:6vh;}
+    #hint{display:none;}
+    .cat-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:22px 16px;}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="dust"></canvas>
+<div id="grain"></div>
+<div id="vignette"></div>
+
+<div id="stage"></div>
+
+<div id="uiLayer">
+  <div id="hint"><span><kbd>&larr;</kbd> <kbd>&rarr;</kbd> browse</span><span><kbd>G</kbd> catalog</span></div>
+
+  <div id="caption"></div>
+  <div id="progress">
+    <div class="count"></div>
+    <div class="track"><div class="fill"></div></div>
+  </div>
+
+  <button id="catalogToggle" aria-label="Open catalog">
+    <span class="grid-icon"><span></span><span></span><span></span><span></span></span>
+    Catalog
+  </button>
+</div>
+
+<div class="edge left" id="edgeLeft"></div>
+<div class="edge right" id="edgeRight"></div>
+
+<div id="catalog">
+  <button id="closeCatalog" aria-label="Close catalog">&#10005;</button>
+  <h2>The Collection</h2>
+  <div class="sub" id="catalogSub"></div>
+  <div class="cat-grid" id="catGrid"></div>
+</div>
+
+<script>
+/* =========================================================
+   ARTWORK DATA
+   Replace the `image` field on each item with a real hosted
+   image URL (or a data-URI) when assets are ready. Until then
+   each work renders as a tinted panel with its initial and
+   the caption/catalog data still fully functional.
+   ========================================================= */
+const ARTWORKS = [
+  {
+    id: "w01",
+    title: "Reclining Figure in Ochre",
+    artist: "Naseem Aravind",
+    year: 1987,
+    medium: "Oil on canvas",
+    dimensions: "142 × 96 cm",
+    price: 18500000,
+    currency: "INR",
+    hue: 28,
+    image: "https://i0.wp.com/msartastic.com/wp-content/uploads/2022/04/DP130155.jpg?fit=3859%2C2594&ssl=1" // e.g. "https://yourcdn.com/works/w01.jpg"
+  },
+  {
+    id: "w02",
+    title: "Study for a Silence",
+    artist: "Meera Katju",
+    year: 2003,
+    medium: "Charcoal and gold leaf on paper",
+    dimensions: "88 × 60 cm",
+    price: 4200000,
+    currency: "INR",
+    hue: 200,
+    image: "https://images.squarespace-cdn.com/content/v1/56c462e37da24f9466fa8ed8/1609941378854-G3PUIDA0KUCCZDSTY47K/1200px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg"
+  },
+  {
+    id: "w03",
+    title: "Monsoon, Unfinished",
+    artist: "Ilyas Farooqi",
+    year: 1994,
+    medium: "Acrylic and ash on jute",
+    dimensions: "170 × 130 cm",
+    price: 27300000,
+    currency: "INR",
+    hue: 150,
+    image: "https://image-tc.galaxy.tf/wijpeg-c9cqip5j6wav8k59kj4l8i2n0/michaelangelo_wide.jpg?crop=0%2C141%2C1920%2C1080"
+  },
+  {
+    id: "w04",
+    title: "Portrait of a Debt",
+    artist: "Rhea D'Almeida",
+    year: 2016,
+    medium: "Mixed media on board",
+    dimensions: "100 × 100 cm",
+    price: 9800000,
+    currency: "INR",
+    hue: 340,
+    image: "https://www.decorativecollective.com/resources/images/blog-pictures/The-Storm-on-the-Sea-of-Galilee-crop-v2.jpg"
+  },
+  {
+    id: "w05",
+    title: "Interior with Two Doors",
+    artist: "Vikram Sett",
+    year: 1976,
+    medium: "Oil on linen",
+    dimensions: "120 × 90 cm",
+    price: 41200000,
+    currency: "INR",
+    hue: 45,
+    image: "https://www.singulart.com/blog/wp-content/uploads/2023/05/image-44.png"
+  },
+  {
+    id: "w06",
+    title: "Nocturne No. 9",
+    artist: "Anjali Bose",
+    year: 2011,
+    medium: "Watercolor and ink",
+    dimensions: "70 × 52 cm",
+    price: 3100000,
+    currency: "INR",
+    hue: 260,
+    image: "https://cdn.thecollector.com/wp-content/uploads/2024/11/war-depictions-famous-artists.jpg"
+  }
+];
+
+/* =========================================================
+   STATE + RENDER
+   ========================================================= */
+let current = 0;
+let isAnimating = false;
+const stage = document.getElementById('stage');
+const caption = document.getElementById('caption');
+const progressCount = document.querySelector('#progress .count');
+const progressFill = document.querySelector('#progress .fill');
+
+function formatPrice(amount, currency){
+  if(currency === "INR"){
+    // Indian numbering (lakh/crore) formatting
+    const s = amount.toString();
+    let last3 = s.slice(-3);
+    let rest = s.slice(0,-3);
+    if(rest !== '') last3 = ',' + last3;
+    rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+    const formatted = rest + last3;
+    return "₹" + formatted;
+  }
+  return currency + " " + amount.toLocaleString();
+}
+
+function initials(title){
+  return title.trim().charAt(0).toUpperCase();
+}
+
+function buildFrame(art){
+  const frame = document.createElement('div');
+  frame.className = 'art-frame';
+  frame.dataset.id = art.id;
+
+  const img = document.createElement('div');
+  img.className = 'art-image';
+  if(art.image){
+    img.style.backgroundImage = `url('${art.image}')`;
+  } else {
+    img.style.background = `linear-gradient(155deg, hsl(${art.hue} 38% 14%), hsl(${art.hue} 30% 6%))`;
+    const initial = document.createElement('div');
+    initial.className = 'art-initial';
+    initial.textContent = initials(art.title);
+    img.appendChild(initial);
+  }
+  frame.appendChild(img);
+  return frame;
+}
+
+function renderCaption(art){
+  const words = art.title.split(' ').map((w,i)=>
+    `<span class="word" style="animation-delay:${0.25 + i*0.06}s">${w}</span>`
+  ).join(' ');
+
+  caption.innerHTML = `
+    <div class="cap-eyebrow"><span class="rule"></span><span class="txt">${art.year} &middot; ${art.medium}</span></div>
+    <div class="cap-title">${words}</div>
+    <div class="cap-meta">by <b>${art.artist}</b> &nbsp;&middot;&nbsp; ${art.dimensions}</div>
+    <div class="cap-price">${formatPrice(art.price, art.currency)} <small>estimate</small></div>
+  `;
+}
+
+function goTo(index, instant){
+  if(isAnimating && !instant) return;
+  const total = ARTWORKS.length;
+  index = ((index % total) + total) % total;
+  const art = ARTWORKS[index];
+
+  const outgoing = stage.querySelector('.art-frame.active');
+  const incoming = buildFrame(art);
+  stage.appendChild(incoming);
+
+  requestAnimationFrame(()=>{
+    incoming.classList.add('active');
+    if(outgoing){
+      outgoing.classList.remove('active');
+      outgoing.classList.add('leaving');
+      isAnimating = true;
+      setTimeout(()=>{ outgoing.remove(); isAnimating = false; }, 1100);
+    }
+  });
+
+  renderCaption(art);
+  current = index;
+  progressCount.textContent = `${String(index+1).padStart(2,'0')} — ${String(total).padStart(2,'0')}`;
+  progressFill.style.width = `${((index+1)/total)*100}%`;
+  highlightCatalogItem();
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+document.getElementById('edgeLeft').addEventListener('click', ()=>goTo(current-1));
+document.getElementById('edgeRight').addEventListener('click', ()=>goTo(current+1));
+
+window.addEventListener('keydown', (e)=>{
+  if(catalog.classList.contains('open')){
+    if(e.key === 'Escape') closeCatalog();
+    return;
+  }
+  if(e.key === 'ArrowRight') goTo(current+1);
+  if(e.key === 'ArrowLeft') goTo(current-1);
+  if(e.key.toLowerCase() === 'g' || e.key === 'Enter') openCatalog();
+  if(e.key === 'Home') goTo(0);
+  if(e.key === 'End') goTo(ARTWORKS.length-1);
+});
+
+/* swipe support */
+let touchX = null;
+stage.addEventListener('touchstart', e=> touchX = e.touches[0].clientX);
+stage.addEventListener('touchend', e=>{
+  if(touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(Math.abs(dx) > 50){ dx < 0 ? goTo(current+1) : goTo(current-1); }
+  touchX = null;
+});
+
+/* subtle cursor parallax on the active image */
+document.addEventListener('mousemove', (e)=>{
+  const active = stage.querySelector('.art-frame.active .art-image');
+  if(!active) return;
+  const x = (e.clientX / window.innerWidth - 0.5) * 10;
+  const y = (e.clientY / window.innerHeight - 0.5) * 10;
+  active.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+/* idle UI fade — minimal nav philosophy */
+const uiLayer = document.getElementById('uiLayer');
+let idleTimer;
+function resetIdle(){
+  uiLayer.classList.remove('idle');
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(()=> uiLayer.classList.add('idle'), 3200);
+}
+['mousemove','keydown','touchstart'].forEach(evt=>window.addEventListener(evt, resetIdle));
+resetIdle();
+
+/* =========================================================
+   CATALOG OVERLAY
+   ========================================================= */
+const catalog = document.getElementById('catalog');
+const catGrid = document.getElementById('catGrid');
+const catalogSub = document.getElementById('catalogSub');
+catalogSub.textContent = `${ARTWORKS.length} works currently on view`;
+
+function buildCatalog(){
+  catGrid.innerHTML = '';
+  ARTWORKS.forEach((art, i)=>{
+    const item = document.createElement('div');
+    item.className = 'cat-item';
+    item.style.animationDelay = `${i*0.05}s`;
+    item.dataset.index = i;
+
+    const thumb = document.createElement('div');
+    thumb.className = 'cat-thumb';
+    if(art.image){
+      thumb.style.backgroundImage = `url('${art.image}')`;
+    } else {
+      thumb.style.background = `linear-gradient(155deg, hsl(${art.hue} 38% 16%), hsl(${art.hue} 28% 7%))`;
+      const initial = document.createElement('div');
+      initial.className = 'cat-initial';
+      initial.textContent = initials(art.title);
+      thumb.appendChild(initial);
+    }
+
+    const label = document.createElement('div');
+    label.className = 'cat-label';
+    label.innerHTML = `
+      <div class="t">${art.title}</div>
+      <div class="a">${art.artist}, ${art.year}</div>
+      <div class="p">${formatPrice(art.price, art.currency)}</div>
+    `;
+
+    item.appendChild(thumb);
+    item.appendChild(label);
+    item.addEventListener('click', ()=>{ goTo(i); closeCatalog(); });
+    catGrid.appendChild(item);
+  });
+  highlightCatalogItem();
+}
+
+function highlightCatalogItem(){
+  catGrid.querySelectorAll('.cat-item').forEach(el=>{
+    el.classList.toggle('current', Number(el.dataset.index) === current);
+  });
+}
+
+function openCatalog(){
+  buildCatalog();
+  catalog.classList.add('open');
+}
+function closeCatalog(){
+  catalog.classList.remove('open');
+}
+document.getElementById('catalogToggle').addEventListener('click', openCatalog);
+document.getElementById('closeCatalog').addEventListener('click', closeCatalog);
+catalog.addEventListener('click', (e)=>{ if(e.target === catalog) closeCatalog(); });
+
+/* =========================================================
+   AMBIENT DUST CANVAS
+   ========================================================= */
+const dustCanvas = document.getElementById('dust');
+const dctx = dustCanvas.getContext('2d');
+let dustParticles = [];
+
+function sizeDust(){
+  dustCanvas.width = window.innerWidth;
+  dustCanvas.height = window.innerHeight;
+}
+sizeDust();
+window.addEventListener('resize', sizeDust);
+
+function initDust(){
+  dustParticles = Array.from({length: 46}, ()=>({
+    x: Math.random()*dustCanvas.width,
+    y: Math.random()*dustCanvas.height,
+    r: Math.random()*1.6 + 0.3,
+    vx: (Math.random()-0.5)*0.12,
+    vy: -Math.random()*0.14 - 0.02,
+    a: Math.random()*0.5 + 0.1
+  }));
+}
+initDust();
+
+function drawDust(){
+  dctx.clearRect(0,0,dustCanvas.width,dustCanvas.height);
+  dustParticles.forEach(p=>{
+    p.x += p.vx; p.y += p.vy;
+    if(p.y < -10) p.y = dustCanvas.height + 10;
+    if(p.x < -10) p.x = dustCanvas.width + 10;
+    if(p.x > dustCanvas.width+10) p.x = -10;
+    dctx.beginPath();
+    dctx.fillStyle = `rgba(201,166,104,${p.a})`;
+    dctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    dctx.fill();
+  });
+  requestAnimationFrame(drawDust);
+}
+drawDust();
+
+/* =========================================================
+   INIT
+   ========================================================= */
+goTo(0, true);
+</script>
+
+</body>
+</html>
