@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Saswata Banerjee — Estate General Manager</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+  :root{
+    --ink:#20211d;
+    --ink-soft:#4c4d47;
+    --paper:#faf7f0;
+    --line:#c9c3b2;
+    --gold:#9a6b2c;
+    --gold-soft:#b98a3f;
+    --panel:#f1ece1;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html,body{
+    background:#3a382f;
+    font-family:'Jost', sans-serif;
+    color:var(--ink);
+  }
+
+  .page{
+    width:210mm;
+    min-height:297mm;
+    margin:10mm auto;
+    background:var(--paper);
+    padding:16mm 15mm;
+    position:relative;
+    box-shadow:0 6px 30px rgba(0,0,0,0.4);
+    background-image:
+      radial-gradient(circle at 100% 0%, rgba(154,107,44,0.06), transparent 45%);
+  }
+
+  .page::before{
+    content:"";
+    position:absolute;
+    inset:6mm;
+    border:1px solid var(--line);
+    pointer-events:none;
+  }
+
+  /* ===== Header ===== */
+  .name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:clamp(30px, 4vw, 40px);
+    letter-spacing:0.04em;
+    color:var(--ink);
+  }
+  .headline{
+    font-family:'Jost', sans-serif;
+    font-weight:500;
+    font-size:16px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-top:4px;
+  }
+  .subline{
+    font-size:16px;
+    color:var(--ink-soft);
+    margin-top:8px;
+    letter-spacing:0.01em;
+  }
+  .subline .sep{ color:var(--gold-soft); margin:0 8px; }
+
+  .contact{
+    margin-top:10px;
+    font-size:16px;
+    color:var(--ink-soft);
+  }
+  .contact a{ color:var(--ink-soft); text-decoration:none; }
+
+  .header-block{
+    padding-bottom:14px;
+    border-bottom:2px solid var(--ink);
+    position:relative;
+    z-index:1;
+  }
+
+  /* ===== Section headings ===== */
+  .section{ margin-top:20px; position:relative; z-index:1;}
+  .section-title{
+    font-family:'Jost', sans-serif;
+    font-weight:600;
+    font-size:16px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .section-title::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+  .section-title .num{
+    color:var(--gold);
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:18px;
+  }
+
+  /* ===== Profile paragraph ===== */
+  .profile-text{
+    font-size:16px;
+    line-height:1.55;
+    color:var(--ink);
+    max-width:100%;
+  }
+  .profile-text b{ color:var(--gold); font-weight:600; }
+
+  /* ===== Differentiator grid ===== */
+  .diff-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:10px 16px;
+  }
+  .diff-item{
+    border-left:2px solid var(--gold-soft);
+    padding:4px 0 4px 10px;
+  }
+  .diff-item h4{
+    font-family:'Jost',sans-serif;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:0.02em;
+    margin-bottom:2px;
+  }
+  .diff-item p{
+    font-size:16px;
+    color:var(--ink-soft);
+    line-height:1.35;
+  }
+
+  /* ===== Experience ===== */
+  .job{ margin-bottom:14px; }
+  .job-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:4px 12px;
+  }
+  .job-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:19px;
+  }
+  .job-meta{
+    font-size:16px;
+    color:var(--gold);
+    font-style:italic;
+    font-family:'Cormorant Garamond', serif;
+    white-space:nowrap;
+  }
+  .job ul{
+    margin-top:6px;
+    padding-left:18px;
+  }
+  .job li{
+    font-size:16px;
+    line-height:1.45;
+    color:var(--ink);
+    margin-bottom:3px;
+  }
+  .job li::marker{ color:var(--gold-soft); }
+
+  .earlier-career{
+    font-size:16px;
+    line-height:1.5;
+    padding:10px 14px;
+    background:var(--panel);
+    border-left:3px solid var(--gold);
+  }
+  .earlier-career b{ color:var(--gold); }
+
+  /* ===== placeholders ===== */
+  .ph{
+    color:#9c6b2c;
+    background:rgba(154,107,44,0.12);
+    padding:0 4px;
+    border-radius:2px;
+    font-style:italic;
+  }
+
+  /* ===== Page 2 table ===== */
+  .cap-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:16px;
+  }
+  .cap-table tr{ border-bottom:1px solid var(--line); }
+  .cap-table tr:last-child{ border-bottom:none; }
+  .cap-table td{ padding:8px 6px; vertical-align:top; }
+  .cap-table td:first-child{
+    width:26%;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:17px;
+    color:var(--gold);
+  }
+  .cap-table td:last-child{ color:var(--ink); line-height:1.4; }
+
+  /* ===== country chips ===== */
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:8px;
+  }
+  .chip{
+    font-size:16px;
+    padding:4px 12px;
+    border:1px solid var(--gold-soft);
+    border-radius:20px;
+    color:var(--ink-soft);
+    background:transparent;
+  }
+
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 24px;
+  }
+
+  .credential{ margin-bottom:8px; }
+  .credential .c-title{ font-weight:600; font-size:16px; }
+  .credential .c-sub{ font-size:16px; color:var(--ink-soft); }
+
+  .footer-mark{
+    position:absolute;
+    bottom:10mm;
+    right:15mm;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--line);
+  }
+
+  /* ===== Print ===== */
+  @media print{
+    html,body{ background:#fff; }
+    .page{
+      margin:0;
+      box-shadow:none;
+      width:210mm;
+      min-height:297mm;
+      page-break-after:always;
+    }
+    .page:last-child{ page-break-after:auto; }
+    .no-print{ display:none !important; }
+  }
+
+  @page{
+    size:A4;
+    margin:0;
+  }
+
+  /* ===== Mobile preview adjustment (screen only, non-print) ===== */
+  @media screen and (max-width:820px){
+    .page{ width:100%; padding:8mm; }
+    .diff-grid{ grid-template-columns:1fr 1fr; }
+    .two-col{ grid-template-columns:1fr; }
+    .name{ font-size:26px; }
+    body, .profile-text, .job li, .diff-item p, .contact, .subline,
+    .cap-table, .credential .c-sub, .chip{ font-size:14px !important; }
+  }
+
+  .print-btn{
+    position:fixed;
+    top:16px; right:16px;
+    background:var(--gold);
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:4px;
+    font-family:'Jost',sans-serif;
+    font-size:14px;
+    letter-spacing:0.05em;
+    cursor:pointer;
+    z-index:10;
+    box-shadow:0 4px 14px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">Save / Print PDF</button>
+
+<!-- ================= PAGE 1 ================= -->
+<div class="page">
+
+  <div class="header-block">
+    <div class="name">SASWATA BANERJEE</div>
+    <div class="headline">Senior Executive &nbsp;•&nbsp; Operations Leader &nbsp;•&nbsp; Private Estate &amp; Principal Support</div>
+    <div class="subline">IIT-Trained <span class="sep">|</span> Former CTO <span class="sep">|</span> 18+ Years Leadership Experience <span class="sep">|</span> International Exposure <span class="sep">|</span> Executive &amp; Vendor Management</div>
+    <div class="contact">sasban.online@gmail.com &nbsp;·&nbsp; sasban.online &nbsp;·&nbsp; Kolkata, India &nbsp;·&nbsp; <span class="ph">+91 XXXXX XXXXX</span></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">I.</span> Executive Profile</div>
+    <p class="profile-text">
+      <b>IIT-trained senior executive</b> and former <b>Chief Technology Officer</b> with 18+ years of experience leading people, managing complex operations, negotiating with vendors, controlling budgets and solving high-stakes problems for senior stakeholders. Internationally exposed through extensive travel and professional interactions across diverse cultures and environments. Brings an unusual combination of analytical discipline, executive maturity, operational rigor, discretion and hands-on problem solving to private-estate and principal-facing environments.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">II.</span> Why This Profile Is Different</div>
+    <div class="diff-grid">
+      <div class="diff-item">
+        <h4>Executive Exposure</h4>
+        <p>Worked directly with founders, CEOs and senior leadership.</p>
+      </div>
+      <div class="diff-item">
+        <h4>Operational Leadership</h4>
+        <p>Built teams, processes, SOPs and accountability systems.</p>
+      </div>
+      <div class="diff-item">
+        <h4>Commercial Acumen</h4>
+        <p>Budgeting, procurement, vendor negotiation and cost control.</p>
+      </div>
+      <div class="diff-item">
+        <h4>Global Exposure</h4>
+        <p>Extensive international travel and multicultural experience.</p>
+      </div>
+      <div class="diff-item">
+        <h4>Technology Fluency</h4>
+        <p>Capable of overseeing modern security, automation and smart-estate systems.</p>
+      </div>
+      <div class="diff-item">
+        <h4>Discretion &amp; Judgment</h4>
+        <p>Experienced handling sensitive information and high-pressure situations.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">III.</span> Professional Experience</div>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-title">Chief Technology Officer — <span class="ph">Fashion E-commerce Startup Name</span></div>
+        <div class="job-meta"><span class="ph">Month Year – Month Year</span> | <span class="ph">City</span></div>
+      </div>
+      <ul>
+        <li>Led technology and cross-functional teams of <span class="ph">N</span>, owning hiring, mentoring and performance accountability.</li>
+        <li>Held budget and vendor ownership across <span class="ph">infrastructure / platform / agency spend</span>, negotiating contracts and controlling costs.</li>
+        <li>Operated as principal technical advisor to the founder/CEO, managing high-stakes, time-critical decisions.</li>
+        <li>Designed operational processes and SOPs that improved <span class="ph">reliability / delivery speed</span> by <span class="ph">X%</span>.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-title"><span class="ph">Role Title</span> — <span class="ph">Company Name</span></div>
+        <div class="job-meta"><span class="ph">Month Year – Month Year</span> | <span class="ph">City</span></div>
+      </div>
+      <ul>
+        <li><span class="ph">Team leadership / scope of responsibility</span>.</li>
+        <li><span class="ph">Vendor, budget, or executive-facing achievement</span>.</li>
+        <li><span class="ph">Project delivered end-to-end, with measurable outcome</span>.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-mark">01</div>
+</div>
+
+<!-- ================= PAGE 2 ================= -->
+<div class="page">
+
+  <div class="section" style="margin-top:0;">
+    <div class="section-title"><span class="num">III.</span> Professional Experience — Continued</div>
+    <div class="earlier-career">
+      <b>Earlier Career:</b> Software Engineering, Research &amp; Technology roles across <span class="ph">Samsung R&amp;D</span>, <span class="ph">AdWize</span>, Universidade de Aveiro, and subsequent organizations — spanning technical delivery, applied research and cross-border project work.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">IV.</span> Selected Operating Capabilities</div>
+    <table class="cap-table">
+      <tr><td>People</td><td>Multidisciplinary team leadership, mentoring, scheduling and accountability.</td></tr>
+      <tr><td>Vendors</td><td>Supplier evaluation, negotiation, contracts, quality and cost control.</td></tr>
+      <tr><td>Finance</td><td>Budget ownership, expenditure tracking and commercial decision-making.</td></tr>
+      <tr><td>Projects</td><td>Planning and execution of complex projects from conception to completion.</td></tr>
+      <tr><td>SOPs</td><td>Process design, documentation, controls and continuous improvement.</td></tr>
+      <tr><td>Crisis</td><td>Rapid problem diagnosis and resolution under pressure.</td></tr>
+      <tr><td>Executive Support</td><td>Direct interaction with senior executives and confidential matters.</td></tr>
+      <tr><td>Technology</td><td>Security, automation, communications and smart-property systems.</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">V.</span> Global &amp; Cultural Exposure</div>
+    <p class="profile-text">Extensive travel across Europe, Asia, the Middle East and other international destinations, with exposure to diverse cultures, hospitality environments and international standards of service.</p>
+    <div class="chips">
+      <span class="chip ph">Country 1</span>
+      <span class="chip ph">Country 2</span>
+      <span class="chip ph">Country 3</span>
+      <span class="chip ph">Country 4</span>
+      <span class="chip ph">Country 5</span>
+      <span class="chip ph">+ more</span>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <div class="section-title"><span class="num">VI.</span> Education</div>
+      <div class="credential">
+        <div class="c-title">B.Tech, Electronics &amp; Communication Engineering</div>
+        <div class="c-sub">Indian Institute of Technology (IIT) Kharagpur — 2002–2006</div>
+      </div>
+      <div class="credential">
+        <div class="c-title">MS, Information Technology</div>
+        <div class="c-sub">Universidade de Aveiro, Portugal</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="num">VII.</span> Professional Development</div>
+      <div class="credential">
+        <div class="c-title">Independent Director / Corporate Governance</div>
+        <div class="c-sub"><span class="ph">Certification / programme — status</span></div>
+      </div>
+      <div class="credential">
+        <div class="c-title ph">Other relevant certification</div>
+        <div class="c-sub ph">Issuing body — year</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">VIII.</span> Research &amp; Writing</div>
+    <p class="profile-text">
+      Independent non-fiction research and writing — currently developing a long-form non-fiction project involving extensive research, synthesis of information, interviewing and structured documentation.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">IX.</span> Languages &amp; Other Details</div>
+    <p class="profile-text">
+      <span class="ph">Languages spoken</span> &nbsp;·&nbsp; <span class="ph">Driving license status</span> &nbsp;·&nbsp; <span class="ph">Other relevant detail</span>
+    </p>
+  </div>
+
+  <div class="footer-mark">02</div>
+</div>
+
+</body>
+</html>
